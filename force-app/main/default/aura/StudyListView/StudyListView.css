@@ -1,0 +1,15 @@
+.THIS{
+    font-size: 13px;
+}
+.THIS .slv-category {
+    color: #000000;
+    font-weight: 600;
+    line-height: 22px;
+    margin-top: 30px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.THIS.slv-items-panel{
+    padding-bottom: 100px;
+}

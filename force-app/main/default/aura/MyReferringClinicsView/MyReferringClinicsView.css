@@ -1,0 +1,95 @@
+.THIS.mrcv-container {
+    font-family: "Proxima Nova";
+}
+
+.THIS.mrcv-container .mrcv-header {
+    height: 100px;
+    display: flex;
+}
+
+.THIS .mrcv-header .header-filter {
+    float: left;
+    width: 165px;
+    margin-right: 29px;
+    border-radius: 5px;
+    background-color: #297DFD;
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1), 0 8px 20px 0 rgba(41, 125, 253, 0.4);
+    padding-left: 10px;
+}
+
+.THIS .mrcv-header .header-filter.active {
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.2), 0 8px 30px 0 rgba(41,125,253,0.5);
+}
+
+.THIS .mrcv-header .header-filter .number {
+    color: #FFFFFF;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 44px;
+}
+
+.THIS .mrcv-header .header-filter label {
+    display: inline-block;
+    color: #FFFFFF;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .mrcv-header .header-info {
+    float: left;
+    border: 1px solid #F2F2F2;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+
+}
+
+.THIS .mrcv-header .header-info .header-line {
+    height: 5px;
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
+}
+
+.THIS .mrcv-header .header-info .info-label {
+    color: #7F888D;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    margin-top: 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.THIS .mrcv-header .header-info .info-body {
+    display: flex;
+    color: #7F888D;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    padding-bottom: 10px;
+}
+
+.THIS .info-body .info-block {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.THIS .info-body .vertical-separator {
+    height: 100%;
+    width: 2px;
+    border-right: 1px solid #CCCCCC;
+}
+
+.THIS .info-block.total-clinics {
+    border-right: 2px solid #CCCCCC;
+}
+
+.THIS .mrcv-header .header-info .info-body .number {
+    height: 36px;
+    color: #000000;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 36px;
+}

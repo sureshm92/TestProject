@@ -1,0 +1,87 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="FilterPanel">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="searchText" type="String"/>
+    <aura:attribute name="searchTextPlaceHolder" type="String"/>
+    <aura:attribute name="recordsPerPage" type="String"/>
+    <aura:attribute name="recordsPerPageVariants" type="List"/>
+    <aura:attribute name="sortType" type="String"/>
+    <aura:attribute name="sortVariants" type="List"/>
+    <aura:attribute name="allRecordsCount" type="Integer"/>
+    <aura:attribute name="buttons" type="Aura.Component[]"/>
+    <aura:attribute name="isCollapsed" type="Boolean" default="true"/>
+    <aura:attribute name="itemTitle" type="String" default="{!$Label.c.PG_DB_L_patients}"/>
+
+    <!--compoenent body -->
+    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}">
+        <div class="fp-collapsed-view"></div>
+        <div class="fp-mobile rr-large-up-hide">
+            <div class="fp-header">
+                <div class="fp-collapse-label" onclick="{!c.doSwitchCollapse}">
+                    {!$Label.c.PG_FP_L_Filter_by}
+                    <aura:if isTrue="{!v.isCollapsed}">
+                        <c:RRIcon iconName="icon-chevron-up"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon iconName="icon-chevron-down"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+
+                    <div class="fp-search">
+                        <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
+                            <c:rrInput valueString="{!v.searchText}" iconName="icon-search" placeholder="{!v.searchTextPlaceHolder}"/>
+                            <!--aura:set attribute="else">
+                                    {!v.buttons}
+                            </aura:set-->
+                        </aura:if>
+                    </div>
+            </div>
+        </div>
+        <div class="fp-collapsible">
+            <div class="fp-filter-block">
+                <div class="fp-main-filter-block">
+                    <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
+                    <div class="fp-filters-container">{!v.body}</div>
+                    <div class="fp-serach-input rr-large-down-hide">
+                        <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
+                            <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
+                                       placeholder="{!v.searchTextPlaceHolder}"/>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">{!v.buttons}</aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fp-pagination-block slds-grid slds-wrap">
+            <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
+                <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 slds-order_2 slds-large-order_1 fp-page-info">
+                    <div>{!$Label.c.PG_FP_L_Showing + ' ' + if(v.recordsPerPage > v.allRecordsCount, v.allRecordsCount, v.recordsPerPage) + ' ' +
+                        $Label.c.PG_FP_L_of + ' ' + v.allRecordsCount + ' ' + v.itemTitle}
+                    </div>
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 slds-order_1 slds-large-order_2 fp-page-control">
+                    <div class="fp-form-element">
+                            {!v.buttons}
+                    </div>
+                    <div class="fp-form-element">
+                        <label>{!$Label.c.PG_FP_L_Sort_by}</label>
+                        <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}"/>
+                    </div>
+                    <div class="fp-form-element">
+                        <label>{!$Label.c.PG_FP_L_Show_entries}</label>
+                        <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

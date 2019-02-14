@@ -1,0 +1,37 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailTemplateText" access="global" controller="EmailTemplateController" language="{!targetLanguage}">
+
+    <!-- attributes: -->
+    <apex:attribute name="userType" type="String" assignTo="{!userCommunityType}" description="PI/HCP/Participant" access="global" />
+    <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="target of data extraction" access="global" />
+    <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="false" description="" access="global"/>
+
+    <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
+    <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
+    <apex:attribute name="greeting" assignTo="{!userGreetingValue}" type="String" description=""/>
+    <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
+    <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
+    <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
+
+    <!-- component body: -->
+    {!headerValue}
+    {!titleValue}
+
+    {!userGreetingValue}
+    {!bodyValue}
+
+    <!-- for delegates: -->
+    <c:EmailTemplateDelegateText userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"/>
+
+    <apex:componentBody />
+
+    {!preSignatureValue}
+
+    {!signatureValue}
+
+    {!$Label.Email_Footer_Address} | {!$Label.Email_Footer_Privacy_Policy}: {!$Label.CommunityURL + '/s/privacy-policy'}
+
+</apex:component>

@@ -1,0 +1,22 @@
+<!--
+ - Created by Kryvolap on 15.09.2018.
+ -->
+
+<aura:component description="Action_SaveDelegateLevelChanges" controller="MyTeamRemote">
+    <!-- attributes: -->
+    <aura:attribute name="delegate" type="Object"/>
+    <aura:attribute name="refreshSource" type="Aura.Component"/>
+    <aura:attribute name="saveInProgress" type="Boolean" default="{!false}"/>
+    <aura:attribute name="userMode" type="String" default="" required="true"/>
+
+    <!-- methods: -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="delegate" type="Object"/>
+        <aura:attribute name="refreshSource" type="Aura.Component"/>
+        <aura:attribute name="isCreate" type="Boolean"/>
+    </aura:method>
+
+    <!-- component body -->
+
+
+</aura:component>

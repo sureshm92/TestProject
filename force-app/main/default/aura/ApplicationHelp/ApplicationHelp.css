@@ -1,0 +1,80 @@
+/**
+ * Created by Kryvolap on 12.10.2018.
+ */
+.THIS.ah-main-container{
+    margin-top: 30px;
+    padding: 10px;
+}
+.THIS .ah-main-panel{
+    background-color: #FFFFFF;
+    padding: 0px 20px 30px 20px;
+}
+.THIS .ah-item-label{
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+}
+.THIS .ah-item-sublabel{
+    color: #666666;
+    font-size: 13px;
+}
+.THIS .ah-item-panel{
+    box-sizing: border-box;
+    border: 1px solid #D9D9D9;
+    background-color: #F8F9FB;
+    padding: 17px;
+}
+.THIS .ah-section-title{
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.THIS .ah-button{
+    width: 100%;
+    min-width: 0px;
+}
+.THIS .ah-toggle-container{
+    position: relative;
+}
+.THIS .ah-toggle{
+    position: absolute;
+    right: 0px;
+}
+
+.THIS .ah-video-iframe{
+    height: 100%;
+    width: 800px;
+}
+
+.THIS .p-content{
+    padding: 0!important;
+    max-height: none!important;
+}
+.THIS .p-container{
+    box-sizing: content-box;
+}
+
+@media all and (max-width: 767px) {
+    .THIS .ah-section-title{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .THIS .ah-item-sublabel{
+        font-size: 10px;
+    }
+
+    .THIS .ah-item-label{
+        font-size: 12px;
+    }
+    .THIS .ah-item-panel{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .THIS .ah-video-iframe{
+
+        width: 360px;
+    }
+}

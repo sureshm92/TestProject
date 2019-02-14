@@ -1,0 +1,16 @@
+<aura:component description="rrButtonTubSetItem">
+    <!--=============================================================================================================-->
+    <aura:attribute name="title"            type="String" required="true"/>
+    <aura:attribute name="currentTab"       type="String" required="true"/>
+    <aura:attribute name="tabId"            type="String" required="true"/>
+    <aura:attribute name="variant"            type="String" required="true" default="main" description="main/underlined"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="isDisabled"       type="Boolean" default="false"/>
+    <!--=============================================================================================================-->
+    <div id="{!v.tabId}" class="{!'slds-col bts-tab' + if(v.currentTab == v.tabId, ' selected','') +
+            if(v.isDisabled, ' disabled','')+ if(v.variant=='underlined', ' underlined','')}" onclick="{!c.selectTab}">
+        <div class="bts-tab-body">
+            <label><aura:unescapedHtml value="{!v.title}"/></label>
+        </div>
+    </div>
+</aura:component>

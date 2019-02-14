@@ -1,0 +1,17 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailTemplateDelegateTableText">
+    <!-- attributes: -->
+    <apex:attribute name="title" type="String" description=""/>
+    <apex:attribute name="delegateLevels" type="DelegateLevelWrapper[]" description=""/>
+
+    {!title}
+
+    --------------------------------------------------------------------------
+    <apex:repeat value="{!delegateLevels}" var="studyLevel">
+     Study Level: {!studyLevel.level} -  Study Name: {!studyLevel.studyName}
+    </apex:repeat>
+    --------------------------------------------------------------------------
+</apex:component>

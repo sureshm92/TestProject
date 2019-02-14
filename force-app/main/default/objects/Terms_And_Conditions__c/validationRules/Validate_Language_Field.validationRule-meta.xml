@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validate_Language_Field</fullName>
+    <active>true</active>
+    <errorConditionFormula>Master_Terms_And_Conditions__c != null &amp;&amp;   
+ISPICKVAL( Language__c , &#39;&#39;)</errorConditionFormula>
+    <errorMessage>Language field required</errorMessage>
+</ValidationRule>

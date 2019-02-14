@@ -1,0 +1,19 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ParticipantStatus">
+    <aura:attribute name="pEnrollment" type="Object"/>
+    <aura:attribute name="statusLabel" type="String"/>
+    <aura:attribute name="iconName" type="String"/>
+    <aura:attribute name="colorClass" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="{!'reviw-status ' + v.colorClass}">
+        <aura:if isTrue="{!v.iconName == 'icon-check-solid'}"><c:RRIcon iconName="icon-check-solid"/></aura:if>
+        <aura:if isTrue="{!v.iconName == 'icon-close-solid'}"><c:RRIcon iconName="icon-close-solid"/></aura:if>
+        <span class="rr-sentence-font">{!v.statusLabel}</span>
+    </div>
+
+</aura:component>

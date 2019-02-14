@@ -1,0 +1,78 @@
+/*header*/
+.THIS .itm-container .itm-header {
+    margin-top: -20px;
+}
+
+/*body*/
+.THIS .itm-container .itm-body {
+    color: #666666;
+    font-size: 13px;
+    line-height: 21px;
+    font-weight: 400;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.THIS .itm-container .itm-body-input {
+    margin-top: 10px;
+}
+
+.THIS .itm-container select,
+.THIS .itm-container input {
+    border: 1px solid #999999;
+    background: none;
+    font-size: 14px;
+    line-height: 22px;
+    height: 40px;
+}
+
+/*select and input style*/
+.THIS .itm-container .cRrSelect,
+.THIS .itm-container lightning-input,
+.THIS .itm-container,
+.THIS .itm-container .cRrSelect .slds-form-element__control.slds-grow {
+    width: 100%;
+}
+
+.THIS .itm-container .itm-access-info {
+    text-align: left;
+    border: 1px solid #E1E6E8;
+    border-radius: 5px;
+    padding: 10px;
+    padding-top: 0;
+    margin-top: 20px;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
+}
+
+.THIS .itm-container .itm-access-info > .itm-access-name,
+.THIS .itm-container .itm-access-info > .itm-access-description{
+    margin-top: 5px;
+}
+
+.THIS .itm-container .itm-access-info .itm-access-info-description {
+    font-weight: 400;
+    text-align: left;
+}
+
+.THIS .itm-container .itm-access-info .itm-access-info-additional-description {
+    font-weight: 400;
+    word-wrap: break-word;
+    white-space: pre-line;
+    margin-top: 0;
+    margin-left: 1rem;
+}
+
+.THIS .itm-container .itm-access-info .itm-access-info-additional-description .itm-access-marker {
+    display: inline-block;
+    font-weight: bold;
+    font-style: italic;
+}
+
+@media (max-width: 850px) {
+    .THIS .itm-container .itm-access-info > .itm-access-description{
+        margin-top: 0;
+    }
+    .THIS .itm-container .itm-access-info .itm-access-info-additional-description {
+        margin-left: 0;
+    }
+}

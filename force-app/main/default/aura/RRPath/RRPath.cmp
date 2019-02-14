@@ -1,0 +1,23 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRPath">
+    <aura:attribute name="steps" type="String[]"/>
+    <aura:attribute name="currentStep" type="String"/>
+    <aura:attribute name="currentIndex" type="Integer"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.currentStep}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.currentIndex != null}">
+        <div class="rr-path-container">
+            <aura:iteration items="{!v.steps}" var="step" indexVar="index">
+                <div class="{!'rr-path-item ' + if(lessthanorequal(index, v.currentIndex), ' completed', '')}"
+                     style="{!'width: calc(' + 100/v.steps.length + '% - 5px);' }">
+                        {!step}
+                </div>
+            </aura:iteration>
+        </div>
+    </aura:if>
+</aura:component>

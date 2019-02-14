@@ -1,0 +1,12 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRPercentIco">
+    <aura:attribute name="value" type="Decimal" required="true"/>
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="color" type="String" default="#686868"/>
+    <aura:attribute name="diameter" type="Integer" default="35"/>
+    <aura:attribute name="circleWidth" type="Integer" default="10"/>
+    <aura:attribute name="borderWidth" type="Decimal" default="2"/>
+</aura:component>

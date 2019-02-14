@@ -1,0 +1,41 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS.rrc-footer{
+    margin: 25px 0;
+    overflow: hidden;
+}
+
+.THIS .cf-margin-cutter{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+
+.THIS .cf-copyright{
+    display: inline-block;
+    white-space: nowrap;
+    color: #6b6b6b;
+    font-size: 0.8rem;
+}
+
+.THIS .cf-links{
+    margin: -5px -10px;
+}
+
+.THIS .cf-link{
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+.THIS .cf-copyright, .THIS .cf-links{
+    padding: 10px;
+}
+
+@media all and (max-width:  480px){
+    .THIS .cf-link{
+        width: 100%;
+    }
+}

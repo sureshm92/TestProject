@@ -1,0 +1,19 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="StudyReferringPhysicians">
+    <aura:attribute name="hcpEnrollments" type="List"/>
+    <div>
+        <label>{!$Label.c.PG_SRP_L_Referring_Providers}</label>
+        <div class="srp-items-cutter">
+            <div class="srp-items">
+                <aura:iteration items="{!v.hcpEnrollments}" var="enrollment">
+                    <div class="srp-item">
+                        <span class="srp-dot">•</span>{!enrollment.HCP_Contact__r.Name}<span style="margin-left: 5px"><c:HCPStatusIco status="{!enrollment.Status__c}"/></span>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+</aura:component>

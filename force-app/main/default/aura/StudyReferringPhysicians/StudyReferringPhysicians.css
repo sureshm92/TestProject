@@ -1,0 +1,38 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS label{
+    color: #7F888D;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 1px;
+}
+
+.THIS .srp-items-cutter{
+    overflow: hidden;
+}
+
+.THIS .srp-items{
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    left: -24px;
+    width: calc(100% + 24px);
+    margin-bottom: -5px;
+}
+
+.THIS .srp-item{
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+}
+
+.THIS .srp-dot{
+    padding: 0 10px;
+}

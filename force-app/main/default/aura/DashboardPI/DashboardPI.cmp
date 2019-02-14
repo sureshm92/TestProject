@@ -1,0 +1,93 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="DashboardPI">
+
+    <!-- attributes: -->
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+
+    <!-- component body: -->
+    <div class="rr-white-panel padding first-panel">
+        <div class="db-header"><c:RRIcon iconName="referrals"/>{!$Label.c.PG_DBPI_Referrals}</div>
+
+        <!-- PI referral acceptance section -->
+        <div class="slds-grid slds-wrap db-section" style="margin-bottom: 20px">
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
+                <div class="db-list-item header">
+                    <c:RRLink page="my-referrals?filter=pending" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
+                    <span>{!v.piData.waitingAcceptence + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_acceptance}</span>
+                </div>
+                <div class="rr-large-down-hide">
+                    <c:DashboardReferralsList peList="{!v.piData.waitingAcceptenceList}" parent="{!v.parent}"/>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 db-charts">
+                <c:Donut dataList="{!v.piData.referralsReceived}" maxDonutWidth="178px"
+                           segmentLabel="{!$Label.c.PG_DB_L_category}"
+                           valueLabel="{!$Label.c.PG_DB_L_patients}"
+                           totalLabel="{!$Label.c.PG_DB_L_referrals_received}"
+                           linkTitle="{!$Label.c.PG_DB_L_Track_your_referrals_status}" linkPage="my-referrals?"/>
+            </div>
+            <div class="slds-col slds-size--1-of-1 rr-large-up-hide" style="margin-top: 20px">
+                <c:DashboardReferralsList peList="{!v.piData.waitingAcceptenceList}" parent="{!v.parent}"/>
+            </div>
+        </div>
+
+        <!-- section dividers for mobile and desktop view: -->
+        <div class="db-section-devider rr-medium-down-hide"></div>
+        <div class="rr-medium-up-hide" style="height: 30px"></div>
+
+        <!-- PI contact attemts section: -->
+        <div class="slds-grid slds-wrap db-section">
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
+                <div class="db-list-item header">
+                    <span>{!v.piData.waitingToBeContacted + ' ' +$Label.c.PG_DBPI_L_Referrals_waiting_to_be_contacted}</span>
+                </div>
+                <div class="rr-large-down-hide">
+                    <c:DashboardReferralsList peList="{!v.piData.waitingToBeContactedList}" isAcceptence="false"/>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 db-charts">
+                <c:Donut dataList="{!v.piData.referralsApproved}" maxDonutWidth="178px"
+                           segmentLabel="{!$Label.c.PG_DB_L_category}"
+                           valueLabel="{!$Label.c.PG_DB_L_patients}"
+                           totalLabel="{!$Label.c.PG_DB_L_referrals_approved}"
+                           linkTitle="{!$Label.c.PG_DB_L_Track_your_referrals_status}" linkPage="my-referrals"/>
+            </div>
+            <div class="slds-col slds-size--1-of-1 rr-large-up-hide" style="margin-top: 20px">
+                <c:DashboardReferralsList peList="{!v.piData.waitingToBeContactedList}" isAcceptence="false"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- referring clinics section -->
+    <div class="rr-white-panel padding">
+        <div class="db-header"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>
+        <div class="slds-grid slds-wrap db-section" style="margin-bottom: 20px">
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
+                <div class="db-list-item header">
+                    <c:RRLink page="my-referring-clinics?showPending=true" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
+                    <span>{!v.piData.physiciansWaitingForApproval + ' ' + $Label.c.PG_DBPI_L_Providers_waiting_for_approval_and_activation}</span>
+                </div>
+                <div class="rr-large-down-hide">
+                    <c:DashboardPhysWaitingForApprovalList hcpeList="{!v.piData.physiciansWaitingForApprovalList}" parent="{!v.parent}"/>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 db-charts">
+                <c:Donut dataList="{!v.piData.siteRequests}" maxDonutWidth="178px"
+                           segmentLabel="{!$Label.c.PG_DB_L_category}"
+                           valueLabel="{!$Label.c.PG_DB_L_providers}"
+                           totalLabel="{!$Label.c.PG_DB_L_site_requests}"
+                           linkTitle="{!$Label.c.PG_DB_L_Track_providers_status}" linkPage="my-referring-clinics?"/>
+            </div>
+            <div class="slds-col slds-size--1-of-1 rr-large-up-hide" style="margin-top: 20px">
+                <c:DashboardPhysWaitingForApprovalList hcpeList="{!v.piData.physiciansWaitingForApprovalList}"  parent="{!v.parent}"/>
+            </div>
+        </div>
+    </div>
+
+
+</aura:component>

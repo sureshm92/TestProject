@@ -1,0 +1,72 @@
+<!-- - Created by D.Yasinskyi on 05.03.2018.-->
+<aura:component description="Popup">
+
+    <!-- attributes: -->
+    <aura:attribute name="title" type="String" required="true"/>
+    <aura:attribute name="showModal" type="Boolean" default="false" description="show or hide popup"/>
+    <aura:attribute name="headerText" type="String" description="text before popup body"/>
+    <aura:attribute name="footerText" type="String" description="text under popup body"/>
+    <aura:attribute name="variant" type="String" default="normal" description="normal;success;warning;error"/>
+    <aura:attribute name="size" type="String" description="small;large;medium"/>
+
+    <aura:attribute name="primaryButtonLabel" type="String" default="Ok"/>
+    <aura:attribute name="secondaryButtonLabel" type="String" default="Cancel"/>
+    <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
+
+    <aura:attribute name="showHeader" type="Boolean" default="{!true}"/>
+    <aura:attribute name="showFooter" type="Boolean" default="{!true}"/>
+    <aura:attribute name="showClose" type="Boolean" default="{!true}"/>
+
+    <aura:attribute name="primaryButtonClicked" type="Boolean" default="false" description="if primary(Ok) button clicked, this value will change"/>
+    <aura:attribute name="secondaryButtonClicked" type="Boolean" default="false" description="if secondary(cancel) button clicked, this value will change"/>
+    <aura:attribute name="closeButtonClicked" type="Boolean" default="false" description="if close button or Esc button clicked, this value will change"/>
+
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}"/>
+
+    <!-- methods: -->
+    <aura:method name="show" action="{!c.show}"/>
+    <aura:method name="hide" action="{!c.hide}"/>
+    <aura:method name="showSpinner" action="{!c.showSpinner}"/>
+    <aura:method name="hideSpinner" action="{!c.hideSpinner}"/>
+
+    <div>
+        <div id="p-modal" class="{!if(v.showModal, 'transition-show', '')}">
+            <div class="{! 'p-container ' + v.size}">
+                <lightning:button onclick="{!c.hide}" name="Close" class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
+                    <c:RRIcon iconName="icon-close" class="close-icon"/>
+                </lightning:button>
+                <!-- title: -->
+                <div class="{!'p-header ' + v.variant}">
+                    <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}">{!v.title}</h2>
+                </div>
+                <div style="position: relative">
+                    <!-- dialog body: -->
+                    <div class="p-content">
+                        <label>{!v.headerText}</label>
+                        {!v.body}
+                        <label>{!v.footerText}</label>
+                    </div>
+                    <!-- dialog footer: -->
+                    <aura:if isTrue="{!v.showFooter}">
+                        <div class="{!'p-footer p-variant-' + v.variant}">
+                            <div class="p-buttons-container">
+                                <aura:if isTrue="{!empty(v.footerButtons)}">
+                                    <button class="apollo-btn secondary" onclick="{!c.clickedSecondary}" tabindex="0">{!v.secondaryButtonLabel}</button>
+                                    <button class="apollo-btn primary" onclick="{!c.clickedPrimary}" tabindex="1">{!v.primaryButtonLabel}</button>
+                                    <aura:set attribute="else">
+                                        {!v.footerButtons}
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        <div id="backdrop" aura:id="backdrop" class="{!'slds-backdrop ' + if(v.showModal, 'slds-backdrop--open', '' )}"></div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,64 @@
+<!--
+ - Created by D.Yasinsky on 15.03.2018.
+ -->
+<aura:component description="rrSelect">
+
+    <!-- attributes: -->
+    <aura:attribute name="value" type="String" default="null" required="true"/>
+    <aura:attribute name="options" type="List" description="list - {'label':'', 'value':''}"/>
+    <aura:attribute name="label" type="String" default=""/>
+    <aura:attribute name="required" type="Boolean" default="{!false}"/>
+    <aura:attribute name="disabled" type="Boolean"/>
+    <aura:attribute name="placeholder" type="String" default=""/>
+    <aura:attribute name="otherOptionLabel" type="String" default=""/>
+    <aura:attribute name="otherOptionValue" type="String" default=""/>
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="iconName" type="String" default="icon-chevron-down"/>
+    <aura:attribute name="iconColor" type="String" default="#999999"/>
+    <aura:attribute name="id" type="String"/>
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="useSentenceFont" type="Boolean" default="true"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.options}" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <div id="{!v.id}" class="{!'rrs-container ' + v.class}" title="{!v.title}">
+
+        <aura:if isTrue="{!!empty(v.label)}">
+            <div class="rrs-label">
+                <aura:if isTrue="{!v.required}"><div class="rrs-error">*</div></aura:if>
+                <div class="{!if(empty(v.errorMessage), '', 'rrs-error')}">{!v.label}</div>
+            </div>
+        </aura:if>
+
+        <div class="rrs-relative">
+
+            <lightning:select class="{!if(v.errorMessage != '', ' rr-select-error','')}"
+                              name="rrs-select" aura:id="selectStatus" value="{!v.value}"
+                              variant="label-hidden" label="" disabled="{!v.disabled}">
+
+                <aura:if isTrue="{!!empty(v.placeholder)}">
+                    <option value="{!null}" style="display: none;">{!v.placeholder}</option>
+                </aura:if>
+
+                <aura:iteration items="{!v.options}" var="item">
+                    <option value="{!item.value}">{!item.label}</option>
+                </aura:iteration>
+
+                <aura:if isTrue="{!v.otherOptionLabel != ''}">
+                    <option value="{!v.otherOptionValue}">{!v.otherOptionLabel}</option>
+                </aura:if>
+
+            </lightning:select>
+
+            <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/>
+
+        </div>
+
+        <div class="{!'rr-error-message' + if(v.errorMessage == '', ' slds-hide','')}">{!v.errorMessage}</div>
+
+    </div>
+</aura:component>

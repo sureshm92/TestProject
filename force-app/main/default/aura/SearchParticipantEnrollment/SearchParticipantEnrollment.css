@@ -1,0 +1,52 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS .mrr-padding{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.THIS .mrr-fe{
+    margin-bottom: 20px;
+}
+
+.THIS .mrr-btn-section button{
+    width: 100%;
+    margin: 10px 0 30px 0;
+}
+
+.THIS .right-bottom-alert{
+    padding-top: 30px;
+    border-top: 2px solid #cccccc;
+    text-align: center;
+
+}
+
+.THIS .right-bottom-alert .info-text{
+    padding: 10px 0;
+}
+
+.THIS .right-bottom-alert button{
+    display: block;
+    margin: 20px auto;
+}
+
+.THIS .mrr-gizmo-frame{
+    width: 100%;
+    border: 0;
+    margin-bottom: 30px;
+}
+
+.THIS .mrr-alert{
+    text-align: center;
+    padding-top: 30px;
+    min-height: 500px;
+}
+
+@media all and (min-width: 1024px){
+    .THIS .mrr-padding{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

@@ -1,0 +1,51 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="PatientStatusPathDetail" controller="ReferralProfileRemote">
+    <!--attributes: -->
+    <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="peId" type="String"/>
+    <aura:attribute name="pathItemsReversed" type="List" access="private"/>
+    <aura:attribute name="historyLoaded" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="showStepSpinner" type="Boolean" default="false" access="private"/>
+
+    <!-- handlers -->
+    <aura:handler name="change" value="{!v.pathItems}" action="{!c.doInit}"/>
+
+    <!-- methods: -->
+    <aura:method name="loadHistory" action="{!c.doLoadHistory}"/>
+
+    <!-- component body: -->
+    <div style="position: relative">
+        <c:RRSpinner size="medium" showSpinner="{!v.showStepSpinner}"/>
+        <div class="slds-grid slds-grid_vertical">
+            <aura:iteration items="{!v.pathItemsReversed}" var="pathItem">
+                <div class="slds-col slds-grid pe-state-row" >
+                    <div class="{!'slds-col line-div ' + pathItem.state}">
+                        <div class="{!'state-ico-wrapper ' + pathItem.state}">
+                            <c:RRIcon iconName="{!pathItem.iconName}"/>
+                        </div>
+                    </div>
+                    <div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
+                        <div class="title">{!pathItem.name}</div>
+                        <!-- history list: -->
+                        <aura:if isTrue="{!!empty(pathItem.history)}">
+                            <div class="pe-history">
+                                <div class="title">{!$Label.c.PE_Activity_History}:</div>
+                                <aura:iteration items="{!pathItem.history}" var="historyItem" indexVar="hIndex">
+                                    <div class="history-item">
+                                        <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>
+                                        <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDateTime value="{!historyItem.changeDate}"/></div>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+
+                    </div>
+                </div>
+            </aura:iteration>
+        </div>
+
+    </div>
+</aura:component>

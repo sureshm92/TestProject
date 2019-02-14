@@ -1,0 +1,63 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Donut">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="type" type="String" default="PI"/>
+    <aura:attribute name="segmentLabel" type="String" default="Label"/>
+    <aura:attribute name="valueLabel" type="String" default="Value"/>
+    <aura:attribute name="totalLabel" type="String" default="Total"/>
+    <aura:attribute name="dataList" type="List"/>
+    <aura:attribute name="linkTitle" type="String"/>
+    <aura:attribute name="linkPage" type="String"/>
+    <aura:attribute name="maxDonutWidth" type="String"/>
+    <aura:attribute name="total" type="Decimal" access="private"/>
+
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.dataList}" action="{!c.doDataChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doDataChange}"/>
+
+    <!-- component body -->
+    <aura:if isTrue="true">
+        <aura:if isTrue="{!!empty(v.body)}"><div class="rr-small-up-hide dt-body">{!v.body}</div></aura:if>
+        <div class="slds-grid">
+            <div class="{!'slds-col slds-size_6-of-12 ' + if(and(v.type == 'PI', !empty(v.linkTitle)), ' slds-large-size_4-of-12 pi-donut', '')}">
+                <div style="{!if(!empty(v.maxDonutWidth), 'max-width:' + v.maxDonutWidth, '')}" class="dt-chart-container">
+                    <c:RRChart type="donut" data="{!v.dataList}" segmentLabel="{!v.segmentLabel}" valueLabel="{!v.valueLabel}" totalLabel="{!v.totalLabel}"/>
+                    <div class="dt-total-text">
+                        <div>{!v.total}<br/>{!v.totalLabel}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="{!'slds-col slds-size_6-of-12 ' + if(and(v.type == 'PI', !empty(v.linkTitle)), ' slds-large-size_8-of-12 ', '') + ' dt-legend-section'}">
+                <aura:if isTrue="{!!empty(v.body)}"><div class="rr-small-down-hide dt-body">{!v.body}</div></aura:if>
+                <div>
+                    <aura:iteration items="{!v.dataList}" var="dataItem">
+                        <div class="slds-grid">
+                            <div class="slds-col dt-legend-circle-col">
+                                <div class="dt-legend-circle" style="{!'background: ' + dataItem.color}"></div>
+                            </div>
+                            <div class="slds-col dt-legend-item">{!dataItem.segment} <span class="dt-legend-value">{!' (' + dataItem.value}
+                                <span class="rr-small-down-hide">{!' ' + v.valueLabel}</span>)</span></div>
+                        </div>
+                    </aura:iteration>
+                </div>
+                <aura:if isTrue="{!!empty(v.linkTitle)}">
+                    <div class="rr-small-down-hide">
+                        <c:RRLink page="{!v.linkPage}" class="dt-link">{!v.linkTitle}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        <aura:if isTrue="{!!empty(v.linkTitle)}">
+            <div class="rr-small-up-hide" style="text-align: center; margin-top: 15px">
+                <c:RRLink page="{!v.linkPage}" class="dt-link">{!v.linkTitle}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
+            </div>
+        </aura:if>
+    </aura:if>
+
+</aura:component>

@@ -1,0 +1,71 @@
+.THIS.sdrc-main-container,
+.THIS.sdrc-filter {
+    color: #666666;
+}
+
+.THIS.sdrc-filter {
+    width: 100%;
+    margin-top: 20px;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+.THIS.sdrc-filter select {
+    height: 40px;
+    border: 1px solid #999999;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    color: #999999;
+}
+.THIS.sdrc-filter .left {
+    float: left;
+    margin-right: auto;
+}
+.THIS .left div {
+    float: left;
+}
+.THIS .right div {
+    float: left;
+}
+.THIS.sdrc-filter .right {
+    float: right;
+}
+
+.THIS .status-filter svg,
+.THIS .sort-filter svg,
+.THIS .entries-filter svg {
+    position: absolute;
+    pointer-events: none;
+    top: 12px;
+    right: 6px;
+    height: 16px;
+    width: 16px;
+}
+.THIS .filter {
+    position: relative;
+}
+.THIS.sdrc-filter .label {
+    padding-top: 10px;
+    margin-right: 10px;
+}
+.THIS.sdrc-filter .search,
+.THIS.sdrc-filter .pagination {
+    border-top: 2px solid #D9D9D9;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+/*=======================================Search=======================================*/
+.THIS.sdrc-filter .search {
+    display: flex;
+
+}
+.THIS.sdrc-filter .search .right{
+    padding-top: 10px;
+
+}
+/*=======================================Pgination=======================================*/
+.THIS.sdrc-filter .pagination {
+    display: flex;
+    border-top: 2px solid #D9D9D9;
+}

@@ -1,0 +1,17 @@
+<!--Created by D.Yasinskyi on 16.04.2018-->
+<aura:component description="rrStatusInformer">
+    <!--=============================================================================================================-->
+    <aura:attribute name="status"                   type="Boolean" default="false"                     required="true"/>
+    <aura:attribute name="title"                    type="String"                                      required="true"/>
+    <!--=============================================================================================================-->
+    <aura:if isTrue="{! !empty(v.title)}">
+        <div class="si-container">
+            <div class="si-icon">
+                <c:RRIcon class="slds-align_absolute-center" color="{! if(v.status, '#63C900', '#D9534F')}" iconName="{! if(v.status, 'icon-check-solid', 'icon-close-solid')}"/>
+            </div>
+            <div class="{!'rr-sentence-font si-title' + if(v.status, ' success', '')}">
+                    {!v.title}
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

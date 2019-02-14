@@ -1,0 +1,75 @@
+.THIS.mrrli-container {
+    border: 1px solid #F2F2F2;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
+    padding: 17px;
+    margin-bottom: 18px;
+}
+
+.THIS.mrrli-container .mrrli-info .mrrli-info-top,
+.THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
+    display: flex;
+}
+
+.THIS.mrrli-container .mrrli-buttons button{
+    height: 40px;
+}
+
+.THIS.mrrli-container .mrrli-info .mrrli-info-top > div {
+    margin-right: 10px;
+    font-size: 17px;
+    line-height: 20px;
+}
+
+.THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
+    margin-top: 4px;
+}
+
+.THIS.mrrli-container .mrrli-info .mrrli-info-bottom > div {
+    border-right: 1px solid #CCCCCC;
+    padding-right: .3em;
+    margin-right: .3em;
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS.mrrli-container .mrrli-info .mrrli-info-bottom :last-child {
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+.THIS.mrrli-container .mrrli-info{
+    margin-right: auto;
+}
+
+@media (max-width: 500px) {
+    .THIS.mrrli-container .mrrli-info .mrrli-info-top,
+    .THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
+        display: block;
+    }
+
+    .THIS.mrrli-container .mrrli-info .mrrli-info-bottom > div {
+        border-right: none;
+        padding-right: 0;
+        margin-right: 0;
+    }
+
+    .THIS.mrrli-container .mrrli-buttons button {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 500px) {
+    .THIS.mrrli-container .mrrli-buttons button.tertiary.red {
+        min-width: 0;
+    }
+
+    .THIS.mrrli-container .mrrli-buttons button.tertiary.red svg {
+        margin-right: 0;
+    }
+}

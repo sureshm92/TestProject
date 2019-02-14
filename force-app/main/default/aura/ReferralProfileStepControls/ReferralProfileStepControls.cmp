@@ -1,0 +1,70 @@
+<!--
+ - Created by Kryvolap on 04.09.2018.
+ -->
+
+<aura:component description="ReferralProfileStepControls">
+    <aura:attribute name="parent" type="Aura.Component" access="public" description="Parent component with method 'refresh'. Invoked on complete"/>
+    <aura:attribute name="step" type="Object" access="public" description="step object"/>
+    <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
+    <aura:attribute name="notesRequired" type="Boolean" access="private" default="false" description="other reason required notes"/>
+
+    <aura:handler name="change" value="{!v.step.selectedStatus}" action="{!c.onStatusChange}"/>
+
+    <div class="{!'slds-col slds-grid pe-state-row ' + if(v.step.isCurrent, ' current', '')}">
+        <div class="{!'slds-col line-div ' + v.step.nextState}">
+            <div class="{!'state-ico-wrapper ' + v.step.state}">
+                <aura:if isTrue="{!v.step.state == 'success'}"><c:RRIcon iconName="icon-check"/></aura:if>
+                <aura:if isTrue="{!v.step.state == 'failure'}"><c:RRIcon iconName="icon-close"/></aura:if>
+                <aura:if isTrue="{!v.step.state == 'in_progress'}"><c:RRIcon iconName="icon-minus"/></aura:if>
+                <aura:if isTrue="{!v.step.state == 'neutral'}"><c:RRIcon iconName="icon-minus"/></aura:if>
+            </div>
+        </div>
+        <div class="{!'slds-col path-item-detail-panel rr-white-panel ' + v.step.state}" style="position: relative">
+            <aura:if isTrue="{!and(!v.step.isPassed, !v.step.isDisabled)}"><c:RRSpinner size="medium" showSpinner="{!v.showStepSpinner}"/></aura:if>
+            <div class="title">{!v.step.name}</div>
+            <!-- status select form: -->
+            <aura:if isTrue="{!and(!v.step.isPassed, empty(v.step.buttonsList), index)}">
+                <div class="slds-grid slds-wrap slds-gutters_x-small slds-grid_vertical-align-end rp-status-form">
+                    <div class="slds-col slds-size--1-of-1 slds-large-size_4-of-12  ">
+                        <div class="rr-form-element">
+                            <div class="label">{!$Label.c.PE_Activities}</div>
+                            <c:rrSelect disabled="{!v.step.isDisabled}" title="{!v.step.disableReason}" options="{!v.step.statusReasonsList}" value="{!v.step.selectedStatus}"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-large-size_7-of-12">
+                        <div class="rr-form-element">
+                            <lightning:input label="{!$Label.c.PG_ACPE_L_Notes + ' (' + if(v.notesRequired, $Label.c.PG_ACPE_L_required, $Label.c.PG_ACPE_L_optional) + ')'}" disabled="{!v.step.isDisabled || empty(v.step.selectedStatus)}" value="{!v.step.notes}"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-12">
+                        <button class="apollo-btn tertiary rp-save-btn" onclick="{!c.doSaveSelectedStatus}"
+                                disabled="{!v.step.isDisabled || empty(v.step.selectedStatus) || and(v.notesRequired,empty(v.step.notes))}">{!$Label.c.BTN_Save}</button>
+                    </div>
+                </div>
+            </aura:if>
+            <!-- buttons form: -->
+            <aura:if isTrue="{!and(!v.step.isPassed, !empty(v.step.buttonsList))}">
+                <div class="slds-grid rp-status-btns slds-gutters_x-small slds-wrap">
+                    <aura:iteration items="{!v.step.buttonsList}" var="btn">
+                        <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
+                            <button class="{!'apollo-btn tertiary ' + btn.style}" disabled="{!or(btn.isDisabled, and(btn.name == 'Accept', or(v.enrollment.Study_Site__r.Override_PI_Referral_Status__c == 'On Hold', v.enrollment.Study_Site__r.Override_PI_Referral_Status__c == 'On Hold (Admin)')))}"
+                                    data-status-name="{!btn.status}" onclick="{!c.doBtnAction}">{!btn.name}</button>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+            <!-- history list: -->
+            <aura:if isTrue="{!!empty(v.step.history)}">
+                <div class="pe-history">
+                    <div class="title">{!$Label.c.	PE_Activity_History + ':'}</div>
+                    <aura:iteration items="{!v.step.history}" var="historyItem" indexVar="hIndex">
+                        <div class="history-item">
+                            <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>
+                            <div class="date">on <ui:outputDateTime value="{!historyItem.changeDate}"/></div>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

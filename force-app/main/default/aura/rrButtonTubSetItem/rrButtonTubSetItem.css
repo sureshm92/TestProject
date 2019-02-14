@@ -1,0 +1,52 @@
+.THIS.bts-tab {
+    background-color: #FFFFFF;
+    text-align: center;
+    border: 1px solid #E1E6E8;
+    font-size: 14px;
+    line-height: 17px;
+    transition: 0.4s;
+    flex-basis: 0;
+    cursor: pointer;
+    color: #666666;
+}
+
+.THIS.bts-tab label{
+    cursor: pointer;
+}
+
+.THIS.bts-tab.underlined{
+    border-bottom-left-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+
+.THIS.bts-tab.selected{
+    color: #424242;
+    font-weight: bold;
+}
+.THIS.bts-tab:not(.selected):not(.underlined){
+    background-color: #F2F2F2;
+}
+
+.THIS.bts-tab.selected.underlined {
+    border-bottom: 4px solid black;
+
+}
+
+.THIS.bts-tab.disabled {
+    cursor: no-drop;
+    pointer-events: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.THIS.bts-tab.disabled label{
+    opacity: .5;
+}
+
+.THIS .bts-tab-body{
+    padding-top: 22px;
+    padding-bottom: 22px;
+    padding-right: 5px;
+    padding-left: 5px;
+}

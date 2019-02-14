@@ -1,0 +1,53 @@
+<!--Created by D.Yasinskyi on 06.04.2018-->
+<aura:component description="MyLibrary" implements="forceCommunity:availableForAllPageTypes">
+    <!--=============================================================================================================-->
+    <aura:attribute name="showDocumentation"                           type="Boolean" default="false" access="private"/>
+    <aura:attribute name="showSupportingMaterials"                     type="Boolean" default="false" access="private"/>
+    <aura:attribute name="userMode"                                    type="String"                  access="private"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init"                                          value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:EventCommunityInitialized"                                  action="{!c.doInit}"/>
+    <!--=============================================================================================================-->
+    <div class="ml-container">
+        <aura:if isTrue="{! !or(v.showDocumentation, v.showSupportingMaterials)}">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_6-of-12">
+                    <div class="section" id="documentation" onclick="{!c.handleSectionSelection}">
+                        <div class="info icon">
+                            <c:RRIcon iconName="icon-folder" color="#333333"/>
+                        </div>
+                        <div class="info title">Documentation</div>
+                        <div class="info description">
+                            Brief description about all the documents (study agreement, site acceptance, etc.) for their
+                            studies
+                            are here. Suspendisse ac pretium turpis. Integer est ante, consequat sed sem at, hendrerit
+                            semper
+                            sapien.
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_6-of-12">
+                    <div class="section" id="supporting-materials" onclick="{!c.handleSectionSelection}">
+                        <div class="info icon">
+                            <c:RRIcon iconName="icon-queue" color="#333333"/>
+                        </div>
+                        <div class="info title">Supporting Materials</div>
+                        <div class="info description">
+                            Brief description about articles to help them in recuiting patients (clinical trial 101, how
+                            to talk
+                            to patient, etc.). Suspendisse ac pretium turpis. Integer est ante, consequat sed sem at,
+                            hendrerit
+                            semper sapien.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.showDocumentation}">
+            <c:Documentation userMode="{!v.userMode}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.showSupportingMaterials}">
+            showSupportingMaterials
+        </aura:if>
+    </div>
+</aura:component>

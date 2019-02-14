@@ -1,0 +1,9 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<design:component >
+    <design:attribute label="If use for Portal terms then 'true', for Study terms and Privacy Policy - 'false'" name="isPortalTC" default="true"/>
+    <design:attribute label="For Privacy Policy or Cookie Policy Page set Id of Terms And Conditions record" name="privacyPolicyId"/>
+    <design:attribute label="Set PrivacyPolicy (for Privacy Policy) or CookiePolicy (for Cookie Policy) or leave blank for TC" name="titleCode"/>
+</design:component>

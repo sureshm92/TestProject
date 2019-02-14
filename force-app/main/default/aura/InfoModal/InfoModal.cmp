@@ -1,0 +1,55 @@
+<!--Created by D.Yasinskyi on 29.05.2018-->
+<aura:component controller="InfoModalController" description="InfoModal">
+    <!--=============================================================================================================-->
+    <aura:attribute name="HCPEnrollment"          type="Object" description="HSP Enrollment" access="private"/>
+    <aura:attribute name="studySite"              type="Object" description="Study site" access="private"/>
+    <aura:attribute name="historyList"            type="List" access="private"/>
+    <aura:attribute name="title"                  type="String" access="private"/>
+    <aura:attribute name="showModal"              type="Boolean" default="{!false}" access="private"/>
+    <aura:attribute name="showSpinner"            type="Boolean" default="{!true}" access="private"/>
+    <!--=============================================================================================================-->
+    <aura:method name="showHCPEnrollmentStatusDetail"     action="{!c.doShowHCPEnrollmentStatusDetail}" access="public">
+        <aura:attribute name="HCPEnrollment" type="Object"/>
+    </aura:method>
+    <aura:method name="showStudySiteStatusDetail"     action="{!c.doShowStudySiteStatusDetail}" access="public">
+        <aura:attribute name="studySite" type="Object"/>
+    </aura:method>
+    <!--=============================================================================================================-->
+    <div class="im-container">
+        <c:Popup showModal="{!v.showModal}" title="{!v.title}" showFooter="false" size="small">
+
+            <aura:if isTrue="{!not(showSpinner)}">
+
+                <div class="im-info">
+                    <div class="im-name">
+                        <aura:if isTrue="{!!empty(v.HCPEnrollment)}">
+                                {!$Label.c.PG_DBPI_Dr + v.HCPEnrollment.HCP_Contact__r.FirstName + ' ' + v.HCPEnrollment.HCP_Contact__r.LastName}
+                        </aura:if>
+                    </div>
+                    <div class="im-clinic-name">
+                        <aura:if isTrue="{!!empty(v.HCPEnrollment)}">
+                            {!$Label.c.PG_IM_L_For + ' "' + v.HCPEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c + '"'}
+                        </aura:if>
+                        <aura:if isTrue="{!!empty(v.studySite)}">
+                            {!$Label.c.PG_IM_L_For + ' "' + v.studySite.Name + '"'}
+                        </aura:if>
+                    </div>
+                </div>
+
+                <div class="im-content">
+
+                    <aura:iteration items="{!v.historyList}" var="item">
+                        <c:InfoModalItem statusHistory="{!item}"/>
+                    </aura:iteration>
+
+                </div>
+                
+                <aura:set attribute="else">
+                    <c:RRSpinner size="medium" showSpinner="{!true}"/>
+                </aura:set>
+
+            </aura:if>
+
+        </c:Popup>
+    </div>
+</aura:component>

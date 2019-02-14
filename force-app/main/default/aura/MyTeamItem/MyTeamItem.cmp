@@ -1,0 +1,36 @@
+<!--Created by D.Yasinskyi on 03.05.2018-->
+<aura:component description="MyTeamItem">
+
+    <!-- arrtibutes: -->
+    <aura:attribute name="delegate" type="Object" required="true"/>
+    <aura:attribute name="options" type="List" required="true"/>
+    <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
+    <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="saveInProgress" type="Boolean" default="false"/>
+    <aura:attribute name="refreshSDLITrigger" type="Boolean"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+
+    <!-- component body-->
+    <div class="rr-white-panel mti-container">
+        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
+        <div class="mti-name">
+                {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+        </div>
+        <div class="mti-email">
+                {!v.delegate.delegateContact.Email}
+        </div>
+        <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
+            <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}" changedLevels="{!v.changedLevels}" refreshTrigger="{!v.refreshSDLITrigger}"/>
+        </aura:iteration>
+        <div class="mti-save-button-container">
+            <button class="apollo-btn tertiary mti-save-button" onclick="{!c.doSaveChanges}"
+                    disabled="{!empty(v.changedLevels)}"
+                    title="{!if(empty(v.changedLevels),$Label.c.PG_MTI_T_No_changes_made,'')}">
+                {!$Label.c.PG_MTI_BTN_Save_Changes}
+            </button>
+        </div>
+    </div>
+</aura:component>

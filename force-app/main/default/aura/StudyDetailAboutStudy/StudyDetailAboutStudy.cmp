@@ -1,0 +1,216 @@
+<!--
+ - created by Leonid Bartenev
+ -->
+
+<aura:component description="StudyDetailAboutStudy" controller="StudyDetailAboutStudyRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail" required="true"/>
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" required="true"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <!-- actions: -->
+    <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
+    <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
+    <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
+
+    <!-- component body: -->
+    <!-- TC alert: -->
+    <aura:if isTrue="{!and(and(v.studyDetail.trial.Terms_And_Conditions_ID__c, !v.studyDetail.isTCAccepted), (v.userMode != 'Participant'))}">
+        <div class="rr-alert brand" style="margin: 30px 0">
+            {!$Label.c.PG_SDAS_L1_TC_Required}
+            <c:RRLink label="{!$Label.c.PG_Login_H_Terms_And_Conditions}" class="tc-link" page="{!'trial-terms-and-conditions?id=' + v.studyDetail.trial.Id}"/>
+            {!if(v.userMode == 'PI', $Label.c.PG_SDAS_L2P_TC_required, $Label.c.PG_SDAS_L2_TC_required)}
+        </div>
+    </aura:if>
+
+    <div class="sdas-main-container">
+        <div class="sdas-about">
+            <div class="slds-grid slds-wrap">
+                <div id="info-left" class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
+                    <!-- about title -->
+                    <c:RRAnchor aura:id="aboutAnchor" offset="-160"/>
+                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>
+
+                    <!-- objectiove section: -->
+                    <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Objective}</div>
+                    <div class="sdas-text">{!v.studyDetail.trial.Brief_Summary__c}</div>
+
+                    <!-- study overview: -->
+                    <aura:if isTrue="{!!empty(v.studyDetail.trial.Override_Description__c)}">
+                        <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>
+                        <div class="sdas-text">{!v.studyDetail.trial.Override_Description__c}</div>
+                    </aura:if>
+                    <div class="sdas-separator"></div>
+
+                    <!-- inclusion exclusion: -->
+                    <c:RRAnchor aura:id="inclusionExclusionAnchor" offset="-160"/>
+                    <div class="sdas-category"><c:RRIcon iconName="people"/>{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>
+                    <div class="sdas-text">
+                        <aura:if isTrue="{!v.userMode == 'Participant'}">
+                            {!$Label.c.PG_SW_T_1}
+                            <aura:set attribute="else">{!$Label.c.PG_SDAS_L_Elegible}</aura:set>
+                        </aura:if>
+                    </div>
+                    <div class="sdas-criteria-block"></div>
+                    <div class="collapse-wrapper">
+                        <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Inclusion_Criteria}">
+                            <div class="criteria-body">{!v.studyDetail.trial.Override_Inclusion_Criteria__c}</div>
+                        </c:RRCollapse>
+                    </div>
+                    <div class="collapse-wrapper">
+                        <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Exclusion_Criteria}">
+                            <div class="criteria-body">{!v.studyDetail.trial.Override_Exclusion_Criteria__c}</div>
+                        </c:RRCollapse>
+                    </div>
+                    <div class="sdas-separator"></div>
+
+                    <!-- map section: -->
+
+                    <!-- for HCP: -->
+                    <aura:if isTrue="{!v.userMode == 'HCP'}">
+                        <c:RRAnchor aura:id="studySitesAnchor" offset="-160"/>
+                        <div class="sdas-category"><c:RRIcon iconName="map-marker"/>{!$Label.c.PG_VP_L_Study_sites}</div>
+                        <div class="sdas-text">
+                            {!$Label.c.PG_SDAS_L1_please_review}
+                            <br/>
+                            {!$Label.c.PG_SDAS_L2_please_review}
+                        </div>
+                    </aura:if>
+
+                    <!-- for PI: -->
+                    <aura:if isTrue="{!v.userMode == 'PI'}">
+                        <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160"/>
+                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>
+                        <aura:if isTrue="{!empty(v.studyDetail.accountEnrollmentsList)}">
+                            <c:EmptyListStub iconName="sad"
+                                             message="{!$Label.c.PG_SDAS_L_No_items}"/>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.studyDetail.isSSAccepted}">
+                            <div class="sdas-text">
+                                {!$Label.c.PG_SDAS_L_list_referring_clinics + ' '}
+                                <c:RRLink page="my-referring-clinics?" label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/> {!' ' + $Label.c.PG_SDAS_L2_list_referring_clinics}
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="sdas-text">
+                                    {!$Label.c.PG_SDAS_T_steps}
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>
+
+                    <!-- map with items: -->
+                    <div class="sdas-map">
+                        <c:RRAnchor aura:id="mapAnchor" offset="-165"/>
+                        <aura:if isTrue="{!!empty(v.studyDetail.accountEnrollmentsList)}">
+                            <div class="sdas-map-body">
+                                <div class="map-container">
+                                    <c:RRMap accounts="{!v.studyDetail.accountEnrollmentsList}"/>
+                                </div>
+                            </div>
+                            <div class="sdas-map-footer">
+                                <c:RRSpinner aura:id="accountListSpinner"/>
+                                <aura:iteration items="{!v.studyDetail.accountEnrollmentsList}" var="accountWithEnrollments" indexVar="index">
+                                    <div class="sdas-footer-info">
+                                        <div class="name">
+                                            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                                                <div style="float: right"><c:HCPStatusIco status="{!accountWithEnrollments.hcpStatus}" overrideStatusLabel="{!accountWithEnrollments.hcpStatusLabel}"/></div>
+                                            </aura:if>
+                                            {!index + 1}. {!accountWithEnrollments.name}
+                                        </div>
+                                        <div class="address">
+                                            <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
+                                            <div class="address-3">{!accountWithEnrollments.addrCity}</div>
+                                            <aura:if isTrue="{!and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled)}">
+                                                <div style="margin-top: 10px">
+                                                    <button class="apollo-btn tertiary"
+                                                            id="{!accountWithEnrollments.studySiteId}"
+                                                            onclick="{!c.doChangeStudySite}"
+                                                            disabled="{!v.studyDetail.actions.sendSiteRequest.disabled}">
+                                                        {!v.studyDetail.actions.sendSiteRequest.label}
+                                                    </button>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </aura:iteration>
+                                <aura:if isTrue="{!and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled)}">
+                                    <div class="study-sites-footer">
+                                        <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
+                                        &nbsp;
+                                        {!$Label.c.PG_SDAS_L_not_acceptable}
+                                    </div>  
+                                </aura:if>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+
+                <!-- center column separator: -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-order_3 slds-medium-order_2"></div>
+
+                <!-- right info section -->
+                <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
+                    <div class="sdas-main-info">
+                        <div class="title">{!$Label.c.PG_SW_F_Study_Name}</div>
+                        <div class="text">{!v.studyDetail.trial.Study_Code_Name__c}</div>
+
+                        <div class="title">{!$Label.c.PG_SW_F_Condition}</div>
+                        <div class="text">{!v.studyDetail.trial.Condition_s_Therapeutic_Area__c}</div>
+
+                        <div class="title">{!$Label.c.PG_SW_F_Study_Type}</div>
+                        <div class="text">{!v.studyDetail.trial.Study_Type__c}</div>
+
+                        <aura:if isTrue="{!!empty(v.studyDetail.trial.Interventions__c)}">
+                            <div class="title">{!$Label.c.PG_SW_F_Investigational_product}</div>
+                            <div class="text" style="white-space: pre-line">{!v.studyDetail.trial.Interventions__c}</div>
+                        </aura:if>
+
+                        <div class="title">{!$Label.c.PG_SW_F_Phase}</div>
+                        <div class="text">{!v.studyDetail.trial.Study_Phase__c}</div>
+
+                        <div class="sdas-full-separator"></div>
+
+                        <div class="title">{!$Label.c.PG_SW_F_Sponsor}</div>
+                        <div class="text">{!v.studyDetail.trial.Study_Sponsor__c}</div>
+
+                        <div class="title">{!$Label.c.PG_SW_F_ClinicalTrials_gov_Identifier}</div>
+                        <div class="text">{!v.studyDetail.trial.NCT_Number__c}</div>
+
+                        <div class="title">{!$Label.c.PG_SW_F_Study_number}</div>
+                        <div class="text">{!v.studyDetail.trial.Protocol_ID__c}</div>
+
+                        <div class="sdas-full-separator"></div>
+
+                        <div class="title">{!$Label.c.PG_SW_F_Enrollment_Status}</div>
+                        <div class="text">{!v.studyDetail.trial.Override_Recruitment_Status__c}</div>
+
+                        <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrollment_Start_Date__c)}">
+                            <div class="title">{!$Label.c.PG_SW_F_Enrollment_Start_Date}</div>
+                            <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"/></div>
+                        </aura:if>
+
+                        <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrolled_End_Date__c)}">
+                            <div class="title">{!$Label.c.PG_SW_F_Enrollment_End_Date}</div>
+                            <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/></div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- bottom bar: -->
+    <aura:if isTrue="{!!empty(v.studyDetail.studyBottomBarActions)}">
+        <c:RRBottomBar>
+            <aura:iteration items="{!v.studyDetail.studyBottomBarActions}" var="action">
+                <button Id="{!action.id}" class="{!'apollo-btn ' + action.cssClass}"
+                        disabled="{!action.disabled}"
+                        title="{!action.disableReason}"
+                        onclick="{!c.doAction}">{!action.label}</button>
+            </aura:iteration>
+        </c:RRBottomBar>
+    </aura:if>
+
+</aura:component>

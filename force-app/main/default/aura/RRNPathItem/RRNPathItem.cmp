@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRNPathItem">
+
+    <!-- attruutes: -->
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="page" type="String" default="empty"/>
+
+    <!-- components: -->
+    <div class="path-item">
+        <div class="{!if(v.page != 'empty', 'np-link', '')}" onclick="{!c.doNavigateToPage}">{!v.label}</div>
+        <c:RRIcon iconName="icon-chevron-right"/>
+    </div>
+</aura:component>

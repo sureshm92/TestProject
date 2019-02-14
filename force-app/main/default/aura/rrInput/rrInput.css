@@ -1,0 +1,52 @@
+.THIS.rri-container,
+.THIS.rri-container lightning-input,
+.THIS.rri-container .lightningInput {
+    width: 100%;
+}
+.THIS.rri-container .rri-body {
+    display: flex;
+}
+
+.THIS.rri-container .rri-icon {
+    padding-top: 9px;
+}
+
+.THIS.rri-container label {
+    display: none;
+}
+
+.THIS.rri-container .rri-label {
+    display: flex;
+    color: #666666;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS.rri-container .rri-label .rri-error {
+    color: #FF0031;
+}
+
+.THIS.rri-container input {
+    font-size: 14px;
+    line-height: 22px;
+    height: 40px;
+}
+
+.THIS.rri-container svg {
+    height: 22px;
+    width: 22px;
+    margin-right: 5px;
+}
+
+.THIS.rri-container .rri-password{
+    position: relative;
+    width: 100%;
+}
+
+.THIS.rri-container .rri-password .rri-show-password{
+    position: absolute;
+    top: 9px;
+    right: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,29 @@
+<!--Created by D.Yasinskyi on 16.03.2018-->
+<aura:component description="rrPagination">
+    <!--===========================================PAGINATION========================================================-->
+    <aura:attribute name="allObjects"       type="List"    required="true"/>
+    <aura:attribute name="currentObjects"   type="List"                       description="objects on page"/>
+    <aura:attribute name="entriesOnPage"    type="Integer" default="1"        description="amount objects on page"/>
+    <aura:attribute name="currentPage"      type="Integer" default="1"/>
+    <aura:attribute name="totalPages"       type="Integer" default="1"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="change"             value="{!v.allObjects}"           action="{!c.resetPagination}"/>
+    <aura:handler name="change"             value="{!v.currentPage}"          action="{!c.setPage}"/>
+    <aura:handler name="change"             value="{!v.entriesOnPage}"        action="{!c.resetPagination}"/>
+    <!--=============================================================================================================-->
+    <aura:if isTrue="{! !empty(v.currentObjects)}">
+        <div class="rrp-container">
+            <div class="buttons">
+                <button class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }" onclick="{!c.previousPage}">
+                    <c:RRIcon iconName="icon-chevron-left" color="#333333"/>
+                </button>
+                <button class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }" onclick="{!c.nextPage}">
+                    <c:RRIcon iconName="icon-chevron-right" color="#333333"/>
+                </button>
+            </div>
+            <div class="info">
+            {!v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + if(v.totalPages == 0, '1', v.totalPages)}
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

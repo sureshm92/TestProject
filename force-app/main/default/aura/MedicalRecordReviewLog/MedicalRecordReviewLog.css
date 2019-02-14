@@ -1,0 +1,7 @@
+.THIS.mrrl-container {
+    padding-bottom: 100px;
+}
+
+.THIS.mrrl-container .mrrl-body .mrrl-body-list{
+    min-height: 100px;
+}

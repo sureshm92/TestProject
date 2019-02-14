@@ -1,0 +1,17 @@
+<!--Created by D.Yasinskyi on 29.05.2018-->
+<aura:component description="InfoModalItem">
+    <!--=============================================================================================================-->
+    <aura:attribute name="statusHistory"          type="Object" description="Status_History__c" access="public"/>
+    <aura:attribute name="status"                 type="String" access="private"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init"               value="{!this}"                     action="{!c.doInit}"/>
+    <!--=============================================================================================================-->
+    <div class="imi-container">
+        <div class="imi-title">{!v.status}</div>
+        <div class="imi-subtitle">
+            {!$Label.c.PE_Status_History_On_Date + ' '}
+            <ui:outputDate value="{!v.statusHistory.Date__c}"/>
+            {!' '+ $Label.c.PG_IMI_L_by_user + ' ' + v.statusHistory.CreatedBy.FirstName +' ' + v.statusHistory.CreatedBy.LastName}
+        </div>
+    </div>
+</aura:component>

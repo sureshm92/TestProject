@@ -1,0 +1,16 @@
+.THIS.csm-container .rrs-container,
+.THIS.csm-container .slds-form-element__control.slds-grow,
+.THIS.csm-container .csr-header,
+.THIS.csr-container {
+    width: 100%;
+}
+
+.THIS.csm-container .csm-header {
+    word-wrap: break-word;
+    white-space: pre;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,32 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS .mps-filter-btn{
+    display: flex;
+}
+
+.THIS .fp-info-title{
+    color: white;
+    text-align: right;
+    margin-top: 3px;
+    font-size: 12px;
+}
+
+.THIS .fp-info-title svg{
+    width: 12px;
+    height: 12px;
+    fill: white;
+}
+
+@media (max-width: 768px) {
+    .THIS.slds-gutters_medium{
+        margin-right: -5px;
+        margin-left: -5px;
+    }
+
+    .THIS.slds-gutters_medium .slds-col{
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+}

@@ -1,0 +1,119 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="SearchParticipantEnrollment" controller="MedicalRecordReviewRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="hcpEnrollment" type="Object"/>
+    <aura:attribute name="searchResult" type="Object"/>
+    <aura:attribute name="searchData" type="Object"/>
+    <aura:attribute name="mrrResult" type="String"/>
+    <aura:attribute name="showSpinner" type="Boolean"/>
+    <aura:attribute name="frameHeight" type="String" default="500px"/>
+    <aura:attribute name="isEmptiId" type="Boolean" default="true"/>
+
+    <!-- component body -->
+    <div>
+        <div class="rr-sub-title" style="padding-top: 50px; padding-bottom: 10px">{!$Label.c.PG_SPE_L_Patient_Information}</div>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3">
+                <div class="rr-form-element mrr-fe">
+                    <lightning:input type="text" label="{!$Label.c.PE_Patient_Id}" value="{!v.searchData.participantId}" disabled="{!!empty(v.searchResult)}" onchange="{!c.doCheckPatientId}"/>
+                    <div class="small-info-text">{!$Label.c.PG_SPE_L_Patient_Id_tip}</div>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3">
+                <div class="rr-form-element mrr-fe">
+                    <lightning:input type="text" label="{!$Label.c.PG_SPE_L_Patient_s_first_name_Optional}"  value="{!v.searchData.firstName}" disabled="{!!empty(v.searchResult)}"/>
+                    <div class="small-info-text">{!$Label.c.PG_SPE_L_Patient_s_first_name_Optional_tip}</div>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3">
+                <div class="rr-form-element mrr-fe">
+                    <lightning:input type="text" label="{!$Label.c.PG_SPE_L_Patient_s_last_name_Optional}" value="{!v.searchData.lastName}" disabled="{!!empty(v.searchResult)}"/>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="slds-grid slds-wrap slds-gutters mrr-btn-section">
+            <aura:if isTrue="{!empty(v.searchResult)}">
+                <div class="slds-col slds-size_1-of-2">
+                    <button class="apollo-btn primary" onclick="{!c.doSearchEnrollment}" disabled="{!v.isEmptiId}" >{!$Label.c.BTN_Add_Patient}</button>
+                </div>
+            </aura:if>
+            <div class="slds-col slds-size_1-of-2">
+                <button class="apollo-btn secondary" onclick="{!c.doClearForm}">{!$Label.c.BTN_Clear_Form}</button>
+            </div>
+        </div>
+
+        <aura:if isTrue="{!!empty(v.searchResult)}">
+
+            <aura:if isTrue="{!v.searchResult.result == 'Other HCP'}">
+                <div class="right-bottom-alert">
+                    <div class="rr-sub-title green-text">
+                        {!$Label.c.PG_SPE_ST_Other}
+                    </div>
+                    <div class="info-text">
+                        {!$Label.c.PG_SPE_T_Other}
+                    </div>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.searchResult.result == 'New' || v.searchResult.result == 'MRR Pending'}">
+                <iframe id="mrrGizmoFrame" class="mrr-gizmo-frame mrr-padding"
+                        src="{!v.hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
+                        onload="{!c.doFrameLoaded}" style="{!'height: '+v.frameHeight}"></iframe>
+            </aura:if>
+
+            <aura:if isTrue="{!v.searchResult.result == 'MRR Fail'}">
+                <div class="right-bottom-alert">
+                    <div class="rr-sub-title green-text">
+                        {!$Label.c.PG_SPE_ST_MRR_Fail}
+                    </div>
+                    <div class="info-text">
+                        {!$Label.c.PG_SPE_T_Other}
+                    </div>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.searchResult.result == 'PES Pending'}">
+                <div class="right-bottom-alert">
+                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_PES_Pending}
+                    </div>
+                    <div class="info-text">
+                        {!$Label.c.PG_SPE_T_Other}
+                    </div>
+                    <div class="rr-title">{!$Label.c.PG_SPE_L_Ready_to_refer_this_patient_to_this_study}</div>
+                    <button class="apollo-btn primary" onclick="{!c.doReferPatient}">{!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}</button>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.searchResult.result == 'PES Fail'}">
+                <div class="right-bottom-alert">
+                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_PES_Fail}</div>
+                    <div class="info-text">{!$Label.c.PG_SPE_T_Other}</div>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.searchResult.result == 'MRR Pass PES Fail'}">
+                <div class="right-bottom-alert">
+                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_MRR_Success_PES_Fail}</div>
+                    <div class="info-text">{!$Label.c.PG_SPE_T_Other}</div>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.searchResult.result == 'Completed'}">
+                <div class="right-bottom-alert">
+                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_Referred}</div>
+                    <div class="info-text">{!$Label.c.PG_SPE_T_Other}</div>
+                </div>
+            </aura:if>
+
+        </aura:if>
+
+    </div>
+</aura:component>

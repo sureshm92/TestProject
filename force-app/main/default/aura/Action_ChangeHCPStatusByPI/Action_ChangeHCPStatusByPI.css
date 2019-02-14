@@ -1,0 +1,19 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .rrs-container,
+.THIS .slds-form-element__control.slds-grow,
+.THIS .csr-header,
+.THIS.csr-container {
+    width: 100%;
+}
+
+.THIS .dialog-alert {
+    word-wrap: break-word;
+    white-space: pre;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    margin-bottom: 10px;
+}

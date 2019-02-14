@@ -1,0 +1,62 @@
+<!--Created by D.Yasinskyi on 16.04.2018-->
+<aura:component controller="MedicalRecordReviewLogItemController" description="MedicalRecordReviewLogItem">
+
+    <!-- attributes: -->
+    <aura:attribute name="participantEnrollment" type="SObject" required="true"/>
+    <aura:attribute name="actions" type="Object" required="true"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="addedOnDate" type="String" access="private"/>
+    <aura:attribute name="isReviewPass" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isReferred" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="recordReviewMessage" type="String" access="private"/>
+    <aura:attribute name="referringMessage" type="String" access="private"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <div class="mrrli-container slds-grid slds-wrap slds-grid_align-spread slds-is-relative">
+        <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}"/>
+        <div class="{!'mrrli-info slds-col' + if($Browser.isPhone, ' slds-size_1-of-1', '')}">
+            <div class="mrrli-info-top">
+                <div>{!v.participantEnrollment.Name}</div>
+                <div>
+                    <c:rrStatusInformer status="{!v.isReviewPass}" title="{!v.recordReviewMessage}"/>
+                </div>
+                <div>
+                    <c:rrStatusInformer status="{!v.isReferred}" title="{!v.referringMessage}"/>
+                </div>
+            </div>
+            <div class="mrrli-info-bottom">
+                <div>{!v.participantEnrollment.Patient_ID__c}</div>
+                <aura:if isTrue="{! or(!empty(v.participantEnrollment.Participant_Name__c), !empty(v.participantEnrollment.Participant_Surname__c))}">
+                    <div>{! v.participantEnrollment.Participant_Name__c + ' ' + v.participantEnrollment.Participant_Surname__c}</div>
+                </aura:if>
+                <div>{!v.addedOnDate}</div>
+                <div>{!v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
+            </div>
+        </div>
+
+        <div class="{!'mrrli-buttons slds-col' + if($Browser.isPhone, ' slds-size_1-of-1', '')}">
+            <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Pending Referral'}">
+                <button class="apollo-btn tertiary red" onclick="{!c.excludeFromReferring}"
+                        disabled="{!v.actions.excludeFromReferring.disabled}"
+                        title="{!v.actions.excludeFromReferring.disableReason}">
+                    {!v.actions.excludeFromReferring.label}
+                </button>
+                <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
+                        disabled="{!v.actions.referToThisStudy.disabled}"
+                        title="{!v.actions.referToThisStudy.disableReason}">
+                    {!v.actions.referToThisStudy.label}
+                </button>
+            </aura:if>
+            <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}">
+                <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
+                        disabled="{!v.actions.undoExcludeFromReferring.disabled}"
+                        title="{!v.actions.undoExcludeFromReferring.disableReason}">
+                    {!v.actions.undoExcludeFromReferring.label}
+                </button>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

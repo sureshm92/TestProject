@@ -1,0 +1,209 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .rp-body{
+    padding-top: 30px;
+    padding-bottom: 100px;
+}
+
+.THIS .rp-status-detail{
+    margin-left: 15px;
+    margin-top: 30px;
+}
+
+.THIS .path-item-detail-panel{
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #F2F2F2;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.THIS .line-div{
+    flex: 0 0 30px;
+    border-left: 2px solid;
+    position: relative;
+    top: 30px;
+}
+
+.THIS .line-div .state-ico-wrapper{
+    border: 2px solid;
+    border-radius: 50%;
+    line-height: 1;
+    position: relative;
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: -14px;
+}
+
+.THIS .line-div .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+    fill: white;
+}
+
+.THIS .pe-state-row:last-child .line-div{
+    border: none;
+}
+
+
+.THIS .line-div.neutral{
+    border-left-color: #999999;
+}
+
+.THIS .line-div.success{
+    border-left-color: #55C200;
+}
+
+
+.THIS .line-div.in_progress{
+    border-left-color: #FF9301;
+}
+
+.THIS .line-div.failure{
+    border-left-color: #E20000;
+}
+
+.THIS .state-ico-wrapper.neutral{
+    background-color: white;
+    border-color: #999999;
+}
+
+.THIS .state-ico-wrapper.success{
+    background-color: #55C200;
+    border-color: #55C200;
+}
+
+.THIS .state-ico-wrapper.in_progress{
+    background-color: #FF9301;
+    border-color: #FF9301;
+}
+
+.THIS .state-ico-wrapper.failure{
+    background-color: #E20000;
+    border-color: #E20000;
+}
+
+.THIS .path-item-detail-panel{
+    min-height: 80px;
+}
+
+.THIS .path-item-detail-panel .title{
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.THIS .path-item-detail-panel.success .title{
+    color: #63C900;
+}
+
+.THIS .path-item-detail-panel.failure .title{
+    color: #FF283F;
+}
+
+.THIS .path-item-detail-panel.in_progress .title{
+    color: #FF9300;
+}
+
+.THIS .path-item-detail-panel.neutral .title{
+    color: #999999;
+}
+
+
+.THIS .rp-status-form{
+    margin: -5px -10px 0;
+}
+
+.THIS .rp-status-form .rrs-container{
+    width: 100%;
+}
+
+.THIS .rp-status-form .rr-form-element,
+.THIS .rp-save-btn{
+    margin-top: 15px;
+}
+
+.THIS .rp-save-btn{
+    min-width: 65px;
+}
+
+.THIS .pe-state-row.current .path-item-detail-panel .title{
+    font-weight: 600;
+}
+
+.THIS .pe-state-row.current .path-item-detail-panel.neutral .title{
+    color: black;
+}
+
+.THIS .rp-status-btns{
+}
+
+.THIS .rp-status-btns button{
+    margin-top: 15px;
+    width: 100%;
+    min-width: auto;
+}
+
+.THIS .pe-history{
+    margin-top: 20px
+}
+
+.THIS .pe-history > .title{
+    color: #7F888D!important;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 14px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.THIS .pe-history .info{
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.THIS .pe-history .info.first{
+    font-weight: 600;
+}
+
+.THIS .pe-history > .date{
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .pe-history .history-item + .history-item{
+    margin-top: 2px;
+}
+
+.THIS .info.green{
+    color: #00C221;
+}
+
+.THIS .info.orange{
+    color: #FF9300;
+}
+
+.THIS .info.red{
+    color: #FF283F;
+
+}
+
+.THIS .rp-max-length{
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /*color: #297DFD;*/
+    font-size: 13px;
+    line-height: 16px;
+}
+.THIS .label.changed{
+    color: #297dfd;
+}
+.THIS .rp-please-contact{
+    font-size: 12px;
+}

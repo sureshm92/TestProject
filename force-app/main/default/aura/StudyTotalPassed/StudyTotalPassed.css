@@ -1,0 +1,80 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.study-statistics-block{
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+
+.THIS .shift-left-container{
+    position: relative;
+    left: -2px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.THIS .statistics-section {
+    border-left: 2px solid #D9D9D9;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    /*justify-content: center*/;
+    flex: 1 1 0;
+    align-items: flex-start;
+}
+
+.THIS .statistics-section .number,
+.THIS .statistics-section .percent {
+    color: #2B3A42;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 44px;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.THIS .statistics-section .percent{
+    display: flex;
+    align-items: center;
+}
+.THIS .statistics-section .number {
+    color: #9014FE;
+}
+
+.THIS .statistics-section .percent svg {
+    margin-right: 5px;
+    vertical-align: top;
+}
+
+.THIS .statistics-section .total-label,
+.THIS .statistics-section .percent-label{
+    padding-top: 5px;
+    line-height: 16px;
+}
+
+.THIS .statistics-section .total-label{
+    margin-right: 20px;
+}
+
+.THIS .statistics-section .pe-total{
+    max-width: 130px;
+    margin-right: 15px;
+}
+
+.THIS .statistics-section .pe-passed{
+    max-width: 220px;
+}
+
+@media (max-width: 768px){
+    .THIS .statistics-section .number,
+    .THIS .statistics-section .percent{
+        font-size: 30px;
+    }
+
+    .THIS .statistics-section .percent svg {
+        width: 26px;
+        height: 26px;
+    }
+}

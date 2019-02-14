@@ -1,0 +1,108 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS{
+    font-family: "Proxima Nova";
+}
+
+.THIS.mode-block {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    color: white;
+    vertical-align: middle;
+    padding: 9px 13px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    /*box-shadow: 0 8px 30px 0 rgba(0,0,0,0.25);*/
+    user-select: none;
+    z-index: 2100;
+    width: 184px;
+}
+
+.THIS.mode-block span{
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+.THIS .chevron{
+    width: 12px;
+    opacity: 0.8;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.THIS .mode-menu{
+    visibility: visible;
+    position: absolute;
+    top: 50px;
+    color: black;
+    left: 0;
+    width: 250px;
+    border: 1px solid #B5B5B5;
+    border-radius: 0 0 4px 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 50px 0 rgba(0,0,0,0.3);
+    padding: 7px 5px;
+    transition: 0.5s;
+    z-index: 10010;
+}
+
+.THIS .mode-menu:focus{
+    outline: none;
+}
+
+.THIS .mode-menu.hide{
+    opacity: 0;
+    visibility: hidden;
+}
+
+.THIS .mode-menu li {
+    color: #000000;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+.THIS .mode-label{
+    max-width: 140px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+}
+
+.THIS .mode-menu li.active {
+    color: white;
+    border-radius: 4px;
+    background-color: #297DFD;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 4px 8px 0 rgba(41,125,253,0.3);
+    padding: 3px 10px;
+}
+
+
+@media all and (max-width: 550px) {
+    .THIS.mode-block{
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        padding: 0 14px;
+    }
+
+    .THIS .mode-label{
+        max-width: inherit;
+    }
+
+    .THIS .mode-menu{
+        top: 30px;
+    }
+}

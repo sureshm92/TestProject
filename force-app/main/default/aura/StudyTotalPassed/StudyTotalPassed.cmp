@@ -1,0 +1,31 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="StudyTotalPassed">
+
+    <!-- attributes: -->
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="statistics" type="List"/>
+    <aura:attribute name="class" type="String"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{! and (v.userMode == 'PI', !empty(v.statistics))}">
+        <div class="{!'study-statistics-block ' + if(!empty(v.class), v.class, '')}">
+            <div class="shift-left-container">
+                <aura:iteration items="{!v.statistics}" var="statisticsItem">
+                    <div class="statistics-section">
+                        <div class="number">{!statisticsItem.total}</div>
+                        <div class="total-label"><aura:unescapedHtml value="{!statisticsItem.totalTitle}"/></div>
+                        <div class="percent">
+                            <c:RRPercentIco value="{!statisticsItem.percentPassed}" color="#9014FE"/>
+                            <span>{!statisticsItem.percentPassed}%</span>
+                        </div>
+                        <div class="percent-label">({!statisticsItem.passed}) <aura:unescapedHtml value="{!statisticsItem.passedTitle}"/></div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

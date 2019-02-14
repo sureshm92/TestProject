@@ -1,0 +1,20 @@
+/**
+ * Created by Kryvolap on 15.09.2018.
+ */
+.THIS.sdli-container{
+    padding-top: 20px;
+}
+
+.THIS.sdli-container .sdli-label{
+    font-size: 17px;
+    color: #424242;
+}
+
+.THIS.sdli-container .sdli-label.changed{
+    color: black;
+    font-weight: bold;
+}
+.THIS.sdli-container .sdli-select{
+    width: 100%;
+    font-size: 14px;
+}

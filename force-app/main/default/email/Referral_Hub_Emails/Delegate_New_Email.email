@@ -1,0 +1,30 @@
+<messaging:emailTemplate subject="{!$Label.Email_Header_Your_Access_Level_Has_Been_Changed}"
+                         recipientType="Contact"
+                         relatedToType="Contact"
+                         language="{!relatedTo.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Your_Access_Level_Has_Been_Changed}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Delegate_Permission_Changed}"
+                         signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
+                              buttonURL="{!$Label.CommunityURL}"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Your_Access_Level_Has_Been_Changed}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_Delegate_Permission_Changed}"
+                             signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"
+                                  buttonURL="{!$Label.CommunityURL}"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody> 
+
+</messaging:emailTemplate>

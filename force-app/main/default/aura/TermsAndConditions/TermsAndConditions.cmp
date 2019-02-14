@@ -1,0 +1,52 @@
+<aura:component description="TermsAndConditions" implements="forceCommunity:availableForAllPageTypes" controller="TermsAndConditionsRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="tcData" type="Object"/>
+    <aura:attribute name="isPortalTC" type="Boolean" default="true"/>
+    <aura:attribute name="privacyPolicyId" type="String"/>
+    <aura:attribute name="ctpId" type="String"/>
+    <aura:attribute name="titleCode" type="String"/>
+    <aura:attribute name="title" type="String"/>
+
+    <!-- component body: -->
+    <div>
+        <c:RRSpinner size="medium" aura:id="mainSpinner"/>
+        <div class="rr-body-content rr-min-body-height">
+            <div class="rr-width-limiter side-padding">
+                <div class="main-header">{!v.title}</div>
+                <aura:if isTrue="{!v.tcData}">
+                    <aura:if isTrue="{!v.tcData.tc}">
+                        <ui:outputRichText class="slds-text-longform" value="{!v.tcData.tc.T_C_Text__c}"/>
+                    </aura:if>
+                </aura:if>
+            </div>
+            <c:RRBottomBar contentClass="tc-bottom-bar-content">
+                <div class="tc-accept-text">
+                    <aura:if isTrue="{!empty(v.privacyPolicyId)}">
+                        <aura:if isTrue="{!v.tcData.isAccepted}">
+                            {!$Label.c.PG_TC_Terms_and_Conditions_accepted + ' '} <ui:outputDateTime value="{!v.tcData.acceptedDate}"/>
+                            <aura:set attribute="else">
+                                {!$Label.c.PG_TC_H_Do_You_Accept}
+                            </aura:set>
+                        </aura:if>
+                    </aura:if>
+                </div>
+                <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
+                    <button class="apollo-btn primary" onclick="{!c.doGoBack}">{!$Label.c.BTN_OK}</button>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!!v.isPortalTC}">
+                            <button class="apollo-btn secondary" onclick="{!c.doGoBack}">{!$Label.c.BTN_Back}</button>
+                        </aura:if>
+                        <button class="apollo-btn primary" onclick="{!c.doAccept}">{!$Label.c.BTN_I_Accept}</button>
+                    </aura:set>
+                </aura:if>
+            </c:RRBottomBar>
+
+        </div>
+        <!--div class="rr-width-limiter" style="padding: 0 15px; margin-bottom: 72px">
+            <c:CommunityFooter />
+        </div-->
+    </div>
+</aura:component>

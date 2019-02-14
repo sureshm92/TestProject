@@ -1,0 +1,21 @@
+<!--Created by D.Yasinskyi on 22.03.2018-->
+<aura:component description="rrDatapicker">
+    <!--=============================================================================================================-->
+    <aura:attribute name="value"            type="Date" required="true"/>
+    <aura:attribute name="prepopulateDate"  type="String" default="false"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="id"           type="String"/>
+    <aura:attribute name="class"        type="String"/>
+    <!--=============================================================================================================-->
+
+    <div id="{!v.id}" class="{!'rrd-container ' + v.class}">
+
+        <div class="{!'rr-error-message' + if(v.errorMessage == '', ' slds-hide','')}">{!v.errorMessage}</div>
+
+        <ui:inputDate aura:id="dataField" class="{!if(v.errorMessage != '', 'rr-input-error','')}"  label="" value="{!v.value}" displayDatePicker="true" change="{!c.handleChange}"/>
+    </div>
+</aura:component>

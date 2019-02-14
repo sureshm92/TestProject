@@ -1,0 +1,89 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Reports" implements="forceCommunity:availableForAllPageTypes" controller="ReportsRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="reportsFilterData" type="Object"/>
+
+    <aura:attribute name="study" type="String" default=""/>
+    <aura:attribute name="studySite" type="String" default=""/>
+    <aura:attribute name="referringClinic" type="String" default=""/>
+    <aura:attribute name="dateRange" type="String" default=""/>
+
+    <aura:attribute name="mrrPassedFailed" type="List"/>
+    <aura:attribute name="preScreeningPassedFailed" type="List"/>
+    <aura:attribute name="studyOrientationAttVsNotAtt" type="List"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.study}" action="{!c.doUpdateAnalytics}"/>
+    <aura:handler name="change" value="{!v.studySite}" action="{!c.doUpdateAnalytics}"/>
+    <aura:handler name="change" value="{!v.referringClinic}" action="{!c.doUpdateAnalytics}"/>
+    <aura:handler name="change" value="{!v.dateRange}" action="{!c.doUpdateAnalytics}"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+    <div class="{!'rr-min-body-height ' + if(empty(v.trialId), 'stand-alone-mode', '')}">
+        <aura:if isTrue="{!v.isInitialized}">
+            <aura:if isTrue="{!empty(v.trialId)}">
+                <c:RRNavigationPath> 
+                    <c:RRNPathItem label="{!$Label.c.PG_Report_L_Reports}"/>
+                </c:RRNavigationPath>
+            </aura:if>
+            <!-- filter panel -->
+            <c:FilterPanel >
+                <aura:if isTrue="{!empty(v.trialId)}">
+                    <c:rrSelect value="{!v.study}" options="{!v.reportsFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"/>
+                </aura:if>
+                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                    <c:rrSelect value="{!v.studySite}" options="{!v.reportsFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"/>
+                </aura:if>
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <c:rrSelect value="{!v.referringClinic}" options="{!v.reportsFilterData.referringClinics}" placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"/>
+                </aura:if>
+                <c:rrSelect value="{!v.dateRange}" options="{!v.reportsFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}"/>
+
+                <aura:set attribute="buttons">
+                    <button class="apollo-btn tertiary" onclick="{!c.doExport}">
+                        <c:RRIcon iconName="icon-save"/>{!$Label.c.BTN_Export}
+                    </button>
+                    <!--button class="apollo-btn tertiary" onclick="{!c.doExportHCPE}">
+                        <c:RRIcon iconName="icon-save"/>Export HCP's
+                    </button-->
+                </aura:set>
+            </c:FilterPanel>
+
+            <div class="rr-white-panel padding" style="margin-top: -15px">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                        <div class="db-header">{!$Label.c.PG_Report_L_Chart_reviews}</div>
+                        <div class="db-container">
+                            <c:Donut dataList="{!v.mrrPassedFailed}" segmentLabel="{!$Label.c.PG_DB_L_category}" valueLabel="{!$Label.c.PG_Report_L_records}" totalLabel="{!$Label.c.PG_Report_L_records}"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                        <div class="db-header">{!$Label.c.PG_Report_L_Pre_eligibility_screenings}</div>
+                        <div class="db-container">
+                            <c:Donut dataList="{!v.preScreeningPassedFailed}" segmentLabel="{!$Label.c.PG_DB_L_category}" valueLabel="{!$Label.c.PG_Report_L_records}" totalLabel="{!$Label.c.PG_Report_L_records}"/>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                        <div class="db-header">{!$Label.c.PG_Report_L_Study_orientation_attendance}</div>
+                        <div class="db-container">
+                            <c:Donut dataList="{!v.studyOrientationAttVsNotAtt}" segmentLabel="{!$Label.c.PG_DB_L_category}" valueLabel="{!$Label.c.PG_Report_L_records}" totalLabel="{!$Label.c.PG_Report_L_records}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+
+</aura:component>

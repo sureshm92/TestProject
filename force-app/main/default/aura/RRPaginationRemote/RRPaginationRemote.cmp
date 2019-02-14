@@ -1,0 +1,30 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRPaginationRemote">
+    <aura:attribute name="entriesOnPage" type="Integer"/>
+    <aura:attribute name="currentPage" type="Integer"/>
+    <aura:attribute name="allRecordsCount" type="Integer"/>
+    <aura:attribute name="totalPages" type="Integer" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doCalcTotalPages}"/>
+    <aura:handler name="change" value="{!v.allRecordsCount}" action="{!c.doCalcTotalPages}"/>
+
+    <aura:if isTrue="{!v.totalPages > 0}">
+        <div class="rrp-container">
+            <div class="buttons">
+                <button class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }" onclick="{!c.doPrevPage}">
+                    <c:RRIcon iconName="icon-chevron-left" color="#333333"/>
+                </button>
+                <button class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }"
+                        onclick="{!c.doNextPage}">
+                    <c:RRIcon iconName="icon-chevron-right" color="#333333"/>
+                </button>
+            </div>
+            <div class="info">
+            {!v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + v.totalPages}
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

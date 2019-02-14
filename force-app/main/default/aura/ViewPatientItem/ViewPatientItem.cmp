@@ -1,0 +1,198 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ViewPatientItem" controller="ReferralProfileRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
+    <aura:attribute name="actions" type="Object"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="peStatusesPathList" type="List"/>
+    <aura:attribute name="peStatusStateMap" type="Map"/>
+    <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="showPath" type="Boolean"/>
+    <aura:attribute name="peAdditionalName" type="String"/>
+    <aura:attribute name="singlePatientView" type="Boolean" default="false"/>
+    <aura:attribute name="detailCollapsed" type="Boolean" default="true"/>
+    <aura:attribute name="changeStatusBtnList" type="List"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.detailCollapsed}" action="{!c.doLoadHistoryOnOpen}"/>
+
+    <!-- component body: -->
+    <div class="rr-white-panel padding" style="position: relative">
+        <c:RRSpinner aura:id="vpiSpinner" size="medium" showSpinner="false"/>
+        <aura:if isTrue="{!v.pe.Participant__c}">
+            <aura:if isTrue="{!v.singlePatientView}">
+                <div class="vpi-title link" onclick="{!c.doGoToStudyWorkspace}">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
+                <aura:set attribute="else">
+                    <div class="vpi-title link" onclick="{!c.doGoToProfile}">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</div>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!empty(v.pe.Participant__c)}">
+            <div class="vpi-title">{!v.pe.Patient_ID__c + if(v.peAdditionalName, ' (' + v.peAdditionalName + ')', '')}</div>
+        </aura:if>
+        <div class="vpi-clip-item-borders">
+            <div class="vpi-fields">
+
+                <aura:if isTrue="{!v.userMode != 'Participant'}">
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
+                        <div class="value">
+                            <c:RRLink label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                                      page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                                      maxWidth="250px"/>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                        <div class="value">
+                            <c:RRLink label="{!v.pe.Study_Site__r.Name}"
+                                      maxWidth="250px"
+                                      page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c + '&amp;tab=tab-referred-study-sites'}"/>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Referring_provider}</div>
+                        <div class="value">
+                            <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
+                                <c:RRLink label="{!v.pe.HCP__r.HCP_Contact__r.Name}"
+                                          page="{!'clinic-profile?id=' + v.pe.HCP__r.HCP_Contact__r.AccountId}"
+                                          maxWidth="250px"/>
+                                <aura:set attribute="else">{!v.pe.Referral_Source__c}</aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
+
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Investigator_Name}</div>
+                        <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                    </div>
+
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.Investigator_phone}</div>
+                        <div class="value">{!v.pe.PI_Contact__r.Phone}</div>
+                    </div>
+
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Site_Name}</div>
+                        <div class="value">{!v.pe.Study_Site__r.Site__r.Name}</div>
+                    </div>
+
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Site_Address}</div>
+                        <div class="value">{!v.pe.Study_Site__r.Site__r.BillingStreet}</div>
+                    </div>
+
+                </aura:if>
+
+                <div class="vpi-field">
+                    <div class="label">{!$Label.c.PE_Referral_Id}</div>
+                    <div class="value">{!v.pe.Name}</div>
+                </div>
+
+                <div class="vpi-field">
+                    <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                    <div class="value"><ui:outputDate value="{!v.pe.Referred_Date__c}"/></div>
+                </div>
+
+                <aura:if isTrue="{!v.pe.Participant__c}">
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Patient_Id}</div>
+                        <div class="value">{!v.pe.Patient_ID__c}</div>
+                    </div>
+                    <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Country}</div>
+                        <div class="value">{!v.pe.Participant__r.Mailing_Country__c}</div>
+                    </div>
+                    <aura:if isTrue="{!!empty(v.pe.Participant__r.Mailing_State__c)}">
+                        <div class="vpi-field">
+                            <div class="label">{!$Label.c.PE_State}</div>
+                            <div class="value">{!v.pe.Participant__r.Mailing_State__c}</div>
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(v.pe.Participant__r.Mailing_Zip_Postal_Code__c)}">
+                        <div class="vpi-field">
+                            <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
+                            <div class="value">{!v.pe.Participant__r.Mailing_Zip_Postal_Code__c}</div>
+                        </div>
+                    </aura:if>
+                </aura:if>
+
+            </div>
+        </div>
+        <aura:if isTrue="{!v.showPath}">
+            <div class="vpi-path-panel">
+                <div class="path-section">
+                    <div class="slds-grid vpi-path">
+                        <aura:iteration items="{!v.pathItems}" var="pathItem">
+                            <div class="{!'slds-col width-basis vpi-state ' + pathItem.state + if(pathItem.isCurrent, ' current', '')}">
+                                <div class="slds-grid">
+                                    <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.left}"></div>
+                                    <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}" style="position: relative">
+                                        <div class="state-ico-wrapper">
+                                            <aura:if isTrue="{!pathItem.state == 'success'}">
+                                                <c:RRIcon iconName="icon-check"/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!pathItem.state == 'failure'}">
+                                                <c:RRIcon iconName="icon-close"/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!pathItem.state == 'in_progress'}">
+                                                <c:RRIcon iconName="icon-minus"/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!pathItem.state == 'neutral'}">
+                                                <c:RRIcon iconName="icon-minus"/>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vri-state-label">{!pathItem.name}</div>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </div>
+                <div class="{!'collapse-section ' + if(v.detailCollapsed, '', ' opened')}">
+                    <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.detailCollapsed}">
+                        <c:PatientStatusPathDetail aura:id="statusDetail" pathItems="{!v.pathItems}" peId="{!v.pe.Id}"/>
+                    </c:RRCollapse>
+                </div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!and(v.userMode == 'PI', v.pe.Participant_Status__c == 'Referral Sent to PI')}">
+            <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
+                <aura:iteration items="{!v.changeStatusBtnList}" var="btn">
+                    <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
+                        <button class="{!'apollo-btn tertiary ' + btn.style}"
+                                disabled="{!v.actions.changePEStatusByPI.disabled}"
+                                title="{!v.actions.changePEStatusByPI.disableReason}"
+                                data-status-name="{!btn.status}"
+                                onclick="{!c.doChangeStatus}">
+                            {!btn.name}
+                        </button>
+                    </div>
+                </aura:iteration>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!and(!v.showPath, !and(v.userMode == 'PI', v.pe.Participant_Status__c == 'Referral Sent to PI'))}">
+            <div>
+                <c:ParticipantStatus pEnrollment="{!v.pe}"/>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

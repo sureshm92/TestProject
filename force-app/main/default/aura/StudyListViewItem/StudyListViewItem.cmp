@@ -1,0 +1,53 @@
+<!--
+ - Created by D.Yasinskyi on 08.02.2018.
+ -->
+<aura:component description="StudyListViewItem">
+
+    <!-- attributes: -->
+    <aura:attribute name="currentStudy" type="Object" required="true"/>
+    <aura:attribute name="userMode" type="String"  description="HCP/PI/Patient"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="actionsList" type="List"/>
+
+
+    <!-- component body: -->
+    <div class="rr-white-panel slvi-container">
+        <div class="slvi-top-container slvi-section">
+            <!-- Name: -->
+            <div class="slvi-name-section">
+                <div class="study-name">
+                    <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
+                </div>
+                <!-- Status: -->
+                <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
+                    {!v.currentStudy.trialRecruitmentStatusLabel}
+                </div>
+            </div>
+            <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
+            <div class="slvi-objective-section">
+                <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
+                <div class="objective-link">
+                    <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
+                </div>
+            </div>
+        </div>
+
+        <!-- PI statistics: -->
+        <c:StudyTotalPassed userMode="{!v.userMode}" statistics="{!v.currentStudy.statistics}" class="slvi-section"/>
+        
+        <!-- Display buttons for available actions: -->
+        <aura:if isTrue="{!!empty(v.currentStudy.studyActions)}">
+            <div class="slds-grid slvi-buttons slvi-section">
+                <aura:iteration items="{!v.currentStudy.studyActions}" var="action">
+                    <div class="{!'slds-col btn-wrapper' + if(action.disabled, ' disabled', '')}" title="{!action.disableReason}">
+                        <div id="{!action.id}" class="{!'slvi-btn' + if(action.disabled, ' disabled', '')}" onclick="{!c.doAction}">
+                            <div class="btn-content">
+                                <c:RRIcon iconName="{!action.iconName}"/>{!action.label}
+                            </div>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

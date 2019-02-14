@@ -1,0 +1,312 @@
+.THIS.sdas-main-container {
+    padding-bottom: 32px;
+}
+
+.THIS.sdas-sub-tab {
+    height: 40px;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
+    padding-top: 12px;
+}
+
+.THIS.sdas-sub-tab a {
+    margin-right: 12px;
+    color: #297DFD;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+/*=======================================ABOUT STUDY==================================================================*/
+.THIS.sdas-main-container #info-left {
+    height: 100%;
+    padding-top: 32px;
+}
+
+.THIS.sdas-main-container #info-right {
+    padding-top: 32px;
+    height: 100%;
+}
+
+/*====================================================================================================================*/
+.THIS .sdas-category {
+    color: #000000;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px
+}
+
+.THIS .sdas-category svg {
+    height: 44px;
+    width: 44px;
+    margin-right: 5px;
+    flex-shrink: 0;
+    fill: black;
+}
+
+.THIS .sdas-text {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+    white-space: pre-line;
+    margin-bottom: 10px;
+}
+
+.THIS .sdas-sub-category {
+    color: #000000;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 36px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.THIS .sdas-separator {
+    height: 8px;
+    width: 100px;
+    border-top: 2px solid #297DFD;
+    border-bottom: 2px solid #297DFD;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.THIS .sdas-full-separator {
+    height: 2px;
+    width: 100%;
+    border: 1px solid #D9D9D9;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.THIS .sdas-criteria-block {
+
+}
+
+.THIS .sdas-criteria-dropdown {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/*======================================MAP===========================================================================*/
+.THIS .sdas-map {
+    margin-top: 2em;
+}
+
+.THIS .sdas-map-header {
+    position: relative;
+    min-height: 80px;
+    width: 100%;
+    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 21px 10px;
+}
+
+.THIS .sdas-map-header label {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.625em;
+    margin-left: 16px;
+}
+
+.THIS .sdas-map-header .apollo-primary-button {
+    min-height: 40px;
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    margin-top: -20px;
+}
+
+.THIS .sdas-map-footer {
+    border: 1px solid #CCCCCC;
+    position: relative;
+}
+
+.THIS .sdas-map-footer .sdas-footer-info {
+    background-color: white;
+    padding: 17px;
+    border-bottom: 2px solid #CCCCCC;
+}
+
+.THIS .sdas-footer-info .name {
+    color: #000000;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+
+.THIS .sdas-footer-info .address {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .address .address-1,
+.THIS .address .address-2,
+.THIS .address .address-3 {
+
+}
+
+.THIS .sdas-map-footer .sdas-footer-button {
+    display: flex;
+    float: right;
+    padding: 4px;
+    color: #FFFFFF;
+    font-size: 10px;
+    line-height: 10px;
+}
+
+.THIS .sdas-map-footer .sdas-footer-button#Preferred {
+    background-color: #7100D5;
+}
+
+.THIS .sdas-map-footer .sdas-footer-button#Activated {
+    background-color: #337BFC;
+}
+
+/*=====================================RIGHT-INFO=====================================================================*/
+
+.THIS .sdas-main-info {
+    overflow: visible;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 3px 1px 0 rgba(0, 0, 0, 0.05), 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+    padding: 16px;
+}
+
+.THIS .sdas-main-info .title {
+    color: #7F888D;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    text-transform: uppercase;
+}
+
+.THIS .sdas-main-info .text {
+    color: #000000;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+
+.THIS .sdas-question {
+    box-sizing: border-box;
+    border: 1px solid #E1E6E8;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5em;
+    padding: 16px;
+}
+
+.THIS .sdas-question .question-logo,
+.THIS .sdas-question .question-body {
+    display: table-cell;
+}
+
+.THIS .sdas-question .question-body {
+    padding-left: 10px;
+}
+
+.THIS .question-body .question-title {
+    color: #000000;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.THIS .question-body .question-text {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    white-space: normal;
+}
+
+.THIS .question-body .question-link {
+    color: #297DFD;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+.THIS .question-link svg {
+    width: 15px;
+    padding-bottom: 2px;
+    margin-left: 2px;
+}
+
+.THIS .study-sites-footer{
+    border: 1px solid #F2F2F2;
+    border-radius: 0 0 5px 5px;
+    background-color: #F2F2F2;
+    box-shadow: 0 8px 30px 0 rgba(0,0,0,0.15);
+    padding: 20px;
+}
+
+.THIS .tc-link, .THIS .tc-link:hover, .THIS .tc-link:active{
+    color: white;
+    margin: 0 5px;
+    text-decoration: underline;
+}
+
+/*=====================================PRIMARY-BUTTONS================================================================*/
+.THIS.sdas-primary-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5000;
+    min-height: 72px;
+    width: 100%;
+    border: 1px solid #D9D9D9;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
+    text-align: center;
+    padding-top: 16px;
+}
+
+.THIS .rr-bottom-bar .bar-content{
+    text-align: center;
+}
+
+.THIS .rr-bottom-bar .bar-content .apollo-btn{
+    width: 250px;
+}
+
+.THIS .collapse-wrapper{
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.THIS .collapse-wrapper + .collapse-wrapper{
+    margin-top: 20px;
+}
+
+.THIS .collapse-wrapper .rr-collapse-panel .body{
+    white-space: pre-wrap;
+}
+
+.THIS .criteria-body{
+    margin: 10px 5px 0 5px;
+}
+
+@media all and (max-width: 768px){
+    .THIS .rr-bottom-bar .bar-content .apollo-btn{
+        width: 150px;
+    }
+}

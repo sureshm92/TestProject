@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CheckLanguage" abstract="true" extensible="true" controller="CommunityFacadeRemote">
+    <!-- css and js: -->
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="languageChecked" type="Boolean" default="false"/>
+
+    {!v.body}
+
+</aura:component>

@@ -1,0 +1,10 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailActionBtnText" access="global">
+    <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
+    <apex:attribute name="buttonURL" type="String" description="" access="global"/>
+
+    {!buttonLabel}: {!if(buttonURL == null, $Label.CommunityURL, buttonURL)}
+</apex:component>

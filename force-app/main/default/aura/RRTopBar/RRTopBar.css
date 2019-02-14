@@ -1,0 +1,49 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.top-bar {
+    background-color: #FFFFFF;
+    box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);
+    position: fixed;
+    top: 0;
+    z-index: 2000;
+    margin: 0 auto;
+}
+
+.THIS .navigation-bar{
+    border-bottom: 1px solid #F2F2F2;
+}
+
+.THIS .navigation-bar .rr-icon-default{
+    width: 14px;
+    height: 14px;
+    fill: #297DFD;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
+
+.THIS .navigation-bar a{
+    color: #297DFD;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 16px;
+    text-decoration: none;
+}
+
+.THIS .header{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*border-bottom: 1px solid #D9D9D9;*/
+}
+
+.THIS .header .sub-title{
+    color: #666666;
+    font-size: 13px;
+}
+
+.THIS .header .title{
+    color: #000000;
+    font-size: 17px;
+    font-weight: 600;
+}

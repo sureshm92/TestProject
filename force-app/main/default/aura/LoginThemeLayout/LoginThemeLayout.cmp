@@ -1,0 +1,32 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="LoginThemeLayout" implements="forceCommunity:themeLayout" extends="c:CheckLanguage">
+
+    <!-- attributes: -->
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="subTitle" type="String"/>
+    <aura:attribute name="translatedTitle" type="String"/>
+    <aura:attribute name="translatedSubTitle" type="String"/>
+
+    <!--handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- component body: -->
+    <aura:if isTrue="{!v.languageChecked}">
+        <div class="all-content" style="{!'background-image: url(' + $Resource.rr_community_icons + '/doctor-bg_small.png), linear-gradient(135deg, #25095b 0%,#176ba4 100%);'}">
+            <div class="body-cell">
+                <div class="logo-block">
+                    <div class="login-title">{!v.translatedTitle}</div>
+                    <div class="login-sub-title">{!v.translatedSubTitle}</div>
+                    <img src="{!$Resource.rr_community_icons + '/logo_3x.png'}" class="main-logo"/>
+                </div>
+                <div class="body-content">
+                    <div class="body-components">{!v.body}</div>
+                </div>
+            </div>
+        </div>
+        <c:CookiesInfo/>
+    </aura:if>
+
+</aura:component>

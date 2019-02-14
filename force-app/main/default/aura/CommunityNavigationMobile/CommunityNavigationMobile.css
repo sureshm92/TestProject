@@ -1,0 +1,84 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS{
+    font-family: "Proxima Nova";
+}
+
+.THIS .nav-item{
+    color: white;
+    padding: 10px;
+    padding-top: 15px;
+
+}
+
+.THIS .nav-item:hover, .THIS .nav-item:active{
+    background-color: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+
+.THIS .nav-item.active{
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.THIS .nav-menu{
+    height: 100%;
+    width: t(sideMenuWidth);
+    position: relative;
+    left: t('-' + sideMenuWidth);
+    overflow-y: auto;
+    background: linear-gradient(to right, #230559 0%,#036ca7 100%);
+    transition: t(sideMoveSpeed);
+}
+
+
+
+.THIS .nav-menu.show{
+    left: 0;
+    box-shadow: 2px 0 8px 1px rgba(0,0,0,0.25);
+}
+
+.THIS.overlay{
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: t(sideMoveSpeed);
+    pointer-events: none;
+}
+
+.THIS.cnm-z-order, .THIS .cnm-z-order{
+    z-index: 10000;
+}
+
+.THIS .navigation-icon {
+    margin-right: 12px;
+    margin-left: 10px;
+    pointer-events: none;
+    opacity: 0.8;
+    width: 18px;
+    flex-shrink: 0;
+}
+
+.THIS .nav-menu-item-content{
+    display: flex;
+    align-items: center;
+}
+.THIS .nav-menu-item-content span{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media all and (max-width: 550px) {
+    .THIS.overlay.multi-mode{
+        top: 80px;
+    }
+}
+
+
+.THIS.overlay.dark{
+    background: rgba(255, 255, 255, 0.7);
+    pointer-events: auto;
+}

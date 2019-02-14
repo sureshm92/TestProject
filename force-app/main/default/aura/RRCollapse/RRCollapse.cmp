@@ -1,0 +1,14 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRCollapse">
+    <aura:attribute name="isCollapsed" type="Boolean" default="true"/>
+    <aura:attribute name="label" type="String"/>
+    <div class="{!'rr-collapse-panel ' + if(v.isCollapsed, ' collapsed', '')}">
+        <div class="label-block">
+            <div class="label" onclick="{!c.doSwitch}"><c:RRIcon iconName="icon-chevron-right"/> {!v.label}</div>
+        </div>
+        <div class="body">{!v.body}</div>
+    </div>
+</aura:component>

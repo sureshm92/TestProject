@@ -1,0 +1,50 @@
+<!--Created by D.Yasinskyi on 01.03.2018-->
+<aura:component description="ReferringClinicItem">
+    <!--=============================================================================================================-->
+    <aura:attribute name="clinicWrapper"                type="Object" required="true"/>
+    <aura:attribute name="userMode"                     type="String" description="HCP / PI / Participant"/>
+    <aura:attribute name="filterByStudy"                type="Boolean" default="false"/>
+    <aura:attribute name="parent"                       type="Aura.Component"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="enrollmentsByStudy" type="List"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--=============================================================================================================-->
+
+    <div class="rci-main-container">
+
+        <div class="rci-header">
+
+            <c:RRLink label="{!v.clinicWrapper.clinic.Name}" page="{!'clinic-profile?id=' + v.clinicWrapper.clinic.Id}" class="rci-name"/>
+            <div class="rci-info">
+                <div class="rci-inline">
+                    <!--•-->{!$Label.c.PG_RSS_L_Address}:&nbsp;
+                        {! if(v.clinicWrapper.clinic.BillingStreet == null,'',v.clinicWrapper.clinic.BillingStreet + ' ')}
+                        {! if(v.clinicWrapper.clinic.BillingCity == '','',v.clinicWrapper.clinic.BillingCity + ' ')}
+                        {! if(empty(v.clinicWrapper.clinic.BillingPostalCode),'',v.clinicWrapper.clinic.BillingPostalCode + ' ')}
+                </div>
+                <div class="rci-inline">• {!$Label.c.PG_RSS_L_Phone}:&nbsp;{!v.clinicWrapper.clinic.Phone}</div>
+            </div>
+        </div>
+
+        <aura:if isTrue="{!v.filterByStudy}">
+
+            <aura:iteration items="{!v.enrollmentsByStudy}" var="item">
+
+                <div class="rci-study-name">{!item.studyName}</div>
+
+                <aura:iteration items="{!item.enrollments}" var="enrollment">
+                    <c:ReferringClinicEnrollmentItem enrollmentData="{!enrollment}" userMode="{!v.userMode}" parent="{!v.parent}"/>
+                </aura:iteration>
+            </aura:iteration>
+
+            <aura:set attribute="else">
+                <aura:iteration items="{!v.clinicWrapper.enrollments}" var="item">
+                    <c:ReferringClinicEnrollmentItem enrollmentData="{!item}" userMode="{!v.userMode}" parent="{!v.parent}"/>
+                </aura:iteration>
+            </aura:set>
+        </aura:if>
+
+    </div>
+
+</aura:component>

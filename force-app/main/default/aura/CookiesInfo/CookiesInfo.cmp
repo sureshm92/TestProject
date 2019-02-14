@@ -1,0 +1,27 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CookiesInfo">
+
+    <!-- attributes: -->
+    <aura:attribute name="resultInfoText" type="String"/>
+    <aura:attribute name="visible" type="Boolean" default="false"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!v.visible}">
+        <div class="ci-bottom-aria">
+            <div class="ci-panel">
+                <span>
+                    <aura:unescapedHtml value="{!v.resultInfoText}"/>
+                </span>
+            </div>
+            <div class="ci-icon" onclick="{!c.doCloseCookiesInfo}">
+                <c:RRIcon  iconName="icon-close" />
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,26 @@
+<!--Created by D.Yasinskyi on 12.04.2018-->
+<aura:component description="rrFilterPill">
+
+    <!-- attributes: -->
+    <aura:attribute name="number" type="String" default="0"/>
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="isActive" type="Boolean" default="false"/>
+    <aura:attribute name="showChevron" type="Boolean" default="true"/>
+    <aura:attribute name="value" type="String" default="undefined value"/>
+    <aura:attribute name="thisBtnValue" type="String"/>
+
+    <!-- component body: -->
+    <div class="{!'fp-container' + if(v.thisBtnValue == v.value || v.isActive, ' active', '')}" onclick="{!c.toggleButton}">
+        <div class="fp-number-line">
+            <div class="number">{!v.number}</div>
+            <aura:if isTrue="{!v.showChevron}">
+                <div class="fp-chevron">
+                    <div class="text">{!$Label.c.PG_DB_View_Now}</div>
+                    <c:RRIcon class="icon" iconName="icon-chevron-right"/>
+                </div>
+            </aura:if>
+        </div>
+        <div class="label">{!if(empty(v.title), v.body, v.title)}</div>
+    </div>
+
+</aura:component>

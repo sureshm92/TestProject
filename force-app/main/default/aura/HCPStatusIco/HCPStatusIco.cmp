@@ -1,0 +1,12 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="HCPStatusIco">
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="statusLabel" type="String"/>
+    <aura:attribute name="overrideStatusLabel" type="String"/>
+    <aura:handler name="change" value="{!v.status}" action="{!c.doStatusChanged}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doStatusChanged}"/>
+    <div class="{!'status-' + v.status}">{!v.statusLabel}</div>
+</aura:component>

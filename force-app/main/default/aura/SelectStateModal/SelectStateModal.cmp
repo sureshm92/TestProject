@@ -1,0 +1,4 @@
+<!--Created by D.Yasinskyi on 11.06.2018.-->
+<aura:component description="SelectStateModal" controller="SelectStateModalController">
+    <!-- deprecated! -->
+</aura:component>

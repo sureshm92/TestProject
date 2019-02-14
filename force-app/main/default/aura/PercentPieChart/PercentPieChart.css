@@ -1,0 +1,83 @@
+.THIS .disable{
+    display: none;
+}
+
+.THIS .pie-chart {
+    font-family: "Open Sans", Arial;
+}
+.THIS .pie-chart--wrapper {
+    width: 400px;
+    margin: 30px auto;
+    text-align: center;
+}
+.THIS .pie-chart__pie {
+    display: inline-block;
+    vertical-align: top;
+}
+.THIS .pie-chart__pie {
+    position: relative;
+    height: 200px;
+    width: 200px;
+    margin: 10px auto 35px;
+}
+.THIS .pie-chart__pie::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+    background: #EEE;
+    border-radius: 50%;
+    top: 50px;
+    left: 50px;
+}
+.THIS .pie-chart__pie::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    -webkit-box-shadow: 0 0 3px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 3px 4px rgba(0, 0, 0, 0.1);
+    margin: 220px auto;
+}
+
+.THIS .slice {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    clip: rect(0px, 200px, 200px, 100px);
+    -webkit-animation: bake-pie 1s;
+    animation: bake-pie 1s;
+}
+.THIS .slice span {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    clip: rect(0px, 200px, 200px, 100px);
+}
+
+.THIS.pie-charts {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+@media (max-width: 500px) {
+    .THIS.pie-charts {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+}

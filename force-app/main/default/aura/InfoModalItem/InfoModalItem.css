@@ -1,0 +1,20 @@
+.THIS.imi-container {
+    text-align: left;
+    border-top: 2px solid #F2F2F2;
+    padding-left: 8px;
+    padding-top: 8px;
+    margin-top: 10px;
+}
+
+.THIS.imi-container .imi-title {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+}
+
+.THIS.imi-container .imi-subtitle {
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}

@@ -1,0 +1,44 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.rrp-container {
+    text-align: center;
+    padding-top: 20px;
+}
+.THIS.rrp-container .buttons .previous-btn,
+.THIS.rrp-container .buttons .next-btn {
+    height: 25px;
+    width: 35px;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border-collapse: collapse;
+    border: 0.5px solid #B5B5B5;
+    background-color: #FFFFFF;
+    line-height: 0;
+}
+.THIS .previous-btn.disabled,
+.THIS .next-btn.disabled{
+    opacity: 0.6;
+    pointer-events: none;
+}
+.THIS.rrp-container .buttons .previous-btn svg,
+.THIS.rrp-container .buttons .next-btn svg {
+    height: 11px;
+    width: 14px;
+}
+.THIS.rrp-container .buttons .previous-btn {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.THIS.rrp-container .buttons .next-btn {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.THIS.rrp-container .info{
+    color: #000000;
+    font-size: 14px;
+    line-height: 22px;
+    padding-top: 4px;
+}

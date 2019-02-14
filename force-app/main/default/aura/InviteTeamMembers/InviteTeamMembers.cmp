@@ -1,0 +1,85 @@
+<!--Created by D.Yasinskyi on 02.05.2018-->
+<aura:component controller="InviteTeamMembersController" description="InviteTeamMembers">
+    <!--deprecated component-->
+
+
+    <!--&lt;!&ndash;=============================================================================================================&ndash;&gt;-->
+    <!--<aura:attribute name="userMode" type="String" required="true" description="HCP / PI / Participant"/>-->
+    <!--<aura:attribute name="show" type="Boolean" default="false" required="true"/>-->
+    <!--<aura:attribute name="options" type="Object[]" required="true"/>-->
+    <!--<aura:attribute name="parentComponent" type="Aura.Component" required="true"/>-->
+    <!--&lt;!&ndash;=============================================================================================================&ndash;&gt;-->
+    <!--<aura:attribute name="delegateDetailList" type="List" access="private"/>-->
+    <!--<aura:attribute name="teamMember" type="Object" access="private"/>-->
+    <!--&lt;!&ndash;=============================================================================================================&ndash;&gt;-->
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <!--<aura:handler name="change" value="{!v.show}" action="{!c.doInit}"/>-->
+    <!--&lt;!&ndash;=============================================================================================================&ndash;&gt;-->
+
+    <!--<c:Popup aura:id="reimbursmentModal" title="Invite Team Members" size="large"-->
+             <!--showFooter="true" showModal="{!v.show}">-->
+        <!--<div class="itm-container">-->
+            <!--<div class="itm-header">-->
+                <!--The team member you invite will have access to all the clinical trials that you have accepted.-->
+            <!--</div>-->
+
+            <!--<div class="itm-body slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">-->
+
+                <!--<div class="itm-body-input slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">-->
+                    <!--<c:rrInput valueString="{!v.teamMember.name}" placeholder="Enter First Name" label="First Name"-->
+                               <!--required="true" errorMessage="{!v.teamMember.nameErrorMessage}"/>-->
+                <!--</div>-->
+
+                <!--<div class="itm-body-input slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">-->
+                    <!--<c:rrInput valueString="{!v.teamMember.lastName}" placeholder="Enter Last Name" label="Last Name"-->
+                               <!--required="true" errorMessage="{!v.teamMember.lastNameErrorMessage}"/>-->
+                <!--</div>-->
+
+                <!--<div class="itm-body-input slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">-->
+                    <!--<c:rrInput valueString="{!v.teamMember.email}" placeholder="Enter Email address" label="Email"-->
+                               <!--required="true" errorMessage="{!v.teamMember.emailErrorMessage}"/>-->
+                <!--</div>-->
+
+                <!--<div class="itm-body-input slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">-->
+                    <!--<c:rrSelect value="{!v.teamMember.access}" options="{!v.options}" placeholder="Select access"-->
+                                <!--label="Study access rights" required="true" errorMessage="{!v.teamMember.accessErrorMessage}" useSentenceFont="false"/>-->
+                <!--</div>-->
+
+            <!--</div>-->
+
+            <!--<div class="itm-access-info slds-grid slds-wrap">-->
+                <!--<aura:iteration items="{!v.delegateDetailList}" var="item">-->
+
+                    <!--<div class="slds-col itm-access-name">-->
+                        <!--<div class="itm-access-info-name">{!item.name}</div>-->
+                    <!--</div>-->
+                    <!--<div class="slds-col itm-access-description slds-size_1-of-1 slds-medium-size_10-of-12">-->
+                        <!--<div class="itm-access-info-description">-->
+                                <!--{!item.description}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<aura:if isTrue="{! !empty(item.additionalDescription)}">-->
+                        <!--<div class="itm-access-info-additional-description slds-col">-->
+                            <!--<div>-->
+                                <!--<div class="itm-access-marker">Can:&nbsp;</div>-->
+                                    <!--{!item.additionalDescription.can}-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<div class="itm-access-marker">Can not:&nbsp;</div>-->
+                                    <!--{!item.additionalDescription.canNot}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</aura:if>-->
+
+                <!--</aura:iteration>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<aura:set attribute="footerButtons">-->
+            <!--<c:RRSpinner aura:id="footerSpinner"/>-->
+            <!--<button class="apollo-btn primary" id="1" onclick="{!c.inviteMembers}">Send Invite</button>-->
+            <!--<button class="apollo-btn tertiary" id="0" onclick="{!c.inviteMembers}">Cancel</button>-->
+        <!--</aura:set>-->
+    <!--</c:Popup>-->
+
+</aura:component>

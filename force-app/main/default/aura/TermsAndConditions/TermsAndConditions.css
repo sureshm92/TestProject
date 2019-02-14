@@ -1,0 +1,25 @@
+.THIS .rr-body-content{
+    padding-bottom: 100px;
+}
+
+.THIS .main-header {
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 64px;
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: 15px;
+}
+
+.THIS .tc-accept-text {
+    color: #666666;
+    margin-right: auto;
+}
+
+.THIS .rr-bottom-bar .bar-content{
+    justify-content: right;
+}
+
+.THIS .tc-bottom-bar-content{
+    justify-content: space-between!important;
+}

@@ -1,0 +1,10 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRNotification">
+    <div class="notification-block">
+        <c:RRIcon color="white" iconName="icon-notification" class="notification"/>
+        <div class="amount">2</div>
+    </div>
+</aura:component>

@@ -1,0 +1,33 @@
+<!--Created by D.Yasinskyi on 11.04.2018-->
+
+<aura:component controller="ShareModalController" description="ShareModal">
+
+    <!-- attributes: -->
+    <aura:attribute name="hcpe" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="targetEmail" type="String"/>
+
+    <!-- methods: -->
+    <aura:method name="show" action="{!c.doShow}">
+        <aura:attribute name="hcpe" type="Object" access="public"/>
+    </aura:method>
+    <aura:method name="hide" action="{!c.doHide}"/>
+
+    <!-- component body: -->
+    <c:Popup aura:id="shareModal" title="{!$Label.c.PG_SHR_Title}" size="small">
+        <div class="modal-dialog-body">
+            {!$Label.c.PG_SHR_Body}
+        </div>
+        <div class="s-input">
+            <div class="rr-form-element">
+                <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
+                <c:rrInput valueString="{!v.targetEmail}"/>
+            </div>
+        </div>
+        <aura:set attribute="footerButtons">
+            <c:RRSpinner aura:id="spinner"/>
+            <button class="apollo-btn tertiary" id="cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <button class="apollo-btn primary" id="share" onclick="{!c.doShare}">{!$Label.c.BTN_Share}</button>
+        </aura:set>
+    </c:Popup>
+</aura:component>

@@ -1,0 +1,83 @@
+.THIS.as-container {
+    position: relative;
+    padding-bottom: 100px;
+}
+
+.THIS.as-container .as-password .rr-form-element + .rr-form-element {
+     margin-top: 0;
+}
+
+.THIS.as-container .as-email,
+.THIS.as-container .as-password
+ {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.THIS.as-container .as-email-preference
+{
+    margin-top: 30px;
+    position: relative;
+}
+
+.THIS.as-container .as-info,
+.THIS.as-container .as-language-switcher
+{
+    margin-top: 10px;
+}
+
+
+.THIS.as-container .as-privacy{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.THIS.as-container .as-title {
+    color: #000000;
+    font-size: 30px;
+    line-height: 36px;
+}
+
+.THIS.as-container .as-sub-title {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS.as-container .as-password .as-password-button {
+    margin-top: 20px;
+}
+
+.THIS .as-email-input,
+.THIS .as-password-input{
+    margin-top: -20px;
+}
+
+.THIS .as-email-input > *,
+.THIS .as-password-input > *{
+    margin-top: 20px;
+}
+
+
+
+.THIS .rr-link{
+    color: #297DFD;
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS .as-privacy-form textarea{
+    height: 200px;
+    margin-top: 30px;
+}
+.THIS .as-submit-button{
+    width: 100%;
+}
+.THIS .as-email-pref-item{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.THIS .ah-toggle{
+    flex: inherit;
+}

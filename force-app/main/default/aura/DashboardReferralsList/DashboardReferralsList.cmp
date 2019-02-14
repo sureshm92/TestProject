@@ -1,0 +1,46 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="DashboardReferralsList">
+
+    <!-- attributes:-->
+    <aura:attribute name="peList" type="List"/>
+    <aura:attribute name="isAcceptence" type="Boolean" default="true"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <!-- component body -->
+    <aura:iteration items="{!v.peList}" var="item">
+        <div class="db-list-item">
+            <aura:if isTrue="{!v.isAcceptence}">
+                <button class="apollo-btn tertiary green rr-small-down-hide"
+                        disabled="{!item.actions.changePEStatusByPI.disabled}"
+                        title="{!item.actions.changePEStatusByPI.disableReason}"
+                        onclick="{!c.doAccept}"
+                        data-pe-id="{!item.data.Id}">
+                    {!$Label.c.BTN_Accept}
+                </button>
+            </aura:if>
+            <c:RRLink label="{!item.data.Participant__r.First_Name__c + ' ' + item.data.Participant__r.Last_Name__c}" page="{!'referral-profile?id=' + item.data.Id}"/>
+            <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
+                {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.HCP__r.HCP_Contact__r.Name}<br/>
+                <aura:set attribute="else">
+                    {!' ' + $Label.c.PG_DRL_L_referred_from + ' ' + item.data.Referral_Source__c}
+                </aura:set>
+            </aura:if>
+            for <c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
+            <aura:if isTrue="{!v.isAcceptence}">
+                <div class="rr-small-up-hide btn-block">
+                    <button class="apollo-btn tertiary green"
+                            disabled="{!item.actions.changePEStatusByPI.disabled}"
+                            title="{!item.actions.changePEStatusByPI.disableReason}"
+                            onclick="{!c.doAccept}"
+                            data-pe-id="{!item.data.Id}">
+                        {!$Label.c.BTN_Accept}
+                    </button>
+                </div>
+            </aura:if>
+        </div>
+    </aura:iteration>
+
+</aura:component>

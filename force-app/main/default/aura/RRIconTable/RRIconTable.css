@@ -1,0 +1,37 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.rr-icons-table tr td, .THIS.rr-icons-table tr td{
+    border: solid 1px gray;
+}
+
+.THIS .icon-panel{
+    border: solid 1px #e3e3e3;
+    margin: 3px;
+    display: inline-block;
+    width:150px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.THIS .icon-title{
+    color: #3f3f3f;
+    text-align: center;
+}
+
+.THIS .percent-block{
+    margin: 10px 20px 10px 10px;
+    border: solid 1px #e3e3e3;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.THIS .percent-block svg{
+    margin-right: 5px;
+}
+
+.THIS h2{
+    padding-top: 25px;
+    padding-bottom: 10px;
+}

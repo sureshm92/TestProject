@@ -1,0 +1,24 @@
+<!--
+ - Created by new on 07.03.2018.
+ -->
+<aura:component description="RRTabSetItem">
+    <!--=============================================================================================================-->
+    <aura:attribute name="currentTab" type="String" required="true"/>
+    <aura:attribute name="tabId"            type="String" required="true"/>
+    <aura:attribute name="iconName"         type="String" required="true"/>
+    <aura:attribute name="title"            type="String" required="true"/>
+    <aura:attribute name="studyId" type="String"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="iconColor"        type="String" default="#666666"/>
+    <aura:attribute name="tabClass"         type="String"/>
+    <aura:attribute name="isDisabled"       type="Boolean" default="false"/>
+    <!--=============================================================================================================-->
+    <aura:registerEvent name="tabSelection" type="c:TabSetItemSelectionEvent"/>
+    <!--=============================================================================================================-->
+
+    <div id="{!v.tabId}" class="{!'ts-tab' + if(v.currentTab == v.tabId, ' selected','') + if(v.isDisabled, ' disabled','')}" onclick="{!c.selectTab}">
+        <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/>
+        <label>{!v.title}</label>
+    </div>
+
+</aura:component>

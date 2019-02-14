@@ -1,0 +1,37 @@
+.THIS.ml-container .section {
+    border: 1px solid #F2F2F2;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 24px 60px 0 rgba(0, 0, 0, 0.15);
+    margin: 30px;
+    padding: 50px 16px 50px 16px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.THIS.ml-container .section:hover {
+    color: #666666;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
+}
+
+.THIS.ml-container .section:active {
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.THIS.ml-container .info.icon svg {
+    height: 60px;
+    width: 60px;
+}
+
+.THIS.ml-container .info.title {
+    color: #000000;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 48px;
+}
+
+.THIS.ml-container .info.description {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+}

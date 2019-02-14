@@ -1,0 +1,153 @@
+<!--
+ - Created by Kryvolap on 12.10.2018.
+ -->
+
+<aura:component description="ApplicationHelp" controller="ApplicationHelpRemote">
+    <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doAfterScriptsLoaded}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="userMode" type="String" required="true"/>
+    <aura:attribute name="videoLink" type="String"  access="private" default=""/>
+    <aura:attribute name="userManual" type="String" access="private" default=""/>
+    <aura:attribute name="quickReference" type="String" access="private" default=""/>
+    <aura:attribute name="showTour" type="Boolean" access="private" default=""/>
+    <aura:attribute name="videoModalClicked" type="Boolean" access="private" default=""/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:OnboardingSlideTourStartupModeChanged" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.videoModalClicked}" action="{!c.stopVideo}"/>
+
+    <!-- actions: -->
+    <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction"/>
+
+    <!-- component body: -->
+    <div class="ah-main-container slds-grid slds-wrap">
+        <div class="slds-col slds-size--1-of-1 ah-main-panel slds-grid slds-wrap rr-white-panel">
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">
+                    {!$Label.c.PG_AH_H_Walkthrough_Login}
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                    <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                        <div class="ah-item-label">
+                            {!$Label.c.PG_AH_H_Show_Tour_On_Login}
+                        </div>
+                        <div class="ah-item-sublabel">
+                            {!$Label.c.PG_AH_T_Show_Tour_On_Login}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
+                        <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" messageToggleInactive="{!$Label.c.BTN_Off}"
+                                         class="ah-toggle" onchange="{!c.setTour}" checked="{!v.showTour}"
+                                         disabled="{!empty(v.showTour)}"/>
+                    </div>
+                </div>
+                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                    <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                        <div class="ah-item-label">
+                            {!$Label.c.PG_AH_H_Show_Tour_Now}
+                        </div>
+                        <div class="ah-item-sublabel">
+                            {!$Label.c.PG_AH_T_Show_Tour_Now}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7">
+                        <button class="apollo-btn tertiary ah-button" onclick="{!c.showTour}">
+                            {!$Label.c.BTN_Lets_Go}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">
+                    {!$Label.c.PG_AH_H_Reference_And_User_Guides}
+                </div>
+
+                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                    <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                        <div class="ah-item-label">
+                            {!$Label.c.PG_AH_H_Quick_Reference_Guide}
+                        </div>
+                        <div class="ah-item-sublabel">
+                            {!$Label.c.PG_AH_T_One_Page_Quick_Start_Guide}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7">
+                        <button class="apollo-btn tertiary ah-button" onclick="{!c.OpenQuickReference}">
+                            {!$Label.c.BTN_View}
+                        </button>
+                    </div>
+                </div>
+                <aura:if isTrue="{!true}">
+                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                        <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                            <div class="ah-item-label">
+                                {!$Label.c.PG_AH_H_User_Guide}
+                            </div>
+                            <div class="ah-item-sublabel">
+                                {!$Label.c.PG_AH_T_User_manual_with_further_details}
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7">
+                            <button class="apollo-btn tertiary ah-button" onclick="{!c.OpenGuide}">
+                                {!$Label.c.BTN_View}
+                            </button>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!!empty(v.videoLink)}">
+                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                    <div class="slds-col slds-size--1-of-1 ah-section-title">
+                        {!$Label.c.PG_AH_H_Video}
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                        <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                            <div class="ah-item-label">
+                                {!$Label.c.PG_AH_H_Watch_a_video_of_the_application_and_its_features}
+                            </div>
+                            <div class="ah-item-sublabel">
+                                {!$Label.c.PG_AH_T_Short_video_in_English_only} {!if($Browser.formFactor=='PHONE','',' (' + $Label.c.PG_AH_T_Best_viewed_in_Google_Chrome + ')')}
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7">
+                            <button class="apollo-btn tertiary ah-button" onclick="{!c.showVideo}">
+                                {!$Label.c.BTN_Watch}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            <!--<aura:if isTrue="{!v.userMode == 'Participant'}">-->
+            <!--<div class="slds-col slds-size&#45;&#45;1-of-1 slds-grid slds-wrap ah-section">-->
+            <!--<div class="slds-col slds-size&#45;&#45;1-of-1 ah-section-title">-->
+            <!--{!$Label.c.PG_AH_H_Language}-->
+            <!--</div>-->
+            <!--<div class="slds-col slds-size&#45;&#45;1-of-1 slds-grid slds-wrap ah-item-panel">-->
+            <!--<div class="slds-col slds-size&#45;&#45;2-of-3 slds-medium-size&#45;&#45;6-of-7">-->
+            <!--<div class="ah-item-label">-->
+            <!--{!$Label.c.PG_AH_H_Change_language}-->
+            <!--</div>-->
+            <!--<div class="ah-item-sublabel">-->
+            <!--&lt;!&ndash; maybe some text here? &ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="slds-col slds-size&#45;&#45;1-of-3 slds-medium-size&#45;&#45;1-of-7">-->
+            <!--<c:LanguageSwitcher/>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</aura:if>-->
+        </div>
+    </div>
+
+    <c:Popup aura:id="videoModal" title="" showFooter="false" showHeader="false" size="large" closeButtonClicked="{!v.videoModalClicked}">
+        <aura:if isTrue="{!!empty(v.videoLink)}">
+            <video id="video-tour" controls="controls" class="ah-video-iframe">
+                <source src="{!v.videoLink}" type="video/mp4"/>
+            </video>
+        </aura:if>
+    </c:Popup>
+
+</aura:component>

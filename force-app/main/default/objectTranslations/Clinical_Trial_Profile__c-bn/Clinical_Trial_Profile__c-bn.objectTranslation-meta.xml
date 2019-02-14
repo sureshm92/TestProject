@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <article>None</article>
+        <caseType>Nominative</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Nominative</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Nominative</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Nominative</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Genitive</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Genitive</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Genitive</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Genitive</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Objective</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Objective</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Objective</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Objective</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Locative</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Locative</caseType>
+        <plural>false</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>None</article>
+        <caseType>Locative</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <caseValues>
+        <article>Definite</article>
+        <caseType>Locative</caseType>
+        <plural>true</plural>
+        <value><!-- Clinical Trial Profile --></value>
+    </caseValues>
+    <fieldSets>
+        <label><!-- Fields To Translate --></label>
+        <name>FieldsToTranslate</name>
+    </fieldSets>
+    <layouts>
+        <layout>Clinical Trial Profile Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Descriptive Information --></label>
+            <section>Descriptive Information</section>
+        </sections>
+        <sections>
+            <label><!-- Enrollment Information --></label>
+            <section>Enrollment Information</section>
+        </sections>
+        <sections>
+            <label><!-- Recruitment Information --></label>
+            <section>Recruitment Information</section>
+        </sections>
+        <sections>
+            <label><!-- Recruitment Information 2 --></label>
+            <section>Recruitment Information 2</section>
+        </sections>
+        <sections>
+            <label><!-- Referral Limits --></label>
+            <section>Referral Limits</section>
+        </sections>
+        <sections>
+            <label><!-- Reimbursements --></label>
+            <section>Reimbursements</section>
+        </sections>
+        <sections>
+            <label><!-- T&amp;C --></label>
+            <section>T&amp;C</section>
+        </sections>
+        <sections>
+            <label><!-- Trial Status --></label>
+            <section>Trial Status</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel><!-- Clinical Trial Profile Name --></nameFieldLabel>
+</CustomObjectTranslation>

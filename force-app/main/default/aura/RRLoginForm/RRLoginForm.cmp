@@ -1,0 +1,70 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRLoginForm" implements="forceCommunity:availableForAllPageTypes" controller="RRLoginRemote">
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.initialize}"/>
+
+    <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
+    <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>
+    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login" />
+    <aura:attribute name="usernameLabel" type="String" required="false" default="{!$Label.c.PG_Login_F_User_Name}"/>
+    <aura:attribute name="passwordLabel" type="String" required="false" default="{!$Label.c.PG_Login_F_Password}"/>
+    <aura:attribute name="loginButtonLabel" type="String" required="false" default="{!$Label.c.BTN_Log_In}"/>
+    <aura:attribute name="expid" type="String" required="false" description="The branding experience ID" />
+
+    <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Forgot_your_password}"/>
+    <aura:attribute name="selfRegisterLabel" type="String" required="false" default="{!$Label.c.PG_Login_L_Not_a_member}"/>
+    <aura:attribute name="forgotPasswordUrl" type="String" required="false" default="/ForgotPassword"/>
+    <aura:attribute name="selfRegisterUrl" type="String" required="false" default="/SelfRegister"/>
+
+    <aura:attribute name="isUsernamePasswordEnabled" type="Boolean" access="private"/>
+    <aura:attribute name="isSelfRegistrationEnabled" type="Boolean" access="private"/>
+    <aura:attribute name="communityForgotPasswordUrl" type="String" access="private"/>
+    <aura:attribute name="communitySelfRegisterUrl" type="String" access="private"/>
+
+    <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
+    <aura:dependency resource="c:setStartUrl" type="EVENT"/>
+    <!-- Please uncomment -->
+    <aura:dependency resource="siteforce:registerQueryEventMap" type="EVENT"/>
+    <!-- -->
+    <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/>
+    <aura:handler event="c:setExpId" action="{!c.setExpId}"/>
+    <aura:dependency resource="c:setExpId" type="EVENT"/>
+
+    <div>
+        <aura:renderIf isTrue="{!v.isUsernamePasswordEnabled}">
+            <span>
+                <aura:renderIf isTrue="{!v.showError}">
+                    <div class="lg-error-alert">
+                        <ui:outputRichText value="{!'ERROR: ' + v.errorMessage}"/>
+                    </div>
+                </aura:renderIf>
+            </span>
+            <div class="lg-form-element">
+                <label>{!$Label.c.PG_Login_F_User_Name}</label>
+                <ui:inputText value="" aura:id="username" keyup="{!c.onKeyUp}" class="input sfdc_usernameinput sfdc" label="{!v.usernameLabel}" labelClass="assistiveText"/>
+            </div>
+
+            <div class="lg-form-element">
+                <label>{!$Label.c.PG_Login_F_Password}</label>
+                <ui:inputSecret value="" aura:id="password" keyup="{!c.onKeyUp}" class="input sfdc_passwordinput sfdc" label="{!v.passwordLabel}" labelClass="assistiveText"/>
+            </div>
+
+            <div style="height: 50px; margin-top: 30px">
+                <button class="apollo-btn primary" onclick="{!c.handleLogin}" style="width: 100%">{!$Label.c.BTN_Log_In}</button>
+            </div>
+
+            <div id="sfdc_forgot" class="sfdc">
+                <span><a href="{!if(v.communityForgotPasswordUrl == null, v.forgotPasswordUrl, v.communityForgotPasswordUrl)}">{!$Label.c.PG_Login_Link_Forgot}</a></span>
+                <aura:renderIf isTrue="{!v.isSelfRegistrationEnabled}">
+                    <span style="float:right" ><a href="{!if(v.communitySelfRegisterUrl == null, v.selfRegisterUrl, v.communitySelfRegisterUrl)}">{!v.selfRegisterLabel}</a></span>
+                </aura:renderIf>
+            </div>
+
+            <div class="rr-login-info-title" style="margin-top: 40px">{!$Label.c.PG_Login_T_This_Site_Optimized_For}</div>
+
+        </aura:renderIf>
+    </div>
+
+</aura:component>

@@ -1,0 +1,146 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS {
+    padding: 20px 30px 0 18px;
+}
+
+.THIS .path-item-detail-panel{
+    margin-bottom: 20px;
+}
+
+.THIS .line-div{
+    flex: 0 0 30px;
+    border-left: 2px solid;
+    position: relative;
+    top: 11px;
+}
+
+.THIS .line-div .state-ico-wrapper{
+    position: relative;
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: -14px;
+}
+
+.THIS .line-div .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+    fill: white;
+}
+
+.THIS .pe-state-row:last-child .line-div{
+    border: none;
+}
+
+
+.THIS .line-div.neutral{
+    border-left-color: #999999;
+}
+
+.THIS .line-div.success{
+    border-left-color: #55C200;
+}
+
+
+.THIS .line-div.in_progress{
+    border-left-color: #FF9301;
+}
+
+.THIS .line-div.failure{
+    border-left-color: #E20000;
+}
+
+.THIS .state-ico-wrapper.neutral{
+    background-color: white;
+    border-color: #999999;
+}
+
+.THIS .state-ico-wrapper.success{
+    background-color: #55C200;
+    border-color: #55C200;
+}
+
+.THIS .state-ico-wrapper.in_progress{
+    background-color: #FF9301;
+    border-color: #FF9301;
+}
+
+.THIS .state-ico-wrapper.failure{
+    background-color: #E20000;
+    border-color: #E20000;
+}
+
+.THIS .path-item-detail-panel{
+    min-height: 80px;
+}
+
+.THIS .path-item-detail-panel .title{
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.THIS .path-item-detail-panel.success .title{
+    color: #63C900;
+}
+
+.THIS .path-item-detail-panel.failure .title{
+    color: #FF283F;
+}
+
+.THIS .path-item-detail-panel.in_progress .title{
+    color: #FF9300;
+}
+
+.THIS .path-item-detail-panel.neutral .title{
+    color: #999999;
+}
+
+
+.THIS .pe-history{
+    margin-top: 20px
+}
+
+.THIS .pe-history > .title{
+    color: #7F888D!important;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 14px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.THIS .pe-history .info{
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.THIS .pe-history .info.first{
+    font-weight: 600;
+}
+
+.THIS .pe-history > .date{
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .pe-history .history-item + .history-item{
+    margin-top: 2px;
+}
+
+.THIS .info.green{
+    color: #00C221;
+}
+
+.THIS .info.orange{
+    color: #FF9300;
+}
+
+.THIS .info.red{
+    color: #FF283F;
+
+}

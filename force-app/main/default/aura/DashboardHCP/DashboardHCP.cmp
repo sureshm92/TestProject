@@ -1,0 +1,94 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="DashboardHCP">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="hcpData" type="Object"/>
+
+    <!-- component body: -->
+    <div class="rr-white-panel padding first-panel">
+        <div class="slds-grid slds-wrap db-section">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="db-header"><c:RRIcon iconName="referred-patient"/>{!$Label.c.PG_DBPI_L_Patients_Waiting_to_Be_Referred}</div>
+                <div class="db-list-item header">
+                    <c:RRLink page="medical-record-review-log?showPending=true" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
+                    <span>{!v.hcpData.waitingToBeReferred + ' ' + $Label.c.PG_DBPI_L_Patients_Waiting_to_Be_Referred_from_MRR}</span>
+                </div>
+                <aura:iteration items="{!v.hcpData.waitingToBeReferredList}" var="item">
+                    <div class="db-list-item">
+                        <button class="apollo-btn primary rr-small-down-hide"
+                                disabled="{!item.actions.referToThisStudy.disabled}"
+                                title="{!item.actions.referToThisStudy.disableReason}"
+                                onclick="{!c.doReferParticipant}"
+                                data-pe-id="{!item.data.Id}"
+                                data-trial-id="{!item.data.Study_Site__r.Clinical_Trial_Profile__c}">
+                            {!item.actions.referToThisStudy.label}
+                        </button>
+                        <!--c:RRLink label="{!item.data.Patient_ID__c}" page=""/--> {!item.data.Patient_ID__c}
+                        <aura:if isTrue="{!or(!empty(item.data.Participant_Name__c), !empty(item.data.Participant_Surname__c))}">
+                            ({!item.data.Participant_Name__c}{!' '}{!item.data.Participant_Surname__c})
+                        </aura:if>
+                        <br/>
+                        {!$Label.c.PG_DBPI_L_completed_for} <c:RRLink maxWidth="200px" label="{!item.data.Study_Site__r.Name}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                        {!$Label.c.PG_DBPI_L_for} <c:RRLink maxWidth="200px" label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                        <div class="rr-small-up-hide btn-block">
+                            <button class="apollo-btn primary"
+                                    disabled="{!item.actions.referToThisStudy.disabled}"
+                                    title="{!item.actions.referToThisStudy.disableReason}"
+                                    onclick="{!c.doReferParticipant}"
+                                    data-pe-id="{!item.data.Id}"
+                                    data-trial-id="{!item.data.Study_Site__r.Clinical_Trial_Profile__c}">
+                                {!item.actions.referToThisStudy.label}
+                            </button>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+                <div style="height: 30px" class="rr-large-up-hide"></div>
+                <div class="db-header centered">{!$Label.c.PG_DBPI_L_My_Patients_Referring_Status}</div>
+                <div class="db-hcp-chart">
+                    <c:Donut dataList="{!v.hcpData.referringStatus}" type="HCP"
+                             segmentLabel="{!$Label.c.PG_DB_L_category}"
+                             valueLabel="{!$Label.c.PG_DB_L_patients}"
+                             totalLabel="{!$Label.c.PG_DB_L_patients}" maxDonutWidth="257px"
+                             linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}" linkPage="my-patients?">
+                    </c:Donut>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-grid slds-wrap db-section2">
+        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+            <div class="rr-white-panel padding">
+                <div class="db-header centered">{!$Label.c.PG_DBPI_My_Patients_Acceptance_Status}</div>
+                <div class="db-hcp-chart">
+                    <c:Donut dataList="{!v.hcpData.acceptenceStatus}" type="HCP"
+                             segmentLabel="{!$Label.c.PG_DB_L_category}"
+                             valueLabel="{!$Label.c.PG_DB_L_patients}"
+                             totalLabel="{!$Label.c.PG_DB_L_patients_pre_qualified}" maxDonutWidth="257px"
+                             linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}" linkPage="my-patients?">
+                    </c:Donut>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+            <div class="rr-white-panel padding">
+                <div class="db-header centered">{!$Label.c.PG_DBPI_My_Patients_Enrollment_Status}</div>
+                <div class="db-hcp-chart">
+                    <c:Donut dataList="{!v.hcpData.enrollmentStatus}" type="HCP"
+                             segmentLabel="{!$Label.c.PG_DB_L_category}"
+                             valueLabel="{!$Label.c.PG_DB_L_patients}"
+                             totalLabel="{!$Label.c.PG_DB_L_patients_accepted}" maxDonutWidth="257px"
+                             linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}" linkPage="my-patients?">
+                    </c:Donut>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,78 @@
+.THIS.rssi-main-container {
+    box-sizing: border-box;
+    min-height: 85px;
+    border: 1px solid #F2F2F2;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
+    font-family: "Proxima Nova";
+    margin-bottom: 28px;
+    overflow: hidden;
+}
+.THIS .rssi-header-container {
+    display: flex;
+}
+
+.THIS .rssi-header-container .left{
+    float:left;
+    margin-right: auto;
+}
+
+.THIS .rssi-header-container .right{
+    float: right;
+    padding-top: 1rem;
+    padding-right: 17px;
+    padding-bottom: 12px;
+}
+
+.THIS.rssi-main-container .right div{
+    float: none;
+}
+.THIS.rssi-main-container .right .rssi-status{
+    color: #FFFFFF;
+    font-size: 10px;
+    line-height: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 4px;
+}
+.THIS.rssi-main-container .right .rssi-details{
+    margin-top: 5px;
+}
+
+.THIS .rssi-inline {
+    display: inline-block;
+}
+/*================================header===========*/
+.THIS .rssi-header::-webkit-scrollbar {
+    width: 0;
+}
+
+.THIS .rssi-header {
+    display: inline-grid;
+    padding: 17px;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.THIS .rssi-header .rssi-name {
+    color: #297DFD;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.THIS .rssi-header .rssi-info {
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .rssi-details {
+    color: #297DFD;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    cursor: pointer;
+}

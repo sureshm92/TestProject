@@ -1,0 +1,8 @@
+.THIS .mss-container {
+    width: 100%;
+    padding-bottom: 100px;
+}
+
+.THIS .mss-container .mss-header {
+    display: flex;
+}

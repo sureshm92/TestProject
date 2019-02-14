@@ -1,0 +1,215 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .white-panel.study{
+    margin-top: 25px;
+}
+
+.THIS .study-header{
+    color: #297DFD;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+    margin-top: 10px;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+
+.THIS .study-header span{
+    cursor: pointer;
+}
+
+.THIS .sponsor-name{
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 0 0 10px 17px;
+    font-weight: 400;
+}
+
+.THIS .study .info-section{
+    padding: 10px 5px 10px 17px;
+}
+
+.THIS .study .info-section .total-amount{
+    color: #9014FE;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 43px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.THIS .study .info-section .total-desc{
+    color: #666666;
+    font-size: 13px;
+    font-weight: 400;
+    display: inline-block;
+    line-height: 16px;
+}
+
+.THIS .study .info-section .percent{
+    display: inline-block;
+    margin: 0 0 0 10px;
+}
+
+.THIS .study .info-section .percent svg{
+    position: relative;
+    top: -9px;
+    margin-right: 5px;
+}
+
+.THIS .study .info-section .percent span{
+    color: #2B3A42;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 44px;
+}
+
+.THIS .study .info-section .patients-referred{
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.THIS .referring-physicians{
+    padding: 8px 17px 10px 17px;
+}
+
+.THIS .cp-item-section + .cp-item-section{
+    border-top: 1px solid #F2F2F2;
+
+}
+
+.THIS .clinic-profile-header{
+    color: #333333;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 30px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding-left: 17px;
+}
+
+.THIS .cp-clinic-fields-cutter{
+    overflow: hidden;
+    margin-left: 17px;
+
+}
+
+.THIS .clinic-fields{
+    position: relative;
+    left: -22px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.THIS .clinic-info-field{
+    border-left: 2px solid #D9D9D9;
+    padding-left: 20px;
+    vertical-align: top;
+    flex: 1 1 0;
+    min-width: 200px;
+    margin-bottom: 10px;
+}
+
+.THIS .clinic-info-field label{
+    color: #7F888D;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    text-transform: uppercase;
+}
+
+.THIS .clinic-info-field .value{
+    color: #000000;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+
+.THIS .clinic-fields .clinic-info-field:not(:last-child){
+}
+
+.THIS .physician.value{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 16px;
+    max-height: 32px;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+    padding-right: 10px;
+}
+
+.THIS .physician.value span{
+}
+
+.THIS .physician.value span:after{
+    margin-right: 5px;
+    content: ", ";
+}
+
+.THIS .physician.value span:last-child:after{
+    margin-right: 0;
+    content: none;
+}
+
+.THIS .study-groups{
+    display:grid;
+    grid-template-columns: 50% 50%;
+    margin-top: 5px;
+}
+
+.THIS .study-group-btn{
+    border: 1px solid #F2F2F2;
+    background-color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    color: #666666;
+    font-size: 14px;
+    line-height: 17px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 400;
+}
+
+.THIS .study-group-btn.active{
+    color: #424242;
+    font-weight: bold;
+    background-color: #F2F2F2;
+}
+
+.THIS .studies-tabs{
+    display: flex;
+    margin: 10px;
+    overflow-x: auto;
+}
+
+.THIS .studies-tabs li{
+    color: #297DFD;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+    padding: 0 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 90px;
+}
+
+.THIS .studies-tabs li.active{
+    font-weight: 600;
+    color: #424242;
+}
+
+.THIS .studies-tabs li:not(:last-child){
+    border-right: 2px solid #D9D9D9;
+}

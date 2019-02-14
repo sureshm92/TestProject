@@ -1,0 +1,66 @@
+<!--Created by D.Yasinsky on 15.03.2018.-->
+<aura:component description="rrInput">
+    <!--=============================================================================================================-->
+    <aura:attribute name="valueString"  type="String" required="true"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="placeholder"  type="String" default=""/>
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    <aura:attribute name="label"        type="String" default=""/>
+    <aura:attribute name="required"     type="Boolean" default="{!false}"/>
+    <aura:attribute name="disabled"     type="Boolean" default="{!false}"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="type"         type="String" default="text"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="showPassword" type="Boolean" default="{!false}" access="private"/>
+    <aura:attribute name="showPasswordInput" type="Boolean" default="{!true}" access="private"/>
+    <aura:attribute name="passwordIconColor" type="String" default="#999999"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="iconName"     type="String" default=""/>
+    <aura:attribute name="iconTitle"    type="String" default=""/>
+    <aura:attribute name="iconColor"    type="String" default="#999999"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="id"           type="String"/>
+    <aura:attribute name="class"        type="String"/>
+    <!--=============================================================================================================-->
+
+    <div id="{!v.id}" class="{!'rri-container ' + v.class}">
+
+        <aura:if isTrue="{! !empty(v.label)}">
+            <div class="rri-label">
+                <aura:if isTrue="{!v.required}"><div class="rri-error">*</div></aura:if>
+                <div class="{!if(empty(v.errorMessage), '', 'rri-error')}">{!v.label}</div>
+            </div>
+        </aura:if>
+
+        <div class="rri-body">
+            <aura:if isTrue="{! v.iconName != ''}">
+                <div class="rri-icon" title="{!'title= ' + if(v.iconTitle != '', v.iconTitle, v.placeholder)}">
+                    <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.type == 'password'}">
+                <div class="rri-password">
+                    <aura:if isTrue="{!v.showPasswordInput}">
+
+                        <lightning:input aura:id="rr-input" type="{!if(v.showPassword, 'text', 'password')}"
+                                         class="{!if(v.errorMessage != '', 'rr-input-error','')}" disabled="{!v.disabled}"
+                                         placeholder="{!v.placeholder}" value="{!v.valueString}" label="" name=""/>
+
+                        <div id="new" class="rri-show-password" onclick="{!c.togglePassword}">
+                            <c:RRIcon iconName="icon-view" color="{!v.passwordIconColor}"/>
+                        </div>
+
+                    </aura:if>
+                </div>
+                <aura:set attribute="else">
+                    <lightning:input aura:id="rr-input" type="{!v.type}" class="{!if(v.errorMessage != '', 'rr-input-error','')}"
+                                     disabled="{!v.disabled}"  placeholder="{!v.placeholder}" value="{!v.valueString}" label="" name=""/>
+                </aura:set>
+            </aura:if>
+        </div>
+
+        <div class="{!'rr-error-message' + if(v.errorMessage == '', ' slds-hide','')}">{!v.errorMessage}</div>
+
+    </div>
+</aura:component>

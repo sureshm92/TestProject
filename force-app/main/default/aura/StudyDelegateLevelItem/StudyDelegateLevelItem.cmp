@@ -1,0 +1,29 @@
+<!--
+ - Created by Kryvolap on 15.09.2018.
+ -->
+
+<aura:component description="StudyDelegateLevelItem">
+
+    <aura:attribute name="studyLevel" type="Object" required="true"/>
+    <aura:attribute name="options" type="List" required="true"/>
+    <aura:attribute name="prevValue" type="String" required="false" access="private"/>
+    <aura:attribute name="changedLevels" type="List"/>
+    <aura:attribute name="refreshTrigger" type="Boolean"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.studyLevel.delegateLevel}" action="{!c.onLevelChange}"/>
+    <aura:handler name="change" value="{!v.refreshTrigger}" action="{!c.doInit}"/>
+
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+
+    <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center sdli-container">
+        <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-5">
+            <c:rrSelect value="{!v.studyLevel.delegateLevel}" options="{!v.options}" class="sdli-select"/>
+        </div>
+        <div class="slds-col slds-size_3-of-5 slds-medium-size_4-of-5">
+            <span class="{!'sdli-label ' + if(equals(v.studyLevel.delegateLevel, v.prevValue),'','changed')}">{!v.studyLevel.trialName}</span>
+        </div>
+    </div>
+
+</aura:component>

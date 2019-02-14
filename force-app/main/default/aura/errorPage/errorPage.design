@@ -1,0 +1,8 @@
+<design:component >
+    <design:attribute name="header"                         label="Header"/>
+    <design:attribute name="errorNumber"                    label="Error number"/>
+    <design:attribute name="secondHeader"                   label="Second header"/>
+    <design:attribute name="reason"                         label="Reason"/>
+    <design:attribute name="reasonDescription"              label="Reason description"/>
+    <design:attribute name="additionalReasonDescription"    label="Additional description"/>
+</design:component>
