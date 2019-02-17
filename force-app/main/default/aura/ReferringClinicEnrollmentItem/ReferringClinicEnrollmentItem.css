@@ -1,0 +1,70 @@
+.THIS .rcei-inline {
+    display: inline-block;
+}
+
+/*================================body===========*/
+.THIS.rcei-body {
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    min-height: 62px;
+    border-top: 1px solid #F2F2F2;
+    border-bottom: 1px solid #F2F2F2;
+    background-color: #FFFFFF;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 17px;
+    padding-right: 17px;
+    font-family: "Proxima Nova";
+}
+
+.THIS.rcei-body .apollo-btn {
+    width: 100%;
+}
+
+/*================================body-left===========*/
+.THIS.rcei-body .rcei-left {
+    text-align: left;
+    min-width: 250px;
+}
+
+.THIS .rcei-left .rcei-info {
+    display: flex;
+}
+
+.THIS .rcei-left .rcei-name {
+    color: #666666;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+.THIS .rcei-left .rcei-status {
+    display: inline-table;
+    color: #FFFFFF;
+    font-size: 10px;
+    line-height: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 10px;
+    padding: 4px;
+}
+
+.THIS .rcei-left .rcei-details {
+    color: #297DFD;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+/*================================body-right===========*/
+.THIS.rcei-body .rcei-right {
+    text-align: right;
+    min-width: 250px;
+}
+
+@media (max-width: 850px) {
+    .THIS.rcei-body .apollo-btn {
+        margin-top: 10px;
+    }
+}

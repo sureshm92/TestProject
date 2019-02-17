@@ -1,0 +1,18 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.stand-alone-mode .fp-container{
+    padding-top: 10px;
+}
+
+.THIS .db-header{
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.THIS .db-container{
+    max-width: 380px;
+    margin: auto;
+    margin-bottom: 30px;
+}

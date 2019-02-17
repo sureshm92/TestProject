@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRBottomBar">
+    <aura:attribute name="contentClass" type="String" description="" default=""/>
+    <div class="rr-bottom-bar-area">
+        <div class="rr-bottom-bar">
+            <div class="rr-bottom-bar-line"></div>
+            <div class="{!'rr-width-limiter bar-content side-padding ' + v.contentClass}">
+                    {!v.body}
+            </div>
+        </div>
+    </div>
+    <!--div class="rr-bottom-bar-margin"></div-->
+</aura:component>

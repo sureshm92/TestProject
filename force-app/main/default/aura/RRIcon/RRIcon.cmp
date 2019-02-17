@@ -1,0 +1,15 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRIcon">
+
+    <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doAfterScriptsLoaded}"/>
+    <aura:attribute name="id" type="String" description="ID for the SVG element"/>
+    <aura:attribute name="class" type="String" description="CSS classname for the SVG element"/>
+    <aura:attribute name="iconName" type="String" description="Name of the icon"/>
+    <aura:attribute name="color" type="String"/>
+    <aura:attribute name="library" type="String" default="icons.svg"/>
+
+    <c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/' + v.library + '#' + v.iconName}" id="{!v.id}" class="{!v.class + ' rr-icon-default'}" color="{!v.color}"/>
+</aura:component>

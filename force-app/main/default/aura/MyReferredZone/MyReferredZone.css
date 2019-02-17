@@ -1,0 +1,14 @@
+.THIS.mrz-main-container,
+.THIS.mrz-filter {
+    color: #666666;
+    display: inline-block;
+    width: 100%;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS.mrz-filter .fp-filter-block input {
+    border: none;
+}

@@ -1,0 +1,68 @@
+<!--Created by D.Yasinskyi on 09.03.2018.-->
+<aura:component description="MyReferringClinicsView">
+    <!--=============================================================================================================-->
+    <aura:attribute name="clinicWrappers" type="List"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="filteredClinicWrappers" type="List" access="private"/>
+    <aura:attribute name="pendingPhysicians" type="Integer" default="0" access="private"/>
+    <aura:attribute name="totalClinics" type="Integer" default="0" access="private"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="totalPhysicians" type="Integer" default="0" access="private"/>
+    <aura:attribute name="physiciansActivated" type="Integer" default="0" access="private"/>
+    <aura:attribute name="physiciansDeactivated" type="Integer" default="0" access="private"/>
+    <aura:attribute name="physiciansOnHold" type="Integer" default="0" access="private"/>
+    <aura:attribute name="physiciansDeclined" type="Integer" default="0" access="private"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--=============================================================================================================-->
+    <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}"/>
+    <!--=============================================================================================================-->
+    <aura:if isTrue="{! !v.showSpinner}">
+        <div class="mrcv-container">
+            <div class="mrcv-header">
+                <div class="header-filter" onclick="{!c.showPendingPhysicans}">
+                    <div class="number">{!v.pendingPhysicians}</div>
+                    <label>{!$Label.c.PG_MRCV_L_Physicians} </label>
+                    <label>{!$Label.c.PG_MRCV_L_Pending_Approval} /</label>
+                    <label>{!$Label.c.PG_MRCV_L_Pending_Activation}</label>
+                </div>
+                <div class="header-info">
+                    <div class="header-line"></div>
+                    <div class="info-label">{!$Label.c.PG_MRCV_L_Summaries}</div>
+                    <div class="info-body">
+
+                        <div class="info-block total-clinics">
+                            <div class="number">{!v.totalClinics}</div>
+                            <div class="label">{!$Label.c.PG_MRCV_L_Referring_Clinics_Overall}</div>
+                        </div>
+
+                        <div class="vertical-separator"></div>
+
+                        <div class="info-block total-physicians">
+                            <div class="number">{!v.totalPhysicians}</div>
+                            <div class="label">{!$Label.c.PG_MRCV_L_Referring_Physicians_Overall}</div>
+                        </div>
+
+                        <div class="info-block">
+                            <div class="number"></div>
+                            <div class="label-1">{!v.physiciansActivated + ' '+ $Label.c.PG_MRCV_L_Physicians_Activated}</div>
+                            <div class="label-2">{!v.physiciansDeactivated + ' ' + $Label.c.PG_MRCV_L_Physicians_Deactivated}</div>
+                        </div>
+
+                        <div class="info-block">
+                            <div class="number"></div>
+                            <div class="label-1">{!v.physiciansOnHold + ' ' + $Label.c.PG_MRCV_L_Physicians_On_Hold}</div>
+                            <div class="label-2">{!v.physiciansDeclined + ' ' + $Label.c.PF_MRCV_L_Physicians_Declined }</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <aura:if isTrue="{! !empty(v.filteredClinicWrappers)}">
+                <c:StudyDetailReferringClinics clinicWrappers="{!v.filteredClinicWrappers}" userMode="PI"
+                                               filterByStudy="true"/>
+            </aura:if>
+        </div>
+    </aura:if>
+</aura:component>

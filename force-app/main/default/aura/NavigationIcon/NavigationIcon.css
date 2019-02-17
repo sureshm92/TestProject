@@ -1,0 +1,10 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.navigation-icon {
+    margin-right: 12px;
+    margin-left: 10px;
+    pointer-events: none;
+    opacity: 0.8;
+    width: 18px;
+}

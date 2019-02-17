@@ -1,0 +1,54 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="CookiesInfo">
+
+    <style>
+        .ci-hidden{
+            display: none;
+        }
+    </style>
+
+    <div class="ci-bottom-aria ci-hidden">
+        <div class="ci-panel">
+            <span class="ci-content-container">{!$Label.Cookies_Info_Text_First_Logon}</span>
+        </div>
+        <div class="ci-icon" onclick="closeCookiesInfo()">
+            <svg aria-hidden="true">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-close"></use>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        var isIE = navigator.appName === 'Microsoft Internet Explorer' ||  
+            !!(navigator.userAgent.match(/Trident/) || 
+                navigator.userAgent.match(/rv:11/)) || 
+            (typeof $.browser !== "undefined" && $.browser.msie === 1);
+        var paramId = 'RRCookies';
+        if(!isIE) paramId = 'LSKey[c]' + paramId;
+        var rrCookies = communityService.getCookie(paramId);
+        if(!rrCookies){
+            var contentSpan = $('.ci-content-container');
+            var infoText = contentSpan.text();
+            var linkCookies = '{!$Label.Link_Cookies}';
+            var urlCookies = '{!$Label.URL_Cookies}';
+            var linkPP = '{!$Label.Footer_Link_Privacy_Policy}';
+            var linkIAB = '{!$Label.Link_Interactive_Advertising_Bureau}';
+            var urlIAB = '{!$Label.URL_Interactive_Advertising_Bureau}';
+            infoText = infoText.replace('##cookiesURL', '<a class="ci-link" href="/s/cookie-policy">' + linkCookies + '</a>');
+            infoText = infoText.replace('##privacyPolicyURL', '<a class="ci-link" href="/s/privacy-policy">' + linkPP +'</a>');
+            infoText = infoText.replace('##interactiveAdvertisingBureauURL', '<a class="ci-link" href="' + urlIAB +'">' + linkIAB + '</a>');
+            contentSpan.html(infoText);
+            $('.ci-hidden').removeClass('ci-hidden');
+        }
+
+        function closeCookiesInfo() {
+            communityService.setCookie(paramId, 'agreed');
+            $('.ci-bottom-aria').addClass('ci-hidden');
+        }
+
+    </script>
+
+</apex:component>

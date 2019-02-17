@@ -1,0 +1,26 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
+
+    <!-- component body: -->
+    <ul class="{!'nav-menu ' + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
+        <aura:iteration items="{!v.menuItems}" var="item" >
+            <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">{!item.label}</li>
+        </aura:iteration>
+    </ul>
+
+    <aura:if isTrue="{!v.scrollRequired}">
+        <div class="{!'scroll-btn-container ' + v.scrollDirection}" onclick="{!c.doScroll}">
+            <aura:if isTrue="{!v.scrollDirection =='left'}">
+                <c:RRIcon iconName="icon-chevron-right"/>
+            </aura:if>
+            <aura:if isTrue="{!v.scrollDirection =='right'}">
+                <c:RRIcon iconName="icon-chevron-left"/>
+            </aura:if>
+        </div>
+    </aura:if>
+
+
+</aura:component>

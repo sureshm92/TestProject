@@ -1,0 +1,46 @@
+<aura:component controller="MyTeamRemote" description="MyTeam">
+
+    <!-- attributes: -->
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="delegates" type="List" access="private"/>
+    <aura:attribute name="delegateOptions" type="List" access="private"/>
+    <aura:attribute name="hasStudies" type="Boolean" access="private"/>
+    <aura:attribute name="saveInProgress" type="Boolean" default="false"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!--component body-->
+    <div class="mt-container">
+        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
+        <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges" saveInProgress="{!v.saveInProgress}"
+                                           userMode="{!v.userMode}"/>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1">
+                <div class="mt-button-container">
+                    <button class="apollo-btn primary mt-button" onclick="{!c.inviteTeamMembers}"
+                            title="{!if(v.hasStudies,'',$Label.c.PG_MT_T_Your_permissions_do_not_permit_this_action)}"
+                            disabled="{!not(v.hasStudies)}">
+                        {!$Label.c.PG_MT_BTN_Add_New_Team_Member}
+                    </button>
+                </div>
+                <div class="delegate-info-table-container">
+                    <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel">
+                <aura:iteration items="{!v.delegates}" var="delegate">
+                    <c:MyTeamItem delegate="{!delegate}" parentComponent="{!this}" options="{!v.delegateOptions}"
+                                  saveInProgress="{!v.saveInProgress}"/>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="EmtpyTheme" implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
+
+    <!-- component body: -->
+    <div class="rr-all-content">{!v.body}</div>
+    <c:CookiesInfo/>
+
+</aura:component>

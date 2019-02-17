@@ -1,0 +1,68 @@
+/**
+ * Created by Kryvolap on 16.09.2018.
+ */
+
+
+.THIS .personal-info-panel, .THIS .button-panel, .THIS .permissions-panel{
+    margin-top: 50px;
+}
+
+
+.THIS .panel-heading{
+    font-size: 24px;
+    color: black;
+}
+.THIS .personal-info-panel .personal-info-exists{
+     font-size: 13px;
+     color: #999999;
+     padding-left: 0px;
+     padding-right: 0px;
+     padding-top: 5px;
+     text-align: left;
+}
+
+.THIS .personal-info-panel .personal-info-exists:not(.found){
+    display: none;
+}
+
+@media all and (max-width: 767px){
+    .THIS .delegate-info-panel{
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+    }
+}
+
+.THIS .permissions-body{
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    border-color: #e1e6e8;
+}
+
+.THIS .ntm-button{
+    width: 100%;
+}
+.THIS .permissions-panel .panel-heading{
+    margin-bottom: 10px;
+}
+.THIS .sdli-container{
+    padding: 20px;
+}
+.THIS .sdli-container.hidden{
+    display: none;
+}
+@media all and (min-width: 768px){
+    .THIS .right-column{
+        border-left: 1px solid #D9D9D9 ;
+    }
+    .THIS .right-column{
+        min-height: 700px;
+        padding-left: 30px;
+    }
+    .THIS .delegate-info-panel{
+        margin-top: 30px;
+    }
+}
+
+.THIS .button-panel-mobile{
+    margin-bottom: 30px;
+}

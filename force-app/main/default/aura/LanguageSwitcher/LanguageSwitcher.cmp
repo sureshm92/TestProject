@@ -1,0 +1,36 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="LanguageSwitcher" controller="LanguageSwitcherRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="languageKey" type="String"/>
+    <aura:attribute name="languages" type="LabelValueItem[]"/>
+    <aura:attribute name="localeKey" type="String"/>
+    <aura:attribute name="locales" type="LabelValueItem[]"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--<aura:handler name="change" value="{!v.languageKey}" action="{!c.doChangeLanguage}"/>-->
+
+    <!-- component body -->
+    <div style="padding-top: 10px">
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative">
+            <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_Select_Locale}</div>
+                <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_Select_Preferred_Language}</div>
+                <c:rrSelect options="{!v.languages}" value="{!v.languageKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                <button class="apollo-btn primary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Preference}</button>
+            </div>
+        </div>
+    </div>
+</aura:component>

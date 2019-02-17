@@ -1,0 +1,7 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:event type="APPLICATION" description="OnboargingSlideTourShow">
+    <aura:attribute name="tourName" type="String"/> 
+</aura:event>

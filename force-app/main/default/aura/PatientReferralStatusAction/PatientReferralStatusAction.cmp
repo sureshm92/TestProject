@@ -1,0 +1,48 @@
+<!--
+ - Created by Kryvolap
+ -->
+<!--depreceted component-->
+<aura:component description="PatientReferralStatusAction">
+    <aura:attribute name="child"                  type="Aura.Component" access="private"/>
+    <aura:attribute name="participantId"          type="String" access="private"/>
+    <aura:attribute name="status"          type="String" access="private"/>
+    <aura:attribute name="stateData"              type="Object" access="private"/>
+    <aura:method name="selectStateForParticipant" action="{!c.changeStatus}" access="public">
+        <aura:attribute name="participantId" type="String"/>
+        <aura:attribute name="status" type="String"/>
+    </aura:method>
+    <div class="psa-component">
+        <c:Popup aura:id="modalSelectState" title="Participant State" size="small">
+
+            <aura:if isTrue="{!!empty(v.stateData)}">
+                <div class="psa-body rr-form-element">
+                    <div class="label">What is the participant’s home state?</div>
+                    <c:rrSelect value="{!v.stateData.state}" options="{!v.stateData.options}" placeholder="Select state" useSentenceFont="false"/>
+                </div>
+            </aura:if>
+
+            <aura:set attribute="footerButtons">
+                <c:RRSpinner aura:id="spinner"/>
+                <button class="apollo-btn primary" id="ok" onclick="{!c.doSelect}">Ok</button>
+                <button class="apollo-btn tertiary" id="no" onclick="{!c.doSelect}">Cancel</button>
+            </aura:set>
+
+        </c:Popup>
+        <c:Popup aura:id="modalDeclineReason" title="Decline Reason" size="small">
+
+            <aura:if isTrue="{!!empty(v.stateData)}">
+                <div class="psa-body rr-form-element">
+                    <div class="label">What is the participant’s home state?</div>
+                    <c:rrSelect value="{!v.stateData.state}" options="{!v.stateData.options}" placeholder="Select state" useSentenceFont="false"/>
+                </div>
+            </aura:if>
+
+            <aura:set attribute="footerButtons">
+                <c:RRSpinner aura:id="spinner"/>
+                <button class="apollo-btn primary" id="ok" onclick="{!c.doSelect}">Ok</button>
+                <button class="apollo-btn tertiary" id="no" onclick="{!c.doSelect}">Cancel</button>
+            </aura:set>
+
+        </c:Popup>
+    </div>
+</aura:component>

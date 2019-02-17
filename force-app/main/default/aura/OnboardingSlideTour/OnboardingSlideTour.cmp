@@ -1,0 +1,95 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="OnboardingSlideTour" implements="forceCommunity:availableForAllPageTypes" controller="OnboardingSlideTourRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="title" type="String" default="Slides"/>
+    <aura:attribute name="currentPage" type="Integer" default="0"/>
+    <aura:attribute name="currentSlide" type="Object" default="0"/>
+    <aura:attribute name="isLastPage" type="Boolean" default="0"/>
+    <aura:attribute name="slides" type="List"/>
+    <aura:attribute name="visible" type="Boolean" default="false"/>
+    <aura:attribute name="showOnStartupMap" type="Object"/>
+    <aura:attribute name="tourNamesMap" type="Object"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="showOnLogin" type="Boolean"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="OnboargingSlideTourShow" type="c:OnboargingSlideTourShow"/>
+    <aura:registerEvent name="OnboardingSlideTourStartupModeChanged" type="c:OnboardingSlideTourStartupModeChanged"/>
+
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.handleChangeCurrentPage}"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler event="c:OnboargingSlideTourShow" action="{!c.doShow}"/>
+
+    <!-- actions: -->
+    <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction"/>
+
+    <div class="{!'slds-scope tour-fixed-overlay ' + if(!v.visible, 'hidden', '')}">
+        <div class="tour-panel rr-width-limiter">
+            <div class="tour-slides-container brand-gradient-background">
+
+                <div class="tour-title">{!v.title}</div>
+
+                <!-- Carousel Body -->
+                <div class="tour-slides-body">
+                    <div aura:id="carouselBody" class="tour-slides-carousel slds-grid slds-grid_vertical-stretch slds-scrollable_none">
+                        <aura:iteration items="{!v.slides}" var="slide">
+                            <div class="slds-col slds-size_1-of-1 slide-area">
+                                <div class="slide-img-content">
+                                    <img src="{!slide.imageURL}" class="fit-image"/>
+                                </div>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="tour-pages slds-m-around_small">
+                    <ul class="sc-pagination">
+                        <aura:iteration items="{!v.slides}" var="page" indexVar="index">
+                            <li><a aura:id="dot" href="javascript:void(0);"
+                                   class="{!'sc-pagination__dot' + if(v.currentPage == index, ' sc-pagination__dot_selected', '')}"
+                                   data-page="{!index}" onclick="{!c.handleClickDot}">
+                                </a>
+                            </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </div>
+            <!-- slide info: -->
+            <div class="tour-info-container ti-width-limiter">
+                <div aura:id="carouselSlideInfoBody" class="tour-slides-carousel slds-grid slds-grid_vertical-stretch slds-scrollable_none">
+                    <aura:if isTrue="{!!empty(v.currentSlide)}">
+                        <div class="slds-col slds-size_1-of-1 slide-info-area">
+                            <div class="slide-title">{!v.currentSlide.title}</div>
+                            <div class="slide-sub-title">{!v.currentSlide.subTitle}</div>
+                            <div class="slide-body">{!v.currentSlide.body}</div>
+                        </div>
+                    </aura:if>
+                </div>
+
+            </div>
+
+            <!-- buttons: -->
+            <div class="tour-buttons-continer ti-width-limiter">
+                <div class="left rr-small-down-hide">
+                    <lightning:input type="checkbox" label="{!$Label.c.PG_OT_Show_on_login_checkbox_text}"
+                                     checked="{!v.showOnLogin}" onchange="{!c.doSwitchShowOnLoginMode}"/>
+                </div>
+                <div class="tour-btn-group">
+                    <button class="apollo-btn tertiary" onclick="{!c.doHide}">{!$Label.c.BTN_Close}</button>
+                    <button class="apollo-btn secondary" onclick="{!c.handleClickPrevious}">{!$Label.c.	BTN_Previous}</button>
+                    <button class="apollo-btn primary" onclick="{!c.handleClickNext}">{!if(v.currentPage == (v.slides.length - 1), $Label.c.BTN_Stat_Over,  $Label.c.BTN_Next)}</button>
+                </div>
+            </div>
+            <c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
+        </div>
+    </div>
+
+
+
+</aura:component>

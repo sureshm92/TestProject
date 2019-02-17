@@ -1,0 +1,152 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS{
+    font-size: 13px;
+    padding-top: 34px;
+    padding-bottom: 0;
+}
+
+.THIS input::placeholder{
+    font-size: 13px;
+}
+
+.THIS .fp-filter-block{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 2px;
+
+}
+
+.THIS .fp-collapsible{
+    border-top: 2px solid #D9D9D9;
+    overflow: hidden;
+    max-height: 300px;
+    transition: 0.6s;
+}
+
+.THIS.collapsed .fp-collapsible{
+    opacity: 0;
+    max-height: 0;
+    border-bottom: none;
+}
+
+.THIS .fp-filter-block .rrs-container select option:first-child{
+    background-color: gray;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+}
+
+.THIS .fp-serach-input{
+    margin-left: auto;
+}
+
+.THIS .fp-mobile .fp-search, .THIS .fp-serach-input{
+   /* width: 220px;*/
+}
+
+.THIS .fp-serach-input .rri-container{
+    display: inline-block;
+    width: inherit;
+}
+
+.THIS .fp-serach-input input{
+    border: none;
+    background: none;
+}
+
+.THIS .fp-pagination-block{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 2px solid #D9D9D9;
+}
+
+.THIS .fp-form-element{
+    display: inline-block;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.THIS .fp-form-element + .fp-form-element{
+    margin-left: 15px;
+}
+
+.THIS .fp-form-element > label{
+    display: block;
+    margin-right: 5px;
+}
+
+.THIS .fp-page-control{
+    text-align: right;
+    white-space: nowrap;
+}
+
+.THIS .fp-page-info > div{
+    display: inline-block;
+    height: 40px;
+    vertical-align: middle;
+    line-height: 40px;
+    margin-top: 10px;
+}
+
+.THIS .fp-collapse-label{
+    display: inline-block;
+    cursor: pointer;
+    padding: 12px 0;
+}
+
+.THIS .fp-collapse-label .rr-icon-default{
+    width: 16px;
+    height: 16px;
+    fill: #999999;
+    position: relative;
+    top: -1px;
+    margin-left: 5px;
+}
+
+.THIS .fp-mobile .fp-search{
+    display: inline-block;
+    float: right;
+
+}
+
+.THIS .fp-main-filter-block{
+    display: flex;
+}
+
+.THIS .fp-filters-container{
+    margin: -5px;
+    overflow: hidden;
+    margin-right: 5px;
+}
+
+.THIS .fp-filters-label{
+    white-space: nowrap;
+    margin-right: 10px;
+    line-height: 40px;
+}
+
+
+.THIS .fp-filters-container .rrs-container{
+    display: inline-block;
+    max-width: 150px;
+    margin: 5px;
+}
+
+@media all and (min-width: 1024px){
+    .THIS.collapsed .fp-collapsible{
+        opacity: 1;
+        max-height: 300px;
+    }
+}
+
+@media all and (min-width: 768px){
+    .THIS .fp-form-element > label{
+        display: inline-block;
+    }
+
+    .THIS .fp-page-info > div{
+        margin-top: 0;
+    }
+}

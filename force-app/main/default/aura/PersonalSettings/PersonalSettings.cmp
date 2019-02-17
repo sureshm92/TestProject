@@ -1,0 +1,39 @@
+<!--Created by D.Yasinskyi on 27.04.2018-->
+<aura:component description="PersonalSettings" implements="forceCommunity:availableForAllPageTypes">
+
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="currentTab" type="String" default="my-team"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!-- components boddy: -->
+
+    <aura:if isTrue="{!!v.showSpinner}">
+        <div class="ps-container">
+            <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP')}">
+                <c:rrButtonTubSet >
+                    <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team" currentTab="{!v.currentTab}"/>
+                    <c:rrButtonTubSetItem title="{!$Label.c.Profile_Menu_Account_Settings}" tabId="account-settings" currentTab="{!v.currentTab}"/>
+                    <!--<c:rrButtonTubSetItem title="Communication Preferences" tabId="tab-communication-preferences" isDisabled="true" currentTab="{!v.currentTab}"/>-->
+                </c:rrButtonTubSet>
+            </aura:if>
+
+            <div class="ps-body">
+                <aura:if isTrue="{!v.currentTab == 'my-team'}">
+                    <c:MyTeam userMode="{!v.userMode}"/>
+                </aura:if>
+
+                <aura:if isTrue="{!v.currentTab == 'account-settings'}">
+                    <c:AccountSettings userMode="{!v.userMode}"/>
+                </aura:if>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

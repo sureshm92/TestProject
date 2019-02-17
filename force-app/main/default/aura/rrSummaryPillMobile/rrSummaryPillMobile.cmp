@@ -1,0 +1,38 @@
+<!--Created by D.Yasinskyi on 08.06.2018.-->
+<aura:component description="rrSummaryPillMobile">
+    <!--=============================================================================================================-->
+    <aura:attribute name="summaryContainerList"         type="List" description="SummaryContainer[]" required="true"/>
+    <aura:attribute name="title"                        type="String" default="SUMMARY"/>
+    <aura:attribute name="labelMaxWidth"                type="String"/>
+    <aura:attribute name="isCollapsed"                  type="Boolean" default="{!true}" access="private"/>
+    <!--=============================================================================================================-->
+    <div class="{!'spm-container' + if(v.isCollapsed, ' collapsed', '')}">
+        <div class="spm-header-title" onclick="{!c.doSwitch}"><c:RRIcon iconName="icon-chevron-right"/>{!v.title}</div>
+        <div class="spm-header-body">
+            <aura:iteration items="{!v.summaryContainerList}" var="summaryContainer">
+                <div class="spm-info-block">
+                    <div class="spm-info-header">
+                        <div class="spm-number">{!summaryContainer.value}</div>
+                        <div class="spm-label">{!summaryContainer.label}</div>
+                    </div>
+                </div>
+            </aura:iteration>
+        </div>
+        <div class="spm-body">
+            <aura:iteration items="{!v.summaryContainerList}" var="summaryContainer">
+                <aura:if isTrue="{! !empty(summaryContainer.items)}">
+                    <div class="spm-body-info-block">
+                        <div class="spm-label spm-body-label">
+                                {!summaryContainer.value + ' ' + summaryContainer.label}
+                        </div>
+                        <aura:iteration items="{!summaryContainer.items}" var="item">
+                            <div class="spm-body-sub-label">
+                                    {!item.value + ' ' + item.label}
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </aura:if>
+            </aura:iteration>
+        </div>
+    </div>
+</aura:component>

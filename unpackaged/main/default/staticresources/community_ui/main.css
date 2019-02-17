@@ -1,0 +1,137 @@
+/*
+    Created By Leonid Bartenev
+
+    Main CSS for all components in RR Community
+ */
+html{
+    height: 100%;
+    background-color: #f2f2f2;
+}
+
+.terms-and-conditions h1, .terms-and-conditions h2, .terms-and-conditions h3, .terms-and-conditions h4, .terms-and-conditions span{
+    font-family: "Proxima Nova";
+}
+
+.terms-and-conditions h1, .terms-and-conditions h2, .terms-and-conditions h3, .terms-and-conditions h4, .terms-and-conditions h5, .terms-and-conditions h6{
+    font-weight: 600!important;
+    margin-top: 31px;
+    margin-bottom: 15px;
+}
+
+.terms-and-conditions h1{
+    text-align: center;
+    font-size: 48px!important;
+    line-height: 56px!important;
+}
+
+.terms-and-conditions h2{
+    font-size: 40px!important;
+    line-height: 48px!important;
+}
+
+.terms-and-conditions h3{
+    font-size: 30px!important;
+    line-height: 36px!important;
+}
+
+.terms-and-conditions h4{
+    font-size: 17px!important;
+    line-height: 20px!important;
+}
+
+.terms-and-conditions h5{
+    font-size: 15px!important;
+    line-height: 18px!important;
+}
+
+.terms-and-conditions h6{
+    font-size: 14px!important;
+    line-height: 18px!important;
+}
+
+.terms-and-conditions span{
+    text-align: justify;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+
+
+.terms-and-conditions .info-alert{
+    border: 1px solid #005587;
+    background-color: #F2FAFD;
+    padding: 21px;
+    color: #333333;
+    font-family: "Nunito Sans";
+    line-height: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+body .rr-btn-brand{
+    font-family: "Proxima Nova"!important;
+    font-size: 14px!important;
+    line-height: 16px!important;
+    padding: 10px 15px!important;
+    background: #297cfc;
+    border-radius: 4px;
+    border: none!important;
+    color: white;
+    font-weight: normal;
+    background-color: #297DFD;
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.1), 0 8px 20px 0 rgba(41,125,253,0.4);
+}
+
+
+
+.lg-form-element{
+    margin-bottom:10px;
+    font-family: "Proxima Nova";
+    color: rgba(255,255,255,0.3);
+    border-bottom: 1px solid #ffffff;
+}
+
+.lg-form-element .input-label{
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.lg-form-element input{
+    padding-bottom: 9px;
+    margin-top: 3px;
+    width: 100%;
+    border: none;
+    background: none;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 21px;
+}
+
+.lg-form-element input:focus{
+    outline: none;
+}
+
+.lg-form-element input::-webkit-input-placeholder{
+    color: rgba(255,255,255,0.3);
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.lg-form-element label{
+    font-size: 14px;
+    line-height: 21px;
+    display: block;
+}
+
+.lg-error-alert{
+    color: red;
+    background: #ce090914;
+    text-align: center;
+    padding: 10px!important;
+    margin: 10px 0!important;
+    border-radius: 5px!important;
+}
+
+

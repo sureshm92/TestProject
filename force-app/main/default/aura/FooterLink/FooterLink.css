@@ -1,0 +1,13 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.page-link{
+    cursor: pointer;
+    display: inline-block;
+
+    color: #297DFD;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+}

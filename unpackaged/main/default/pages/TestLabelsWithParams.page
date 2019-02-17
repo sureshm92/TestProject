@@ -1,0 +1,14 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:page id="TestLabelsWithParams">
+
+    <pre>
+        <c:EmailTemplateText sourceId="0030n00000dtz5D">
+
+            URL sadassdadsds
+        </c:EmailTemplateText>
+    </pre>
+
+</apex:page>

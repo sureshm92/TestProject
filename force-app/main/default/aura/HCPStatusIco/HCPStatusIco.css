@@ -1,0 +1,13 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS{
+    color: white!important;
+    font-size: 10px!important;
+    line-height: 10px!important;
+    display: inline-block!important;
+    padding: 4px 7px!important;
+    margin: 0 4px!important;
+    vertical-align: middle;
+    font-weight: normal!important;
+}

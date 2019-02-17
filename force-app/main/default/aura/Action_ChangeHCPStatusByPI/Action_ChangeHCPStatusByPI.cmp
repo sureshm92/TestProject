@@ -1,0 +1,56 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Action_ChangeHCPStatusByPI" controller="Action_ChangeHCPStatusByPIRemote">
+
+    <!-- attribute: -->
+    <aura:attribute name="hcpEnrollment" type="Object" access="private"/>
+    <aura:attribute name="actionId" type="String" access="private"/>
+    <aura:attribute name="refreshSource" type="Aura.Component" access="private"/>
+
+    <aura:attribute name="title" type="String" access="private"/>
+    <aura:attribute name="primaryBtnLabel" type="String" access="private"/>
+    <aura:attribute name="secondaryBtnLabel" type="String" access="private"/>
+    <aura:attribute name="showDatePicker" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="date" type="Date" access="private"/>
+    <aura:attribute name="dateInputErrorMsg" type="String" access="private"/>
+    <aura:attribute name="reasonOptions" type="List" access="private"/>
+    <aura:attribute name="reason" type="String" access="private"/>
+    <aura:attribute name="changeStatusText" type="String" access="private"/>
+    <aura:attribute name="changeStatusReasons" type="Object" access="private"/>
+    <aura:attribute name="closeButtonClicked" type="Boolean"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.closeButtonClicked}" action="{!c.doHideSPinner}"/>
+
+    <!-- methods: -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="hcpEnrollment" type="Object"/>
+        <aura:attribute name="actionId" type="String"/>
+        <aura:attribute name="refreshSource" type="Aura.Component"/>
+    </aura:method>
+
+    <!-- component body: -->
+    <c:Popup aura:id="changeHCPStatusByPIDialog" title="{!v.title}" size="small" closeButtonClicked="{!v.closeButtonClicked}">
+        <c:RRSpinner aura:id="dialogSpinner"/>
+        <div class="dialog-alert">{!v.changeStatusText}</div>
+        <aura:if isTrue="{!!empty(v.reasonOptions)}">
+            <c:rrSelect value="{!v.reason}" options="{!v.reasonOptions}" placeholder="{!$Label.c.PG_AC_Select}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.showDatePicker}">
+            <c:rrDatapicker value="{!v.date}" prepopulateDate="true" errorMessage="{!v.dateInputErrorMsg}"/>
+        </aura:if>
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary" onclick="{!c.doChangeStatus}"
+                    disabled = "{!and(v.showDatePicker, (empty(v.date) || !empty(v.dateInputErrorMsg))) || and(!empty(v.reasonOptions), empty(v.reason))}">
+                {!v.primaryBtnLabel}
+            </button>
+            <button class="apollo-btn tertiary" onclick="{!c.doCancel}">
+                {!v.secondaryBtnLabel}
+            </button>
+        </aura:set>
+    </c:Popup>
+
+</aura:component>

@@ -1,0 +1,54 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="StudyView" controller="StudyClinicDashboardRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="study" type="Object"/>
+    <aura:attribute name="clinicId" type="String"/>
+    <aura:attribute name="funnelData" type="List"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.study}" action="{!c.doInit}"/>
+
+    <!-- compoent body -->
+    <aura:if isTrue="{!!empty(v.study)}">
+        <div>
+            <div class="study-view-header">
+                <!--button class="export-btn">
+                    <c:RRIcon iconName="icon-export" color="#297DFD"/>Export
+                </button-->
+                    {!v.study.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c}
+            </div>
+            <div class="rr-white-panel padding">
+                <c:StudyReferringPhysicians hcpEnrollments="{!v.study.hcpEnrollments}"/>
+            </div>
+        </div>
+        <div>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-12">
+                    <aura:iteration items="{!v.study.statistics}" var="stItem">
+                        <div class="completions-section">
+                            <div class="section-header">{!stItem.title}</div>
+                            <div class="rr-white-panel padding">
+                                <c:RRChart type="totalPassed" data="{!stItem}" containerHeight="50px"/>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_8-of-12">
+                    <div class="referrals-status-section">
+                        <div class="section-header">{!$Label.c.PG_SV_L_Referral_s_Status}</div>
+                        <div class="rr-white-panel padding referral-status-panel">
+                            <c:RRChart type="funnel" data="{!v.funnelData}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

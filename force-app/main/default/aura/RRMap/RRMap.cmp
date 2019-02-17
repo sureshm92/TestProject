@@ -1,0 +1,14 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRMap">
+    <ltng:require styles="/resource/leaflet/leaflet.css"
+                  scripts="{!join(',', '/resource/leaflet/leaflet.js')}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="map" type="Object"/>
+    <aura:attribute name="accounts" type="List"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+
+    <div id="mapId" class="rr-map"></div>
+</aura:component>

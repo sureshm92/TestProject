@@ -1,0 +1,23 @@
+.THIS.si-container .si-icon,
+.THIS.si-container .si-title {
+    display: inline-block;
+}
+
+.THIS.si-container .si-icon {
+    margin-right: 5px;
+}
+
+.THIS.si-container .si-icon svg {
+    height: 13px;
+    width: 13px;
+}
+
+.THIS.si-container .si-title {
+    color: #D9534F;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.THIS.si-container .si-title.success {
+    color: #63C900;
+}

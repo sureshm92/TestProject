@@ -1,0 +1,6 @@
+<!--
+ - Created by new on 07.03.2018.
+ -->
+<aura:event type="COMPONENT" description="TabSetItemSelectionEvent">
+    <aura:attribute name="tabId" type="String"/>
+</aura:event>

@@ -1,0 +1,30 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.rr-link{
+    color: #297DFD;
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS.rr-link.only-text{
+    display: inline;
+}
+
+.THIS.rr-link:hover{
+    text-decoration: none;
+}
+
+.THIS.rr-link.limit-width{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.THIS.rr-link svg{
+    fill: #297DFD;
+    width: 14px;
+    height: 14px;
+}

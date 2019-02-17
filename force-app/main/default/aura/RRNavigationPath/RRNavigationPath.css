@@ -1,0 +1,41 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.navigation-path{
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #999999;
+}
+
+.THIS.navigation-path .path-item{
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS .path-item .np-link{
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.THIS .path-item .np-link:hover{
+    color: #666666;
+}
+
+.THIS.navigation-path .path-item:last-child{
+    color: black;
+    font-weight: 600;
+}
+
+.THIS.navigation-path .rr-icon-default{
+    width: 10px;
+    height: 10px;
+    margin: 0 3px;
+    position: relative;
+    top: -1px;
+    fill: #999999;
+}
+
+.THIS.navigation-path .path-item:last-child .rr-icon-default{
+    display: none;
+}

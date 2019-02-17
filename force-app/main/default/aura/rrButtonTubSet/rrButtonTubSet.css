@@ -1,0 +1,12 @@
+.THIS.bts-container div {
+    border-left-width: 0;
+}
+
+.THIS.bts-container :first-child {
+    border-radius: 5px 0 0 5px;
+    border-left-width: 1px;
+}
+
+.THIS.bts-container :last-child {
+    border-radius: 0 5px 5px 0;
+}

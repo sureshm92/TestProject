@@ -1,0 +1,24 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CustomThemLayoutNoNavigation" implements="forceCommunity:themeLayout" extends="c:CheckLanguage">
+
+    <aura:if isTrue="{!v.languageChecked}">
+        <div class="rr-all-content">
+            <div class="rr-header-content">
+                <div class="rr-width-limiter side-padding header-block">
+                    <div class="logo-click" onclick="{!c.doGoHome}">
+                        <!--c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/logo.svg#full-logo'}" class="logo-block"/-->
+                        <img src="{!$Resource.rr_community_icons + '/logo_3x.png'}" class="logo-block"/>
+                    </div>
+                </div>
+            </div>
+            <div class="rr-header-margin"></div>
+
+            {!v.body}
+
+        </div>
+        <c:CookiesInfo/>
+    </aura:if>
+</aura:component>

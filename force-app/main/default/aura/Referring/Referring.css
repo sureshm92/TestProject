@@ -1,0 +1,313 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS .pe-button .rr-icon-default{
+    width: 14px;
+    height: 14px;
+    fill: #297DFD;
+    margin-right: 5px;
+    position: relative;
+    top: -1px;
+}
+
+.THIS .pe-button.red .rr-icon-default{
+    fill: #E63F5B
+}
+
+.THIS .pe-button{
+    color: #297DFD;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 32px;
+    text-decoration: none;
+}
+
+.THIS .pe-button{
+    line-height: 8px;
+    user-select: none;
+}
+
+.THIS .pe-button.red{
+    color: #E63F5B;
+}
+
+.THIS .pe-button:active{
+    color: rgba(41, 125, 253, 0.8);
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.4);
+    background: rgba(128, 128, 128, 0.01);
+}
+
+.THIS .pe-button.red:active{
+    color: rgba(230, 63, 91, 0.82);
+}
+
+
+.THIS .buttons-area{
+    border-top: 1px solid #D9D9D9;
+
+}
+
+.THIS .buttons-block{
+    display: flex;
+    height: 32px;
+}
+
+.THIS .pe-button{
+    flex: 1 1 50%;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .pe-button > div{
+    display: inline-block;
+    text-align: center;
+    padding: 0 5px;
+}
+
+.THIS .pe-button:first-child{
+    border-left: 1px solid #D9D9D9;
+    border-right: 1px solid #D9D9D9;
+}
+.THIS .pe-button:last-child{
+    border-right: 1px solid #D9D9D9;
+}
+
+.THIS .path-area{
+    background-color: rgba(41,125,253,0.1);
+    border-top: 1px solid #D9D9D9;
+    /*border-bottom: 1px solid #D9D9D9;*/
+}
+
+.THIS .pe-large-header{
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 60px;
+    text-align: center;
+    padding: 35px 0;
+}
+
+.THIS .pe-panel{
+    border: 1px solid #F2F2F2;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 30px 0 rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.THIS .pe-panel.padding{
+    padding: 20px;
+}
+
+.THIS .pe-panel .rr-icon-default{
+    width: 61px;
+    height: 61px;
+    fill: black;
+}
+
+.THIS .between-panels{
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 85px;
+    text-align: center;
+}
+
+.THIS .pe-panel .title{
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 40px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.THIS .rr-sub-title{
+    padding: 5px 10px 20px 10px;
+}
+
+.THIS .big-alert{
+    text-align: center;
+}
+
+.THIS .big-alert .rr-icon-default{
+    width: 64px;
+    height: 64px;
+    fill: black;
+    margin-top: 30px;
+}
+
+.THIS .big-alert .message{
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 36px;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.THIS .big-alert .buttons{
+    text-align: center;
+    margin: 10px;
+    margin-bottom: 30px;
+}
+
+.THIS .big-alert .buttons button{
+    opacity: 1!important;
+}
+
+.THIS .rr-map{
+    height: 500px;
+}
+
+
+.THIS .sdas-footer-info {
+    text-align: left;
+    background-color: white;
+    padding: 17px;
+    border-bottom: 2px solid #CCCCCC;
+}
+
+.THIS .sdas-footer-info .name {
+    color: #000000;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+
+.THIS .sdas-footer-info .address {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .q-failed{
+    text-align: center;
+}
+
+.THIS .q-failed span{
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+}
+
+.THIS .q-failed .apollo-btn{
+    display: block;
+    margin: 20px auto;
+}
+
+.THIS .ci-left{
+    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
+}
+
+.THIS .ci-right{
+
+}
+
+.THIS .ci-ico-message .rr-icon-default{
+    fill: white;
+    float: left;
+    margin-right: 10px;
+    width: 32px;
+    height: 32px;
+}
+
+.THIS .ref-alert{
+    text-align: center;
+    padding-top: 30px;
+    min-height: 500px;
+}
+
+.THIS .ref-alert .main-title{
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 48px;
+}
+
+.THIS .ref-alert.fail .main-title{
+    color: #FF283F;
+}
+
+.THIS .ref-alert.pass .main-title, .THIS .green-text{
+    color: #00C82B;
+}
+
+.THIS .ref-alert .rr-icon-default{
+    width: 64px;
+    height: 64px;
+    display: block;
+    margin: 5px auto;
+}
+
+.THIS .ref-alert.fail .rr-icon-default{
+    fill: #FF283F;
+}
+
+.THIS .ref-alert.pass .rr-icon-default{
+    fill: #00C82B;
+}
+
+.THIS .ref-alert button{
+    display: block;
+    margin: 20px auto;
+}
+
+.THIS .ref-alert .rr-sub-text{
+    padding: 10px 0;
+}
+
+.THIS .screening-gizmo-frame{
+    width: 100%;
+    border: 0;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.THIS .mrr-item-content{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: -5px;
+}
+
+.THIS .mrr-item-content > *{
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.THIS .mrr-status-content{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.THIS .mrr-status-content > *{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.THIS .mrr-item-btns{
+    margin-left: auto;
+}
+
+@media (max-width: 480px){
+    .THIS .mrr-item-btns, .THIS .mrr-item-btns button{
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px){
+    .THIS .rr-big-title{
+        font-size: 37px;
+    }
+
+    .THIS .rr-title{
+        font-size: 20px;
+        line-height: 30px;
+        margin-top: 15px;
+    }
+}

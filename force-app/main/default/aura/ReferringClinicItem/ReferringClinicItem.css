@@ -1,0 +1,55 @@
+.THIS.rci-main-container {
+    box-sizing: border-box;
+    min-height: 85px;
+    border: 1px solid #F2F2F2;
+    border-radius: 5px 5px 0 0;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
+    font-family: "Proxima Nova";
+    margin-top: 14px;
+    margin-bottom: 14px;
+    overflow: hidden;
+}
+
+.THIS .rci-inline {
+    display: inline-block;
+}
+
+.THIS .rci-study-name {
+    width: 100%;
+    border: 1px solid #F2F2F2;
+    background-color: #F9FDFD;
+    color: #297DFD;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+
+/*================================header===========*/
+.THIS .rci-header::-webkit-scrollbar {
+    width: 0;
+}
+
+.THIS .rci-header {
+    padding: 17px;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.THIS .rci-header .rci-name {
+    color: #297DFD;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.THIS .rci-header .rci-info {
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}

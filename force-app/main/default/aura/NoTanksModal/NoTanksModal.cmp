@@ -1,0 +1,21 @@
+<!--Created by D.Yasinskyi on 29.03.2018.-->
+<aura:component controller="NoTanksModalController" description="NoTanksModal">
+    <!--=============================================================================================================-->
+    <aura:attribute name="trialId"              type="String" required="true"/>
+    <aura:attribute name="userMode"             type="String" required="true"/>
+    <aura:attribute name="parent"               type="Aura.Component" />
+    <!--=============================================================================================================-->
+    <aura:method name="show" action="{!c.doShow}"/>
+    <aura:method name="hide" action="{!c.doHide}"/>
+    <!--=============================================================================================================-->
+    <c:Popup aura:id="noTanksModal" title="Confirmation" size="medium">
+        <div class="modal-dialog-body">
+            {!$Label.c.PG_NOTM_L_Sure}
+        </div>
+        <aura:set attribute="footerButtons">
+            <c:RRSpinner aura:id="spinner"/>
+            <button class="apollo-btn primary" id="yes" onclick="{!c.doSetStudyStatus}">{!$Label.c.BTN_Yes_decline}</button>
+            <button class="apollo-btn tertiary" id="no" onclick="{!c.doSetStudyStatus}">{!$Label.c.BTN_No}</button>
+        </aura:set>
+    </c:Popup>
+</aura:component>

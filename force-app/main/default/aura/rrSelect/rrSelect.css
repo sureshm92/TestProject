@@ -1,0 +1,48 @@
+.THIS.rrs-container{
+    display: inline-block;
+}
+
+.THIS.rrs-container .rrs-label {
+    display: flex;
+    color: #666666;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS.rrs-container .rrs-label .rrs-error {
+    color: #FF0031;
+}
+
+.THIS .slds-select_container::before {
+    border-bottom: none;
+}
+
+.THIS .slds-select_container::after {
+    border-top: none;
+}
+
+.THIS.rrs-container .rrs-relative {
+    position: relative;
+}
+
+.THIS.rrs-container label {
+    display: none;
+}
+
+.THIS.rrs-container select{
+    height: 40px;
+}
+
+.THIS.rrs-container .rr-icon-default{
+    position: absolute;
+    pointer-events: none;
+    top: 13px;
+    right: 11px;
+    height: 16px;
+    width: 16px;
+}
+
+.THIS .slds-select_container .slds-select{
+    padding-right: 30px;
+}

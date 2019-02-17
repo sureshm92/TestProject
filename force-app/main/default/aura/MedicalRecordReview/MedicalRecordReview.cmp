@@ -1,0 +1,101 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="MedicalRecordReview" implements="forceCommunity:availableForAllPageTypes" controller="MedicalRecordReviewRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- atributes: -->
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="hcpEnrollment" type="Object"/>
+    <aura:attribute name="searchResult" type="Object"/>
+    <aura:attribute name="searchData" type="Object"/>
+    <aura:attribute name="mrrResult" type="String" default="Pending"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="resultData" type="String"/>
+    <aura:attribute name="actions" type="Object"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.mrrResult}" action="{!c.doMRRResultChanged}"/>
+
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+
+    <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
+
+        <!-- top page bar -->
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!v.hcpEnrollment.Study_Site__r.Name}" bigTitle="{!$Label.c.DLIT_L_Medical_Record_Review}"/>
+
+        <!-- page conent -->
+        <div class="rr-body-content" style="position: relative">
+            <div class="rr-width-limiter side-padding">
+                <aura:if isTrue="{!v.mrrResult == 'Pending'}">
+                    <div class="slds-grid slds-wrap" style="align-items: stretch;">
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 left-column">
+                            <div class="rr-card">
+                                <c:RRIcon iconName="chart-review-sent" class="rr-card-ico"/>
+                                <div class="rr-secondary-text" style="padding-top: 4px">{!$Label.c.PG_MRR_L_Please_complete_medical_record_review_for}</div>
+                                <div class="rr-primary-text">{!$Label.c.PG_DBPI_Dr} {!v.hcpEnrollment.HCP_Contact__r.Name}</div>
+                                <div class="rr-secondary-text">{!$Label.c.PG_DBPI_at} {!v.hcpEnrollment.Study_Site__r.Name}</div>
+                            </div>
+                            <div class="rr-secondary-text" style="padding-top: 20px">{!$Label.c.PG_MRR_Note_Remember}</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 right-column">
+                            <c:SearchParticipantEnrollment trialId="{!v.trialId}"
+                                                           hcpEnrollment="{!v.hcpEnrollment}"
+                                                           searchData="{!v.searchData}"
+                                                           searchResult="{!v.searchResult}"
+                                                           mrrResult="{!v.mrrResult}"
+                                                           showSpinner="{!v.showSpinner}"/>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.mrrResult == 'Fail'}">
+                    <div class="mrr-alert fail">
+                        <c:RRIcon iconName="icon-close-circle"/>
+                        <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
+                        <button class="apollo-btn primary"
+                                disabled="{!v.actions.medicalRecordReview.disabled}"
+                                title="{!v.actions.medicalRecordReview.disableReason}"
+                                onclick="{!c.doClearForm}">
+                            {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review}
+                        </button>
+                        <!--button class="apollo-btn tertiary">View and Print Medical Record Review Result</button-->
+                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
+                    </div>
+                </aura:if>
+
+                <aura:if isTrue="{!v.mrrResult == 'Pass'}">
+                    <div class="mrr-alert pass">
+                        <c:RRIcon iconName="icon-check-circle"/>
+                        <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
+                        <button class="apollo-btn primary"
+                                disabled="{!v.actions.referToThisStudy.disabled}"
+                                title="{!v.actions.referToThisStudy.disableReason}"
+                                onclick="{!c.doReferPatient}">
+                            {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
+                        </button>
+                        <button class="apollo-btn primary"
+                                disabled="{!v.actions.medicalRecordReview.disabled}"
+                                title="{!v.actions.medicalRecordReview.disableReason}"
+                                onclick="{!c.doStartMRR}">
+                            {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review_for_this_Study}
+                        </button>
+                        <!--button class="apollo-btn tertiary">View and Print Medical Record Review Result</button-->
+                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
+                    </div>
+                </aura:if>
+
+            </div>
+        </div>
+
+        <div class="rr-width-limiter side-padding">
+            <c:CommunityFooter />
+        </div>
+
+    </aura:if>
+
+</aura:component>

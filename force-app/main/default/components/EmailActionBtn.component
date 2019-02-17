@@ -1,0 +1,20 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailActionBtn" access="global">
+
+    <!-- attributes: -->
+    <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
+    <apex:attribute name="buttonURL" type="String" description="" access="global" />
+
+    <!-- component body: -->
+    <apex:outputLink value="{!if(buttonURL == null, $Label.CommunityURL, buttonURL)}"
+                     style="border-radius: 4px; background: #297DFD; color: #FFFFFF; padding: 9px 16px;
+                                                border: 1px; font-size: 14px; letter-spacing: 0; line-height: 20px;
+                                                user-select: none; cursor: pointer; min-width: 100px; text-decoration: none;
+                                                box-shadow: 0 8px 10px 0 rgba(0,0,0,0.1), 0 8px 20px 0 rgba(41,125,253,0.4);">
+        {!buttonLabel}
+    </apex:outputLink>
+
+</apex:component>

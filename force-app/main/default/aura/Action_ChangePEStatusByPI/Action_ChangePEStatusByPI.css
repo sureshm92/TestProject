@@ -1,0 +1,11 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .full-width{
+    width: 100%;
+    text-align: left;
+}
+
+.THIS .full-width .rrs-container{
+    width: 100%;
+}

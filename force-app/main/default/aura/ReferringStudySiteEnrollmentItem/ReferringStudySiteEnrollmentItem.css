@@ -1,0 +1,61 @@
+.THIS .rssei-inline {
+    display: inline-block;
+}
+/*================================body===========*/
+.THIS.rssei-body {
+    display: flex;
+    position: relative;
+    box-sizing: border-box;
+    min-height: 62px;
+    border-top: 1px solid #F2F2F2;
+    background-color: #FFFFFF;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 17px;
+    padding-right: 17px;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    font-family: "Proxima Nova";
+}
+
+/*================================body-left===========*/
+.THIS.rssei-body .rssei-left {
+    margin-right: auto;
+}
+
+.THIS .rssei-left .rssei-info {
+    display: flex;
+}
+
+.THIS .rssei-left .rssei-name {
+    color: #666666;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+
+/*================================body-right===========*/
+.THIS.rssei-body .rssei-right {
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+.THIS .rssei-right .rssei-status {
+    display: inline-table;
+    color: #FFFFFF;
+    font-size: 10px;
+    line-height: 10px;
+    margin-top: 3px;
+    margin-bottom: 8px;
+    padding: 4px;
+    white-space: nowrap;
+}
+
+.THIS .rssei-right .rssei-details {
+    color: #297DFD;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    white-space: nowrap;
+    cursor: pointer;
+}

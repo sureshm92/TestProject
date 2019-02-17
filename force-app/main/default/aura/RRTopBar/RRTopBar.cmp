@@ -1,0 +1,29 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRTopBar">
+    <aura:attribute name="backLabel" type="String"/>
+    <aura:attribute name="backPage" type="String"/>
+    <aura:attribute name="smallTitle" type="String"/>
+    <aura:attribute name="bigTitle" type="String"/>
+
+    <!-- top page bar -->
+    <div class="top-bar rr-all-content">
+        <div class="navigation-bar">
+            <div class="rr-width-limiter side-padding" style="padding-top: 8px; padding-bottom: 8px">
+                <c:RRLink page="{!v.backPage}"><c:RRIcon iconName="icon-arrow-left"/>{!v.backLabel}</c:RRLink>
+            </div>
+        </div>
+        <div class="header">
+            <div class="rr-width-limiter side-padding">
+                <div class="sub-title">{!v.smallTitle}</div>
+                <div class="title">{!v.bigTitle}</div>
+            </div>
+        </div>
+        {!v.body}
+    </div>
+
+    <div class="rr-body-content" style="height: 98px"></div>
+
+</aura:component>

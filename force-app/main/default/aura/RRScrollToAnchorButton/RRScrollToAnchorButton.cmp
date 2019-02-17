@@ -1,0 +1,10 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRScrollToAnchorButton">
+    <aura:attribute name="anchor" type="String"/>
+    <aura:attribute name="parentComponent" type="Aura.Component"/>
+    <aura:attribute name="class" type="String" default="apollo-btn text"/>
+    <button class="{!v.class}" onclick="{!c.doClick}">{!v.body}</button>
+</aura:component>

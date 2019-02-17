@@ -1,0 +1,10 @@
+.THIS.mrc-container {
+    font-family: "Proxima Nova";
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 100px;
+}
+
+.THIS.mrc-container .mrc-header {
+    display: flex;
+}

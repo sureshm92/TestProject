@@ -1,0 +1,20 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS  .header-block{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.THIS .logo-block{
+   /* height: 39px;*/
+    width: 123px;
+    display: inline-block;
+}
+
+.THIS .logo-click{
+    display: inline-block;
+    cursor: pointer;
+}

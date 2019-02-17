@@ -1,0 +1,25 @@
+/*================================INFO===========*/
+.THIS.im-container .im-info {
+    white-space: normal;
+    padding-left: 8px;
+    text-align: left;
+}
+
+.THIS.im-container .im-info .im-name {
+    white-space: inherit;
+    color: #000000;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+.THIS.im-container .im-info .im-clinic-name {
+    white-space: inherit;
+    color: #666666;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.THIS.im-container .im-content {
+    width: 100%;
+}

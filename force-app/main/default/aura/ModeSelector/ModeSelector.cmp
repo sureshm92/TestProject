@@ -1,0 +1,29 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ModeSelector" controller="CommunityFacadeRemote">
+    <aura:attribute name="currentMode" type="String"/>
+    <aura:attribute name="availableModes" type="Object[]"/>
+    <aura:attribute name="currentLabel" type="String"/>
+    <aura:attribute name="showMenu" type="Boolean" default="false"/>
+    <aura:attribute name="showSelector" type="Boolean" default="{!v.availableModes.length > 1}"/>
+
+    <aura:handler name="change" value="{!v.currentMode}" action="{!c.doChangeMode}"/>
+    <aura:handler name="change" value="{!v.availableModes}" action="{!c.doChangeMode}"/>
+
+    <aura:if isTrue="{!v.showSelector}">
+        <div class="rr-overlay" onclick="{!c.hideMenu}" style="{!if(v.showMenu, '', 'visibility:hidden')}"></div>
+        <div class="mode-block" onclick="{!c.switchMenuVisibility}"> 
+            <div>
+                <div class="mode-label">{!v.currentLabel}</div>
+                <c:RRIcon color="white" iconName="icon-chevron-down" class="chevron"/>
+            </div>
+            <ul class="{! v.showMenu ? 'mode-menu' : 'mode-menu hide' }" onclick="{!c.selectItem}" tabindex="-1" aura:id="modeMenu">
+                <aura:iteration var="item" items="{!v.availableModes}">
+                    <li data-menu-item-id="{!item.value}" class="{!v.currentMode == item.value ? 'active' : ''}">{!item.label}</li>
+                </aura:iteration>
+            </ul>
+        </div>
+    </aura:if>
+</aura:component>

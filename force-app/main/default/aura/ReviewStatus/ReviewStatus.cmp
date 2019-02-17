@@ -1,0 +1,36 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ReviewStatus">
+    <aura:attribute name="pEnrollment" type="Object"/>
+    <aura:attribute name="type" type="String" default="review"/>
+    <aura:if isTrue="{!v.type == 'review'}">
+        <aura:if isTrue="{!v.pEnrollment.Medical_Record_Review_Status__c == 'Pass'}">
+            <div class="reviw-status pass">
+                <c:RRIcon iconName="icon-check-solid"/>
+                <span>{!$Label.c.PG_PS_L_Passed_Medical_Record_Review}</span>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.pEnrollment.Medical_Record_Review_Status__c == 'Fail'}">
+            <div class="reviw-status fail">
+                <c:RRIcon iconName="icon-close-solid"/>
+                <span>{!$Label.c.PG_PS_L_Failed_Medical_Record_Review}</span>
+            </div>
+        </aura:if>
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.pEnrollment.Pre_screening_Status__c == 'Pass'}">
+                <div class="reviw-status pass">
+                    <c:RRIcon iconName="icon-check-solid"/>
+                    <span>{!$Label.c.PG_RS_L_Passed_Pre_Eligibility_Screening}</span>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.pEnrollment.Pre_screening_Status__c == 'Fail'}">
+                <div class="reviw-status fail">
+                    <c:RRIcon iconName="icon-close-solid"/>
+                    <span>{!$Label.c.PG_RS_L_Failed_Pre_Eligibility_Screening}</span>
+                </div>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,23 @@
+<!--
+ - Created by new on 15.02.2018.
+ -->
+<aura:component description="PercentPieChart">
+    <aura:attribute name="id" type="String" description="Id for pie element"/>
+    <aura:attribute name="class" type="String" description="CSS class"/>
+    <aura:attribute name="height" type="String" description="CSS height"/>
+    <aura:attribute name="width" type="String" description="CSS width"/>
+    <aura:attribute name="percent" type="String" description="Name of the icon"/>
+    <aura:attribute name="primaryColor" type="String" default="#005587"/>
+    <aura:attribute name="secondaryColor" type="String" default="#EEEEEE"/>
+    <ltng:require scripts="{!$Resource.JQueryJS + '/jquery.min.js'}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <div id="{!v.id}" class="{! v.class + ' pie-charts'}">
+        <div class="pieID--categories pie-chart--wrapper">
+            <div class="pie-chart">
+                <div class="pie-chart__pie"></div>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

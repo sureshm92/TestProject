@@ -1,0 +1,52 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Action_ChangePEStatusByPI" controller="Action_ChangePEStatusByPIRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="peId" type="String"/>
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="reason" type="String"/>
+    <aura:attribute name="notes" type="String"/>
+    <aura:attribute name="refreshSource" type="Aura.Component"/>
+    <aura:attribute name="statesList" type="List"/>
+    <aura:attribute name="referralDeclineReasons" type="List"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="closeButtonClicked" type="Boolean"/>
+    <aura:attribute name="inProgress" type="Boolean" default="false"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.closeButtonClicked}" action="{!c.doHideSpinner}"/>
+
+    <!-- methods: -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="pe" type="Object"/>
+        <aura:attribute name="status" type="String"/>
+        <aura:attribute name="reason" type="String"/>
+        <aura:attribute name="notes" type="String"/>
+        <aura:attribute name="refreshSource" type="Aura.Component"/>
+    </aura:method>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!v.isInitialized}">
+
+        <!--select referral decline reason dialog: -->
+        <c:Popup aura:id="selectReferralDeclineReasonDialog" title="{!$Label.c.PG_ACPE_T_Select_decline_reason}" size="small" closeButtonClicked="{!v.closeButtonClicked}">
+            <c:RRSpinner aura:id="reasonSpinner"/>
+            <div class="full-width rr-form-element">
+                <div class="label">{!$Label.c.PG_ACPE_L_Select_decline_reason}</div>
+                <c:rrSelect value="{!v.reason}" options="{!v.referralDeclineReasons}" placeholder="{!$Label.c.PG_ACPE_L_Select_decline_reason}" useSentenceFont="false"/>
+            </div>
+            <div class="full-width rr-form-element">
+                <lightning:input label="{!$Label.c.PG_ACPE_L_Notes + ' (' + if(v.reason == 'Other', $Label.c.PG_ACPE_L_required, $Label.c.PG_ACPE_L_optional) + ')'}" value="{!v.notes}"/>
+            </div>
+            <aura:set attribute="footerButtons">
+                <button class="apollo-btn primary" onclick="{!c.doUpdatePE}" disabled="{!empty(v.reason) || and(v.reason == 'Other', empty(v.notes))}">Ok</button>
+                <button class="apollo-btn tertiary" onclick="{!c.doHideDialogs}">Cancel</button>
+            </aura:set>
+        </c:Popup>
+
+    </aura:if>
+</aura:component>

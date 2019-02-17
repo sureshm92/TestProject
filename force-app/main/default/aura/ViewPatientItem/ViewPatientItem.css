@@ -1,0 +1,242 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.rr-white-panel {
+    padding-top: 18px;
+}
+
+.THIS .vpi-title{
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.THIS .vpi-title.link{
+    color: #3294FE;
+    cursor: pointer;
+}
+
+.THIS .width-basis{
+    flex-basis: auto;
+}
+
+.THIS .vri-state-label{
+    text-align: center;
+}
+
+.THIS .vpi-line-div{
+    height: 22px;
+    border-top: 2px solid;
+}
+
+.THIS .vpi-line-div.neutral{
+    border-top-color: #999999;
+}
+
+.THIS .vpi-line-div.success{
+    border-top-color: #55C200;
+}
+
+
+.THIS .vpi-line-div.in_progress{
+    border-top-color: #FF9301;
+}
+
+.THIS .vpi-line-div.failure{
+    border-top-color: #E20000;
+}
+
+
+
+.THIS .vpi-path{
+    margin-top: 30px;
+}
+
+.THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child{
+    border-top-color: transparent;
+}
+
+.THIS .vpi-path .vpi-state:last-child .vpi-line-div:last-child{
+    border-top-color: transparent;
+}
+
+.THIS .state-ico-wrapper{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid;
+    position: absolute;
+    top: -10px;
+    left: -9px;
+    line-height: 1;
+
+}
+
+.THIS .state-ico-wrapper .rr-icon-default{
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    fill: white;
+}
+
+.THIS .vpi-state.current .state-ico-wrapper{
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: -14px;
+}
+
+.THIS .vpi-state.current .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+}
+
+.THIS .vpi-state.neutral .state-ico-wrapper{
+    background-color: white;
+    border-color: #999999;
+}
+
+.THIS .vpi-state.success .state-ico-wrapper{
+    background-color: #55C200;
+    border-color: #55C200;
+}
+
+.THIS .vpi-state.in_progress .state-ico-wrapper{
+    background-color: #FF9301;
+    border-color: #FF9301;
+}
+
+.THIS .vpi-state.failure .state-ico-wrapper{
+    background-color: #E20000;
+    border-color: #E20000;
+}
+
+/* status names */
+
+.THIS .vpi-state.neutral .vri-state-label{
+    color: #999999;
+}
+
+.THIS .vpi-state.success .vri-state-label{
+    color: #63C900;
+}
+
+.THIS .vpi-state.in_progress .vri-state-label{
+    color: #FF9300;
+}
+
+.THIS .vpi-state.failure .vri-state-label{
+    color: #FF283F;
+}
+
+.THIS .vri-state-label{
+    display: none;
+    white-space: nowrap;
+}
+
+.THIS .vpi-state.current .vri-state-label{
+    display: block;
+}
+
+.THIS .vpi-path-panel{
+    background-color: #F8F9FB;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+}
+
+.THIS .vpi-path-panel .path-section{
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 10px;
+}
+
+.THIS .vpi-path-panel .collapse-section{
+    padding: 10px;
+    font-size: 14px;
+    line-height: 22px;
+    transition: 0.6s;
+    border-radius: 5px;
+}
+
+.THIS .vpi-path-panel .collapse-section.opened{
+    background-color: white;
+}
+
+.THIS .vpi-fields{
+    padding: 8px 0 13px 0;
+    position: relative;
+    left: -12px; /* remove first border and padding */
+}
+
+.THIS .vpi-clip-item-borders{
+    overflow: hidden;
+}
+
+.THIS .vpi-field{
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 10px;
+    border-left: 	2px solid #CCCCCC;
+    margin: 5px 0;
+}
+
+
+
+.THIS .vpi-field + .vpi-field{
+}
+
+
+
+.THIS .vpi-value-length-max{
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #297DFD;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .vpi-field > .label{
+    color: #7F888D;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 12px;
+    text-transform: uppercase;
+}
+
+.THIS .vpi-field > .value{
+    color: #000000;
+    font-size: 14px;
+    line-height: 18px;
+    height: 18px;
+    font-weight: 600;
+}
+
+.THIS .vpi-status-btns button{
+    margin-top: 15px;
+    width: 100%;
+    min-width: auto;
+}
+
+@media all and (min-width: 1024px) {
+    .THIS .vri-state-label{
+        display: block;
+    }
+    .THIS .width-basis{
+        flex-basis: 0;
+    }
+
+    .THIS .state-ico-wrapper{
+        width: 28px;
+        height: 28px;
+        top: -15px;
+        left: -14px;
+    }
+
+    .THIS .state-ico-wrapper .rr-icon-default{
+        width: 24px;
+        height: 24px;
+        padding: 1px;
+    }
+
+}

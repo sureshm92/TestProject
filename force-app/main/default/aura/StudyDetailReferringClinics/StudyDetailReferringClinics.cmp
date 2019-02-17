@@ -1,0 +1,31 @@
+<!--
+ - Created by D.Ysinskyi on 28.02.2018.
+ -->
+<aura:component description="StudyDetailReferringClinics">
+    <!--=============================================================================================================-->
+    <aura:attribute name="clinicWrappers"   type="List"/>
+    <aura:attribute name="userMode"         type="String" description="HCP / PI / Participant"/>
+    <aura:attribute name="filterByStudy"    type="Boolean" default="false"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="statusOptions"    type="List"                         access="private"/>
+    <aura:attribute name="sortOptions"      type="List"                         access="private"/>
+    <aura:attribute name="entriesOptions"   type="List"                         access="private"/>
+    <!--===========================================FILTERS===========================================================-->
+    <aura:attribute name="statusFilter"     type="String" default=""            access="private"/>
+    <aura:attribute name="sortBy"           type="String" default="last-added"  access="private"/>
+    <aura:attribute name="searchText"       type="String" default=""            access="private"/>
+    <!--===========================================PAGINATION========================================================-->
+    <aura:attribute name="allObjects"       type="List"                         access="private"/>
+    <aura:attribute name="currentObjects"   type="List"                         access="private"/>
+    <aura:attribute name="entriesOnPage"    type="Integer" default="10"         access="private"/>
+    <aura:attribute name="currentPage"      type="Integer" default="1"          access="private"/>
+    <aura:attribute name="totalPages"       type="Integer" default="1"          access="private"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init"               value="{!this}"                     action="{!c.doInit}"/>
+    <aura:handler name="change"             value="{!v.searchText}"             action="{!c.doSearch}"/>
+    <aura:handler name="change"             value="{!v.statusFilter}"           action="{!c.onFilterStatusChange}"/>
+    <aura:handler name="change"             value="{!v.sortBy}"                 action="{!c.onSortByChange}"/>
+    <!--=============================================================================================================-->
+
+    
+</aura:component>

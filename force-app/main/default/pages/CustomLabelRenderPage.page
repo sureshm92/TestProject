@@ -1,0 +1,7 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:page id="CustomLabelRenderPage" showHeader="false" standardStylesheets="false" contentType="text/plain" language="{!$CurrentPage.parameters.lang}">
+    {!$Label[$CurrentPage.parameters.labelName]}
+</apex:page>

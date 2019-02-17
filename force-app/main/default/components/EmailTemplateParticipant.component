@@ -1,0 +1,10 @@
+<!--
+ - Created by Leonid Bartenev
+
+ DEPRECATED!
+ -->
+
+<apex:component id="EmailTemplateParticipant" access="global">
+    <apex:attribute name="pContactId" type="Id" description="" access="global"/>
+    <apex:attribute name="buttonURL" type="String" description="" access="global"/>
+</apex:component>

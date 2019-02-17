@@ -1,0 +1,32 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS {
+    font-family: "Proxima Nova";
+    cursor: pointer;
+}
+
+.THIS.notification-block{
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+}
+
+.THIS .notification{
+    width: 24px;
+    height: 50px;
+}
+
+.THIS .amount{
+    min-width: 20px;
+    border-radius: 100px;
+    background-color: #dd2649;
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.5);
+    position: absolute;
+    top: 5px;
+    left: 12px;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 0 3px;
+}

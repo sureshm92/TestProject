@@ -1,0 +1,111 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ViewPatients"  implements="forceCommunity:availableForAllPageTypes" controller="ViewPatientsRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="peFilterData" type="Object"/>
+    <aura:attribute name="paginationData" type="Object"/>
+    <aura:attribute name="peFilter" type="Object"/>
+    <aura:attribute name="pageList" type="List"/>
+    <aura:attribute name="statistics" type="Object"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="peStatusesPathList" type="List"/>
+    <aura:attribute name="peStatusStateMap" type="Map"/>
+    <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
+    <aura:attribute name="changeStatusBtnList" type="List"/>
+    <aura:attribute name="piBtnFilter" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.peFilter}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.piBtnFilter}" action="{!c.doUpdateRecords}"/>
+
+    <!-- methods: -->
+    <aura:method name="updateStatistics" action="{!c.doUpdateStatistics}" access="public"/>
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+
+    <div class="rr-min-body-height">
+        <aura:if isTrue="{!v.isInitialized}">
+
+            <!-- statistic panel -->
+            <aura:if isTrue="{!empty(v.trialId)}">
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <c:RRNavigationPath>
+                        <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
+                    </c:RRNavigationPath>
+                    <aura:set attribute="else">
+                        <c:RRNavigationPath>
+                            <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
+                        </c:RRNavigationPath>
+                    </aura:set>
+                </aura:if>
+                <c:MyPatientsStatistics statistics="{!v.statistics}" userMode="{!v.userMode}" currentBtnFilter="{!v.piBtnFilter}"/>
+            </aura:if>
+
+            <!-- filter panel -->
+            <c:FilterPanel searchText="{!v.peFilter.searchText}"
+                           searchTextPlaceHolder="{!$Label.c.PG_MRRL_L_Search_for_a_patient}"
+                           recordsPerPage="{!v.paginationData.pageRecordsCount}"
+                           recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
+                           sortType="{!v.peFilter.sortType}"
+                           sortVariants="{!v.peFilterData.sortVariants}"
+                           allRecordsCount="{!v.paginationData.allRecordsCount}">
+                <aura:if isTrue="{!empty(v.trialId)}">
+                    <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"/>
+                </aura:if>
+                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"/>
+                    <c:rrSelect value="{!v.peFilter.referringStatus}" options="{!v.peFilterData.referringStatuses}" placeholder="{!$Label.c.PG_VP_L_Referring_statuses}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}" placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"/>
+                    <c:rrSelect value="{!v.peFilter.acceptenceStatus}" options="{!v.peFilterData.acceptenceStatuses}" placeholder="{!$Label.c.PG_VP_L_Acceptance_status}"/>
+                </aura:if>
+                <c:rrSelect value="{!v.peFilter.enrollmentStatus}" options="{!v.peFilterData.enrollmentStatuses}" placeholder="{!$Label.c.PG_SW_F_Enrollment_Status}"/>
+                <c:rrSelect value="{!v.peFilter.dateRange}" options="{!v.peFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}"/>
+
+                <!--aura:set attribute="buttons">
+                    <button class="apollo-btn tertiary">
+                        <c:RRIcon iconName="icon-save"/>Export
+                    </button>
+                </aura:set-->
+            </c:FilterPanel>
+
+            <!-- list of items: -->
+            <div style="position: relative; min-height: 100px; padding-bottom: 1px" class="slds-gutters_">
+                <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
+                <c:EmptyListStub targetList="{!v.pageList}"/>
+                <aura:iteration items="{!v.pageList}" var="item">
+                    <c:ViewPatientItem pe="{!item.pe}"
+                                       actions="{!item.actions}"
+                                       peStatusesPathList="{!v.peStatusesPathList}"
+                                       peStatusStateMap="{!v.peStatusStateMap}"
+                                       changeStatusBtnList="{!v.changeStatusBtnList}" parent="{!this}"/>
+                </aura:iteration>
+            </div>
+
+            <!-- pagination -->
+            <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                  currentPage="{!v.paginationData.currentPage}"
+                                  allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+
+            <!-- change PE status action by PI: -->
+            <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
+
+        </aura:if>
+    </div>
+</aura:component>

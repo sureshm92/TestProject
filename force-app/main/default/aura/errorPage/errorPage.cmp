@@ -1,0 +1,24 @@
+<!--Created by D.Yasinskyi on 14.05.2018-->
+<aura:component description="errorPage" implements="forceCommunity:availableForAllPageTypes">
+    <!--=============================================================================================================-->
+    <aura:attribute name="header"                       type="String" default="Oops! You have encountered the"/>
+    <aura:attribute name="errorNumber"                  type="String" default="404"/>
+    <aura:attribute name="secondHeader"                 type="String" default="error page!"/>
+    <aura:attribute name="reason"                       type="String" default="Why?"/>
+    <aura:attribute name="reasonDescription"            type="String" default="Because we can’t seem to find the page you are looking for. It is either unavailable or may no longer exist."/>
+    <aura:attribute name="additionalReasonDescription"  type="String" default="Please try using the navigation to find what you're looking for."/>
+    <!--=============================================================================================================-->
+    <div class="e-container slds-grid slds-wrap slds-grid_vertical-align-end">
+        <div class="e-info slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+            <div class="e-header">{!$Label.c.PG_Error_H1}</div>
+            <div class="e-error-number">{!v.errorNumber}</div>
+            <div class="e-second-header">{!$Label.c.PG_Error_H2}</div>
+        </div>
+        <div class="e-description slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+            <div class="e-reason">{!$Label.c.PG_Error_H3}</div>
+            <div class="e-header-description">{!$Label.c.PG_Error_T1}</div>
+            <br/>
+            <div class="e-header-description">{!$Label.c.PG_Error_T2}</div>
+        </div>
+    </div>
+</aura:component>

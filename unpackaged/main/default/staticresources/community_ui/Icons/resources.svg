@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="28px" viewBox="0 0 32 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>[icon] resources (32px @1x)</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-30.000000, -1514.000000)">
+        <g id="[icon]-resources-(32px-@1x)" transform="translate(30.000000, 1514.000000)" fill="#005587">
+            <path d="M0.0004,23.0004 L0.0004,21.0004 L32.0004,21.0004 L32.0004,23.0004 L0.0004,23.0004 Z M0.0004,28.0004 L0.0004,26.0004 L32.0004,26.0004 L32.0004,28.0004 L0.0004,28.0004 Z M31.852,18 L0,18 L6.525,0 L25.328,0 L31.852,18 Z M2.852,16 L29,16 L23.925,2 L7.927,2 L2.852,16 Z" id="resources"></path>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRNavigationPath">
+ 
+    <!-- component body: -->
+    <div class="navigation-path">
+        <aura:if isTrue="{!!empty(v.body)}">
+            <aura:iteration items="{!v.body}" var="navItem" indexVar="ind">
+                {!navItem}
+            </aura:iteration>
+        </aura:if>
+    </div>
+
+</aura:component>

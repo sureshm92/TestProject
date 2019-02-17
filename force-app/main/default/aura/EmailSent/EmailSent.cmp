@@ -1,0 +1,9 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="EmailSent"  implements="forceCommunity:availableForAllPageTypes">
+    <div style="display: flex; justify-content: center">
+        <a href="/.." class="rr-link">{!$Label.c.Link_Back_To_Login}</a>
+    </div>
+</aura:component>

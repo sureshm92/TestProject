@@ -1,0 +1,30 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="OpenToReceiveReferralsModal" controller="StudyDetailAboutStudyRemote">
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component" />
+
+    <aura:method name="show" action="{!c.doShow}">
+        <aura:attribute name="trial" type="Object" access="public"/>
+    </aura:method>
+    <aura:method name="hide" action="{!c.doHide}"/>
+
+    <c:Popup aura:id="reimbursmentModal" title="Reimbursement Configuration" size="medium" showFooter="true">
+        <div class="modal-dialog-body success">
+            <c:RRIcon iconName="icon-check-circle"/>
+            <div class="main-message">{!$Label.c.PG_OFE_L_Thank_you}</div>
+            <div class="header">
+                {!$Label.c.PG_OFE_L_Question}
+            </div>
+        </div>
+        <aura:set attribute="footerButtons">
+            <c:RRSpinner aura:id="spinner"/>
+            <button class="apollo-btn tertiary" id="0" onclick="{!c.doSetStudyStatus}">{!$Label.c.BTN_Yes}</button>
+            <button class="apollo-btn tertiary" id="1" onclick="{!c.doSetStudyStatus}">{!$Label.c.BTN_No}</button>
+            <button class="apollo-btn tertiary" id="2" onclick="{!c.doSetStudyStatus}">{!$Label.c.BTN_I_don_t_know_yet}</button>
+        </aura:set>
+    </c:Popup>
+
+</aura:component>

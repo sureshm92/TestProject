@@ -1,0 +1,13 @@
+<!--
+ - Created by Leonid Bartenev
+
+    DEPRECATED
+ -->
+
+<aura:component description="NavigationIcon">
+    <aura:attribute name="menuLabel" type="String"/>
+    <aura:attribute name="iconName" type="String" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:RRIcon iconName="{!v.iconName}" color="white" class="navigation-icon"/>
+</aura:component>

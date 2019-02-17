@@ -1,0 +1,22 @@
+<!--
+ - Created by D.Yasinskyi on 16.02.2018.
+ -->
+<aura:component description="EmptyListStub">
+
+    <aura:attribute name="id" type="String"/>
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="iconName" type="String" description="sad/happy/neutral" default="sad"/>
+    <aura:attribute name="message" type="String" default="{!$Label.c.PG_VP_L_No_Items}"/>
+    <aura:attribute name="color" type="String" default="#CCCCCC"/>
+    <aura:attribute name="targetList" type="List"/>
+
+    <aura:if isTrue="{!empty(v.targetList)}">
+        <div class="main-container">
+            <c:RRIcon iconName="{!'icon-face-' + v.iconName}" color="{!v.color}" id="{!v.id}" class="{!v.class}"/>
+            <div id="{!v.id}" class="{!'message ' + v.class}" style="{! 'color: ' + v.color + ';'}">
+                    {!v.message}
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

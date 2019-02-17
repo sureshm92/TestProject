@@ -1,0 +1,22 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CommunityFooter">
+    <div class="rrc-footer">
+        <div class="cf-margin-cutter">
+            <div class="cf-links">
+                <div class="cf-link">
+                    <c:FooterLink label="{!$Label.c.Footer_Link_About_IQVIA}" link="https://www.iqvia.com/"/>
+                </div>
+                <div class="cf-link">
+                    <c:FooterLink label="{!$Label.c.Footer_Link_Privacy_Policy}" page="privacy-policy"/>
+                </div>
+                <div class="cf-link">
+                    <c:FooterLink label="{!$Label.c.Footer_Link_Terms_Of_Use}" page="terms-and-conditions"/>
+                </div>
+            </div>
+            <div class="cf-copyright">{!$Label.c.Footer_T_Copyright}</div>
+        </div>
+    </div>
+</aura:component>

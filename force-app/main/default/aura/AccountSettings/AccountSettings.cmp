@@ -1,0 +1,255 @@
+<!--Created by D.Yasinskyi on 07.05.2018-->
+<aura:component controller="AccountSettingsController" description="AccountSettings">
+    <!--=============================================================================================================-->
+    <aura:attribute name="userMode" type="String" required="true"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="initData" type="Object" access="private"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="{!true}" access="private"/>
+    <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="{!false}" access="private"/>
+    <aura:attribute name="currentEmail" type="String" access="private"/>
+    <aura:attribute name="privacyFormText" type="String" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!--=============================================================================================================-->
+
+    <div class="as-container">
+
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+
+        <aura:if isTrue="{!v.isInitialized}">
+            <div class="rr-white-panel" style="padding: 30px">
+                <div class="as-title">{!$Label.c.PG_AS_H_Email}</div>
+                <div class="as-email rr-form-element">
+                    <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label">{!$Label.c.PG_AS_F_Username}</div>
+                            <c:rrInput valueString="{!v.initData.userName}" placeholder="{!$Label.c.PG_AS_F_Username}"
+                                       disabled="{!true}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
+                            <c:rrInput valueString="{!v.initData.myContact.Email}"
+                                       placeholder="{!$Label.c.PG_AS_F_Email_address}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <button class="apollo-btn primary" id="0"
+                                    onclick="{!c.doChangeEmail}">{!$Label.c.PG_AS_BTN_Update_My_Email}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="as-title ">{!$Label.c.PG_AS_H_Change_Password}</div>
+                <div class="as-password">
+                    <div class="as-password-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                            <div class="label">{!$Label.c.PG_AS_F_Old_password}</div>
+                            <c:rrInput type="password" valueString="{!v.initData.password.old}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                            <div class="label">{!$Label.c.PG_AS_F_New_password}</div>
+                            <c:rrInput type="password" valueString="{!v.initData.password.new}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                            <div class="label">{!$Label.c.PG_AS_F_Re_enter_new_password}</div>
+                            <c:rrInput type="password" valueString="{!v.initData.password.reNew}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                            <button class="apollo-btn primary" id="0"
+                                    onclick="{!c.doChangePassword}">{!$Label.c.PG_AS_BTN_Update_My_Password}</button>
+                        </div>
+                    </div>
+                    <!--<div class="as-password-button">-->
+                    <!--<button class="apollo-btn primary" id="0" onclick="{!c.doChangePassword}">{!$Label.c.PG_AS_BTN_Update_My_Password}</button>-->
+                    <!--</div>-->
+                </div>
+
+
+            </div>
+
+            <!-- Date format and preferred language panel: -->
+            <div class="rr-white-panel" style="padding: 30px">
+                <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>
+                <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                <div class="as-language-switcher">
+                    <c:LanguageSwitcher/>
+                </div>
+                <aura:if isTrue="{!v.userMode != 'PI'}">
+                    <div class="as-email-preference">
+                        <div class="as-title ">{!$Label.c.PG_AS_H_Email_Preferences}</div>
+                        <aura:if isTrue="{!v.userMode=='HCP'}">
+                            <div class="as-sub-title"
+                                 style="margin-bottom: 15px">{!$Label.c.PG_AS_T_HCP_Email_Preferences}</div>
+                            <div class="as-email-pref-item slds-grid slds-gutters">
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                 class="slds-col ah-toggle"
+                                                 checked="{!v.initData.myContact.HCP_Opt_In_Patient_Status_Emails__c}"
+                                                 onchange="{!c.doSwitchOptInEmail}"/>
+                                {!$Label.c.PG_AS_L_Opt_In_HCP_Patient_Status_Emails}
+                            </div>
+                            <div class="as-email-pref-item slds-grid slds-gutters">
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                 class="slds-col ah-toggle"
+                                                 checked="{!v.initData.myContact.HCP_Opt_In_Study_Emails__c}"
+                                                 onchange="{!c.doSwitchOptInEmail}"/>
+                                {!$Label.c.PG_AS_L_Opt_In_HCP_Study_Emails}
+                            </div>
+                            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                 class="slds-col ah-toggle"
+                                                 checked="{!v.initData.myContact.HCP_Opt_In_Referral_Status_Emails__c}"
+                                                 onchange="{!c.doSwitchOptInEmail}"/>
+                                {!$Label.c.PG_AS_L_Opt_In_HCP_Referral_Status_Emails}
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.userMode=='Participant'}">
+                            <div class="as-sub-title">{!$Label.c.PG_AS_T_Participant_Email_Preferences}</div>
+                            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                 class="slds-col ah-toggle"
+                                                 checked="{!v.initData.myContact.Participant_Opt_In_Status_Emails__c}"
+                                                 onchange="{!c.doSwitchOptInEmail}"/>
+                                {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
+                            </div>
+                        </aura:if>
+                        <div style="height: 15px"></div>
+                    </div>
+                </aura:if>
+
+            </div>
+
+
+            <div class="rr-white-panel" style="padding: 30px">
+                <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
+                <div class="as-sub-title">
+                    {!$Label.c.PG_AS_T1_Contact_Info + ' '}
+                    <c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>
+                    {!' ' + $Label.c.PG_AS_T3_Contact_Info}
+                </div>
+                <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+
+                    <aura:if isTrue="{!v.userMode == 'PI' || v.userMode == 'HCP'}">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_First_name}</div>
+                            <c:rrInput valueString="{!v.initData.myContact.FirstName}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Last_name}</div>
+                            <c:rrInput valueString="{!v.initData.myContact.LastName}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Name}</div>
+                            <c:rrInput valueString="{!v.initData.institute.Name}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Address_Line}</div>
+                            <c:rrInput valueString="{!v.initData.institute.BillingStreet}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_City}</div>
+                            <c:rrInput valueString="{!v.initData.institute.BillingCity}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_State}</div>
+                            <c:rrInput valueString="{!v.initData.institute.BillingState}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Zip_Postal_Code}</div>
+                            <c:rrInput valueString="{!v.initData.institute.BillingPostalCode}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Country}</div>
+                            <c:rrInput valueString="{!v.initData.institute.BillingCountry}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Phone_Number}</div>
+                            <c:rrInput valueString="{!v.initData.institute.Phone}" disabled="{!true}"/>
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Fax_Number}</div>
+                            <c:rrInput valueString="{!v.initData.institute.Fax}" disabled="{!true}"/>
+                        </div>
+
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_First_name}</div>
+                            <c:rrInput valueString="{!v.initData.participant.First_Name__c}" disabled="true"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Last_name}</div>
+                            <c:rrInput valueString="{!v.initData.participant.Last_Name__c}" disabled="true"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
+                            <c:rrInput valueString="{!v.initData.participant.Phone__c}" disabled="true"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PE_State}</div>
+                            <c:rrInput valueString="{!v.initData.participant.Mailing_State__c}" disabled="true"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PE_Country}</div>
+                            <c:rrInput valueString="{!v.initData.participant.Mailing_Country__c}" disabled="true"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
+                            <c:rrInput valueString="{!v.initData.participant.Mailing_Zip_Postal_Code__c}"
+                                       disabled="true"/>
+                        </div>
+                    </aura:if>
+
+                </div>
+
+            </div>
+
+            <div class="rr-white-panel" style="padding: 30px">
+                <div class="as-title">{!$Label.c.PG_AS_H_Privacy_Rights}</div>
+                <!--<div class="as-privacy slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">-->
+                <!--<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">-->
+                <!--<lightning:input type="checkbox" label="Opt me out of email communications."-->
+                <!--checked="{!v.initData.myContact.HasOptedOutOfEmail}" onchange="{!c.doSwitchHasOptedOutOfEmail}"/>-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="as-sub-title">{!$Label.c.PG_AS_T_Privacy_Rights}</div>
+                <div class="as-privacy-form slds-grid slds-wrap slds-grid_vertical-align-end">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-medium-size_1-of-1">
+                                <lightning:textArea value="{!v.privacyFormText}" name="description" label=""
+                                                    variant="label-hidden"
+                                                    placeholder="{!$Label.c.PG_AS_F_Placeholder_Enter_text}"/>
+                            </div>
+                            <div class="slds-medium-size_8-of-12 slds-medium-show"/>
+                            <div class="slds-col slds-size_1-of-1  slds-medium-size_4-of-12">
+                                <button class="as-submit-button apollo-btn primary" id="2"
+                                        onclick="{!c.doSubmitQuestion}">{!$Label.c.PG_AS_BTN_Submit_Your_Question}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </aura:if>
+    </div>
+
+</aura:component>

@@ -1,0 +1,110 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.db-content{
+    margin-top: 10px;
+    padding-bottom: 100px;
+}
+.THIS .db-header{
+    font-size: 30px;
+    line-height: 40px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.THIS .db-header.centered{
+    justify-content: center;
+}
+
+.THIS .db-header svg{
+    fill: black;
+    width: 32px;
+    height: 32px;
+    margin-right: 6px;
+    flex-shrink: 0;
+}
+
+.THIS .db-list-item{
+    border-bottom: 2px solid #cccccc;
+    padding: 10px 0;
+    line-height: 16px;
+}
+
+.THIS .db-list-item:not(.header){
+    min-height: 54px;
+}
+
+.THIS .db-list-item.header{
+    padding-bottom: 4px;
+
+}
+.THIS .db-list-item.header > span{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.THIS .db-list-item .apollo-btn{
+    margin-left: 10px;
+    float: right;
+
+}
+
+.THIS .db-list-item .apollo-btn.text{
+    padding: 0;
+    line-height: 16px;
+}
+
+.THIS .db-list-item .apollo-btn.tertiary,
+.THIS .db-list-item .apollo-btn.primary{
+    padding: 6px 16px;
+    line-height: 18px;
+    font-size: 14px;
+    min-width: inherit;
+}
+
+.THIS .db-section{
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.THIS .db-section > .slds-col{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.THIS .db-section2{
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.THIS .db-section2 > .slds-col{
+    margin-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.THIS .db-charts{
+    margin-top: 20px;
+}
+
+.THIS .db-section-devider{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background-color: #CCCCCC;
+    height: 2px;
+}
+
+.THIS .db-hcp-chart{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.THIS .btn-block{
+    padding-top: 10px;
+    padding-bottom: 4px;
+}
+
+.THIS .db-list-item .btn-block .apollo-btn{
+    float: none;
+    margin-left: 0;
+}

@@ -1,0 +1,33 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRFileSelect">
+
+    <!-- attributes: -->
+    <aura:attribute name="label" type="String" default="{!$Label.c.PG_FS_L_Choose_File}"/>
+    <aura:attribute name="placeholder" type="String" default="{!$Label.c.PG_FS_L_Or_drop_here}" access="public"/>
+    <aura:attribute name="acceptFormat" type="String" default="image/*"/>
+    <aura:attribute name="selectorId" type="String" default="fileUploadId"/>
+    <aura:attribute name="fileContent" type="String"/>
+    <aura:attribute name="class" type="String"/>
+
+    <!-- methods: -->
+    <aura:method name="reset" action="{!c.doReset}" access="public"/>
+
+    <!-- component body: -->
+    <div class="{!'slds-form-element ' + v.class}">
+        <div class="slds-form-element__control" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}" >
+            <div class="slds-file-selector slds-file-selector_files full-width">
+                <div class="slds-file-selector__dropzone full-width">
+                    <input id="{!v.selectorId + '_input'}" class="slds-file-selector__input slds-assistive-text" onchange="{!c.onFileSelect}" type="file" accept="{!v.acceptFormat}"/>
+                    <label class="slds-file-selector__body full-width" for="{!v.selectorId + '_input'}">
+                        <span class="slds-file-selector__button slds-button slds-button_neutral" style="display: inline-block">{!v.label}</span>
+                        <span class="slds-file-selector__text slds-medium-show">{!v.placeholder}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,29 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<apex:component id="EmailTemplateDelegateTable">
+
+    <!-- attributes: -->
+    <apex:attribute name="title" type="String" description=""/>
+    <apex:attribute name="delegateLevels" type="DelegateLevelWrapper[]" description=""/>
+
+    <!-- component body: -->
+    <br/><br/>
+    {!title}
+    <br/><br/>
+    <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
+        <apex:repeat value="{!delegateLevels}" var="studyLevel">
+            <tr style="font-size: 16px; color: #424242; ">
+                <td style="border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 20%; padding: 10px 0 10px 0">
+                    {!studyLevel.level}
+                </td>
+                <td style="font-weight: bold;border-bottom: 0.5px solid #979797;border-top: 0.5px solid #979797; width: 80%;padding: 10px 0 10px 0">
+                    {!studyLevel.studyName}
+                </td>
+            </tr>
+        </apex:repeat>
+    </table>
+    <br/><br/>
+
+</apex:component>

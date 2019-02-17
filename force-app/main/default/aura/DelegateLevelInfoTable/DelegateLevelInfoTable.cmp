@@ -1,0 +1,52 @@
+<!--
+ - Created by Kryvolap on 13.09.2018.
+ -->
+
+<aura:component description="DelegateLevelInfoTable">
+    <!-- attributes: -->
+    <aura:attribute name="userMode" required="true" type="String"/>
+    <aura:attribute name="capList" required="false" access="private" type="Object[]"/>
+    <aura:attribute name="header" required="false" access="private" type="Object"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- component body-->
+    <div class="dlit-container">
+        <table class="dlit-table">
+            <tr>
+                <th>
+                    <span>
+                        {!v.header.text}
+                    </span>
+                </th>
+                <aura:iteration items="{!v.header.levels}" var="level">
+                    <th>
+                        <span>{!level}</span>
+                    </th>
+                </aura:iteration>
+            </tr>
+            <aura:iteration items="{!v.capList}" var="capability">
+                <tr>
+                    <td>
+                    <span>
+                        {!capability.text}
+                    </span>
+                    </td>
+                    <aura:iteration items="{!capability.levels}" var="level">
+                        <td>
+                            <aura:if isTrue="{!level}">
+                                <lightning:icon class="greenIcon" iconName="utility:check" size="xx-small"/>
+                            </aura:if>
+                            <aura:if isTrue="{!not(level)}">
+                                <span>
+                                    -
+                                </span>
+                            </aura:if>
+                        </td>
+                    </aura:iteration>
+                </tr>
+            </aura:iteration>
+        </table>
+    </div>
+</aura:component>

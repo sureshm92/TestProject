@@ -1,0 +1,48 @@
+<!--
+ - Created by D.Yasinskyi on 02.03.2018.
+ -->
+<aura:component controller="MyReferringClinicsController" description="ReferringClinicEnrollmentItem">
+
+    <!-- attributes: -->
+    <aura:attribute name="enrollmentData" type="Object" required="true"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
+    <aura:attribute name="parent" type="Aura.Component" required="true"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.handelChangeStatus}" access="public"/>
+
+    <!-- component body: -->
+    <c:InfoModal aura:id="infoModal"/>
+    <div class="rcei-body slds-grid slds-wrap">
+        <c:RRSpinner aura:id="mainSpinner"/>
+        <div class="rcei-left slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+
+            <div class="rcei-info">
+                <div class="rcei-name">{!$Label.c.PG_DBPI_Dr + ' ' + v.enrollmentData.enrollment.HCP_Contact__r.FirstName + ' ' + v.enrollmentData.enrollment.HCP_Contact__r.LastName}</div>
+
+                <div class="{! 'rcei-status status-' + v.enrollmentData.status}">{!v.enrollmentData.statusLabel}</div>
+            </div>
+            <div class="rcei-details" onclick="{!c.showPopUpInfo}">
+                {!$Label.c.PG_RSSEI_L_Status_Details}
+            </div>
+        </div>
+
+        <div class="rcei-right slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+            <div class="{!'slds-grid slds-wrap slds-gutters' + if(!$Browser.isPhone, ' slds-grid--align-end', '')}">
+                <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
+                    <div class="slds-col">
+                        <button id="{!action.id}"
+                                disabled="{!action.disabled}"
+                                title="{!action.disableReason}"
+                                class="{!'apollo-btn tertiary slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass}"
+                                tabindex="-1"
+                                onclick="{!c.doAction}">
+                            {!action.label}
+                        </button>
+                    </div>
+                </aura:iteration>
+
+            </div>
+        </div>
+    </div>
+</aura:component>

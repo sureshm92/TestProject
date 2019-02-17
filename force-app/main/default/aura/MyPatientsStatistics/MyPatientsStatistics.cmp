@@ -1,0 +1,45 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="MyPatientsStatistics">
+
+    <!-- attributes: -->
+    <aura:attribute name="statistics" type="object"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="currentBtnFilter" type="String"/>
+    <aura:attribute name="hcpBtnValue" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.hcpBtnValue}" action="{!c.doNavigateToMMR}"/>
+
+    <!-- component body: -->
+    <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
+        <aura:if isTrue="{!v.userMode == 'HCP'}">
+            <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 mps-filter-btn">
+                <c:rrFilterPill number="{!v.statistics.pendingReferral}" value="{!v.hcpBtnValue}" thisBtnValue="Pending Referral" showChevron="true">
+                    {!$Label.c.PG_MPS_L_Patients_from_Medical_Record_Review_Log_waiting_to_be_referred}
+                </c:rrFilterPill>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_9-of-12">
+                <c:rrSummaryPill summaryContainerList="{!v.statistics.subTotals}" labelMaxWidth="60px"/>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <div class="slds-col slds-size_1-of-2 slds-large-size_2-of-12 mps-filter-btn">
+                <c:rrFilterPill number="{!v.statistics.piPending}" value="{!v.currentBtnFilter}" thisBtnValue="pending" showChevron="true">
+                    {!$Label.c.PG_MPS_L_Referrals_pending_acceptance}
+                </c:rrFilterPill>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-large-size_2-of-12 mps-filter-btn">
+                <c:rrFilterPill number="{!v.statistics.inProgress}" value="{!v.currentBtnFilter}" thisBtnValue="in_progress" showChevron="true">
+                    {!$Label.c.PG_MPS_L_Referrals_in_progress}
+                </c:rrFilterPill>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                <c:rrSummaryPill summaryContainerList="{!v.statistics.subTotals}" labelMaxWidth="60px"/>
+            </div>
+
+        </aura:if>
+    </div>
+</aura:component>

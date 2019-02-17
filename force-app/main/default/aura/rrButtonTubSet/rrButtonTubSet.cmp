@@ -1,0 +1,6 @@
+<!--Created by D.Yasinskyi on 27.04.2018-->
+<aura:component description="rrButtonTubSet">
+    <div class="bts-container slds-grid">
+            {!v.body}
+    </div>
+</aura:component>

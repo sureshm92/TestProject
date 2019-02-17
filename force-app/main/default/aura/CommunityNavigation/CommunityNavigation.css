@@ -1,0 +1,62 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .nav-item{
+    color: white;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 16px 10px;
+    white-space: nowrap;
+
+}
+
+.THIS .nav-item:hover{
+    background-color: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+
+.THIS .nav-item.active{
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.THIS.nav-menu{
+    display: flex;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.THIS.nav-menu.right{
+    margin-left: 20px;
+}
+
+.THIS.nav-menu.left{
+    margin-right: 20px;
+}
+
+.THIS.scroll-btn-container{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.THIS.scroll-btn-container.left{
+    position: absolute;
+    right: 5px;
+    top: 0;
+}
+
+.THIS.scroll-btn-container.right{
+    position: absolute;
+    left: 5px;
+    top: 0;
+}
+
+.THIS.scroll-btn-container svg{
+    fill: white;
+    width: 14px;
+    opacity: 0.8;
+}

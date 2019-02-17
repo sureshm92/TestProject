@@ -1,0 +1,8 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:tokens extends="force:base">
+    <aura:token name="sideMenuWidth" value="250px"/>
+    <aura:token name="sideMoveSpeed" value=".35s"/>
+</aura:tokens>

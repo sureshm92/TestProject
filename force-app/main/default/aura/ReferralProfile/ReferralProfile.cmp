@@ -1,0 +1,131 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ReferralProfile" implements="forceCommunity:availableForAllPageTypes" controller="ReferralProfileRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="peId" type="String"/>
+    <aura:attribute name="enrollment" type="Object"/>
+    <aura:attribute name="statusSteps" type="List"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="showStepSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="multiMode" type="Boolean"/>
+    <aura:attribute name="currentScreeningId" type="String" access="private"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+    <div>
+        <aura:if isTrue="{!v.isInitialized}">
+            <!-- change PE status action by PI: -->
+            <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
+            
+            <!-- top bar -->
+            <div class="{!'rr-top-bar ' + if(v.multiMode, ' multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+                <div class="rr-width-limiter side-padding">
+                    <c:RRNavigationPath>
+                        <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}" page="my-referrals"/>
+                        <c:RRNPathItem label="{!$Label.c.PG_RP_L_Referral_Profile}"/>
+                    </c:RRNavigationPath>
+                </div>
+                <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
+                    <div class="title rr-width-limiter side-padding">{!v.enrollment.Participant__r.First_Name__c + ' ' + v.enrollment.Participant__r.Last_Name__c}</div>
+                </div>
+                <!-- Stub visible only when sticky bar fixed-->
+                <div >
+                    <div class="height-stub" style="height: 56px"></div>
+                </div>
+            </div>
+            <div class="rr-width-limiter side-padding rp-body">
+                <!-- enrollment info panel: -->
+                <div class="rr-white-panel padding">
+                    <div class="rr-fields-cutter">
+                        <div class="rr-fields-container">
+                            <div class="rr-output-field">
+                                <div class="label">{!$Label.c.PE_Referral_Id}</div>
+                                <div class="value">{!v.enrollment.Name}</div>
+                            </div>
+                            <div class="rr-output-field">
+                                <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                                <div class="value"><ui:outputDate value="{!v.enrollment.Referred_Date__c}"/></div>
+                            </div>
+
+                            <div class="rr-output-field">
+                                <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
+                                <div class="value">
+                                    <c:RRLink maxWidth="200px" label="{!v.enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                                              page="{!'study-workspace?id=' + v.enrollment.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                                </div>
+                            </div>
+                            <div class="rr-output-field">
+                                <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                                <div class="value "><div class="rp-max-length">{!v.enrollment.Study_Site__r.Name}</div></div>
+                            </div>
+                            <div class="rr-output-field">
+                                <div class="label">{!$Label.c.PE_Referring_provider}</div>
+                                <div class="value">
+                                    <aura:if isTrue="{!!empty(v.enrollment.HCP__c)}">
+                                        <c:RRLink label="{!v.enrollment.HCP__r.HCP_Contact__r.Name}"
+                                                  page="{!'clinic-profile?id=' + v.enrollment.HCP__r.HCP_Contact__r.AccountId}"
+                                                  maxWidth="250px"/>
+                                        <aura:set attribute="else">{!v.enrollment.Referral_Source__c}</aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <div class="rr-output-field">
+                                <div class="label">{!$Label.c.PE_Country}</div>
+                                <div class="value">{!v.enrollment.Participant__r.Mailing_Country__c}</div>
+                            </div>
+                            <aura:if isTrue="{!!empty(v.enrollment.Participant__r.Mailing_State__c)}">
+                                <div class="rr-output-field">
+                                    <div class="label">{!$Label.c.PE_State}</div>
+                                    <div class="value">{!v.enrollment.Participant__r.Mailing_State__c}</div>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+
+                    <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                            <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
+                            <c:rrInput valueString="{!v.enrollment.Participant__r.Email__c}" placeholder="{!$Label.c.PG_AS_F_Email_address}" disabled="{!true}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
+                            <div class="label">{!$Label.c.PE_Phone_number}</div>
+                            <c:rrInput valueString="{!v.enrollment.Participant__r.Phone__c}"  disabled="{!true}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
+                            <div class="{!'label' + if(v.enrollment.Screening_ID__c == v.currentScreeningId,'',' changed')}">{!$Label.c.PE_Screening_ID}</div>
+                            <c:rrInput valueString="{!v.enrollment.Screening_ID__c}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
+                            <button class="apollo-btn tertiary rp-save-btn" onclick="{!c.saveScreeningId}"
+                                    disabled="{!v.enrollment.Screening_ID__c == v.currentScreeningId}">{!$Label.c.BTN_Save}</button>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 rp-please-contact">
+                            {!$Label.c.PG_RP_L_Information_incorrect + ' '}<c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- status detail: -->
+                <div class="slds-grid slds-grid_vertical rp-status-detail">
+                    <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">
+                        <c:ReferralProfileStepControls parent="{!this}" step="{!step}" pe="{!v.enrollment}"/>
+                    </aura:iteration>
+                </div>
+            </div>
+
+        </aura:if>
+    </div>
+</aura:component>

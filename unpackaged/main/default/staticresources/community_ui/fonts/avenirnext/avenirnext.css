@@ -1,0 +1,127 @@
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-BoldItalic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Bold Italic'), local('AvenirNextCyr-BoldItalic'), url('AvenirNextCyr-BoldItalic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-BoldItalic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-BoldItalic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Light.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Light'), local('AvenirNextCyr-Light'), url('AvenirNextCyr-Light.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Light.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Light.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Demi.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Demi'), local('AvenirNextCyr-Demi'), url('AvenirNextCyr-Demi.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Demi.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Demi.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-ThinItalic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Thin Italic'), local('AvenirNextCyr-ThinItalic'), url('AvenirNextCyr-ThinItalic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-ThinItalic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-ThinItalic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Italic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Italic'), local('AvenirNextCyr-Italic'), url('AvenirNextCyr-Italic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Italic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Italic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-HeavyItalic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Heavy Italic'), local('AvenirNextCyr-HeavyItalic'), url('AvenirNextCyr-HeavyItalic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-HeavyItalic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-HeavyItalic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-MediumItalic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Medium Italic'), local('AvenirNextCyr-MediumItalic'), url('AvenirNextCyr-MediumItalic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-MediumItalic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-MediumItalic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-LightItalic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Light Italic'), local('AvenirNextCyr-LightItalic'), url('AvenirNextCyr-LightItalic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-LightItalic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-LightItalic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Medium.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Medium'), local('AvenirNextCyr-Medium'), url('AvenirNextCyr-Medium.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Medium.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Medium.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next Ultra';
+  src: url('AvenirNextCyr-UltraLightIt.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Ultra Light Italic'), local('AvenirNextCyr-UltraLightIt'), url('AvenirNextCyr-UltraLightIt.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-UltraLightIt.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-UltraLightIt.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Regular.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Regular'), local('AvenirNextCyr-Regular'), url('AvenirNextCyr-Regular.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Regular.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Regular.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next Ultra';
+  src: url('AvenirNextCyr-UltraLight.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Ultra Light'), local('AvenirNextCyr-UltraLight'), url('AvenirNextCyr-UltraLight.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-UltraLight.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-UltraLight.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Heavy.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Heavy'), local('AvenirNextCyr-Heavy'), url('AvenirNextCyr-Heavy.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Heavy.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Heavy.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Bold.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Bold'), local('AvenirNextCyr-Bold'), url('AvenirNextCyr-Bold.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Bold.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Bold.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-DemiItalic.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Demi Italic'), local('AvenirNextCyr-DemiItalic'), url('AvenirNextCyr-DemiItalic.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-DemiItalic.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-DemiItalic.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('AvenirNextCyr-Thin.eot?orgId=00D1I000001V1t1');
+  src: local('Avenir Next Thin'), local('AvenirNextCyr-Thin'), url('AvenirNextCyr-Thin.eot?orgId=00D1I000001V1t1#iefix') format('embedded-opentype'), url('AvenirNextCyr-Thin.woff?orgId=00D1I000001V1t1') format('woff'), url('AvenirNextCyr-Thin.ttf?orgId=00D1I000001V1t1') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}

@@ -1,0 +1,42 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Dashboard" implements="forceCommunity:availableForAllPageTypes" controller="DashboardRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="hcpData" type="Object"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+    <aura:if isTrue="{!v.isInitialized}">
+        <c:RRNavigationPath>
+            <c:RRNPathItem label="{!$Label.c.PG_DB_L_Dashboard}"/>
+        </c:RRNavigationPath>
+        <div class="db-content">
+            <aura:if isTrue="{!v.userMode == 'PI'}">
+                <c:DashboardPI piData="{!v.piData}" parent="{!this}"/>
+                <!-- change PE status action by PI: -->
+                <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
+                <!-- Change HCP Status dialog -->
+                <c:Action_ChangeHCPStatusByPI aura:id="changeHCPStatusByPIAction"/>
+            </aura:if>
+            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <c:DashboardHCP hcpData="{!v.hcpData}"/>
+            </aura:if>
+        </div>
+
+   </aura:if>
+</aura:component>

@@ -1,0 +1,78 @@
+<aura:component controller="MyReferredZoneController" description="MyReferredZone">
+    <!--=============================================================================================================-->
+    <aura:attribute name="workspaceWrapper"             type="List" required="true"/>
+    <aura:attribute name="userMode"                     type="String" required="true" description="HCP / PI / Participant"/>
+    <!--===========================================HCP===============================================================-->
+    <aura:attribute name="showEnrollments"              type="Boolean" default="{!true}"/>
+    <!--===========================================PI================================================================-->
+    <aura:attribute name="filterByStudy"                type="Boolean" default="{!false}"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="isInitialized"                type="Boolean" default="{!false}"   access="private"/>
+    <aura:attribute name="child"                        type="Aura.Component"               access="private"/>
+    <!--=============================================================================================================-->
+    <aura:attribute name="statusOptions"                type="List"                         access="private"/>
+    <aura:attribute name="sortOptions"                  type="List"                         access="private"/>
+    <aura:attribute name="entriesOptions"               type="List"                         access="private"/>
+    <!--===========================================FILTERS===========================================================-->
+    <aura:attribute name="statusFilter"                 type="String" default=""            access="private"/>
+    <aura:attribute name="sortBy"                       type="String" default="last-added"  access="private"/>
+    <aura:attribute name="searchText"                   type="String" default=""            access="private"/>
+    <aura:attribute name="statusFilterPlaceholder"      type="String"                       access="private"/>
+    <aura:attribute name="searchTextPlaceholder"        type="String"                       access="private"/>
+    <aura:attribute name="objectLabel"                  type="String"                       access="private"/>
+    <!--===========================================PAGINATION========================================================-->
+    <aura:attribute name="allObjects"                   type="List"                         access="private"/>
+    <aura:attribute name="currentObjects"               type="List"                         access="private"/>
+    <aura:attribute name="entriesOnPage"                type="Integer" default="10"         access="private"/>
+    <aura:attribute name="currentPage"                  type="Integer" default="1"          access="private"/>
+    <aura:attribute name="totalPages"                   type="Integer" default="1"          access="private"/>
+    <!--=============================================================================================================-->
+    <aura:handler name="init"               value="{!this}"                     action="{!c.doInit}"/>
+    <aura:handler name="change"             value="{!v.workspaceWrapper}"       action="{!c.doInit}"/>
+    <aura:handler name="change"             value="{!v.searchText}"             action="{!c.doSearch}"/>
+    <aura:handler name="change"             value="{!v.statusFilter}"           action="{!c.onFilterStatusChange}"/>
+    <aura:handler name="change"             value="{!v.sortBy}"                 action="{!c.onSortByChange}"/>
+    <!--=============================================================================================================-->
+    <aura:if isTrue="{!and(v.isInitialized, v.userMode == 'PI')}">
+        <c:Action_ChangeHCPStatusByPI aura:id="changeHCPStatusByPIAction"/>
+    </aura:if>
+
+    <div class="mrz-filter">
+
+        <c:FilterPanel searchText="{!v.searchText}"
+                       searchTextPlaceHolder="{!v.searchTextPlaceholder}"
+                       recordsPerPage="{!v.entriesOnPage}"
+                       recordsPerPageVariants="{!v.entriesOptions}"
+                       sortType="{!v.sortBy}"
+                       sortVariants="{!v.sortOptions}"
+                       allRecordsCount="{!v.allObjects.length}"
+                       itemTitle="{!if(v.userMode == 'PI', $Label.c.PG_MRZ_L_clinics, $Label.c.PG_MRZ_L_study_sites)}" >
+
+            <c:rrSelect value="{!v.statusFilter}" options="{!v.statusOptions}" placeholder="{!v.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
+        </c:FilterPanel>
+
+    </div>
+
+    <div class="mrz-main-container">
+
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <aura:iteration items="{! v.currentObjects}" var="item">
+                <c:ReferringClinicItem clinicWrapper="{!item}" userMode="{!v.userMode}" filterByStudy="{!v.showEnrollments}" parent="{!this}"/>
+            </aura:iteration>
+        </aura:if>
+        <aura:if isTrue="{!v.userMode == 'HCP'}">
+            <aura:iteration items="{! v.currentObjects}" var="item">
+                <c:ReferringStudySiteItem workspaceWrapper="{!item}" userMode="{!v.userMode}" showEnrollments="{!v.showEnrollments}"/>
+            </aura:iteration>
+        </aura:if>
+
+        <div class="stub">
+            <c:EmptyListStub targetList="{!v.currentObjects}"/>
+        </div>
+
+    </div>
+
+    <c:rrPagination allObjects="{!v.allObjects}" currentObjects="{!v.currentObjects}" entriesOnPage="{!v.entriesOnPage}"
+                    currentPage="{!v.currentPage}" totalPages="{!v.totalPages}"/>
+
+</aura:component>

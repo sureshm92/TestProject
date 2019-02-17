@@ -1,0 +1,80 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="TranslationExportImport" implements="force:appHostable" controller="TranslationExportImportRemote">
+    <!-- import libs: -->
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.filesaver)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="studySite" type="Study_Site__c" default="{ 'sobjectType': 'Study_Site__c' }"/>
+    <aura:attribute name="translateItem" type="Translation__c" default="{'sobjectType': 'Translation__c'}"/>
+    <aura:attribute name="accept" type="String" default=".xlf"/>
+    <aura:attribute name="fileName" type="String"/>
+    <aura:attribute name="fileContent" type="String"/>
+    <aura:attribute name="exportType" type="String" default="Bilingual"/>
+    <aura:attribute name="importResult" type="Object"/>
+
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.fileContent}" action="{!c.doResetImportResult}"/>
+
+    <!-- component body: -->
+    <div>
+        <div class="slds-page-header__title" style="padding: 10px;">Translation Export/Import</div>
+        <div class="slds-grid slds-wrap" style="position: relative">
+            <c:RRSpinner aura:id="spinner" size="medium"/>
+            <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="border-panel">
+                    <div class="section-header">Export</div>
+                    <div class="export-form slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                            <label class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Select study</label>
+                            <div class="slds-form-element__control">
+                                <force:inputField value="{!v.studySite.Clinical_Trial_Profile__c}" class="study-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                            <label class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Select language</label>
+                            <div class="slds-form-element__control">
+                                <force:inputField value="{!v.translateItem.Language__c}" class="study-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select name="select1" label="Select export type" required="true" value="{!v.exportType}">
+                                <option value="Bilingual">Bilingual</option>
+                                <option value="Untranslated">Untranslated</option>
+                                <option value="Source">Source</option>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_2-of-2">
+                            <lightning:button variant="brand" label="Export" title="Export" class="export-btn" onclick="{!c.doExport}"
+                                              disabled="{!empty(v.studySite.Clinical_Trial_Profile__c)}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="border-panel">
+                    <div class="section-header">Import</div>
+                    <div class="export-form slds-grid slds-wrap slds-gutters">
+                        <c:RRFileSelect aura:id="fileSelector" class="slds-col slds-size_1-of-1" acceptFormat="{!v.accept}" fileContent="{!v.fileContent}" />
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning:button variant="brand" label="Import" title="Import" class="export-btn" disabled="{!empty(v.fileContent)}" onclick="{!c.doImport}"/>
+                        </div>
+                        <aura:if isTrue="{!!empty(v.importResult)}">
+                            <div class="slds-col slds-size_1-of-1">
+                                <div><b>Import result for file {!v.fileName}:</b></div>
+                                <div>Imported items:  {!v.importResult.importedCount}</div>
+                                <div>Deleted items:  {!v.importResult.deletedCount}</div>
+                                <div>Error items: {!v.importResult.unimportedCount}</div>
+                                <aura:if isTrue="{!v.importResult.unimportedData}">
+                                    <div class="slds-text-link_reset">For upload error items <span class="slds-text-link" onclick="{!c.doSaveUnimportedItems}">click here</span></div>
+                                </aura:if>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

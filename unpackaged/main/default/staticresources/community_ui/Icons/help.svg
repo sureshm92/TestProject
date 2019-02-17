@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>[icon] help (32px @1x)</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-30.000000, -695.000000)">
+        <g id="[icon]-help-(32px-@1x)" transform="translate(30.000000, 695.000000)" fill="#005587">
+            <path d="M16,32 C7.178,32 0,24.822 0,16 C0,7.178 7.178,0 16,0 C24.822,0 32,7.178 32,16 C32,24.822 24.822,32 16,32 Z M16,2 C8.28,2 2,8.28 2,16 C2,23.72 8.28,30 16,30 C23.72,30 30,23.72 30,16 C30,8.28 23.72,2 16,2 Z M17,24.7778 L15.016,24.7778 L15,22.7778 L17,22.7778 L17,24.7778 Z M19.55,15.428 L18.457,16.521 C17.486,17.371 17,18.957 17,20.778 L15,20.778 L15.016,19.314 C15.016,17.978 15.502,16.764 16.473,15.914 L17.931,14.335 C18.416,13.971 18.659,13.364 18.659,12.635 C18.659,11.299 17.166,10.207 15.83,10.207 C14.494,10.207 13,11.442 13,12.778 L11,12.778 C11,10.106 13.159,8 15.83,8 C18.501,8 20.643,9.964 20.643,12.635 C20.643,13.728 20.157,14.699 19.55,15.428 Z" id="help"></path>
+        </g>
+    </g>
+</svg>

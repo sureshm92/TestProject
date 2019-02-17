@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="32px" viewBox="0 0 20 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>[icon] reorder (32px @0.75x) (grey)</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-30.000000, -1410.000000)">
+        <g id="[icon]-reorder-(32px-@1x)" transform="translate(30.000000, 1410.000000)" fill="#005587">
+            <path d="M16,8 C18.2,8 20,6.2 20,4 C20,1.8 18.2,0 16,0 C13.8,0 12,1.8 12,4 C12,6.2 13.8,8 16,8 L16,8 Z M16,12 C13.8,12 12,13.8 12,16 C12,18.2 13.8,20 16,20 C18.2,20 20,18.2 20,16 C20,13.8 18.2,12 16,12 L16,12 Z M16,24 C18.2,24 20,25.8 20,28 C20,30.2 18.2,32 16,32 C13.8,32 12,30.2 12,28 C12,25.8 13.8,24 16,24 Z M4,8 C1.8,8 0,6.2 0,4 C0,1.8 1.8,0 4,0 C6.2,0 8,1.8 8,4 C8,6.2 6.2,8 4,8 Z M4,12 C6.2,12 8,13.8 8,16 C8,18.2 6.2,20 4,20 C1.8,20 0,18.2 0,16 C0,13.8 1.8,12 4,12 Z M4,24 C6.2,24 8,25.8 8,28 C8,30.2 6.2,32 4,32 C1.8,32 0,30.2 0,28 C0,25.8 1.8,24 4,24 Z" id="reorder"></path>
+        </g>
+    </g>
+</svg>

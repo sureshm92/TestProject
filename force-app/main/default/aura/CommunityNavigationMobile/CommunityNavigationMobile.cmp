@@ -1,0 +1,27 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CommunityNavigationMobile" extends="c:AbstractNavigation">
+    
+    <!-- attributes: -->
+    <aura:attribute name="showSideMenu" type="Boolean" access="public"/>
+    <aura:attribute name="class" type="String"/>
+    
+    <!-- component body: -->
+    <div class="cnm-z-order rr-overlay" onclick="{!c.hideMenu}" style="{!if(v.showSideMenu, '', 'visibility:hidden')}"></div>
+    <nav class="{!v.class + ' cnm-z-order overlay ' + if(v.showSideMenu, ' dark ', '')}" onclick="{!c.hideMenu}">
+        <ul class="{!'nav-menu ' + if(v.showSideMenu, 'show', '')}">
+            <aura:iteration items="{!v.menuItems}" var="item" >
+                <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
+                    <div class="nav-menu-item-content">
+                        <c:RRIcon iconName="{!item.icon}" color="white" class="navigation-icon"/>
+                        <span>{!item.label}</span>
+                    </div>
+                </li>
+            </aura:iteration>
+
+        </ul>
+    </nav>
+
+</aura:component>

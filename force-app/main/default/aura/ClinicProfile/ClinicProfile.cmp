@@ -1,0 +1,102 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ClinicProfile" implements="forceCommunity:availableForAllPageTypes" controller="ClinicProfileRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="clinic" type="Account"/>
+    <aura:attribute name="myStudies" type="List"/>
+    <aura:attribute name="physicians" type="List"/>
+    <aura:attribute name="viewMyStudies" type="Boolean" default="true"/>
+    <aura:attribute name="currentStudyId" type="String" default="Overview"/>
+    <aura:attribute name="currentStudy" type="Object"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <div style="padding-bottom: 100px">
+        <c:RRSpinner size="medium" aura:id="mainSpinner" showSpinner="true"/>
+        <aura:if isTrue="{!v.clinic}">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/>
+                <c:RRNPathItem label="{!$Label.c.PG_CP_L_Clinic_Profile}"/>
+            </c:RRNavigationPath> 
+            <div class="rr-white-panel" style="margin-top: 10px">
+                <div class="clinic-profile-header">{!v.clinic.Name}</div>
+
+                <div class="cp-clinic-fields-cutter">
+                    <div class="clinic-fields">
+                        <div class="clinic-info-field">
+                            <label>{!$Label.c.PG_CP_L_Providers}</label>
+                            <div class="value physician">
+                                <aura:iteration var="physicianName" items="{!v.physicians}">
+                                    <span>{!physicianName}</span>
+                                </aura:iteration>
+                            </div>
+                        </div>
+
+                        <div class="clinic-info-field">
+                            <label>{!$Label.c.PG_CP_L_Address}</label>
+                            <div class="value">
+                                <aura:if isTrue="{!v.clinic.BillingAddress != null}">
+                                {!v.clinic.BillingAddress.street}<br/>{!v.clinic.BillingAddress.city}, {!v.clinic.BillingAddress.state} &nbsp; {!v.clinic.BillingAddress.postalCode}
+                                </aura:if>
+                            </div>
+                        </div>
+
+                        <div class="clinic-info-field">
+                            <label>{!$Label.c.PG_CP_L_Office_Phone}</label>
+                            <div class="value">{!v.clinic.Phone}</div>
+                        </div>
+
+                        <div class="clinic-info-field">
+                            <label>{!$Label.c.PG_CP_L_Office_FAX}</label>
+                            <div class="value">{!v.clinic.Fax}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--div class="study-groups">
+                    <div class="{!'study-group-btn ' + if(v.viewMyStudies, 'active','')}" onclick="{!c.doChangeGroup}" id="referredToMe">Studies Referred to Me</div>
+                    <div class="{!'study-group-btn ' + if(!v.viewMyStudies, 'active','')}" onclick="{!c.doChangeGroup}" id="otherStudies">Referring Providers</div>
+                </div-->
+
+                <ul class="studies-tabs">
+                    <li id="Overview" class="{!if(v.currentStudyId == 'Overview', 'active', '')}" onclick="{!c.doSelectStudy}">{!$Label.c.PG_CP_L_Overview}</li>
+                    <aura:iteration items="{!v.myStudies}" var="studyDetail">
+                        <li id="{!studyDetail.studySite.Id}" class="{!if(v.currentStudyId == studyDetail.studySite.Id, 'active', '')}"
+                            onclick="{!c.doSelectStudy}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c}</li>
+                    </aura:iteration>
+                </ul>
+            </div>
+
+            <aura:if isTrue="{!v.currentStudyId == 'Overview'}">
+                <aura:iteration items="{!v.myStudies}" var="studyDetail">
+                    <div class="rr-white-panel study">
+                        <div class="cp-item-section">
+                            <div class="study-header"><span onclick="{!c.doSelectStudy}" id="{!studyDetail.studySite.Id}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c}</span></div>
+                            <div class="sponsor-name">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Sponsor__c}</div>
+                        </div>
+                        <div class="cp-item-section referring-physicians">
+                            <c:StudyReferringPhysicians hcpEnrollments="{!studyDetail.hcpEnrollments}"/>
+                        </div>
+                        <aura:if isTrue="{!!empty(studyDetail.statistics)}">
+                            <div class="cp-item-section">
+                                <c:StudyTotalPassed userMode="PI" statistics="{!studyDetail.statistics}"/>
+                            </div>
+                        </aura:if>
+                    </div>
+                </aura:iteration>
+            </aura:if>
+
+            <aura:if isTrue="{!v.currentStudyId != 'Overview'}">
+                <c:StudyView study="{!v.currentStudy}" clinicId="{!v.clinic.Id}"/>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>
