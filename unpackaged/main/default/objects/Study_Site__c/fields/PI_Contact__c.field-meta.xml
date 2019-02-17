@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PI_Contact__c</fullName>
+    <externalId>false</externalId>
+    <formula>HYPERLINK( &quot;/&quot;&amp;Principal_Investigator__c , Principal_Investigator__r.FirstName&amp;&quot; &quot; &amp;Principal_Investigator__r.LastName )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>PI Contact</label>
+    <required>false</required>
+
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

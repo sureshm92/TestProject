@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_NCT_number</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(LEN(NCT_Number__c) &lt;&gt; 11,
+NOT REGEX(NCT_Number__c, &quot;NCT\\d{8}&quot;))</errorConditionFormula>
+    <errorDisplayField>NCT_Number__c</errorDisplayField>
+    <errorMessage>NCT number should have a format &quot;NCT00000000&quot;</errorMessage>
+</ValidationRule>

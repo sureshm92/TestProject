@@ -1,7 +1,22 @@
 {
-    "orgName": "Demo Company",
+    "orgName": "im2sorg",
     "edition": "Developer",
-    "orgPreferences" : {
-        "enabled": ["S1DesktopEnabled"]
+    "language": "en_US",
+    "features": [
+        "Communities",
+        "SiteDotCom",
+        "SiteForceContributor",
+        "Sites",
+        "StateAndCountryPicklist",
+        "Workflow"
+    ],
+    "settings": {
+        "orgPreferenceSettings": {
+            "networksEnabled": true
+        }
+    },
+    "orgPreferences": {
+        "enabled": [],
+        "disabled": []
     }
 }

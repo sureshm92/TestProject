@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Affiliation_to_Organization__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>HCP Affiliations: Classification of the physician&#39;s affiliate organization (hospital, outpatient, academic, etc)</inlineHelpText>
+    <label>Facility Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retail Pharmacy</fullName>
+                <default>false</default>
+                <label>Retail Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Compounding</fullName>
+                <default>false</default>
+                <label>Compounding</label>
+            </value>
+            <value>
+                <fullName>Clinic</fullName>
+                <default>false</default>
+                <label>Clinic</label>
+            </value>
+            <value>
+                <fullName>Health Department</fullName>
+                <default>false</default>
+                <label>Health Department</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Osteopathic Medical School</fullName>
+                <default>false</default>
+                <label>Osteopathic Medical School</label>
+            </value>
+            <value>
+                <fullName>Distributor - Corporate Headquarters</fullName>
+                <default>false</default>
+                <label>Distributor - Corporate Headquarters</label>
+            </value>
+            <value>
+                <fullName>Home Health</fullName>
+                <default>false</default>
+                <label>Home Health</label>
+            </value>
+            <value>
+                <fullName>Nursing Homes</fullName>
+                <default>false</default>
+                <label>Nursing Homes</label>
+            </value>
+            <value>
+                <fullName>Residential Facilities</fullName>
+                <default>false</default>
+                <label>Residential Facilities</label>
+            </value>
+            <value>
+                <fullName>Assisted Living</fullName>
+                <default>false</default>
+                <label>Assisted Living</label>
+            </value>
+            <value>
+                <fullName>Central Fill</fullName>
+                <default>false</default>
+                <label>Central Fill</label>
+            </value>
+            <value>
+                <fullName>Independent Living</fullName>
+                <default>false</default>
+                <label>Independent Living</label>
+            </value>
+            <value>
+                <fullName>Distributor</fullName>
+                <default>false</default>
+                <label>Distributor</label>
+            </value>
+            <value>
+                <fullName>Software Vendor</fullName>
+                <default>false</default>
+                <label>Software Vendor</label>
+            </value>
+            <value>
+                <fullName>Physical Medicine and Rehabilitation</fullName>
+                <default>false</default>
+                <label>Physical Medicine and Rehabilitation</label>
+            </value>
+            <value>
+                <fullName>Psychiatric Hospital</fullName>
+                <default>false</default>
+                <label>Psychiatric Hospital</label>
+            </value>
+            <value>
+                <fullName>Clinical Laboratory</fullName>
+                <default>false</default>
+                <label>Clinical Laboratory</label>
+            </value>
+            <value>
+                <fullName>Outpatient Pharmacy</fullName>
+                <default>false</default>
+                <label>Outpatient Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Alternative Medicine</fullName>
+                <default>false</default>
+                <label>Alternative Medicine</label>
+            </value>
+            <value>
+                <fullName>Adult Day Care</fullName>
+                <default>false</default>
+                <label>Adult Day Care</label>
+            </value>
+            <value>
+                <fullName>Managed Care</fullName>
+                <default>false</default>
+                <label>Managed Care</label>
+            </value>
+            <value>
+                <fullName>Employee Assistance Programs</fullName>
+                <default>false</default>
+                <label>Employee Assistance Programs</label>
+            </value>
+            <value>
+                <fullName>Non-health Delivery</fullName>
+                <default>false</default>
+                <label>Non-health Delivery</label>
+            </value>
+            <value>
+                <fullName>Blood Bank</fullName>
+                <default>false</default>
+                <label>Blood Bank</label>
+            </value>
+            <value>
+                <fullName>Research Institute</fullName>
+                <default>false</default>
+                <label>Research Institute</label>
+            </value>
+            <value>
+                <fullName>City/County/State</fullName>
+                <default>false</default>
+                <label>City/County/State</label>
+            </value>
+            <value>
+                <fullName>Mail Service</fullName>
+                <default>false</default>
+                <label>Mail Service</label>
+            </value>
+            <value>
+                <fullName>Executive Health Program</fullName>
+                <default>false</default>
+                <label>Executive Health Program</label>
+            </value>
+            <value>
+                <fullName>Medical Bank</fullName>
+                <default>false</default>
+                <label>Medical Bank</label>
+            </value>
+            <value>
+                <fullName>Acute Care Hospital</fullName>
+                <default>false</default>
+                <label>Acute Care Hospital</label>
+            </value>
+            <value>
+                <fullName>Research Laboratory</fullName>
+                <default>false</default>
+                <label>Research Laboratory</label>
+            </value>
+            <value>
+                <fullName>Nuclear</fullName>
+                <default>false</default>
+                <label>Nuclear</label>
+            </value>
+            <value>
+                <fullName>Federal</fullName>
+                <default>false</default>
+                <label>Federal</label>
+            </value>
+            <value>
+                <fullName>Medical School</fullName>
+                <default>false</default>
+                <label>Medical School</label>
+            </value>
+            <value>
+                <fullName>Rehabilitation Hospital</fullName>
+                <default>false</default>
+                <label>Rehabilitation Hospital</label>
+            </value>
+            <value>
+                <fullName>Reference Laboratory</fullName>
+                <default>false</default>
+                <label>Reference Laboratory</label>
+            </value>
+            <value>
+                <fullName>Pharmacy Benefit Manager</fullName>
+                <default>false</default>
+                <label>Pharmacy Benefit Manager</label>
+            </value>
+            <value>
+                <fullName>Independent Physician Practice</fullName>
+                <default>false</default>
+                <label>Independent Physician Practice</label>
+            </value>
+            <value>
+                <fullName>Closed-door</fullName>
+                <default>false</default>
+                <label>Closed-door</label>
+            </value>
+            <value>
+                <fullName>Internet</fullName>
+                <default>false</default>
+                <label>Internet</label>
+            </value>
+            <value>
+                <fullName>Other Laboratory</fullName>
+                <default>false</default>
+                <label>Other Laboratory</label>
+            </value>
+            <value>
+                <fullName>Rescue</fullName>
+                <default>false</default>
+                <label>Rescue</label>
+            </value>
+            <value>
+                <fullName>Warehouse</fullName>
+                <default>false</default>
+                <label>Warehouse</label>
+            </value>
+            <value>
+                <fullName>Medical Group</fullName>
+                <default>false</default>
+                <label>Medical Group</label>
+            </value>
+            <value>
+                <fullName>Imaging Center</fullName>
+                <default>false</default>
+                <label>Imaging Center</label>
+            </value>
+            <value>
+                <fullName>Outpatient Surgi Center</fullName>
+                <default>false</default>
+                <label>Outpatient Surgi Center</label>
+            </value>
+            <value>
+                <fullName>Hospital/Clinic</fullName>
+                <default>false</default>
+                <label>Hospital/Clinic</label>
+            </value>
+            <value>
+                <fullName>Ambulance</fullName>
+                <default>false</default>
+                <label>Ambulance</label>
+            </value>
+            <value>
+                <fullName>Manufacturer</fullName>
+                <default>false</default>
+                <label>Manufacturer</label>
+            </value>
+            <value>
+                <fullName>Durable Medical Equipment</fullName>
+                <default>false</default>
+                <label>Durable Medical Equipment</label>
+            </value>
+            <value>
+                <fullName>Other Insurance</fullName>
+                <default>false</default>
+                <label>Other Insurance</label>
+            </value>
+            <value>
+                <fullName>Academic</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Academic</label>
+            </value>
+            <value>
+                <fullName>Correctional Facility</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Correctional Facility</label>
+            </value>
+            <value>
+                <fullName>Elder Care</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Elder Care</label>
+            </value>
+            <value>
+                <fullName>Emergency</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Emergency</label>
+            </value>
+            <value>
+                <fullName>Healthcare Information Technology</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Healthcare Information Technology</label>
+            </value>
+            <value>
+                <fullName>Hospital</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Hospital</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Laboratory</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Laboratory</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Miscellaneous</label>
+            </value>
+            <value>
+                <fullName>Outpatient</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Outpatient</label>
+            </value>
+            <value>
+                <fullName>Outpatient Center</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Outpatient Center</label>
+            </value>
+            <value>
+                <fullName>Pharmacy</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Research</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Research</label>
+            </value>
+            <value>
+                <fullName>Residential</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Residential</label>
+            </value>
+            <value>
+                <fullName>Supply</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Supply</label>
+            </value>
+            <value>
+                <fullName>Veterinary Medicine</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Veterinary Medicine</label>
+            </value>
+            <value>
+                <fullName>Work place Wellness</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Work place Wellness</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

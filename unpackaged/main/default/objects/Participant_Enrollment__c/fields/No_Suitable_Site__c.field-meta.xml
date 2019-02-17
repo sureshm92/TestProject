@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Suitable_Site__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>After the Potential Participant reviews the list of available sites, if they do not like any, then they can select this and it ends the referral process.</inlineHelpText>
+    <label>No Suitable Site</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Y_N_Unknown</valueSetName>
+    </valueSet>
+</CustomField>

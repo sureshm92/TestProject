@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Acute Care Hospital</fullName>
+        <default>false</default>
+        <label>Acute Care Hospital</label>
+    </customValue>
+    <customValue>
+        <fullName>Adult Day Care</fullName>
+        <default>false</default>
+        <label>Adult Day Care</label>
+    </customValue>
+    <customValue>
+        <fullName>Alternative Medicine</fullName>
+        <default>false</default>
+        <label>Alternative Medicine</label>
+    </customValue>
+    <customValue>
+        <fullName>Ambulance</fullName>
+        <default>false</default>
+        <label>Ambulance</label>
+    </customValue>
+    <customValue>
+        <fullName>Assisted Living</fullName>
+        <default>false</default>
+        <label>Assisted Living</label>
+    </customValue>
+    <customValue>
+        <fullName>Blood Bank</fullName>
+        <default>false</default>
+        <label>Blood Bank</label>
+    </customValue>
+    <customValue>
+        <fullName>Central Fill</fullName>
+        <default>false</default>
+        <label>Central Fill</label>
+    </customValue>
+    <customValue>
+        <fullName>City/County/State</fullName>
+        <default>false</default>
+        <label>City/County/State</label>
+    </customValue>
+    <customValue>
+        <fullName>Clinic</fullName>
+        <default>false</default>
+        <label>Clinic</label>
+    </customValue>
+    <customValue>
+        <fullName>Clinical Laboratory</fullName>
+        <default>false</default>
+        <label>Clinical Laboratory</label>
+    </customValue>
+    <customValue>
+        <fullName>Closed-door</fullName>
+        <default>false</default>
+        <label>Closed-door</label>
+    </customValue>
+    <customValue>
+        <fullName>Compounding</fullName>
+        <default>false</default>
+        <label>Compounding</label>
+    </customValue>
+    <customValue>
+        <fullName>Distributor</fullName>
+        <default>false</default>
+        <label>Distributor</label>
+    </customValue>
+    <customValue>
+        <fullName>Distributor - Corporate Headquarters</fullName>
+        <default>false</default>
+        <label>Distributor - Corporate Headquarters</label>
+    </customValue>
+    <customValue>
+        <fullName>Durable Medical Equipment</fullName>
+        <default>false</default>
+        <label>Durable Medical Equipment</label>
+    </customValue>
+    <customValue>
+        <fullName>Employee Assistance Programs</fullName>
+        <default>false</default>
+        <label>Employee Assistance Programs</label>
+    </customValue>
+    <customValue>
+        <fullName>Executive Health Program</fullName>
+        <default>false</default>
+        <label>Executive Health Program</label>
+    </customValue>
+    <customValue>
+        <fullName>Federal</fullName>
+        <default>false</default>
+        <label>Federal</label>
+    </customValue>
+    <customValue>
+        <fullName>Health Department</fullName>
+        <default>false</default>
+        <label>Health Department</label>
+    </customValue>
+    <customValue>
+        <fullName>Home Health</fullName>
+        <default>false</default>
+        <label>Home Health</label>
+    </customValue>
+    <customValue>
+        <fullName>Hospital/Clinic</fullName>
+        <default>false</default>
+        <label>Hospital/Clinic</label>
+    </customValue>
+    <customValue>
+        <fullName>Imaging Center</fullName>
+        <default>false</default>
+        <label>Imaging Center</label>
+    </customValue>
+    <customValue>
+        <fullName>Independent Living</fullName>
+        <default>false</default>
+        <label>Independent Living</label>
+    </customValue>
+    <customValue>
+        <fullName>Independent Physician Practice</fullName>
+        <default>false</default>
+        <label>Independent Physician Practice</label>
+    </customValue>
+    <customValue>
+        <fullName>Internet</fullName>
+        <default>false</default>
+        <label>Internet</label>
+    </customValue>
+    <customValue>
+        <fullName>Mail Service</fullName>
+        <default>false</default>
+        <label>Mail Service</label>
+    </customValue>
+    <customValue>
+        <fullName>Managed Care</fullName>
+        <default>false</default>
+        <label>Managed Care</label>
+    </customValue>
+    <customValue>
+        <fullName>Manufacturer</fullName>
+        <default>false</default>
+        <label>Manufacturer</label>
+    </customValue>
+    <customValue>
+        <fullName>Medical Bank</fullName>
+        <default>false</default>
+        <label>Medical Bank</label>
+    </customValue>
+    <customValue>
+        <fullName>Medical Group</fullName>
+        <default>false</default>
+        <label>Medical Group</label>
+    </customValue>
+    <customValue>
+        <fullName>Medical School</fullName>
+        <default>false</default>
+        <label>Medical School</label>
+    </customValue>
+    <customValue>
+        <fullName>Non-health Delivery</fullName>
+        <default>false</default>
+        <label>Non-health Delivery</label>
+    </customValue>
+    <customValue>
+        <fullName>Nuclear</fullName>
+        <default>false</default>
+        <label>Nuclear</label>
+    </customValue>
+    <customValue>
+        <fullName>Nursing Homes</fullName>
+        <default>false</default>
+        <label>Nursing Homes</label>
+    </customValue>
+    <customValue>
+        <fullName>Osteopathic Medical School</fullName>
+        <default>false</default>
+        <label>Osteopathic Medical School</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </customValue>
+    <customValue>
+        <fullName>Other Insurance</fullName>
+        <default>false</default>
+        <label>Other Insurance</label>
+    </customValue>
+    <customValue>
+        <fullName>Other Laboratory</fullName>
+        <default>false</default>
+        <label>Other Laboratory</label>
+    </customValue>
+    <customValue>
+        <fullName>Outpatient Pharmacy</fullName>
+        <default>false</default>
+        <label>Outpatient Pharmacy</label>
+    </customValue>
+    <customValue>
+        <fullName>Outpatient Surgi Center</fullName>
+        <default>false</default>
+        <label>Outpatient Surgi Center</label>
+    </customValue>
+    <customValue>
+        <fullName>Pharmacy Benefit Manager</fullName>
+        <default>false</default>
+        <label>Pharmacy Benefit Manager</label>
+    </customValue>
+    <customValue>
+        <fullName>Physical Medicine and Rehabilitation</fullName>
+        <default>false</default>
+        <label>Physical Medicine and Rehabilitation</label>
+    </customValue>
+    <customValue>
+        <fullName>Psychiatric Hospital</fullName>
+        <default>false</default>
+        <label>Psychiatric Hospital</label>
+    </customValue>
+    <customValue>
+        <fullName>Reference Laboratory</fullName>
+        <default>false</default>
+        <label>Reference Laboratory</label>
+    </customValue>
+    <customValue>
+        <fullName>Rehabilitation Hospital</fullName>
+        <default>false</default>
+        <label>Rehabilitation Hospital</label>
+    </customValue>
+    <customValue>
+        <fullName>Rescue</fullName>
+        <default>false</default>
+        <label>Rescue</label>
+    </customValue>
+    <customValue>
+        <fullName>Research Institute</fullName>
+        <default>false</default>
+        <label>Research Institute</label>
+    </customValue>
+    <customValue>
+        <fullName>Research Laboratory</fullName>
+        <default>false</default>
+        <label>Research Laboratory</label>
+    </customValue>
+    <customValue>
+        <fullName>Residential Facilities</fullName>
+        <default>false</default>
+        <label>Residential Facilities</label>
+    </customValue>
+    <customValue>
+        <fullName>Retail Pharmacy</fullName>
+        <default>false</default>
+        <label>Retail Pharmacy</label>
+    </customValue>
+    <customValue>
+        <fullName>Software Vendor</fullName>
+        <default>false</default>
+        <label>Software Vendor</label>
+    </customValue>
+    <customValue>
+        <fullName>Warehouse</fullName>
+        <default>false</default>
+        <label>Warehouse</label>
+    </customValue>
+    <masterLabel>Facility Type</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

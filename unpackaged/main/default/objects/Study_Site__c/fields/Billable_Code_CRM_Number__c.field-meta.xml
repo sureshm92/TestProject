@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Billable_Code_CRM_Number__c</fullName>
+    <description>HCP/Physician Billable Code CRM Number</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>HCP/Physician Billable Code CRM Number</inlineHelpText>
+    <label>Billable Code (CRM Number)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

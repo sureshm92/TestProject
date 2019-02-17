@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PI_Status_Reason__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Reasons why PI suspends enrollment for a clinical trial</inlineHelpText>
+    <label>PI Status Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sponsor Hold</fullName>
+                <default>false</default>
+                <label>Sponsor Hold</label>
+            </value>
+            <value>
+                <fullName>Supply/resupply of investigational product</fullName>
+                <default>false</default>
+                <label>Supply/resupply of investigational product</label>
+            </value>
+            <value>
+                <fullName>Supply/resupply of Study Materials (Lab Kits)</fullName>
+                <default>false</default>
+                <label>Supply/resupply of Study Materials (Lab Kits)</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

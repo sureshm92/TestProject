@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Original_Other_Outcome_Measures__c</fullName>
+    <description>Description for Original Other Outcome measures.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Description for Original Other Outcome measures.</inlineHelpText>
+    <label>Original Other Outcome Measures</label>
+    <required>false</required>
+
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

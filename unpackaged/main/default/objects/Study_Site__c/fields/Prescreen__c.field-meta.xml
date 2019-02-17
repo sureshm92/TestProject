@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prescreen__c</fullName>
+    <externalId>false</externalId>
+    <formula>Clinical_Trial_Profile__r.Prescreen__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Trial&#39;s HCP/Physician Prescreen Amount</inlineHelpText>
+    <label>Prescreen</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

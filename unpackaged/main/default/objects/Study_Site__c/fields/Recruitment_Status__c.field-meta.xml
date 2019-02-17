@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recruitment_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>CTMS Recruitment Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approved for SSV</fullName>
+                <default>false</default>
+                <label>Approved for SSV</label>
+            </value>
+            <value>
+                <fullName>Backup</fullName>
+                <default>false</default>
+                <label>Backup</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
+            </value>
+            <value>
+                <fullName>Conditional Selected</fullName>
+                <default>false</default>
+                <label>Conditional Selected</label>
+            </value>
+            <value>
+                <fullName>Contacted (Feasibility)</fullName>
+                <default>false</default>
+                <label>Contacted (Feasibility)</label>
+            </value>
+            <value>
+                <fullName>Contacted (Site ID)</fullName>
+                <default>false</default>
+                <label>Contacted (Site ID)</label>
+            </value>
+            <value>
+                <fullName>Dropped</fullName>
+                <default>false</default>
+                <label>Dropped</label>
+            </value>
+            <value>
+                <fullName>Enrollment Closed</fullName>
+                <default>false</default>
+                <label>Enrollment Closed</label>
+            </value>
+            <value>
+                <fullName>Enrollment On Hold</fullName>
+                <default>false</default>
+                <label>Enrollment On Hold</label>
+            </value>
+            <value>
+                <fullName>Enrollment Open</fullName>
+                <default>false</default>
+                <label>Enrollment Open</label>
+            </value>
+            <value>
+                <fullName>Essential Documents in place</fullName>
+                <default>false</default>
+                <label>Essential Documents in place</label>
+            </value>
+            <value>
+                <fullName>Initiated</fullName>
+                <default>false</default>
+                <label>Initiated</label>
+            </value>
+            <value>
+                <fullName>Interested (Feasibility)</fullName>
+                <default>false</default>
+                <label>Interested (Feasibility)</label>
+            </value>
+            <value>
+                <fullName>Interested (Site ID)</fullName>
+                <default>false</default>
+                <label>Interested (Site ID)</label>
+            </value>
+            <value>
+                <fullName>Non-responder (Feasibility)</fullName>
+                <default>false</default>
+                <label>Non-responder (Feasibility)</label>
+            </value>
+            <value>
+                <fullName>Non-responder (Site ID)</fullName>
+                <default>false</default>
+                <label>Non-responder (Site ID)</label>
+            </value>
+            <value>
+                <fullName>Not Interested (Feasibility)</fullName>
+                <default>false</default>
+                <label>Not Interested (Feasibility)</label>
+            </value>
+            <value>
+                <fullName>Not Interested (Site ID)</fullName>
+                <default>false</default>
+                <label>Not Interested (Site ID)</label>
+            </value>
+            <value>
+                <fullName>Not Selected</fullName>
+                <default>false</default>
+                <label>Not Selected</label>
+            </value>
+            <value>
+                <fullName>Null</fullName>
+                <default>false</default>
+                <label>Null</label>
+            </value>
+            <value>
+                <fullName>Permanently Closed</fullName>
+                <default>false</default>
+                <label>Permanently Closed</label>
+            </value>
+            <value>
+                <fullName>Prematurely Closed</fullName>
+                <default>false</default>
+                <label>Prematurely Closed</label>
+            </value>
+            <value>
+                <fullName>Preselected</fullName>
+                <default>false</default>
+                <label>Preselected</label>
+            </value>
+            <value>
+                <fullName>Ready for Initiation</fullName>
+                <default>false</default>
+                <label>Ready for Initiation</label>
+            </value>
+            <value>
+                <fullName>Regulatory Green Light</fullName>
+                <default>false</default>
+                <label>Regulatory Green Light</label>
+            </value>
+            <value>
+                <fullName>Regulatory Initiation</fullName>
+                <default>false</default>
+                <label>Regulatory Initiation</label>
+            </value>
+            <value>
+                <fullName>Rejected for SSV</fullName>
+                <default>false</default>
+                <label>Rejected for SSV</label>
+            </value>
+            <value>
+                <fullName>Selected</fullName>
+                <default>false</default>
+                <label>Selected</label>
+            </value>
+            <value>
+                <fullName>Targeted</fullName>
+                <default>false</default>
+                <label>Targeted</label>
+            </value>
+            <value>
+                <fullName>Unsure (Feasibility)</fullName>
+                <default>false</default>
+                <label>Unsure (Feasibility)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

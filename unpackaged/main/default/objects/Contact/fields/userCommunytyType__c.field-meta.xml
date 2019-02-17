@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>userCommunytyType__c</fullName>
+    <description>User types for community - HCP / PI / Participant</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select user types for community</inlineHelpText>
+    <label>User Community Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>HCP</fullName>
+                <default>false</default>
+                <label>HCP</label>
+            </value>
+            <value>
+                <fullName>PI</fullName>
+                <default>false</default>
+                <label>PI</label>
+            </value>
+            <value>
+                <fullName>Participant</fullName>
+                <default>false</default>
+                <label>Participant</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

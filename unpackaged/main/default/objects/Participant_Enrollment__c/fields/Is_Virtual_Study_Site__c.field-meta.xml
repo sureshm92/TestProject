@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Virtual_Study_Site__c</fullName>
+    <externalId>false</externalId>
+    <formula>Study_Site__r.Is_Virtual_Study_Site__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Virtual Study Site</label>
+
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

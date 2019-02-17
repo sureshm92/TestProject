@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accepts_Reimbursement_for_Referral__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Will accept reimbursement for referrals?</inlineHelpText>
+    <label>Accepts Reimbursement for Referral</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Y_N_Unknown</valueSetName>
+    </valueSet>
+</CustomField>

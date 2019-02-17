@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Chart_Review__c</fullName>
+    <externalId>false</externalId>
+    <formula>Clinical_Trial_Profile__r.Chart_Review__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Trial&#39;s HCP/Physician Chart Review Amount</inlineHelpText>
+    <label>Chart Review</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

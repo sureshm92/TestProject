@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HCP_Account__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>HCP Account</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>HCP Enrollments</relationshipLabel>
+    <relationshipName>HCP_Enrollments</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study_Site_Status_Reason__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Reason for Pausing Studies</inlineHelpText>
+    <label>Study Site Status Reason</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sponsor Initiated Hold</fullName>
+                <default>false</default>
+                <label>Sponsor Initiated Hold</label>
+            </value>
+            <value>
+                <fullName>Supply/Resupply of Investigational Product</fullName>
+                <default>false</default>
+                <label>Supply/Resupply of Investigational Product</label>
+            </value>
+            <value>
+                <fullName>Supply/Resupply of Supplies/Materials (i.e., Lab Kits)</fullName>
+                <default>false</default>
+                <label>Supply/Resupply of Supplies/Materials (i.e., Lab Kits)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

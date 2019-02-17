@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HCP_On_Hold</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( INCLUDES(  HCP__r.HCP_Referral_Source__c , &quot;On Hold&quot;), (ISPICKVAL(Referral_Source__c, &quot;ePR&quot;)= FALSE))</errorConditionFormula>
+    <errorMessage>HCP is currently On Hold</errorMessage>
+</ValidationRule>

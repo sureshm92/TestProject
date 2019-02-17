@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_End_enrolment_date</fullName>
+    <active>true</active>
+    <errorConditionFormula>Enrollment_Start_Date__c  &gt;  Enrollment_End_Date__c</errorConditionFormula>
+    <errorMessage>Enrollment End Date can&#39;t happen before Enrolment Start Date</errorMessage>
+</ValidationRule>

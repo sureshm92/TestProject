@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sponsor_Pays_for_Referral_Activity__c</fullName>
+    <externalId>false</externalId>
+    <formula>TEXT(Clinical_Trial_Profile__r.Sponsor_Pays_for_Referral_Activity__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Sponsor Pays for Referral Activity</label>
+    <required>false</required>
+
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_Enrollment_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Non-Enrollment Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Participant_Status__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Site No Longer Accepting Referrals</fullName>
+                <default>false</default>
+                <label>Site No Longer Accepting Referrals</label>
+            </value>
+            <value>
+                <fullName>Didn&#39;t Meet Pre-Screening Eligibility</fullName>
+                <default>false</default>
+                <label>Didn&#39;t Meet Pre-Screening Eligibility</label>
+            </value>
+            <value>
+                <fullName>Declined Practitioner</fullName>
+                <default>false</default>
+                <label>Declined Practitioner</label>
+            </value>
+            <value>
+                <fullName>PI Decision</fullName>
+                <default>false</default>
+                <label>PI Decision</label>
+            </value>
+            <value>
+                <fullName>Didn&#39;t Show For Initial Visit</fullName>
+                <default>false</default>
+                <label>Didn&#39;t Show For Initial Visit</label>
+            </value>
+            <value>
+                <fullName>Didn&#39;t Sign Consent</fullName>
+                <default>false</default>
+                <label>Didn&#39;t Sign Consent</label>
+            </value>
+            <value>
+                <fullName>Failed Inclusion/Exclusion Criteria</fullName>
+                <default>false</default>
+                <label>Failed Inclusion/Exclusion Criteria</label>
+            </value>
+            <value>
+                <fullName>Patient Declined</fullName>
+                <default>false</default>
+                <label>Patient Declined</label>
+            </value>
+            <value>
+                <fullName>Visit Out Of Window</fullName>
+                <default>false</default>
+                <label>Visit Out Of Window</label>
+            </value>
+            <value>
+                <fullName>Patient Decision</fullName>
+                <default>false</default>
+                <label>Patient Decision</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Could not schedule visit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Could not schedule visit</label>
+            </value>
+            <value>
+                <fullName>Did not respond to contact attempts</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Did not respond to contact attempts</label>
+            </value>
+            <value>
+                <fullName>Failed screening / does not qualify</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Failed screening / does not qualify</label>
+            </value>
+            <value>
+                <fullName>No longer interested</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No longer interested</label>
+            </value>
+            <value>
+                <fullName>No show for scheduled visit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No show for scheduled visit</label>
+            </value>
+            <value>
+                <fullName>Not eligible</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not eligible</label>
+            </value>
+            <value>
+                <fullName>Not willing to sign informed consent</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not willing to sign informed consent</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Referral Declined</controllingFieldValue>
+            <valueName>Site No Longer Accepting Referrals</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Referral Declined</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <valueName>Didn&#39;t Meet Pre-Screening Eligibility</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <valueName>Declined Practitioner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>PI Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <valueName>Didn&#39;t Show For Initial Visit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>Didn&#39;t Sign Consent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>Failed Inclusion/Exclusion Criteria</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>Patient Declined</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>Visit Out Of Window</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <valueName>Patient Decision</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>F2F_Contact_Date__c</fullName>
+    <description>Holds the HCP ID for when a CTE made face-to-face contact with an HCP and date of when the contact was made</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Holds the HCP ID for when a CTE made face-to-face contact with an HCP and date of when the contact was made</inlineHelpText>
+    <label>F2F Contact Date</label>
+    <required>false</required>
+
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

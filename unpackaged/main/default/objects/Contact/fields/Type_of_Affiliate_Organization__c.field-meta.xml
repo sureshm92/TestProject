@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_Affiliate_Organization__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Acute care or long term hospital, office, psychiatric facility, etc</inlineHelpText>
+    <label>Classification</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pharmacy</fullName>
+                <default>false</default>
+                <label>Pharmacy</label>
+            </value>
+            <value>
+                <fullName>Outpatient Center</fullName>
+                <default>false</default>
+                <label>Outpatient Center</label>
+            </value>
+            <value>
+                <fullName>Correctional Facility</fullName>
+                <default>false</default>
+                <label>Correctional Facility</label>
+            </value>
+            <value>
+                <fullName>Academic</fullName>
+                <default>false</default>
+                <label>Academic</label>
+            </value>
+            <value>
+                <fullName>Supply</fullName>
+                <default>false</default>
+                <label>Supply</label>
+            </value>
+            <value>
+                <fullName>Residential</fullName>
+                <default>false</default>
+                <label>Residential</label>
+            </value>
+            <value>
+                <fullName>Healthcare Information Technology</fullName>
+                <default>false</default>
+                <label>Healthcare Information Technology</label>
+            </value>
+            <value>
+                <fullName>Hospital</fullName>
+                <default>false</default>
+                <label>Hospital</label>
+            </value>
+            <value>
+                <fullName>Laboratory</fullName>
+                <default>false</default>
+                <label>Laboratory</label>
+            </value>
+            <value>
+                <fullName>Elder Care</fullName>
+                <default>false</default>
+                <label>Elder Care</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Work place Wellness</fullName>
+                <default>false</default>
+                <label>Work place Wellness</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous</fullName>
+                <default>false</default>
+                <label>Miscellaneous</label>
+            </value>
+            <value>
+                <fullName>Research</fullName>
+                <default>false</default>
+                <label>Research</label>
+            </value>
+            <value>
+                <fullName>Emergency</fullName>
+                <default>false</default>
+                <label>Emergency</label>
+            </value>
+            <value>
+                <fullName>Veterinary Medicine</fullName>
+                <default>false</default>
+                <label>Veterinary Medicine</label>
+            </value>
+            <value>
+                <fullName>Acute Care</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Acute Care</label>
+            </value>
+            <value>
+                <fullName>Long Term Hospital</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Long Term Hospital</label>
+            </value>
+            <value>
+                <fullName>Office</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Office</label>
+            </value>
+            <value>
+                <fullName>Psychiatric Facility</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Psychiatric Facility</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

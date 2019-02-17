@@ -1,6 +1,0 @@
-<!--
- - Created by Leonid Bartenev
- -->
-
-<aura:event type="APPLICATION" description="EventCommunityInitialized">
-</aura:event>

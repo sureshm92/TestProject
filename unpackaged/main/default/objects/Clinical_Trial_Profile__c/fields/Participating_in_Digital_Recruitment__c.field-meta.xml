@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Participating_in_Digital_Recruitment__c</fullName>
+    <externalId>false</externalId>
+    <label>Participating in Digital Recruitment</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Y_N_Unknown</valueSetName>
+    </valueSet>
+</CustomField>

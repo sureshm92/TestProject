@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Divulge_Name__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>HCP/Physician For IMS physicians only Did physician or proxy opt in to divulge name of IMS physician to PI</description>
+    <externalId>false</externalId>
+    <inlineHelpText>HCP/Physician For IMS physicians only Did physician or proxy opt in to divulge name of IMS physician to PI</inlineHelpText>
+    <label>Divulge Name</label>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

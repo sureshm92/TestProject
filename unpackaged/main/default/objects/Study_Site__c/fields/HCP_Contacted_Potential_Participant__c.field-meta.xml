@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HCP_Contacted_Potential_Participant__c</fullName>
+    <externalId>false</externalId>
+    <formula>Clinical_Trial_Profile__r.HCP_Contacted_Potential_Participant__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Trial&#39;s HCP/Physician HCP Contacted Potential Participant Amount</inlineHelpText>
+    <label>HCP Contacted Potential Participant</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

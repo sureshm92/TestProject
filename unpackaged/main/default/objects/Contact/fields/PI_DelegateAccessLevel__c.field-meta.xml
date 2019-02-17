@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PI_DelegateAccessLevel__c</fullName>
+    <description>Access level for PI delegate</description>
+    <externalId>false</externalId>
+    <label>PI Delegate Access Level</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All of same responsibilities. But can&#39;t delegate to others</fullName>
+                <default>false</default>
+                <label>All of same responsibilities. But can&#39;t delegate to others</label>
+            </value>
+            <value>
+                <fullName>All, except accepting HCP or delegate to others</fullName>
+                <default>false</default>
+                <label>All, except accepting HCP or delegate to others</label>
+            </value>
+            <value>
+                <fullName>Support Level</fullName>
+                <default>false</default>
+                <label>Support Level</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

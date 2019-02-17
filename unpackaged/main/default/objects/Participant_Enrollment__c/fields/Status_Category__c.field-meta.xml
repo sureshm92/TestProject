@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Category__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(OR(
+ISPICKVAL(Participant_Status__c ,&#39;Identified&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Contacted&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Consulted&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Interested&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Pre-Eligibility&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Opt-In Refer&#39;)), 
+&#39;In Referral Process&#39;, 
+IF(OR(
+ISPICKVAL(Participant_Status__c ,&#39;Failed Referral&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Failed to Enroll&#39;)),
+&#39;Failed to Refer&#39;,
+IF(OR(
+ISPICKVAL(Participant_Status__c ,&#39;New Referral&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Eligible&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Visit Completed&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Informed Consent&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Screening&#39;)),
+&#39;In Enrollment Process&#39;,
+IF(OR(
+ISPICKVAL(Participant_Status__c ,&#39;Enrolled&#39;),
+ISPICKVAL(Participant_Status__c ,&#39;Randomized&#39;)),
+&#39;Enrolled&#39;, &#39;Other&#39;))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status Category</label>
+    <required>false</required>
+
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

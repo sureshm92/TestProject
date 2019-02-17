@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ACOE Data</fullName>
+        <default>false</default>
+        <label>ACOE Data</label>
+    </customValue>
+    <customValue>
+        <fullName>NANOS</fullName>
+        <default>false</default>
+        <label>NANOS</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <label>Other</label>
+    </customValue>
+    <customValue>
+        <fullName>Physician Society</fullName>
+        <default>false</default>
+        <label>Physician Society</label>
+    </customValue>
+    <customValue>
+        <fullName>PI Recommended</fullName>
+        <default>false</default>
+        <label>PI Recommended</label>
+    </customValue>
+    <customValue>
+        <fullName>Self-Referred</fullName>
+        <default>false</default>
+        <label>Self-Referred</label>
+    </customValue>
+    <masterLabel>HCP Referral Source</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

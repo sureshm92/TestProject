@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unqualified_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Unqualified Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Already a colleague of the PI</fullName>
+                <default>false</default>
+                <label>Already a colleague of the PI</label>
+            </value>
+            <value>
+                <fullName>Unresponsive after 3 attempts</fullName>
+                <default>false</default>
+                <label>Unresponsive after 3 attempts</label>
+            </value>
+            <value>
+                <fullName>Will not refer</fullName>
+                <default>false</default>
+                <label>Will not refer</label>
+            </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
+            </value>
+            <value>
+                <fullName>No longer practicing</fullName>
+                <default>false</default>
+                <label>No longer practicing</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

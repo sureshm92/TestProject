@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Site_On_Hold</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(ISCHANGED(Override_Study_Site_Recruitment_Status__c),
+
+ISPICKVAL(PRIORVALUE(Override_Study_Site_Recruitment_Status__c), &quot;On Hold&quot;), 
+
+ISPICKVAL(Clinical_Trial_Profile__r.Override_Recruitment_Status__c, &quot;On Hold&quot;))</errorConditionFormula>
+    <errorMessage>This Override Study Site Recruitment Status value cannot be changed</errorMessage>
+</ValidationRule>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Participant_Status__c</fullName>
+    <description>HCP/Physician Participant Participant Status</description>
+    <externalId>false</externalId>
+    <inlineHelpText>HCP/Physician Participant Participant Status</inlineHelpText>
+    <label>Participant Status</label>
+    <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Referral Sent to PI</fullName>
+                <default>false</default>
+                <label>Referral Sent to PI</label>
+            </value>
+            <value>
+                <fullName>Excluded from Referring</fullName>
+                <default>false</default>
+                <label>Excluded from Referring</label>
+            </value>
+            <value>
+                <fullName>Referral Accepted</fullName>
+                <default>false</default>
+                <label>Referral Accepted</label>
+            </value>
+            <value>
+                <fullName>Contact Successful</fullName>
+                <default>false</default>
+                <label>Contact Successful</label>
+            </value>
+            <value>
+                <fullName>Eligibility Passed</fullName>
+                <default>false</default>
+                <label>Eligibility Passed</label>
+            </value>
+            <value>
+                <fullName>Screening Complete</fullName>
+                <default>false</default>
+                <label>Screening Complete</label>
+            </value>
+            <value>
+                <fullName>Enrollment Success</fullName>
+                <default>false</default>
+                <label>Enrollment Success</label>
+            </value>
+            <value>
+                <fullName>Referral On Hold</fullName>
+                <default>false</default>
+                <label>Referral On Hold</label>
+            </value>
+            <value>
+                <fullName>Contact Attempt In Progress</fullName>
+                <default>false</default>
+                <label>Contact Attempt In Progress</label>
+            </value>
+            <value>
+                <fullName>Screening In Progress</fullName>
+                <default>false</default>
+                <label>Screening In Progress</label>
+            </value>
+            <value>
+                <fullName>Referral Declined</fullName>
+                <default>false</default>
+                <label>Referral Declined</label>
+            </value>
+            <value>
+                <fullName>Contact Failed</fullName>
+                <default>false</default>
+                <label>Contact Failed</label>
+            </value>
+            <value>
+                <fullName>Eligibility Failed</fullName>
+                <default>false</default>
+                <label>Eligibility Failed</label>
+            </value>
+            <value>
+                <fullName>Screening Failed</fullName>
+                <default>false</default>
+                <label>Screening Failed</label>
+            </value>
+            <value>
+                <fullName>Enrollment Failed</fullName>
+                <default>false</default>
+                <label>Enrollment Failed</label>
+            </value>
+            <value>
+                <fullName>Failed Referral</fullName>
+                <default>false</default>
+                <label>Failed Referral</label>
+            </value>
+            <value>
+                <fullName>Failed Review</fullName>
+                <default>false</default>
+                <label>Failed Review</label>
+            </value>
+            <value>
+                <fullName>Pending Referral</fullName>
+                <default>false</default>
+                <label>Pending Referral</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

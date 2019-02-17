@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Business Card</fullName>
+        <default>false</default>
+        <label>Business Card</label>
+    </customValue>
+    <customValue>
+        <fullName>Criteria Card</fullName>
+        <default>false</default>
+        <label>Criteria Card</label>
+    </customValue>
+    <customValue>
+        <fullName>Dr to Dr Letter - Email</fullName>
+        <default>false</default>
+        <label>Dr to Dr Letter - Email</label>
+    </customValue>
+    <customValue>
+        <fullName>Dr to Dr Letter - Fax</fullName>
+        <default>false</default>
+        <label>Dr to Dr Letter - Fax</label>
+    </customValue>
+    <customValue>
+        <fullName>Dr to Dr Letter - Mail</fullName>
+        <default>false</default>
+        <label>Dr to Dr Letter - Mail</label>
+    </customValue>
+    <customValue>
+        <fullName>Follow-up Letter</fullName>
+        <default>false</default>
+        <label>Follow-up Letter</label>
+    </customValue>
+    <customValue>
+        <fullName>Opt-in Letter</fullName>
+        <default>false</default>
+        <label>Opt-in Letter</label>
+    </customValue>
+    <customValue>
+        <fullName>Patient Informational Brochure</fullName>
+        <default>false</default>
+        <label>Patient Informational Brochure</label>
+    </customValue>
+    <customValue>
+        <fullName>Physician Referral Brochure</fullName>
+        <default>false</default>
+        <label>Physician Referral Brochure</label>
+    </customValue>
+    <customValue>
+        <fullName>Poster</fullName>
+        <default>false</default>
+        <label>Poster</label>
+    </customValue>
+    <customValue>
+        <fullName>PowerPoint Presentation</fullName>
+        <default>false</default>
+        <label>PowerPoint Presentation</label>
+    </customValue>
+    <customValue>
+        <fullName>Thank You Note</fullName>
+        <default>false</default>
+        <label>Thank You Note</label>
+    </customValue>
+    <masterLabel>Material Sent</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UserCommunityIsDelegate__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <label>User Community Is Delegate</label>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Checkbox</type>
+</CustomField>

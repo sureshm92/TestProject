@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral_Source__c</fullName>
+    <description>HCP/Physician Participant Referral Source</description>
+    <externalId>false</externalId>
+    <inlineHelpText>HCP/Physician Participant Referral Source</inlineHelpText>
+    <label>Referral Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Patient</fullName>
+                <default>false</default>
+                <label>Patient</label>
+            </value>
+            <value>
+                <fullName>HCP</fullName>
+                <default>false</default>
+                <label>HCP</label>
+            </value>
+            <value>
+                <fullName>HCP Prescreen Log</fullName>
+                <default>false</default>
+                <label>HCP Prescreen Log</label>
+            </value>
+            <value>
+                <fullName>PI</fullName>
+                <default>false</default>
+                <label>PI</label>
+            </value>
+            <value>
+                <fullName>ePR</fullName>
+                <default>false</default>
+                <label>ePR</label>
+            </value>
+            <value>
+                <fullName>ACOE</fullName>
+                <default>false</default>
+                <label>ACOE</label>
+            </value>
+            <value>
+                <fullName>3rd_Party</fullName>
+                <default>false</default>
+                <label>3rd Party</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

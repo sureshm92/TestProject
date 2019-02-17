@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trials_in_Last_36_Months__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>How many clinical trials has the physician participated in the last 36 months?</inlineHelpText>
+    <label>Trials in Last 36 Months</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

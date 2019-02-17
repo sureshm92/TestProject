@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Orientation_Date</fullName>
+    <active>true</active>
+    <description>Orientation Date should be in future</description>
+    <errorConditionFormula>Orientation_Date__c &gt; TODAY()</errorConditionFormula>
+    <errorMessage>Can&#39;t be a future date</errorMessage>
+</ValidationRule>

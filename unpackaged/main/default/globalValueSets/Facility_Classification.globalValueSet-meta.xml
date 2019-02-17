@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Academic</fullName>
+        <default>false</default>
+        <label>Academic</label>
+    </customValue>
+    <customValue>
+        <fullName>Correctional Facility</fullName>
+        <default>false</default>
+        <label>Correctional Facility</label>
+    </customValue>
+    <customValue>
+        <fullName>Elder Care</fullName>
+        <default>false</default>
+        <label>Elder Care</label>
+    </customValue>
+    <customValue>
+        <fullName>Emergency</fullName>
+        <default>false</default>
+        <label>Emergency</label>
+    </customValue>
+    <customValue>
+        <fullName>Healthcare Information Technology</fullName>
+        <default>false</default>
+        <label>Healthcare Information Technology</label>
+    </customValue>
+    <customValue>
+        <fullName>Hospital</fullName>
+        <default>false</default>
+        <label>Hospital</label>
+    </customValue>
+    <customValue>
+        <fullName>Insurance</fullName>
+        <default>false</default>
+        <label>Insurance</label>
+    </customValue>
+    <customValue>
+        <fullName>Laboratory</fullName>
+        <default>false</default>
+        <label>Laboratory</label>
+    </customValue>
+    <customValue>
+        <fullName>Miscellaneous</fullName>
+        <default>false</default>
+        <label>Miscellaneous</label>
+    </customValue>
+    <customValue>
+        <fullName>Outpatient Center</fullName>
+        <default>false</default>
+        <label>Outpatient Center</label>
+    </customValue>
+    <customValue>
+        <fullName>Pharmacy</fullName>
+        <default>false</default>
+        <label>Pharmacy</label>
+    </customValue>
+    <customValue>
+        <fullName>Research</fullName>
+        <default>false</default>
+        <label>Research</label>
+    </customValue>
+    <customValue>
+        <fullName>Residential</fullName>
+        <default>false</default>
+        <label>Residential</label>
+    </customValue>
+    <customValue>
+        <fullName>Supply</fullName>
+        <default>false</default>
+        <label>Supply</label>
+    </customValue>
+    <customValue>
+        <fullName>Veterinary Medicine</fullName>
+        <default>false</default>
+        <label>Veterinary Medicine</label>
+    </customValue>
+    <customValue>
+        <fullName>Work Place Wellness</fullName>
+        <default>false</default>
+        <label>Work Place Wellness</label>
+    </customValue>
+    <masterLabel>Facility Classification</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

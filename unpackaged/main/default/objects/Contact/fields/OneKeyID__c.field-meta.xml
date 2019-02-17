@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OneKeyID__c</fullName>
+    <caseSensitive>false</caseSensitive>
+    <description>QI One Key ID Number. If an existing HCP, then value will come from ACOE.  If self-enroll, OneKey API to be called to determine if HCP exists.  Otherwise, this will get updated based on the Acknowledgement ID from OneKey.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>true</externalId>
+    <label>OneKey ID</label>
+    <length>80</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>
