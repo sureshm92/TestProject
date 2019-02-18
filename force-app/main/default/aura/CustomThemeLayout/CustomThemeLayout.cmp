@@ -51,9 +51,7 @@
         <div class="{!'rr-header-margin ' + if(v.availableModes.length > 1, ' multi-mode', '')}"></div>
         <div class="rr-body-content rr-min-body-height">
             <c:CommunityNavigationMobile showSideMenu="{!v.showSideMenu}" mode="{!v.mode}" class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
-            <aura:if isTrue="{!v.isInitialized}">
-                {!v.body}
-            </aura:if>
+            {!v.body}
         </div>
         <aura:if isTrue="{!!empty(v.mode)}">
             <div class="footer">
