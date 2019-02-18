@@ -17,9 +17,9 @@ sfdx force:org:open
 
 4) Push changes to Scratch org:
 
-sfdx force:org:push
+sfdx force:source:push
 
 
 5) Pull changes to Scratch org:
 
-sfdx force:org:pull
+sfdx force:source:pull
