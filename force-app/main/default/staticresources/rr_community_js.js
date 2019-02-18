@@ -63,7 +63,7 @@ window.communityService = (function () {
                         var message = e.message;
                         if(!debugMode) message = e.message.split('\n')[0];
                         service.showErrorToast('ERROR', message);
-                        throw e;
+                        //throw e;
                     }finally {
                         if(finalCallback) finalCallback();
                     }
