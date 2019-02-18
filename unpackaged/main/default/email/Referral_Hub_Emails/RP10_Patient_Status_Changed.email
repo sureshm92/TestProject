@@ -1,0 +1,32 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_RP2}"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.HCP_Contact_HCPEnroll__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="HCP"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_RP10}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Patient10}"
+                         signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Patients}"
+                              buttonURL="{!$Label.CommunityURL} + '/s/my-patients'"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="HCP"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_RP10}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_Patient10}"
+                             signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Patients}"
+                              buttonURL="{!$Label.CommunityURL} + '/s/my-patients'"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

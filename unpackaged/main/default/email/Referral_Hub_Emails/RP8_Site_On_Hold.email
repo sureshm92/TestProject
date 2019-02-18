@@ -1,0 +1,26 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_RP5}"
+                         recipientType="User"
+                         relatedToType="HCP_Enrollment__c"
+                         language="{!relatedTo.HCP_Contact__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="HCP"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_RP8}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_RP8}"
+                         signature="{!$Label.Email_Signature}"/>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="HCP"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_RP8}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_RP8}"
+                             signature="{!$Label.Email_Signature}"/>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

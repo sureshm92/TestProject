@@ -1,0 +1,26 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient}"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.Participant__r.Language_Preference_Code__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="Participant"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Patient3}"
+                         title="{!$Label.Email_Title_VT}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Patient3}"
+                         signature="{!$Label.Email_Signature_VT}"/>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="Participant"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Patient3}"
+                             title="{!$Label.Email_Title_VT}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_Patient3}"
+                             signature="{!$Label.Email_Signature_VT}"/>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

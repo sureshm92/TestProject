@@ -1,0 +1,32 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_RP2}"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.HCP_Contact_HCPEnroll__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="HCP"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_RP2}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_RP2}"
+                         signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+                              buttonURL="{!$Label.CommunityURL}"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="HCP"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_RP2}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_RP2}"
+                             signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+                              buttonURL="{!$Label.CommunityURL}"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

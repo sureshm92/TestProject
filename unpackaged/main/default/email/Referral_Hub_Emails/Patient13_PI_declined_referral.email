@@ -1,0 +1,26 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Referral_Status_Changed}"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.Participant__r.Contact__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="Participant"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Patient2}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Patient13}"
+                         signature="{!$Label.Email_Signature}"/>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="Participant"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Patient2}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_Patient13}"
+                             signature="{!$Label.Email_Signature}"/>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

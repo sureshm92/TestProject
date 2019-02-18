@@ -1,0 +1,32 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_PI2}"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="PI"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_PI2}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_PI2}"
+                         signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
+                              buttonURL="{!$Label.CommunityURL + '/s/my-referrals'}"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="PI"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_PI2}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_PI2}"
+                             signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
+                              buttonURL="{!$Label.CommunityURL + '/s/my-referrals'}"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+    
+</messaging:emailTemplate>

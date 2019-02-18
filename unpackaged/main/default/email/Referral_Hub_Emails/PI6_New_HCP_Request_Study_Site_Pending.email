@@ -1,0 +1,32 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_PI6}"
+                         recipientType="User"
+                         relatedToType="HCP_Enrollment__c"
+                         language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="PI"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_PI6}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_PI6}"
+                         signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referring_Clinics}"
+                              buttonURL="{!$Label.CommunityURL} + /s/my-referring-clinics"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="PI"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_PI6}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_PI6}"
+                             signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referring_Clinics}"
+                              buttonURL="{!$Label.CommunityURL} + /s/my-referring-clinics"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>
