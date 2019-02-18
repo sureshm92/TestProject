@@ -8,29 +8,29 @@ public without sharing class CommunityService {
     
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
-    
+
     //community email process
     public static String COMMUNITY_ET_HCP = 'RP1_New_Study_Email'; //email template
     public static String COMMUNITY_ET_PI = 'PI1_New_Study_Email'; //email template
     public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
     public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
-    
+
     // org wide email adress
     public static String COMMUNITY_ORG_WIDE_ADDRESS_NAME = 'IQVIA Referral Hub';
-    
+
     // case auto assignment rule
     public static String COMMUNITY_CASE_AR_NAME = 'HelpCase';
-    
+
     //on Contact.userCommunityMode__c
     public static String USER_MODE_HCP = 'HCP';
     public static String USER_MODE_PI = 'PI';
     public static String USER_MODE_PARTICIPANT = 'Participant';
-    
-    
+
+
     //hold contact instance:
     private static Contact userContact;
-    
+
     public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
@@ -39,17 +39,17 @@ public without sharing class CommunityService {
         }
         return userContact;
     }
-    
+
     //TODO for remove:
     public static String getAccessRights(String userMode){
         return null;
     }
-    
+
     //for debug under internal user
     public static void setDummyUserContact(Id contactId){
         userContact = getContactById(contactId);
     }
-    
+
     public static List<Contact> getContactsByUserContactIds(Set<Id> userContactIds){
         return [
                 SELECT Id, userCommunityMode__c, userCommunytyType__c
@@ -57,29 +57,29 @@ public without sharing class CommunityService {
                 WHERE Id IN :userContactIds
         ];
     }
-    
+
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
                 SELECT Id, Name, FirstName, LastName, ContactId, Email
                 FROM User
                 WHERE
-                        //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
-                        ContactId IN :contactIds
+                //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
+                 ContactId IN :contactIds
                 //AND email != null
         ];
     }
-    
+
     public static Boolean isUserModeValid(String userMode) {
         Contact userContact = getUserContact();
         if(userContact == null) return false;
         return userContact.userCommunytyType__c.contains(userMode);
     }
-    
+
     //return converted status to display
     public static String getConvertedStatus(String fullStatus){
         return fullStatus.split(' \\(')[0];
     }
-    
+
     public static Profile getCommunityProfile(){
         return [
                 SELECT Id
@@ -119,7 +119,6 @@ public without sharing class CommunityService {
                 locale = hcpUser.LocaleSidKey;
                 language = hcpUser.LanguageLocaleKey;
             }
-            if(cont.Language__c != null) language = cont.Language__c;
             newPortalUsers.add(createUser(cont, locale, language, timeZone));
         }
         insert newPortalUsers;
@@ -165,7 +164,7 @@ public without sharing class CommunityService {
                 WHERE Id = :contactIds
         ];
     }
-    
+
     private static Contact getContactById(Id contactId) {
         return [
                 SELECT Id,
@@ -198,5 +197,5 @@ public without sharing class CommunityService {
         }
         return null;
     }
-
+    
 }
