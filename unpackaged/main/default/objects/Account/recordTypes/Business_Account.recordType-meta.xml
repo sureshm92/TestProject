@@ -4,7 +4,7 @@
     <active>true</active>
     <description>Represent a business or organization with contacts</description>
     <label>Business Account</label>
-    <picklistValues>
+    <!--picklistValues>
         <picklist>AccountSource</picklist>
         <values>
             <fullName>Customer Event</fullName>
@@ -42,7 +42,7 @@
             <fullName>Website</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
+    </picklistValues-->
     <picklistValues>
         <picklist>Facility_Classification__c</picklist>
         <values>
@@ -486,7 +486,8 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
+
+    <!--picklistValues>
         <picklist>Type</picklist>
         <values>
             <fullName>Analyst</fullName>
@@ -528,5 +529,5 @@
             <fullName>Reseller</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
+    </picklistValues-->
 </RecordType>

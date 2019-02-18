@@ -40,13 +40,14 @@
         <actionName>View</actionName>
         <type>Default</type>
     </actionOverrides>
-    <compactLayoutAssignment>New_Awesome_Companct_Layout</compactLayoutAssignment>
+    <!--compactLayoutAssignment>New_Awesome_Companct_Layout</compactLayoutAssignment-->
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
-    <externalSharingModel>Private</externalSharingModel>
+    <!--externalSharingModel>Private</externalSharingModel-->
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
-    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <!--recordTypeTrackHistory>true</recordTypeTrackHistory-->
+
     <searchLayouts>
         <customTabListAdditionalFields>OPPORTUNITY.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>

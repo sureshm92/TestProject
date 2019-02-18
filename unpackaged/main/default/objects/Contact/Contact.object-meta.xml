@@ -78,11 +78,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override updated by Lightning App Builder during activation.</comment>
-        <content>HCP_and_PI_Contacts</content>
-        <formFactor>Large</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
+        <type>Default</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>ViewCustomerPortal</actionName>
@@ -96,13 +92,14 @@
         <actionName>ViewSelfService</actionName>
         <type>Default</type>
     </actionOverrides>
-    <compactLayoutAssignment>HCP_and_PI</compactLayoutAssignment>
+    <!--compactLayoutAssignment>HCP_and_PI</compactLayoutAssignment-->
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <!--externalSharingModel>ControlledByParent</externalSharingModel-->
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
-    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <!--recordTypeTrackHistory>true</recordTypeTrackHistory-->
+
     <searchLayouts>
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>

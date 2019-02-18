@@ -551,7 +551,7 @@
             <default>false</default>
         </values>
     </picklistValues>
-    <picklistValues>
+    <!--picklistValues>
         <picklist>LeadSource</picklist>
         <values>
             <fullName>Advertisement</fullName>
@@ -593,7 +593,7 @@
             <fullName>Website</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
+    </picklistValues-->
     <picklistValues>
         <picklist>Name</picklist>
         <values>

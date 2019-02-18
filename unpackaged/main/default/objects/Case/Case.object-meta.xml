@@ -56,11 +56,12 @@
         <actionName>View</actionName>
         <type>Default</type>
     </actionOverrides>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+
+    <!--compactLayoutAssignment>SYSTEM</compactLayoutAssignment-->
     <enableFeeds>true</enableFeeds>
-    <externalSharingModel>Private</externalSharingModel>
+    <!--externalSharingModel>Private</externalSharingModel-->
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
-    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <!--recordTypeTrackHistory>true</recordTypeTrackHistory-->
     <searchLayouts>
         <customTabListAdditionalFields>CASES.CASE_NUMBER</customTabListAdditionalFields>
         <customTabListAdditionalFields>CASES.SUBJECT</customTabListAdditionalFields>
