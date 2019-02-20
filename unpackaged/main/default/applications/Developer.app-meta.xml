@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultLandingTab>standard-home</defaultLandingTab>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Developer</label>
+    <tabs>Clinical_Trial_Profile__c</tabs>
+    <tabs>Site_Staff__c</tabs>
+    <tabs>HCP_Enrollment__c</tabs>
+    <tabs>Participant_Enrollment__c</tabs>
+    <tabs>Participant__c</tabs>
+    <tabs>Translation_Import_Export</tabs>
+    <tabs>Translation__c</tabs>
+    <tabs>CTE__c</tabs>
+    <tabs>Score__c</tabs>
+    <tabs>Study_Site__c</tabs>
+    <tabs>Terms_And_Conditions_Acceptance__c</tabs>
+    <tabs>Terms_And_Conditions__c</tabs>
+</CustomApplication>
