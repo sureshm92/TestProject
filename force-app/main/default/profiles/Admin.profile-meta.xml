@@ -2634,6 +2634,114 @@
         <field>User.Survey_Result__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>CTE__c-CTE Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-IQVIA Contact Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Drug_Usage__c-Drug Usage Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>EmailMessage-Email Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Email_Dummy_Parameter__mdt-Email Dummy Parameter Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Email_Template_Settings__mdt-Email Template Settings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>HCP_Enrollment__c-HCP Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Integration_Log__c-Integration Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Knowledge__kav-Knowledge Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Lead-Lead Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Material_Sent__c-Material Sent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>National_ID__c-National ID Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Onboarding_Slide__mdt-Onboarding Slide Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Onboarding_Tour_Slides__mdt-Onboarding Tour Slide Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Onboarding_Tour__mdt-Onboarding Tour Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Opportunity-Opportunity Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ParticipantEnrollmentSet__mdt-ParticipantEnrollmentSet Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Enrollment_Status_History__c-Participant Enrollment Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant__c-Participant Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Score__c-Score Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Site_Staff__c-PI Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Study_ID__c-Study ID Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Study_Site__c-Study Site Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Terms_And_Conditions_Acceptance__c-Terms And Conditions Acceptance Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Tracking_Information__c-Tracking Information Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Translation__c-Translation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>User-User Layout</layout>
+    </layoutAssignments>
     <loginIpRanges>
         <description>TEST ONLY</description>
         <endAddress>255.255.255.255</endAddress>

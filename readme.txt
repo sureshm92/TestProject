@@ -23,3 +23,18 @@ sfdx force:source:push
 5) Pull changes to Scratch org:
 
 sfdx force:source:pull
+
+
+
+Setup org:
+
+1) Open org > User > edit > set Role
+2) Upload data
+- Several Accounts
+- Several Contacts for (PI and HCP)
+- Account with name "Participant" for all participant contacts
+- Create Clinical Trial Profile
+- Create Study Site with status "Invitation Sent"
+- Create HCP Enrollment with status "Invitation sent"
+3) Go to setup > all communities > open community builder > press publish
+4) Select PI or HCP сontact and login in community
