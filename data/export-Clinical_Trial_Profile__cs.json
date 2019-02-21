@@ -1,0 +1,52 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef1"
+            },
+            "Age__c": "Age__c",
+            "Brief_Summary__c": "Nasotracheal intubation is a common method for securing an advanced airway during surgery for procedures that involve manipulation of the oral cavity, the dentition, or the facial bones. The placement of a nasotracheal tube is often more challenging, especially for learning providers, even for patients with normal airway anatomy. Video laryngoscopy is an adjunctive technique in anesthesia that utilizes a camera at the tip of the laryngoscope blade and provides an indirect view of the glottis during intubation through display on a monitor. The use of video laryngoscopes has been shown to reduce time to intubation, result in perception of easier intubation by the anesthesia team, and reduce the use of adjunctive maneuvers during intubation. There is little evidence, however, to show these benefits for routine nasotracheal intubation. The purpose of the study is to compare the ease of video-assisted laryngoscopy and direct laryngoscopy in routine nasotracheal intubation for Maxillofacial procedures. The investigators hypothesize that the use of video-assisted laryngoscopy for routine nasotracheal intubation will result in quicker time to intubation, less adjunctive maneuvers and anesthesia perception of easier intubation when compared to direct nasotrahceal intubation. The investigators aim to compare the time to intubation, number of adjunctive maneuvers and the perception of intubation difficulty in routine nasotracheal intubation for Maxillofacial procedures for video-assisted laryngoscopy and direct laryngoscopy.",
+            "Co_morbidity__c": "",
+            "Condition_s_Therapeutic_Area__c": "Intubation, Intratracheal",
+            "Currency_for_Below_Amounts__c": "USD",
+            "Demographic__c": "Demographic__c",
+            "Detailed_Description__c": "he placement of a nasotracheal tube is often more challenging, especially for learning providers, even for patients with normal airway anatomy. Video laryngoscopy is an adjunctive technique in anesthesia that utilizes a camera at the tip of the laryngoscope blade and provides an indirect view of the glottis during intubation through display on a monitor. The use of video laryngoscopes has been shown to reduce time to intubation, result in perception of easier intubation by the anesthesia team, and reduce the use of adjunctive maneuvers during intubation.",
+            "Diagnosis__c": "",
+            "Eligibility_Criteria__c": "",
+            "Enrolled_End_Date__c": "2019-01-23",
+            "Enrollment_Start_Date__c": "2019-01-22",
+            "Formulary__c": "",
+            "Gender__c": "Gender__c",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Interventions__c": "Nasotracheal Intubation",
+            "Lifestyle__c": "",
+            "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
+            "Link_to_Pre_screening__c": "https://www.surveygizmo.com/s3/4263003/Rocket-Referral-pre-eligibility-screening",
+            "MDM_Cluster_ID__c": "",
+            "Medication_History__c": "",
+            "NCT_Number__c": "NCT00001100",
+            "Official_Title__c": "",
+            "Orientation_Required__c": false,
+            "Override_Description__c": "The placement of a nasotracheal tube is often more challenging, especially for learning providers, even for patients with normal airway anatomy. Video laryngoscopy is an adjunctive technique in anesthesia that utilizes a camera at the tip of the laryngoscope blade and provides an indirect view of the glottis during intubation through display on a monitor. The use of video laryngoscopes has been shown to reduce time to intubation, result in perception of easier intubation by the anesthesia team, and reduce the use of adjunctive maneuvers during intubation. There is little evidence, however, to show these benefits for routine nasotracheal intubation. The purpose of the study is to compare the ease of video-assisted laryngoscopy and direct laryngoscopy in routine nasotracheal intubation for Maxillofacial procedures. The investigators hypothesize that the use of video-assisted laryngoscopy for routine nasotracheal intubation will result in quicker time to intubation, less adjunctive maneuvers and anesthesia perception of easier intubation when compared to direct nasotrahceal intubation. The investigators aim to compare the time to intubation, number of adjunctive maneuvers and the perception of intubation difficulty in routine nasotracheal intubation for Maxillofacial procedures for video-assisted laryngoscopy and direct laryngoscopy.",
+            "Override_Exclusion_Criteria__c": "prisoners\r\nanticipated difficult airways",
+            "Override_Inclusion_Criteria__c": "Ages Eligible for Study:  \t18 Years and older   (Adult, Older Adult)\r\nSexes Eligible for Study:  \tAll\r\nAccepts Healthy Volunteers:  \tNo\r\nCriteria\r\nInclusion Criteria:\r\n\r\noral and maxillofacial surgery to be performed under general anesthesia\r\nplanned for a general anesthetic with nasotracheal intubation,\r\nASA I and II\r\nat least 18 years of age",
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Protocol_ID__c": "Prot-333",
+            "Publications__c": "",
+            "Responsible_Party__c": "",
+            "Responsible_Party_Organization__c": "",
+            "Study_Arms__c": "",
+            "Study_Code_Name__c": "Laryngoscopy Versus Direct Laryngoscopy for Nasotracheal Intubation",
+            "Study_Design__c": "",
+            "Study_Phase__c": "IV",
+            "Study_Source__c": "",
+            "Study_Sponsor__c": "Louisiana State University Health Sciences Center in New Orleans",
+            "Study_Title__c": "Laryngoscopy Versus Direct Laryngoscopy for Nasotracheal Intubation",
+            "Study_Type__c": "Interventional",
+            "Suppress_Participant_Emails__c": false,
+            "Surveys_supported_Languages__c": "en_US;es;ar",
+            "US_FDA_Regulated_Product__c": false
+        }
+    ]
+}

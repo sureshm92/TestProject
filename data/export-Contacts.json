@@ -1,0 +1,64 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef1"
+            },
+            "FirstName": "Samuel",
+            "LastName": "Rodriguez",
+            "Email": "srodriguez@somemail.com",
+            "AccountId": "@AccountRef1"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef2"
+            },
+            "FirstName": "Matthew",
+            "LastName": "Smith",
+            "Email": "msmith@email.com",
+            "AccountId": "@AccountRef1"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef3"
+            },
+            "FirstName": "Joseph",
+            "LastName": "Davis",
+            "Email": "jdavis@somemail.com",
+            "AccountId": "@AccountRef1"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef4"
+            },
+            "FirstName": "Daniel",
+            "LastName": "Williams",
+            "Email": "dwilliams@somemail.com",
+            "AccountId": "@AccountRef2"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef5"
+            },
+            "FirstName": "Thomas",
+            "LastName": "Brown",
+            "Email": "tbrown@somemail.com",
+            "AccountId": "@AccountRef2"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef6"
+            },
+            "FirstName": "Adam",
+            "LastName": "Garcia",
+            "Email": "agarcia@somemail.com",
+            "AccountId": "@AccountRef2"
+        }
+    ]
+}
