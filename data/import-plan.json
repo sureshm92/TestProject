@@ -1,0 +1,37 @@
+[
+    {
+        "sobject": "OrgWideEmailAddress",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "OrgWideEmailAddresses.json"
+        ]
+    },
+
+    {
+        "sobject": "Clinical_Trial_Profile__c",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "Clinical_Trial_Profiles.json"
+        ]
+    },
+
+    {
+        "sobject": "Account",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "Accounts.json"
+        ]
+    },
+
+    {
+        "sobject": "Contact",
+        "saveRefs": false,
+        "resolveRefs": true,
+        "files": [
+            "Contacts.json"
+        ]
+    }
+]
