@@ -30,6 +30,8 @@ Setup org:
 
 1) Open org > User > edit > set Role
 2) Upload data:
+- upload worg wide email address:
+sfdx force:data:tree:import --plan data/export-OrgWideEmailAddress-plan.json
 
 - upload accounts and contacts:
 sfdx force:data:tree:import --plan data/export-Account-Contact-plan.json

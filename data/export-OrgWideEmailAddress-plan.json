@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "OrgWideEmailAddress",
+        "saveRefs": true,
+        "resolveRefs": false,
+        "files": [
+            "export-OrgWideEmailAddresss.json"
+        ]
+    }
+]

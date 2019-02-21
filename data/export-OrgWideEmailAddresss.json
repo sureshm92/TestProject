@@ -1,0 +1,12 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "OrgWideEmailAddress",
+                "referenceId": "OrgWideEmailAddressRef1"
+            },
+            "Address": "updates@cp.clinicalresearch.com",
+            "DisplayName": "IQVIA Referral Hub"
+        }
+    ]
+}
