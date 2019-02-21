@@ -29,12 +29,16 @@ sfdx force:source:pull
 Setup org:
 
 1) Open org > User > edit > set Role
-2) Upload data
-- Several Accounts
-- Several Contacts for (PI and HCP)
-- Account with name "Participant" for all participant contacts
-- Create Clinical Trial Profile
-- Create Study Site with status "Invitation Sent"
-- Create HCP Enrollment with status "Invitation sent"
+2) Upload data:
+
+- upload accounts and contacts:
+sfdx force:data:tree:import --plan data/export-Account-Contact-plan.json
+
+- upload Clinical Trial Profile:
+sfdx force:data:tree:import --plan data/export-Clinical_Trial_Profile__c-plan.json
+
+- From Clinical Trial Profle create Study Site with status "Invitation Sent" and set PI Contact
+- From Study Site create HCP Enrollment with status "Invitation sent" and set HCP Contact
+
 3) Go to setup > all communities > open community builder > press publish
 4) Select PI or HCP сontact and login in community
