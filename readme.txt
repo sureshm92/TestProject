@@ -28,7 +28,7 @@ sfdx force:source:pull
 
 Setup org:
 
-1) Open org > User > edit > set Role
+1) Open org > User > edit > set role "View All"!
 2) Upload data:
 - upload worg wide email address:
 sfdx force:data:tree:import --plan data/export-OrgWideEmailAddress-plan.json
