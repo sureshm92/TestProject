@@ -31,10 +31,10 @@ Setup org:
 1) Open org > User > edit > set role "View All"!
 2) Upload data:
 - upload worg wide email address:
-sfdx force:data:tree:import --plan data/export-OrgWideEmailAddress-plan.json
+sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 
 - upload accounts and contacts:
-sfdx force:data:tree:import --plan data/export-Account-Contact-plan.json
+sfdx force:data:tree:import -p data/import-plan.json
 
 - upload Clinical Trial Profile:
 sfdx force:data:tree:import --plan data/export-Clinical_Trial_Profile__c-plan.json
