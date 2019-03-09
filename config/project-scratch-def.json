@@ -12,7 +12,8 @@
     ],
     "settings": {
         "orgPreferenceSettings": {
-            "networksEnabled": true
+            "networksEnabled": true,
+            "translation": true
         }
     },
     "orgPreferences": {

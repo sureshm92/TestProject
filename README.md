@@ -1,38 +1,28 @@
-# Salesforce DX setup
+# Salesforce DX Scratch Org Setup
 
 ##### 1) Login to Dev Hub org and make it default (-d key):
 
-sfdx force:auth:web:login -d -a my-hub-org
 ```sh
-sfdx force:auth:web:login -d -a my-hub-org
+sfdx force:auth:web:login -d -a setYourDevHubAliasHere
 ```
 
 ##### 2) Create Scratch org and make it default (-s key):
 
 ```sh
-sfdx force:org:create -f config/project-scratch-def.json -a someSOrgAlias -d 30 -s
+sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a setYourAliasHere
 ```
-##### 3) Open Scratch org in browser:
-```sh
-sfdx sfdx force:org:open
-```
-
-##### 4) Push changes to Scratch org:
+##### 3) Push project to Scratch org:
 ```sh
 sfdx force:source:push
 ```
 
-#### Setup org:
-
-1) Open org > User > edit > set role "View All"!
-2) Upload data:
-- upload org wide email address:
-
+##### 4) Open Scratch org in browser and setup:
 ```sh
-sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
+sfdx sfdx force:org:open
 ```
-- upload accounts and contacts:
 
+1) Setup > User > edit > set role "View All" 
+2) Upload data:
 ```sh
 sfdx force:data:tree:import -p data/import-plan.json
 ```
