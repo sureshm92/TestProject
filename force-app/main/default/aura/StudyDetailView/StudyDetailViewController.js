@@ -11,11 +11,7 @@
         var taskMode = communityService.getUrlParameter('taskmode');
         if(!taskMode) taskMode = 'Open';
 
-        if(!recId) {
-            recId = "a1R1h000000VpuBEAS";
-        }
-
-        if(communityService.isInitialized() && recId){
+        if(communityService.isInitialized()){
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
             component.set('v.currentTab', tabId);

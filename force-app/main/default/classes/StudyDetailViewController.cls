@@ -49,6 +49,10 @@ public without sharing class StudyDetailViewController {
     @AuraEnabled
     public static String getTrialDetail(String trialId, String userMode) {
         try {
+            if(trialId == null && userMode == CommunityService.USER_MODE_PARTICIPANT){
+                List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+                if(peList.size() > 0) trialId = peList[0].Study_Site__r.Clinical_Trial_Profile__c;
+            }
             TrialDetail trialDetail = new TrialDetail();
             trialDetail.trial = TrialService.getTrial(trialId);
             trialDetail.accountEnrollmentsList = new List<ClinicWrapper>();

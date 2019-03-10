@@ -3562,6 +3562,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Manual_Tasks_Creation</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Participant_Enrollment__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
