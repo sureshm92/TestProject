@@ -5449,4 +5449,178 @@ The site you have selected will contact you directly to discuss next steps.</val
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
     </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome Study</shortDescription>
+        <value>Congratularions ##UserName!
+
+            You are now enrolled in the ##StudyName study!
+
+            Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
+
+            Click OK to begin!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome Study</shortDescription>
+        <value>Welcome to the study!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_To_The_PH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome To The PH</shortDescription>
+        <value>Welcome to the PH!</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Complete</shortDescription>
+        <value>Complete</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Delete_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Delete Task</shortDescription>
+        <value>Delete Task</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Ignore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Ignore</shortDescription>
+        <value>Ignore</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Mark_As_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>button marks as completed task</shortDescription>
+        <value>Mark as Completed</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Save_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN_Save_Task</shortDescription>
+        <value>Save Task</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Save_Task_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Save Task Reminder</shortDescription>
+        <value>Save Task Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Home</shortDescription>
+        <value>Home</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_My_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation My Study</shortDescription>
+        <value>My Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_Home_Welcome_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Home Welcome Message</shortDescription>
+        <value>Hi ##UserName, welcome to Patient Hub! You can see your study status and all related information below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Task_Tab_No_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Task Tab No Tasks</shortDescription>
+        <value>You do not currently have any tasks created or assigned to you at this time.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Image_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resources Image Unavailable</shortDescription>
+        <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>TTL_Create_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Create_Task</shortDescription>
+        <value>Create Task</value>
+    </labels>
+    <labels>
+        <fullName>TTL_Edit_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title Edit Task</shortDescription>
+        <value>Edit Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Your_Profile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Your Profile</shortDescription>
+        <value>Dear ##ParticipantName, please, complete your Patient Profile</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Completed_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab Completed Tasks</shortDescription>
+        <value>Completed Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_My_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab My Tasks</shortDescription>
+        <value>My Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Open_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab Open Tasks</shortDescription>
+        <value>Open Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Completed_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Completed_By</shortDescription>
+        <value>Completed By</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Priority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
+        <value>Priority</value>
+    </labels>
 </CustomLabels>

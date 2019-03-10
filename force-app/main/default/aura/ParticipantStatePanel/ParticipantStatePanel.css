@@ -1,0 +1,10 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS {
+}
+
+.THIS.psp-panel{
+    position: relative;
+    min-height: 200px;
+}

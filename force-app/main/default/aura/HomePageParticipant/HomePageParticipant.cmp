@@ -1,0 +1,55 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="welcomeMessage" type="String"/>
+    <aura:attribute name="pe" type="Object"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
+    <div>
+        <div style="margin-bottom: 8px">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
+            </c:RRNavigationPath>
+        </div>
+        <div class="hp-welcome-msg">{!v.welcomeMessage}</div>
+
+        <aura:if isTrue="{!!empty(v.pe)}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                    <div class="slds-grid slds-grid_vertical slds-gutters">
+                        <div class="slds-col">
+                            <div class="rr-white-panel hp-logo-panel">
+                                <img src="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <c:OpenTaskPreviewPanel/>
+                        </div>
+                        <div class="slds-col">
+                            <c:UpcomingVisitsPreviewPanel/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                    <c:ParticipantStatePanel/>
+                    <c:RRPanel>
+                        <aura:set attribute="header">My Results</aura:set>
+                        <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>
+                    </c:RRPanel>
+                    <c:ResourceDashboardCard/>
+                </div>
+            </div>
+        </aura:if>
+        <div style="height: 30px"/>
+
+    </div>
+
+</aura:component>

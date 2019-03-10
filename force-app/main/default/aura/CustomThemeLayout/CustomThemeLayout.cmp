@@ -3,7 +3,6 @@
  -->
 
 <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
-
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
@@ -35,7 +34,12 @@
                 </div>
                 <!--c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/logo.svg#full-logo'}" class="title-logo"/-->
                 <div class="logo-container">
-                    <img src="{!$Resource.rr_community_icons + '/logo_3x.png'}" class="title-logo" onclick="{!c.doGoHome}"/>
+                    <aura:if isTrue="{!v.mode == 'Participant'}">
+                        <img src="{!$Resource.PH_logo + '/Logo@3x.png'}" class="title-logo" onclick="{!c.doGoHome}"/>
+                        <aura:set attribute="else">
+                            <img src="{!$Resource.rr_community_icons + '/logo_3x.png'}" class="title-logo" onclick="{!c.doGoHome}"/>
+                        </aura:set>
+                    </aura:if>
                 </div>
 
                 <div class="navigation-block">
@@ -63,6 +67,6 @@
         </aura:if>
     </div>
 
-    <c:OnboardingSlideTour aura:id="onboardingSlideTour"/>
+    <c:Alerts userMode="{!v.mode}"/>
 
 </aura:component>

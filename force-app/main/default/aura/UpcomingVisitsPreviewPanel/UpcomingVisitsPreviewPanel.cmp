@@ -1,0 +1,22 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="UpcomingVisitsPreviewPanel">
+    <c:HomePreviewTablePanel title="Upcoming Visits">
+        <c:RRTable>
+            <tr>
+                <th>Name</th>
+                <th style="width:130px">Vist Date</th>
+            </tr>
+            <tr>
+                <td><a href="">Some link</a></td>
+                <td>werwer</td>
+            </tr>
+            <tr>
+                <td><a href="">Some link</a></td>
+                <td>werwer</td>
+            </tr>
+        </c:RRTable>
+    </c:HomePreviewTablePanel>
+</aura:component>

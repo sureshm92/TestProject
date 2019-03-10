@@ -3,7 +3,6 @@
  */
 @isTest
 private class Test_LeadConversion {
-    
     static Account piAccount;
     static Account studySiteAccount;
 
@@ -70,11 +69,11 @@ private class Test_LeadConversion {
 
 
         testLead = new Lead();
-        testLead.FirstName = 'Test';
+        testLead.FirstName = 'HelloTest';
         testLead.LastName = 'Lead';
         testLead.Email = 'test@test.com';
         testLead.Status = 'New';
-        testLead.Company = 'Test Lead Comp';
+        testLead.Company = 'HelloTest Lead Comp';
         testLead.Tax_ID__c = '111111';
         testLead.Degree__c = 'Doctorate';
         testLead.Facility_Type__c = 'Medical Group';
@@ -88,7 +87,7 @@ private class Test_LeadConversion {
         testLead.Specialty__c = 'Cardiovascular Disease';
         testLead.Contact_Method_Preference__c='Call';
         testLead.POC_First_Name__c = 'POC';
-        testLead.POC_Last_Name__c = 'Test';
+        testLead.POC_Last_Name__c = 'HelloTest';
         testLead.POC_Email__c = 'POC@test.com';
         testLead.POC_Type__c = 'Office Manager';
         testLead.POC_Type_Description__c = '';

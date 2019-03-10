@@ -1,0 +1,16 @@
+<!--
+ - Created by user on 04.03.2019.
+ -->
+
+<aura:component  description="ManualTaskLookup" controller="ManualTaskLookupRemote">
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="objType" type="String"/>
+    <aura:attribute access="private" type="List" name="errors" default="[]"/>
+    <aura:attribute access="private" type="Boolean" name="isMultiEntry" default="true"/>
+    <aura:attribute name="selection" type="List"/>
+
+    <c:Lookup aura:id="lookup" selection="{!v.selection}" onSearch="{!c.lookupSearch}"
+              onSelection="{!c.clearErrorsOnChange}" errors="{!v.errors}" label="{!v.label}"
+              isMultiEntry="{!v.isMultiEntry}"/>
+
+</aura:component>

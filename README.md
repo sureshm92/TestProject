@@ -21,16 +21,16 @@ sfdx force:source:push
 sfdx sfdx force:org:open
 ```
 
-1) Setup > User > edit > set role "View All" 
-2) Upload data:
+###### 1) Setup > User > edit > set role "View All" 
+###### 2) Upload data:
 ```sh
 sfdx force:data:tree:import -p data/import-plan.json
 ```
 - From Clinical Trial Profle create Study Site with status "Invitation Sent" and set PI Contact
 - From Study Site create HCP Enrollment with status "Invitation sent" and set HCP Contact
 
-3) Go to setup > all communities > open community builder > press publish
-4) Select PI or HCP contact and login in community
+###### 3) Go to setup > all communities > open community builder > press publish
+###### 4) Select PI or HCP contact and login in community
 
 ## Dev, Build and Test
 

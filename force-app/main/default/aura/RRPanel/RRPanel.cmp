@@ -1,0 +1,16 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="RRPanel">
+
+    <aura:attribute name="header" type="Aura.Component[]"/>
+    <aura:attribute name="footer" type="Aura.Component[]"/>
+
+    <div class="rr-white-panel hptp-panel">
+        <div class="hptp-title">{!v.header}</div>
+        <div class="hptp-body">{!v.body}</div>
+        <div class="hptp-footer">{!v.footer}</div>
+    </div>
+
+</aura:component>

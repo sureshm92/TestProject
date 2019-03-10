@@ -1,0 +1,55 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="TaskReminderDetail" implements="forceCommunity:availableForAllPageTypes">
+
+    <!-- attributes: -->
+
+
+    <!-- Component body -->
+    <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
+                backPage="study-workspace"
+                smallTitle="TODO Study Name Here"
+                bigTitle="Set Task Reminder (move to custom label)">
+        <div class="buttons-area">
+            <div class="rr-width-limiter buttons-block">
+                <div class="pe-button red" onclick="{!c.doCancel}">
+                    <div>
+                        <c:RRIcon iconName="icon-close-circle"/>
+                        {!$Label.c.BTN_Cancel}
+                    </div>
+                </div>
+                <div class="pe-button green" onclick="{!c.doSave}">
+                    <div>
+                        <c:RRIcon iconName="icon-check-circle"/>
+                        {!$Label.c.BTN_Save_Task_Reminder}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:RRTopBar>
+    <div style="height: 60px"></div>
+
+    <!-- task detail panel here: -->
+    <div class="slds-grid">
+        <!--White Panel-->
+        <div class="rr-white-panel padding slds-col rr-width-limiter-component" style="min-height: 250px;">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col" style="font-size: 18px; margin-bottom: 5px;">
+                    Task Reminder Details
+                </div>
+                <div class="slds-col" style="font-size: 13px; margin-bottom: 5px;">
+                    <ui:inputDateTime displayDatePicker="true"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- footer: -->
+    <div class="rr-width-limiter side-padding">
+        <c:CommunityFooter />
+    </div>
+
+</aura:component>

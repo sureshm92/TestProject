@@ -13,6 +13,7 @@ window.communityService = (function () {
     var stickyBarTop;
     var debugMode = false; //turn on/off output server stack traces in toast messages
     var showOnLoginMap;
+    var showCurrentTourOnLogin;
     var alreadyShowedMap = {};
     var isNewSession;
     var language;
@@ -232,9 +233,6 @@ window.communityService = (function () {
 
         showTour: function(tourName){
             var event = $A.get('e.c:OnboargingSlideTourShow');
-            event.setParams({
-                tourName: tourName
-            });
             event.fire();
             alreadyShowedMap[communityMode] = true;
         },
@@ -244,16 +242,15 @@ window.communityService = (function () {
         },
 
         setShowOnLoginMap: function(showMap){
-            showOnLoginMap = showMap;
+            //todo remove
         },
 
         setShowOnLogin: function(showOnLigin){
-            showOnLoginMap[communityMode] = showOnLigin;
+            showCurrentTourOnLogin = showOnLigin;
         },
 
         showTourOnLogin: function(){
-            if(!showOnLoginMap) return null;
-            return showOnLoginMap[communityMode];
+            return showCurrentTourOnLogin;
         },
 
         getShowOnLoginMap: function() {

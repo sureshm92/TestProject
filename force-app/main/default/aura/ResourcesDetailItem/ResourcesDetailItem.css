@@ -1,0 +1,94 @@
+.THIS .bitmap {
+    width: 628px;
+}
+
+.THIS .resource-description-footer {
+    display: flex;
+}
+
+.THIS .resources-icon-like {
+    height: 17px;
+    width: 18px;
+    margin-right: 3px;
+    display: inline-block;
+}
+.THIS .resources-icon {
+    display: block;
+    margin-right: 3px;
+    margin-top: 3px;
+}
+
+.THIS .resources-number-of-likes {
+    height: 17px;
+    width: 18px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: text-top;
+}
+.THIS .resources-icon-dislike {
+    height: 17px;
+    width: 18px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: text-top;
+    transform: scale(-1, 1)
+}
+
+.THIS .resources-icon-star {
+    height: 17px;
+    width: 18px;
+    margin-left: 4px;
+}
+
+.THIS .resource-description {
+    margin-top: 30px;
+}
+
+.THIS .resource-description-header {
+    height: 20px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.THIS .resource-description-text {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0 0 3px 0;
+}
+.THIS .lorem-ipsum-dolor-si {
+    width: 625px;
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 15px;
+    padding-bottom: 50px;
+}
+.THIS .diet-and-inflammatio {
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 30px;
+}
+.THIS .what-foods-to-eat-an {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    line-height: 14px;
+}
+.THIS .ah-video-iframe {
+    width: 100%;
+    height: auto;
+}
+.THIS .resources-icon-like:active {
+    fill: black;
+}
+.THIS .resources-icon-dislike:active {
+    fill: black;
+}

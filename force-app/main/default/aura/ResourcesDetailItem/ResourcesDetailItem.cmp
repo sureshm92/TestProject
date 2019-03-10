@@ -1,0 +1,139 @@
+<!--
+ - Created by Yehor Dobrovolskyi on 20.02.2019.020.
+ -->
+
+<aura:component description="ResourcesDetailItem">
+
+    <!--<aura:attribute name="resourceItem" type="Object" />-->
+    <aura:attribute name="resourceType" type="String" default="Article"/>
+    <aura:attribute name="isFavorite" type="Boolean" default="false"/>
+    <aura:attribute name="resourceImagePath" type="String" access="private"/>
+    <aura:attribute name="resourceImagePosterPath" type="String" access="private"/>
+    <aura:attribute name="resourceVideoPath" type="String" access="private"/>
+    <aura:attribute name="resourceDescription" type="String" access="private"/>
+    <aura:attribute name="resourceTitle" type="String" access="private"/>
+    <aura:attribute name="resourceDate" type="String" access="private"/>
+    <aura:attribute name="resourceDataText" type="String" access="private"/>
+    <aura:attribute name="numberOfLikes" type="Integer" default="2" access="private"/>
+    <aura:attribute name="numberOfDislike" type="Integer" default="0" access="private"/>
+
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.resourceType}" action="{!c.doInit}"/>
+    <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
+
+
+
+    <div>
+        <aura:if isTrue="{!empty(v.resourceVideoPath)}">
+            <div class="bitmap">
+                <img src="{!v.resourceImagePath}"/>
+            </div>
+            <aura:set attribute="else">
+                <div>
+                    <iframe class="my_iframe"
+                            width="630"
+                            height="360"
+                            frameborder="0"
+                            src="{!v.resourceVideoPath}">
+                    </iframe>
+                </div>
+                <!--<video id="video-tour"-->
+                       <!--controls="controls"-->
+                       <!--width="628"-->
+                       <!--class="ah-video-iframe"-->
+                       <!--src="{!v.resourceVideoPath}"-->
+                       <!--poster="{!v.resourceImagePosterPath}">-->
+                    <!--Ваш браузер не поддерживает это видео.-->
+                <!--</video>-->
+            </aura:set>
+        </aura:if>
+
+        <div class="resource-description">
+            <div class="diet-and-inflammatio">
+				{!v.resourceTitle}
+			</div>
+            <div class="what-foods-to-eat-an">
+				{!v.resourceDescription}
+			</div>
+            <div class="what-foods-to-eat-an">
+				{!v.resourceDate}
+			</div>
+            <div class="resource-description-footer">
+                <div class="resources-icon icon-like" onclick="{!c.doLike}">
+
+                    <!--WILL BE CHANGED-->
+
+                    <!--<aura:if isTrue="{!v.numberOfLikes > 0}">-->
+                        <!--<c:RRIcon iconName="icon-thumbs-up" color="blue" class="resources-icon-like"/>-->
+                        <!--<aura:set attribute="else">-->
+                            <c:RRIcon iconName="icon-thumbs-up" class="resources-icon-like"/>
+                        <!--</aura:set>-->
+                    <!--</aura:if>-->
+                    <div class="resources-number-of-likes">
+						{!v.numberOfLikes}
+					</div>
+                </div>
+
+                <div class="resources-icon icon-dislike" onclick="{!c.doDisLike}">
+
+                    <!--<aura:if isTrue="{!v.numberOfDislike > 0}">-->
+                        <!--<c:RRIcon iconName="icon-thumbs-down" color="blue" class="resources-icon-dislike"/>-->
+                        <!--<aura:set attribute="else">-->
+                            <c:RRIcon iconName="icon-thumbs-down" class="resources-icon-dislike"/>
+                        <!--</aura:set>-->
+                    <!--</aura:if>-->
+                    <div class="resources-number-of-likes">
+						{!v.numberOfDislike}
+					</div>
+
+                </div>
+                <div class="resources-icon" onclick="{!c.doFavorite}">
+
+
+                    <!--WILL BE CHANGED-->
+
+                    <aura:if isTrue="{!v.isFavorite}">
+
+                        <c:RRIcon iconName="icon-star-solid" class="resources-icon-star"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon iconName="icon-star" class="resources-icon-star"/>
+                        </aura:set>
+                    </aura:if>
+
+
+                </div>
+            </div>
+            <aura:if isTrue="{!v.resourceType == 'Article'}">
+                <div class="lorem-ipsum-dolor-si">
+                    <div>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet convallis enim.
+                        Vestibulum rhoncus ac augue in sollicitudin. Curabitur rutrum, ipsum ac euismod finibus, metus
+                        leo
+                        blandit lacus, quis mollis risus tortor in ex.
+                        In bibendum scelerisque ante, quis tempus dui rhoncus non.
+                    </div>
+                    <br/>
+                    <div>
+                        Pellentesque iaculis lectus pretium mi tincidunt, quis tempor leo faucibus.
+                        Cras eu nisi blandit ex lobortis blandit. Sed varius ligula ex, vitae ornare lacus pharetra non.
+                        Quisque sagittis euismod sapien, sit amet vestibulum massa fringilla at.
+                    </div>
+                    <br/>
+                    <div>
+                        Vestibulum convallis pellentesque velit, varius porttitor enim cursus nec.
+                        Fusce id felis viverra, euismod felis sed, eleifend velit.
+                    </div>
+                    <br/>
+                    <div>
+                        Curabitur rutrum, ipsum ac euismod finibus, metus leo blandit lacus, quis mollis risus tortor in
+                        ex.
+                        In bibendum scelerisque ante, quis tempus dui rhoncus non.
+                    </div>
+                </div>
+            </aura:if>
+
+        </div>
+
+    </div>
+
+</aura:component>

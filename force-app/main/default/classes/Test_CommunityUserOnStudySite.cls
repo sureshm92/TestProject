@@ -23,14 +23,14 @@ private class Test_CommunityUserOnStudySite {
 
         Clinical_Trial_Profile__c clinicalTrialProfile = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'test protocol Id',
-                Study_Title__c = 'Test Study',
-                Study_Code_Name__c = 'Test Study Code Name',
+                Study_Title__c = 'HelloTest Study',
+                Study_Code_Name__c = 'HelloTest Study Code Name',
                 NCT_Number__c = 'NCT00000000'
         );
         insert clinicalTrialProfile;
 
         Study_Site__c studySite = new Study_Site__c(
-                Name = 'Test Study 2',
+                Name = 'HelloTest Study 2',
                 Clinical_Trial_Profile__c = clinicalTrialProfile.Id,
                 Site__c = acc1.Id,
                 Principal_Investigator__c = piContact.Id
@@ -50,7 +50,7 @@ private class Test_CommunityUserOnStudySite {
         insert acc2;
 
         Study_Site__c studySite2 = new Study_Site__c(
-                Name = 'Test Study 3',
+                Name = 'HelloTest Study 3',
                 Clinical_Trial_Profile__c = clinicalTrialProfile.Id,
                 Site__c = acc2.Id,
                 Study_Site_Key__c = '111',

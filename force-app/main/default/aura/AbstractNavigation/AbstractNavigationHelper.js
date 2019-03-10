@@ -78,6 +78,16 @@
             'settings': {
                 page: 'settings',
                 label: $A.get('$Label.c.Navigation_Settings')
+            },
+
+            'participant-home':{
+                page: '',
+                label: $A.get('$Label.c.Navigation_Home')
+            },
+
+            'my-study':{
+                page: 'study-workspace',
+                label: $A.get('$Label.c.Navigation_My_Study')
             }
 
 
@@ -88,7 +98,8 @@
         this.itemsMap = {
 
             Participant: [
-                this.allPagesMap[''],
+                this.allPagesMap['participant-home'],
+                this.allPagesMap['my-study'],
                 this.allPagesMap['help']
             ],
 

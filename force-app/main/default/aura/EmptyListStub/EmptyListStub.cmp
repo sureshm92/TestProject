@@ -12,7 +12,9 @@
 
     <aura:if isTrue="{!empty(v.targetList)}">
         <div class="main-container">
-            <c:RRIcon iconName="{!'icon-face-' + v.iconName}" color="{!v.color}" id="{!v.id}" class="{!v.class}"/>
+            <aura:if isTrue="{!v.iconName != 'none'}">
+                <c:RRIcon iconName="{!'icon-face-' + v.iconName}" color="{!v.color}" id="{!v.id}" class="{!v.class}"/>
+            </aura:if>
             <div id="{!v.id}" class="{!'message ' + v.class}" style="{! 'color: ' + v.color + ';'}">
                     {!v.message}
             </div>

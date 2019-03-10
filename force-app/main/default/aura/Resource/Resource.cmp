@@ -1,0 +1,34 @@
+<aura:component controller="ResourceRemote" description="Resource">
+
+	<aura:attribute name="resourceType" type="String" default="Article"/>
+	<aura:attribute name="resourceMode" type="String" default="Default"/>
+	<aura:attribute name="resources" type="ResourceService.ResourceWrapper[]"/>
+	<aura:attribute name="resourceTitle" type="String" default="" access="private"/>
+
+	<aura:handler name="init" value="this" action="{!c.doInit}"/>
+	<aura:handler name="change" value="{!v.resourceMode}" action="{!c.doInit}"/>
+
+	<div class="rr-white-panel resource-card">
+		
+		<header class="resource-card-title">
+			{!v.resourceTitle}
+		</header>
+
+		<div>
+			<c:RRSpinner aura:id="spinner" showSpinner="true"/>
+			<lightning:layout horizontalAlign="center" verticalAlign="start" multipleRows="true">
+				<aura:iteration items="{!v.resources}" var="resource">
+					<lightning:layoutItem flexibility="auto" size="12">
+						<c:ResourceItem resource="{!resource}"/>
+					</lightning:layoutItem>
+				</aura:iteration>
+			</lightning:layout>
+		</div>
+
+		<footer class="resource-footer" style="{!lessthan(v.resources.length, 5) ? 'display: none;' : ''}">
+			See More
+		</footer>
+
+	</div>
+
+</aura:component>

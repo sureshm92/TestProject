@@ -1,0 +1,79 @@
+.THIS.resource-container {
+    display: flex;
+    height: 90px;
+    margin: 0 11px 48px 18px;
+    min-width: 510px;
+    cursor: pointer;
+}
+
+.THIS .resource-image-container {
+    display: block;
+    width: 154px;
+    height: 88px;
+    margin: 1px 20px 1px 0;
+    overflow: hidden;
+}
+
+.THIS .resource-image-container > img {
+    display: block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.THIS .resource-description-footer {
+    display: flex;
+}
+
+.THIS .resource-icon-like {
+    height: 17px;
+    width: 18px;
+    margin-right: 3px;
+    display: inline-block;
+}
+
+.THIS .resource-icon {
+    display: block;
+}
+
+.THIS .resource-icon-star {
+    height: 17px;
+    width: 18px;
+    margin-left: 4px;
+}
+
+.THIS .resource-description {
+    display: block;
+    width: 362px;
+    height: 100%;
+}
+
+.THIS .resource-description-title {
+    height: 20px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.THIS .resource-description-text {
+    height: 30px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0 0 3px 0;
+}
+
+.THIS .resource-expiration-date {
+    height: 14px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    font-style: italic;
+    line-height: 14px;
+}

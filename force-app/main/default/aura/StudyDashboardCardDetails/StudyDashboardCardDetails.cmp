@@ -1,0 +1,43 @@
+<aura:component description="StudyDashboardCardDetails">
+	<!--attributes: -->
+	<aura:attribute name="pathItems" type="List"/>
+	<aura:attribute name="pathItemsReversed" type="List" access="private"/>
+	<aura:attribute name="showStepSpinner" type="Boolean" default="false" access="private"/>
+
+	<!-- handlers -->
+	<aura:handler name="change" value="{!v.pathItems}" action="{!c.doInit}"/>
+
+	<!-- component body: -->
+	<div style="position: relative">
+		<c:RRSpinner size="medium" showSpinner="{!v.showStepSpinner}"/>
+		<div class="slds-grid slds-grid_vertical">
+			<aura:iteration items="{!v.pathItemsReversed}" var="pathItem">
+				<div class="slds-col slds-grid pe-state-row" >
+					<div class="{!'slds-col line-div ' + pathItem.left}">
+						<div class="{!'state-ico-wrapper ' + pathItem.state}">
+							<aura:if isTrue="{! !empty(pathItem.iconName)}">
+								<c:RRIcon iconName="{!pathItem.iconName}"/>
+							</aura:if>
+						</div>
+					</div>
+					<div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
+						<div class="title">{!pathItem.name}</div>
+						<!-- history list: -->
+						<aura:if isTrue="{!pathItem.history.length != 0}">
+							<div class="pe-history">
+								<aura:iteration items="{!pathItem.history}" var="historyItem">
+									<div class="history-item">
+										<!--<div class="date">{!historyItem.message + ' '}<ui:outputDateTime value="{!historyItem.changeDate}"/></div>-->
+										<div class="date">{!historyItem.message + ' ' + historyItem.changeDate}</div>
+									</div>
+								</aura:iteration>
+							</div>
+						</aura:if>
+
+					</div>
+				</div>
+			</aura:iteration>
+		</div>
+
+	</div>
+</aura:component>

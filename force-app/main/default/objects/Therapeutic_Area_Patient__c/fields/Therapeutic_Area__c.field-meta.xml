@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Therapeutic_Area__c</fullName>
+    <externalId>false</externalId>
+    <label>Therapeutic Area</label>
+    <referenceTo>Therapeutic_Area__c</referenceTo>
+    <relationshipLabel>Therapeutic Area Patients</relationshipLabel>
+    <relationshipName>Therapeutic_Area_Patients</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

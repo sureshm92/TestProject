@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>T0001</label>
+    <protected>false</protected>
+    <values>
+        <field>Action_Link__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Comments_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Parameters__c</field>
+        <value xsi:type="xsd:string">ParticipantName = Full_Name__c</value>
+    </values>
+    <values>
+        <field>Source_Object_Type__c</field>
+        <value xsi:type="xsd:string">Participant__c</value>
+    </values>
+    <values>
+        <field>Subject_Label__c</field>
+        <value xsi:type="xsd:string">Task_Subject_Complete_Your_Profile</value>
+    </values>
+</CustomMetadata>

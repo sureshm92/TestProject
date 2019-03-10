@@ -2,10 +2,10 @@
  * Created by D.Yasinskyi on 21.02.2018
  */
 public without sharing class CommunityService {
-    
+
     public static String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
-    
+
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
 
@@ -27,6 +27,10 @@ public without sharing class CommunityService {
     public static String USER_MODE_PI = 'PI';
     public static String USER_MODE_PARTICIPANT = 'Participant';
 
+	//Exception messages
+	private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
+	private static String ERROR_MISSING_PARTICIPANT_ON_CONTACT = 'Contact does not have related Participant';
+
 
     //hold contact instance:
     private static Contact userContact;
@@ -34,7 +38,7 @@ public without sharing class CommunityService {
     public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-            if(currentUser.ContactId == null) throw new CommunityServiceException('User Contact can not be NULL');
+            if(currentUser.ContactId == null) throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
             userContact = getContactById(currentUser.ContactId);
         }
         return userContact;
@@ -48,6 +52,23 @@ public without sharing class CommunityService {
     //for debug under internal user
     public static void setDummyUserContact(Id contactId){
         userContact = getContactById(contactId);
+    }
+
+    public static String getParticipantId() {
+        User currentUser;
+        if (userContact == null) {
+            currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+        }
+        if(currentUser.ContactId == null) {
+            throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
+        }
+
+        Contact contact  = [SELECT Id, (SELECT Id FROM Participants__r) FROM Contact WHERE Id = :currentUser.ContactId];
+        if(contact.Participants__r.size() == 0) {
+            throw new CommunityServiceException(CommunityService.ERROR_MISSING_PARTICIPANT_ON_CONTACT);
+        } else {
+            return contact.Participants__r[0].Id;
+        }
     }
 
     public static List<Contact> getContactsByUserContactIds(Set<Id> userContactIds){
@@ -87,14 +108,14 @@ public without sharing class CommunityService {
                 WHERE Name = :COMMUNITY_USER_PROFILE_NAME
         ];
     }
-    
+
     public static void createPortalUsers(Set<Id> contactIds){
         List<Contact> contacts = getContacts(contactIds);
         List<User> newPortalUsers = new List<User>();
         for (Contact cont : contacts) newPortalUsers.add(createUser(cont, null, null, null));
         insert newPortalUsers;
     }
-    
+
     //Create participant users, fill time zone, locale and language from HCP contact
     public static void createParticipantUsers(Map<Id, Id> contactIdsMap) {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
@@ -106,7 +127,7 @@ public without sharing class CommunityService {
         ];
         Map<Id, User> hcpUsersMap = new Map<Id, User>();
         for(User hcp : hcpUsers) hcpUsersMap.put(hcp.ContactId, hcp);
-        
+
         List<User> newPortalUsers = new List<User>();
         Set<String> usedNames = new Set<String>();
         for (Contact cont : contacts) {
@@ -119,12 +140,13 @@ public without sharing class CommunityService {
                 locale = hcpUser.LocaleSidKey;
                 language = hcpUser.LanguageLocaleKey;
             }
+            if(cont.Language__c != null) language = cont.Language__c;
             newPortalUsers.add(createUser(cont, locale, language, timeZone));
         }
         insert newPortalUsers;
         System.debug('Portal users successfully created = ' + newPortalUsers.size());
     }
-    
+
     public static User createUser(Contact cont, String locale, String language, String timeZone){
         if(locale == null) locale = 'en_US';
         if(language == null) {
@@ -156,7 +178,7 @@ public without sharing class CommunityService {
         newUser.setOptions(dlo);
         return newUser;
     }
-    
+
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
                 SELECT Id, Email, FirstName, LastName, Name, Language__c
@@ -179,7 +201,7 @@ public without sharing class CommunityService {
                 WHERE Id = :contactId
         ];
     }
-    
+
     private static String getAvailableUserName(String email){
         List<String> names = new List<String>();
         names.add(email);
@@ -188,7 +210,7 @@ public without sharing class CommunityService {
             numberStr = numberStr.right(2);
             names.add(email + '.' + numberStr);
         }
-        
+
         List<User> users = [SELECT Username FROM User WHERE Username IN: names];
         Set<String> usedNames = new Set<String>();
         for(User user : users) usedNames.add(user.Username);
@@ -197,5 +219,5 @@ public without sharing class CommunityService {
         }
         return null;
     }
-    
+
 }

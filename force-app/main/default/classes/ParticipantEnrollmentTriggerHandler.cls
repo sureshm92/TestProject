@@ -117,6 +117,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) usersByContactId.put(usr.ContactId, usr);
         
         //process PE items:
+        List<Alert__c> alertsForInsert = new List<Alert__c>();
         for(Participant_Enrollment__c newPE : newList){
             Study_Site__c ss = ssMap.get(newPE.Study_Site__c);
             HCP_Enrollment__c hcpe = hcpeMap.get(newPE.HCP__c);
@@ -154,6 +155,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     Id hcpContact;
                     if(hcpe != null) hcpContact = hcpe.HCP_Contact__c;
                     toCreateUser.put(participant.Contact__c, hcpContact);
+                    alertsForInsert.add(new Alert__c(
+                            Contact__c = participant.Contact__c,
+                            Alert_Code__c = 'Welcome_To_The_PH'
+                    ));
+
                 }else{
                     System.debug('NOTIFY USER');
                     if(hcpe != null){
@@ -166,9 +172,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Id = participant.Contact__c,
                         userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
                 ));
+                alertsForInsert.add(new Alert__c(
+                        Record_ID__c = newPE.Id,
+                        Contact__c = participant.Contact__c,
+                        Alert_Code__c = 'Welcome_to_the_Study'
+                ));
+
             }
         }
     
+        insert alertsForInsert; 
         if(toCreateUser.size() > 0) CommunityService.createParticipantUsers(toCreateUser);
         if(notificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT1_NEW, notificationMap);
         if(notificationMapEmptyHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT2_NEW, notificationMapEmptyHCP);

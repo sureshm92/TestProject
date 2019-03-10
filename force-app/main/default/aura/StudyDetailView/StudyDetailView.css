@@ -14,8 +14,21 @@
 
 /*=============================TABS=============================*/
 /*.THIS .sd-tab-container::-webkit-scrollbar {*/
-    /*width: 0;*/
+/*width: 0;*/
 /*}*/
+.THIS .links .apollo-btn{
+    padding: 0 10px;
+}
+
+.THIS .links .apollo-btn + .apollo-btn{
+    margin-left: 5px;
+}
+
+.THIS .apollo-btn.current{
+    background-color: #e9f2ff;
+    transition: 0.3s;
+}
+
 .THIS .sd-tab-container {
     display: flex;
     min-height: 62px;
@@ -211,4 +224,25 @@
     .THIS .sdv-top-bar.sticky.multi-mode .sticky-bar{
         top: 80px;
     }
+}
+.THIS .contrast-logo {
+    max-width: 136px;
+    margin: 10px 0;
+}
+.THIS .button-share-icon {
+    visibility: hidden;
+    display:block;
+    position:absolute;
+    margin-left: 65px;
+    margin-top: 73px;
+    transition: all ease 0.3s;
+
+}
+.THIS #share:hover ~ .button-share-icon{
+    /*display: block !important;*/
+    visibility: visible !important;
+}
+.THIS .button-share-icon:hover {
+    /*display: block !important;*/
+    visibility: visible !important;
 }

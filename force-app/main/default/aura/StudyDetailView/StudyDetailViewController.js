@@ -6,11 +6,21 @@
         var recId = communityService.getUrlParameter('id');
         var tabId = communityService.getUrlParameter('tab');
         if(tabId === undefined) tabId = 'tab-about-the-study'; //tab by default;
+        var resourceMode = communityService.getUrlParameter('resourcemode');
+        if(!resourceMode) resourceMode = 'Default';
+        var taskMode = communityService.getUrlParameter('taskmode');
+        if(!taskMode) taskMode = 'Open';
+
+        if(!recId) {
+            recId = "a1R1h000000VpuBEAS";
+        }
 
         if(communityService.isInitialized() && recId){
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
             component.set('v.currentTab', tabId);
+            component.set('v.taskMode', taskMode);
+            component.set('v.resourceMode', resourceMode);
             helper.setTabInitialized(component);
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
@@ -26,12 +36,15 @@
         }
     },
 
-     doAction: function (component, event) {
+    doAction: function (component, event) {
         var studyDetail = component.get('v.studyDetail');
         var trial = component.get('v.studyDetail').trial;
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
         switch (actionId){
+            case 'backHome' :
+                communityService.navigateToPage('');
+                break;
             case 'medicalRecordReview':
                 communityService.navigateToPage('medical-record-review?id=' + trialId);
                 break;
@@ -56,6 +69,15 @@
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");
                 break;
             case 'openToReceiveReferrals':
+                break;
+            case 'changeResourceMode':
+                var resourceMode= event.currentTarget.dataset.resourceMode;
+                component.set('v.resourceMode', resourceMode);
+                break;
+            case 'changeTaskMode':
+                var taskMode = event.currentTarget.dataset.taskMode;
+                component.set('v.taskMode', taskMode);
+                break;
         }
     },
 
@@ -67,6 +89,7 @@
     },
 
     doTabChanged: function(component, event, helper){
+        helper.setBrowserHistory(component);
         helper.setTabInitialized(component);
     }
 

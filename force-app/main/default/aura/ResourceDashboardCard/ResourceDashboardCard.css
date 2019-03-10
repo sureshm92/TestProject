@@ -1,0 +1,110 @@
+.THIS.resource-card {
+	width: 100%;
+	max-height: 100%;
+	min-width: 562px;
+}
+
+.THIS .resource-container {
+	width: 247px;
+	margin: auto;
+}
+
+.THIS .resource-card-title {
+	height: 27px;
+	color: #000000;
+	font-family: "Proxima Nova";
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 27px;
+	margin: 14px 0 10px 33px;
+}
+
+.THIS .resource-footer {
+	width: 100%;
+	color: #297DFD;
+	font-family: "Proxima Nova";
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: center;
+	background-color: rgba(216, 216, 216, 0.25);
+	height: 16px;
+}
+
+.THIS .resource-title {
+	height: 20px;
+	color: #000000;
+	font-family: "Proxima Nova";
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 20px;
+}
+
+.THIS .resource-image-container {
+	display: block;
+	height: 123px;
+	width: 215px;
+	margin: 0 auto 5px 0;
+}
+
+.THIS .resource-description {
+	display: block;
+	height: 100%;
+}
+
+.THIS .resource-description-title {
+	height: 30px;
+	color: #666666;
+	font-family: "Proxima Nova";
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 30px;
+}
+
+.THIS .resource-description-text {
+	height: 28px;
+	color: #999999;
+	font-family: "Proxima Nova";
+	font-size: 12px;
+	line-height: 14px;
+	margin-bottom: 2px;
+}
+
+.THIS .resource-description-footer {
+	display: flex;
+}
+
+.THIS .resource-icon {
+	display: block;
+}
+
+.THIS .resource-icon-like {
+	height: 17px;
+	width: 18px;
+	margin-right: 3px;
+	display: inline-block;
+}
+
+.THIS .resource-number-of-likes {
+	text-align: center;
+	display: inline-block;
+	vertical-align: text-top;
+}
+
+.THIS .resource-more-links {
+	height: 106px;
+	width: 247px;
+	color: #000000;
+	font-family: "Proxima Nova";
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 30px;
+}
+
+.THIS .resource-more-single-link {
+	height: 21px;
+	color: #297DFD;
+	font-family: "Proxima Nova";
+	line-height: 21px;
+	margin: 0 auto 10px 7px;
+}

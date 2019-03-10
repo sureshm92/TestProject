@@ -96,6 +96,14 @@ public without sharing class StudyDetailViewController {
                     trialDetail.accountEnrollmentsList.add(createClinicWrapper(ss.Name, accountsMap.get(ss.Site__c), hcpStatus, ss.Id));
                 }
                 trialDetail.accountEnrollmentsList.sort();
+            } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+//                List<Participant_Enrollment__c> participantEnrollments = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+//                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
+//                StudyActions studyActions = new StudyActionsParticipant(participantEnrollments[0]);
+                StudyActionsParticipant studyActions = new StudyActionsParticipant();
+                trialDetail.studyActions = studyActions.studyDetailActions;
+                trialDetail.actions = studyActions.actions;
+
             }
 
             return JSON.serialize(trialDetail);
@@ -179,6 +187,27 @@ public without sharing class StudyDetailViewController {
                     'tab-reports',
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
+            ));
+        } else {
+            tabs.add(new StudyTab(
+                    'tab-referred-patient',
+                    'referred-patient',
+                    'Visits'
+            ));
+            tabs.add(new StudyTab(
+                    'tab-tasks',
+                    'task',
+                    'Tasks'
+            ));
+            tabs.add(new StudyTab(
+                    'tab-resources',
+                    'resources',
+                    'Resources'
+            ));
+            tabs.add(new StudyTab(
+                    'tab-lab-results',
+                    'reports',
+                    'Lab Results'
             ));
         }
         return tabs;

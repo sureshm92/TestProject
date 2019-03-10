@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Clinical_Trial_Profile__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Study</description>
+    <externalId>false</externalId>
+    <label>Clinical Trial Profile</label>
+    <referenceTo>Clinical_Trial_Profile__c</referenceTo>
+    <relationshipLabel>Participant Study Enrollments</relationshipLabel>
+    <relationshipName>Participant_Study_Enrollments</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

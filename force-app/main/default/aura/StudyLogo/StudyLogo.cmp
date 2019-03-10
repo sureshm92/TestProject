@@ -1,0 +1,32 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="StudyLogo" implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="StudyLogoRemote" >
+
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="pictureSrc" type="String"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <!-- component body -->
+    <div class="sl-panel" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
+        <c:RRSpinner aura:id="spinner" size="small"/>
+        <aura:if isTrue="{!v.initialized}">
+            <aura:if isTrue="{!!empty(v.pictureSrc)}">
+                <img src="{!v.pictureSrc}"/>
+                <div class="sl-remove" onclick="{!c.doRemove}">
+                    <c:RRIcon iconName="icon-trash"/>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!empty(v.pictureSrc)}">
+                <div class="sl-placeholder">
+                    <c:RRIcon iconName="icon-image"/>
+                    <div>Drag study logo here</div> 
+                </div>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

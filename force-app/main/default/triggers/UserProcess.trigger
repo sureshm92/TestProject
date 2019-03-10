@@ -24,4 +24,39 @@ trigger UserProcess on User (after insert, after update) {
     }
     update contactsForUpdate;
     update changeEmailContacts;
+
+    
+    if(Trigger.isAfter && Trigger.isInsert){
+        Id portalProfileId = [SELECT Id FROM Profile WHERE Name = 'IQVIA Customer Community Plus Login User'].Id;
+        Set<Id> userContactIds = new Set<Id>();
+        for(User user : Trigger.new) if(user.ContactId != null) userContactIds.add(user.ContactId);
+        List<Participant__c> participants = [
+                SELECT Id, Contact__c
+                FROM Participant__c
+                WHERE Contact__c IN: userContactIds
+        ];
+        Map<Id, Participant__c> participantsByContactIdMap = new Map<Id, Participant__c>();
+        for(Participant__c participant : participants){
+            participantsByContactIdMap.put(participant.Contact__c, participant);
+        }
+    
+        List<Task> tasksForInsert = new List<Task>();
+        for(User user : Trigger.new){
+            if(user.ProfileId == portalProfileId){
+                if(user.ContactId != null){
+                    Participant__c participant = participantsByContactIdMap.get(user.ContactId);
+                    if(participant != null){
+                        tasksForInsert.add(new Task(
+                                OwnerId = user.Id,
+                                Task_Code__c = 'T0001',
+                                WhatId = participant.Id,
+                                Subject = 'T0001',
+                                ActivityDate = Date.today().addDays(3)
+                        ));
+                    }
+                }
+            }
+        }
+        insert tasksForInsert;
+    }
 }

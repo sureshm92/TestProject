@@ -1,0 +1,37 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS {
+}
+
+.THIS.sl-panel{
+    position: relative;
+    background-color: white;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: 1px solid #e2e2e2;
+}
+
+.THIS.sl-panel img{
+    max-width: 150px;
+}
+
+.THIS .sl-placeholder{
+    text-align: center;
+    color: gray;
+}
+
+.THIS .sl-remove{
+    position: absolute;
+    top: 0;
+    left: 6px;
+    cursor: pointer;
+}
+
+.THIS .sl-remove svg{
+    fill: #ababab;
+    width: 18px;
+}

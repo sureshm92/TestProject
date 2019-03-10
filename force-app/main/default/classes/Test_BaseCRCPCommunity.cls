@@ -5,7 +5,7 @@
 @IsTest
 private class Test_BaseCRCPCommunity {
     
-    static Account piAccount;
+  /*  static Account piAccount;
     static Account hcpAccount;
     static Account studySiteAccount;
     static Account participantsAccount;
@@ -596,5 +596,5 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-
+*/
 }

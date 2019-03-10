@@ -1,6 +1,6 @@
 <!-- - Created by D.Yasinskyi on 05.03.2018.-->
 <aura:component description="Popup">
-
+    <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes: -->
     <aura:attribute name="title" type="String" required="true"/>
     <aura:attribute name="showModal" type="Boolean" default="false" description="show or hide popup"/>
@@ -23,7 +23,6 @@
 
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}"/>
 
     <!-- methods: -->

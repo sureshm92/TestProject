@@ -1,0 +1,23 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS {
+}
+
+.THIS .al-logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.THIS .al-logo img{
+    width: 180px;
+}
+
+.THIS .al-logo-text{
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.25;
+}

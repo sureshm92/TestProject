@@ -20,10 +20,17 @@
     <aura:attribute name="isMRRTabInitialized" type="Boolean"/>
     <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean"/>
 
+    <!--change-->
+    <aura:attribute name="resourceImagePath" type="String" access="private"/>
+    <aura:attribute name="resourceMode" type="String" default="Default"/>
+    <aura:attribute name="taskMode" type="String" default="Open"/>
+
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.currentTab}" action="{!c.doTabChanged}"/>
+    <aura:handler name="change" value="{!v.taskMode}" action="{!c.doTabChanged}"/>
+    <aura:handler name="change" value="{!v.resourceMode}" action="{!c.doTabChanged}"/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -37,12 +44,29 @@
             <!-- top bar -->
             <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
-                    <c:RRNavigationPath>
-                        <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
-                        <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
-                    </c:RRNavigationPath>
+                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                        <c:RRNavigationPath>
+                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
+                        </c:RRNavigationPath>
+                        <aura:if isTrue="{!!empty(v.studyDetail.trial.Profile_Picture__c)}">
+                            <div class="rr-width-limiter">
+                                <img class="contrast-logo" src="{!v.studyDetail.trial.Profile_Picture__c}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!empty(v.studyDetail.trial.Profile_Picture__c)}">
+                            <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+                        </aura:if>
+                    </aura:if>
+                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                        <c:RRNavigationPath>
+                            <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
+                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
+                        </c:RRNavigationPath>
+                        <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+                    </aura:if>
                 </div>
-                <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+
+
                 <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                     <c:RRAnchor aura:id="tabsTarget"/>
                     <div class="tabs">
@@ -62,6 +86,26 @@
                                             <c:RRIcon iconName="{!action.iconName}"/>
                                             {!action.label}
                                         </button>
+                                        <aura:if isTrue="{!and(v.userMode == 'Participant', action.id == 'share')}">
+                                            <div class="button-share-icon">
+                                                  <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                                          disabled="{!v.studyDetail.actions.facebook.disabled}" id="{!v.studyDetail.actions.facebook.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.facebook.disableReason}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.facebook.iconName}"/>
+                                                  </button>
+                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                                          disabled="{!v.studyDetail.actions.twitter.disabled}" id="{!v.studyDetail.actions.twitter.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.twitter.disableReason}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.twitter.iconName}"/>
+                                                  </button>
+                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                                          disabled="{!v.studyDetail.actions.linkedin.disabled}" id="{!v.studyDetail.actions.linkedin.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.linkedin.disableReason}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}"/>
+                                                  </button>
+                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                                          disabled="{!v.studyDetail.actions.envelope.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.envelope.disableReason}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.envelope.iconName}"/>
+                                                  </button>
+                                            </div>
+                                        </aura:if>
                                     </aura:iteration>
                                 </aura:set>
                             </c:RRTabSet>
@@ -71,7 +115,7 @@
                         <button class="apollo-btn text" data-anchor="aboutAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_About_The_Study}</button>
                         <button class="apollo-btn text" data-anchor="inclusionExclusionAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</button>
                         <!-- HCP -->
-                        <aura:if isTrue="{!v.userMode == 'HCP'}">
+                        <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'Participant')}">
                             <button class="apollo-btn text" data-anchor="studySitesAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>
                         </aura:if>
                         <!-- PI -->
@@ -79,6 +123,19 @@
                             <button class="apollo-btn text" data-anchor="referringClinicsAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
                         </aura:if>
                     </div>
+
+                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-tasks', '', ' collapsed')}">
+                        <button id="changeTaskMode" data-task-mode="Open" value="Pending" class="{!'apollo-btn text ' + if(v.taskMode == 'Open', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Task_Tab_Open_Tasks}</button>
+                        <button id="changeTaskMode" data-task-mode="Completed" value="Pending" class="{!'apollo-btn text ' + if(v.taskMode == 'Completed', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Task_Tab_Completed_Tasks}</button>
+                        <button id="changeTaskMode" data-task-mode="MyTasks" value="My Tasks" class="{!'apollo-btn text ' + if(v.taskMode == 'MyTasks', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Task_Tab_My_Tasks}</button>
+                    </div>
+
+                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}">
+                        <button id="changeResourceMode" data-resource-mode="Default" class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}" onclick="{!c.doAction}">Video and Articles</button>
+                        <button id="changeResourceMode" data-resource-mode="Favorite" class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}" onclick="{!c.doAction}">Favorites</button>
+                        <button id="changeResourceMode" data-resource-mode="Suggested" class="{!'apollo-btn text ' + if(v.resourceMode == 'Suggested', ' current', '')}" onclick="{!c.doAction}">Suggested Content</button>
+                    </div>
+
                 </div>
                 <!-- Stub visible only when sticky bar fixed-->
                 <div >
@@ -156,6 +213,24 @@
 
                     <aura:if isTrue="{!v.currentTab == 'tab-reports'}">
                         <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.currentTab == 'tab-referred-patient'}">
+                        {!v.currentTab}
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
+                        <c:TasksTab taskMode="{!v.taskMode}"/>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
+                        <br/>
+                        <br/>
+                        <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
+                        {!v.currentTab}
                     </aura:if>
 
                 </div>

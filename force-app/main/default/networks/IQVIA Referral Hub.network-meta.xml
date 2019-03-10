@@ -13,6 +13,7 @@
     <enableGuestFileAccess>true</enableGuestFileAccess>
     <enableInvitation>false</enableInvitation>
     <enableKnowledgeable>false</enableKnowledgeable>
+    <!--enableMemberVisibility>true</enableMemberVisibility-->
     <enableNicknameDisplay>false</enableNicknameDisplay>
     <enablePrivateMessages>false</enablePrivateMessages>
     <enableReputation>false</enableReputation>
@@ -25,7 +26,7 @@
     <forgotPasswordTemplate>Referral_Hub_Emails/Forgot_Password_Email</forgotPasswordTemplate>
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <lockoutTemplate>Referral_Hub_Emails/User_Lockout_Email</lockoutTemplate>
-    <logoutUrl>https://infmlsvtv3-iqviaconnect.cs77.force.com/secur/logout.jsp</logoutUrl>
+    <logoutUrl>https://fmlsvtv3-iqviaconnect.cs14.force.com/secur/logout.jsp</logoutUrl>
     <navigationLinkSet>
         <navigationMenuItem>
             <label>PI</label>

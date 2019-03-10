@@ -1,0 +1,123 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+public class TaskTriggerHandler {
+    
+    public static void checkTaskFieldsBeforeInsert(){
+        if(Trigger.isBefore && (Trigger.isUpdate || Trigger.isInsert)){
+            Map<String, Task_Catalog__mdt> cardsMap = getCardsMap((List<Task>)Trigger.new);
+            List<Task> checkedTasks = new List<Task>();
+            for (Task task : (List<Task>)Trigger.new) {
+                if (task.Task_Code__c == null) continue;
+                Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
+                if (card == null) {
+                    task.Task_Code__c.addError('Task Catalog Card: ' + task.Task_Code__c + ' not found in catalog');
+                    continue;
+                }
+                if (card.Source_Object_Type__c == null && card.Parameters__c != null) {
+                    task.addError('Source Object Type can not be null in Task Catalog: ' + card.DeveloperName);
+                    continue;
+                }
+                SObjectType sourceObjectType = Schema.getGlobalDescribe().get(card.Source_Object_Type__c);
+                if(sourceObjectType == null && card.Parameters__c != null) {
+                    task.addError('Wrong Source Object Type in Task Catalog ' + card.DeveloperName + ': ' + card.Source_Object_Type__c);
+                    continue;
+                }
+                System.debug('SOBJTYPE: ' + sourceObjectType);
+                String errorsInParameters = CatalogParametersHelper.getErrorInParameters(sourceObjectType, card.Parameters__c);
+                if(errorsInParameters != null) {
+                    task.addError('Task Catalog: ' + card.DeveloperName + '; Parameters error: ' + errorsInParameters);
+                    continue;
+                }
+        
+                if(task.WhatId == null && card.Parameters__c != null) {
+                    task.WhatId.addError('What Id can not be null');
+                    continue;
+                }
+                Id recId;
+                if(task.WhatId != null){
+                    try{
+                        recId = task.WhatId;
+                        if(recId.getSobjectType() != sourceObjectType) {
+                            task.WhatId.addError('Wrong Related To SObject Type');
+                            continue;
+                        }
+                    }catch (Exception e){
+                        task.WhatId.addError('Wrong WhatId: ' + task.WhatId);
+                        continue;
+                    }
+                }
+                
+                checkedTasks.add(task);
+            }
+        }
+    }
+    
+    public static void processDefaultFieldValues(List<Task> tasks){
+        Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
+        Map<String, Set<Id>> idsByObjectType = new Map<String, Set<Id>>();
+        Map<String, Set<String>> fieldsByObjectType = new Map<String, Set<String>>();
+        for(Task task : tasks){
+            if(task.Task_Code__c == null) continue;
+            Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
+            if(card == null) continue;
+            if(card.Source_Object_Type__c == null) continue;
+            if(task.WhatId == null) continue;
+            if(String.isEmpty(card.Parameters__c)) continue;
+            Map<String, String> cardParametersMap = CatalogParametersHelper.getParamsMap(card.Parameters__c);
+        
+            Set<Id> objectIds = idsByObjectType.get(card.Source_Object_Type__c);
+            if(objectIds == null) objectIds = new Set<Id>();
+            objectIds.add(task.WhatId);
+            idsByObjectType.put(card.Source_Object_Type__c, objectIds);
+        
+            Set<String> objectFields = fieldsByObjectType.get(card.Source_Object_Type__c);
+            if(objectFields == null) objectFields = new Set<String>();
+            objectFields.addAll(cardParametersMap.values());
+            fieldsByObjectType.put(card.Source_Object_Type__c, objectFields);
+        }
+    
+        Map<Id, SObject> objectsMap = new Map<Id, SObject>();
+        for(String objectType : idsByObjectType.keySet()) {
+            List<SObject> objectsList = new List<SObject>();
+            objectsList = CatalogParametersHelper.queryObjects(objectType, fieldsByObjectType.get(objectType), idsByObjectType.get(objectType));
+            for(SObject sobj: objectsList) objectsMap.put(sobj.Id, sobj);
+        }
+        TranslateHelper.translate(objectsMap.values());
+    
+        for(Task task : tasks) {
+            Map<String, String> cardParametersValueMap = new Map<String, String>();
+            if(String.isEmpty(task.Task_Code__c)) continue;
+            Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
+            if(card == null) continue;
+            if(task.WhatId != null){
+                SObject whatObject = objectsMap.get(task.WhatId);
+                if(whatObject != null){
+                    cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(whatObject, card.Parameters__c);
+                }
+            }
+            task.Subject = CatalogParametersHelper.prepareLabel(card.Subject_Label__c, cardParametersValueMap);
+            task.Description = CatalogParametersHelper.prepareLabel(card.Comments_Label__c, cardParametersValueMap);
+        }
+    }
+    
+    public static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks){
+        Set<String> catalogCodes = new Set<String>();
+        for (Task task : tasks) if (task.Task_Code__c != null) catalogCodes.add(task.Task_Code__c);
+        List<Task_Catalog__mdt> cards = [
+                SELECT Id,
+                        DeveloperName,
+                        Subject_Label__c,
+                        Comments_Label__c,
+                        Source_Object_Type__c,
+                        Parameters__c
+                FROM Task_Catalog__mdt
+                WHERE DeveloperName IN:catalogCodes
+        ];
+        Map<String, Task_Catalog__mdt> cardsMap = new Map<String, Task_Catalog__mdt>();
+        for (Task_Catalog__mdt card : cards) cardsMap.put(card.DeveloperName, card);
+        return cardsMap;
+    }
+
+}

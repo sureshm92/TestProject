@@ -1,0 +1,26 @@
+.THIS .resource-footer {
+	width: 100%;
+	color: #297DFD;
+	font-family: "Proxima Nova";
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 16px;
+	text-align: center;
+	background-color: rgba(216,216,216,0.25);
+	height: 16px;
+}
+
+.THIS.resource-card {
+	min-width: 565px;
+	min-height: 645px;
+}
+
+.THIS .resource-card-title {
+	height: 27px;
+	color: #000000;
+	font-family: "Proxima Nova";
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 27px;
+	margin: 14px 0 18px 33px;
+}

@@ -2,23 +2,47 @@
  * Created by Leonid Bartenev
  */
 ({
+    doInitialShow: function(component, event, helper){
+        var isInitialized = component.get('v.isInitialized');
+        if(isInitialized){
+            var showOnLogin = component.get('v.showOnLogin');
+            var isNewSession = component.get('v.isNewSession');
+            if(showOnLogin && isNewSession) component.set('v.visible', true);
+        }else{
+            component.set('v.showAfterInit');
+        }
+    },
+
     doInit: function(component, event, helper){
-        communityService.executeAction(component, 'getInitData', null, function (returnValue) {
-            var initData = JSON.parse(returnValue);
-            component.set('v.showOnStartupMap', initData.showOnLogin);
-            component.set('v.tourNamesMap', initData.systemTourNames);
-            component.set('v.isInitialized', true);
-            communityService.setShowOnLoginMap(initData.showOnLogin);
-            communityService.setIsNewSession(initData.isNewSession);
-            $A.get('e.c:OnboardingSlideTourStartupModeChanged').fire();
+        var userMode = component.get('v.userMode');
+        if(userMode){
+            component.set('v.showAfterInit', false);
+            component.set('v.isInitialized', 'false');
             window.addEventListener('resize', $A.getCallback(function() {
                 helper.scrollToPage(component, event, helper, component.get('v.currentPage'));
             }));
+            component.find('spinner').show();
+            communityService.executeAction(component, 'getSlides', {
+                userMode: userMode,
+                formFactor: $A.get('$Browser.formFactor'),
+                multimode: communityService.getCommunityTypes().length > 1
+            }, function (returnValue) {
+                var tour = JSON.parse(returnValue);
+                component.set('v.showOnLogin', tour.showOnStartup);
+                communityService.setShowOnLogin(tour.showOnStartup);
+                $A.get('e.c:OnboardingSlideTourStartupModeChanged').fire();
+                component.set('v.currentPage', 0);
+                component.set('v.title', tour.title);
+                component.set('v.slides', tour.slides);
+                component.set('v.isNewSession', tour.isNewSession);
+                if(tour.slides.length > 0) component.set('v.currentSlide', tour.slides[0]);
+                component.find('carouselBody').getElement().scrollLeft = 0;
+                if(component.get('v.showAfterInit')) component.set('v.visible', true);
+                component.find('spinner').hide();
+                component.set('v.isInitialized', true);
+            });
+        }
 
-            if(communityService.showTourOnLogin() && initData.isNewSession){
-                communityService.showTour();
-            }
-        })
     },
 
     handleChangeCurrentPage: function(component, event, helper) {
@@ -59,8 +83,11 @@
     },
 
     doShow: function (component, event, helper) {
-        var tourName = event.getParam('tourName');
-        helper.show(component, tourName);
+        if(component.get('v.isInitialized')){
+            component.set('v.visible', true);
+        }else{
+            component.set('v.showAfterInit');
+        }
     },
 
     doHide: function (component) {
@@ -71,6 +98,10 @@
         var showOnLoing = component.get('v.showOnLogin');
         var action = component.find('switchShowOnLoginModeAction');
         action.execute(showOnLoing);
+    },
+
+    doSetCurrentShowOnLoginState: function (component) {
+        component.set('v.showOnLogin', communityService.showTourOnLogin());
     }
 
 })

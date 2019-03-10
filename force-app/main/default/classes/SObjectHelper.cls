@@ -1,0 +1,37 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+public class SObjectHelper {
+    
+    public static Object getSObjectFieldValue(SObject sObj, String fieldPath){
+        List<String> pathItems = fieldPath.split('\\.');
+        SObject currentSObject = sObj;
+        for(Integer i = 0; i < pathItems.size() - 1; i++) {
+            currentSObject = currentSObject.getSObject(pathItems[i]);
+            if(currentSObject == null) return null;
+        }
+        return currentSObject.get(pathItems[pathItems.size() - 1]);
+    }
+    
+    public static Boolean hasField(SObjectType sObjectType, String fieldPath){
+        List<String> pathItems = fieldPath.split('\\.');
+        for(String field : pathItems){
+            field = field.replace('__r', '__c');
+            SObjectField sObjectField = sObjectType.getDescribe().fields.getMap().get(field);
+            if(sObjectField != null){
+                if(sObjectField.getDescribe().getType() == DisplayType.REFERENCE){
+                    List<SObjectType> soTypes = sObjectField.getDescribe().getReferenceTo();
+                    if(soTypes.size() == 0) return false;
+                    sObjectType = soTypes[0];
+                }else {
+                    break;
+                }
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
+
+}

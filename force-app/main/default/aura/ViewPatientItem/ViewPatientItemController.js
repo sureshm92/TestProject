@@ -3,7 +3,10 @@
  */
 ({
     doInit: function (component, event, helper) {
-        helper.preparePathItems(component);
+        if(component.get('v.pe')) {
+            helper.preparePathItems(component);
+            component.find('spinner').hide();
+        }
     },
 
     doGoToProfile: function (component) {

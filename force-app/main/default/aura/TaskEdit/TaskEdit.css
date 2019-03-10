@@ -1,0 +1,15 @@
+/**
+ * Created by mkotenev on 3/5/2019.
+ */
+.THIS {
+
+}
+
+.THIS.te-task-panel{
+    max-width: 402px;
+    margin: auto;
+    /*margin-bottom: 30px;*/
+}
+.THIS .te-col {
+    margin-bottom: 10px;
+}

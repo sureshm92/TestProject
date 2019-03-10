@@ -5,25 +5,29 @@
 <aura:component description="OnboardingSlideTour" implements="forceCommunity:availableForAllPageTypes" controller="OnboardingSlideTourRemote">
 
     <!-- attributes: -->
-    <aura:attribute name="title" type="String" default="Slides"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="title" type="String" default=""/>
     <aura:attribute name="currentPage" type="Integer" default="0"/>
     <aura:attribute name="currentSlide" type="Object" default="0"/>
     <aura:attribute name="isLastPage" type="Boolean" default="0"/>
     <aura:attribute name="slides" type="List"/>
     <aura:attribute name="visible" type="Boolean" default="false"/>
-    <aura:attribute name="showOnStartupMap" type="Object"/>
-    <aura:attribute name="tourNamesMap" type="Object"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="showOnLogin" type="Boolean"/>
+    <aura:attribute name="isNewSession" type="Boolean"/>
+    <aura:attribute name="showAfterInit" type="Boolean"/>
+
+    <!-- methods: -->
+    <aura:method name="initialShow" access="public" action="{!c.doInitialShow}"/>
 
     <!-- events: -->
-    <aura:registerEvent name="OnboargingSlideTourShow" type="c:OnboargingSlideTourShow"/>
     <aura:registerEvent name="OnboardingSlideTourStartupModeChanged" type="c:OnboardingSlideTourStartupModeChanged"/>
 
     <!-- handlers: -->
+    <aura:handler name="change" value="{!v.userMode}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.currentPage}" action="{!c.handleChangeCurrentPage}"/>
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler event="c:OnboargingSlideTourShow" action="{!c.doShow}"/>
+    <aura:handler event="c:OnboardingSlideTourStartupModeChanged" action="{!c.doSetCurrentShowOnLoginState}"/>
 
     <!-- actions: -->
     <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction"/>

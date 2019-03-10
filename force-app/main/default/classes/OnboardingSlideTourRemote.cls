@@ -25,66 +25,17 @@ public without sharing class OnboardingSlideTourRemote {
     }
     
     public class Tour{
-        String title;
-        List<SlideData> slides;
+        public Boolean showOnStartup;
+        public Boolean isNewSession;
+        public String title;
+        public List<SlideData> slides;
     }
     
     @AuraEnabled
-    public static String getInitData(){
+    public static String getSlides(String userMode, String formFactor, Boolean multimode){
         try{
-            Boolean isParticipant = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant().size() > 0;
-            List<Study_Site__c> piSSListWithDelegates = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
-            List<Study_Site__c> piSSListWithoutDelegates = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
-            Boolean isPI = piSSListWithoutDelegates.size() > 0;
-            Boolean isPIDelegate = piSSListWithDelegates.size() > piSSListWithoutDelegates.size();
-            List<HCP_Enrollment__c> hcpListWithDelegates = HCPEnrollmentService.getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, false);
-            List<HCP_Enrollment__c> hcpListWithoutDelegates = HCPEnrollmentService.getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, true);
-            Boolean isHCP = hcpListWithoutDelegates.size() > 0;
-            Boolean isHCPDelegate = hcpListWithDelegates.size() > hcpListWithoutDelegates.size();
-            String piTourName;
-            if(isPI){
-                piTourName = 'PI';
-            }else if(isPIDelegate){
-                piTourName = 'PI_Delegate';
-            }
-            String hcpTourName;
-            if(isHCP){
-                hcpTourName = 'HCP';
-            }else if(isHCPDelegate){
-                hcpTourName = 'HCP_Delegate';
-            }
-            InitData initData = new InitData();
-            initData.systemTourNames = new Map<String, String>{
-                    CommunityService.USER_MODE_PARTICIPANT => 'Participant',
-                    CommunityService.USER_MODE_PI => piTourName,
-                    CommunityService.USER_MODE_HCP => hcpTourName
-            };
-            List<String> showOnLoginList = new List<String>();
-            if(CommunityService.getUserContact().userCommunity_ShowTour__c != null) {
-                showOnLoginList = CommunityService.getUserContact().userCommunity_ShowTour__c.split(';');
-            }
-            initData.showOnLogin = new Map<String, Boolean>{
-                    CommunityService.USER_MODE_PARTICIPANT => showOnLoginList.contains(CommunityService.USER_MODE_PARTICIPANT),
-                    CommunityService.USER_MODE_PI => showOnLoginList.contains(CommunityService.USER_MODE_PI),
-                    CommunityService.USER_MODE_HCP => showOnLoginList.contains(CommunityService.USER_MODE_HCP)
-            };
-            
-            Contact userContact = CommunityService.getUserContact();
-            initData.isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
-            if(initData.isNewSession) {
-                userContact.Last_Session_Id__c = UserInfo.getSessionId();
-                update userContact;
-            }
-            return JSON.serialize(initData);
-        }catch (Exception e){
-            System.debug(e.getMessage() + '\n' + e.getStackTraceString());
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-    
-    @AuraEnabled
-    public static String getSlides(String tourName, String formFactor, Boolean multimode){
-        try{
+            Map<String, String> tourNamesMap = getTourNamesMap();
+            String tourName = tourNamesMap.get(userMode);
             List<Onboarding_Tour_Slides__mdt> tourList = [
                     SELECT Id, Order__c,
                             Onboarding_Tour__r.Title__c,
@@ -137,6 +88,9 @@ public without sharing class OnboardingSlideTourRemote {
                 tour.title = tourList[0].Onboarding_Tour__r.Title__c;
             }
             tour.slides = outputSlides;
+            tour.showOnStartup = showOnStartup(userMode);
+            tour.isNewSession = isNewSession();
+    
             return JSON.serializePretty(tour);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -159,6 +113,54 @@ public without sharing class OnboardingSlideTourRemote {
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+    
+    private static Map<String, String> getTourNamesMap(){
+        Boolean isParticipant = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant().size() > 0;
+        List<Study_Site__c> piSSListWithDelegates = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
+        List<Study_Site__c> piSSListWithoutDelegates = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
+        Boolean isPI = piSSListWithoutDelegates.size() > 0;
+        Boolean isPIDelegate = piSSListWithDelegates.size() > piSSListWithoutDelegates.size();
+        List<HCP_Enrollment__c> hcpListWithDelegates = HCPEnrollmentService.getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, false);
+        List<HCP_Enrollment__c> hcpListWithoutDelegates = HCPEnrollmentService.getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, true);
+        Boolean isHCP = hcpListWithoutDelegates.size() > 0;
+        Boolean isHCPDelegate = hcpListWithDelegates.size() > hcpListWithoutDelegates.size();
+        String piTourName;
+        if(isPI){
+            piTourName = 'PI';
+        }else if(isPIDelegate){
+            piTourName = 'PI_Delegate';
+        }
+        String hcpTourName;
+        if(isHCP){
+            hcpTourName = 'HCP';
+        }else if(isHCPDelegate){
+            hcpTourName = 'HCP_Delegate';
+        }
+        return new Map<String, String>{
+                CommunityService.USER_MODE_PARTICIPANT => 'Participant',
+                CommunityService.USER_MODE_PI => piTourName,
+                CommunityService.USER_MODE_HCP => hcpTourName
+        };
+    }
+    
+    private static Boolean showOnStartup(String userMode){
+        Contact userContact = CommunityService.getUserContact();
+        List<String> showOnLoginList = new List<String>();
+        if(CommunityService.getUserContact().userCommunity_ShowTour__c != null) {
+            showOnLoginList = userContact.userCommunity_ShowTour__c.split(';');
+        }
+        return showOnLoginList.contains(userMode);
+    }
+    
+    private static Boolean isNewSession(){
+        Contact userContact = CommunityService.getUserContact();
+        Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
+        if(isNewSession) {
+            userContact.Last_Session_Id__c = UserInfo.getSessionId();
+            update userContact;
+        }
+        return isNewSession;
     }
 
 }

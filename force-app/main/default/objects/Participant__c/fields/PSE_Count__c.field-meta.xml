@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PSE_Count__c</fullName>
+    <externalId>false</externalId>
+    <label>PSE Count</label>
+    <summaryFilterItems>
+        <field>Participant_Study_Enrollment__c.Status__c</field>
+        <operation>notEqual</operation>
+        <value>Dropped, On Hold</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Participant_Study_Enrollment__c.Participant__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

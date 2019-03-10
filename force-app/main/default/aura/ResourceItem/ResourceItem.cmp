@@ -1,0 +1,45 @@
+<aura:component controller="ResourceRemote" description="ResourceItem">
+
+    <!--ATTRIBUTES-->
+    <aura:attribute name="resource" type="ResourceService.ResourceWrapper"/>
+
+    <!--COMPONENT BODY-->
+    <div class="resource-container">
+
+        <div class="resource-image-container" onclick="{!c.navigateToPage}">
+            <img alt="{!$Label.c.Resources_Image_Unavailable}" src="{!v.resource.image}"/>
+        </div>
+
+        <div class="resource-description">
+            <div class="resource-description-title" onclick="{!c.navigateToPage}">
+                {!v.resource.title}
+            </div>
+            <div class="resource-description-text" onclick="{!c.navigateToPage}">
+                {!v.resource.description}
+            </div>
+            <div class="resource-expiration-date">
+                Expires: <ui:outputDate value="{!v.resource.expirationDate}"/>
+            </div>
+            <div class="resource-description-footer">
+                <div class="resource-icon" onclick="{!c.doVote}">
+                    <aura:if isTrue="{!v.resource.isVoted}">
+                        <c:RRIcon iconName="icon-thumbs-down" class="resource-icon-star"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon iconName="icon-thumbs-up" class="resource-icon-like"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+
+                <div class="resource-icon" onclick="{!c.doFavorite}">
+                    <aura:if isTrue="{!v.resource.isFavorite}">
+                        <c:RRIcon iconName="icon-star-solid" class="resource-icon-star"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon iconName="icon-star" class="resource-icon-star"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</aura:component>

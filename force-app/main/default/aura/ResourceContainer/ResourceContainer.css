@@ -1,0 +1,17 @@
+.THIS.width-limiter {
+	max-width: 1120px;
+	margin: auto;
+}
+
+@media (max-width: 1140px) {
+	.THIS.width-limiter {
+		display: block;
+	}
+	.THIS .resource-right {
+		margin: 5% 0 0 0 !important;
+	}
+}
+
+.THIS .resource-right {
+	margin: auto auto auto 4%;
+}

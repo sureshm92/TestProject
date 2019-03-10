@@ -23,5 +23,21 @@
                 component.set('v.isReportsTabInitialized', true);
                 break;
         }
+    },
+
+    setBrowserHistory: function (component) {
+        if(!component.get('v.isInitialized')) return;
+        var params = [];
+        var currentTab = component.get('v.currentTab');
+        if(component.get('v.studyDetail.trial.Id')) params.push('id=' + component.get('v.studyDetail.trial.Id'));
+        if(component.get('v.currentTab')) params.push('tab=' + component.get('v.currentTab'));
+        if(component.get('v.taskMode') && currentTab === 'tab-tasks') params.push('taskmode=' + component.get('v.taskMode'));
+        if(component.get('v.resourceMode') && currentTab === 'tab-resources') params.push('resourcemode=' + component.get('v.resourceMode'));
+        var paramsStr = '';
+        if(params.length > 0) paramsStr = params.join('&');
+        history.pushState(null, '',
+            communityService.getCommunityURLPathPrefix() + '/study-workspace?' + paramsStr);
+
     }
+
 })
