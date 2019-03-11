@@ -43,6 +43,7 @@ public without sharing class TaskEditRemote {
     public static String markAsCompleted(Task paramTask) {
         try {
             paramTask.Status = 'Completed';
+            paramTask.Completed_Date__c = Datetime.now();
             upsert paramTask;
 
         } catch (Exception e) {
