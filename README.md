@@ -18,7 +18,7 @@ sfdx force:source:push
 
 ##### 4) Open Scratch org in browser and setup:
 ```sh
-sfdx sfdx force:org:open
+sfdx force:org:open
 ```
 
 ###### 1) Setup > User > edit > set role "View All" 
