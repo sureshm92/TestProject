@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- Developer --></label>
+        <name>Developer</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- IQVIA Referral Hub --></label>
+        <name>IQVIA_RR_CRM</name>
+    </customApplications>
+    <customLabels>
+        <label>Поздравляю ##UserName!
+
+            Теперь вы зарегистрированы в  ##StudyName study! исследовании!
+
+            Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
+
+            Нажмите OK, чтобы начать!</label>
+        <name>AL_Body_Welcome_Study</name>
+    </customLabels>
+    <customLabels>
+        <label>Поздравляю ##Contact! 
+
+Теперь вы зарегистрированы в ##StudyName study! исследовании! 
+
+Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице. 
+
+Нажмите OK, чтобы начать!</label>
+        <name>AL_Body_Welcome_Study_Caregivers</name>
+    </customLabels>
+    <customLabels>
+        <label>Добро пожаловать на исследование!</label>
+        <name>AL_Title_Welcome_Study</name>
+    </customLabels>
+    <customLabels>
+        <label>Добро пожаловать в PH</label>
+        <name>AL_Title_Welcome_To_The_PH</name>
+    </customLabels>
     <customLabels>
         <label>Принимаю</label>
         <name>BTN_Accept</name>
@@ -45,6 +81,10 @@
         <name>BTN_Close</name>
     </customLabels>
     <customLabels>
+        <label>Завершить</label>
+        <name>BTN_Complete</name>
+    </customLabels>
+    <customLabels>
         <label>Деактивировать</label>
         <name>BTN_Deactivate</name>
     </customLabels>
@@ -55,6 +95,10 @@
     <customLabels>
         <label>Делегат</label>
         <name>BTN_Delegate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN Delete Task --></label>
+        <name>BTN_Delete_Task</name>
     </customLabels>
     <customLabels>
         <label>Исключить из набора</label>
@@ -81,6 +125,10 @@
         <name>BTN_I_m_open_to_receive_referrals</name>
     </customLabels>
     <customLabels>
+        <label><!-- BTN Ignore --></label>
+        <name>BTN_Ignore</name>
+    </customLabels>
+    <customLabels>
         <label>Узнать больше</label>
         <name>BTN_Learn_More</name>
     </customLabels>
@@ -103,6 +151,10 @@
     <customLabels>
         <label>Упарвелние клиниками</label>
         <name>BTN_Manage_referring_clinics</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- button marks as completed task --></label>
+        <name>BTN_Mark_As_Completed</name>
     </customLabels>
     <customLabels>
         <label>Следующий</label>
@@ -171,6 +223,14 @@
     <customLabels>
         <label>Сохранить</label>
         <name>BTN_Save</name>
+    </customLabels>
+    <customLabels>
+        <label>Сохранить Задачу</label>
+        <name>BTN_Save_Task</name>
+    </customLabels>
+    <customLabels>
+        <label>Сохранить напоминание для задачи</label>
+        <name>BTN_Save_Task_Reminder</name>
     </customLabels>
     <customLabels>
         <label>Выбрать в качестве предпочтительного пункта</label>
@@ -792,6 +852,18 @@
         <name>Email_Signature</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Signature 1 --></label>
+        <name>Email_Signature_1</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature 2 --></label>
+        <name>Email_Signature_2</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature 3 --></label>
+        <name>Email_Signature_3</name>
+    </customLabels>
+    <customLabels>
         <label>Если вы не хотите менять свой пароль или не запрашивали это, просто проигнорируйте это электронное письмо, и никакие изменения не будут внесены в вашу учетную запись.
 
 Чтобы обеспечить безопасность своего аккаунта, не пересылайте это письмо никому.</label>
@@ -942,6 +1014,10 @@
         <name>Navigation_Help</name>
     </customLabels>
     <customLabels>
+        <label>Домой</label>
+        <name>Navigation_Home</name>
+    </customLabels>
+    <customLabels>
         <label>Журнал просмотра медицинских карт</label>
         <name>Navigation_Medical_Record_Review_Log</name>
     </customLabels>
@@ -960,6 +1036,10 @@
     <customLabels>
         <label>Мои исследования</label>
         <name>Navigation_My_Studies</name>
+    </customLabels>
+    <customLabels>
+        <label>Мое Исследование</label>
+        <name>Navigation_My_Study</name>
     </customLabels>
     <customLabels>
         <label>Мои учебные сайты</label>
@@ -1898,6 +1978,10 @@
         <name>PG_HLP_Terms_Note</name>
     </customLabels>
     <customLabels>
+        <label>Здравствуйте ##UserName, добро пожаловать в Patient Hub! Здесь Вы можете видеть свой статус на исследовании и всю необходимую информацию</label>
+        <name>PG_Home_Welcome_Message</name>
+    </customLabels>
+    <customLabels>
         <label>с помощью</label>
         <name>PG_IMI_L_by_user</name>
     </customLabels>
@@ -2582,6 +2666,10 @@
         <name>PG_Ref_Step_Site_Selection</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG Ref T Emails dont match --></label>
+        <name>PG_Ref_T_Emails_dont_match</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG Ref T Req Fields Missing --></label>
         <name>PG_Ref_T_Req_Fields_Missing</name>
     </customLabels>
@@ -2861,6 +2949,10 @@
         <name>PG_TC_Terms_and_Conditions_accepted</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG Task Tab No Tasks --></label>
+        <name>PG_Task_Tab_No_Tasks</name>
+    </customLabels>
+    <customLabels>
         <label>Статус принятия</label>
         <name>PG_VP_L_Acceptance_status</name>
     </customLabels>
@@ -2887,6 +2979,10 @@
     <customLabels>
         <label>Выход</label>
         <name>Profile_Menu_Log_Out</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RH Window Title --></label>
+        <name>RH_Window_Title</name>
     </customLabels>
     <customLabels>
         <label>Требуется принять правила пользования</label>
@@ -2919,6 +3015,10 @@
     <customLabels>
         <label>Ваши права недостаточны</label>
         <name>RSN_Your_permissions_do_not_permit_this_action</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Image Unavailable --></label>
+        <name>Resources_Image_Unavailable</name>
     </customLabels>
     <customLabels>
         <label>RU ACCEPTED AND ACTIVE</label>
@@ -3125,80 +3225,6 @@
         <name>TST_put_On_Hold</name>
     </customLabels>
     <customLabels>
-        <label>для вот этого: ##param1, испльзуйте вот это: ##zzz</label>
-        <name>Test_Label_With_Param</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- URL Cookies --></label>
-        <name>URL_Cookies</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- URL Interactive Advertising Bureau --></label>
-        <name>URL_Interactive_Advertising_Bureau</name>
-    </customLabels>
-    <customLabels>
-        <label>Поздравляю ##UserName!
-
-            Теперь вы зарегистрированы в  ##StudyName study! исследовании!
-
-            Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
-
-            Нажмите OK, чтобы начать!</label>
-        <name>AL_Body_Welcome_Study</name>
-    </customLabels>
-    <customLabels>
-        <label>Добро пожаловать на исследование!</label>
-        <name>AL_Title_Welcome_Study</name>
-    </customLabels>
-    <customLabels>
-        <label>Добро пожаловать в PH</label>
-        <name>AL_Title_Welcome_To_The_PH</name>
-    </customLabels>
-    <customLabels>
-        <label>Завершить</label>
-        <name>BTN_Complete</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- BTN Delete Task --></label>
-        <name>BTN_Delete_Task</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- BTN Ignore --></label>
-        <name>BTN_Ignore</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- button marks as completed task --></label>
-        <name>BTN_Mark_As_Completed</name>
-    </customLabels>
-    <customLabels>
-        <label>Сохранить Задачу</label>
-        <name>BTN_Save_Task</name>
-    </customLabels>
-    <customLabels>
-        <label>Сохранить напоминание для задачи</label>
-        <name>BTN_Save_Task_Reminder</name>
-    </customLabels>
-    <customLabels>
-        <label>Домой</label>
-        <name>Navigation_Home</name>
-    </customLabels>
-    <customLabels>
-        <label>Мое Исследование</label>
-        <name>Navigation_My_Study</name>
-    </customLabels>
-    <customLabels>
-        <label>Здравствуйте ##UserName, добро пожаловать в Patient Hub! Здесь Вы можете видеть свой статус на исследовании и всю необходимую информацию</label>
-        <name>PG_Home_Welcome_Message</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- PG Task Tab No Tasks --></label>
-        <name>PG_Task_Tab_No_Tasks</name>
-    </customLabels>
-    <customLabels>
-        <label><!-- Resources Image Unavailable --></label>
-        <name>Resources_Image_Unavailable</name>
-    </customLabels>
-    <customLabels>
         <label><!-- Title for Create_Task --></label>
         <name>TTL_Create_Task</name>
     </customLabels>
@@ -3238,9 +3264,114 @@
         <label>Приоритет</label>
         <name>Task_Tab_Table_Col_Priority</name>
     </customLabels>
-
+    <customLabels>
+        <label>для вот этого: ##param1, испльзуйте вот это: ##zzz</label>
+        <name>Test_Label_With_Param</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- URL Cookies --></label>
+        <name>URL_Cookies</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- URL Interactive Advertising Bureau --></label>
+        <name>URL_Interactive_Advertising_Bureau</name>
+    </customLabels>
+    <customTabs>
+        <label><!-- Manual Tasks Creation --></label>
+        <name>Manual_Tasks_Creation</name>
+    </customTabs>
     <customTabs>
         <label><!-- Study Export/Import --></label>
         <name>Translation_Import_Export</name>
     </customTabs>
+    <flowDefinitions>
+        <flows>
+            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
+        </flows>
+        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>PSE_Creation-1</fullName>
+        </flows>
+        <fullName>PSE_Creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
+        </flows>
+        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_Site_RRR_Status-1</fullName>
+        </flows>
+        <fullName>Update_Site_RRR_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Welcome_to_the_Study_Caregiver_Alert-1</fullName>
+        </flows>
+        <fullName>Welcome_to_the_Study_Caregiver_Alert</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Task_changes_status_to_Expired-1</fullName>
+        </flows>
+        <fullName>Task_changes_status_to_Expired</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_HCP_Status-1</fullName>
+        </flows>
+        <fullName>Update_HCP_Status</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <label><!-- Follow Up --></label>
+        <name>Follow_Up</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote --></label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewTask --></label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
 </Translations>
