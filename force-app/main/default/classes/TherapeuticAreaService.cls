@@ -57,7 +57,7 @@ public with sharing class TherapeuticAreaService {
             return false;
         }
         public override Integer hashCode() {
-            return super.hashCode();
+            return (System.hashCode(String.valueOf(participantId)) * 2) ^ System.hashCode(String.valueOf(therapeuticAreaId));
         }
 
     }
