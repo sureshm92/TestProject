@@ -5588,6 +5588,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Open Task</value>
     </labels>
     <labels>
+        <fullName>Task_Tab_Table_Col_Complete_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
         <fullName>Task_Tab_Table_Col_Completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5598,8 +5605,8 @@ The site you have selected will contact you directly to discuss next steps.</val
         <fullName>Task_Tab_Table_Col_Completed_By</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Task_Tab_Table_Col_Completed_By</shortDescription>
-        <value>Completed By</value>
+        <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
+        <value>Complete By</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Table_Col_Name</fullName>

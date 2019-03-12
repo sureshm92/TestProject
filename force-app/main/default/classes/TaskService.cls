@@ -15,6 +15,7 @@ public class TaskService {
             'OwnerId',
             'CreatedById',
             'CreatedDate',
+            'Completed_Date__c',
             'ActivityDate',
             'Task_Code__c',
             'WhatId'
