@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Participants_by_Stage</fullName>
+    <columns>NAME</columns>
+    <columns>Referral_Source__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Participants by Stage</label>
+</ListView>

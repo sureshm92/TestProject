@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>AL_Body_Welcome_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome Study</shortDescription>
+        <value>Congratularions ##UserName!
+
+            You are now enrolled in the ##StudyName study!
+
+            Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
+
+            Click OK to begin!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_Study_Caregivers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_Study_Caregivers</shortDescription>
+        <value>Congratularions ##Contact! 
+
+You are now enrolled in the ##StudyName study! 
+
+Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page. 
+
+Click OK to begin!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome Study</shortDescription>
+        <value>Welcome to the study!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_Welcome_To_The_PH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title Welcome To The PH</shortDescription>
+        <value>Welcome to the PH!</value>
+    </labels>
+    <labels>
         <fullName>BTN_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -78,6 +118,13 @@
         <value>Close</value>
     </labels>
     <labels>
+        <fullName>BTN_Complete</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Complete</shortDescription>
+        <value>Complete</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -97,6 +144,13 @@
         <protected>false</protected>
         <shortDescription>BTN Delegate</shortDescription>
         <value>Delegate</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Delete_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Delete Task</shortDescription>
+        <value>Delete Task</value>
     </labels>
     <labels>
         <fullName>BTN_Exclude_from_referring</fullName>
@@ -141,6 +195,13 @@
         <value>I&#39;m open to receive referrals</value>
     </labels>
     <labels>
+        <fullName>BTN_Ignore</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Ignore</shortDescription>
+        <value>Ignore</value>
+    </labels>
+    <labels>
         <fullName>BTN_Learn_More</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -181,6 +242,13 @@
         <protected>false</protected>
         <shortDescription>BTN Manage referring clinics</shortDescription>
         <value>Manage referring clinics</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Mark_As_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>button marks as completed task</shortDescription>
+        <value>Mark as Completed</value>
     </labels>
     <labels>
         <fullName>BTN_Next</fullName>
@@ -300,6 +368,20 @@
         <protected>false</protected>
         <shortDescription>BTN Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Save_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN_Save_Task</shortDescription>
+        <value>Save Task</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Save_Task_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Save Task Reminder</shortDescription>
+        <value>Save Task Reminder</value>
     </labels>
     <labels>
         <fullName>BTN_Select_as_Preferred_Site</fullName>
@@ -1591,6 +1673,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Help</value>
     </labels>
     <labels>
+        <fullName>Navigation_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Home</shortDescription>
+        <value>Home</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1624,6 +1713,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>false</protected>
         <shortDescription>Navigation My Studies</shortDescription>
         <value>My Studies</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_My_Study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation My Study</shortDescription>
+        <value>My Study</value>
     </labels>
     <labels>
         <fullName>Navigation_My_Study_Sites</fullName>
@@ -3268,6 +3364,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG HLP Terms Note</shortDescription>
         <value>Note: All suggestions are governed by the</value>
+    </labels>
+    <labels>
+        <fullName>PG_Home_Welcome_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Home Welcome Message</shortDescription>
+        <value>Hi ##UserName, welcome to Patient Hub! You can see your study status and all related information below.</value>
     </labels>
     <labels>
         <fullName>PG_IMI_L_by_user</fullName>
@@ -4960,6 +5063,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Terms and Conditions accepted:</value>
     </labels>
     <labels>
+        <fullName>PG_Task_Tab_No_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Task Tab No Tasks</shortDescription>
+        <value>You do not currently have any tasks created or assigned to you at this time.</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_Acceptance_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5070,6 +5180,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Image_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resources Image Unavailable</shortDescription>
+        <value>The image is unavailable. Contact administrator.</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
@@ -5429,131 +5546,6 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>put On Hold</value>
     </labels>
     <labels>
-        <fullName>Test_Label_With_Param</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Test Label With Param</shortDescription>
-        <value>For this: ##param1, use this: ##zzz</value>
-    </labels>
-    <labels>
-        <fullName>URL_Cookies</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>URL Cookies</shortDescription>
-        <value>value_not_set</value>
-    </labels>
-    <labels>
-        <fullName>URL_Interactive_Advertising_Bureau</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>URL Interactive Advertising Bureau</shortDescription>
-        <value>value_not_set</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Welcome_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Body Welcome Study</shortDescription>
-        <value>Congratularions ##UserName!
-
-            You are now enrolled in the ##StudyName study!
-
-            Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
-
-            Click OK to begin!</value>
-    </labels>
-    <labels>
-        <fullName>AL_Title_Welcome_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Title Welcome Study</shortDescription>
-        <value>Welcome to the study!</value>
-    </labels>
-    <labels>
-        <fullName>AL_Title_Welcome_To_The_PH</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Title Welcome To The PH</shortDescription>
-        <value>Welcome to the PH!</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Complete</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Complete</shortDescription>
-        <value>Complete</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Delete_Task</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Delete Task</shortDescription>
-        <value>Delete Task</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Ignore</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Ignore</shortDescription>
-        <value>Ignore</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Mark_As_Completed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>button marks as completed task</shortDescription>
-        <value>Mark as Completed</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save_Task</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN_Save_Task</shortDescription>
-        <value>Save Task</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save_Task_Reminder</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Save Task Reminder</shortDescription>
-        <value>Save Task Reminder</value>
-    </labels>
-    <labels>
-        <fullName>Navigation_Home</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation Home</shortDescription>
-        <value>Home</value>
-    </labels>
-    <labels>
-        <fullName>Navigation_My_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation My Study</shortDescription>
-        <value>My Study</value>
-    </labels>
-    <labels>
-        <fullName>PG_Home_Welcome_Message</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG Home Welcome Message</shortDescription>
-        <value>Hi ##UserName, welcome to Patient Hub! You can see your study status and all related information below.</value>
-    </labels>
-    <labels>
-        <fullName>PG_Task_Tab_No_Tasks</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG Task Tab No Tasks</shortDescription>
-        <value>You do not currently have any tasks created or assigned to you at this time.</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Image_Unavailable</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Resources Image Unavailable</shortDescription>
-        <value>The image is unavailable. Contact administrator.</value>
-    </labels>
-    <labels>
         <fullName>TTL_Create_Task</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5622,5 +5614,26 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
         <value>Priority</value>
+    </labels>
+    <labels>
+        <fullName>Test_Label_With_Param</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Test Label With Param</shortDescription>
+        <value>For this: ##param1, use this: ##zzz</value>
+    </labels>
+    <labels>
+        <fullName>URL_Cookies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>URL Cookies</shortDescription>
+        <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>URL_Interactive_Advertising_Bureau</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>URL Interactive Advertising Bureau</shortDescription>
+        <value>value_not_set</value>
     </labels>
 </CustomLabels>
