@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Studies_About_to_Close</fullName>
+    <columns>NAME</columns>
+    <columns>Protocol_ID__c</columns>
+    <columns>Estimated_Completion_Date__c</columns>
+    <columns>Override_Recruitment_Status__c</columns>
+    <columns>Estimated_Enrollment__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Trials by Estimated Completion Date</label>
+</ListView>

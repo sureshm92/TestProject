@@ -22,7 +22,8 @@ public class Alert {
         List<Alert__c> dbAlerts = [
                 SELECT Id,
                         Record_ID__c, 
-                        Alert_Code__c 
+                        Alert_Code__c,
+                        Contact__r.Name
                 FROM Alert__c
                 WHERE Contact__c =: contactId
                 AND Viewed__c = FALSE
@@ -77,6 +78,7 @@ public class Alert {
                 SObject alertObject = objectsMap.get(dbAlert.Record_ID__c);
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
             }
+            cardParametersValueMap.put('ContactName', dbAlert.Contact__r.Name);
             resultList.add(new Alert(
                     CatalogParametersHelper.prepareLabel(card.Title_label__c, cardParametersValueMap),
                     CatalogParametersHelper.prepareLabel(card.Body_label__c, cardParametersValueMap),
