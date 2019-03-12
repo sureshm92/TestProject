@@ -6,13 +6,13 @@
 	font-weight: 500;
 	line-height: 16px;
 	text-align: center;
-	background-color: rgba(216,216,216,0.25);
+	background-color: rgba(216, 216, 216, 0.25);
 	height: 16px;
 }
 
 .THIS.resource-card {
 	min-width: 565px;
-	min-height: 645px;
+	min-height: 628px;
 }
 
 .THIS .resource-card-title {
@@ -23,4 +23,15 @@
 	font-weight: 500;
 	line-height: 27px;
 	margin: 14px 0 18px 33px;
+}
+
+.THIS .resource-error-message {
+	top: 50%;
+	position: sticky;
+	height: 26px;
+	color: #999999;
+	font-family: "Proxima Nova";
+	font-size: 17px;
+	line-height: 26px;
+	text-align: center;
 }

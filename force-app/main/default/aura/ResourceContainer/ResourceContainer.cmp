@@ -15,4 +15,7 @@
 			<c:Resource resourceType="Article" resourceMode="{!v.resourceMode}"/>
 		</lightning:layoutItem>
 	</lightning:layout>
+	<div class="resource-disclaimer">
+		{!$Label.c.Resources_Expiration_Date_Disclaimer}
+	</div>
 </aura:component>

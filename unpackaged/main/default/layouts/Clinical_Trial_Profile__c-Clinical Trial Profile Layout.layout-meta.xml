@@ -136,6 +136,10 @@
                 <behavior>Readonly</behavior>
                 <field>Share_URL__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Therapeutic_Area__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
