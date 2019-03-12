@@ -998,6 +998,10 @@
         <name>Link_Back_To_Login</name>
     </customLabels>
     <customLabels>
+        <label>Вернуться к ресурсам</label>
+        <name>Link_Back_To_Resources</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Link Cookies --></label>
         <name>Link_Cookies</name>
     </customLabels>
@@ -3017,8 +3021,28 @@
         <name>RSN_Your_permissions_do_not_permit_this_action</name>
     </customLabels>
     <customLabels>
+        <label><!-- Resources Expiration Date Disclaimer --></label>
+        <name>Resources_Expiration_Date_Disclaimer</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources Image Unavailable --></label>
         <name>Resources_Image_Unavailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources No Articles --></label>
+        <name>Resources_No_Articles</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources No Favorite Articles --></label>
+        <name>Resources_No_Favorite_Articles</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources No Favorite Videos --></label>
+        <name>Resources_No_Favorite_Videos</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources No Videos --></label>
+        <name>Resources_No_Videos</name>
     </customLabels>
     <customLabels>
         <label>RU ACCEPTED AND ACTIVE</label>
@@ -3286,24 +3310,6 @@
     </customTabs>
     <flowDefinitions>
         <flows>
-            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
-        </flows>
-        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>PSE_Creation-1</fullName>
-        </flows>
-        <fullName>PSE_Creation</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
-        </flows>
-        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
             <fullName>Update_Site_RRR_Status-1</fullName>
         </flows>
         <fullName>Update_Site_RRR_Status</fullName>
@@ -3325,6 +3331,24 @@
             <fullName>Update_HCP_Status-1</fullName>
         </flows>
         <fullName>Update_HCP_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
+        </flows>
+        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>PSE_Creation-1</fullName>
+        </flows>
+        <fullName>PSE_Creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
+        </flows>
+        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
     </flowDefinitions>
     <quickActions>
         <label><!-- Follow Up --></label>

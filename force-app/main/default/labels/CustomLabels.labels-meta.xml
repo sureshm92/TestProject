@@ -1645,6 +1645,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Back to login</value>
     </labels>
     <labels>
+        <fullName>Link_Back_To_Resources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Back To Resources</shortDescription>
+        <value>Back to Resources</value>
+    </labels>
+    <labels>
         <fullName>Link_Cookies</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5182,11 +5189,46 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+        <fullName>Resources_Expiration_Date_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Expiration Date Disclaimer</shortDescription>
+        <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
+    </labels>
+    <labels>
         <fullName>Resources_Image_Unavailable</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Resources Image Unavailable</shortDescription>
         <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_No_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources No Articles</shortDescription>
+        <value>Articles will be published shortly. Check back for updates.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_No_Favorite_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources No Favorite Articles</shortDescription>
+        <value>You have not selected any favorite articles.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_No_Favorite_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources No Favorite Videos</shortDescription>
+        <value>You have not selected any favorite videos.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_No_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources No Videos</shortDescription>
+        <value>Videos will be published shortly. Check back for updates.</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
