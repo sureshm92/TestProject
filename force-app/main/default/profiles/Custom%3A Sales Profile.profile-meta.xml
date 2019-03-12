@@ -587,6 +587,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TherapeuticAreaPatientTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TranslateHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2532,6 +2540,16 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Content_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Expiration_Date__c</field>
         <readable>false</readable>
@@ -2550,6 +2568,16 @@
         <editable>false</editable>
         <field>Resource__c.Published_Date__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Subject__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Therapeutic_Areas__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
