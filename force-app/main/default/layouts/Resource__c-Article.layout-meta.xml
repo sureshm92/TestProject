@@ -31,6 +31,10 @@
                 <behavior>Edit</behavior>
                 <field>Therapeutic_Areas__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Resource_Type__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
