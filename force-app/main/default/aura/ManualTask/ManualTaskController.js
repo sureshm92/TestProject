@@ -3,10 +3,15 @@
  */
 ({
     doInit : function(component, event, helper) {
-      communityService.executeAction(component, 'getInitData', null, function (returnValue) {
-          var initData = JSON.parse(returnValue);
-          component.set('v.priorities', initData.priorities);
-      });
+        communityService.executeAction(component, 'getInitData', null, function (returnValue) {
+            var initData = JSON.parse(returnValue);
+            component.set('v.task', initData.task);
+            component.set('v.priorities', initData.priorities);
+            component.set('v.taskFilters', initData.filters);
+
+            component.set('v.statuses', []);
+            component.set('v.task.Priority', 'Medium');
+        });
     },
 
     dueDateAdd : function(component, event, helper) {
@@ -23,26 +28,35 @@
             'start' : component.get('v.task.Start_Date__c'),
             'due' : component.get('v.task.ActivityDate')
         }, function (response) {
-            component.set('v.task.ActivityDate', response.getReturnValue());
+            component.set('v.task.ActivityDate', response);
         });
     },
 
     createTask : function (component, event, helper) {
-        console.log('Subj is ' + component.get('v.task.Subject'));
-        console.log('Start date is ' + component.get('v.task.Start_Date__c'));
-        console.log('Due date is ' + component.get('v.task.ActivityDate'));
-        console.log('Selected areas ' + component.get('v.areas'));
+        var filter = component.get('v.taskFilters');
+        filter.statuses = component.get('v.statuses');
 
+        component.find('spinner').show();
         communityService.executeAction(component, 'createTasks', {
-            'task' : component.get('v.task'),
-            'selectedStatus' : component.get('v.status'),
-            'filter' : component.get('v.taskFilters')
+            'task' : JSON.stringify(component.get('v.task')),
+            'filter' : JSON.stringify(component.get('v.taskFilters'))
         }, function (response) {
-            //show popup
+            if(response > 0)
+                communityService.showSuccessToast(
+                    'Success!',
+                    'Task successfully created for ' + response +  ' users.'
+                );
+            else
+                communityService.showWarningToast(
+                    'Fail!',
+                    'No relevant users found in the system'
+                );
+        }, null, function () {
+            component.find('spinner').hide();
         });
     },
 
-    backAction : function (component, event, helper) {
-        //Cancel click
+    resetClick : function (component, event, helper) {
+        helper.reset(component);
     }
 })
