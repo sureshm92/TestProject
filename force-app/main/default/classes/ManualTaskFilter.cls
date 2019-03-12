@@ -4,48 +4,129 @@
 
 public with sharing class ManualTaskFilter {
 
-    //For dynamic
-    private final String SEPARATOR = '\',\'';
+    private static final String PROFILE = 'IQVIA Customer Community Plus Login User';
+
+    private static final String ENROLLED_QUERY = 'SELECT Id, Participant__r.Contact__c FROM Participant_Study_Enrollment__c ' +
+            'WHERE Status__c = \'Enrolled\'';
+
+    private static final String REFERRED_QUERY = 'SELECT Id, Participant__r.Contact__c FROM Participant_Enrollment__c ' +
+            'WHERE Participant_Status__c IN ';
+
+    private static final String THERAPEUTIC_QUERY = 'SELECT Participant__r.Id FROM Therapeutic_Area_Patient__c ' +
+            'WHERE ';
+
+    //Color filters (statuses)
+    private static final String[] PE_STATUSES_GREEN = new String[]{
+            'Referral Sent to PI', 'Referral Accepted', 'Contact Successful', 'Eligibility Passed', 'Screening Complete'
+    };
+    private static final String[] PE_STATUSES_YELLOW = new String[]{
+            'Referral On Hold', 'Contact Attempt In Progress', 'Screening In Progress'
+    };
+
+    private static final String SEPARATOR = '\',\'';
+
+    @AuraEnabled
+    public List<String> statuses = new List<String>();
 
     @AuraEnabled
     public List<LookupSearchResult> areas = new List<LookupSearchResult>();
 
     @AuraEnabled
-    public List<String> sponsors = new List<String>();
+    public List<LookupSearchResult> sponsors = new List<LookupSearchResult>();
 
     @AuraEnabled
-    public List<String> studies = new List<String>();
+    public List<LookupSearchResult> studies = new List<LookupSearchResult>();
 
     @AuraEnabled
-    public List<String> countries = new List<String>();
+    public List<LookupSearchResult> countries = new List<LookupSearchResult>();
 
     @AuraEnabled
-    public List<String> sites = new List<String>();
+    public List<LookupSearchResult> sites = new List<LookupSearchResult>();
 
-    public ManualTaskFilter() {
+    public List<User> getUsers() {
+        Set<Id> contacts = new Set<Id>();
+
+        if (statuses.contains('Enrolled')) {
+            String query = ENROLLED_QUERY + getFiltersQuery();
+            System.debug('Enrolled query is: ' + query);
+
+            List<Participant_Study_Enrollment__c> participantStudyEnrollment =
+                    (List<Participant_Study_Enrollment__c>) Database.query(query);
+
+            for (Participant_Study_Enrollment__c pse : participantStudyEnrollment)
+                contacts.add(pse.Participant__r.Contact__c);
+        }
+
+        if (statuses.contains('Referred')) {
+            String query = REFERRED_QUERY + getColorFilters() + getFiltersQuery();
+            System.debug('Referred query is: ' + query);
+
+            List<Participant_Enrollment__c> participantEnrollments =
+                    (List<Participant_Enrollment__c>) Database.query(query);
+
+            for (Participant_Enrollment__c pe : participantEnrollments)
+                contacts.add(pe.Participant__r.Contact__c);
+        }
+
+        return [
+                SELECT Id, Name
+                FROM User
+                WHERE ContactId IN :contacts
+                AND IsActive = TRUE
+                AND Profile.Name = :PROFILE
+        ];
     }
 
-    public String getFiltersQuery() {
-        String query = '';
-//        if(!areas.isEmpty())
-//            query += fieldJoin(Therapeutic_Area__c.class.getName(), areas);
+    //Add green and yellow status 'IN(...)'
+    private String getColorFilters() {
+        return '(\'' +
+                String.join(PE_STATUSES_GREEN, ManualTaskFilter.SEPARATOR) +
+                ManualTaskFilter.SEPARATOR +
+                String.join(PE_STATUSES_YELLOW, ManualTaskFilter.SEPARATOR) +
+                '\') ';
+    }
+
+    private String filterTherapeutic() {
+        List<Therapeutic_Area_Patient__c> participantInArea = (List<Therapeutic_Area_Patient__c>)
+                Database.query(THERAPEUTIC_QUERY + fieldJoin('Therapeutic_Area__c', areas));
+
+        List<String> participantIds = new List<String>();
+        for(Therapeutic_Area_Patient__c areaPatientpart : participantInArea)
+            participantIds.add(areaPatientpart.Participant__r.Id);
+
+        return fieldJoin('Participant__c', participantIds);
+    }
+
+    private String getFiltersQuery() {
+        List<String> filters = new List<String>();
+
+        if(!areas.isEmpty())
+            filters.add(filterTherapeutic());
 
         if(!sponsors.isEmpty())
-            query += fieldJoin(Account.class.getName(), sponsors);
+            filters.add(fieldJoin('Study_Site__r.Site__c', sponsors));
 
         if(!studies.isEmpty())
-            query += fieldJoin(Clinical_Trial_Profile__c.class.getName(), studies);
+            filters.add(fieldJoin('Clinical_Trial_Profile__c', studies));
 
         if(!countries.isEmpty())
-            query += fieldJoin(Participant__c.Country_Code__c.class.getName(), countries);
+            filters.add(fieldJoin('Participant__r.Country_Code__c', countries));
 
         if(!sites.isEmpty())
-            query += fieldJoin(Study_Site__c.class.getName(), sites);
+            filters.add(fieldJoin('Study_Site__c', sites));
 
-        return query;
+        return filters.isEmpty() ? '' : ' AND ' + String.join(filters, ' AND ');
+    }
+
+    private String fieldJoin(String fieldName, List<LookupSearchResult> items) {
+        List<String> ids = new List<String>();
+        for(LookupSearchResult result : items)
+            ids.add(result.getId());
+
+        return fieldName + ' IN (\'' + String.join(ids, SEPARATOR) + '\') ';
     }
 
     private String fieldJoin(String fieldName, List<String> items) {
-        return ' AND ' + fieldName + ' IN (\'' + String.join(items, SEPARATOR) + ') ';
+        return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
     }
 }

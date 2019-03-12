@@ -15,27 +15,28 @@ public with sharing class ManualTaskRemote {
     }
 
     @AuraEnabled
-    public static Integer createTasks(Task task, List<String> selectedStatus, ManualTaskFilter filter) {
+    public static Integer createTasks(String task, String filter) {
         try {
-            Set<Id> participantIds = new Set<Id>();
+            Task newTask = (Task) JSON.deserialize(task, Task.class);
+            ManualTaskFilter taskFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
 
+            //Assigning a common task for each found user
+            List<User> users = taskFilter.getUsers();
+            List<Task> tasks = new List<Task>();
+            for (User user : users)
+                tasks.add(new Task(OwnerId = user.Id,
+                        Subject = newTask.Subject,
+                        Priority = newTask.Priority,
+                        Start_Date__c = newTask.Start_Date__c,
+                        ActivityDate = newTask.ActivityDate)
+                );
 
-            if (selectedStatus.contains('Enrolled')) {
-                String query = 'SELECT Participant_Study_Enrollment__c WHERE Status__c = \'Enrolled\'';
-                query += filter.getFiltersQuery();
-
-                List<Participant_Study_Enrollment__c> participantStudyEnrollment =
-                        (List<Participant_Study_Enrollment__c>) Database.query(query);
-
-                Set<Id> participantContactIds = new Set<Id>();
-                for(Participant_Study_Enrollment__c pse : participantStudyEnrollment)
-                    participantContactIds.add(pse.Participant__r.Contact__c);
-            }
-
+            insert tasks;
 
             //For toast after onclick
-            return 0;//participantIds.size();
+            return users.size();
         } catch (Exception e) {
+            System.debug(e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
@@ -61,7 +62,9 @@ public with sharing class ManualTaskRemote {
     }
 
     public class InitData {
+        public Task task = new Task();
         public List<String> priorities = new List<String>();
+        public ManualTaskFilter filters = new ManualTaskFilter();
 
         public InitData() {
             for (TaskPriorityEnum priority : TaskPriorityEnum.values())
