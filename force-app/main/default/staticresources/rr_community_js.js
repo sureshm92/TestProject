@@ -17,6 +17,7 @@ window.communityService = (function () {
     var alreadyShowedMap = {};
     var isNewSession;
     var language;
+    var preventedCookies = [];
 
     //community service functions:
     var service = {
@@ -25,6 +26,10 @@ window.communityService = (function () {
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
                 var communityData = JSON.parse(returnValue);
+
+                preventedCookies = communityData.preventedCookies;
+                service.deleteCookies(preventedCookies);
+                console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 communityTypes = communityData.communityTypes;
                 communityMode = communityData.communityMode;
                 communityURLPathPrefix = communityData.pathPrefix;
@@ -71,6 +76,12 @@ window.communityService = (function () {
                 });
                 $A.enqueueAction(action);
             })
+        },
+
+        deleteCookies: function (preventedCookies) {
+            for (let currCookie in preventedCookies) {
+                document.cookie = 'LSKey[c]' + currCookie + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            }
         },
 
         logError: function (loggedLogic) {
@@ -278,6 +289,10 @@ window.communityService = (function () {
         },
 
         getCookie: function (cname) {
+            if (preventedCookies.indexOf(cname) !== -1) {
+                return "";
+            }
+
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
             var ca = decodedCookie.split(';');
@@ -294,6 +309,10 @@ window.communityService = (function () {
         },
 
         setCookie: function (cname, cvalue, exdays) {
+            if (preventedCookies.indexOf(cname) !== -1) {
+                return;
+            }
+
             var d = new Date();
             d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
             var expires = "expires=" + d.toUTCString();
