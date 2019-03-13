@@ -12,11 +12,14 @@
 				resourceType: component.get('v.resourceType'),
 				resourceMode: component.get('v.resourceMode')
 			}, function (returnValue) {
-				component.set("v.resources", returnValue);
+				if(!returnValue.errorMessage) {
+					component.set("v.resources", returnValue.wrappers);
+					component.set("v.errorMessage", "");
+				} else {
+					component.set("v.errorMessage", returnValue.errorMessage);
+				}
 				var spinner = component.find('spinner');
 				if(spinner){ spinner.hide(); }
-			}, function (errorResponse) {
-				//todo add logic for handling errors like "no articles available" etc.
 			});
 
 			if (resourceMode === "Favorite") {

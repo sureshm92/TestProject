@@ -47,16 +47,14 @@
     <enableBulkApi>false</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
-    <!--enableLicensing>false</enableLicensing-->
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Resource Version</label>
     <nameField>
         <displayFormat>RV - {00000}</displayFormat>
-        <label>Resource Verstion Name</label>
+        <label>Resource Version Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>

@@ -95,15 +95,13 @@
                     <c:RRTable>
                         <tr>
                             <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
-                            <th class="priority">{!$Label.c.Task_Tab_Table_Col_Priority}</th>
-                            <th class="completed-by">{!$Label.c.Task_Tab_Table_Col_Completed}</th>
+                            <th >{!$Label.c.Task_Tab_Table_Col_Completed}</th>
                         </tr>
                         <aura:iteration items="{!v.completedTasks}" var="task">
                             <tr class="{!if(task.Status == 'Ignored', 'ignored', '')}">
                                 <td>
                                     <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
                                 </td>
-                                <td>{!task.Priority}</td>
                                 <td>
                                     <aura:if isTrue="{!task.Status == 'Ignored'}">
                                         Ignored

@@ -427,6 +427,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourcesDetailRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SObjectHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1065,6 +1069,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Terms_and_Conditions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Therapeutic_Area__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2498,23 +2507,18 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource_Version__c.Content_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Resource_Version__c.Description__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource_Version__c.Expiration_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Resource_Version__c.Language__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Resource_Version__c.Published_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2529,13 +2533,13 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource__c.Description__c</field>
+        <field>Resource__c.Expiration_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Resource__c.Expiration_Date__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Resource__c.External_Id__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2545,11 +2549,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Published_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Resource__c.Subject__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3083,6 +3082,20 @@
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource_Version__c-Resource Version Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource__c-Article</layout>
+        <recordType>Resource__c.Article</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource__c-Video</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource__c-Video</layout>
+        <recordType>Resource__c.Video</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Score__c-Score Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3353,14 +3366,14 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
+        <default>true</default>
         <recordType>Resource__c.Article</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Video</recordType>
-        <visible>false</visible>
+        <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>
@@ -3388,6 +3401,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Participant__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Resource__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
