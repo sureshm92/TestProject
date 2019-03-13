@@ -3278,7 +3278,7 @@
     </customLabels>
     <customLabels>
         <label>Завершена кем</label>
-        <name>Task_Tab_Table_Col_Completed_By</name>
+        <name>Task_Tab_Table_Col_Complete_By</name>
     </customLabels>
     <customLabels>
         <label>Название</label>

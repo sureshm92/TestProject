@@ -35,7 +35,8 @@ public class TaskService {
     }
     
     public static List<Task> getOpenTasks(){
-        return getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
+//        return getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
+        return getTasksCommon(' Status=\'Open\' '  + ' ORDER BY Priority DESC, CreatedDate DESC');
     }
     
     public static List<Task> getPreviewTasks(){
