@@ -11,10 +11,5 @@
     <columns>LAST_UPDATE</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Participating_in_Rocket_Referral__c</field>
-        <operation>equals</operation>
-        <value>Yes</value>
-    </filters>
     <label>All</label>
 </ListView>

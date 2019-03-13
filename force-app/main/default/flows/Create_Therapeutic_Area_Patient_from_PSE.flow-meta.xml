@@ -68,18 +68,7 @@
             <label>PSE enrolled</label>
         </rules>
     </decisions>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>[Participant_Study_Enrollment__c].Participant__c.Last_Name__c &amp; &quot; - &quot; &amp; [Participant_Study_Enrollment__c].Clinical_Trial_Profile__c.Therapeutic_Area__c.Name </stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_2_myRule_1_A1_7043778974</name>
-        <dataType>String</dataType>
-        <expression>{!myVariable_current.Participant__r.Last_Name__c} &amp; &quot; - &quot; &amp; {!myVariable_current.Clinical_Trial_Profile__r.Therapeutic_Area__r.Name}</expression>
-    </formulas>
-    <interviewLabel>Create_Therapeutic_Area_Patient_from_PSE-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Create_Therapeutic_Area_Patient_from_PSE-3_InterviewLabel</interviewLabel>
     <label>Create Therapeutic Area Patient from PSE</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -151,36 +140,6 @@
             <processMetadataValues>
                 <name>dataType</name>
                 <value>
-                    <stringValue>String</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>isRequired</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Therapeutic Area Patient Name</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>Formula</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Name</field>
-            <value>
-                <elementReference>formula_2_myRule_1_A1_7043778974</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <processMetadataValues>
-                <name>dataType</name>
-                <value>
                     <stringValue>ID</stringValue>
                 </value>
             </processMetadataValues>
@@ -240,7 +199,7 @@
         <object>Therapeutic_Area_Patient__c</object>
     </recordCreates>
     <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

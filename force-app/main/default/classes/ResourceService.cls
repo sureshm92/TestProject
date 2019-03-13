@@ -13,7 +13,7 @@ public with sharing class ResourceService {
 
         Participant__c participant = this.getParticipant(resourceType);
         if (participant.Therapeutic_Area_Patients__r.isEmpty()) {
-            throw new AuraHandledException(Label.Resources_No_Therapeutic_Area);
+            return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
         }
         List<Resource__c> resources = this.getSortedResources(participant, resourceType);
         if (resources.isEmpty()) {

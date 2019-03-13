@@ -99,7 +99,7 @@
             <label>status &quot;reffered&quot; or &quot;enrolled&quot;</label>
         </rules>
     </decisions>
-    <interviewLabel>Create_Therapeutic_Area_Patient_from_PE-1_InterviewLabel</interviewLabel>
+    <interviewLabel>Create_Therapeutic_Area_Patient_from_PE-3_InterviewLabel</interviewLabel>
     <label>Create Therapeutic Area Patient from PE</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -165,36 +165,6 @@
             <field>IsRelatedToStudy__c</field>
             <value>
                 <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <processMetadataValues>
-                <name>dataType</name>
-                <value>
-                    <stringValue>String</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>isRequired</name>
-                <value>
-                    <booleanValue>false</booleanValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>leftHandSideLabel</name>
-                <value>
-                    <stringValue>Therapeutic Area Patient Name</stringValue>
-                </value>
-            </processMetadataValues>
-            <processMetadataValues>
-                <name>rightHandSideType</name>
-                <value>
-                    <stringValue>String</stringValue>
-                </value>
-            </processMetadataValues>
-            <field>Name</field>
-            <value>
-                <stringValue>test</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>

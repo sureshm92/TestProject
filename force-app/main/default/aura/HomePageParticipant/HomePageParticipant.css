@@ -25,3 +25,9 @@
 .THIS .hp-logo-panel img{
     max-width: 200px;
 }
+
+.THIS .logo-text{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
