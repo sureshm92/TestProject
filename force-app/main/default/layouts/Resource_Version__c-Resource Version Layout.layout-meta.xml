@@ -19,10 +19,6 @@
                 <behavior>Required</behavior>
                 <field>Resource__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Study_content__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

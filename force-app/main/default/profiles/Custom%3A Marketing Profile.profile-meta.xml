@@ -2531,11 +2531,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource_Version__c.Study_content__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Resource_Version__c.Subject__c</field>
         <readable>false</readable>
     </fieldPermissions>
