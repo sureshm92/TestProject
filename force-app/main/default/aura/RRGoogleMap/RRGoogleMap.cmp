@@ -1,0 +1,14 @@
+<!--
+ - Created by Igor Malyuta on 13.03.2019.
+ -->
+
+<aura:component description="RRGoogleMap">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!--attributes-->
+    <aura:attribute name="accounts" type="List"/>
+    <aura:attribute name="markers" type="List" access="private"/>
+
+    <lightning:map mapMarkers="{!v.markers}"/>
+
+</aura:component>
