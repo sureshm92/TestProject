@@ -30,7 +30,7 @@
         <defaultConnectorLabel>default</defaultConnectorLabel>
         <rules>
             <name>myRule_1</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <processMetadataValues>
                     <name>inputDataType</name>
@@ -56,35 +56,55 @@
                         <stringValue>Picklist</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_current.Status__c</leftValueReference>
+                <leftValueReference>myVariable_current.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Enrolled</stringValue>
+                    <stringValue>Referral Sent to PI</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>String</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Picklist</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.Participant_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Enrollment Success</stringValue>
                 </rightValue>
             </conditions>
             <connector>
                 <targetReference>myRule_1_A1</targetReference>
             </connector>
-            <label>PSE enrolled</label>
+            <label>status &quot;reffered&quot; or &quot;enrolled&quot;</label>
         </rules>
     </decisions>
-    <formulas>
-        <processMetadataValues>
-            <name>originalFormula</name>
-            <value>
-                <stringValue>[Participant_Study_Enrollment__c].Participant__c.Last_Name__c &amp; &quot; - &quot; &amp; [Participant_Study_Enrollment__c].Clinical_Trial_Profile__c.Therapeutic_Area__c.Name </stringValue>
-            </value>
-        </processMetadataValues>
-        <name>formula_2_myRule_1_A1_7043778974</name>
-        <dataType>String</dataType>
-        <expression>{!myVariable_current.Participant__r.Last_Name__c} &amp; &quot; - &quot; &amp; {!myVariable_current.Clinical_Trial_Profile__r.Therapeutic_Area__r.Name}</expression>
-    </formulas>
-    <interviewLabel>Create_Therapeutic_Area_Patient_from_PSE-2_InterviewLabel</interviewLabel>
-    <label>Create Therapeutic Area Patient from PSE</label>
+    <interviewLabel>Create_Therapeutic_Area_Patient_from_PE-1_InterviewLabel</interviewLabel>
+    <label>Create Therapeutic Area Patient from PE</label>
     <processMetadataValues>
         <name>ObjectType</name>
         <value>
-            <stringValue>Participant_Study_Enrollment__c</stringValue>
+            <stringValue>Participant_Enrollment__c</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -108,7 +128,7 @@
     <processType>Workflow</processType>
     <recordCreates>
         <name>myRule_1_A1</name>
-        <label>Create Therapeutic Area Patient</label>
+        <label>Create TAP</label>
         <locationX>100</locationX>
         <locationY>200</locationY>
         <inputAssignments>
@@ -169,12 +189,12 @@
             <processMetadataValues>
                 <name>rightHandSideType</name>
                 <value>
-                    <stringValue>Formula</stringValue>
+                    <stringValue>String</stringValue>
                 </value>
             </processMetadataValues>
             <field>Name</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_7043778974</elementReference>
+                <stringValue>test</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -247,7 +267,7 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>Participant_Study_Enrollment__c</objectType>
+        <objectType>Participant_Enrollment__c</objectType>
     </variables>
     <variables>
         <name>myVariable_old</name>
@@ -255,7 +275,7 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
-        <objectType>Participant_Study_Enrollment__c</objectType>
+        <objectType>Participant_Enrollment__c</objectType>
     </variables>
     <variables>
         <name>myVariable_waitStartTimeVariable</name>
