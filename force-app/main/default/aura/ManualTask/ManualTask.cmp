@@ -24,7 +24,7 @@
 
     <!-- component body -->
     <lightning:card title="Configure your tasks parameters below">
-        <c:RRSpinner aura:id="spinner" size="medium" />
+        <c:RRSpinner aura:id="spinner" size="medium"/>
         <div class="slds-grid slds-gutters mt-panel">
             <div class="slds-col slds-size--1-of-4">
                 <div class="section-title">Task details</div>
@@ -35,12 +35,14 @@
                     </aura:iteration>
                 </lightning:select>
 
-                <lightning:input type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}" required="true"/>
+                <lightning:input type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}"
+                                 required="true"/>
                 <aura:if isTrue="{!v.showNumbersAdd}">
                     <lightning:input aura:id="due" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
                                      readonly="true"/>
                     <aura:set attribute="else">
-                        <lightning:input aura:id="due" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
+                        <lightning:input aura:id="due" type="date" label="Set Task Due Date"
+                                         value="{!v.task.ActivityDate}"
                                          required="true" onchange="{!c.dueDateValid}"/>
                     </aura:set>
                 </aura:if>
@@ -50,8 +52,11 @@
                     <option value="true">Number of days from the Task start date</option>
                 </lightning:select>
                 <aura:if isTrue="{!v.showNumbersAdd}">
-                    <lightning:input type="number" value="{!v.dayDue}" placeholder="Adjust days"
-                                     onchange="{!c.dueDateAdd}" min="0"/>
+                    <span onkeypress="{!c.dueNumberKeyPress}">
+                        <lightning:input type="number" value="{!v.dayDue}" placeholder="Adjust days"
+                                      onchange="{!c.dueDateAdd}" min="0"/>
+                    </span>
+
                 </aura:if>
             </div>
             <div class="slds-col slds-size--3-of-4">
@@ -65,7 +70,8 @@
 
                         <c:ManualTaskLookup label="Therapeutic Area" selection="{!v.taskFilters.areas}"
                                             objType="therapeutic"/>
-                        <c:ManualTaskLookup label="Select Sponsor" selection="{!v.taskFilters.sponsors}" objType="sponsor"/>
+                        <c:ManualTaskLookup label="Select Sponsor" selection="{!v.taskFilters.sponsors}"
+                                            objType="sponsor"/>
                     </div>
                     <div class="slds-col slds-size--1-of-2">
                         <c:ManualTaskLookup label="Study" selection="{!v.taskFilters.studies}" objType="study"/>
