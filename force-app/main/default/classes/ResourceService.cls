@@ -39,6 +39,9 @@ public with sharing class ResourceService {
                 wrappers.add(wrapper);
             }
         }
+        if(wrappers.isEmpty()) {
+            return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Favorite_Articles : Label.Resources_No_Favorite_Videos);
+        }
         return new ResourceWrapperContainer(wrappers);
     }
 
