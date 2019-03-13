@@ -14,7 +14,17 @@
         });
     },
 
+    dueNumberKeyPress : function(component, event, helper) {
+        //Fired on press any key in field
+        if(event.which == 13)
+            helper.addDays(component);
+    },
+
     dueDateAdd : function(component, event, helper) {
+        //Remove leading zero in field
+        var days = component.get('v.dayDue').toString().replace('^0+', '');
+        component.set('v.dayDue', parseInt(days));
+
         communityService.executeAction(component, 'addDays', {
             'dateStart' : component.get('v.task.Start_Date__c'),
             'count' : component.get('v.dayDue')
