@@ -14,10 +14,10 @@
             Click OK to begin!</value>
     </labels>
     <labels>
-        <fullName>AL_Body_Welcome_Study_Caregivers</fullName>
+        <fullName>AL_Body_Welcome_Study_Patient_Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AL_Body_Welcome_Study_Caregivers</shortDescription>
+        <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
         <value>Congratularions ##Contact! 
 
 You are now enrolled in the ##StudyName study! 

@@ -148,7 +148,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Caregiver__c.Participant__c</relatedList>
+        <relatedList>Patient_Delegate__c.Participant__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

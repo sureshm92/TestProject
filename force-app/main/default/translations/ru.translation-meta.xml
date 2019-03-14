@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customApplications>
-        <label><!-- IQVIA Referral Hub --></label>
-        <name>IQVIA_RR_CRM</name>
-    </customApplications>
     <customLabels>
         <label>Поздравляю ##UserName!
 
@@ -22,7 +18,7 @@
 Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице. 
 
 Нажмите OK, чтобы начать!</label>
-        <name>AL_Body_Welcome_Study_Caregivers</name>
+        <name>AL_Body_Welcome_Study_Patient_Delegates</name>
     </customLabels>
     <customLabels>
         <label>Добро пожаловать на исследование!</label>
@@ -3037,6 +3033,10 @@
         <name>Resources_No_Favorite_Videos</name>
     </customLabels>
     <customLabels>
+        <label><!-- Resources No Therapeutic Area --></label>
+        <name>Resources_No_Therapeutic_Area</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources No Videos --></label>
         <name>Resources_No_Videos</name>
     </customLabels>
@@ -3269,12 +3269,16 @@
         <name>Task_Tab_Open_Tasks</name>
     </customLabels>
     <customLabels>
+        <label>Завершена кем</label>
+        <name>Task_Tab_Table_Col_Complete_By</name>
+    </customLabels>
+    <customLabels>
         <label>Завершена</label>
         <name>Task_Tab_Table_Col_Completed</name>
     </customLabels>
     <customLabels>
         <label>Завершена кем</label>
-        <name>Task_Tab_Table_Col_Complete_By</name>
+        <name>Task_Tab_Table_Col_Completed_By</name>
     </customLabels>
     <customLabels>
         <label>Название</label>

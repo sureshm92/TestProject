@@ -3322,10 +3322,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Caregiver__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
