@@ -8,10 +8,18 @@
         for(var i = 0; i < accounts.length; i++) {
             var clinicWrapper = accounts[i];
 
-            var url = window.location.href;
-            let indexOf = url.lastIndexOf('/');
-            url = url.substring(0, indexOf);
-            var clinical = url + '/clinic-profile?id=' + clinicWrapper.clinic.Id;
+            //Url forming
+            var descriptionLink;
+            if(communityService.getUserMode() === 'PI') {
+                var url = window.location.href;
+                url = url.substring(0, url.lastIndexOf('/'));
+                var clinical = url + '/clinic-profile?id=' + clinicWrapper.clinic.Id;
+
+                descriptionLink = '<a href="' + clinical + '" target="_blank">Clinic profile</a>';
+            }
+            else
+                descriptionLink = '';
+
 
             markers.push({
                 location: {
@@ -25,7 +33,7 @@
                 // Extra info for tile in sidebar & infoWindow
                 icon: 'custom:custom86',
                 title: clinicWrapper.name, // e.g. Account.Name
-                description : '<a href="' + clinical + '" target="_blank">'+ clinicWrapper.name + '</a>'
+                description : descriptionLink
             });
         }
 
