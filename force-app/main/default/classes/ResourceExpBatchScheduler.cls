@@ -12,7 +12,7 @@ public with sharing class ResourceExpBatchScheduler implements Schedulable{
                 'Id,' +
                 'Expiration_Date__c ' +
                 'FROM Resource__c ' +
-                'WHERE Expiration_Date__c = today';
+                'WHERE Expiration_Date__c <= today';
         Database.executeBatch(new BatchProcess(query, new ResourceExpirationBatchHandlerImpl()), 1000);
         System.abortJob(SC.getTriggerId());
         start();
