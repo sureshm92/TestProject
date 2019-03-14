@@ -72,7 +72,8 @@ public with sharing class TherapeuticAreaService {
         for (Therapeutic_Area_Patient__c dbAreaPatient : [
                 SELECT
                         Participant__c,
-                        Therapeutic_Area__c
+                        Therapeutic_Area__c,
+                        IsRelatedToStudy__c
                 FROM Therapeutic_Area_Patient__c
                 WHERE Participant__c IN :newParticipantIdSet
                 AND Therapeutic_Area__c IN :newTherapeuticAreaId
@@ -86,7 +87,11 @@ public with sharing class TherapeuticAreaService {
         for (Therapeutic_Area_Patient__c newAreaPatient : areaPatients) {
             TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c);
             if (dbWrapper.contains(iKey)) {
-                duplicateObjects.add(dbWrapper.get(dbWrapper.indexOf(iKey)).areaPatient);
+                Therapeutic_Area_Patient__c oldAreaPatient = dbWrapper.get(dbWrapper.indexOf(iKey)).areaPatient;
+                if (oldAreaPatient.IsRelatedToStudy__c != newAreaPatient.IsRelatedToStudy__c) {
+                    newAreaPatient.IsRelatedToStudy__c = true;
+                }
+                duplicateObjects.add(oldAreaPatient);
 //                newAreaPatient.addError('You are inserting Duplicate Therapeutic Area Patient');
                 System.debug('validationOnDuplicate duplicate: ' + newAreaPatient);
             }
