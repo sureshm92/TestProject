@@ -427,11 +427,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ResourceServiceTest</apexClass>
+        <apexClass>Test_ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
