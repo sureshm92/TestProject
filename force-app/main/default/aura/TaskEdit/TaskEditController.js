@@ -73,5 +73,13 @@
         }, null, function () {
             component.find('spinner').hide();
         })
+    },
+    onChangeFreq: function (component, event, helper) {
+        var freq = event.getSource().get("v.value");
+        if (freq === 'Compete By Date') {
+            component.find("reminderDateId").set('v.disabled', true);
+        } else if (freq === '1 day before') {
+            component.find("reminderDateId").set('v.disabled', false);
+        }
     }
-})
+});

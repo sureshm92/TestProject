@@ -13,3 +13,8 @@
 .THIS .te-col {
     margin-bottom: 10px;
 }
+
+.THIS .te-col-header {
+    margin-bottom: 10px;
+    font-size: 17px;
+}
