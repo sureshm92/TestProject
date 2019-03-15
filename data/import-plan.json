@@ -19,10 +19,28 @@
 
     {
         "sobject": "Contact",
-        "saveRefs": false,
+        "saveRefs": true,
         "resolveRefs": true,
         "files": [
             "Contacts.json"
+        ]
+    },
+
+    {
+        "sobject": "Study_Site__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Study_Sites.json"
+        ]
+    },
+
+    {
+        "sobject": "HCP_Enrollment__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "HCP_Enrollments.json"
         ]
     }
 ]

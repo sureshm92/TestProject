@@ -3,21 +3,21 @@
         {
             "attributes": {
                 "type": "Account",
-                "referenceId": "AccountRef1"
+                "referenceId": "clinic1"
             },
-            "Name": "Test Hospital 1"
+            "Name": "Clinic 1"
         },
         {
             "attributes": {
                 "type": "Account",
-                "referenceId": "AccountRef2"
+                "referenceId": "clinic2"
             },
-            "Name": "Test Hospital 2"
+            "Name": "Clinic 2"
         },
         {
             "attributes": {
                 "type": "Account",
-                "referenceId": "AccountRef3"
+                "referenceId": "participantAccount"
             },
             "Name": "Participant"
         }

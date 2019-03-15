@@ -11,12 +11,19 @@ sfdx force:auth:web:login -d -a setYourDevHubAliasHere
 ```sh
 sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a setYourAliasHere
 ```
-##### 3) Push project to Scratch org:
+##### 3) Import Org Wide Email Address:
+
+```sh
+sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
+```
+- after import go to updates@cp.clinicalresearch.com mail box and approve this email. Ask about how get access to this mailbox
+
+##### 4) Push project to Scratch org:
 ```sh
 sfdx force:source:push
 ```
 
-##### 4) Open Scratch org in browser and setup:
+##### 5) Open Scratch org in browser and setup:
 ```sh
 sfdx force:org:open
 ```
@@ -26,8 +33,18 @@ sfdx force:org:open
 ```sh
 sfdx force:data:tree:import -p data/import-plan.json
 ```
-- From Clinical Trial Profle create Study Site with status "Invitation Sent" and set PI Contact
-- From Study Site create HCP Enrollment with status "Invitation sent" and set HCP Contact
+after import
+- find contact "Joseph Davis PI And HCP" and login to community under this contact
+- switch to mode "View As Investigative Site" and press "I'm open to receive referrals"
+- switch to mode "View As Referring Provider Clinic" and press "Find Study Sites" then press "Find Study Sites" again and then press "Send Site Request"
+- switch to mode "View As Investigative Site" in navigation menu select "My Referring Clinics" press "Activate button"
+- switch to mode "View As Referring Provider Clinic" press "Medical record review"
+
+or you can just change 
+- SS Override Status to "Accepted" 
+- HCPE Stats to "Activated" 
+- and then login as "Joseph Davis PI And HCP" to community 
+
 
 ###### 3) Go to setup > all communities > open community builder > press publish
 ###### 4) Select PI or HCP contact and login in community
