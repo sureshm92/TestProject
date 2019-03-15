@@ -1,5 +1,5 @@
 @IsTest
-public class DatabaseProxyTest {
+public class Test_DatabaseProxy {
 
 	@TestSetup
 	static void setup() {

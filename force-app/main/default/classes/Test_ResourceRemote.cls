@@ -1,5 +1,5 @@
 @IsTest
-public class ResourceRemoteTest {
+public class Test_ResourceRemote {
 
 	@TestSetup
 	public static void setup() {
