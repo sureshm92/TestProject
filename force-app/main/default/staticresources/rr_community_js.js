@@ -79,8 +79,14 @@ window.communityService = (function () {
         },
 
         deleteCookies: function (preventedCookies) {
-            for (let currCookie in preventedCookies) {
-                document.cookie = 'LSKey[c]' + currCookie + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            for (let i in preventedCookies) {
+                let cookieDelete = preventedCookies[i] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                console.log('cookieDelete: ' + cookieDelete);
+                document.cookie = cookieDelete;
+
+                cookieDelete = 'LSKey[c]' + cookieDelete;
+                console.log('cookieDelete: ' + cookieDelete);
+                document.cookie = cookieDelete;
             }
         },
 
@@ -289,7 +295,11 @@ window.communityService = (function () {
         },
 
         getCookie: function (cname) {
+            console.log('in getCookie function');
+            console.log('cname: ' + cname);
+
             if (preventedCookies.indexOf(cname) !== -1) {
+                console.log(cname + ' cookie ignored get');
                 return "";
             }
 
@@ -309,7 +319,12 @@ window.communityService = (function () {
         },
 
         setCookie: function (cname, cvalue, exdays) {
+            console.log('in setCookie function');
+            console.log('cname: ' + cname);
+            console.log('cvalue: ' + cvalue);
+
             if (preventedCookies.indexOf(cname) !== -1) {
+                console.log(cname + ' cookie ignored set');
                 return;
             }
 

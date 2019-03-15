@@ -3,6 +3,7 @@
  */
 
 public without sharing class CommunityFacadeRemote {
+    public static String COOKIE_FIELD_MARK = 'AllowedCookie__c';
 
     @AuraEnabled
     public static Boolean isFirstLogon() {
@@ -70,8 +71,9 @@ public without sharing class CommunityFacadeRemote {
         List<String> cookieFields = new List<String>();
         Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
         for (String currField : fields.keySet()) {
-            if (currField.endsWithIgnoreCase('AllowedCookie__c')) {
-                cookieFields.add(currField);
+            String fieldName = fields.get(currField).getDescribe().getName();
+            if (fieldName.endsWith(COOKIE_FIELD_MARK)) {
+                cookieFields.add(fieldName);
             }
         }
 
@@ -82,13 +84,26 @@ public without sharing class CommunityFacadeRemote {
                 Contact currContact = currContacts[0];
                 for (String cookieField : cookieFields) {
                     if ((Boolean) currContact.get(cookieField) == false) {
-                        preventedCookies.add(cookieField);
+                        String cookieName = extractCookieName(cookieField);
+                        if (cookieName != null) {
+                            preventedCookies.add(cookieName);
+                        }
                     }
                 }
             }
         }
 
         return preventedCookies;
+    }
+
+    public static String extractCookieName(String fieldName) {
+        if (String.isNotBlank(fieldName)) {
+            Integer pos = fieldName.indexOf(COOKIE_FIELD_MARK);
+            String res = fieldName.substring(0, pos);
+            return res;
+        } else {
+            return null;
+        }
     }
 
     public static Boolean isTCAccepted() {
