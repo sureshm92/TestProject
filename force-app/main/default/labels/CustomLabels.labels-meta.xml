@@ -4277,13 +4277,6 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>My Team</value>
     </labels>
     <labels>
-        <fullName>PG_PST_L_Delegates</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG PST L Delegates</shortDescription>
-        <value>Delegates</value>
-    </labels>
-    <labels>
         <fullName>PG_PS_L_Failed_Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5692,5 +5685,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
+    </labels>
+    <!--Delegates-->
+    <labels>
+        <fullName>PG_PST_L_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG PST L Delegates</shortDescription>
+        <value>Delegates</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Permissions_What</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegates Permissions What</shortDescription>
+        <value>WHAT YOUR DELEGATE CAN SEE OR DO</value>
     </labels>
 </CustomLabels>

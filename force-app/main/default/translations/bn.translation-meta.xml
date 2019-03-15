@@ -2309,10 +2309,6 @@
         <name>PG_PST_L_My_Team</name>
     </customLabels>
     <customLabels>
-        <label>CustomLabel.PG_PST_L_Delegates</label>
-        <name>PG_PST_L_Delegates</name>
-    </customLabels>
-    <customLabels>
         <label>CustomLabel.PG_PS_L_Failed_Medical_Record_Review</label>
         <name>PG_PS_L_Failed_Medical_Record_Review</name>
     </customLabels>
@@ -3035,6 +3031,14 @@
     <customLabels>
         <label>CustomLabel.URL_Interactive_Advertising_Bureau</label>
         <name>URL_Interactive_Advertising_Bureau</name>
+    </customLabels>
+    <customLabels>
+        <label>CustomLabel.PG_PST_L_Delegates</label>
+        <name>PG_PST_L_Delegates</name>
+    </customLabels>
+    <customLabels>
+        <label>CustomLabel.PG_PST_L_Delegates_Permissions_What</label>
+        <name>PG_PST_L_Delegates_Permissions_What</name>
     </customLabels>
     <customTabs>
         <label><!-- Study Export/Import --></label>

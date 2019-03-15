@@ -27,7 +27,7 @@
     },
 
     navigateToDelegates : function(component, event, helper) {
-        //Add navigate to mapping
+        communityService.navigateToPage('delegates');
         component.set('v.showMenu', false);
     },
 
