@@ -27,6 +27,9 @@
             <componentName>StudyLogo</componentName>
         </componentInstances>
         <!--componentInstances>
+            <componentName>StudyLogo</componentName>
+        </componentInstances-->
+        <!--componentInstances>
             <componentInstanceProperties>
                 <name>cacheAge</name>
                 <value>1440</value>

@@ -20,7 +20,6 @@
             else
                 descriptionLink = '';
 
-
             markers.push({
                 location: {
                     // Location Information

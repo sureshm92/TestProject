@@ -18,6 +18,9 @@
         <div class="{!'rrp-menu' + if(v.showMenu, '', ' hide')}" tabindex="-1" aura:id="settingsMenu">
             <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP')}">
                 <div class="rrp-menu-item" onclick="{!c.navigateToMyTeam}">{!$Label.c.PG_PST_L_My_Team}</div>
+                <aura:set attribute="else">
+                    <div class="rrp-menu-item" onclick="{!c.navigateToDelegates}">{!$Label.c.PG_PST_L_Delegates}</div>
+                </aura:set>
             </aura:if>
             <div class="rrp-menu-item" onclick="{!c.navigateToAccountSettings}">{!$Label.c.Profile_Menu_Account_Settings}</div>
             <div class="rrp-menu-item" onclick="{!c.doLogout}">{!$Label.c.Profile_Menu_Log_Out}</div>

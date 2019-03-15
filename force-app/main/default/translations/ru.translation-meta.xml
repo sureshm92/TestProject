@@ -2498,6 +2498,10 @@
         <name>PG_PST_L_My_Team</name>
     </customLabels>
     <customLabels>
+        <label>Делегаты</label>
+        <name>PG_PST_L_Delegates</name>
+    </customLabels>
+    <customLabels>
         <label>Не прошел анкету</label>
         <name>PG_PS_L_Failed_Medical_Record_Review</name>
     </customLabels>
