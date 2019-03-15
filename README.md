@@ -23,7 +23,7 @@ then open setup:
 sfdx force:org:open
 ```
 
-- go to Process Automation Settings and set up default workflow user email approval sender "IQVIA Referral Hub"
+- go to Process Automation Settings and set up Default workflow user and set in Email approval sender value "IQVIA Referral Hub"
 
 ##### 4) Push project to Scratch org:
 ```sh
