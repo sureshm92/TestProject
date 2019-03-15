@@ -25,7 +25,7 @@ public class Test_ResourceService {
 				'DatabaseProxy',
 				(DatabaseProxy) Test.createStub(
 						DatabaseProxy.class,
-						new ResourceServiceTest.DatabaseProxyStub('getParticipant_Test')
+						new Test_ResourceService.DatabaseProxyStub('getParticipant_Test')
 				)
 		);
 		Test.startTest();
@@ -41,7 +41,7 @@ public class Test_ResourceService {
 				'DatabaseProxy',
 				(DatabaseProxy) Test.createStub(
 						DatabaseProxy.class,
-						new ResourceServiceTest.DatabaseProxyStub('getResourceWrappers_NoActions_Test')
+						new Test_ResourceService.DatabaseProxyStub('getResourceWrappers_NoActions_Test')
 				)
 		);
 

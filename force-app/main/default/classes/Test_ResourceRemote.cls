@@ -14,7 +14,7 @@ public class Test_ResourceRemote {
 				'DatabaseProxy',
 				(DatabaseProxy) Test.createStub(
 						DatabaseProxy.class,
-						new ResourceRemoteTest.DatabaseProxyStub('setResourceAction_ActionExist_Test')
+						new Test_ResourceRemote.DatabaseProxyStub('setResourceAction_ActionExist_Test')
 				)
 		);
 		Test.startTest();
@@ -30,7 +30,7 @@ public class Test_ResourceRemote {
 				'DatabaseProxy',
 				(DatabaseProxy) Test.createStub(
 						DatabaseProxy.class,
-						new ResourceRemoteTest.DatabaseProxyStub('setResourceAction_ActionDoesNotExist_Test')
+						new Test_ResourceRemote.DatabaseProxyStub('setResourceAction_ActionDoesNotExist_Test')
 				)
 		);
 		Test.startTest();
@@ -46,7 +46,7 @@ public class Test_ResourceRemote {
 				'ResourceService',
 				(ResourceService) Test.createStub(
 						ResourceService.class,
-						new ResourceRemoteTest.ResourceServiceStub('getResources_FavoriteResources_Test')
+						new Test_ResourceRemote.ResourceServiceStub('getResources_FavoriteResources_Test')
 				)
 		);
 		Test.startTest();
@@ -65,7 +65,7 @@ public class Test_ResourceRemote {
 				'ResourceService',
 				(ResourceService) Test.createStub(
 						ResourceService.class,
-						new ResourceRemoteTest.ResourceServiceStub('getResources_DefaultResources_Test')
+						new Test_ResourceRemote.ResourceServiceStub('getResources_DefaultResources_Test')
 				)
 		);
 		Test.startTest();
