@@ -11,6 +11,7 @@ sfdx force:auth:web:login -d -a devHubAlias
 ```sh
 sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgAlias
 ```
+
 ##### 3) Import Org Wide Email Address:
 
 ```sh
@@ -19,6 +20,7 @@ sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 - after import go to updates@cp.clinicalresearch.com mail box and approve this email. Ask about how to get access to this mailbox
 
 then open setup:
+
 ```sh
 sfdx force:org:open
 ```
@@ -26,20 +28,24 @@ sfdx force:org:open
 - go to Process Automation Settings and set up Default workflow user and set in Email approval sender value "IQVIA Referral Hub"
 
 ##### 4) Push project to Scratch org:
+
 ```sh
 sfdx force:source:push
 ```
 
 ##### 5) Open Scratch org in browser and setup:
+
 ```sh
 sfdx force:org:open
 ```
 
 - Setup > User > edit > set role "View All" 
-- Upload data:
+- Upload data
+
 ```sh
 sfdx force:data:tree:import -p data/import-plan.json
 ```
+
 - Go to setup > all communities > open community builder > press publish
 
 ##### 6) Login to community
