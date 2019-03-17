@@ -42,5 +42,23 @@
         "files": [
             "HCP_Enrollments.json"
         ]
+    },
+
+    {
+        "sobject": "Participant__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Participants.json"
+        ]
+    },
+
+    {
+        "sobject": "Participant_Enrollment__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Participant_Enrollments.json"
+        ]
     }
 ]

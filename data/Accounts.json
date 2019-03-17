@@ -5,14 +5,39 @@
                 "type": "Account",
                 "referenceId": "clinic1"
             },
-            "Name": "Clinic 1"
+            "Name": "Clinical Research Center",
+            "BillingStreet": "122 E 42nd St #2820",
+            "BillingCountry": "United States",
+            "BillingCity": "New York",
+            "BillingState": "New York",
+            "BillingLatitude": 40.751244,
+            "BillingLongitude": -73.976685
         },
         {
             "attributes": {
                 "type": "Account",
                 "referenceId": "clinic2"
             },
-            "Name": "Clinic 2"
+            "Name": "Clinic 2",
+            "BillingStreet": "1185 6th Ave",
+            "BillingCountry": "United States",
+            "BillingCity": "New York",
+            "BillingState": "New York",
+            "BillingLatitude": 40.757901,
+            "BillingLongitude": -73.982516
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "clinic3"
+            },
+            "Name": "Clinic 3",
+            "BillingStreet": "515 West 52nd Street",
+            "BillingCountry": "United States",
+            "BillingCity": "New York",
+            "BillingState": "New York",
+            "BillingLatitude": 40.766594,
+            "BillingLongitude": -73.991509
         },
         {
             "attributes": {
