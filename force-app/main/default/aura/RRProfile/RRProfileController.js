@@ -27,7 +27,7 @@
     },
 
     navigateToDelegates : function(component, event, helper) {
-        communityService.navigateToPage('delegates');
+        communityService.navigateToPage('settings?tab=delegates');
         component.set('v.showMenu', false);
     },
 

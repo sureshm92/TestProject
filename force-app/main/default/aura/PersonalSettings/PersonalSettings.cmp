@@ -17,16 +17,21 @@
 
     <aura:if isTrue="{!!v.showSpinner}">
         <div class="ps-container">
-            <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP')}">
+            <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP', v.userMode == 'Participant')}">
                 <c:rrButtonTubSet >
-                    <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team" currentTab="{!v.currentTab}"/>
+                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                        <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_Delegates}" tabId="delegates" currentTab="{!v.currentTab}"/>
+                        <aura:set attribute="else">
+                            <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team" currentTab="{!v.currentTab}"/>
+                        </aura:set>
+                    </aura:if>
                     <c:rrButtonTubSetItem title="{!$Label.c.Profile_Menu_Account_Settings}" tabId="account-settings" currentTab="{!v.currentTab}"/>
                     <!--<c:rrButtonTubSetItem title="Communication Preferences" tabId="tab-communication-preferences" isDisabled="true" currentTab="{!v.currentTab}"/>-->
                 </c:rrButtonTubSet>
             </aura:if>
 
             <div class="ps-body">
-                <aura:if isTrue="{!v.currentTab == 'my-team'}">
+                <aura:if isTrue="{!or(v.currentTab == 'my-team', v.currentTab == 'delegates')}">
                     <c:MyTeam userMode="{!v.userMode}"/>
                 </aura:if>
 
