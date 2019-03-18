@@ -33,7 +33,7 @@
 					</lightning:layout>
 				</div>
 				<footer class="resource-footer" style="{!lessthan(v.resources.length, 4) ? 'display: none;' : ''}">
-					See More
+					<c:rrPagination allObjects="{!v.resources}" entriesOnPage="4"/>
 				</footer>
 			</aura:set>
 		</aura:if>

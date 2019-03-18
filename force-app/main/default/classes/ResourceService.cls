@@ -12,6 +12,7 @@ public with sharing class ResourceService {
 	private static String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
 	private static Integer MAX_TITLE_LENGTH = 55;
 	private static Integer MAX_DESCRIPTION_LENGTH = 120;
+	@TestVisible
 	private static String RESOURCE_TYPE_ARTICLE = 'Article';
 	private static String RESOURCE_TYPE_VIDEO = 'Video';
 
@@ -63,9 +64,9 @@ public with sharing class ResourceService {
 	private List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
 		String language = this.getParticipantLanguage(participant);
 		if (String.isBlank(whereClause)) {
-			whereClause = 'WHERE Language__c = \'' + language + '\') ';
+			whereClause = 'WHERE Language__c = \'' + language + '\' ';
 		} else {
-			whereClause += ' AND Language__c = \'' + language + '\') ';
+			whereClause += ' AND Language__c = \'' + language + '\' ';
 		}
 		String resourcesQuery =
 				'SELECT Id, ' +
@@ -149,8 +150,8 @@ public with sharing class ResourceService {
 	private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
 		List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
 		for (Resource__c singleResource : resources) {
-			ResourceService.ResourceWrapper singleWrapper = new ResourceService.ResourceWrapper(singleResource);
-			wrappers.add(singleWrapper);
+			System.debug(singleResource);
+			wrappers.add(new ResourceService.ResourceWrapper(singleResource));
 		}
 		return wrappers;
 	}
@@ -219,9 +220,9 @@ public with sharing class ResourceService {
 		public String video;
 
 		public ResourceWrapper(Resource__c resource) {
-			if (!resource.Resource_Actions__r.isEmpty()) {
-				isFavorite = resource.Resource_Actions__r[0].IsFavorite__c;
-				isVoted = resource.Resource_Actions__r[0].IsVoted__c;
+			if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
+				isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
+				isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
 			}
 			title = (resource.Subject__c.length() > ResourceService.MAX_TITLE_LENGTH) ?
 					resource.Subject__c.substring(0, ResourceService.MAX_TITLE_LENGTH - 3) + '...' :
