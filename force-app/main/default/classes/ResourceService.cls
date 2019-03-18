@@ -60,30 +60,30 @@ public with sharing class ResourceService {
 		}, participant));
 	}
 
-	@TestVisible
-	private List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
-		String language = this.getParticipantLanguage(participant);
-		if (String.isBlank(whereClause)) {
-			whereClause = 'WHERE Language__c = \'' + language + '\' ';
-		} else {
-			whereClause += ' AND Language__c = \'' + language + '\' ';
-		}
-		String resourcesQuery =
-				'SELECT Id, ' +
-						'Subject__c, ' +
-						'Description__c, ' +
-						'Expiration_Date__c, ' +
-						'Image__c, ' +
-						'Video__c, ' +
-						'Content_Text__c, ' +
-						'RecordType.DeveloperName, ' +
-						'(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
-						'FROM Resource__c ' +
-						whereClause +
-						(String.isBlank(orderByClause) ? '' : orderByClause + ' ');
-		DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-		return (List<Resource__c>) databaseProxy.query(resourcesQuery);
-	}
+    @TestVisible
+    private List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
+        String language = this.getParticipantLanguage(participant);
+        if (String.isBlank(whereClause)) {
+            whereClause = 'WHERE Language__c = \'' + language + '\' ';
+        } else {
+            whereClause += ' AND Language__c = \'' + language + '\' ';
+        }
+        String resourcesQuery =
+                'SELECT Id, ' +
+                        'Title__c, ' +
+                        'Description__c, ' +
+                        'Expiration_Date__c, ' +
+                        'Image__c, ' +
+                        'Video__c, ' +
+                        'Body__c, ' +
+                        'RecordType.DeveloperName, ' +
+                        '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
+                        'FROM Resource__c ' +
+                        whereClause +
+                        (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        return (List<Resource__c>) databaseProxy.query(resourcesQuery);
+    }
 
 	@TestVisible
 	private List<Resource__c> getResources(Set<String> resourcesIdsSet, Participant__c participant) {
@@ -219,23 +219,23 @@ public with sharing class ResourceService {
 		@AuraEnabled
 		public String video;
 
-		public ResourceWrapper(Resource__c resource) {
-			if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
-				isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
-				isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
-			}
-			title = (resource.Subject__c.length() > ResourceService.MAX_TITLE_LENGTH) ?
-					resource.Subject__c.substring(0, ResourceService.MAX_TITLE_LENGTH - 3) + '...' :
-					resource.Subject__c;
-			description = (resource.Description__c.length() > ResourceService.MAX_DESCRIPTION_LENGTH) ?
-					resource.Description__c.substring(0, ResourceService.MAX_DESCRIPTION_LENGTH - 3) + '...' :
-					resource.Description__c;
-			image = resource.Image__c;
-			expirationDate = resource.Expiration_Date__c;
-			type = resource.RecordType.DeveloperName;
-			resourceId = resource.Id;
-			video = resource.Video__c;
-			body = resource.Content_Text__c;
-		}
-	}
+        public ResourceWrapper(Resource__c resource) {
+            if (!resource.Resource_Actions__r.isEmpty()) {
+                isFavorite = resource.Resource_Actions__r[0].IsFavorite__c;
+                isVoted = resource.Resource_Actions__r[0].IsVoted__c;
+            }
+            title = (resource.Title__c.length() > ResourceService.MAX_TITLE_LENGTH) ?
+                    resource.Title__c.substring(0, ResourceService.MAX_TITLE_LENGTH - 3) + '...' :
+                    resource.Title__c;
+            description = (resource.Description__c.length() > ResourceService.MAX_DESCRIPTION_LENGTH) ?
+                    resource.Description__c.substring(0, ResourceService.MAX_DESCRIPTION_LENGTH - 3) + '...' :
+                    resource.Description__c;
+            image = resource.Image__c;
+            expirationDate = resource.Expiration_Date__c;
+            type = resource.RecordType.DeveloperName;
+            resourceId = resource.Id;
+            video = resource.Video__c;
+            body = resource.Body__c;
+        }
+    }
 }
