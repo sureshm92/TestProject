@@ -17,7 +17,7 @@ public without sharing class StudyDetailViewController {
     }
 
     public class ClinicWrapper implements Comparable {
-        public Account clinic;
+        public Account clinic;  //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap
         public String name;
         public String addrStreet;
         public String addrCity;
@@ -124,6 +124,9 @@ public without sharing class StudyDetailViewController {
                         BillingState,
                         BillingPostalCode,
                         BillingCity,
+                        BillingCountry,
+                        BillingCountryCode,
+                        BillingStateCode,
                         Phone,
                         BillingLongitude,
                         BillingLatitude

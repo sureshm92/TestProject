@@ -7,8 +7,8 @@
 
     <!--attributes-->
     <aura:attribute name="accounts" type="List"/>
-    <aura:attribute name="markers" type="List" access="private"/>
+    <aura:attribute name="markers" type="Object[]" access="private"/>
 
-    <lightning:map mapMarkers="{!v.markers}"/>
+    <lightning:map mapMarkers="{!v.markers}" zoomLevel="10"/>
 
 </aura:component>
