@@ -50,19 +50,9 @@ sfdx force:data:tree:import -p data/import-plan.json
 
 ##### 6) Login to community
 
-After import:
-
-- find contact "Joseph Davis PI And HCP" and login to community under this contact
-- switch to mode "View As Investigative Site" and press "I'm open to receive referrals"
-- switch to mode "View As Referring Provider Clinic" and press "Find Study Sites" then press "Find Study Sites" again and then press "Send Site Request"
-- switch to mode "View As Investigative Site" in navigation menu select "My Referring Clinics" press "Activate button"
-- switch to mode "View As Referring Provider Clinic" press "Medical record review"
-
-Or you can just change:
- 
-- SS Override Status to "Accepted" 
-- HCPE Stats to "Activated" 
-- and then login as "Joseph Davis PI And HCP" to community 
+- Open Study Site for edit and change Override Status to "Accepted" 
+- Open HCP Enrollment for edit and change Stats to "Activated" 
+- Login to community under PI User, HCP user or Participant user on your choice 
 
 
 ## Dev, Build and Test

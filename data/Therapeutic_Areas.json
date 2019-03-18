@@ -1,0 +1,11 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta1"
+            },
+            "Name": "Test Area"
+        }
+    ]
+}
