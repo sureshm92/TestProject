@@ -1,8 +1,17 @@
 [
     {
-        "sobject": "Clinical_Trial_Profile__c",
+        "sobject": "Therapeutic_Area__c",
         "saveRefs": true,
         "resolveRefs": false,
+        "files": [
+            "Therapeutic_Area.json"
+        ]
+    },
+
+    {
+        "sobject": "Clinical_Trial_Profile__c",
+        "saveRefs": true,
+        "resolveRefs": true,
         "files": [
             "Clinical_Trial_Profiles.json"
         ]
