@@ -2606,11 +2606,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource__c.Dummy__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Resource__c.Expiration_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
