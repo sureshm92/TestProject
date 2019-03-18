@@ -2611,7 +2611,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource__c.Favourite_count__c</field>
+        <field>Resource__c.Favorites__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2636,7 +2636,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource__c.Like__c</field>
+        <field>Resource__c.Likes__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
