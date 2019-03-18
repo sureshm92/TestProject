@@ -18,7 +18,7 @@
     <aura:if isTrue="{!!v.showSpinner}">
         <div class="ps-container">
             <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP', v.userMode == 'Participant')}">
-                <c:rrButtonTubSet >
+                <c:rrButtonTubSet>
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_Delegates}" tabId="delegates" currentTab="{!v.currentTab}"/>
                         <aura:set attribute="else">

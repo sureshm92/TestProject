@@ -1940,7 +1940,6 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>OT H My Team</shortDescription>
         <value>My Team</value>
     </labels>
-
     <labels>
         <fullName>OT_H_Navigation_Bar</fullName>
         <language>en_US</language>
@@ -4270,6 +4269,76 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Patient Profile</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG PST L Delegates</shortDescription>
+        <value>Delegates</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_AAddit_Item</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Any additional item</shortDescription>
+        <value>Any additional item</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Click_Add_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegates empty</shortDescription>
+        <value>Click Add New Delegate to allow access to your information.</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Compl_Task_Behalf</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Complete tasks on my behalf</shortDescription>
+        <value>Complete tasks on my behalf</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_My_Measur</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My measurements</shortDescription>
+        <value>See my measurements</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Permitted_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Permitted Delegate Actions</shortDescription>
+        <value>WHAT YOUR DELEGATE CAN SEE OR DO</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Receive_Emails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Receive emails</shortDescription>
+        <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Lab_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab result</shortDescription>
+        <value>See my lab results</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Survey_Resp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Surv response</shortDescription>
+        <value>See my survey responses</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My vitals</shortDescription>
+        <value>See my vitals</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_My_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5685,20 +5754,5 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
-    </labels>
-    <!--Delegates-->
-    <labels>
-        <fullName>PG_PST_L_Delegates</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG PST L Delegates</shortDescription>
-        <value>Delegates</value>
-    </labels>
-    <labels>
-        <fullName>PG_PST_L_Delegates_Permissions_What</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Delegates Permissions What</shortDescription>
-        <value>WHAT YOUR DELEGATE CAN SEE OR DO</value>
     </labels>
 </CustomLabels>

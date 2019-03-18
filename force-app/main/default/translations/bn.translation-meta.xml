@@ -3032,14 +3032,6 @@
         <label>CustomLabel.URL_Interactive_Advertising_Bureau</label>
         <name>URL_Interactive_Advertising_Bureau</name>
     </customLabels>
-    <customLabels>
-        <label>CustomLabel.PG_PST_L_Delegates</label>
-        <name>PG_PST_L_Delegates</name>
-    </customLabels>
-    <customLabels>
-        <label>CustomLabel.PG_PST_L_Delegates_Permissions_What</label>
-        <name>PG_PST_L_Delegates_Permissions_What</name>
-    </customLabels>
     <customTabs>
         <label><!-- Study Export/Import --></label>
         <name>Translation_Import_Export</name>
