@@ -18,7 +18,6 @@ public with sharing class Test_ResourceExpBatchScheduler {
         resources = new List<Resource__c>();
         Date expDate = Date.today().addDays(-2);
         Date publish = expDate.addYears(-1);
-
         for (Integer i = 0; i < 10; i++) {
             Resource__c res = new Resource__c(
                     Name = 'Res '+ i,
@@ -30,15 +29,12 @@ public with sharing class Test_ResourceExpBatchScheduler {
             resources.add(res);
         }
         insert resources;
-
         resourceMap = new Map<Id, Resource__c>(resources);
         resIds = new List<Id>(resourceMap.keySet());
     }
     @IsTest
     static void testScheduledJob() {
-
         Test.startTest();
-
         String jobId = System.schedule(
                 'ScheduledApexTest',
                 CRON_EXP,
@@ -47,32 +43,23 @@ public with sharing class Test_ResourceExpBatchScheduler {
         CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered,
                 NextFireTime
         FROM CronTrigger WHERE Id = :jobId];
-
         System.assertEquals(CRON_EXP, ct.CronExpression);
         System.assertEquals(0, ct.TimesTriggered);
-
         Test.stopTest();
-
     }
 
     @IsTest
     static void testBatchClass() {
         init();
-
         List<Resource__c> rl = [
                 SELECT Id
                 FROM Resource__c
                 WHERE Id IN :resIds
         ];
-
         System.assertEquals(10, rl.size(), 'Resources delete before job has run');
-
         Test.startTest();
-
         Database.executeBatch(new BatchProcess(query, new ResourceExpirationBatchHandlerImpl()), 1000);
-
         Test.stopTest();
-
         rl = [
                 SELECT Id
                 FROM Resource__c
