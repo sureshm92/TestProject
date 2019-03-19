@@ -3,8 +3,8 @@
  */
 
 public without sharing class PSEService {
-
-    public static final List<String> PSE_DEFAULT_FIELDS_LIST = {
+    
+    public static final List<String> PSE_DEFAULT_FIELDS_LIST = new List<String>{
             'Name',
             'Clinical_Trial_Profile__c',
             'Participant__c',
@@ -17,7 +17,7 @@ public without sharing class PSEService {
         return getPSECustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
     }
     
-    public static List<Participant_Study_Enrollment__c getPSECustomFields(String userMode, List<String> customFields, String filter){
+    public static List<Participant_Study_Enrollment__c> getPSECustomFields(String userMode, List<String> customFields, String filter){
         String query = 'SELECT ' + String.join(customFields, ',') +
                 ' FROM Participant_Enrollment__c ' +
                 ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
