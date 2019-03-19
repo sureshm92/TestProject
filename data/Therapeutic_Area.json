@@ -1,11 +1,11 @@
 {
-  "records": [
-    {
-      "attributes": {
-        "type": "Therapeutic_Area__c",
-        "referenceId": "Therapeutic_Area__cRef1"
-      },
-      "Name": "Oncology"
-    }
-  ]
+    "records": [
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta1"
+            },
+            "Name": "Test Area"
+        }
+    ]
 }

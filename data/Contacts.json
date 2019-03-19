@@ -3,62 +3,62 @@
         {
             "attributes": {
                 "type": "Contact",
-                "referenceId": "ContactRef1"
+                "referenceId": "contact1"
             },
             "FirstName": "Samuel",
-            "LastName": "Rodriguez",
+            "LastName": "Rodriguez PI",
             "Email": "srodriguez@somemail.com",
-            "AccountId": "@AccountRef1"
+            "AccountId": "@clinic1"
         },
         {
             "attributes": {
                 "type": "Contact",
-                "referenceId": "ContactRef2"
+                "referenceId": "contact2"
             },
             "FirstName": "Matthew",
-            "LastName": "Smith",
+            "LastName": "Smith HCP",
             "Email": "msmith@email.com",
-            "AccountId": "@AccountRef1"
+            "AccountId": "@clinic1"
         },
         {
             "attributes": {
                 "type": "Contact",
-                "referenceId": "ContactRef3"
+                "referenceId": "contact3"
             },
             "FirstName": "Joseph",
-            "LastName": "Davis",
+            "LastName": "Davis PI And HCP",
             "Email": "jdavis@somemail.com",
-            "AccountId": "@AccountRef1"
+            "AccountId": "@clinic1"
         },
         {
             "attributes": {
                 "type": "Contact",
-                "referenceId": "ContactRef4"
+                "referenceId": "contact4"
             },
             "FirstName": "Daniel",
             "LastName": "Williams",
             "Email": "dwilliams@somemail.com",
-            "AccountId": "@AccountRef2"
+            "AccountId": "@clinic2"
         },
         {
             "attributes": {
                 "type": "Contact",
-                "referenceId": "ContactRef5"
+                "referenceId": "contact5"
             },
             "FirstName": "Thomas",
             "LastName": "Brown",
             "Email": "tbrown@somemail.com",
-            "AccountId": "@AccountRef2"
+            "AccountId": "@clinic2"
         },
         {
             "attributes": {
                 "type": "Contact",
-                "referenceId": "ContactRef6"
+                "referenceId": "contact6"
             },
             "FirstName": "Adam",
             "LastName": "Garcia",
             "Email": "agarcia@somemail.com",
-            "AccountId": "@AccountRef2"
+            "AccountId": "@clinic2"
         }
     ]
 }
