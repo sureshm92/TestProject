@@ -101,13 +101,20 @@ public without sharing class StudyDetailViewController {
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-//                List<Participant_Enrollment__c> participantEnrollments = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-//                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
+                List<Participant_Enrollment__c> participantEnrollments = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
 //                StudyActions studyActions = new StudyActionsParticipant(participantEnrollments[0]);
                 StudyActionsParticipant studyActions = new StudyActionsParticipant();
                 trialDetail.studyActions = studyActions.studyDetailActions;
                 trialDetail.actions = studyActions.actions;
 
+                Set<Id> accIds = new Set<Id>();
+                for(Participant_Enrollment__c pe : participantEnrollments)
+                    accIds.add(pe.Study_Site__r.Site__c);
+
+                List<Account> accounts = getAccounts(accIds);
+                for (Account account : accounts)
+                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, null, null));
             }
 
             return JSON.serialize(trialDetail);
