@@ -1,0 +1,18 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Participant__c",
+                "referenceId": "participant1"
+            },
+            "First_Name__c": "Clint",
+            "Last_Name__c": "Westwood",
+            "Email__c": "clint@westwood.com",
+            "Phone__c": "13241321223",
+            "Mailing_Country_Code__c": "US",
+            "Mailing_State_Code__c": "NY",
+            "Mailing_Zip_Postal_Code__c": "1234231234",
+            "Language_Preference_Code__c": "en_US"
+        }
+    ]
+}
