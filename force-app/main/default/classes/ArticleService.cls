@@ -6,36 +6,31 @@ public with sharing class ArticleService {
     public static void calculateExpirationDateBeforeInsert(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (resource.Expiration_Date__c == null) {
-                System.debug('Expiration_Date = null');
                 if (resource.Posting_Date__c != null) {
-                    System.debug('Posting_Date =' + resource.Posting_Date__c);
                     resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
-                }
-                else {
-                    System.debug('Expiration_Date & Posting_Date = null');
+                } else {
                     Date createResource = Date.today();
                     resource.Posting_Date__c = createResource;
                     resource.Expiration_Date__c = createResource.addMonths(12);
                 }
+            } else if (resource.Posting_Date__c == null) {
+                resource.Posting_Date__c = resource.Expiration_Date__c.addMonths(-12);
+            } else if (resource.Posting_Date__c > resource.Expiration_Date__c) {
+                resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
+
             }
         }
     }
 
-    public static void calculateExpirationDateBeforeUpdate (List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
+    public static void calculateExpirationDateBeforeUpdate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resourcesNew) {
             if (resource.Posting_Date__c != oldResMap.get(resource.Id).Posting_Date__c
                     || resource.Expiration_Date__c != oldResMap.get(resource.Id).Expiration_Date__c) {
-                System.debug('Date article change');
                 if (resource.Posting_Date__c != null) {
-                    System.debug('Posting_Date :' + resource.Posting_Date__c);
                     resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
                 } else if (resource.Expiration_Date__c != null) {
-                    System.debug('Posting_Date : null');
-                    System.debug('Expiration_Date :' + resource.Expiration_Date__c);
                     resource.Posting_Date__c = resource.Expiration_Date__c.addMonths(-12);
                 } else {
-                    System.debug('Posting_Date : null');
-                    System.debug('Expiration_Date = null');
                     Date createResource = Date.today();
                     resource.Posting_Date__c = createResource;
                     resource.Expiration_Date__c = createResource.addMonths(12);
