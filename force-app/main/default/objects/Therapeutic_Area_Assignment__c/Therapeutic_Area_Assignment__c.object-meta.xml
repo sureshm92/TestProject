@@ -48,17 +48,15 @@
     <enableBulkApi>false</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
-    <!--enableLicensing>false</enableLicensing-->
     <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Therapeutic Area Assignment</label>
     <nameField>
-        <encryptionScheme>None</encryptionScheme>
+        <displayFormat>TAA - {0000000}</displayFormat>
         <label>Therapeutic Area Assignment Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Therapeutic Area Assignments</pluralLabel>
     <searchLayouts/>

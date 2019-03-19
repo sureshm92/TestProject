@@ -503,51 +503,11 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
-            <fullName>ar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>bn</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en_AU</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en_US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>es</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>es_US</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>fr</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>fr_CA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>hi</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>it</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>ru</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ur</fullName>
             <default>false</default>
         </values>
     </picklistValues>

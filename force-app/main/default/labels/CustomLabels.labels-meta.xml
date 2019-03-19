@@ -14,10 +14,10 @@
             Click OK to begin!</value>
     </labels>
     <labels>
-        <fullName>AL_Body_Welcome_Study_Caregivers</fullName>
+        <fullName>AL_Body_Welcome_Study_Patient_Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AL_Body_Welcome_Study_Caregivers</shortDescription>
+        <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
         <value>Congratularions ##Contact! 
 
 You are now enrolled in the ##StudyName study! 
@@ -5313,6 +5313,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>true</protected>
         <shortDescription>Resources No Favorite Videos</shortDescription>
         <value>You have not selected any favorite videos.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_No_Therapeutic_Area</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources No Therapeutic Area</shortDescription>
+        <value>You have not selected any Conditions Of Interest.</value>
     </labels>
     <labels>
         <fullName>Resources_No_Videos</fullName>
