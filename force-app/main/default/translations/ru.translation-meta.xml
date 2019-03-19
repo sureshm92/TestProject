@@ -13,18 +13,6 @@
         <name>AL_Body_Welcome_Study</name>
     </customLabels>
     <customLabels>
-        <label>Поздравляю ##Contact!
-
-            Теперь вы зарегистрированы в ##StudyName study! исследовании!
-
-            Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к
-            исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
-
-            Нажмите OK, чтобы начать!
-        </label>
-        <name>AL_Body_Welcome_Study_Caregivers</name>
-    </customLabels>
-    <customLabels>
         <label>Добро пожаловать на исследование!</label>
         <name>AL_Title_Welcome_Study</name>
     </customLabels>
