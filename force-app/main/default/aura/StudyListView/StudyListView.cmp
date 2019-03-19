@@ -94,7 +94,7 @@
                 </aura:if>
             </aura:if>
         </aura:if>
-        
+
         <!-- Reimbusment dialog -->
         <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
 

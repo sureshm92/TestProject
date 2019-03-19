@@ -25,6 +25,12 @@
         communityService.navigateToPage('settings?tab=my-team');
         component.set("v.showMenu", false);
     },
+
+    navigateToDelegates : function(component, event, helper) {
+        communityService.navigateToPage('settings?tab=delegates');
+        component.set('v.showMenu', false);
+    },
+
     navigateToAccountSettings: function (component, event, helper) {
         communityService.navigateToPage('settings?tab=account-settings');
         component.set("v.showMenu", false);
