@@ -99,7 +99,7 @@
             <label>status &quot;reffered&quot; or &quot;enrolled&quot;</label>
         </rules>
     </decisions>
-    <interviewLabel>Create_Therapeutic_Area_Patient_from_PE-3_InterviewLabel</interviewLabel>
+    <interviewLabel>Create_Therapeutic_Area_Patient_from_PE-2_InterviewLabel</interviewLabel>
     <label>Create Therapeutic Area Patient from PE</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -131,6 +131,42 @@
         <label>Create TAP</label>
         <locationX>100</locationX>
         <locationY>200</locationY>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Condition Of Interest Order</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue/>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Number</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Condition_Of_Interest_Order__c</field>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <processMetadataValues>
                 <name>dataType</name>
