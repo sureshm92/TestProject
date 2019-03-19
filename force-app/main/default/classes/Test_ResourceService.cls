@@ -64,7 +64,7 @@ public class Test_ResourceService {
                         'Id' => TestDataFactory.getFakeId(Resource__c.SObjectType)
                 })
         };
-        ResourceDecoupler.resourceActionsByIds.put(resources[0].Id, new List<Resource_Action__c>{
+        ResourceDecoupler.resourceActionsByResourceIds.put(resources[0].Id, new List<Resource_Action__c>{
                 TestDataFactory.getResourceAction()
         });
         Test.startTest();
@@ -75,13 +75,13 @@ public class Test_ResourceService {
     }
 
     @IsTest
-    public static void getResources_WithResourceType_NoTherapeuticAreas_Test() {
+    public static void getResources_WithResourceType_Article_NoTherapeuticAreas_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(
-                'DatabaseProxy',
-                (DatabaseProxy) Test.createStub(
-                        DatabaseProxy.class,
-                        new Test_ResourceService.DatabaseProxyStub('getParticipant_Test')
+                'ResourceService',
+                (ResourceService) Test.createStub(
+                        ResourceService.class,
+                        new Test_ResourceService.ResourceServiceStub('getResources_WithResourceType_NoTherapeuticAreas_Test')
                 )
         );
         ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
@@ -89,6 +89,23 @@ public class Test_ResourceService {
         ResourceService.ResourceWrapperContainer container = service.getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
         Test.stopTest();
         System.assertEquals(Label.Resources_No_Therapeutic_Area, container.errorMessage);
+    }
+
+    @IsTest
+    public static void getResources_WithResourceType_Article_NoResources_Test() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+                'ResourceService',
+                (ResourceService) Test.createStub(
+                        ResourceService.class,
+                        new Test_ResourceService.ResourceServiceStub('getResources_WithResourceType_Article_NoResources_Test')
+                )
+        );
+        ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        Test.startTest();
+        ResourceService.ResourceWrapperContainer container = service.getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
+        Test.stopTest();
+        System.assertEquals(Label.Resources_No_Articles, container.errorMessage);
     }
 
     public class DatabaseProxyStub implements System.StubProvider {
@@ -127,23 +144,39 @@ public class Test_ResourceService {
                 Type returnType, List<Type> listOfParamTypes, List<String> listOfParamNames,
                 List<Object> listOfArgs) {
 
-            if (stubbedMethodName == 'getResources_WithResourceType_NoTherapeuticAreas_Test') {
-                if (testMethodName.contains('getParticipant_Test')) {
+            if (stubbedMethodName == 'getParticipant_Test') {
+                if (this.testMethodName.contains('getResources_WithResourceType_Article_NoTherapeuticAreas_Test')) {
                     return TestDataFactory.getParticipant();
+                }
+                if (this.testMethodName.contains('getResources_WithResourceType_Article_NoResources_Test')) {
+                    Participant__c participant = TestDataFactory.getParticipant(new Map<String, Object>{
+                            'Contact__r' => TestDataFactory.getContact(new Map<String, Object>{
+                                    'Language__c' => 'ru'
+                            }),
+                            'Id' => TestDataFactory.getFakeId(Participant__c.SObjectType)
+                    });
+                    ParticipantDecoupler.therapeuticAreaPatientsByParticipantIds.put(
+                            participant.Id,
+                            new List<Therapeutic_Area_Patient__c>{
+                                    TestDataFactory.getTherapeuticAreaPatient(new Map<String, Object> {
+                                            'Therapeutic_Area__r' => TestDataFactory.getTherapeuticArea()
+                                    })
+                            }
+                    );
+
+                    return participant;
                 }
             }
             if (stubbedMethodName == 'getResourceWrappers') {
-                if (testMethodName.contains('getParticipant_Test')) {
+                if (this.testMethodName.contains('getParticipant_Test')) {
                     return new List<Participant__c>{
                             new Participant__c(First_Name__c = 'Test Participant')
                     };
                 }
             }
             if (stubbedMethodName == 'getSortedResources') {
-                if (testMethodName.contains('getParticipant_Test')) {
-                    return new List<Participant__c>{
-                            new Participant__c(First_Name__c = 'Test Participant')
-                    };
+                if (this.testMethodName.contains('getResources_WithResourceType_Article_NoResources_Test')) {
+                    return new List<Resource__c>{};
                 }
             }
 
