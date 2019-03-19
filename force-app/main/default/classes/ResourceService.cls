@@ -14,12 +14,13 @@ public with sharing class ResourceService {
 	private static Integer MAX_DESCRIPTION_LENGTH = 120;
 	@TestVisible
 	private static String RESOURCE_TYPE_ARTICLE = 'Article';
+    @TestVisible
 	private static String RESOURCE_TYPE_VIDEO = 'Video';
 
 	public ResourceWrapperContainer getResources(String resourceType) {
 
 		Participant__c participant = this.getParticipant(resourceType);
-		if (participant.Therapeutic_Area_Patients__r.isEmpty()) {
+		if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
 			return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
 		}
 		List<Resource__c> resources = this.getSortedResources(participant, resourceType);
@@ -124,7 +125,7 @@ public with sharing class ResourceService {
 		List<Resource__c> resources = new List<Resource__c>();
 		String studyTherapeuticAreaId;
 		List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
-		for (Therapeutic_Area_Patient__c therapeuticAreaPatient : participant.Therapeutic_Area_Patients__r) {
+		for (Therapeutic_Area_Patient__c therapeuticAreaPatient : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
 			if (therapeuticAreaPatient.IsRelatedToStudy__c) {
 				studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
 			} else {
@@ -159,7 +160,7 @@ public with sharing class ResourceService {
 	@TestVisible
 	private Participant__c getParticipant(String resourceType) {
 		DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-		String participantId = 'a0C9E00000384lDUAQ';//(Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+		String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
 		String participantQuery =
 				'SELECT Id, ' +
 						'Contact__r.Language__c, ' +

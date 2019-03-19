@@ -1,9 +1,9 @@
 public class TestDataFactory {
 
     private static final Map<String, Object> RESOURCE_REQUIRED_FIELDS = new Map<String, Object>{
-            'Subject__c' => 'Test subject',
+            'Title__c' => 'Test subject',
             'Description__c' => 'Test description',
-            'Published_Date__c' => Date.today(),
+            'Posting_Date__c' => Date.today(),
             'Expiration_Date__c' => Date.today().addDays(1)
     };
 
