@@ -1,4 +1,4 @@
-# Salesforce DX Scratch Org Setup
+# Salesforce DX Scratch Org Setup 
 
 ##### 1) Login to Dev Hub org and make it default (-d key):
 
