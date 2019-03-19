@@ -89,115 +89,115 @@ public with sharing class ResourceService {
 	@TestVisible
 	private List<Resource__c> getResources(Set<String> resourcesIdsSet, Participant__c participant) {
 
-		if (resourcesIdsSet.isEmpty()) {
-			return new List<Resource__c>();
-		}
-		List<String> resourcesIds = new List<String>();
-		resourcesIds.addAll(resourcesIdsSet);
+        if (resourcesIdsSet.isEmpty()) {
+            return new List<Resource__c>();
+        }
+        List<String> resourcesIds = new List<String>();
+        resourcesIds.addAll(resourcesIdsSet);
 
 		String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
 		String orderByClause = 'ORDER BY Posting_Date__c';
 		return this.getResources(participant, whereClause, orderByClause);
 	}
 
-	@TestVisible
-	private List<Resource__c> getResources(Participant__c participant, Id therapeuticAreaId, String resourceType, String resourceSource) {
+    @TestVisible
+    private List<Resource__c> getResources(Participant__c participant, Id therapeuticAreaId, String resourceType, String resourceSource) {
 
-		String therapeuticAreaAssignmentsQuery =
-				'SELECT Id, ' +
-						'Resource__c ' +
-						'FROM Therapeutic_Area_Assignment__c ' +
-						'WHERE Therapeutic_Area__c = \'' + therapeuticAreaId + '\' AND ' +
-						'Resource__r.Resource_Source__c = \'' + resourceSource + '\' AND ' +
-						'Resource__r.RecordType.DeveloperName = \'' + resourceType + '\'';
-		DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-		List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) databaseProxy.query(therapeuticAreaAssignmentsQuery);
-		Set<String> resourcesIds = new Set<String>();
-		for (Therapeutic_Area_Assignment__c assignment : assignments) {
-			resourcesIds.add('\'' + assignment.Resource__c + '\'');
-		}
-		return this.getResources(resourcesIds, participant);
-	}
+        String therapeuticAreaAssignmentsQuery =
+                'SELECT Id, ' +
+                        'Resource__c ' +
+                        'FROM Therapeutic_Area_Assignment__c ' +
+                        'WHERE Therapeutic_Area__c = \'' + therapeuticAreaId + '\' AND ' +
+                        'Resource__r.Resource_Source__c = \'' + resourceSource + '\' AND ' +
+                        'Resource__r.RecordType.DeveloperName = \'' + resourceType + '\'';
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) databaseProxy.query(therapeuticAreaAssignmentsQuery);
+        Set<String> resourcesIds = new Set<String>();
+        for (Therapeutic_Area_Assignment__c assignment : assignments) {
+            resourcesIds.add('\'' + assignment.Resource__c + '\'');
+        }
+        return this.getResources(resourcesIds, participant);
+    }
 
-	@TestVisible
-	private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
+    @TestVisible
+    private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
 
-		List<Resource__c> resources = new List<Resource__c>();
-		String studyTherapeuticAreaId;
-		List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
-		for (Therapeutic_Area_Patient__c therapeuticAreaPatient : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
-			if (therapeuticAreaPatient.IsRelatedToStudy__c) {
-				studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
-			} else {
-				therapeuticAreaPatients.add(therapeuticAreaPatient);
-			}
-		}
-		if (!String.isBlank(studyTherapeuticAreaId)) {
-			resources.addAll(this.getResources(participant, studyTherapeuticAreaId, resourceType, ResourceService.RESOURCE_SOURCE_STUDY));
-			resources.addAll(this.getResources(participant, studyTherapeuticAreaId, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
-		}
-		for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
-			resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
-		}
-		if (String.isBlank(studyTherapeuticAreaId)) {
-			for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
-				resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_THIRD_PARTY));
-			}
-		}
-		return resources;
-	}
+        List<Resource__c> resources = new List<Resource__c>();
+        String studyTherapeuticAreaId;
+        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
+        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : participant.Therapeutic_Area_Patients__r) {
+            if (therapeuticAreaPatient.IsRelatedToStudy__c) {
+                studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
+            } else {
+                therapeuticAreaPatients.add(therapeuticAreaPatient);
+            }
+        }
+        if (!String.isBlank(studyTherapeuticAreaId)) {
+            resources.addAll(this.getResources(participant, studyTherapeuticAreaId, resourceType, ResourceService.RESOURCE_SOURCE_STUDY));
+            resources.addAll(this.getResources(participant, studyTherapeuticAreaId, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
+        }
+        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
+            resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
+        }
+        if (String.isBlank(studyTherapeuticAreaId)) {
+            for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
+                resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_THIRD_PARTY));
+            }
+        }
+        return resources;
+    }
 
-	@TestVisible
-	private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
-		List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
-		for (Resource__c singleResource : resources) {
-			System.debug(singleResource);
-			wrappers.add(new ResourceService.ResourceWrapper(singleResource));
-		}
-		return wrappers;
-	}
+    @TestVisible
+    private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
+        List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
+        for (Resource__c singleResource : resources) {
+            ResourceService.ResourceWrapper singleWrapper = new ResourceService.ResourceWrapper(singleResource);
+            wrappers.add(singleWrapper);
+        }
+        return wrappers;
+    }
 
-	@TestVisible
-	private Participant__c getParticipant(String resourceType) {
-		DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-		String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
-		String participantQuery =
-				'SELECT Id, ' +
-						'Contact__r.Language__c, ' +
-						'(SELECT Id, Therapeutic_Area__c, IsRelatedToStudy__c, Condition_Of_Interest_Order__c FROM Therapeutic_Area_Patients__r ORDER BY Condition_Of_Interest_Order__c), ' +
-						'(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true' + ' AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
-						'FROM Participant__c ' +
-						'WHERE Id = \'' + participantId + '\'';
-		return ((List<Participant__c>) databaseProxy.query(participantQuery))[0];
-	}
+    @TestVisible
+    private Participant__c getParticipant(String resourceType) {
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+        String participantQuery =
+                'SELECT Id, ' +
+                        'Contact__r.Language__c, ' +
+                        '(SELECT Id, Therapeutic_Area__c, IsRelatedToStudy__c, Condition_Of_Interest_Order__c FROM Therapeutic_Area_Patients__r ORDER BY Condition_Of_Interest_Order__c), ' +
+                        '(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true' + ' AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
+                        'FROM Participant__c ' +
+                        'WHERE Id = \'' + participantId + '\'';
+        return ((List<Participant__c>) databaseProxy.query(participantQuery))[0];
+    }
 
-	@TestVisible
-	private Participant__c getParticipant() {
-		return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
-	}
+    @TestVisible
+    private Participant__c getParticipant() {
+        return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
+    }
 
-	@TestVisible
-	private String getParticipantLanguage(Participant__c participant) {
-		return (String.isBlank(participant.Contact__r.Language__c) ? ResourceService.DEFAULT_LANGUAGE : participant.Contact__r.Language__c);
-	}
+    @TestVisible
+    private String getParticipantLanguage(Participant__c participant) {
+        return (String.isBlank(participant.Contact__r.Language__c) ? ResourceService.DEFAULT_LANGUAGE : participant.Contact__r.Language__c);
+    }
 
-	public class ResourceWrapperContainer {
+    public class ResourceWrapperContainer {
 
-		@AuraEnabled
-		public List<ResourceWrapper> wrappers;
-		@AuraEnabled
-		public String errorMessage;
+        @AuraEnabled
+        public List<ResourceWrapper> wrappers;
+        @AuraEnabled
+        public String errorMessage;
 
-		public ResourceWrapperContainer(String errorMessage) {
-			this.errorMessage = errorMessage;
-		}
+        public ResourceWrapperContainer(String errorMessage) {
+            this.errorMessage = errorMessage;
+        }
 
-		public ResourceWrapperContainer(List<ResourceWrapper> wrappers) {
-			this.wrappers = wrappers;
-		}
-	}
+        public ResourceWrapperContainer(List<ResourceWrapper> wrappers) {
+            this.wrappers = wrappers;
+        }
+    }
 
-	public class ResourceWrapper {
+    public class ResourceWrapper {
 
 		@AuraEnabled
 		public String resourceId;

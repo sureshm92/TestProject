@@ -12,9 +12,7 @@
     margin-right: 3px;
     display: inline-block;
 }
-.THIS .like-active {
-    fill:blue;
-}
+
 .THIS .resources-icon {
     display: block;
     margin-right: 3px;
@@ -41,9 +39,6 @@
     height: 17px;
     width: 18px;
     margin-left: 4px;
-}
-.THIS .resources-icon-star-solid {
-    fill: blue;
 }
 
 .THIS .resource-description {
