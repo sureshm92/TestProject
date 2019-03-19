@@ -2,9 +2,9 @@
     {
         "sobject": "Therapeutic_Area__c",
         "saveRefs": true,
-        "resolveRefs": false,
+        "resolveRefs": true,
         "files": [
-            "Therapeutic_Area.json"
+            "Therapeutic_Areas.json"
         ]
     },
 
@@ -20,7 +20,7 @@
     {
         "sobject": "Account",
         "saveRefs": true,
-        "resolveRefs": false,
+        "resolveRefs": true,
         "files": [
             "Accounts.json"
         ]
@@ -28,10 +28,46 @@
 
     {
         "sobject": "Contact",
-        "saveRefs": false,
+        "saveRefs": true,
         "resolveRefs": true,
         "files": [
             "Contacts.json"
+        ]
+    },
+
+    {
+        "sobject": "Study_Site__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Study_Sites.json"
+        ]
+    },
+
+    {
+        "sobject": "HCP_Enrollment__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "HCP_Enrollments.json"
+        ]
+    },
+
+    {
+        "sobject": "Participant__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Participants.json"
+        ]
+    },
+
+    {
+        "sobject": "Participant_Enrollment__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Participant_Enrollments.json"
         ]
     }
 ]

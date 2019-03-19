@@ -3,21 +3,46 @@
         {
             "attributes": {
                 "type": "Account",
-                "referenceId": "AccountRef1"
+                "referenceId": "clinic1"
             },
-            "Name": "Test Hospital 1"
+            "Name": "Clinical Research Center",
+            "BillingStreet": "122 E 42nd St #2820",
+            "BillingCountry": "United States",
+            "BillingCity": "New York",
+            "BillingState": "New York",
+            "BillingLatitude": 40.751244,
+            "BillingLongitude": -73.976685
         },
         {
             "attributes": {
                 "type": "Account",
-                "referenceId": "AccountRef2"
+                "referenceId": "clinic2"
             },
-            "Name": "Test Hospital 2"
+            "Name": "Clinic 2",
+            "BillingStreet": "1185 6th Ave",
+            "BillingCountry": "United States",
+            "BillingCity": "New York",
+            "BillingState": "New York",
+            "BillingLatitude": 40.757901,
+            "BillingLongitude": -73.982516
         },
         {
             "attributes": {
                 "type": "Account",
-                "referenceId": "AccountRef3"
+                "referenceId": "clinic3"
+            },
+            "Name": "Clinic 3",
+            "BillingStreet": "515 West 52nd Street",
+            "BillingCountry": "United States",
+            "BillingCity": "New York",
+            "BillingState": "New York",
+            "BillingLatitude": 40.766594,
+            "BillingLongitude": -73.991509
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "participantAccount"
             },
             "Name": "Participant"
         }
