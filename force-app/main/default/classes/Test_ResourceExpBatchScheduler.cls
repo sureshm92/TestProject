@@ -22,7 +22,7 @@ public with sharing class Test_ResourceExpBatchScheduler {
             Resource__c res = new Resource__c(
                     Name = 'Res '+ i,
                     Expiration_Date__c = expDate,
-                    Published_Date__c = publish,
+                    Posting_Date__c = publish,
                     Resource_Type__c = 'Articles',
                     Resource_Source__c = 'Study - Specific'
             );
@@ -32,6 +32,7 @@ public with sharing class Test_ResourceExpBatchScheduler {
         resourceMap = new Map<Id, Resource__c>(resources);
         resIds = new List<Id>(resourceMap.keySet());
     }
+
     @IsTest
     static void testScheduledJob() {
         Test.startTest();
