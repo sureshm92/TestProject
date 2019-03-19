@@ -94,7 +94,7 @@ public with sharing class ResourceService {
         resourcesIds.addAll(resourcesIdsSet);
 
         String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
-        String orderByClause = 'ORDER BY Published_Date__c';
+        String orderByClause = 'ORDER BY Posting_Date__c';
         return this.getResources(participant, whereClause, orderByClause);
     }
 
