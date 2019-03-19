@@ -3,34 +3,57 @@
 ##### 1) Login to Dev Hub org and make it default (-d key):
 
 ```sh
-sfdx force:auth:web:login -d -a setYourDevHubAliasHere
+sfdx force:auth:web:login -d -a devHubAlias
 ```
 
 ##### 2) Create Scratch org and make it default (-s key):
 
 ```sh
-sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a setYourAliasHere
-```
-##### 3) Push project to Scratch org:
-```sh
-sfdx force:source:push
+sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgAlias
 ```
 
-##### 4) Open Scratch org in browser and setup:
+##### 3) Import Org Wide Email Address:
+
+```sh
+sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
+```
+- after import go to updates@cp.clinicalresearch.com mail box and approve this email. Ask about how to get access to this mailbox
+
+then open setup:
+
 ```sh
 sfdx force:org:open
 ```
 
-###### 1) Setup > User > edit > set role "View All" 
-###### 2) Upload data:
+- go to Process Automation Settings and set up Default workflow user and set in Email approval sender value "IQVIA Referral Hub"
+
+##### 4) Push project to Scratch org:
+
+```sh
+sfdx force:source:push
+```
+
+##### 5) Open Scratch org in browser and setup:
+
+```sh
+sfdx force:org:open
+```
+
+- Setup > User > edit > set role "View All" 
+- Upload data
+
 ```sh
 sfdx force:data:tree:import -p data/import-plan.json
 ```
-- From Clinical Trial Profle create Study Site with status "Invitation Sent" and set PI Contact
-- From Study Site create HCP Enrollment with status "Invitation sent" and set HCP Contact
 
-###### 3) Go to setup > all communities > open community builder > press publish
-###### 4) Select PI or HCP contact and login in community
+- Go to setup > all communities > open community builder > press publish
+
+##### 6) Login to community
+
+- Open Study Site for edit and change Override Status to "Accepted" 
+- Open HCP Enrollment for edit and change Stats to "Activated" 
+- Login to community under PI User, HCP user or Participant user on your choice 
+
 
 ## Dev, Build and Test
 
