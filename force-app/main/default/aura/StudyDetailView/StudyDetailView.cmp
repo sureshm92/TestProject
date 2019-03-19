@@ -131,9 +131,9 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}">
-                        <button id="changeResourceMode" data-resource-mode="Default" class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}" onclick="{!c.doAction}">Video and Articles</button>
-                        <button id="changeResourceMode" data-resource-mode="Favorite" class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}" onclick="{!c.doAction}">Favorites</button>
-                        <button id="changeResourceMode" data-resource-mode="Suggested" class="{!'apollo-btn text ' + if(v.resourceMode == 'Suggested', ' current', '')}" onclick="{!c.doAction}">Suggested Content</button>
+                        <button id="changeResourceMode" data-resource-mode="Documents" class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
+                        <button id="changeResourceMode" data-resource-mode="Default" class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
+                        <button id="changeResourceMode" data-resource-mode="Favorite" class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
                     </div>
 
                 </div>

@@ -5189,6 +5189,27 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+        <fullName>Resource_Tab_Favorites</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Tab Favorites</shortDescription>
+        <value>Favorites</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Tab_Study_Documents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Tab Study Documents</shortDescription>
+        <value>Study Documents</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Tab_Study_Video_And_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Tab Study Video And Articles</shortDescription>
+        <value>Video and Articles</value>
+    </labels>
+    <labels>
         <fullName>Resources_Expiration_Date_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>
