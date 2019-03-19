@@ -1,0 +1,16 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss1"
+            },
+            "Name": "Test SS1",
+            "Clinical_Trial_Profile__c": "@ctp1",
+            "Site__c": "@clinic1",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Invitation Sent",
+            "Study_Site_Key__c": "12132123132313"
+        }
+    ]
+}
