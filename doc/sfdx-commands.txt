@@ -1,0 +1,32 @@
+1) логин в оргу
+sfdx force:auth:web:login -d -a orgAlias
+sfdx force:auth:web:login -d -a orgAlias -r instanceURL
+
+2) задание дефолтной dev-hub/scratch орги в текущей папке или глобально (добавить --global)
+sfdx force:config:set defaultusername=scratchOrgAlias defaultdevhubusername=devHubAlias
+sfdx force:config:set defaultusername=scratchOrgAlias
+sfdx force:config:set defaultdevhubusername=devHubAlias
+
+3) создать scratch org:
+sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a sOrgAlias
+
+4) открыть скрэтч оргу (не дефолтная орга: -u orgAlias)
+sfdx force:org:open
+
+5) retrieve:
+sfdx force:source:retrieve -x assets/package.xml -p unpackaged -u orgAlias -w 10
+
+6) convert ( metadata > dx format):
+sfdx force:mdapi:convert --rootdir retrieve_tmp --outputdir dx-converted
+
+7) экспорт проекта (dx project > metadata ):
+sfdx force:source:convert -d output
+
+8) push/pull:
+sfdx force:source:pull
+sfdx force:source:push
+
+9) Generate password:
+sfdx force:user:password:generate
+sfdx force:user:display
+

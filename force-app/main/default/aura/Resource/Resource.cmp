@@ -15,7 +15,7 @@
 			{!v.resourceTitle}
 		</header>
 
-		<c:RRSpinner aura:id="spinner" showSpinner="true"/>
+		<c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
 
 		<aura:if isTrue="{!v.errorMessage}">
 			<div class="resource-error-message">

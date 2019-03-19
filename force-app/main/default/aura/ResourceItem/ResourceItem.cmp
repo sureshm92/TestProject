@@ -23,9 +23,9 @@
             <div class="resource-description-footer">
                 <div class="resource-icon" onclick="{!c.doVote}">
                     <aura:if isTrue="{!v.resource.isVoted}">
-                        <c:RRIcon iconName="icon-thumbs-down" class="resource-icon-star"/>
+                        <c:RRIcon iconName="icon-thumbs-up" class="resource-icon-like"/>
                         <aura:set attribute="else">
-                            <c:RRIcon iconName="icon-thumbs-up" class="resource-icon-like"/>
+                            <c:RRIcon iconName="icon-thumbs-down" class="resource-icon-like"/>
                         </aura:set>
                     </aura:if>
                 </div>

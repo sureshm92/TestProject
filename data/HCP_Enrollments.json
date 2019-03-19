@@ -1,0 +1,13 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe1"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss1",
+            "Status__c": "Invitation Sent"
+        }
+    ]
+}

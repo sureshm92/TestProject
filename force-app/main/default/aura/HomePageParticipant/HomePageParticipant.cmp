@@ -26,9 +26,16 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
                         <div class="slds-col">
-                            <div class="rr-white-panel hp-logo-panel">
-                                <img src="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
-                            </div>
+                            <aura:if isTrue="{!!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                <div class="rr-white-panel hp-logo-panel">
+                                    <img src="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                <div class="rr-white-panel hp-logo-panel logo-text">
+                                    {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                </div>
+                            </aura:if>
                         </div>
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>

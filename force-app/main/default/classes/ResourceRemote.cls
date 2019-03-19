@@ -1,4 +1,8 @@
 public with sharing class ResourceRemote {
+    @TestVisible
+    private static String RESOURCE_TEST_ID = 'a0I4E0000000000000';
+    @TestVisible
+    private static String PARTICIPANT_TEST_ID = 'a0D4E0000000000000';
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
@@ -14,7 +18,7 @@ public with sharing class ResourceRemote {
     @AuraEnabled
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
 
-        String participantId = CommunityService.getParticipantId();
+        String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
         String resourceActionQuery =
                 'SELECT Id, ' +
                         'IsFavorite__c, ' +
@@ -34,6 +38,6 @@ public with sharing class ResourceRemote {
         }
         action.IsFavorite__c = isFavorite;
         action.IsVoted__c = isVoted;
-        upsert action;
+        databaseProxy.upsertRecord(action);
     }
 }

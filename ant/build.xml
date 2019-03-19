@@ -32,7 +32,7 @@
 
     <!-- targets: -->
 
-    <target name="deployCode">
+    <target name="deploy-code">
         <sf:deploy username="${sf.username}"
                    password="${sf.password}"
                    serverurl="${sf.serverurl}"
