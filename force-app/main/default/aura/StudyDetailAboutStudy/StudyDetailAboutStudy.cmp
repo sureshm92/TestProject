@@ -106,7 +106,7 @@
                         <aura:if isTrue="{!!empty(v.studyDetail.accountEnrollmentsList)}">
                             <div class="sdas-map-body">
                                 <div class="map-container">
-                                    <c:RRMap accounts="{!v.studyDetail.accountEnrollmentsList}"/>
+                                    <c:RRGoogleMap accounts="{!v.studyDetail.accountEnrollmentsList}"/>
                                 </div>
                             </div>
                             <div class="sdas-map-footer">

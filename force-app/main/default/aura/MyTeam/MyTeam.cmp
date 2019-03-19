@@ -1,5 +1,8 @@
 <aura:component controller="MyTeamRemote" description="MyTeam">
 
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
@@ -27,20 +30,25 @@
                     <button class="apollo-btn primary mt-button" onclick="{!c.inviteTeamMembers}"
                             title="{!if(v.hasStudies,'',$Label.c.PG_MT_T_Your_permissions_do_not_permit_this_action)}"
                             disabled="{!not(v.hasStudies)}">
-                        {!$Label.c.PG_MT_BTN_Add_New_Team_Member}
+                        {!if(v.userMode == 'Participant',$Label.c.PG_PST_L_Delegates_Add,$Label.c.PG_MT_BTN_Add_New_Team_Member)}
                     </button>
                 </div>
                 <div class="delegate-info-table-container">
                     <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
                 </div>
             </div>
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel">
-                <aura:iteration items="{!v.delegates}" var="delegate">
-                    <c:MyTeamItem delegate="{!delegate}" parentComponent="{!this}" options="{!v.delegateOptions}"
-                                  saveInProgress="{!v.saveInProgress}"/>
-                </aura:iteration>
-            </div>
+            <aura:if isTrue="{!and(v.userMode == 'Participant', v.delegates.length == 0)}">
+                <div class="slds-col slds-size_1-of-1 slds-order_1 slds-medium-order_2 empty-list">{!$Label.c.PG_PST_L_Delegates_Click_Add_New}</div>
+                <aura:set attribute="else">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel">
+                        <aura:iteration items="{!v.delegates}" var="delegate">
+                            <c:MyTeamItem delegate="{!delegate}" parentComponent="{!this}"
+                                          options="{!v.delegateOptions}"
+                                          saveInProgress="{!v.saveInProgress}"/>
+                        </aura:iteration>
+                    </div>
+                </aura:set>
+            </aura:if>
         </div>
     </div>
-
 </aura:component>
