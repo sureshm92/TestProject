@@ -1,18 +1,18 @@
 .THIS .resource-footer {
 	width: 100%;
-	color: #297DFD;
-	font-family: "Proxima Nova";
-	font-size: 13px;
-	font-weight: 500;
-	line-height: 16px;
-	text-align: center;
-	background-color: rgba(216, 216, 216, 0.25);
-	height: 16px;
+	height: 50px;
+	margin-top: auto;
 }
 
 .THIS.resource-card {
+	display: flex;
+	flex-direction: column;
 	min-width: 565px;
-	min-height: 628px;
+	min-height: 645px;
+}
+
+.THIS .last-resource-container {
+	margin-bottom: 20px !important;
 }
 
 .THIS .resource-card-title {

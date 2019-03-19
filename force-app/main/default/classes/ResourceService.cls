@@ -95,7 +95,7 @@ public with sharing class ResourceService {
 		resourcesIds.addAll(resourcesIdsSet);
 
 		String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
-		String orderByClause = 'ORDER BY Published_Date__c';
+		String orderByClause = 'ORDER BY Posting_Date__c';
 		return this.getResources(participant, whereClause, orderByClause);
 	}
 
@@ -159,7 +159,7 @@ public with sharing class ResourceService {
 	@TestVisible
 	private Participant__c getParticipant(String resourceType) {
 		DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-		String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+		String participantId = 'a0C9E00000384lDUAQ';//(Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
 		String participantQuery =
 				'SELECT Id, ' +
 						'Contact__r.Language__c, ' +
@@ -220,10 +220,10 @@ public with sharing class ResourceService {
 		public String video;
 
         public ResourceWrapper(Resource__c resource) {
-            if (!resource.Resource_Actions__r.isEmpty()) {
-                isFavorite = resource.Resource_Actions__r[0].IsFavorite__c;
-                isVoted = resource.Resource_Actions__r[0].IsVoted__c;
-            }
+			if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
+				isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
+				isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
+			}
             title = (resource.Title__c.length() > ResourceService.MAX_TITLE_LENGTH) ?
                     resource.Title__c.substring(0, ResourceService.MAX_TITLE_LENGTH - 3) + '...' :
                     resource.Title__c;
