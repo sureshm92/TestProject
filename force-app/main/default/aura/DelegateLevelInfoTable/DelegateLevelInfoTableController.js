@@ -4,7 +4,6 @@
 ({
     doInit: function (component, event, hepler) {
         var userMode = component.get("v.userMode");
-        debugger;
 
         var header;
         var capList;

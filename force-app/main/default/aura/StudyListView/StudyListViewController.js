@@ -1,5 +1,6 @@
 ({
     doInit: function (component, event, helper) {
+        debugger;
         if (!communityService.isInitialized()) return;
         component.set("v.showSpinner", true);
         var userMode = communityService.getUserMode();
@@ -9,6 +10,7 @@
             userMode: userMode
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
+            debugger;
             component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
             component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
             component.set("v.showSpinner", false);

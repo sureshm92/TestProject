@@ -101,9 +101,11 @@ public without sharing class StudyDetailViewController {
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-                List<Participant_Enrollment__c> participantEnrollments = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
-//                StudyActions studyActions = new StudyActionsParticipant(participantEnrollments[0]);
+                List<Participant_Enrollment__c> participantEnrollments =
+                        ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+                if (participantEnrollments.size() == 0)
+                    throw new CommunityServiceException('Data not found');
+
                 StudyActionsParticipant studyActions = new StudyActionsParticipant();
                 trialDetail.studyActions = studyActions.studyDetailActions;
                 trialDetail.actions = studyActions.actions;

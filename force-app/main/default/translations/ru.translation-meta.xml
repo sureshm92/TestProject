@@ -2625,6 +2625,14 @@
         <name>PG_PST_L_Delegates_AAddit_Item</name>
     </customLabels>
     <customLabels>
+        <label>Добавить нового делегата</label>
+        <name>PG_PST_L_Delegates_Add</name>
+    </customLabels>
+    <customLabels>
+        <label>Назад к делегатам</label>
+        <name>PG_PST_L_Delegates_Back</name>
+    </customLabels>
+    <customLabels>
         <label>Нажмите &quot;Добавить нового делегата&quot; для просмотра информации.</label>
         <name>PG_PST_L_Delegates_Click_Add_New</name>
     </customLabels>
@@ -2643,6 +2651,10 @@
     <customLabels>
         <label>Получать электронные письма о статусе моего исследования</label>
         <name>PG_PST_L_Delegates_Receive_Emails</name>
+    </customLabels>
+    <customLabels>
+        <label>Сохранить делегата</label>
+        <name>PG_PST_L_Delegates_Save</name>
     </customLabels>
     <customLabels>
         <label>Просмотр моих результатов анализов</label>

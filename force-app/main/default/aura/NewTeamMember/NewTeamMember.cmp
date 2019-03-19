@@ -36,13 +36,14 @@
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">
-                <c:RRLink page="settings?tab=my-team">
+                <c:RRLink page="{!'settings?tab=' + if(v.userMode == 'Participant','delegates','my-team')}">
                     <c:RRIcon iconName="icon-arrow-left"/>
-                    {!$Label.c.PG_NTM_BTN_Back_to_My_Team}
+                    {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Back : $Label.c.PG_NTM_BTN_Back_to_My_Team}
                 </c:RRLink>
             </div>
             <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
-                <div class="title rr-width-limiter side-padding">{!$Label.c.PG_MT_BTN_Add_New_Team_Member	}</div>
+                <div class="title rr-width-limiter side-padding">
+                    {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Add : $Label.c.PG_MT_BTN_Add_New_Team_Member}</div>
             </div>
             <div>
                 <div class="height-stub" style="height: 56px"></div>
@@ -61,12 +62,12 @@
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
                                         <c:RRLink page="settings?tab=my-team">
                                             <c:RRIcon iconName="icon-arrow-left"/>
-                                            {!$Label.c.PG_NTM_BTN_Back_to_My_Team}
+                                            {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Back : $Label.c.PG_NTM_BTN_Back_to_My_Team}
                                         </c:RRLink>
                                     </div>
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}">
-                                            {!$Label.c.PG_NTM_BTN_Save_Team_Member}
+                                            {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Save : $Label.c.PG_NTM_BTN_Save_Team_Member}
                                         </button>
                                     </div>
                                 </div>

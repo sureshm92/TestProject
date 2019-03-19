@@ -4283,6 +4283,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Any additional item</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Add</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add</shortDescription>
+        <value>Add New Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back</shortDescription>
+        <value>Back to Delegates</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Click_Add_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4316,6 +4330,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>Receive emails</shortDescription>
         <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save delegate</shortDescription>
+        <value>Save Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_See_Lab_Result</fullName>
