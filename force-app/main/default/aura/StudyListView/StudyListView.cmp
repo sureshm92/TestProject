@@ -30,80 +30,80 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
-    <!--<aura:if isTrue="{!v.isInitialized}">-->
-        <!--<div style="margin-bottom: 10px">-->
-            <!--<c:RRNavigationPath>-->
-                <!--<c:RRNPathItem label="{!$Label.c.Home_Page_Label}"/>-->
-            <!--</c:RRNavigationPath>-->
-        <!--</div>-->
-        <!--<c:rrButtonTubSet >-->
-            <!--<c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>-->
-            <!--<c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>-->
-        <!--</c:rrButtonTubSet>-->
+    <aura:if isTrue="{!v.isInitialized}">
+        <div style="margin-bottom: 10px">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Home_Page_Label}"/>
+            </c:RRNavigationPath>
+        </div>
+        <c:rrButtonTubSet >
+            <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>
+            <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>
+        </c:rrButtonTubSet>
 
-        <!--<aura:if isTrue="{!v.userMode != 'Participant'}">-->
-            <!--<div class="slv-items-panel">-->
-                <!--&lt;!&ndash; Output currently recruiting trials &ndash;&gt;-->
-                <!--<aura:if isTrue="{!v.currentTab == 'recruiting'}">-->
-                    <!--<c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>-->
-                    <!--<aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">-->
-                        <!--<div class="slv-category">{!trialsSubList.name}</div>-->
-                        <!--<aura:iteration items="{!trialsSubList.studies}" var="trial">-->
-                            <!--<c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>-->
-                        <!--</aura:iteration>-->
-                    <!--</aura:iteration>-->
-                <!--</aura:if>-->
+        <aura:if isTrue="{!v.userMode != 'Participant'}">
+            <div class="slv-items-panel">
+                <!-- Output currently recruiting trials -->
+                <aura:if isTrue="{!v.currentTab == 'recruiting'}">
+                    <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
+                    <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">
+                        <div class="slv-category">{!trialsSubList.name}</div>
+                        <aura:iteration items="{!trialsSubList.studies}" var="trial">
+                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                        </aura:iteration>
+                    </aura:iteration>
+                </aura:if>
 
-                <!--&lt;!&ndash; Trials no onger recruiting &ndash;&gt;-->
-                <!--<aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">-->
-                    <!--<c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>-->
-                    <!--<aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">-->
-                        <!--<div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>-->
-                        <!--<aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">-->
-                            <!--<c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>-->
-                        <!--</aura:iteration>-->
-                    <!--</aura:if>-->
-                <!--</aura:if>-->
-            <!--</div>-->
-        <!--</aura:if>-->
-        <!--<aura:if isTrue="{!v.userMode == 'Participant'}">-->
-            <!--<aura:if isTrue="{! v.currentTab == 'recruiting'}">-->
-                <!--<c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>-->
-                <!--<aura:if isTrue="{! !empty(v.currentlyRecruitingTrials)}">-->
-                    <!--<div style="height: 30px"></div>-->
-                    <!--<aura:iteration items="{!v.currentlyRecruitingTrials}" var="pe">-->
-                        <!--<c:ViewPatientItem pe="{!pe}"-->
-                                           <!--peStatusesPathList="{!v.peStatusesPathList}"-->
-                                           <!--peStatusStateMap="{!v.peStatusStateMap}"-->
-                                           <!--changeStatusBtnList="{!v.changeStatusBtnList}"-->
-                                           <!--singlePatientView="true"/>-->
-                    <!--</aura:iteration>-->
-                <!--</aura:if>-->
-            <!--</aura:if>-->
-            <!--<aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">-->
-                <!--<c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>-->
-                <!--<aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">-->
-                    <!--<div style="height: 30px"></div>-->
-                    <!--<aura:iteration items="{!v.trialsNoLongerRecruiting}" var="pe">-->
-                        <!--<c:ViewPatientItem pe="{!pe}"-->
-                                           <!--peStatusesPathList="{!v.peStatusesPathList}"-->
-                                           <!--peStatusStateMap="{!v.peStatusStateMap}"-->
-                                           <!--changeStatusBtnList="{!v.changeStatusBtnList}"-->
-                                           <!--singlePatientView="true"/>-->
-                    <!--</aura:iteration>-->
-                <!--</aura:if>-->
-            <!--</aura:if>-->
-        <!--</aura:if>-->
-        <!---->
-        <!--&lt;!&ndash; Reimbusment dialog &ndash;&gt;-->
-        <!--<c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>-->
+                <!-- Trials no onger recruiting -->
+                <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
+                    <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
+                    <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
+                        <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
+                        <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
+                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                        </aura:iteration>
+                    </aura:if>
+                </aura:if>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.userMode == 'Participant'}">
+            <aura:if isTrue="{! v.currentTab == 'recruiting'}">
+                <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
+                <aura:if isTrue="{! !empty(v.currentlyRecruitingTrials)}">
+                    <div style="height: 30px"></div>
+                    <aura:iteration items="{!v.currentlyRecruitingTrials}" var="pe">
+                        <c:ViewPatientItem pe="{!pe}"
+                                           peStatusesPathList="{!v.peStatusesPathList}"
+                                           peStatusStateMap="{!v.peStatusStateMap}"
+                                           changeStatusBtnList="{!v.changeStatusBtnList}"
+                                           singlePatientView="true"/>
+                    </aura:iteration>
+                </aura:if>
+            </aura:if>
+            <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
+                <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
+                <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
+                    <div style="height: 30px"></div>
+                    <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="pe">
+                        <c:ViewPatientItem pe="{!pe}"
+                                           peStatusesPathList="{!v.peStatusesPathList}"
+                                           peStatusStateMap="{!v.peStatusStateMap}"
+                                           changeStatusBtnList="{!v.changeStatusBtnList}"
+                                           singlePatientView="true"/>
+                    </aura:iteration>
+                </aura:if>
+            </aura:if>
+        </aura:if>
 
-        <!--&lt;!&ndash; No,thanks dialog &ndash;&gt;-->
-        <!--<c:NoTanksModal aura:id="noTanksModal" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>-->
+        <!-- Reimbusment dialog -->
+        <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
 
-        <!--&lt;!&ndash; Share dialog &ndash;&gt;-->
-        <!--<c:ShareModal aura:id="shareModal" parent="{!this}"/>-->
-    <!--</aura:if>-->
+        <!-- No,thanks dialog -->
+        <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>
+
+        <!-- Share dialog -->
+        <c:ShareModal aura:id="shareModal" parent="{!this}"/>
+    </aura:if>
 
 
 </aura:component>
