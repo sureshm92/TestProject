@@ -52,4 +52,11 @@ public without sharing class TaskEditRemote {
 
         return 'Success';
     }
+
+    @AuraEnabled
+    public static Boolean checkEmailPreferencesIsOn() {
+        Contact currentContact = AccountSettingsController.getCurrentContact();
+        return currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
+                || currentContact.HCP_Opt_In_Study_Emails__c || currentContact.HCP_Opt_In_Referral_Status_Emails__c;
+    }
 }

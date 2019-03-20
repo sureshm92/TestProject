@@ -96,7 +96,7 @@ public without sharing class AccountSettingsController {
         return pContact;
     }
 
-    private static Contact getCurrentContact() {
+    public static Contact getCurrentContact() {
         return [
                 SELECT Id
                         , FirstName

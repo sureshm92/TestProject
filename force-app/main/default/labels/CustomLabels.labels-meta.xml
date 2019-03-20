@@ -1150,6 +1150,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
 ##StudyName</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Type Medication</shortDescription>
+        <value>This is a quick email to remind you of your upcoming visit for the ##studyCode study. If you are unable to make this appointment, please call to rescheduled. </value>
+    </labels>
+    <labels>
         <fullName>Email_Body_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
