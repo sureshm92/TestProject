@@ -30,6 +30,8 @@ public class ParametersDataProvider {
                 initParamsFromContact(sourceId);
             } else if(sourceId.getSobjectType() == User.getSObjectType()){
                 initParamsFromUser(sourceId);
+            } else if(sourceId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType()){
+                initParamsFromPSE(sourceId);
             }
         }else{
             initDummyParams();
@@ -40,6 +42,43 @@ public class ParametersDataProvider {
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
         
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
+    }
+    
+    private void initParamsFromPSE(Id sourceId){
+        Participant_Study_Enrollment__c pse = [
+                SELECT Id, Name,
+                        Participant__r.Contact__c,
+                        Participant__r.Contact__r.Name,
+                        Participant__r.Contact__r.Salutation,
+                        Participant__r.Contact__r.Language__c,
+                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.First_Name__c,
+                        Participant__r.Last_Name__c,
+                        Study_Site__r.Name,
+                        Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.Salutation,
+                        Study_Site__r.Principal_Investigator__r.Language__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                        Study_Site__r.Study_Site_Phone__c
+                FROM Participant_Study_Enrollment__c
+                WHERE Id =: sourceId
+        ];
+        
+        TranslateHelper.translate(pse, getUserLanguage());
+    
+        parameters = new Map<String, String>{
+                'PIName' => getFullContactName(pse.Study_Site__r.Principal_Investigator__r),
+                'PILanguage' => pse.Study_Site__r.Principal_Investigator__r.Language__c,
+                'ParticipantName' => getFullParticipantName(pse.Participant__r),
+                'ParticipantLanguage' => getParticipantLanguage(pse.Participant__r),
+                'PSEName' => pse.Name,
+                'StudyName' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                'StudyTitle' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                'StudySiteName' => pse.Study_Site__r.Name,
+                'SitePhoneNumber' => pse.Study_Site__r.Study_Site_Phone__c
+        };
     }
     
     private void initParamsFromPE(Id sourceId){
