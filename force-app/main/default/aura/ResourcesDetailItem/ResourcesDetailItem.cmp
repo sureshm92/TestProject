@@ -44,9 +44,9 @@
 
                     <aura:if isTrue="{!v.resource.isVoted}">
 
-                        <c:RRIcon iconName="icon-thumbs-up" class="resources-icon-like like-active"/>
+                        <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>
                         <aura:set attribute="else">
-                            <c:RRIcon iconName="icon-thumbs-up" class="resources-icon-like"/>
+                            <c:RRIcon iconName="icon-like-brand-new" class="resources-icon-like"/>
                         </aura:set>
                     </aura:if>
 
@@ -57,7 +57,7 @@
                     <!--WILL BE CHANGED-->
 
                     <aura:if isTrue="{!v.resource.isFavorite}">
-                        <c:RRIcon iconName="icon-star-solid" class="resources-icon-star resources-icon-star-solid"/>
+                        <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resources-icon-star"/>
                         <aura:set attribute="else">
                             <c:RRIcon iconName="icon-star" class="resources-icon-star"/>
                         </aura:set>

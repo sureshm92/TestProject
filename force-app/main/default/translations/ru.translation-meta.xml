@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- Developer --></label>
+        <name>Developer</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- IQVIA Referral Hub --></label>
+        <name>IQVIA_RR_CRM</name>
+    </customApplications>
     <customLabels>
         <label>Поздравляю ##UserName!
 
@@ -3177,6 +3185,18 @@
         <name>RSN_Your_permissions_do_not_permit_this_action</name>
     </customLabels>
     <customLabels>
+        <label>Избранное</label>
+        <name>Resource_Tab_Favorites</name>
+    </customLabels>
+    <customLabels>
+        <label>Документы исследования</label>
+        <name>Resource_Tab_Study_Documents</name>
+    </customLabels>
+    <customLabels>
+        <label>Видео и Статьи</label>
+        <name>Resource_Tab_Study_Video_And_Articles</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources Expiration Date Disclaimer --></label>
         <name>Resources_Expiration_Date_Disclaimer</name>
     </customLabels>
@@ -3472,4 +3492,109 @@
         <label><!-- Study Export/Import --></label>
         <name>Translation_Import_Export</name>
     </customTabs>
+    <flowDefinitions>
+        <flows>
+            <fullName>Create_Therapeutic_Area_Patient_from_PSE-1</fullName>
+        </flows>
+        <fullName>Create_Therapeutic_Area_Patient_from_PSE</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Create_Therapeutic_Area_Patient_from_PE-1</fullName>
+        </flows>
+        <flows>
+            <fullName>Create_Therapeutic_Area_Patient_from_PE-2</fullName>
+        </flows>
+        <fullName>Create_Therapeutic_Area_Patient_from_PE</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
+        </flows>
+        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_HCP_Status-1</fullName>
+        </flows>
+        <fullName>Update_HCP_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Task_changes_status_to_Expired-1</fullName>
+        </flows>
+        <fullName>Task_changes_status_to_Expired</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>PSE_Creation-1</fullName>
+        </flows>
+        <fullName>PSE_Creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
+        </flows>
+        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_Site_RRR_Status-1</fullName>
+        </flows>
+        <fullName>Update_Site_RRR_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Welcome_to_the_Study_Caregiver_Alert-1</fullName>
+        </flows>
+        <fullName>Welcome_to_the_Study_Caregiver_Alert</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <label><!-- Follow Up --></label>
+        <name>Follow_Up</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote --></label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewTask --></label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
 </Translations>
