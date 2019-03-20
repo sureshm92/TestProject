@@ -15,9 +15,9 @@ public class ParticipantStateRemote {
     public static String getInitData(){
         InitData initData = new InitData();
         Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-        if(peList.size() > 0) {
-            initData.pe = peList[0];
-        }
+        Participant_Study_Enrollment__c[] pseList = PSEService.getPSEListForParticipant();
+        if(peList.size() > 0) initData.pe = peList[0];
+        if(pseList.size() > 0) initData.pse = pseList[0];
         return JSON.serialize(initData);
     }
     

@@ -18,14 +18,19 @@ public without sharing class PSEService {
     }
     
     public static List<Participant_Study_Enrollment__c> getPSECustomFields(String userMode, List<String> customFields, String filter){
-        String query = 'SELECT ' + String.join(customFields, ',') +
-                ' FROM Participant_Enrollment__c ' +
+        String query =
+                'SELECT ' + String.join(customFields, ',') +
+                ' FROM Participant_Study_Enrollment__c ' +
                 ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
         if(filter != null) query += ' ' + filter;
         System.debug('EXECUTE QUERY: ' + query);
         List<Participant_Study_Enrollment__c> pseList = Database.query(query);
         TranslateHelper.translate(pseList);
         return pseList;
+    }
+    
+    public static List<Participant_Study_Enrollment__c> getPSEListForParticipant(){
+        return getPSECommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
     
     private static String getUserModeFilter(String userMode){
@@ -45,7 +50,12 @@ public without sharing class PSEService {
                     delegatesFilter +
                     ') ';
         } else{
-            return 'Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ';
+            List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds();
+            delegatesFilter = ' OR Participant__c IN (\'' + String.join(delegatedParticipantIds, '\',\'') + '\')';
+            return '( ' +
+                    '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                    delegatesFilter +
+                    ')';
         }
     }
 

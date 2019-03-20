@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
+        <application>Developer</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>IQVIA_RR_CRM</application>
         <default>false</default>
         <visible>false</visible>
@@ -238,6 +243,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LeadConversionHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LightningForgotPasswordController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -346,6 +355,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PETriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaginationData</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -366,7 +383,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -410,15 +435,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_ResourceRemote</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ResourceService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -570,6 +587,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_DatabaseProxy</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -582,7 +603,23 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Task</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaPatientTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2321,24 +2358,24 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Clinical_Trial_Profile__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Participant_Enrollment__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Status__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Study_Site__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2527,6 +2564,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Resource__c.Content_Text__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource__c.Expiration_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2543,6 +2590,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Published_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Subject__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Therapeutic_Areas__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2917,6 +2974,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Therapeutic_Area_Patient__c.Condition_Of_Interest_Order__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Therapeutic_Area_Patient__c.IsRelatedToStudy__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3016,6 +3078,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
+        <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Alert__c-Alert Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CTE__c-CTE Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3070,7 +3138,13 @@
         <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Participant__c-PII Compliant</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Patient_Delegate__c-Caregiver Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
@@ -3088,6 +3162,9 @@
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
         <recordType>Resource__c.Video</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ScheduleIntervalSettings__mdt-ScheduleIntervalSetting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Score__c-Score Layout</layout>
@@ -3112,6 +3189,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Tracking_Information__c-Tracking Information Layout</layout>
@@ -3307,6 +3387,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
+        <tab>Alert__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>CTE__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -3331,7 +3415,15 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Participant_Study_Enrollment__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Participant__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Patient_Delegate__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -3357,6 +3449,10 @@
     <tabVisibilities>
         <tab>Terms_And_Conditions__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Therapeutic_Area__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Translation_Import_Export</tab>
@@ -3425,11 +3521,19 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>EnableCommunityAppLauncher</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>EnableNotifications</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>ExportReport</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>FieldServiceAccess</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
