@@ -3502,9 +3502,6 @@
         <flows>
             <fullName>Create_Therapeutic_Area_Patient_from_PE-1</fullName>
         </flows>
-        <flows>
-            <fullName>Create_Therapeutic_Area_Patient_from_PE-2</fullName>
-        </flows>
         <fullName>Create_Therapeutic_Area_Patient_from_PE</fullName>
     </flowDefinitions>
     <flowDefinitions>
