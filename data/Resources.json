@@ -1,0 +1,155 @@
+{
+    "records": [
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef2"
+            },
+            "RecordTypeId": "0120E0000013rocQAA",
+            "Name": "Omega-3 Fatty Acids and Heart Health",
+            "Title__c": "Omega-3 Fatty Acids and Heart Health",
+            "Description__c": "Fish oil treatment lowers heart risk in patients with elevated triglycerides.",
+            "Image__c": "https://cf-images.us-east-1.prod.boltdns.net/v1/static/2766624905001/e731af08-3b31-44ff-85b0-966cfad4fca8/5d4fff55-681a-419b-a4a0-64b95a9195ec/1280x720/match/image.jpg",
+            "Video__c": "https://players.brightcove.net/2766624905001/default_default/index.html?videoId=6015314399001&playsinline=true",
+            "Resource_Type__c": "Videos",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Video",
+            "Language__c": "en_US",
+            "Copyright__c": "Copyright © 2018 HealthDay. All rights reserved."
+        },
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef4"
+            },
+            "RecordTypeId": "0120E0000013rocQAA",
+            "Name": "Diet and Dementia Risk",
+            "Title__c": "Diet and Dementia Risk",
+            "Description__c": "What you eat during middle age may not impact your dementia risk.",
+            "Image__c": "https://cf-images.us-east-1.prod.boltdns.net/v1/static/2766624905001/190f27ac-3cce-4dbc-be11-36cef0f529d9/2d99a02d-2dc8-4db2-ac37-f32a8df4d877/1280x720/match/image.jpg",
+            "Video__c": "https://players.brightcove.net/2766624905001/default_default/index.html?videoId=6013234938001&playsinline=true",
+            "Resource_Type__c": "Videos",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Video",
+            "Language__c": "en_US"
+        },
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef6"
+            },
+            "RecordTypeId": "0120E0000013rocQAA",
+            "Name": "Secondhand Exposure To -E-Cigarette Aerosol",
+            "Title__c": "Secondhand Exposure To -E-Cigarette Aerosol",
+            "Description__c": "Some parents may not consider vaping at home harmful to children.",
+            "Image__c": "https://cf-images.us-east-1.prod.boltdns.net/v1/static/2766624905001/e4377ffc-f233-498b-ae1d-e858d490fdc3/33dc3d69-0f54-4256-bca2-3562acb1f35f/1280x720/match/image.jpg",
+            "Video__c": "https://players.brightcove.net/2766624905001/default_default/index.html?videoId=6011771559001&playsinline=true",
+            "Resource_Type__c": "Videos",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Video",
+            "Language__c": "en_US"
+        },
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef1"
+            },
+            "RecordTypeId": "0120E0000013robQAA",
+            "Name": "Testicular Cancer Treatment Doesn't Always Doom Fertility",
+            "Title__c": "Testicular Cancer Treatment Doesn't Always Doom Fertility",
+            "Description__c": "TUESDAY, Feb. 26, 2019 (HealthDay News) -- Young men diagnosed with testicular cancer often worry that treating the disease may jeopardize their chances of having children, but new research should ease their minds.",
+            "Body__c": "<div itemprop=\"articleBody\"><!--Spanish ID: 743195 --><p>TUESDAY, Feb. 26, 2019 (HealthDay News) -- Young men diagnosed with testicular cancer often worry that treating the disease may jeopardize their chances of having children, but new research should ease their minds.</p><p>In the study, sperm counts rebounded in men who received one course of chemotherapy or radiation therapy after surgery for early-stage testicular cancer.</p><p>It was known that several rounds of chemotherapy or high doses of radiotherapy given to men with more advanced testicular cancer can reduce sperm count and concentration, but it wasn't clear whether a single course of chemotherapy or radiotherapy would have a similar effect.</p><p>To find out, researchers looked at 182 men, aged 18 to 50, who had surgery for stage 1 testicular cancer. The surgery was followed by either one course of chemotherapy, one course of radiation therapy or no further treatment.</p><p>The men provided sperm samples six months, one year, two years, three years and five years after surgery, according to the study published Feb. 24 in the <i>Annals of Oncology</i>.</p><p>\"We found no clinically significant detrimental long-term effect in either total sperm number or sperm concentration, irrespective of the type of postoperative treatment received,\" said study leader Kristina Weibring, a cancer doctor at the Karolinska University Hospital in Stockholm, Sweden.</p><p>\"Among men who received radiotherapy, there was a distinct decrease in average sperm number and concentration six months after treatment, though not in those who received chemotherapy,\"  she said in a journal news release. \"However, sperm number and concentration recovered in the radiotherapy group after six months.\"</p><p>Weibring noted that \"one course of postoperative chemotherapy has been shown to decrease the risk of relapse substantially, thereby reducing the number of patients having to be treated with several courses of chemotherapy.\"</p><p>Testicular cancer is the most common cancer in young men between the ages of 15 and 40. All patients have surgery to remove the testicle with cancer, a procedure called orchiectomy.</p><p>\"Testicular cancer patients are often young men wanting to father children at some point, and we find, in many cases, that the patients are afraid of the potential risk of infertility caused by chemotherapeutic treatment. These findings should provide some reassurance to them,\" Weibring said.</p><p>While the results are promising, further studies are needed \"and we still recommend sperm banking before orchiectomy as a number of patients may have low sperm counts at the time of diagnosis that persists after postoperative treatment,\" Weibring said.</p><p>Journal editor-in-chief Fabrice Andre is a professor in the department of medical oncology at the Institut Gustave Roussy, in France. He said, \"The finding that one course of chemotherapy has minimal impact on sperm count offers hope for thousands of patients worldwide, but we all must keep in mind that these data are preliminary and will require validation before we can use them in clinics.\" </p><p><b>More information</b></p><p>The American Cancer Society has more on <a href=\"https://www.cancer.org/cancer/testicular-cancer.html\" target=\"_blank\">testicular cancer</a>.</p></div>",
+            "Image__c": "https://media.healthday.com/Images/icimages/sperm2243.jpg",
+            "Resource_Type__c": "Articles",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Article",
+            "Language__c": "en_US"
+        },
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef3"
+            },
+            "RecordTypeId": "0120E0000013robQAA",
+            "Name": "Most Nations May Be Rid of Cervical Cancer By 2100",
+            "Title__c": "Most Nations May Be Rid of Cervical Cancer By 2100",
+            "Description__c": "THURSDAY, Feb. 21, 2019 (HealthDay News) -- Rapid expansion of HPV vaccination and cervical cancer screening could eliminate the cancer as a major health problem in many countries by the end of the century, a new study claims.\r\n\r\nHPV (human papillomavirus) causes most cases of cervical cancer, and the researchers determined that more than 13 million cases of cervical cancer worldwide could be prevented in the coming decades.\r\n\r\n\"Despite the enormity of the problem, our findings suggest that global elimination is within reach with tools that are already available, provided that both high coverage of HPV vaccination and cervical screening can be achieved,\" said study leader Karen Canfell, of the Cancer Council New South Wales in Sydney, Australia.\r\n\r\nThe authors of this first-of-a-kind modeling study on a global scale noted that in wealthy nations, such as the United States and Canada, cervical cancer is predicted to be eliminated as a public health problem within 25 to 40 years.\r\n\r\nThe researchers concluded that if high rates of HPV vaccination and cervical cancer screening could be achieved in all countries from 2020 onward, there would be up to 13.4 million fewer cases of cervical cancer by 2069.\r\n\r\nThat would mean the average rate of annual cases worldwide could fall to less than 4 cases per 100,000 women by the end of the century, the level at which cervical cancer is no longer considered a major public health problem, the study authors added.\r\n\r\nIf high levels of HPV vaccination and cervical screening cannot be achieved globally, more than 44 million women could be diagnosed with cervical cancer over the next 50 years, rising from 600,000 in 2020 to 1.3 million in 2069, due to population growth and aging, the findings showed.\r\n\r\nTwo-thirds of those cases, and an estimated 15 million cervical cancer deaths, would occur in low- and medium-income countries, according to the study published Feb. 19 in The Lancet Oncology.\r\n\r\nIn early 2018, the World Health Organization called for coordinated global action to eliminate cervical cancer, which is highly preventable.\r\n\r\n\"The WHO call-to-action provides an enormous opportunity to increase the level of investment in proven cervical cancer interventions in the world's poorest countries. Failure to adopt these interventions will lead to millions of avoidable premature deaths,\" Canfell said in a journal news release.\r\n\r\nCervical cancer is the fourth most common cancer in women, with about 570,000 new cases diagnosed worldwide in 2018. Of those, about 85 percent occurred in less-developed countries.\r\n\r\nHPV vaccination can prevent 84 percent to 90 percent of cervical cancers, and there are proven methods to screen for and treat cervical pre-cancers.\r\n\r\nBut there are large disparities in cervical screening and HPV vaccination rates between countries, the study authors noted. In low- and middle-income countries, overall screening rates in 2008 were as low as 19 percent, compared to 63 percent in high-income regions.\r\n\r\nThe U.S. Centers for Disease Control and Prevention currently recommends routine HPV vaccination of girls and boys by ages 11 and 12, because protection is best if done before initiation of sexual activity.",
+            "Body__c": "<div itemprop=\"articleBody\"><!--Spanish ID: 743043 --><p>THURSDAY, Feb. 21, 2019 (HealthDay News) -- Rapid expansion of HPV vaccination and cervical cancer screening could eliminate the cancer as a major health problem in many countries by the end of the century, a new study claims.</p><p>HPV (human papillomavirus) causes most cases of cervical cancer, and the researchers determined that more than 13 million cases of cervical cancer worldwide could be prevented in the coming decades.</p><p>\"Despite the enormity of the problem, our findings suggest that global elimination is within reach with tools that are already available, provided that both high coverage of HPV vaccination and cervical screening can be achieved,\" said study leader Karen Canfell, of the Cancer Council New South Wales in Sydney, Australia.</p><p>The authors of this first-of-a-kind modeling study on a global scale noted that in wealthy nations, such as the United States and Canada, cervical cancer is predicted to be eliminated as a public health problem within 25 to 40 years.</p><p>The researchers concluded that if high rates of HPV vaccination and cervical cancer screening could be achieved in all countries from 2020 onward, there would be up to 13.4 million fewer cases of cervical cancer by 2069.</p><p>That would mean the average rate of annual cases worldwide could fall to less than 4 cases per 100,000 women by the end of the century, the level at which cervical cancer is no longer considered a major public health problem, the study authors added.</p><p>If high levels of HPV vaccination and cervical screening cannot be achieved globally, more than 44 million women could be diagnosed with cervical cancer over the next 50 years, rising from 600,000 in 2020 to 1.3 million in 2069, due to population growth and aging, the findings showed.</p><p>Two-thirds of those cases, and an estimated 15 million cervical cancer deaths, would occur in low- and medium-income countries, according to the study published Feb. 19 in <i>The Lancet Oncology</i>.</p><p>In early 2018, the World Health Organization called for coordinated global action to eliminate cervical cancer, which is highly preventable.</p><p>\"The WHO call-to-action provides an enormous opportunity to increase the level of investment in proven cervical cancer interventions in the world's poorest countries. Failure to adopt these interventions will lead to millions of avoidable premature deaths,\" Canfell said in a journal news release.</p><p>Cervical cancer is the fourth most common cancer in women, with about 570,000 new cases diagnosed worldwide in 2018. Of those, about 85 percent occurred in less-developed countries.</p><p>HPV vaccination can prevent 84 percent to 90 percent of cervical cancers, and there are proven methods to screen for and treat cervical pre-cancers.</p><p>But there are large disparities in cervical screening and HPV vaccination rates between countries, the study authors noted. In low- and middle-income countries, overall screening rates in 2008 were as low as 19 percent, compared to 63 percent in high-income regions.</p><p> The U.S. Centers for Disease Control and Prevention currently recommends routine HPV vaccination of girls and boys by ages 11 and 12, because protection is best if done before initiation of sexual activity.</p><p><b>More information</b></p><p>The U.S. National Cancer Institute has more on <a href=\"https://www.cancer.gov/types/cervical/patient/cervical-prevention-pdq#section/all\" target=\"_blank\">cervical cancer prevention</a>.</p></div>",
+            "Image__c": "https://media.healthday.com/Images/icimages/doc_patient7242.jpg",
+            "Resource_Type__c": "Articles",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Article",
+            "Language__c": "en_US"
+        },
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef5"
+            },
+            "RecordTypeId": "0120E0000013robQAA",
+            "Name": "Hands Don't Spread HPV, Study Finds",
+            "Title__c": "Hands Don't Spread HPV, Study Finds",
+            "Description__c": "FRIDAY, Feb. 15, 2019 (HealthDay News) -- Human papillomavirus (HPV) is easily transmitted during sex, but it is unlikely to be passed by the hands, Canadian researchers report.",
+            "Body__c": "<div itemprop=\"articleBody\"><!--Spanish ID: 742860 --><p>FRIDAY, Feb. 15, 2019 (HealthDay News) -- Human papillomavirus (HPV) is easily transmitted during sex, but it is unlikely to be passed by the hands, Canadian researchers report.</p><p>The virus, which infects the skin and genitals, is a cause of several types of cancer in both men and women, including cervical cancer, as well as tumors of the vagina, penis, anus and throat.</p><p>Because HPV strains on your hand usually match those found in your genital area or your partner's, some researchers have speculated that hand-to-genital sexual contact might spread the infection.</p><p>This new study puts that theory to rest, said lead author Talia Malagon. She's a postdoctoral researcher at McGill University in Montreal.</p><p>\"Just because we detect HPV DNA in the hand doesn't necessarily mean the viral particles are viable or that there is enough to cause an infection,\" she said in a university news release. \"The DNA might just have been deposited on the hand because a person recently had sex or touched their own genitals.\"</p><p>That's exactly what the researchers found. </p><p>For the study, Malagon and her colleagues enlisted hundreds of heterosexual partners who provided hand and genital samples every few months. Researchers analyzed the HPV DNA to see who became infected over time.</p><p>People were more likely to become infected when their partner was HPV-positive in the genitals or hands, the investigators found. But the risk was mostly attributable to genital HPV infection, the findings showed. </p><p>When researchers accounted for this, the risk of being infected by the hands disappeared.</p><p>This finding does not mean it's impossible to transmit HPV from hand-genital sex. But if this mode of infection occurs, the researchers haven't seen it, so it's unlikely, they explained.</p><p>Most sexually active adults will become infected with HPV at some point -- without even realizing it -- before their immune system clears the virus, said study co-author Eduardo Franco. He is chairman of the Gerald Bronfman Department of Oncology at McGill.</p><p>Condoms can reduce the risk, but they only provide partial protection from infection, he said. </p><p>\"The most effective prevention against infection and the cancers HPV causes is therefore vaccination,\" Franco said. In the United States, experts recommend that all girls and boys receive the HPV vaccine starting at age 11 or 12. It's also advised for young adults who did not get it when they were kids.</p><p>In addition, Franco noted, \"women can also get screened to prevent HPV infections from progressing to cervical cancer.\" </p><p>The report was recently published online in  <i>The Lancet Infectious Diseases</i> journal. </p> <p><b>More information</b></p><p>To learn more about HPV, visit the <a href=\"https://www.cdc.gov/std/hpv/stdfact-hpv.htm/\" target=\"_blank\"> U.S. Centers for Disease Control and Prevention</a>.</p></div>",
+            "Image__c": "https://media.healthday.com/Images/icimages/wedding_rings44.jpg",
+            "Resource_Type__c": "Articles",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Article",
+            "Language__c": "en_US"
+        },
+
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef7"
+            },
+            "RecordTypeId": "0120E0000013robQAA",
+            "Name": "Humor Therapy",
+            "Title__c": "Humor Therapy",
+            "Description__c": "Here's a joke: A man tells his friend about a dinner party he had at his house the night before. \"I made a real Freudian slip,\" he says. \"I meant to tell my mother-in-law to pass the butter, and instead I said, \"You silly cow, you ruined my life!\"",
+            "Body__c": "<div itemprop=\"articleBody\"><p>Here's a joke: A man tells his friend about a dinner party he had at his house the night before. \"I made a real Freudian slip,\" he says. \"I meant to tell my mother-in-law to pass the butter, and instead I said, \"You silly cow, you ruined my life!\"</p>\r\n\r\n<p><b>Is humor good for my health?</b></p>\r\n\r\n<p>You've probably heard countless warnings about the dangers of negative emotions. Stress, anger, and depression can sap your immune system, encourage heart trouble, and slow your recovery from almost any illness. But how often do you hear the positive side of the story? Research consistently shows that positive emotions, including love, humor, and hope, may help your body fend off disease. </p>\r\n\r\n<p>Norman Cousins, an editor of the Saturday Review, is sometimes called  \"the father of laughter therapy.\" He didn't feel particularly mirthful when he was diagnosed with ankylosing spondylitis, a crippling and intensely painful form of arthritis. But as he said in his 1979 book <i>The Anatomy of an Illness</i>, humor was definitely part of his recovery plan. </p>\r\n<p>Soon after the diagnosis, Cousins vowed to tackle his disease with confidence and laughter. He set up a movie projector in his hospital room and frequently watched Marx Brothers movies and classic episodes of \"Candid Camera.\" (On the downside, his constant laughter bothered some of the neighboring patients.) In between reels, he stayed upbeat and relaxed. Over a period of months, he regained motion in his joints and felt the pain disappear. He eventually made a nearly full recovery from his \"incurable\" disease. Cousins went on to help establish a department at the University of California at Los Angeles medical school that investigates the connection between illness and the mind.</p>\r\n\r\n<p><b>What effect does humor have on the body?</b></p>\r\n\r\n<p>How does humor foster healing? One clue came from a study at Loma Linda University School of Medicine. Researchers found that people who watched a funny 60-minute video experienced a significant drop in so-called stress hormones such as cortisol and adrenaline. Scientists say these hormones can contribute to a wide range of stress-related illnesses including depression and heart disease. Other studies suggest regular doses of humor and laughter can enhance breathing and circulation and even stimulate T-cells, the vanguard of the immune system.</p>\r\n\r\n<p>Humor may also ease pain. Laughter can unleash a flood of natural painkillers called endorphins, and a good joke helps the mind focus on something besides pain. The effects might be dramatic: Cousins found that 10 minutes of belly laughs while watching Groucho gave him an extra two hours of pain-free sleep.</p>\r\n\r\n<p>In 2005, scientists from the University of Maryland School of Medicine in Baltimore found another clue: Laughter may be tied to the healthy function of blood vessels. Laughter appears to cause the tissue in the inner lining of blood vessels, the endothelium, to dilate or expand in order to increase blood flow. The researchers also found that people with heart disease were 40 percent less likely to laugh in a variety of situations compared to people of the same age without heart disease.</p> \r\n\r\n<p>\"The endothelium is the first line in the development of atherosclerosis or hardening of the arteries, so given the results of our study, it is conceivable that laughing may be important to maintain a healthy endothelium, and reduce the risk of cardiovascular disease,\" said principal investigator Michael Miller, M.D., director of preventive cardiology at the University of Maryland Medical Center in a news release. \"At the very least, laughter offsets the impact of mental stress, which is harmful to the endothelium.\"</p>\r\n\r\n <p><b>What if I don't feel like laughing?</b></p>\r\n\r\n<p>Humor may be healthy, but that doesn't mean you should brush aside grief and sadness. It's natural to cry at the discovery of a serious disease or the loss of a loved one. In fact, there's some evidence that brief periods of sorrow -- besides helping you express your emotions -- stimulate the immune system. But when these feelings become a way of life or give way to depression, any health benefits quickly fade.</p>\r\n\r\n<p><b>Can the mind overcome any illness?</b></p>\r\n\r\n<p>Norman Cousins's story, and many others like it, make it seem as if the brain can conquer anything. These accounts have even made some ill patients feel guilty that they didn't use their minds to stay healthy. But some illnesses are so severe that no thoughts or emotions -- or shots or surgeries -- can restore health.  As the American Cancer Society points out, available scientific evidence does not support claims that laughter can cure cancer or any other disease, but it can reduce stress and enhance a person's quality of life. Keep an open mind and an optimistic attitude, but beware of people who promise complete cures through \"positive thinking.\" On the other hand, remember: A cure may be beyond your reach, but a joyful mind isn't.</p>\r\n\r\n\r\n<p><b>References</b></p>\r\n\r\n<p><small>\"Laughter is the Best Medicine for Your Heart,\" Maryland Medical Center, updated July 14, 2009.</small></p>\r\n\r\n<p><small>\"Laughter Helps Blood Vessels Function Better,\" University of Maryland, news release, March 7, 2005.</small></p>\r\n\r\n<p><small>American Cancer Society. Humor Therapy. November 1, 2008.</small></p>\r\n\r\n<p><small>Weisenberg M, et al. The influence of film-induced mood on pain perception. Pain 1998 Jun;76(3):365-75.</small></p>\r\n\r\n<p><small>Berk LS, et al. Neuroendocrine and stress hormone changes during mirthful laughter. Am J Med Sci 1989 Dec;298(6):390-6.</small></p>\r\n\r\n<p><small>Joshua A. et al. Humor and Oncology. Journal of Clinical Oncology. 23(3):645-648. January 2005. http://www.jco.org/cgi/content/full/23/3/645.</small></p>\r\n</div>",
+            "Resource_Type__c": "Articles",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Article",
+            "Language__c": "en_US"
+        },
+        {
+            "attributes": {
+                "type": "Resource__c",
+                "referenceId": "Resource__cRef8"
+            },
+            "RecordTypeId": "0120E0000013robQAA",
+            "Name": "AHA News: Cancers of the Heart Are Rare -- and Here's Why",
+            "Title__c": "AHA News: Cancers of the Heart Are Rare -- and Here's Why",
+            "Description__c": "MONDAY, Feb. 25, 2019 (American Heart Association News) -- For years, Jan H. Mitchell felt terrible.",
+            "Body__c": "<div itemprop=\"articleBody\"><p>MONDAY, Feb. 25, 2019 (American Heart Association News) -- For years, Jan H. Mitchell felt terrible.</p> <p>\"The fatigue I was experiencing was unreal,\" said Mitchell, 62, of Paris, Tennessee. \"It was beyond feeling tired; I would come home from work and had no energy to do anything.\"</p> <p>Mitchell saw doctor after doctor. After a stress test, a sleep apnea assessment and other evaluations, one doctor sent her for a CT scan of her gallbladder. That's when the imaging technician spotted a tumor -- in her heart.</p> <p>The tumor was the size of a racquetball. Mitchell had immediate open-heart surgery to remove it in March 2009.</p> <p>Even though heart disease tops the list of the nation's leading causes of death -- ahead of cancer at No. 2 -- heart cancer is quite rare. One study suggests primary cardiac tumors -- those that develop in the heart itself -- affect 1.38 in 100,000 people each year.</p> <p>\"A heart surgeon may only experience one during his entire career, if ever,\" said Dr. Monika Leja, a cardio-oncology specialist at the University of Michigan Frankel Cardiovascular Center in Ann Arbor, Michigan.</p> <p>Most heart tumors -- about 75 percent -- are benign, meaning they are not cancerous. Cancer that spreads to the heart from the lung, breast or elsewhere in the body is much more common. But when tumors begin in the heart, they \"are likely a result of genetic malformations, since the heart is not a common place for cancers to grow,\" Leja said.</p> <p>That's because of the heart's composition, said Dr. Scott Schuetze, director of the connective tissue oncology program at the University of Michigan Comprehensive Cancer Center in Ann Arbor.</p> <p>The heart is made up of connective tissue, and cancer of that tissue is rare, Schuetze said. Rather, cancer more often arises in epithelial tissue that lines organs such as the prostate, breast, colon, pancreas, stomach, esophagus and skin.</p> <p>Instead, \"the heart is prone to disease that affects blood vessels, such as atherosclerotic disease and hypertension, because the heart is extremely dependent on blood flow for the work it does,\" Schuetze said.</p> <p>The heart also is susceptible, he said, to diseases that affect muscle or pumping function, as well as conditions that affect its electrical system.</p> <p>Because most heart tumors are benign, they are usually curable with surgery, said Dr. Michael Reardon, a cardiothoracic surgeon at Houston Methodist Hospital.</p> <p>Without surgery, \"the tumors can cause problems because pieces of them can break off and cause strokes,\" said Reardon.</p> <p>Malignant heart tumors are treated with chemotherapy or surgery, or sometimes both depending on the type of tumor.</p> <p>For Mitchell, surgery to remove the benign tumor caused her to develop a type of irregular heartbeat called atrial fibrillation. Because the condition can cause blood clots, she was treated with a device to prevent them from traveling to the brain and causing a stroke.</p> <p>It has given the retired teacher peace of mind as she spends time with her husband, Joe, and their great-nieces and great-nephew. \"Park time is their favorite.\"</p> </div>",
+            "Image__c": "https://media.healthday.com/Images/amheart/AHA0225191.jpg",
+            "Resource_Type__c": "Articles",
+            "Resource_Source__c": "Study - Specific",
+            "X3rd_Party_Source__c": "HealthDay",
+            "Content_Class__c": "Study-Specific",
+            "Content_Type__c": "Article",
+            "Language__c": "en_US"
+        }
+    ]
+}
