@@ -303,10 +303,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MyHelloWorld</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MyPatientsStatistics</apexClass>
         <enabled>false</enabled>
     </classAccesses>
