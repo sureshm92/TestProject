@@ -120,6 +120,29 @@ public with sharing class ResourceService {
     }
 
     @TestVisible
+    private List<Resource__c> getStudySpecificResources(Participant__c participant, String resourceType) {
+
+        String participantClinicalTrialProfileId = 'a039E00000Qte3NQAR';//this.getClinicalTrialProfileId(participant);
+        String resStudyQuery = 'SELECT Id, ' +
+                'Resource__c ' +
+                'FROM Res_study__c ' +
+                'WHERE Clinical_Trial_Profile__c = \'' + participantClinicalTrialProfileId  + '\' ' +
+                'AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\'';
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        List<Res_study__c> studyToResourceJunctions = (List<Res_study__c>) databaseProxy.query(resStudyQuery);
+        Set<String> resourcesIds = new Set<String>();
+        for(Res_study__c junction : studyToResourceJunctions) {
+            resourcesIds.add('\'' + junction.Resource__c + '\'');
+        }
+        return this.getResources(resourcesIds, participant);
+    }
+
+    @TestVisible
+    private Id getClinicalTrialProfileId(Participant__c participant) {
+       return null;
+    }
+
+    @TestVisible
     private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
 
         List<Resource__c> resources = new List<Resource__c>();
@@ -128,13 +151,11 @@ public with sharing class ResourceService {
         for (Therapeutic_Area_Patient__c therapeuticAreaPatient : participant.Therapeutic_Area_Patients__r) {
             if (therapeuticAreaPatient.IsRelatedToStudy__c) {
                 studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
-            } else {
-                therapeuticAreaPatients.add(therapeuticAreaPatient);
             }
+            therapeuticAreaPatients.add(therapeuticAreaPatient);
         }
         if (!String.isBlank(studyTherapeuticAreaId)) {
-            resources.addAll(this.getResources(participant, studyTherapeuticAreaId, resourceType, ResourceService.RESOURCE_SOURCE_STUDY));
-            resources.addAll(this.getResources(participant, studyTherapeuticAreaId, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
+            resources.addAll(this.getStudySpecificResources(participant, resourceType));
         }
         for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
             resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
@@ -160,7 +181,7 @@ public with sharing class ResourceService {
     @TestVisible
     private Participant__c getParticipant(String resourceType) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+        String participantId = 'a0C9E00000384lDUAQ';//(Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +
