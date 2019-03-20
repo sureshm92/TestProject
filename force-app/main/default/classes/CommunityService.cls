@@ -23,9 +23,10 @@ public without sharing class CommunityService {
     public static String COMMUNITY_CASE_AR_NAME = 'HelpCase';
 
     //on Contact.userCommunityMode__c
-    public static String USER_MODE_HCP = 'HCP';
-    public static String USER_MODE_PI = 'PI';
-    public static String USER_MODE_PARTICIPANT = 'Participant';
+    public static final String USER_MODE_HCP = 'HCP';
+    public static final String USER_MODE_PI = 'PI';
+    public static final String USER_MODE_PARTICIPANT = 'Participant';
+    public static final String USER_MODE_DELEGATE = 'Delegate';
 
 	//Exception messages
 	private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
