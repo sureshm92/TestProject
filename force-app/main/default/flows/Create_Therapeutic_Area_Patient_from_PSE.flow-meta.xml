@@ -199,7 +199,7 @@
         <object>Therapeutic_Area_Patient__c</object>
     </recordCreates>
     <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

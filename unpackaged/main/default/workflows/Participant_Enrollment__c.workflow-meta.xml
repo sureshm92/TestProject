@@ -157,6 +157,18 @@
         <template>Referral_Hub_Emails/Patient8_VT_CRS_on_hold</template>
     </alerts>
     <alerts>
+        <fullName>Patient_Welcome_to_the_Study_Email</fullName>
+        <description>Patient Welcome to the Study Email</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Participant_Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Referral_Hub_Emails/RP1_New_Study_Email</template>
+    </alerts>
+    <alerts>
         <fullName>email_to_VT_ePR_Patient_New_Study</fullName>
         <description>email to VT ePR Patient- New Study</description>
         <protected>false</protected>

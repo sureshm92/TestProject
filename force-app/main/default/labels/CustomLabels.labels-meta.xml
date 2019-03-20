@@ -812,6 +812,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Enroll Now</value>
     </labels>
     <labels>
+        <fullName>Email_Action_Login_now</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Login now</shortDescription>
+        <value>Login now</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -980,6 +987,17 @@ If you would like to be contacted about future clinical research opportunities, 
 Please contact your physician for further treatment discussions.
 
 If you would like to be contacted about future clinical research opportunities, please join the ##CRCommunityURL.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient15</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Patient15</shortDescription>
+        <value>Congratulations, you have been enrolled in the clinical research study: ##StudyTitle.
+
+You will be contacted by the Principal Investigator’s site regarding next steps in the study process.
+
+To track your clinical research study status, please login to the IQVIA™ Patient Hub.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -1420,6 +1438,17 @@ The IQVIA Referral Hub Support Team</value>
         <value>If you don&#39;t want to change your password or didn&#39;t request this, just ignore this email and no changes will be made to your account.
 
 To keep your account secure, please don&#39;t forward this email to anyone.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_New</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature New</shortDescription>
+        <value>We are so excited to be on this journey with you.
+
+Sincerely,
+
+The IQVIA Patient Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
