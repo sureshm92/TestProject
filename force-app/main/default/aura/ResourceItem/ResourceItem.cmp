@@ -2,9 +2,10 @@
 
     <!--ATTRIBUTES-->
     <aura:attribute name="resource" type="ResourceService.ResourceWrapper"/>
+    <aura:attribute name="class" type="String" default="" description="css class"/>
 
     <!--COMPONENT BODY-->
-    <div class="resource-container">
+    <div class="{!'resource-container ' + (v.class.length > 0 ? v.class : '')}">
 
         <div class="resource-image-container" onclick="{!c.navigateToPage}">
             <img alt="{!$Label.c.Resources_Image_Unavailable}" src="{!v.resource.image}"/>
@@ -23,16 +24,16 @@
             <div class="resource-description-footer">
                 <div class="resource-icon" onclick="{!c.doVote}">
                     <aura:if isTrue="{!v.resource.isVoted}">
-                        <c:RRIcon iconName="icon-thumbs-up" class="resource-icon-like"/>
+                        <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resource-icon-like"/>
                         <aura:set attribute="else">
-                            <c:RRIcon iconName="icon-thumbs-down" class="resource-icon-like"/>
+                            <c:RRIcon iconName="icon-like-brand-new" class="resource-icon-like"/>
                         </aura:set>
                     </aura:if>
                 </div>
 
                 <div class="resource-icon" onclick="{!c.doFavorite}">
                     <aura:if isTrue="{!v.resource.isFavorite}">
-                        <c:RRIcon iconName="icon-star-solid" class="resource-icon-star"/>
+                        <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resource-icon-star"/>
                         <aura:set attribute="else">
                             <c:RRIcon iconName="icon-star" class="resource-icon-star"/>
                         </aura:set>

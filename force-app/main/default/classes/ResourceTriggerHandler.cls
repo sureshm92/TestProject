@@ -5,10 +5,12 @@
 public with sharing class ResourceTriggerHandler extends TriggerHandler {
 
     public override void beforeInsert(List<SObject> newList) {
+        ArticleService.addDefaultImage(newList);
         ArticleService.calculateExpirationDateBeforeInsert(newList);
     }
 
     public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        ArticleService.addDefaultImage(newList);
         ArticleService.calculateExpirationDateBeforeUpdate(newList, (Map<Id, Resource__c>) oldMap);
     }
 
