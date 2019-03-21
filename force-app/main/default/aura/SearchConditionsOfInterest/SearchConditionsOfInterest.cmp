@@ -1,0 +1,17 @@
+<aura:component description="SearchConditionsOfInterest">
+    <aura:attribute name="searchCriterias" type="String[]"/>
+    <aura:attribute name="originalItems" type="Object[]" default="" />
+    <aura:attribute name="displayedItems" type="ConditionOfInterestRemote.CAWrapper[]" default="" />
+    <aura:attribute name="displayFooter" type="Boolean" default="" />
+    <aura:attribute name="bypass" type="Boolean" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+
+    <!--<aura:registerEvent name="setDefaultPage" type="c.setDefaultPage"/>-->
+
+    <c:Popup aura:id="searchModal" title="Add Condition of Interest" size="medium" showFooter="{!v.displayFooter}">
+        <lightning:input onchange="{!c.bulkSearch}" type="search" label="Search" name="search" />
+    </c:Popup>
+</aura:component>
