@@ -7,7 +7,10 @@
         var accounts = component.get('v.accounts');
         for (var i = 0; i < accounts.length; i++) {
             var clinicWrapper = accounts[i];
-            if(!clinicWrapper.clinic.BillingCity || !clinicWrapper.clinic.BillingLatitude)
+
+            debugger;
+
+            if(!clinicWrapper.clinic.BillingCity)
                 continue;
 
             //Url forming
@@ -21,6 +24,7 @@
             } else
                 descriptionLink = '';
 
+            debugger;
             markers.push({
                 location: {
                     Street: clinicWrapper.clinic.BillingStreet,
@@ -35,6 +39,8 @@
                 title: clinicWrapper.name,
                 description: descriptionLink
             });
+
+            debugger;
         }
 
         component.set('v.markers', markers);

@@ -9,6 +9,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
+    <aura:attribute name="isStaff" type="Boolean" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="showSpinner" type="Boolean" default="{!true}" access="private"/>
     <aura:attribute name="delegate" type="Object" access="private"/>
@@ -36,14 +37,14 @@
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">
-                <c:RRLink page="{!'settings?tab=' + if(v.userMode == 'Participant','delegates','my-team')}">
+                <c:RRLink page="{!'settings?tab=' + if(v.isStaff,'my-team','delegates')}">
                     <c:RRIcon iconName="icon-arrow-left"/>
-                    {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Back : $Label.c.PG_NTM_BTN_Back_to_My_Team}
+                    {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
             </div>
             <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                 <div class="title rr-width-limiter side-padding">
-                    {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Add : $Label.c.PG_MT_BTN_Add_New_Team_Member}</div>
+                    {!v.isStaff ? $Label.c.PG_MT_BTN_Add_New_Team_Member : $Label.c.PG_PST_L_Delegates_Add}</div>
             </div>
             <div>
                 <div class="height-stub" style="height: 56px"></div>
@@ -60,14 +61,14 @@
                             <div class="button-panel-mobile rr-medium-up-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'settings?tab=' + if(v.userMode == 'Participant','delegates','my-team')}">
+                                        <c:RRLink page="{!'settings?tab=' + if(v.isStaff,'my-team','delegates')}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
-                                            {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Back : $Label.c.PG_NTM_BTN_Back_to_My_Team}
+                                            {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
                                     </div>
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}">
-                                            {!v.userMode == 'Participant' ? $Label.c.PG_PST_L_Delegates_Save : $Label.c.PG_NTM_BTN_Save_Team_Member}
+                                            {!v.isStaff ? $Label.c.PG_NTM_BTN_Save_Team_Member : $Label.c.PG_PST_L_Delegates_Save}
                                         </button>
                                     </div>
                                 </div>
@@ -101,40 +102,44 @@
                                     <!--<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3"/>-->
                                     <div class="slds-col slds-size_1-of-1" >
                                         <div class="{!'personal-info-exists '+if(v.delegate.delegateContact.Id!=undefined,'found','')}">
-                                            {!$Label.c.PG_NTM_L_Team_member + ' ' + v.delegate.delegateContact.FirstName + ' ' + v.delegate.delegateContact.LastName + ' ' + $Label.c.PG_NTM_L_Already_Exists}
+                                            {!if(v.isStaff, $Label.c.PG_NTM_L_Team_member, $Label.c.PG_PST_L_Delegates_Delegate) +
+                                            ' ' + v.delegate.delegateContact.FirstName + ' ' + v.delegate.delegateContact.LastName +
+                                            ' ' + $Label.c.PG_NTM_L_Already_Exists}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="permissions-panel">
-                                <div class="panel-heading">{!$Label.c.PG_NTM_L_Permissions}</div>
-                                <c:rrButtonTubSet>
-                                    <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study}" tabId="by-study"
-                                                          currentTab="{!v.currentTab}" variant="underlined"/>
-                                    <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_Same_For_All_Studies}" tabId="all-same"
-                                                          currentTab="{!v.currentTab}" variant="underlined"/>
-                                </c:rrButtonTubSet>
-                                <div class="permissions-body rr-white-panel">
-                                    <div class="{!'by-study-container sdli-container ' + if(v.currentTab == 'by-study','','hidden')}">
-                                        <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-                                            <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!trialLevel}"
+                            <aura:if isTrue="{!v.isStaff}">
+                                <div class="permissions-panel">
+                                    <div class="panel-heading">{!$Label.c.PG_NTM_L_Permissions}</div>
+                                    <c:rrButtonTubSet>
+                                        <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study}" tabId="by-study"
+                                                              currentTab="{!v.currentTab}" variant="underlined"/>
+                                        <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_Same_For_All_Studies}" tabId="all-same"
+                                                              currentTab="{!v.currentTab}" variant="underlined"/>
+                                    </c:rrButtonTubSet>
+                                    <div class="permissions-body rr-white-panel">
+                                        <div class="{!'by-study-container sdli-container ' + if(v.currentTab == 'by-study','','hidden')}">
+                                            <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
+                                                <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!trialLevel}"
+                                                                          options="{!v.delegateOptions}"
+                                                                          changedLevels="{!v.changedLevels}"/>
+                                            </aura:iteration>
+                                        </div>
+                                        <div class="{!'all-same-container sdli-container ' + if(v.currentTab == 'all-same','','hidden')}">
+                                            <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!v.allTrialLevel}"
                                                                       options="{!v.delegateOptions}"
-                                                                      changedLevels="{!v.changedLevels}"/>
-                                        </aura:iteration>
-                                    </div>
-                                    <div class="{!'all-same-container sdli-container ' + if(v.currentTab == 'all-same','','hidden')}">
-                                        <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!v.allTrialLevel}"
-                                                                  options="{!v.delegateOptions}"
-                                                                  changedLevels="{!v.changedLevelsAll}"/>
+                                                                      changedLevels="{!v.changedLevelsAll}"/>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </aura:if>
                             <div class="button-panel rr-medium-down-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="settings?tab=my-team">
+                                        <c:RRLink page="{!'settings?tab=' + if(v.isStaff,'my-team','delegates')}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
-                                                {!$Label.c.PG_NTM_BTN_Back_to_My_Team}
+                                            {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
                                     </div>
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
@@ -145,14 +150,14 @@
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId)}"
-                                                 title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
+                                                title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
                                                         and(empty(v.delegate.delegateContact.FirstName),v.delegate.delegateContact.Id==undefined)),
                                                         and(empty(v.delegate.delegateContact.LastName),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
                                                         $Label.c.PG_NTM_T_Correct_Info,'')}">
-                                                {!$Label.c.PG_NTM_BTN_Save_Team_Member}
+                                            {!if(v.isStaff, $Label.c.PG_NTM_BTN_Save_Team_Member, $Label.c.PG_PST_L_Delegates_Save)}
                                         </button>
                                     </div>
                                 </div>
@@ -163,5 +168,4 @@
             </div>
         </div>
     </aura:if>
-
 </aura:component>

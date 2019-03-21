@@ -4298,6 +4298,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Patient Profile</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegate_Permitted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate permition</shortDescription>
+        <value>WHAT YOU WILL BE ABLE TO SEE OR DO</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4338,6 +4345,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>Complete tasks on my behalf</shortDescription>
         <value>Complete tasks on my behalf</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate</shortDescription>
+        <value>Delegate</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_My_Measur</fullName>
@@ -4387,6 +4401,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>My vitals</shortDescription>
         <value>See my vitals</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_SuccRemove</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove delegate popup</shortDescription>
+        <value>You have successfully removed your delegate.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_My_Team</fullName>

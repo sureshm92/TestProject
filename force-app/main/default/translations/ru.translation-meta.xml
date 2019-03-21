@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- Developer --></label>
+        <name>Developer</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- IQVIA Referral Hub --></label>
+        <name>IQVIA_RR_CRM</name>
+    </customApplications>
     <customLabels>
         <label>Поздравляю ##UserName!
 
@@ -13,16 +21,8 @@
         <name>AL_Body_Welcome_Study</name>
     </customLabels>
     <customLabels>
-        <label>Поздравляю ##Contact!
-
-            Теперь вы зарегистрированы в ##StudyName study! исследовании!
-
-            Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к
-            исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
-
-            Нажмите OK, чтобы начать!
-        </label>
-        <name>AL_Body_Welcome_Study_Caregivers</name>
+        <label><!-- AL_Body_Welcome_Study_Patient_Delegates --></label>
+        <name>AL_Body_Welcome_Study_Patient_Delegates</name>
     </customLabels>
     <customLabels>
         <label>Добро пожаловать на исследование!</label>
@@ -2629,6 +2629,10 @@
         <name>PG_PP_L_Patient_Profile</name>
     </customLabels>
     <customLabels>
+        <label>РАЗРЕШЕННЫЕ ДЕЙСТВИЯ</label>
+        <name>PG_PST_L_Delegate_Permitted</name>
+    </customLabels>
+    <customLabels>
         <label>Делегаты</label>
         <name>PG_PST_L_Delegates</name>
     </customLabels>
@@ -2651,6 +2655,10 @@
     <customLabels>
         <label>Завершать задания от моего имени</label>
         <name>PG_PST_L_Delegates_Compl_Task_Behalf</name>
+    </customLabels>
+    <customLabels>
+        <label>Делегат</label>
+        <name>PG_PST_L_Delegates_Delegate</name>
     </customLabels>
     <customLabels>
         <label>Просмотр моих измерений</label>
@@ -2679,6 +2687,10 @@
     <customLabels>
         <label>Просмотр моих жизненных показателей</label>
         <name>PG_PST_L_Delegates_See_Vitals</name>
+    </customLabels>
+    <customLabels>
+        <label>Вы успешно удалили своего делегата</label>
+        <name>PG_PST_L_Delegates_SuccRemove</name>
     </customLabels>
     <customLabels>
         <label>Моя команда</label>
