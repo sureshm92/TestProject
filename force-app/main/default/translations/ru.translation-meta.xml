@@ -480,6 +480,10 @@
         <name>Email_Action_Enroll_Now</name>
     </customLabels>
     <customLabels>
+        <label>Войти сейчас</label>
+        <name>Email_Action_Login_now</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Action View My Patients --></label>
         <name>Email_Action_View_My_Patients</name>
     </customLabels>
@@ -619,6 +623,7 @@
         <name>Email_Body_Patient14</name>
     </customLabels>
     <customLabels>
+<<<<<<< HEAD
         <label>Недавно ##HCPName сделал от вашего имени направление в ##PIName для потенциального участия в клиническом
             исследовании: ##StudyName.
              
@@ -628,6 +633,17 @@
             Чтобы просмотреть дополнительную информацию об этом исследовании, войдите на платформу и перейдите в раздел
             «Мои исследования».
         </label>
+=======
+        <label><!-- Email_Body_Patient15 --></label>
+        <name>Email_Body_Patient15</name>
+    </customLabels>
+    <customLabels>
+        <label>Недавно ##HCPName сделал от вашего имени направление в ##PIName для потенциального участия в клиническом исследовании: ##StudyName.
+ 
+С вами свяжется сайт главного исследователя ##StudySiteName, чтобы узнать о следующих шагах в процессе регистрации.
+ 
+Чтобы просмотреть дополнительную информацию об этом исследовании, войдите на платформу и перейдите в раздел «Мои исследования».</label>
+>>>>>>> origin/PH_R1_Sprint3_M_LB_PEH-39
         <name>Email_Body_Patient2</name>
     </customLabels>
     <customLabels>
@@ -946,6 +962,10 @@
             Чтобы обеспечить безопасность своего аккаунта, не пересылайте это письмо никому.
         </label>
         <name>Email_Signature_Forgot_Password</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature New --></label>
+        <name>Email_Signature_New</name>
     </customLabels>
     <customLabels>
         <label><!-- Email Signature VT --></label>
@@ -3476,12 +3496,4 @@
         <label><!-- URL Interactive Advertising Bureau --></label>
         <name>URL_Interactive_Advertising_Bureau</name>
     </customLabels>
-    <customTabs>
-        <label><!-- Manual Tasks Creation --></label>
-        <name>Manual_Tasks_Creation</name>
-    </customTabs>
-    <customTabs>
-        <label><!-- Study Export/Import --></label>
-        <name>Translation_Import_Export</name>
-    </customTabs>
 </Translations>

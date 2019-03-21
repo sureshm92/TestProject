@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Body_label__c</field>
-        <value xsi:type="xsd:string">AL_Body_Welcome_Study</value>
+        <value xsi:type="xsd:string">AL_Body_Welcome_Study_Patient_Delegates</value>
     </values>
     <values>
         <field>Parameters__c</field>

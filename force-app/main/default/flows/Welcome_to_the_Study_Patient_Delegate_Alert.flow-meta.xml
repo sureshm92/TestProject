@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <interviewLabel>Welcome to the Study Caregiver Alert {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Welcome to the Study Participant Delegate Alert</label>
+    <interviewLabel>Welcome to the Study Patient Delegate Alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Welcome to the Study Patient Delegate Alert</label>
     <loops>
         <name>Loop_though_Participant_Delegates</name>
         <label>Loop though Participant Delegates</label>
@@ -35,7 +35,7 @@
         <inputAssignments>
             <field>Alert_Code__c</field>
             <value>
-                <stringValue>Welcome_to_the_Study</stringValue>
+                <stringValue>Welcome_to_the_Study_Patient_Delegates</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -74,7 +74,7 @@
         <queriedFields>Contact__c</queriedFields>
     </recordLookups>
     <startElementReference>Find_Participant_Delegates_of_this_Participant</startElementReference>
-    <status>Obsolete</status>
+    <status>Active</status>
     <variables>
         <name>Alert_Welcome_Page_Caregivers</name>
         <dataType>SObject</dataType>

@@ -16,7 +16,7 @@
             status: status,
             reason: reason,
             notes: notes
-        }, function (returnValue) {
+        }, null, null, function () {
             component.get('v.refreshSource').refresh();
             helper.hideDialogs(component);
         });
@@ -24,6 +24,5 @@
 
     hideDialogs: function (component) {
         component.find('selectReferralDeclineReasonDialog').hide();
-        component.find('reasonSpinner').hide();
     }
 })

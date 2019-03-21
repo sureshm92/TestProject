@@ -10,14 +10,14 @@
         <processMetadataValues>
             <name>flowSelection</name>
             <value>
-                <stringValue>Welcome to the Study Caregiver Alert</stringValue>
+                <stringValue>Welcome to the Study Patient Delegate Alert</stringValue>
             </value>
         </processMetadataValues>
         <name>myRule_1_A2</name>
-        <label>Create Caregiver Alerts</label>
+        <label>Create Patient Delegate Alerts</label>
         <locationX>100</locationX>
         <locationY>300</locationY>
-        <actionName>Welcome_to_the_Study_Caregiver_Alert</actionName>
+        <actionName>Welcome_to_the_Study_Patient_Delegate_Alert</actionName>
         <actionType>flow</actionType>
         <inputParameters>
             <processMetadataValues>
@@ -233,7 +233,7 @@
             <label>Previously Met - Prev</label>
         </rules>
     </decisions>
-    <interviewLabel>Alert_Welcome_to_the_Study_creation-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Alert_Welcome_to_the_Study_creation-5_InterviewLabel</interviewLabel>
     <label>Alert Welcome to the Study creation</label>
     <processMetadataValues>
         <name>ObjectType</name>
