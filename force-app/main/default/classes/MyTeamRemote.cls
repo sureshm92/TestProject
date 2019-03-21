@@ -138,6 +138,32 @@ public without sharing class MyTeamRemote {
                 }
             }
         }
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            List<Contact> delegateContacts = PatientDelegateService.getDelegateContacts();
+            if(!delegateContacts.isEmpty()){
+                for (Contact patientDelegate : delegateContacts) {
+                    DelegateWrapper dw = new DelegateWrapper();
+                    dw.delegateContact = patientDelegate;
+                    for(Participant_Enrollment__c partEnroll :
+                            ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant()
+                    ) {
+                        TrialDelegateLevelWrapper trialWrap = new TrialDelegateLevelWrapper();
+                        trialWrap.trialName = partEnroll.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                        trialWrap.enrollmentOrStudySiteId = partEnroll.Id;
+                        trialWrap.delegateLevel = '';
+                        dw.trialLevels.add(trialWrap);
+                    }
+
+                    delegates.add(dw);
+                }
+            }
+            else {
+                DelegateWrapper dw = new DelegateWrapper();
+                dw.delegateContact = new Contact(FirstName = '', LastName = '', Email = '');
+                delegates.add(dw);
+            }
+        }
+
         delegates.sort();
         return delegates;
     }

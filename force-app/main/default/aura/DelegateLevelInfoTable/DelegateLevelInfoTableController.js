@@ -79,8 +79,13 @@
                 break;
 
             default: //Participant
+                var headerText;
+                if(userMode === 'Participant')
+                    headerText = $A.get('$Label.c.PG_PST_L_Delegates_Permitted_Actions');
+                else if(userMode === 'Delegate')
+                    headerText = $A.get('$Label.c.PG_PST_L_Delegate_Permitted');
                 header = {
-                    text : $A.get('$Label.c.PG_PST_L_Delegates_Permitted_Actions'),
+                    text : headerText,
                     levels : []
                 };
                 component.set('v.header', header);

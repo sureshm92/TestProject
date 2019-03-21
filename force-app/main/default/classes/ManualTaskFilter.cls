@@ -110,7 +110,7 @@ public with sharing class ManualTaskFilter {
             filters.add(fieldJoin('Clinical_Trial_Profile__c', studies));
 
         if(!countries.isEmpty())
-            filters.add(fieldJoin('Participant__r.Country_Code__c', countries));
+            filters.add(fieldJoin('Participant__r.Mailing_Country__c', convertedCountries()));
 
         if(!sites.isEmpty())
             filters.add(fieldJoin('Study_Site__c', sites));
@@ -128,5 +128,17 @@ public with sharing class ManualTaskFilter {
 
     private String fieldJoin(String fieldName, List<String> items) {
         return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
+    }
+
+    private List<String> convertedCountries() {
+        List<LabelValueItem> allCountries = CountryStateUtil.getCountries();
+        List<String> convertedCountries = new List<String>();
+
+        for(LookupSearchResult result : countries)
+            for(LabelValueItem item : allCountries)
+                if(result.getId().equalsIgnoreCase(item.value))
+                    convertedCountries.add(item.label);
+
+        return convertedCountries;
     }
 }

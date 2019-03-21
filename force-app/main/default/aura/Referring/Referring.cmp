@@ -199,7 +199,7 @@
                                 </aura:iteration>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
-                                <c:RRMap accounts="{!v.studySites}"/>
+                                <c:RRGoogleMap accounts="{!v.studySites}"/>
                             </div>
                         </div>
                     </div>
