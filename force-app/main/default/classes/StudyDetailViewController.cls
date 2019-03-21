@@ -110,13 +110,16 @@ public without sharing class StudyDetailViewController {
                 trialDetail.studyActions = studyActions.studyDetailActions;
                 trialDetail.actions = studyActions.actions;
 
-                Set<Id> accIds = new Set<Id>();
+                Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
                 for(Participant_Enrollment__c pe : participantEnrollments)
-                    accIds.add(pe.Study_Site__r.Site__c);
+                    idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
 
-                List<Account> accounts = getAccounts(accIds);
-                for (Account account : accounts)
-                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, null, null));
+                List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
+                for (Integer i = 0; i < accounts.size(); i++) {
+                    Account acc = accounts.get(i);
+                    trialDetail.accountEnrollmentsList.add(
+                            createClinicWrapper(idToStudySiteMap.get(acc.Id).Name, acc, null, null));
+                }
             }
 
             return JSON.serialize(trialDetail);
