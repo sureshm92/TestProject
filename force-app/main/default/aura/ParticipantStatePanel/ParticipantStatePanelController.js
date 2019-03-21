@@ -12,6 +12,7 @@
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
                 component.set('v.pe', initData.pe);
+                component.set('v.pse', initData.pse);
             }, null, function () {
                 component.find('spinner').hide();
             });
