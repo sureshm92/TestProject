@@ -28,6 +28,7 @@ public without sharing class CommunityService {
     public static String USER_MODE_PARTICIPANT = 'Participant';
 
 	//Exception messages
+    public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
 	private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
 	private static String ERROR_MISSING_PARTICIPANT_ON_CONTACT = 'Contact does not have related Participant';
 

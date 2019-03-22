@@ -1,18 +1,19 @@
 (
-	{
-		doInit : function (component, event, helper) {
-			component.set("v.videoResource", helper.getStubResource("Video"));
-			component.set("v.articleResource", helper.getStubResource("Article"));
-		},
+    {
+        doInit : function (component, event, helper) {
 
-		navigateToPage : function (component, event, helper) {
-			var resourceType = event.currentTarget.classList.contains("resource-video") ? "Video" : "Article";
-			//todo must be changed
-			var recId = communityService.getUrlParameter('id');
-			if(!recId) {
-				recId = "a1R1h000000VpuBEAS";
-			}
-			communityService.navigateToPage("resources?resourceType=" + resourceType + "&id=" + recId);
-		},
-	}
+            if (communityService.isInitialized()) {
+                communityService.executeAction(component, 'getTrialId', {
+                    userMode : communityService.getUserMode()
+                }, function (returnValue) {
+                    component.set("v.trialId", returnValue);
+                });
+            }
+        },
+
+        navigateToPage : function (component, event, helper) {
+            var trialId = component.get('v.trialId');
+            communityService.navigateToPage('study-workspace?id=' + trialId + '&tab=tab-resources&resourcemode=Default');
+        },
+    }
 )

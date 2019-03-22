@@ -1,13 +1,14 @@
-<aura:component description="ResourceDashboardCard" implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="ResourceRemote" description="ResourceDashboardCard" implements="forceCommunity:availableForAllPageTypes">
 
-	<!--<ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"-->
-				  <!--scripts="{!join(',', $Resource.rr_community_js)}"/>-->
-
+	<!--ATTRIBUTES-->
 	<aura:attribute name="videoResource" type="Object"/>
 	<aura:attribute name="articleResource" type="Object"/>
+	<aura:attribute name="trialId" type="String"/>
 
+	<!--HANDLERS-->
 	<aura:handler name="init" value="this" action="{!c.doInit}"/>
 
+	<!--COMPONENT BODY-->
 	<div class="rr-white-panel resource-card">
 
 		<header class="resource-card-title">
@@ -18,88 +19,17 @@
 			<lightning:layout horizontalAlign="center">
 
 				<lightning:layoutItem size="6" flexibility="auto">
-
-					<div class="resource-container">
-						<div onclick="{!c.navigateToPage}" class="resource-video" style="cursor: pointer;">
-							<div class="resource-title">
-								Today’s Video
-							</div>
-							<div class="resource-image-container">
-								<img src="{!v.videoResource.imagePath}"/>
-							</div>
-							<div class="resource-description">
-								<div class="resource-description-title">
-										{!v.videoResource.title}
-								</div>
-								<div class="resource-description-text">
-										{!v.videoResource.description}
-								</div>
-								<div class="resource-description-footer">
-									<div class="resource-icon">
-										<c:RRIcon iconName="icon-thumbs-up" class="resource-icon-like"/>
-										<div class="resource-number-of-likes">
-												{!v.videoResource.numberOfLikes}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="resource-more-links">
-							More Videos
-							<div class="resource-more-single-link resource-video" onclick="{!c.navigateToPage}" style="cursor: pointer;">
-								Medication for RA
-							</div>
-							<div class="resource-more-single-link resource-video" onclick="{!c.navigateToPage}" style="cursor: pointer;">
-								Explaining what RA is
-							</div>
-						</div>
-					</div>
-
+					<c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"/>
 				</lightning:layoutItem>
 				<lightning:layoutItem size="6" flexibility="auto">
-
-					<div class="resource-container">
-						<div onclick="{!c.navigateToPage}" class="resource-article" style="cursor: pointer;">
-							<div class="resource-title">
-								Today’s Article
-							</div>
-							<div class="resource-image-container">
-								<img src="{!v.articleResource.imagePath}"/>
-							</div>
-							<div class="resource-description">
-								<div class="resource-description-title">
-										{!v.articleResource.title}
-								</div>
-								<div class="resource-description-text">
-										{!v.articleResource.description}
-								</div>
-								<div class="resource-description-footer">
-									<div class="resource-icon">
-										<c:RRIcon iconName="icon-thumbs-up" class="resource-icon-like"/>
-										<div class="resource-number-of-likes">
-												{!v.articleResource.numberOfLikes}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="resource-more-links">
-							More Articles
-							<div class="resource-more-single-link resource-article" onclick="{!c.navigateToPage}" style="cursor: pointer;">
-								Daily joint care routine
-							</div>
-							<div class="resource-more-single-link resource-article" onclick="{!c.navigateToPage}" style="cursor: pointer;">
-								Finding the best doctor
-							</div>
-						</div>
-					</div>
-
+					<c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"/>
 				</lightning:layoutItem>
+
 			</lightning:layout>
 		</div>
 
-		<footer class="resource-footer">
-			See More
+		<footer class="resource-footer" onclick="{!c.navigateToPage}">
+			{!$Label.c.Resources_See_All}
 		</footer>
 
 	</div>
