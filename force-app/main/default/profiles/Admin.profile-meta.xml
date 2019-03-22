@@ -359,11 +359,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaginationData</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParametersDataProvider</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDecoupler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -384,6 +392,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -412,6 +424,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ReportsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceDecoupler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -563,7 +579,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TestDataFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -592,6 +616,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RRLoginRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceExpBatchScheduler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
