@@ -371,6 +371,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
