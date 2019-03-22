@@ -243,6 +243,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LeadConversionHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LightningForgotPasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1345,6 +1349,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Task_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Task_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2893,6 +2902,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task_Catalog__mdt.Action_Link__c</field>
         <readable>true</readable>
@@ -3056,6 +3070,9 @@
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Alert__c-Alert Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CTE__c-CTE Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3075,6 +3092,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Email_Template_Settings__mdt-Email Template Settings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
