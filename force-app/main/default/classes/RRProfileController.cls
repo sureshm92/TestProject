@@ -7,9 +7,7 @@ public without sharing class RRProfileController {
     public static String getUser() {
 
         List<User> currentUser = [
-                SELECT Id
-                        , Contact.Name
-                , SmallPhotoUrl
+                SELECT Id, Contact.Name, SmallPhotoUrl
                 FROM User
                 WHERE Id = : UserInfo.getUserId()
         ];

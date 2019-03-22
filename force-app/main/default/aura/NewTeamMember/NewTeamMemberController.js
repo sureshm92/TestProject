@@ -1,6 +1,3 @@
-/**
- * Created by Kryvolap on 16.09.2018.
- */
 ({
     doInit: function (component, event, helper) {
         var spinner = component.find('mainSpinner');
@@ -8,7 +5,13 @@
         component.set("v.showSpinner", true);
 
         if (!communityService.isInitialized()) return;
-        component.set('v.userMode', communityService.getUserMode());
+        var userMode = communityService.getUserMode();
+        component.set('v.userMode', userMode);
+        if(userMode === 'Participant' || userMode === 'Delegate')
+            component.set('v.isStaff', false);
+        else if(userMode === 'PI' || userMode === 'HCP')
+            component.set('v.isStaff', true);
+
         component.set('v.changedLevels',[]);
         component.set('v.changedLevelsAll',[]);
         component.set("v.currentTab",'by-study');

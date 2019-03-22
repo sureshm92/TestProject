@@ -17,7 +17,7 @@ public without sharing class StudyDetailViewController {
     }
 
     public class ClinicWrapper implements Comparable {
-        public Account clinic;
+        public Account clinic;  //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap
         public String name;
         public String addrStreet;
         public String addrCity;
@@ -101,13 +101,22 @@ public without sharing class StudyDetailViewController {
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-//                List<Participant_Enrollment__c> participantEnrollments = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-//                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
-//                StudyActions studyActions = new StudyActionsParticipant(participantEnrollments[0]);
+                List<Participant_Enrollment__c> participantEnrollments =
+                        ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+                if (participantEnrollments.size() == 0)
+                    throw new CommunityServiceException('Data not found');
+
                 StudyActionsParticipant studyActions = new StudyActionsParticipant();
                 trialDetail.studyActions = studyActions.studyDetailActions;
                 trialDetail.actions = studyActions.actions;
 
+                Set<Id> accIds = new Set<Id>();
+                for(Participant_Enrollment__c pe : participantEnrollments)
+                    accIds.add(pe.Study_Site__r.Site__c);
+
+                List<Account> accounts = getAccounts(accIds);
+                for (Account account : accounts)
+                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, null, null));
             }
 
             return JSON.serialize(trialDetail);
@@ -124,6 +133,9 @@ public without sharing class StudyDetailViewController {
                         BillingState,
                         BillingPostalCode,
                         BillingCity,
+                        BillingCountry,
+                        BillingCountryCode,
+                        BillingStateCode,
                         Phone,
                         BillingLongitude,
                         BillingLatitude

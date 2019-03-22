@@ -33,18 +33,20 @@
                         {!capability.text}
                     </span>
                     </td>
-                    <aura:iteration items="{!capability.levels}" var="level">
-                        <td>
-                            <aura:if isTrue="{!level}">
-                                <lightning:icon class="greenIcon" iconName="utility:check" size="xx-small"/>
-                            </aura:if>
-                            <aura:if isTrue="{!not(level)}">
+                    <aura:if isTrue="{!not(v.userMode == 'Participant')}" >
+                        <aura:iteration items="{!capability.levels}" var="level">
+                            <td>
+                                <aura:if isTrue="{!level}">
+                                    <lightning:icon class="greenIcon" iconName="utility:check" size="xx-small"/>
+                                </aura:if>
+                                <aura:if isTrue="{!not(level)}">
                                 <span>
                                     -
                                 </span>
-                            </aura:if>
-                        </td>
-                    </aura:iteration>
+                                </aura:if>
+                            </td>
+                        </aura:iteration>
+                    </aura:if>
                 </tr>
             </aura:iteration>
         </table>

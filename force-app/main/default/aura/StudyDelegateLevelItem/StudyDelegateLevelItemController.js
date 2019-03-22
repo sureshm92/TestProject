@@ -12,7 +12,7 @@
         if (changedLevels) {
             var studyLevel = component.get("v.studyLevel");
             var prevValue = component.get("v.prevValue");
-            if (prevValue == studyLevel.delegateLevel) {
+            if (prevValue === studyLevel.delegateLevel) {
                 changedLevels.delete(studyLevel.enrollmentOrStudySiteId);
             }
             else {

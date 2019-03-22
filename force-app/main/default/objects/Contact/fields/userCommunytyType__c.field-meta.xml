@@ -7,7 +7,7 @@
     <label>User Community Type</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>
@@ -27,6 +27,11 @@
                 <fullName>Participant</fullName>
                 <default>false</default>
                 <label>Participant</label>
+            </value>
+            <value>
+                <fullName>Delegate</fullName>
+                <default>false</default>
+                <label>Delegate</label>
             </value>
         </valueSetDefinition>
     </valueSet>

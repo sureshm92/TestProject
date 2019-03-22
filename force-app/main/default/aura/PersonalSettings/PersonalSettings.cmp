@@ -9,6 +9,7 @@
     <aura:attribute name="currentTab" type="String" default="my-team"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
+    <aura:attribute name="validMode" type="Boolean" default="false" access="private"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -17,16 +18,21 @@
 
     <aura:if isTrue="{!!v.showSpinner}">
         <div class="ps-container">
-            <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP')}">
-                <c:rrButtonTubSet >
-                    <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team" currentTab="{!v.currentTab}"/>
+            <aura:if isTrue="{!v.validMode}">
+                <c:rrButtonTubSet>
+                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                        <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_Delegates}" tabId="delegates" currentTab="{!v.currentTab}"/>
+                        <aura:set attribute="else">
+                            <c:rrButtonTubSetItem title="{!$Label.c.PG_PST_L_My_Team}" tabId="my-team" currentTab="{!v.currentTab}"/>
+                        </aura:set>
+                    </aura:if>
                     <c:rrButtonTubSetItem title="{!$Label.c.Profile_Menu_Account_Settings}" tabId="account-settings" currentTab="{!v.currentTab}"/>
                     <!--<c:rrButtonTubSetItem title="Communication Preferences" tabId="tab-communication-preferences" isDisabled="true" currentTab="{!v.currentTab}"/>-->
                 </c:rrButtonTubSet>
             </aura:if>
 
             <div class="ps-body">
-                <aura:if isTrue="{!v.currentTab == 'my-team'}">
+                <aura:if isTrue="{!or(v.currentTab == 'my-team', v.currentTab == 'delegates')}">
                     <c:MyTeam userMode="{!v.userMode}"/>
                 </aura:if>
 

@@ -207,10 +207,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>HelloWorldTestClass</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>HelpController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -300,10 +296,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MedicalRecordReviewRemote</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MyHelloWorld</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>

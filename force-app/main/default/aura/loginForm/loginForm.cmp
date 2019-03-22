@@ -1,4 +1,3 @@
-<!-- add implements="forceCommunity:availableForAllPageTypes" to surface the component in community builder -->
 <aura:component controller="LightningLoginFormController" implements="forceCommunity:availableForAllPageTypes">
     <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
     <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>

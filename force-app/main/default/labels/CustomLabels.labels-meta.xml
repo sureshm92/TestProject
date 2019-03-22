@@ -1150,6 +1150,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
 ##StudyName</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Task Type Medication</shortDescription>
+        <value>This is a quick email to remind you of your upcoming visit for the ##studyCode study. If you are unable to make this appointment, please call to rescheduled. </value>
+    </labels>
+    <labels>
         <fullName>Email_Body_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4267,6 +4274,118 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG PP L Patient Profile</shortDescription>
         <value>Patient Profile</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegate_Permitted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate permition</shortDescription>
+        <value>WHAT YOU WILL BE ABLE TO SEE OR DO</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG PST L Delegates</shortDescription>
+        <value>Delegates</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_AAddit_Item</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Any additional item</shortDescription>
+        <value>Any additional item</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Add</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add</shortDescription>
+        <value>Add New Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Back</shortDescription>
+        <value>Back to Delegates</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Click_Add_New</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegates empty</shortDescription>
+        <value>Click Add New Delegate to allow access to your information.</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Compl_Task_Behalf</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Complete tasks on my behalf</shortDescription>
+        <value>Complete tasks on my behalf</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate</shortDescription>
+        <value>Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_My_Measur</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My measurements</shortDescription>
+        <value>See my measurements</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Permitted_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Permitted Delegate Actions</shortDescription>
+        <value>WHAT YOUR DELEGATE CAN SEE OR DO</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Receive_Emails</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Receive emails</shortDescription>
+        <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save delegate</shortDescription>
+        <value>Save Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Lab_Result</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab result</shortDescription>
+        <value>See my lab results</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Survey_Resp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Surv response</shortDescription>
+        <value>See my survey responses</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_See_Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>My vitals</shortDescription>
+        <value>See my vitals</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_SuccRemove</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove delegate popup</shortDescription>
+        <value>You have successfully removed your delegate.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_My_Team</fullName>

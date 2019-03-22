@@ -3,7 +3,7 @@
     <aura:attribute name="title"            type="String" required="true"/>
     <aura:attribute name="currentTab"       type="String" required="true"/>
     <aura:attribute name="tabId"            type="String" required="true"/>
-    <aura:attribute name="variant"            type="String" required="true" default="main" description="main/underlined"/>
+    <aura:attribute name="variant"          type="String" required="true" default="main" description="main/underlined"/>
     <!--=============================================================================================================-->
     <aura:attribute name="isDisabled"       type="Boolean" default="false"/>
     <!--=============================================================================================================-->
