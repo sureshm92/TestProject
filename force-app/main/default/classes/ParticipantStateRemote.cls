@@ -7,17 +7,19 @@ public class ParticipantStateRemote {
     public class InitData{
         public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        public Participant_Enrollment__c pe;
-        public Participant_Study_Enrollment__c pse;
+        public ParticipantService.ParticipantState participantState;
+        public List<Path.PathItem> psePath;
     }
     
     @AuraEnabled
     public static String getInitData(){
         InitData initData = new InitData();
-        Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-        Participant_Study_Enrollment__c[] pseList = PSEService.getPSEListForParticipant();
-        if(peList.size() > 0) initData.pe = peList[0];
-        if(pseList.size() > 0) initData.pse = pseList[0];
+        initData.participantState = ParticipantService.getParticipantState();
+        if(initData.participantState.pse != null){
+            List<String> translatedStatuses = new List<String>();
+            for(String status : PSEService.PSE_STATUS_GROUP_ALL) translatedStatuses.add(TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status));
+            initData.psePath = Path.generatePath(translatedStatuses, initData.participantState.pse.Status__c);
+        }
         return JSON.serialize(initData);
     }
     

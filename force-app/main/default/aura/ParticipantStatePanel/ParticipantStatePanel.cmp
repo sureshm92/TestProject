@@ -9,6 +9,7 @@
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="pse" type="Object"/>
+    <aura:attribute name="psePath" type="List"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -23,7 +24,7 @@
                                changeStatusBtnList="{!v.changeStatusBtnList}"
                                singlePatientView="true"/>
             <aura:set attribute="else">
-                todo study card for PSE
+                <c:PSECard pse="{!v.pse}" psePath="{!v.psePath}"/>
             </aura:set>
         </aura:if>
     </div>

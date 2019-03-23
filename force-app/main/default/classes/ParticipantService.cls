@@ -14,6 +14,7 @@ public class ParticipantService {
         
         public ParticipantState(){
             value = ParticipantStates.PROSPECT;
+            isDelegate = false;
         }
     }
     

@@ -10,6 +10,14 @@ public without sharing class PSEService {
     public static final String PSE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
     public static final String PSE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
     
+    public static final List<String> PSE_STATUS_GROUP_ALL = new List<String>{
+            PSE_STATUS_ENROLLED,
+            PSE_STATUS_TREATMENT_PERIOD_STARTED,
+            PSE_STATUS_FOLLOW_UP_PERIOD_STARTED,
+            PSE_STATUS_PARTICIPATION_COMPLETE,
+            PSE_STATUS_TRIAL_COMPLETE
+    };
+    
     public static final List<String> PSE_STATUS_GROUP_COMPLETE = new List<String>{
             PSE_STATUS_PARTICIPATION_COMPLETE,
             PSE_STATUS_TRIAL_COMPLETE
@@ -21,6 +29,8 @@ public without sharing class PSEService {
             'Clinical_Trial_Profile__r.Profile_Picture__c',
             'Clinical_Trial_Profile__r.Study_Title__c',
             'Clinical_Trial_Profile__r.Study_Code_Name__c',
+            'Clinical_Trial_Profile__r.Study_Sponsor__c',
+            'Clinical_Trial_Profile__r.Detailed_Description__c',
             'Clinical_Trial_Profile__r.Official_Title__c',
             'Clinical_Trial_Profile__r.Orientation_Required__c',
             'Clinical_Trial_Profile__r.Override_Recruitment_Status__c',

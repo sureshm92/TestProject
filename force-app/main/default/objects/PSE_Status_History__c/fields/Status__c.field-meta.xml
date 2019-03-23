@@ -7,7 +7,6 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -16,14 +15,14 @@
                 <label>Enrolled</label>
             </value>
             <value>
-                <fullName>Treatment Period Started</fullName>
-                <default>false</default>
-                <label>Treatment Period Started</label>
-            </value>
-            <value>
                 <fullName>Follow-Up Period Started</fullName>
                 <default>false</default>
                 <label>Follow-Up Period Started</label>
+            </value>
+            <value>
+                <fullName>Treatment Period Started</fullName>
+                <default>false</default>
+                <label>Treatment Period Started</label>
             </value>
             <value>
                 <fullName>Participation Complete</fullName>

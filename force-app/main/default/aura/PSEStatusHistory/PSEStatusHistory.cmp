@@ -1,0 +1,41 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="PSEStatusHistory" controller="PSEStatusHistoryRemote">
+
+    <!--attributes: -->
+    <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="pseId" type="String"/>
+
+    <!-- methods: -->
+    <aura:method name="loadHistory" action="{!c.doLoadHistory}"/>
+
+    <!-- component body: -->
+    <div>
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+        <aura:if isTrue="{!!empty(v.pathItems)}">
+            <div class="slds-grid slds-grid_vertical">
+                <aura:iteration items="{!v.pathItems}" var="pathItem">
+                    <div class="slds-col slds-grid pe-state-row" >
+                        <div class="{!'slds-col line-div ' + pathItem.state}">
+                            <div class="{!'state-ico-wrapper ' + pathItem.state}">
+                                <c:RRIcon iconName="{!pathItem.iconName}"/>
+                            </div>
+                        </div>
+                        <div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
+                            <div class="title">{!pathItem.pseSH.Status__c}</div>
+                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDateTime value="{!pathItem.pseSH.CreatedDate}"/></div>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!empty(v.pathItems)}">
+            <div style="height: 80px"></div>
+        </aura:if>
+
+    </div>
+
+</aura:component>
