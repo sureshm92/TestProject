@@ -1,0 +1,39 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .psec-title-link{
+    font-size: 17px;
+    color: #3294fe;
+    font-weight: 600;
+}
+
+.THIS .sponsor-name {
+    height: 20px;
+    color: #999999;
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.THIS .objective-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.THIS .objective-section .objective-text {
+    height: 16px;
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .objective-section .objective-link {
+    white-space: nowrap;
+    margin-left: 10px;
+    flex-shrink: 0;
+}

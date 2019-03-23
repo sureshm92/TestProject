@@ -16,19 +16,24 @@
                 <label>Enrolled</label>
             </value>
             <value>
-                <fullName>Dropped</fullName>
+                <fullName>Treatment Period Started</fullName>
                 <default>false</default>
-                <label>Dropped</label>
+                <label>Treatment Period Started</label>
             </value>
             <value>
-                <fullName>On Hold</fullName>
+                <fullName>Follow-Up Period Started</fullName>
                 <default>false</default>
-                <label>On Hold</label>
+                <label>Follow-Up Period Started</label>
             </value>
             <value>
-                <fullName>Complete</fullName>
+                <fullName>Participation Complete</fullName>
                 <default>false</default>
-                <label>Complete</label>
+                <label>Participation Complete</label>
+            </value>
+            <value>
+                <fullName>Trial Complete</fullName>
+                <default>false</default>
+                <label>Trial Complete</label>
             </value>
         </valueSetDefinition>
     </valueSet>

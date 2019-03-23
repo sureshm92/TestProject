@@ -74,7 +74,7 @@
         <queriedFields>Contact__c</queriedFields>
     </recordLookups>
     <startElementReference>Find_Participant_Delegates_of_this_Participant</startElementReference>
-    <status>Draft</status>
+    <status>Obsolete</status>
     <variables>
         <name>Alert_Welcome_Page_Caregivers</name>
         <dataType>SObject</dataType>

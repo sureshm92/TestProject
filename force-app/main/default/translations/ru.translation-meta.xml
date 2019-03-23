@@ -476,6 +476,10 @@
         <name>Email_Action_Enroll_Now</name>
     </customLabels>
     <customLabels>
+        <label>Войти сейчас</label>
+        <name>Email_Action_Login_now</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Action View My Patients --></label>
         <name>Email_Action_View_My_Patients</name>
     </customLabels>
@@ -942,6 +946,10 @@
             Чтобы обеспечить безопасность своего аккаунта, не пересылайте это письмо никому.
         </label>
         <name>Email_Signature_Forgot_Password</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature New --></label>
+        <name>Email_Signature_New</name>
     </customLabels>
     <customLabels>
         <label><!-- Email Signature VT --></label>
