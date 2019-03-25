@@ -819,6 +819,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Login now</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_My_Home_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action View My Home Page</shortDescription>
+        <value>View my Home Page</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>

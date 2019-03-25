@@ -64,7 +64,7 @@
 
     <!-- filter metadata files before deploy: -->
     <target name="prepare-metadata" depends="convert-project">
-        <echo message="Filter profiles..." level="info"/>
+        <echo message="Start metadata filtration" level="info"/>
         <xmltask todir="${source.dir}/profiles">
             <fileset dir="${source.dir}/profiles"/>
             <remove path="/:Profile/:userPermissions[:name[text()='EnableCommunityAppLauncher']]"/>
@@ -72,14 +72,23 @@
             <remove path="/:Profile/:userPermissions[:name[text()='SendExternalEmailAvailable']]"/>
             <remove path="/:Profile/:applicationVisibilities[:application[text()='Developer']]"/>
         </xmltask>
+        <echo message="Profiles filtered" level="info"/>
+        <xmltask todir="${source.dir}/translations">
+            <fileset dir="${source.dir}/translations"/>
+            <remove path="/:Translations/:customApplications"/>
+            <remove path="/:Translations/:customTabs"/>
+            <remove path="/:Translations/:flowDefinitions"/>
+            <remove path="/:Translations/:quickActions"/>
+        </xmltask>
+        <echo message="Translations filtered" level="info"/>
         <!-- temporary fix for deployment of Contact (remove Master record type from metadata): -->
-        <echo message="Remove Contact.MASTER record type from metadata" level="warn"/>
         <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object">
             <remove path="/:CustomObject/:recordTypes[:fullName[text()='MASTER']]"/>
         </xmltask>
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
         </xmltask>
+        <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
     </target>
 
     <target name="convert-project">

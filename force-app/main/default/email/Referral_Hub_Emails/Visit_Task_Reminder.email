@@ -1,27 +1,22 @@
 <messaging:emailTemplate subject="{$Label.Email_Subject_Visit_Task_Reminder}"
-recipientType="User"
-relatedToType="Task"
-language="{!recipient.LanguageLocaleKey}">
+                         recipientType="User"
+                         relatedToType="Task"
+                         language="{!recipient.LanguageLocaleKey}">
 
-   <messaging:htmlEmailBody >
-   
-    <c:EmailTemplate userType="Participant"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Visit_Task_Reminder}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Visit_Task_Reminder}"
-                             signature="{!$Label.Email_Signature}">
-                            
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page
-}"
-                                  buttonURL="{!$Label.CommunityURL}"/>
-                                         </c:EmailTemplate>
-
-      
+    <messaging:htmlEmailBody>
+        <c:EmailTemplate userType="Participant"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Visit_Task_Reminder}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Visit_Task_Reminder}"
+                         signature="{!$Label.Email_Signature}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
+                              buttonURL="{!$Label.CommunityURL}"/>
+        </c:EmailTemplate>
     </messaging:htmlEmailBody>
-        
-        <messaging:plainTextEmailBody >
+
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText userType="Participant"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Visit_Task_Reminder}"
@@ -29,12 +24,9 @@ language="{!recipient.LanguageLocaleKey}">
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Visit_Task_Reminder}"
                              signature="{!$Label.Email_Signature}">
-
-                             
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page
-}"
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                                   buttonURL="{!$Label.CommunityURL}"/>
-                                  
-</c:EmailTemplateText>
+        </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
+
 </messaging:emailTemplate>

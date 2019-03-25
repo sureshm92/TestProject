@@ -3,7 +3,7 @@
                          relatedToType="Participant_Study_Enrollment__c"
                          language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailTemplate userType="Participant"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient2}"
@@ -16,7 +16,7 @@
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText userType="Participant"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient2}"
