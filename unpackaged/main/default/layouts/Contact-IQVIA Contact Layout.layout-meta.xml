@@ -56,6 +56,10 @@
                 <behavior>Edit</behavior>
                 <field>HCP_Opt_In_Referral_Status_Emails__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Delegate_Opt_In_Status_Emails__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -188,11 +192,6 @@
     <relatedContent>
         <relatedContentItems>
             <layoutItem>
-                <component>wits:newsPanel</component>
-            </layoutItem>
-        </relatedContentItems>
-        <relatedContentItems>
-            <layoutItem>
                 <behavior>Readonly</behavior>
                 <field>AccountId</field>
             </layoutItem>
@@ -261,9 +260,6 @@
         <relatedList>National_ID__c.Contact__c</relatedList>
         <sortField>Country_Code__c</sortField>
         <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <relatedList>RelatedContentNoteList</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
