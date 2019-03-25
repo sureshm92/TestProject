@@ -5371,6 +5371,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>You have not selected any Conditions Of Interest.</value>
     </labels>
     <labels>
+        <fullName>Resources_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources See All</shortDescription>
+        <value>See All</value>
+    </labels>
+    <labels>
         <fullName>Resources_No_Videos</fullName>
         <language>en_US</language>
         <protected>true</protected>
