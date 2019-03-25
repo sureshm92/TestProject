@@ -101,7 +101,7 @@ public with sharing class Test_ArticleService {
                 Posting_Date__c = publishDate,
                 Expiration_Date__c = expDate,
                 Resource_Type__c = 'Articles',
-                Resource_Source__c = 'Study - Specific'
+                Content_Class__c = 'Study - Specific'
         );
         insert res;
         return res;

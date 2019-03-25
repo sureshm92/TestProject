@@ -108,7 +108,7 @@ public with sharing class ResourceService {
                         'Resource__c ' +
                         'FROM Therapeutic_Area_Assignment__c ' +
                         'WHERE Therapeutic_Area__c = \'' + therapeuticAreaId + '\' AND ' +
-                        'Resource__r.Resource_Source__c = \'' + resourceSource + '\' AND ' +
+                        'Resource__r.Content_Class__c = \'' + resourceSource + '\' AND ' +
                         'Resource__r.RecordType.DeveloperName = \'' + resourceType + '\'';
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) databaseProxy.query(therapeuticAreaAssignmentsQuery);
