@@ -21,6 +21,7 @@ public class PatientDelegateService {
         return [
                 SELECT
                         Id,
+                        Participant__c,
                         Contact__c,
                         Contact__r.Name,
                         Contact__r.FirstName,

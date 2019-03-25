@@ -13,26 +13,36 @@ public class ParticipantStateRemote {
     
     @AuraEnabled
     public static String getInitData(){
-        InitData initData = new InitData();
-        initData.participantState = ParticipantService.getParticipantState();
-        if(initData.participantState.pse != null){
-            List<String> translatedStatuses = new List<String>();
-            for(String status : PSEService.PSE_STATUS_GROUP_ALL) translatedStatuses.add(TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status));
-            initData.psePath = Path.generatePath(translatedStatuses, initData.participantState.pse.Status__c);
+        try{
+            InitData initData = new InitData();
+            initData.participantState = ParticipantService.getParticipantState();
+            if(initData.participantState.pse != null){
+                List<String> translatedStatuses = new List<String>();
+                for(String status : PSEService.PSE_STATUS_GROUP_ALL) translatedStatuses.add(TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status));
+                initData.psePath = Path.generatePath(translatedStatuses, initData.participantState.pse.Status__c);
+            }
+            return JSON.serialize(initData);
+        }catch (Exception e){
+            AuraHelper.throwException(e);
         }
-        return JSON.serialize(initData);
+        return null;
     }
     
     @AuraEnabled
     public static String getParticipantName(){
-        List<Participant__c> participants = [
-                SELECT Id, First_Name__c, Last_Name__c
-                FROM Participant__c
-                WHERE Contact__c =: CommunityService.getUserContact().Id
-        ];
-        String name;
-        if(participants.size() > 0) name = participants[0].First_Name__c + ' ' + participants[0].Last_Name__c;
-        return name.trim();
+        try{
+            List<Participant__c> participants = [
+                    SELECT Id, First_Name__c, Last_Name__c
+                    FROM Participant__c
+                    WHERE Contact__c =: CommunityService.getUserContact().Id
+            ];
+            String name;
+            if(participants.size() > 0) name = participants[0].First_Name__c + ' ' + participants[0].Last_Name__c;
+            return name.trim();
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+        return null;
     }
 
 }

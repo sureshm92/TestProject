@@ -14,6 +14,7 @@
     border-left: 2px solid;
     position: relative;
     top: 11px;
+    padding: 0;
 }
 
 .THIS .line-div .state-ico-wrapper{
