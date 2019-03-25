@@ -40,4 +40,19 @@ public with sharing class ResourceRemote {
         action.IsVoted__c = isVoted;
         databaseProxy.upsertRecord(action);
     }
+
+    @AuraEnabled
+    public static String getTrialId(String userMode) {
+        String trialId;
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+            if (peList.size() > 0) {
+                trialId = peList[0].Study_Site__r.Clinical_Trial_Profile__c;
+            }
+        }
+        if(String.isBlank(trialId)) {
+            throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
+        }
+        return trialId;
+    }
 }

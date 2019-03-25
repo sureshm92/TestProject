@@ -1,9 +1,24 @@
+/**
+ * Created by Leonid Bartenev
+ */
 
+public class PatientDelegateService {
 
-public with sharing class PatientDelegateService {
-
-    public static List<Contact> getDelegateContacts() {
-        List<Patient_Delegate__c> patientDelegates = [
+    public static List<Contact> getDelegateContacts(){
+        List<Contact> contacts = new List<Contact>();
+        for(Patient_Delegate__c pd : getPatientDelegates()) contacts.add(pd.Contact__r);
+        return contacts;
+    }
+    
+    public static List<Id> getDelegatedParticipantIds(){
+        List<Patient_Delegate__c> patientDelegates = getPatientDelegates();
+        List<Id> patientIds = new List<Id>();
+        for(Patient_Delegate__c pd : getPatientDelegates()) patientIds.add(pd.Participant__c);
+        return patientIds;
+    }
+    
+    public static List<Patient_Delegate__c> getPatientDelegates(){
+        return [
                 SELECT
                         Id,
                         Contact__c,
@@ -11,10 +26,8 @@ public with sharing class PatientDelegateService {
                         Contact__r.FirstName,
                         Contact__r.LastName
                 FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c = :CommunityService.getUserContact().Id
+                WHERE Participant__r.Contact__c =: CommunityService.getUserContact().Id
         ];
-        List<Contact> contacts = new List<Contact>();
-        for (Patient_Delegate__c pd : patientDelegates) contacts.add(pd.Contact__r);
-        return contacts;
     }
+
 }
