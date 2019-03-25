@@ -1,17 +1,17 @@
 <aura:component controller="RRProfileController" description="RRProfile">
     <!--=============================================================================================================-->
-    <aura:attribute name="profileMenu"              type="Aura.Component[]" description="Deprecated. Use custom profile!"/>
-    <aura:attribute name="userMode"                 type="String" required="true"/>
+    <aura:attribute name="profileMenu" type="Aura.Component[]" description="Deprecated. Use custom profile!"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
     <!--=============================================================================================================-->
-    <aura:attribute name="user"                     type="User" access="private"/>
-    <aura:attribute name="showMenu"                 type="Boolean" default="false" access="private"/>
-    <aura:attribute name="participantName"          type="String" default="" access="private"/>
+    <aura:attribute name="user" type="User" access="private"/>
+    <aura:attribute name="showMenu" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="participantName" type="String" default="" access="private"/>
     <!--=============================================================================================================-->
-    <aura:handler name="init"                       value="{!this}"         action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--=============================================================================================================-->
     <div class="profile-block">
         <div style="display: inline-block" onclick="{!c.toggleMenu}">
-                <!--{!v.profileMenu}-->
+            <!--{!v.profileMenu}-->
             <lightning:avatar src="{!v.user.SmallPhotoUrl}"
                               alternativeText="{!if(v.userMode=='Participant',v.participantName,v.user.Contact.Name)}"
                               variant="circle" size="medium" fallbackIconName="standard:avatar"/>
@@ -20,9 +20,9 @@
         <div class="{!'rrp-menu' + if(v.showMenu, '', ' hide')}" tabindex="-1" aura:id="settingsMenu">
             <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP')}">
                 <div class="rrp-menu-item" onclick="{!c.navigateToMyTeam}">{!$Label.c.PG_PST_L_My_Team}</div>
-                <aura:set attribute="else">
-                    <div class="rrp-menu-item" onclick="{!c.navigateToDelegates}">{!$Label.c.PG_PST_L_Delegates}</div>
-                </aura:set>
+            </aura:if>
+            <aura:if isTrue="{!v.userMode == 'Participant'}">
+                <div class="rrp-menu-item" onclick="{!c.navigateToDelegates}">{!$Label.c.PG_PST_L_Delegates}</div>
             </aura:if>
             <div class="rrp-menu-item"
                  onclick="{!c.navigateToAccountSettings}">{!$Label.c.Profile_Menu_Account_Settings}</div>

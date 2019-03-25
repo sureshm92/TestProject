@@ -280,7 +280,13 @@ public without sharing class ParticipantEnrollmentService {
                         delegatesFilter +
                     ') ';
         } else{
-            return 'Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ';
+            Id userContactId;
+            if(PatientDelegateService.isPatientDelegate())
+                userContactId = PatientDelegateService.getDelegatePatientUserContactId();
+            else
+                userContactId = CommunityService.getUserContact().Id;
+
+            return 'Participant__r.Contact__c = \'' + userContactId + '\' ';
         }
     }
     

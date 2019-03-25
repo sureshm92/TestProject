@@ -1,0 +1,27 @@
+/**
+ * Created by Igor Malyuta on 22.03.2019.
+ */
+.THIS.mti-container{
+    padding: 10px;
+    position: relative;
+}
+.THIS.mti-container .mti-name{
+    font-size: 24px;
+    color: #000000;
+}
+.THIS.mti-container .mti-email{
+    font-size: 13px;
+    color: #4A4A4A;
+    padding-bottom: 20px;
+}
+.THIS.mti-container .mti-button-container{
+    margin-top: 20px;
+}
+@media all and (min-width: 768px){
+    .THIS.mti-container .mti-button-container{
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        margin-top: 0px;
+    }
+}

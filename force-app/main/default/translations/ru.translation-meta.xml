@@ -285,6 +285,10 @@
         <name>BTN_Yes_decline</name>
     </customLabels>
     <customLabels>
+        <label>Изменить сведения</label>
+        <name>Button_Edit_Details</name>
+    </customLabels>
+    <customLabels>
         <label>Удалить</label>
         <name>Button_Remove</name>
     </customLabels>
@@ -2661,6 +2665,14 @@
         <name>PG_PST_L_Delegates_Delegate</name>
     </customLabels>
     <customLabels>
+        <label><!-- Disclaimer --></label>
+        <name>PG_PST_L_Delegates_Disclaimer</name>
+    </customLabels>
+    <customLabels>
+        <label>Редактирование делегата</label>
+        <name>PG_PST_L_Delegates_Edit_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Просмотр моих измерений</label>
         <name>PG_PST_L_Delegates_My_Measur</name>
     </customLabels>
@@ -2691,6 +2703,10 @@
     <customLabels>
         <label>Вы успешно удалили своего делегата</label>
         <name>PG_PST_L_Delegates_SuccRemove</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- You cannot add this person! --></label>
+        <name>PG_PST_L_Delegates_WrongAdd</name>
     </customLabels>
     <customLabels>
         <label>Моя команда</label>

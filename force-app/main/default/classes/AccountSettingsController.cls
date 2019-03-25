@@ -110,6 +110,7 @@ public without sharing class AccountSettingsController {
                         , HCP_Opt_In_Patient_Status_Emails__c
                         , HCP_Opt_In_Study_Emails__c
                         , HCP_Opt_In_Referral_Status_Emails__c
+                        , Delegate_Opt_In_Status_Emails__c
 
                 FROM Contact
                 WHERE Id IN (

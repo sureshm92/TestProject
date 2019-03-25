@@ -7,10 +7,43 @@ public class PatientDelegateService {
     public class PatientDelegateServiceException extends Exception {
     }
 
+    //Make sure it is Patient_Delegate__c
+    public static Boolean isPatientDelegate() {
+        Contact userContact = CommunityService.getUserContact();
+        List<Patient_Delegate__c> patientDelegate = [
+                SELECT Contact__r.Id
+                FROM Patient_Delegate__c
+                WHERE Contact__r.Id = :userContact.Id
+        ];
+
+        if(patientDelegate.isEmpty())
+            return false;
+
+        return patientDelegate.get(0).Contact__r.Id == userContact.Id;
+    }
+
+    public static Id getDelegatePatientUserContactId() {
+        if (!isPatientDelegate())
+            AuraHelper.throwException(new PatientDelegateServiceException('Contact userType not Delegate'));
+
+        List<Patient_Delegate__c> patientDelegate = [
+                SELECT Participant__r.Contact__r.Id
+                FROM Patient_Delegate__c
+                WHERE Contact__r.Id = :CommunityService.getUserContact().Id
+        ];
+        return patientDelegate.get(0).Participant__r.Contact__r.Id;
+    }
+
     public static List<Contact> getDelegateContacts() {
         List<Contact> contacts = new List<Contact>();
         for (Patient_Delegate__c pd : getPatientDelegates()) contacts.add(pd.Contact__r);
         return contacts;
+    }
+
+    public static List<Id> getDelegatedContactIds() {
+        List<Id> conIds = new List<Id>();
+        for (Contact con : getDelegateContacts()) conIds.add(con.Id);
+        return conIds;
     }
 
     public static List<Id> getDelegatedParticipantIds() {
@@ -26,29 +59,20 @@ public class PatientDelegateService {
                         Contact__c,
                         Contact__r.Name,
                         Contact__r.FirstName,
-                        Contact__r.LastName
+                        Contact__r.LastName,
+                        Contact__r.Email,
+                        Participant__c
                 FROM Patient_Delegate__c
                 WHERE Participant__r.Contact__c = :CommunityService.getUserContact().Id
         ];
     }
 
-    public static List<Id> getDelegatedContactIds() {
-        List<Id> conIds = new List<Id>();
-        for (Contact con : getDelegateContacts()) conIds.add(con.Id);
-        return conIds;
-    }
-
     public static void createPatientDelegate(Contact newDelegate) {
-        System.debug('DEBUG ContactId ' + newDelegate.Id);
-        for (Id id : getDelegatedContactIds())
-            System.debug('Id Delegated contact is ' + id);
-
         if (getDelegatedContactIds().contains(newDelegate.Id))
             throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
 
-        System.debug('Contains ' + getDelegateContacts().contains(newDelegate));
-
         newDelegate.userCommunytyType__c = CommunityService.USER_MODE_DELEGATE;
+        newDelegate.userCommunityMode__c = CommunityService.USER_MODE_DELEGATE;
         update newDelegate;
 
         List<Participant__c> participant = [
@@ -62,22 +86,19 @@ public class PatientDelegateService {
                 Participant__c = participant.get(0).Id
         );
         insert delegate;
-
     }
 
-    public static Contact resetDelegate(Contact delegate) {
+    public static void resetDelegate(Contact delegate) {
+        delegate.userCommunityMode__c = null;
+        delegate.userCommunytyType__c = null;
+        delegate.UserCommunityIsDelegate__c = false;
+        update delegate;
+
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT Id
                 FROM Patient_Delegate__c
                 WHERE Contact__c = :delegate.Id
         ];
         delete patientDelegate.get(0);
-
-        delegate.userCommunityMode__c = null;
-        delegate.userCommunytyType__c = null;
-        delegate.UserCommunityIsDelegate__c = false;
-        update delegate;
-
-        return delegate;
     }
 }

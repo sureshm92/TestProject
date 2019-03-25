@@ -1,5 +1,5 @@
 <!--Created by D.Yasinskyi on 03.05.2018-->
-<aura:component controller="MyTeamRemote" description="MyTeamItem">
+<aura:component description="MyTeamItem">
 
     <!-- arrtibutes: -->
     <aura:attribute name="delegate" type="Object" required="true"/>
@@ -18,26 +18,16 @@
     <div class="rr-white-panel mti-container">
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mti-name">
-                {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+            {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
         </div>
         <div class="mti-email">
-                {!v.delegate.delegateContact.Email}
+            {!v.delegate.delegateContact.Email}
         </div>
-        <aura:if isTrue="{!v.userMode != 'Participant'}">
-            <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-                <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}" changedLevels="{!v.changedLevels}"
-                                          refreshTrigger="{!v.refreshSDLITrigger}"/>
-            </aura:iteration>
-            <aura:set attribute="else">
-                <div class="mti-container">
-                    <button class="apollo-btn tertiary" onclick="{!c.doRemove}"
-                            title="{!$Label.c.Button_Remove}">
-                        {!$Label.c.Button_Remove}
-                    </button>
-                </div>
-            </aura:set>
-        </aura:if>
-
+        <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
+            <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}"
+                                      changedLevels="{!v.changedLevels}"
+                                      refreshTrigger="{!v.refreshSDLITrigger}"/>
+        </aura:iteration>
         <div class="mti-save-button-container">
             <button class="apollo-btn tertiary mti-save-button" onclick="{!c.doSaveChanges}"
                     disabled="{!empty(v.changedLevels)}"
