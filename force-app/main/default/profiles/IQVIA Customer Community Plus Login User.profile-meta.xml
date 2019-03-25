@@ -2705,7 +2705,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Published_Date__c</field>
-        <field>Resource__c.Therapeutic_Areas__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
