@@ -57,10 +57,8 @@ public without sharing class CommunityService {
     }
 
     public static String getParticipantId() {
-        User currentUser;
-        if (userContact == null) {
-            currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-        }
+
+        User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
         if(currentUser.ContactId == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
         }
