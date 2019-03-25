@@ -5,9 +5,9 @@ public with sharing class ResourceService {
 	@TestVisible
 	private static String DEFAULT_LANGUAGE = 'en_US';
 	@TestVisible
-	private static String RESOURCE_SOURCE_STUDY = 'Study - Specific';
+	private static String RESOURCE_SOURCE_STUDY = 'Study-Specific';
 	@TestVisible
-	private static String RESOURCE_SOURCE_PLATFORM = 'Platform - TA';
+	private static String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
 	@TestVisible
 	private static String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
 	private static Integer MAX_TITLE_LENGTH = 55;
