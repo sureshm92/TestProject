@@ -1,0 +1,102 @@
+<!--
+ - Created by Kryvolap
+ -->
+
+<aura:component description="SitesSearch" implements="forceCommunity:availableForAllPageTypes"
+                controller="SitesSearchRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="trial" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="siteFilterData" type="Object"/>
+    <aura:attribute name="paginationData" type="Object"/>
+    <aura:attribute name="siteFilter" type="Object"/>
+    <aura:attribute name="pageList" type="List"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
+    <aura:attribute name="mapMarkers" type="Object"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.siteFilter}" action="{!c.doUpdateRecords}"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
+
+    <div class="rr-min-body-height">
+        <aura:if isTrue="{!v.isInitialized}">
+
+            <!-- statistic panel -->
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Navigation_My_Studies}"/>
+                <c:RRNPathItem label="{!v.trial.Study_Code_Name__c}"/>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Search_for_Sites}"/>
+            </c:RRNavigationPath>
+
+            <div class="study-name">
+                <c:RRLink label="{!v.trial.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.trial.Id}"/>
+            </div>
+
+            <!-- filter panel -->
+            <c:FilterPanel recordsPerPage="{!v.paginationData.pageRecordsCount}"
+                           recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
+                           sortType="{!v.siteFilter.sortType}"
+                           sortVariants="{!v.siteFilterData.sortVariants}"
+                           allRecordsCount="{!v.paginationData.allRecordsCount}"
+                           itemTitle="{!$Label.c.PG_SFS_L_sites}">
+                <c:rrSelect value="{!v.siteFilter.distanceRange}" options="{!v.siteFilterData.distanceRanges}"
+                            placeholder="{!$Label.c.PG_SFS_L_Distance_from_you}" useSentenceFont="false"/>
+                <c:rrSelect value="{!v.siteFilter.siteType}" options="{!v.siteFilterData.siteTypes}"
+                            placeholder="{!$Label.c.PG_SFS_L_Site_Type}" useSentenceFont="false"/>
+                <c:rrSelect value="{!v.siteFilter.therapeuticArea}" options="{!v.siteFilterData.therapeuticAreas}"
+                            placeholder="{!$Label.c.PG_SFS_L_Therapeutic_Area}"/>
+
+            </c:FilterPanel>
+
+
+            <!-- list of items: -->
+            <div style="position: relative; min-height: 100px; padding-bottom: 1px" class="slds-gutters_">
+                <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
+                <c:EmptyListStub targetList="{!v.pageList}"/>
+                <aura:if isTrue="{!not(empty(v.pageList))}">
+                    <div class="slds-grid ss-main-panel">
+                        <div class="slds-col slds-size--1-of-2">
+                            <aura:iteration items="{!v.pageList}" var="item">
+                                <c:SitesSearchItem
+                                        studySiteWrapper="{!item}"
+                                        parentComponent="{!this}"/>
+                            </aura:iteration>
+                        </div>
+                        <div class="slds-col slds-size--1-of-2 ss-map">
+                            <lightning:map mapMarkers="{!v.mapMarkers}" zoomLevel="16"/>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+
+
+            <div class="slds-grid">
+                <div class="slds-col slds-size--1-of-2">
+                    <!-- pagination -->
+                    <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                          currentPage="{!v.paginationData.currentPage}"
+                                          allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+
+                    <!-- change PE status action by PI: -->
+                </div>
+            </div>
+            <c:Action_SendSiteRequestByHCP aura:id="changePEStatusByPIAction"/>
+
+        </aura:if>
+    </div>
+</aura:component>
