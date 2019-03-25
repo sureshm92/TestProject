@@ -65,6 +65,27 @@ public without sharing class  IntegrationService {
     public static final String END_POINT_URL = 'callout:ServiceNowAndStudyHub';
     public static final Integer TIMEOUT = 120000;
     
+    private static Map<String, String> referralSourceEndpointMap;
+    private static Map<String, Map<String, String>> referralSourceFieldsMap;
+    private static String queriedStatusFields;
+
+    public static Map<String, String> getReferralSourceEndpointMap(){
+        if(referralSourceEndpointMap == null){initStatusInegrationMaps();}
+        return referralSourceEndpointMap;
+    }
+    public static Map<String, Map<String, String>> getReferralSourceFieldsMap(){
+        if(referralSourceFieldsMap == null){initStatusInegrationMaps();}
+        return referralSourceFieldsMap;
+    }
+    public static String getQueriedStatusFields(){
+        if(queriedStatusFields == null || queriedStatusFields == ''){initStatusInegrationMaps();}
+        return queriedStatusFields;
+    }
+
+
+
+
+
     @Future(Callout=true)
     public static void sendPEToServiceNowAsync(Id participantEnrollmentId){
         sendPEToServiceNow(participantEnrollmentId);
@@ -73,7 +94,8 @@ public without sharing class  IntegrationService {
     public static void sendPEToServiceNow(Id participantEnrollmentId){
         IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId, false);
         if(integrationMessage == null) return;
-        ResponseResult result = sendIntegrationMessage(participantEnrollmentId, integrationMessage);
+        String integrationMessageString = JSON.serializePretty(integrationMessage, true);
+        ResponseResult result = sendIntegrationMessage(END_POINT_URL, participantEnrollmentId, integrationMessageString);
         update new Participant_Enrollment__c(
                 Id = participantEnrollmentId
                 //Service_Now_Sent_Date__c = Datetime.now()
@@ -86,25 +108,41 @@ public without sharing class  IntegrationService {
         sendPEToStudyHub(participantEnrollmentId);
     }
     
+    @Future(Callout=true)
+    public static void sendPESHToEPRAsync(List<Id> participantEnrollmentStatusHistoryIds){
+        sendPESHToEPR(participantEnrollmentStatusHistoryIds);
+    }
+
     public static void sendPEToStudyHub(Id participantEnrollmentId){
         IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId, true);
         System.debug('PE: ' + integrationMessage);
         if(integrationMessage == null) return;
-        ResponseResult result = sendIntegrationMessage(participantEnrollmentId, integrationMessage);
+        String integrationMessageString = JSON.serializePretty(integrationMessage, true);
+        ResponseResult result = sendIntegrationMessage(END_POINT_URL, participantEnrollmentId, integrationMessageString);
         update new Participant_Enrollment__c(
                 Id = participantEnrollmentId,
                 Study_Hub_Log__c = result.log.Id
         );
     }
     
-    public static ResponseResult sendIntegrationMessage(String sourceId, IntegrationMessage integrationMessage){
-        String dataJSON = JSON.serializePretty(integrationMessage, true);
+    public static void sendPESHToEPR(List<Id> participantEnrollmentSHIds){
+        Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(participantEnrollmentSHIds) ;
+        System.debug('PESH: ' + integrationMessagesMap);
+        if(integrationMessagesMap == null) return;
+        for(String endpoint: integrationMessagesMap.keySet()){
+            ResponseResult result = sendIntegrationMessage('callout:'+ endpoint, String.join(participantEnrollmentSHIds,','), integrationMessagesMap.get(endpoint));
+        }
+
+    }
+
+    public static ResponseResult sendIntegrationMessage(String endpointURl, String sourceId, String integrationMessage){
+
         ResponseResult responseResult;
         Integer currentAttempt = 1;
         Integer attemptsCount = 3;
         List<Integration_Log__c> logs = new List<Integration_Log__c>();
         while(true){
-            responseResult = send(END_POINT_URL, 'POST', TIMEOUT, sourceId, dataJSON, currentAttempt);
+            responseResult = send(endpointURl, 'POST', TIMEOUT, sourceId, integrationMessage, currentAttempt);
             logs.add(responseResult.log);
             if((responseResult.httpResponse != null && responseResult.httpResponse.getStatusCode() == 500) && currentAttempt < attemptsCount){
                 currentAttempt ++;
@@ -232,6 +270,35 @@ public without sharing class  IntegrationService {
         return integrationMessage;
     }
     
+
+    public static Map<String, String> createStatusIntegrationMessage(List<Id> participantEnrollmentSHIds){
+        Map<String,List<Map<String, String>>> endpointToIntegrationMessagesMap = new Map<String, List<Map<String, String>>>();
+        Set<String> refSources = getReferralSourceEndpointMap().keySet();
+        String quertString = 'SELECT ' + getQueriedStatusFields() + ' FROM Participant_Enrollment_Status_History__c ' +
+                'WHERE Id IN :participantEnrollmentSHIds AND ParticipantEnrollment__r.Referral_Source__c IN :refSources';
+        List<Participant_Enrollment_Status_History__c> statusHistories = Database.query(quertString);
+        for(Participant_Enrollment_Status_History__c pesh: statusHistories){
+            Map<String, String> statusIntegrationMessage = new Map<String, String>();
+            Map<String, String> fieldMap = getReferralSourceFieldsMap().get(pesh.ParticipantEnrollment__r.Referral_Source__c);
+            String endpoint = getReferralSourceEndpointMap().get(pesh.ParticipantEnrollment__r.Referral_Source__c);
+
+            for(String key: fieldMap.keySet()){
+                statusIntegrationMessage.put(key, getFieldValue(pesh, fieldMap.get(key)));
+            }
+
+            if(endpointToIntegrationMessagesMap.get(endpoint) == null){
+                endpointToIntegrationMessagesMap.put(endpoint, new List<Map<String, String>>());
+            }
+            endpointToIntegrationMessagesMap.get(endpoint).add(statusIntegrationMessage);
+        }
+        Map<String,String> result = new Map<String, String>();
+        for(String endpoint : endpointToIntegrationMessagesMap.keySet()){
+            result.put(endpoint, JSON.serializePretty(endpointToIntegrationMessagesMap.get(endpoint), true));
+        }
+        System.debug(result);
+        return result;
+    }
+
     //timeout on milliSeconds
     public static void sleep(Long milliSeconds){
         Long timeDiff = 0;
@@ -240,6 +307,62 @@ public without sharing class  IntegrationService {
             timeDiff = System.now().getTime() - firstTime.getTime();
         } while (timeDiff <= milliSeconds);
     }
+
+    public static void initStatusInegrationMaps(){
+        referralSourceEndpointMap = new Map<String, String>();
+        referralSourceFieldsMap = new Map<String, Map<String, String>>();
+        Set<String> queriedStatusFieldsSet = new Set<String>();
+        for(Participant_Status_Integration__mdt setting: [
+                SELECT Id,
+                        Fields__c,
+                        ApiFieldNames__c,
+                        Referral_Sources__c,
+                        Named_Credential__c
+                FROM Participant_Status_Integration__mdt]){
+            for(String field: setting.Fields__c.split(',')){
+                queriedStatusFieldsSet.add(field.trim());
+            }
+            Map<String, String> fieldMap = createFieldMap(setting.ApiFieldNames__c, setting.Fields__c);
+            for(String refSource : setting.Referral_Sources__c.split(',') ){
+                referralSourceEndpointMap.put(refSource.trim(),setting.Named_Credential__c);
+                referralSourceFieldsMap.put(refSource.trim(),fieldMap);
+            }
+        }
+        queriedStatusFields = string.join(new List<String>(queriedStatusFieldsSet),', ');
+        System.debug(referralSourceFieldsMap);
+        System.debug(referralSourceEndpointMap);
+        System.debug(queriedStatusFields);
+    }
+    public static Map<String, String> createFieldMap(String keys, String values){
+        Map<String, String> result = new Map<String, String>();
+        List<String> keysList = keys.split(',');
+        List<String> valuesList = values.split(',');
+        for(Integer i=0; i < Math.min(keysList.size(),valuesList.size());i++){
+            result.put(keysList[i].trim(), valuesList[i].trim());
+        }
+        return result;
+    }
+
+    public static String getFieldValue(Participant_Enrollment_Status_History__c pesh, String fieldName){
+        SObject tempSObject = pesh;
+        List<String> fieldPath = fieldName.split('\\.');
+        for(Integer i = 0; i < fieldPath.size()-1; i++){
+            tempSObject = tempSObject.getSObject(fieldPath[i]);
+        }
+        Object field = tempSObject.get(fieldPath[fieldPath.size()-1]);
+        if (field == null){
+            return '';
+        }
+        else if (field instanceof Datetime){
+            return ((Datetime)field).format('yyyy-MM-dd\'T\'HH:mm:ssXXX');
+        }
+        else if (field instanceof Date){
+            return ((Date)field).format();
+        }
+            return (String)field;
+    }
+
+
 
 
 }

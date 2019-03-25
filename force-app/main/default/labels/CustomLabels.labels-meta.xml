@@ -672,6 +672,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Manage_team_member</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Manage team member</shortDescription>
+        <value>Manage team members</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>

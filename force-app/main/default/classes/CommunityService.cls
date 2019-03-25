@@ -16,7 +16,7 @@ public without sharing class CommunityService {
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
     public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
 
-    // org wide email adress
+    // org wide email address
     public static String COMMUNITY_ORG_WIDE_ADDRESS_NAME = 'IQVIA Referral Hub';
 
     // case auto assignment rule

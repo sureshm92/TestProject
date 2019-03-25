@@ -163,6 +163,18 @@ public without sharing class StudySiteService {
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
         return Database.query(query);
     }
+    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels){
+
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        Map<Id, String> delegateLevelMap = DelegateService.getPIStudySitesAccessLevelMap();
+
+        for(Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false)){
+            if(!delegateLevelMap.containsKey(site.Id) || delegateLevels.contains(delegateLevelMap.get(site.Id))){
+                ssList.add(site);
+            }
+        }
+        return ssList;
+    }
     //contains selected filter values
     public class SiteFilter{
         public String mode;
