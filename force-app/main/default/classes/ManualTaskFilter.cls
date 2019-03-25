@@ -130,6 +130,9 @@ public with sharing class ManualTaskFilter {
         return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
     }
 
+    /**
+     * Convert list of country code to full named
+     */
     private List<String> convertedCountries() {
         List<LabelValueItem> allCountries = CountryStateUtil.getCountries();
         List<String> convertedCountries = new List<String>();

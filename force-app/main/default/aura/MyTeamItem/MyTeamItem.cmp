@@ -1,8 +1,9 @@
 <!--Created by D.Yasinskyi on 03.05.2018-->
-<aura:component description="MyTeamItem">
+<aura:component controller="MyTeamRemote" description="MyTeamItem">
 
     <!-- arrtibutes: -->
     <aura:attribute name="delegate" type="Object" required="true"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="options" type="List" required="true"/>
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
@@ -22,10 +23,21 @@
         <div class="mti-email">
                 {!v.delegate.delegateContact.Email}
         </div>
-        <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-            <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}" changedLevels="{!v.changedLevels}"
-                                      refreshTrigger="{!v.refreshSDLITrigger}"/>
-        </aura:iteration>
+        <aura:if isTrue="{!v.userMode != 'Participant'}">
+            <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
+                <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}" changedLevels="{!v.changedLevels}"
+                                          refreshTrigger="{!v.refreshSDLITrigger}"/>
+            </aura:iteration>
+            <aura:set attribute="else">
+                <div class="mti-container">
+                    <button class="apollo-btn tertiary" onclick="{!c.doRemove}"
+                            title="{!$Label.c.Button_Remove}">
+                        {!$Label.c.Button_Remove}
+                    </button>
+                </div>
+            </aura:set>
+        </aura:if>
+
         <div class="mti-save-button-container">
             <button class="apollo-btn tertiary mti-save-button" onclick="{!c.doSaveChanges}"
                     disabled="{!empty(v.changedLevels)}"

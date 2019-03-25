@@ -281,6 +281,10 @@
         <name>BTN_Yes_decline</name>
     </customLabels>
     <customLabels>
+        <label>Удалить</label>
+        <name>Button_Remove</name>
+    </customLabels>
+    <customLabels>
         <label>Просмотреть в роли клиники</label>
         <name>CTL_L_HCP_MODE</name>
     </customLabels>
@@ -586,7 +590,15 @@
         <name>Email_Body_Patient14</name>
     </customLabels>
     <customLabels>
-        <label><!-- Email_Body_Patient15 --></label>
+        <label>Недавно ##HCPName сделал от вашего имени направление в ##PIName для потенциального участия в клиническом
+            исследовании: ##StudyName.
+             
+            С вами свяжется сайт главного исследователя ##StudySiteName, чтобы узнать о следующих шагах в процессе
+            регистрации.
+             
+            Чтобы просмотреть дополнительную информацию об этом исследовании, войдите на платформу и перейдите в раздел
+            «Мои исследования».
+        </label>
         <name>Email_Body_Patient15</name>
     </customLabels>
     <customLabels>

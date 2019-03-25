@@ -42,7 +42,9 @@
                 <aura:set attribute="else">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel">
                         <aura:iteration items="{!v.delegates}" var="delegate">
-                            <c:MyTeamItem delegate="{!delegate}" parentComponent="{!this}"
+                            <c:MyTeamItem delegate="{!delegate}"
+                                          userMode="{!v.userMode}"
+                                          parentComponent="{!this}"
                                           options="{!v.delegateOptions}"
                                           saveInProgress="{!v.saveInProgress}"/>
                         </aura:iteration>

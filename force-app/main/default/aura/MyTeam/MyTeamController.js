@@ -10,9 +10,7 @@
             component.set("v.delegateOptions", initData.delegateOptions);
             component.set("v.showSpinner", false);
             component.set("v.hasStudies", initData.hasStudies);
-            debugger;
         })
-
     },
 
     inviteTeamMembers: function (component, event, helper) {
