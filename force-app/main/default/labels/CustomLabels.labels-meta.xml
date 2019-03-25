@@ -482,6 +482,13 @@ Click OK to begin!</value>
         <value>Yes, decline</value>
     </labels>
     <labels>
+        <fullName>Button_Edit_Details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Details</shortDescription>
+        <value>Edit Details</value>
+    </labels>
+    <labels>
         <fullName>Button_Remove</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4413,6 +4420,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Back to Delegates</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_CantAssign</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This person can&#39;t be assigned</shortDescription>
+        <value>This person can&#39;t be assigned as a delegate, please, pick another email address.</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_Click_Add_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4434,6 +4448,36 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Delegate_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegate Information</shortDescription>
+        <value>Delegate Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Designed_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Designed Text</shortDescription>
+        <value>##PatientFirstName has designated you as their delegate. You are allowed to view the following information. You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with ##PatientFirstName. If you withdraw in error, kindly contact your patient to be reappoointed as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Disclaimer</shortDescription>
+        <value>Disclaimer regarding data and delegate access etc. 
+This will likely go into a second line so this sentence here 
+is a placehilder to show you what it would look like.</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Edit_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Edit Delegate</shortDescription>
+        <value>Edit Delegate</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_My_Measur</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4453,6 +4497,34 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>Receive emails</shortDescription>
         <value>Receive emails about my study status</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Delegate</shortDescription>
+        <value>Remove Delegate</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Himself</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove Himself</shortDescription>
+        <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove_Mess_P1</shortDescription>
+        <value>You are about to remove</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess_P2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remove_Mess_P2</shortDescription>
+        <value>from your account. You cannot undo this action. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Save</fullName>
@@ -4490,11 +4562,25 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>You have successfully removed your delegate.</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Withdraw_From_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Withdraw From Delegate</shortDescription>
+        <value>Withdraw From Delegate Appointment</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_WrongAdd</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>You cannot add this person!</shortDescription>
         <value>You cannot add this person!</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_You_Withdraw_Succ</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>You have successfully withdraw from your delegate appointment.</shortDescription>
+        <value>You have successfully withdraw from your delegate appointment.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_My_Team</fullName>
@@ -5926,6 +6012,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>Test Label With Param</shortDescription>
         <value>For this: ##param1, use this: ##zzz</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Changes_Successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Changes made successfully</shortDescription>
+        <value>Changes made successfully</value>
     </labels>
     <labels>
         <fullName>URL_Cookies</fullName>

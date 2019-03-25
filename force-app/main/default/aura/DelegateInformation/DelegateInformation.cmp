@@ -1,0 +1,68 @@
+<!--
+ - Created by Igor Malyuta on 25.03.2019.
+ -->
+
+<aura:component controller="PatientDelegateRemote" description="DelegateInformation">
+
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="contact" type="Contact" required="true"/>
+    <aura:attribute name="showModal" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="infoText" type="String" access="private"/>
+
+    <div class="rr-white-panel" style="padding: 30px">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size--1-of-3">
+                <h3>{!$Label.c.PG_PST_L_Delegates_Delegate_Information}</h3>
+                <c:DelegateLevelInfoTable userMode="Delegate"/>
+            </div>
+            <div class="slds-col slds-grow-none">
+                <div class="height-stub line"></div>
+            </div>
+            <div class="slds-col slds-size--2-of-3">
+                <p style="margin-top: 89px">{!v.infoText}</p>
+                <button class="apollo-btn tertiary mti-button"
+                        title="{!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}"
+                        onclick="{!c.onclickWithdraw}">
+                    {!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}
+                </button>
+            </div>
+        </div>
+        <aura:if isTrue="{!v.showModal}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
+                     aria-modal="true"
+                     aria-describedby="modal-content-id-1"
+                     class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header modal-header">
+                        <h2 id="modal-heading-01"
+                            class="slds-text-heading_medium slds-hyphenate">
+                            {!$Label.c.PG_PST_L_Delegates_Remove_Delegate}
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content" id="modal-content-id-1">
+                        <p class="modal-text">
+                            {!$Label.c.PG_PST_L_Delegates_Remove_Himself}
+                        </p>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <lightning:button
+                                        class="slds-button slds-button_brand"
+                                        label="Yes"
+                                        onclick="{!c.doRemoveHimself}"/>
+                            </div>
+                            <div class="slds-col">
+                                <lightning:button
+                                        class="slds-button slds-button_neutral"
+                                        label="No" onclick="{!c.onclickWithdraw}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

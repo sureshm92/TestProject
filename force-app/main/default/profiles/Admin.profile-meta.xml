@@ -3237,6 +3237,10 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact-Contact Layout</layout>
+        <recordType>Contact.MASTER</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-IQVIA Contact Layout</layout>
     </layoutAssignments>
     <layoutAssignments>

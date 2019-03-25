@@ -105,7 +105,6 @@
                 communityService.showToast(
                     'Success', 'success', $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') + ' ' +
                     (delegate.delegateContact.FirstName || '') + ' ' + delegate.delegateContact.LastName + '.');
-
             });
         } else
             component.find('saveDelegateLevelChanges').execute(delegate, component, delegate.delegateContact.Id === undefined);
