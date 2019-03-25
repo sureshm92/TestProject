@@ -61,8 +61,7 @@ public class PatientDelegateService {
                         Contact__r.Name,
                         Contact__r.FirstName,
                         Contact__r.LastName,
-                        Contact__r.Email,
-                        Participant__c
+                        Contact__r.Email
                 FROM Patient_Delegate__c
                 WHERE Participant__r.Contact__c = :CommunityService.getUserContact().Id
         ];
