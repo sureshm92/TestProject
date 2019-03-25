@@ -20,10 +20,10 @@ public class PSEStatusHistoryRemote {
     public static String getPSEStatusHistory(Id pseId){
         try{
             List<PSE_Status_History__c> history = [
-                    SELECT Id, Status__c, CreatedDate
+                    SELECT Id, Status__c, Changed_Date__c
                     FROM PSE_Status_History__c
                     WHERE PSE__c =: pseId
-                    ORDER BY CreatedDate DESC
+                    ORDER BY Changed_Date__c DESC
             ];
             List<PathItem> items = new List<PathItem>();
             for(PSE_Status_History__c pseSH : history) {

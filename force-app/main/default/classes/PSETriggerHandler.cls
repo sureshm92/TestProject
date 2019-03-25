@@ -12,11 +12,13 @@ public class PSETriggerHandler {
             if(Trigger.isUpdate) oldMap = (Map<Id, Participant_Study_Enrollment__c>)Trigger.oldMap;
             for(Participant_Study_Enrollment__c pse : newMap.values()){
                 if(Trigger.isInsert || (Trigger.isUpdate && pse.Status__c != oldMap.get(pse.Id).Status__c)){
-                    pseStatusHistories.add(new PSE_Status_History__c(
-                            PSE__c = pse.Id,
-                            Status__c = pse.Status__c,
-                            Changed_Date__c = Datetime.now()
-                    ));
+                    if(pse.Status__c == PSEService.PSE_STATUS_ENROLLED){
+                        pseStatusHistories.add(new PSE_Status_History__c(
+                                PSE__c = pse.Id,
+                                Status__c = pse.Status__c,
+                                Changed_Date__c = Datetime.now()
+                        ));
+                    }
                 }
             }
             if(pseStatusHistories.size() > 0) insert pseStatusHistories;
