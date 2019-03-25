@@ -355,6 +355,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaginationData</apexClass>
         <enabled>true</enabled>
     </classAccesses>

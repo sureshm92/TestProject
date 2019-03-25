@@ -3,7 +3,6 @@
     height: 90px;
     margin: 0 11px 48px 18px;
     min-width: 510px;
-    cursor: pointer;
 }
 
 .THIS .resource-image-container {
@@ -76,4 +75,8 @@
     font-size: 12px;
     font-style: italic;
     line-height: 14px;
+}
+
+.THIS .resource-pointer {
+    cursor: pointer;
 }
