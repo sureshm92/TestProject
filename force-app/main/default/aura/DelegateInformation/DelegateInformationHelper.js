@@ -11,10 +11,5 @@
                 communityService.logErrorFromResponse(error);
             }
         );
-    },
-
-    showModalChangeValue : function (component) {
-        var isShow = component.get('v.showModal');
-        component.set('v.showModal', !isShow);
     }
 })

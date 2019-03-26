@@ -14,16 +14,18 @@
     },
 
     onclickWithdraw : function (component, event, helper) {
-        helper.showModalChangeValue(component);
-    },
+        var messageText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Himself');
+        var contact = component.get('v.contact');
+        var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
+        actionRemoveDelegate.set('v.messageText', messageText);
 
-    doRemoveHimself : function (component, event, helper) {
-        communityService.executeAction(component, 'withdrawDelegate', {
-            delegate : JSON.stringify(component.get('v.contact'))
-        }, function () {
-            helper.showModalChangeValue(component);
-            communityService.showSuccessToast(null, $A.get('$Label.c.PG_PST_L_Delegates_You_Withdraw_Succ'));
+        actionRemoveDelegate.execute(contact, function () {
+            communityService.executeAction(component, 'withdrawDelegate', {
+                delegate : JSON.stringify(component.get('v.contact'))
+            }, function () {
+                communityService.showSuccessToast(null, $A.get('$Label.c.PG_PST_L_Delegates_You_Withdraw_Succ'));
+            });
+            helper.doLogOut(component);
         });
-        helper.doLogOut(component);
     }
 })

@@ -2,6 +2,7 @@
 <aura:component controller="AccountSettingsController" description="AccountSettings">
     <!--=============================================================================================================-->
     <aura:attribute name="userMode" type="String" required="true"/>
+    <aura:attribute name="isDelegate" type="Boolean" access="private"/>
     <!--=============================================================================================================-->
     <aura:attribute name="initData" type="Object" access="private"/>
     <aura:attribute name="showSpinner" type="Boolean" default="{!true}" access="private"/>
@@ -16,6 +17,7 @@
     <div class="as-container">
 
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
+        <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
         <aura:if isTrue="{!v.isInitialized}">
             <div class="rr-white-panel" style="padding: 30px">
@@ -64,8 +66,8 @@
                     <!--</div>-->
                 </div>
             </div>
-            <aura:if isTrue="{!v.userMode == 'Delegate'}">
-                <c:DelegateInformation contact="{!v.initData.myContact}"/>
+            <aura:if isTrue="{!v.isDelegate}">
+                <c:DelegateInformation contact="{!v.initData.myContact}" parentComponent="{!this}"/>
             </aura:if>
             <!-- Date format and preferred language panel: -->
             <div class="rr-white-panel" style="padding: 30px">
@@ -105,7 +107,7 @@
                                 {!$Label.c.PG_AS_L_Opt_In_HCP_Referral_Status_Emails}
                             </div>
                         </aura:if>
-                        <aura:if isTrue="{!v.userMode=='Participant'}">
+                        <aura:if isTrue="{!v.userMode== 'Participant'}">
                             <div class="as-sub-title">{!$Label.c.PG_AS_T_Participant_Email_Preferences}</div>
                             <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                 <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
@@ -216,9 +218,7 @@
                                        disabled="true"/>
                         </div>
                     </aura:if>
-
                 </div>
-
             </div>
 
             <div class="rr-white-panel" style="padding: 30px">
@@ -247,9 +247,6 @@
                     </div>
                 </div>
             </div>
-
-
         </aura:if>
     </div>
-
 </aura:component>

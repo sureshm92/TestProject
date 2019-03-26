@@ -317,15 +317,22 @@ public without sharing class MyTeamRemote {
     public static void savePatientDelegate(String delegate) {
         DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(delegate, DelegateWrapper.class);
         try {
-            if (dw.delegateContact.Id == null)
+            Boolean isNewContact = dw.delegateContact.Id == null;
+            if (isNewContact) {
                 createDelegate(dw, CommunityService.USER_MODE_PARTICIPANT);
+            }else {
+                Set<Id> contactId = new Set<Id>{dw.delegateContact.Id};
+                if(CommunityService.getCommunityUsersByContactIds(contactId).isEmpty()) {
+                    CommunityService.createPortalUsers(contactId);
+                }
+            }
 
             if (dw.delegateContact.userCommunytyType__c == null) {
                 PatientDelegateService.createPatientDelegate(dw.delegateContact);
-                sendEmailNotification(dw.delegateContact);
+                if(!isNewContact)sendEmailNotification(dw.delegateContact);
+            } else {
+                AuraHelper.throwException(new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign));
             }
-            else AuraHelper.throwException(
-                        new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign));
 
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -364,8 +371,8 @@ public without sharing class MyTeamRemote {
 
     @AuraEnabled
     public static void removePatientDelegate(String delegate) {
-        DelegateWrapper delegateWrapper = (DelegateWrapper) JSON.deserialize(delegate, DelegateWrapper.class);
-        PatientDelegateService.resetDelegate(delegateWrapper.delegateContact);
+        Contact delegateContact = (Contact) JSON.deserialize(delegate, Contact.class);
+        PatientDelegateService.resetDelegate(delegateContact);
     }
 
     private static void createDelegate(DelegateWrapper delegate, String userMode) {
@@ -377,12 +384,8 @@ public without sharing class MyTeamRemote {
         if (currentUser.Contact.AccountId == null)
             throw new CommunityServiceException('User Contact Account can not be NULL');
         delegateContact.AccountId = currentUser.Contact.AccountId;
-
-        if (userMode != CommunityService.USER_MODE_PARTICIPANT) {
-            delegateContact.userCommunityMode__c = userMode;
-            delegateContact.userCommunityIsDelegate__c = true;
-        }
-
+        delegateContact.userCommunityMode__c = userMode;
+        delegateContact.userCommunityIsDelegate__c = true;
         delegateContact.Language__c = UserInfo.getLanguage();
         insert delegateContact;
 

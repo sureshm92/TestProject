@@ -191,6 +191,7 @@ public without sharing class CommunityService {
     private static Contact getContactById(Id contactId) {
         return [
                 SELECT Id,
+                        Name,
                         primaryContact__c,
                         userCommunityMode__c,
                         userCommunytyType__c,
