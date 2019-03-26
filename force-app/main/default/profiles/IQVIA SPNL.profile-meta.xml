@@ -351,6 +351,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEStatusHistoryRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSETriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaginationData</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -367,6 +379,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -376,6 +392,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Path</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -419,15 +443,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_ResourceRemote</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ResourceService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -592,6 +608,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RRLoginRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1142,6 +1166,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Delegate_Opt_In_Status_Emails__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Full_Name__c</field>
         <readable>true</readable>
@@ -1349,6 +1378,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Task_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Task_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2603,6 +2637,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Resource__c.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource__c.Expiration_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2992,6 +3036,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task_Catalog__mdt.Action_Link__c</field>
         <readable>false</readable>
@@ -3169,6 +3218,13 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact-Contact Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Layout</layout>
+        <recordType>Contact.MASTER</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3179,6 +3235,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Email_Template_Settings__mdt-Email Template Settings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
@@ -3206,6 +3265,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Onboarding_Tour__mdt-Onboarding Tour Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PSE_Status_History__c-PSE Status History Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ParticipantEnrollmentSet__mdt-ParticipantEnrollmentSet Layout</layout>

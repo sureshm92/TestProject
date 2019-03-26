@@ -19,6 +19,10 @@
                 action = component.get('c.searchCountries');
                 break;
 
+            case 'site' :
+                action = component.get('c.searchSite');
+                break;
+
             default:
                 action = component.get('c.searchSponsor');
         }

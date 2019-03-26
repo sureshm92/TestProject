@@ -351,6 +351,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaginationData</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -367,6 +371,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -376,6 +384,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1140,6 +1152,11 @@
         <editable>false</editable>
         <field>Contact.Degree__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Delegate_Opt_In_Status_Emails__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3167,6 +3184,13 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact %28Marketing%29 Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact %28Marketing%29 Layout</layout>
+        <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>

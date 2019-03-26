@@ -63,10 +63,10 @@
                     <!--<button class="apollo-btn primary" id="0" onclick="{!c.doChangePassword}">{!$Label.c.PG_AS_BTN_Update_My_Password}</button>-->
                     <!--</div>-->
                 </div>
-
-
             </div>
-
+            <aura:if isTrue="{!v.userMode == 'Delegate'}">
+                <c:DelegateInformation contact="{!v.initData.myContact}"/>
+            </aura:if>
             <!-- Date format and preferred language panel: -->
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>

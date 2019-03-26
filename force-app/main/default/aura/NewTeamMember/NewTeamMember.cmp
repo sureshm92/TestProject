@@ -57,6 +57,9 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1 left-column">
                             <div class="delegate-info-panel">
                                 <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
+                                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                    <c:DelegatesDisclaimer/>
+                                </aura:if>
                             </div>
                             <div class="button-panel-mobile rr-medium-up-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
@@ -99,7 +102,6 @@
                                                              value="{!v.delegate.delegateContact.LastName}"/>
                                         </div>
                                     </div>
-                                    <!--<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3"/>-->
                                     <div class="slds-col slds-size_1-of-1" >
                                         <div class="{!'personal-info-exists '+if(v.delegate.delegateContact.Id!=undefined,'found','')}">
                                             {!if(v.isStaff, $Label.c.PG_NTM_L_Team_member, $Label.c.PG_PST_L_Delegates_Delegate) +
@@ -143,22 +145,38 @@
                                         </c:RRLink>
                                     </div>
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
-                                        <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
-                                                disabled="{!or(or(or(or(or(not(v.isCorrectEmail),
+                                        <aura:if isTrue="{!v.isStaff}">
+                                            <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
+                                                    disabled="{!or(or(or(or(or(not(v.isCorrectEmail),
                                                         and(empty(v.delegate.delegateContact.FirstName),v.delegate.delegateContact.Id==undefined)),
                                                         and(empty(v.delegate.delegateContact.LastName),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
-                                                        v.delegate.delegateContact.Id == v.currentUserContactId)}"
-                                                title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
+                                                        v.delegate.delegateContact.Id == v.currentUserContactId)
+}"
+                                                    title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
                                                         and(empty(v.delegate.delegateContact.FirstName),v.delegate.delegateContact.Id==undefined)),
                                                         and(empty(v.delegate.delegateContact.LastName),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
                                                         $Label.c.PG_NTM_T_Correct_Info,'')}">
-                                            {!if(v.isStaff, $Label.c.PG_NTM_BTN_Save_Team_Member, $Label.c.PG_PST_L_Delegates_Save)}
-                                        </button>
+                                                {!$Label.c.PG_NTM_BTN_Save_Team_Member}
+                                            </button>
+                                            <aura:set attribute="else">
+                                                <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
+                                                        disabled="{!or(
+                                                                        or(
+                                                                            not(v.isCorrectEmail),
+                                                                            empty(or(
+                                                                                     v.delegate.delegateContact.FirstName,
+                                                                                     v.delegate.delegateContact.LastName))),
+                                                                        v.delegate.delegateContact.Id == v.currentUserContactId)}">
+                                                    {!$Label.c.PG_PST_L_Delegates_Save}
+                                                </button>
+                                            </aura:set>
+                                        </aura:if>
+
                                     </div>
                                 </div>
                             </div>

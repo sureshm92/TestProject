@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PSE__c</fullName>
+    <externalId>false</externalId>
+    <label>Participant Study Enrollment</label>
+    <referenceTo>Participant_Study_Enrollment__c</referenceTo>
+    <relationshipLabel>PSE Status Histories</relationshipLabel>
+    <relationshipName>PSE_Status_Histories</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -148,6 +148,8 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Contact.CNTC_FIRST_NAME</fields>
+        <fields>Contact.NAME</fields>
         <relatedList>Patient_Delegate__c.Participant__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -156,7 +158,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h0E000000wsqe</masterLabel>
+        <masterLabel>00h3D000000hULj</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

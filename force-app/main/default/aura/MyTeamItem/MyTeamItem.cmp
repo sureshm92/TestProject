@@ -3,6 +3,7 @@
 
     <!-- arrtibutes: -->
     <aura:attribute name="delegate" type="Object" required="true"/>
+    <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="options" type="List" required="true"/>
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
@@ -17,13 +18,14 @@
     <div class="rr-white-panel mti-container">
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mti-name">
-                {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+            {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
         </div>
         <div class="mti-email">
-                {!v.delegate.delegateContact.Email}
+            {!v.delegate.delegateContact.Email}
         </div>
         <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-            <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}" changedLevels="{!v.changedLevels}"
+            <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}"
+                                      changedLevels="{!v.changedLevels}"
                                       refreshTrigger="{!v.refreshSDLITrigger}"/>
         </aura:iteration>
         <div class="mti-save-button-container">

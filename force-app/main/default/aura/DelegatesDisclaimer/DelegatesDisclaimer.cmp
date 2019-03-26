@@ -1,0 +1,7 @@
+<!--
+ - Created by Igor Malyuta on 23.03.2019.
+ -->
+
+<aura:component description="DelegatesDisclaimer">
+    <p>{!$Label.c.PG_PST_L_Delegates_Disclaimer}</p>
+</aura:component>
