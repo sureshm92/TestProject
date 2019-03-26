@@ -24,7 +24,7 @@ public with sharing class Test_ResourceExpBatchScheduler {
                     Expiration_Date__c = expDate,
                     Posting_Date__c = publish,
                     Resource_Type__c = 'Articles',
-                    Content_Class__c = 'Study - Specific'
+                    Content_Class__c = 'Study-Specific'
             );
             resources.add(res);
         }
