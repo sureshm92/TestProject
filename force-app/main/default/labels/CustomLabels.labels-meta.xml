@@ -672,6 +672,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Manage_team_member</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Manage team member</shortDescription>
+        <value>Manage team members</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1866,6 +1873,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Settings</value>
     </labels>
     <labels>
+        <fullName>Navigation_Search_for_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Search for Sites</shortDescription>
+        <value>Search for Sites</value>
+    </labels>
+    <labels>
         <fullName>No_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2287,6 +2301,14 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>PE Investigator Name</shortDescription>
         <value>Investigator name</value>
     </labels>
+    <labels>
+        <fullName>PE_MedicalRecordReview</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE MedicalRecordReview</shortDescription>
+        <value>Medical Record Review</value>
+    </labels>
+
     <labels>
         <fullName>PE_Patient_Id</fullName>
         <language>en_US</language>
@@ -5039,6 +5061,90 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SDRC L All</shortDescription>
         <value>All</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_All_Site_Types</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS All Site Types</shortDescription>
+        <value>All Site Types</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_All_Therapeutic_Areas</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS All Therapeutic Areas</shortDescription>
+        <value>All Therapeutic Areas</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Any_distance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Any distance</shortDescription>
+        <value>Any distance</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Distance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Distance</shortDescription>
+        <value>Distance</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Distance_from_you</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Distance from you</shortDescription>
+        <value>Distance from you</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Hybrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Hybrid</shortDescription>
+        <value>Hybrid</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Referral_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Referral Status</shortDescription>
+        <value>Referral Status</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Site_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Site Type</shortDescription>
+        <value>Site Type</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS sites</shortDescription>
+        <value>sites</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Therapeutic_Area</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Therapeutic Area</shortDescription>
+        <value>Therapeutic Area</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Traditional</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Traditional</shortDescription>
+        <value>Traditional</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Virtual</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Virtual</shortDescription>
+        <value>Virtual</value>
     </labels>
     <labels>
         <fullName>PG_SHR_Body</fullName>

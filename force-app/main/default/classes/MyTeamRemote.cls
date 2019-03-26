@@ -14,10 +14,10 @@ public without sharing class MyTeamRemote {
             detail.delegates = getDelegates(userMode, false, null);
             detail.delegateOptions = getDelegateOptions(userMode);
             if (userMode == CommunityService.USER_MODE_PI) {
-                detail.hasStudies = !StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, ACTIVE_STUDY_SITES_FILTER, true).isEmpty();
+                detail.hasStudies = !StudySiteService.getStudySitesWithDelegateLevelFiltered( ACTIVE_STUDY_SITES_FILTER, new Set<String>{DelegateService.DELEGATE_LEVEL_1}).isEmpty();
             }
             if (userMode == CommunityService.USER_MODE_HCP) {
-                detail.hasStudies = !HCPEnrollmentService.getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, ACTIVE_HCP_ENROLLMENTS_FILTER, true).isEmpty();
+                detail.hasStudies = !HCPEnrollmentService.getHCPEnrollmentsWithDelegateLevelFiltered(ACTIVE_HCP_ENROLLMENTS_FILTER, new Set<String>{DelegateService.DELEGATE_LEVEL_1}).isEmpty();
             }
             if (userMode == CommunityService.USER_MODE_PARTICIPANT)
                 detail.hasStudies = ParticipantEnrollmentService.getPEnrolmentsCountCommon(userMode, '') != 0;
@@ -77,7 +77,13 @@ public without sharing class MyTeamRemote {
     private static List<DelegateWrapper> getDelegates(String userMode, Boolean useProvidedContacts, List<Contact> delegatesToProcess) {
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
         if (userMode == CommunityService.USER_MODE_PI) {
-            List<Study_Site__c> studySites = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, ACTIVE_STUDY_SITES_FILTER, true);
+            List<Study_Site__c> studySites;
+            if(!useProvidedContacts){
+                studySites = StudySiteService.getStudySitesWithDelegateLevelFiltered( ACTIVE_STUDY_SITES_FILTER, new Set<String>(DelegateService.DELEGATE_LEVEL_1_AND_LOW));
+            }
+            else{
+                studySites = StudySiteService.getStudySitesWithDelegateLevelFiltered( ACTIVE_STUDY_SITES_FILTER, new Set<String>{DelegateService.DELEGATE_LEVEL_1});
+            }
             if (!studySites.isEmpty()) {
                 Map<Id, Map<Id, Site_Staff__c>> staffTrialMap = DelegateService.getPITeamStaffTrialMap();
                 List<Contact> delegateContacts;
@@ -97,6 +103,7 @@ public without sharing class MyTeamRemote {
                 }
 
                 for (Contact delegateContact : delegateContacts) {
+                    if(delegateContact.Id != CommunityService.getUserContact().Id) {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
                     for (Study_Site__c study : studySites) {
@@ -104,6 +111,7 @@ public without sharing class MyTeamRemote {
                         trialLevel.trialName = study.Clinical_Trial_Profile__r.Study_Code_Name__c;
                         trialLevel.enrollmentOrStudySiteId = study.Id;
                         trialLevel.delegateLevel = '';
+                        trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(study.Id));
                         Site_Staff__c delegateRecord =
                                 (staffTrialMap.get(delegateContact.Id) == null)
                                         ? null : (staffTrialMap.get(delegateContact.Id).get(study.Id));
@@ -117,9 +125,15 @@ public without sharing class MyTeamRemote {
                 }
             }
         }
+        }
         if (userMode == CommunityService.USER_MODE_HCP) {
-            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(
-                    CommunityService.USER_MODE_HCP, ACTIVE_HCP_ENROLLMENTS_FILTER, true);
+            List<HCP_Enrollment__c> hcpEnrollments;
+            if(!useProvidedContacts){
+                hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsWithDelegateLevelFiltered( ACTIVE_HCP_ENROLLMENTS_FILTER, new Set<String>(DelegateService.DELEGATE_LEVEL_1_AND_LOW));
+            }
+            else{
+                hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsWithDelegateLevelFiltered( ACTIVE_HCP_ENROLLMENTS_FILTER, new Set<String>{DelegateService.DELEGATE_LEVEL_1});
+            }
             if (!hcpEnrollments.isEmpty()) {
                 Map<Id, Map<Id, Referring_HCP_Staff__c>> staffTrialMap = DelegateService.getHCPTeamStaffTrialMap();
                 List<Contact> delegateContacts;
@@ -138,23 +152,26 @@ public without sharing class MyTeamRemote {
                     }
                 }
                 for (Contact delegateContact : delegateContacts) {
-                    DelegateWrapper dw = new DelegateWrapper();
-                    dw.delegateContact = delegateContact;
-                    for (HCP_Enrollment__c enrollment : hcpEnrollments) {
-                        TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
-                        trialLevel.trialName = enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
-                        trialLevel.enrollmentOrStudySiteId = enrollment.Id;
-                        trialLevel.delegateLevel = '';
-                        Referring_HCP_Staff__c delegateRecord =
-                                (staffTrialMap.get(delegateContact.Id) == null) ?
-                                        null : (staffTrialMap.get(delegateContact.Id).get(enrollment.Id));
-                        if (delegateRecord != null) {
-                            trialLevel.delegateLevel = delegateRecord.Delegate_Level__c;
+                    if(delegateContact.Id != CommunityService.getUserContact().Id) {
+                        DelegateWrapper dw = new DelegateWrapper();
+                        dw.delegateContact = delegateContact;
+                        for (HCP_Enrollment__c enrollment : hcpEnrollments) {
+                            TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
+                            trialLevel.trialName = enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                            trialLevel.enrollmentOrStudySiteId = enrollment.Id;
+                            trialLevel.delegateLevel = '';
+                            trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPEnrollmentAccessLevelMap().get(enrollment.Id));
+                            Referring_HCP_Staff__c delegateRecord =
+                                    (staffTrialMap.get(delegateContact.Id) == null) ?
+                                            null : (staffTrialMap.get(delegateContact.Id).get(enrollment.Id));
+                            if (delegateRecord != null) {
+                                trialLevel.delegateLevel = delegateRecord.Delegate_Level__c;
+                            }
+                            dw.trialLevels.add(trialLevel);
                         }
-                        dw.trialLevels.add(trialLevel);
+                        dw.trialLevels.sort();
+                        delegates.add(dw);
                     }
-                    dw.trialLevels.sort();
-                    delegates.add(dw);
                 }
             }
         }
@@ -190,12 +207,12 @@ public without sharing class MyTeamRemote {
         List<LabelValueItem> delegateOptions = new List<LabelValueItem>();
 
         if (userMode == CommunityService.USER_MODE_HCP) {
-            delegateOptions.add(new LabelValueItem('No access', ''));
+            delegateOptions.add(new LabelValueItem(Label.No_Access, ''));
             for (Schema.PicklistEntry ple : Referring_HCP_Staff__c.Delegate_Level__c.getDescribe().getPicklistValues()) {
                 delegateOptions.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
         } else if (userMode == CommunityService.USER_MODE_PI) {
-            delegateOptions.add(new LabelValueItem('No access', ''));
+            delegateOptions.add(new LabelValueItem(Label.No_Access, ''));
             for (Schema.PicklistEntry ple : Site_Staff__c.Delegate_Level__c.getDescribe().getPicklistValues()) {
                 delegateOptions.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
@@ -457,6 +474,7 @@ public without sharing class MyTeamRemote {
         public String delegateLevel;
         public String trialName;
         public String enrollmentOrStudySiteId;
+        public Boolean readOnly;
 
         public Integer compareTo(Object compareTo) {
             if (trialName > ((TrialDelegateLevelWrapper) compareTo).trialName) {

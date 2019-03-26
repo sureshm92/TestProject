@@ -1,0 +1,50 @@
+<!--
+ - Created by Kryvolap
+ -->
+
+<aura:component description="SiteSearchItem">
+
+
+    <!-- arrtibutes: -->
+    <aura:attribute name="studySiteWrapper" type="Object" required="true"/>
+    <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
+
+
+    <!-- methods: -->
+    <!--<aura:method name="refresh" action="{!c.doRefresh}" access="public"/>-->
+
+
+    <div class="rr-white-panel ssi-container condensed">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size--4-of-5 slds-p-around--medium">
+                <div class="ssi-site-name">
+                        {!v.studySiteWrapper.site.Name}
+                </div>
+                <div class="ssi-pi-name">
+                        {!$Label.c.PG_DBPI_Dr + ' ' + v.studySiteWrapper.site.Principal_Investigator__r.Name}
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-5 slds-p-around--medium">
+                <div class="ssi-site-type">
+                        {!v.studySiteWrapper.siteType + ' Site'}
+                </div>
+                <aura:if isTrue="{!v.studySiteWrapper.siteType!='Virtual'}">
+                    <div class="ssi-site-distance">
+                            {!v.studySiteWrapper.formatedDistance}
+                    </div>
+                </aura:if>
+            </div>
+            <div class="slds-col slds-size--4-of-5 slds-p-around--medium">
+                <div class="ssi-address">
+                {!v.studySiteWrapper.site.Site__r.BillingStreet}
+                    <br/>
+                        {!v.studySiteWrapper.site.Site__r.BillingCity},
+                        {!v.studySiteWrapper.site.Site__r.BillingStateCode},
+                        {!v.studySiteWrapper.site.Site__r.BillingPostalCode}
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-5 slds-p-around--medium">
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -191,6 +191,17 @@ public without sharing class HCPEnrollmentService {
         return getHCPEnrollmentsCommonCustomFields(userMode, HCPE_COMMON_FIELDS, filter, excludeDelegates);
     }
 
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsWithDelegateLevelFiltered(String filter, Set<String> delegateLevels){
+        List<HCP_Enrollment__c> hcpeList = new List<HCP_Enrollment__c>();
+        Map<Id, String> delegateLevelMap = DelegateService.getHCPEnrollmentAccessLevelMap();
+        for(HCP_Enrollment__c hcpe : getHCPEnrollmentsCommonCustomFields(CommunityService.USER_MODE_HCP, HCPE_COMMON_FIELDS, filter, false)){
+            if(!delegateLevelMap.containsKey(hcpe.Id) || delegateLevels.contains(delegateLevelMap.get(hcpe.Id))){
+                hcpeList.add(hcpe);
+            }
+        }
+        return hcpeList;
+    }
+
     public static HCP_Enrollment__c getHCPEnrollmentForHCPById(Id hcpeId){
         return getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
     }

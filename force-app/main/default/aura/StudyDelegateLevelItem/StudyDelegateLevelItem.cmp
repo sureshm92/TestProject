@@ -19,7 +19,7 @@
 
     <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center sdli-container">
         <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-5">
-            <c:rrSelect value="{!v.studyLevel.delegateLevel}" options="{!v.options}" class="sdli-select"/>
+            <c:rrSelect value="{!v.studyLevel.delegateLevel}" options="{!v.options}" class="sdli-select" disabled="{!v.studyLevel.readOnly}"/>
         </div>
         <div class="slds-col slds-size_3-of-5 slds-medium-size_4-of-5">
             <span class="{!'sdli-label ' + if(equals(v.studyLevel.delegateLevel, v.prevValue),'','changed')}">{!v.studyLevel.trialName}</span>

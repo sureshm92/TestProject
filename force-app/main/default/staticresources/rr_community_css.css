@@ -815,7 +815,7 @@ select.rr-select-error,
     padding: 20px;
 }
 
-.rr-white-panel + .rr-white-panel{
+.rr-white-panel + .rr-white-panel:not(.condensed){
     margin-top: 30px;
 }
 
@@ -913,6 +913,9 @@ input[type=password]::-ms-clear
 
 .rr-min-body-height{
     min-height: 800px;
+}
+.rr-min-body-height .rr-min-body-height{
+    min-height: 0px!important;
 }
 .rr-header-content{
     background: linear-gradient(to right, #230559 0%,#036ca7 100%);

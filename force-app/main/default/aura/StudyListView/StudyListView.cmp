@@ -1,7 +1,9 @@
 <!--
  - Created by D.Yasinskyi on 08.02.2018.
  -->
-<aura:component controller="StudyListViewController" description="StudyListView" implements="forceCommunity:availableForAllPageTypes">
+
+<aura:component controller="StudyListViewController" description="StudyListView"
+                implements="forceCommunity:availableForAllPageTypes">
 
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"
@@ -18,6 +20,16 @@
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
 
+    <aura:attribute name="paginationData" type="Object"/>
+    <aura:attribute name="filterData" type="Object"/>
+    <aura:attribute name="sortData" type="Object"/>
+    <aura:attribute name="currentPageList" type="List"/>
+    <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
+
+    <aura:handler name="change" value="{!v.paginationData}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecords}"/>
+
     <!-- Handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
@@ -31,17 +43,57 @@
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
     <aura:if isTrue="{!v.isInitialized}">
-        <div style="margin-bottom: 10px">
+        <div>
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Home_Page_Label}"/>
             </c:RRNavigationPath>
         </div>
-        <c:rrButtonTubSet >
-            <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>
-            <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>
-        </c:rrButtonTubSet>
 
-        <aura:if isTrue="{!v.userMode != 'Participant'}">
+        <aura:if isTrue="{!v.userMode == 'HCP'}">
+            <div>
+                <c:FilterPanel searchText="{!v.filterData.searchText}"
+                               searchTextPlaceHolder="Search for Study"
+                               recordsPerPage="{!v.paginationData.pageRecordsCount}"
+                               recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
+                               sortType="{!v.sortData.sortType}"
+                               sortVariants="{!v.sortData.sortVariants}"
+                               allRecordsCount="{!v.paginationData.allRecordsCount}">
+                    <c:rrSelect value="{!v.filterData.enrollmentStatus}" options="{!v.filterData.enrollmentStatuses}"
+                                placeholder="Enrollment Status"/>
+                    <!--
+                    <c:rrSelect value="{!v.filterData.therapeuticArea}" options="{!v.filterData.therapeuticAreas}"
+                                placeholder="Therapeutic Area"/>-->
+                </c:FilterPanel>
+            </div>
+
+            <div class="slv-items-panel">
+                <div class="rr-simple-white-panel">
+                    <div class="slds-grid slds-wrap" style="padding-left: 80px;">
+                        <div class="slds-col slds-size_1-of-2" style="padding-top: 22px;">
+                            <span class="header-white-panel">Don't see a study that you could refer your patients to?</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2" style="padding-top: 16px;">
+                            <button class="apollo-btn primary search-more-btn">Search for More Studies</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="position: relative; min-height: 100px;" class="slds-gutters_">
+                    <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
+                    <aura:iteration items="{!v.currentPageList}" var="trial">
+                        <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                    </aura:iteration>
+                </div>
+            </div>
+
+            <div>
+                <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                      currentPage="{!v.paginationData.currentPage}"
+                                      allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.userMode == 'PI'}">
             <div class="slv-items-panel">
                 <!-- Output currently recruiting trials -->
                 <aura:if isTrue="{!v.currentTab == 'recruiting'}">
@@ -54,7 +106,7 @@
                     </aura:iteration>
                 </aura:if>
 
-                <!-- Trials no onger recruiting -->
+                <!-- Trials no longer recruiting -->
                 <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
                     <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
@@ -66,6 +118,7 @@
                 </aura:if>
             </div>
         </aura:if>
+
         <aura:if isTrue="{!v.userMode == 'Participant'}">
             <aura:if isTrue="{! v.currentTab == 'recruiting'}">
                 <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
@@ -104,6 +157,5 @@
         <!-- Share dialog -->
         <c:ShareModal aura:id="shareModal" parent="{!this}"/>
     </aura:if>
-
 
 </aura:component>

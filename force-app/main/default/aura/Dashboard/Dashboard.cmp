@@ -22,9 +22,9 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
     <aura:if isTrue="{!v.isInitialized}">
-        <c:RRNavigationPath>
-            <c:RRNPathItem label="{!$Label.c.PG_DB_L_Dashboard}"/>
-        </c:RRNavigationPath>
+        <!--<c:RRNavigationPath>-->
+            <!--<c:RRNPathItem label="{!$Label.c.PG_DB_L_Dashboard}"/>-->
+        <!--</c:RRNavigationPath>-->
         <div class="db-content">
             <aura:if isTrue="{!v.userMode == 'PI'}">
                 <c:DashboardPI piData="{!v.piData}" parent="{!this}"/>

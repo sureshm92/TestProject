@@ -36,5 +36,21 @@
                 //pass trial to 'Iam open to receive...' dialog:
                 parent.find('receiveReferralsModal').show(trial);
         }
+    },
+
+    toggleStudySiteListView: function(cmp, event, helper) {
+        let detailsExpanded = cmp.get("v.detailsExpanded");
+        if (detailsExpanded) {
+            cmp.set("v.detailsExpanded", false);
+        } else {
+            cmp.set("v.detailsExpanded", true);
+        }
+
+    },
+    navigateToSitesSearch : function (component, event, helper) {
+        var currentStudy = component.get('v.currentStudy');
+        var trial = currentStudy.trial;
+        var trialId = trial.Id;
+        communityService.navigateToPage("sites-search?id=" + trialId);
     }
-})
+});
