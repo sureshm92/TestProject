@@ -12,6 +12,7 @@
             trialId: trialId
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
+            debugger;
             component.set('v.skipUpdate', true);
             component.set('v.trial', initData.trial);
             component.set('v.pageList', initData.currentPageList);

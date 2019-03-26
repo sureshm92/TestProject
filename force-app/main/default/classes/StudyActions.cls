@@ -61,6 +61,7 @@ public abstract class StudyActions {
     public static final String ACT_UNDO_EXCLUDE_FROM_REFERRING = 'undoExcludeFromReferring';
     public static final String ACT_REFER_TO_THIS_STUDY = 'referToThisStudy';
     public static final String ACT_REFER = 'refer';
+    public static final String ACT_REQUEST_TO_REFER = 'requestToRefer';
     public static final String ACT_SHARE = 'share';
     public static final String ACT_FIND_STUDY_SITES = 'findStudySites';
     public static final String ACT_SEND_SITE_REQUEST = 'sendSiteRequest';
@@ -90,6 +91,7 @@ public abstract class StudyActions {
     public static final String LABEL_SHARE = Label.BTN_Share;
     public static final String LABEL_FIND_STUDY_SITES = Label.BTN_Find_study_sites;
     public static final String LABEL_SEND_SITE_REQUEST = Label.BTN_Send_site_request;
+    public static final String LABEL_REQUEST_TO_REFER = Label.BTN_Request_to_refer;
     
     public static final String LABEL_MANAGE_REFERRALS = Label.BTN_Manage_referrals;
     public static final String LABEL_MANAGE_REFERRING_CLINICS = Label.BTN_Manage_referring_clinics;

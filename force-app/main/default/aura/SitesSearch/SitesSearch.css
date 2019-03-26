@@ -26,6 +26,8 @@
 .THIS .ss-main-panel{
     min-height: 500px;
 }
-.THIS lightning-map.slds-grid{
-    height: 100%;
+@media all and (min-width: 768px){
+    .THIS lightning-map.slds-grid{
+        height: 100%;
+    }
 }

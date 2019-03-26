@@ -15,14 +15,6 @@ public without sharing class SitesSearchRemote {
         public List<MapMarker> mapMarkers;
     }
 
-    public class SiteWrapper{
-        public Study_Site__c site;
-
-        public SiteWrapper(Study_Site__c site){
-            this.site = site;
-        }
-    }
-
     public class MapMarker{
         public MapLocation location;
         public String title;
