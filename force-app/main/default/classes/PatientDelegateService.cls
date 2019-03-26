@@ -68,13 +68,9 @@ public class PatientDelegateService {
     }
 
     public static void createPatientDelegate(Contact newDelegate) {
-        if (getDelegatedContactIds().contains(newDelegate.Id))
+        if (getDelegatedContactIds().contains(newDelegate.Id)){
             throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
-
-        newDelegate.userCommunytyType__c = CommunityService.USER_MODE_DELEGATE;
-        newDelegate.userCommunityMode__c = CommunityService.USER_MODE_DELEGATE;
-        update newDelegate;
-
+        }
         List<Participant__c> participant = [
                 SELECT Id
                 FROM Participant__c
@@ -97,7 +93,7 @@ public class PatientDelegateService {
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT Id
                 FROM Patient_Delegate__c
-                WHERE Contact__c = :delegate.Id
+                WHERE Contact__c =: delegate.Id
         ];
         delete patientDelegate.get(0);
     }

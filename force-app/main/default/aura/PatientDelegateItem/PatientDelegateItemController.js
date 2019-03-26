@@ -7,18 +7,10 @@
         communityService.navigateToPage('edit-delegate' + '?id=' + delegateId);
     },
 
-    showModale : function(component, event, helper) {
-        var parent = component.get('v.parentComponent');
-        parent.set('v.childComponent', component);
-        parent.showRemoveModal();
-    },
-
     doRemove : function (component, event, helper) {
-        communityService.executeAction(component, 'removePatientDelegate',
-            { delegate : JSON.stringify(component.get('v.delegate')) }, null);
-
-        var parent = component.get('v.parentComponent');
-        parent.set('v.childComponent', null);
-        parent.refresh();
+        var delegateWrapper = component.get('v.delegate');
+        component.get('v.parentComponent').find('actionRemoveDelegate').execute(delegateWrapper.delegateContact, function () {
+            component.get('v.parentComponent').refresh();
+        });
     }
 })
