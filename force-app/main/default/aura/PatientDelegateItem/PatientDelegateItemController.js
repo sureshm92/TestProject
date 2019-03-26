@@ -9,7 +9,13 @@
 
     doRemove : function (component, event, helper) {
         var delegateWrapper = component.get('v.delegate');
-        component.get('v.parentComponent').find('actionRemoveDelegate').execute(delegateWrapper.delegateContact, function () {
+        var messText =
+            $A.get('$Label.c.PG_PST_L_Delegates_Remove_Mess_P1') + ' ' + delegateWrapper.delegateContact.Name
+            + ' ' + $A.get('$Label.c.PG_PST_L_Delegates_Remove_Mess_P2');
+
+        var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
+        actionRemoveDelegate.set('v.messageText', messText);
+        actionRemoveDelegate.execute(delegateWrapper.delegateContact, function () {
             component.get('v.parentComponent').refresh();
         });
     }

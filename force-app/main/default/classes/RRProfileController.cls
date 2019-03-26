@@ -24,6 +24,7 @@ public without sharing class RRProfileController {
             result.participantName = participantForCurrentUser[0].First_Name__c + ' ' + participantForCurrentUser[0].Last_Name__c;
         }
 
+        result.isDelegate = ParticipantService.getParticipantState().isDelegate;
         return JSON.serialize(result);
     }
 
@@ -34,5 +35,6 @@ public without sharing class RRProfileController {
     public class UserWrapper{
         public User user;
         public String participantName;
+        public Boolean isDelegate;
     }
 }

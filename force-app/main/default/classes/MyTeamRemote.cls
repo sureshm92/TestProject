@@ -318,9 +318,15 @@ public without sharing class MyTeamRemote {
         DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(delegate, DelegateWrapper.class);
         try {
             Boolean isNewContact = dw.delegateContact.Id == null;
-            if (isNewContact) createDelegate(dw, CommunityService.USER_MODE_PARTICIPANT);
+            if (isNewContact) {
+                createDelegate(dw, CommunityService.USER_MODE_PARTICIPANT);
+            }else {
+                Set<Id> contactId = new Set<Id>{dw.delegateContact.Id};
+                if(CommunityService.getCommunityUsersByContactIds(contactId).isEmpty()) {
+                    CommunityService.createPortalUsers(contactId);
+                }
+            }
 
-            //todo check this logic
             if (dw.delegateContact.userCommunytyType__c == null) {
                 PatientDelegateService.createPatientDelegate(dw.delegateContact);
                 if(!isNewContact)sendEmailNotification(dw.delegateContact);

@@ -6,6 +6,7 @@
                 var retVal = JSON.parse(response.getReturnValue());
                 component.set("v.user", retVal.user);
                 component.set("v.participantName", retVal.participantName);
+                component.set('v.isDelegate', retVal.isDelegate);
             } else {
                 communityService.showToast("error", "error", $A.get("$Label.c.TST_Something_went_wrong"));
                 communityService.logErrorFromResponse(response);
