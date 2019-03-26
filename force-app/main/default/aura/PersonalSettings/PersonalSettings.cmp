@@ -8,7 +8,7 @@
     <!-- attributes: -->
     <aura:attribute name="currentTab" type="String" default="my-team"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
-    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant / Delegate" access="private"/>
     <aura:attribute name="validMode" type="Boolean" default="false" access="private"/>
 
     <!-- handlers: -->

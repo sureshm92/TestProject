@@ -10,12 +10,18 @@
             component.set("v.delegateOptions", initData.delegateOptions);
             component.set("v.showSpinner", false);
             component.set("v.hasStudies", initData.hasStudies);
-            debugger;
         })
-
     },
 
     inviteTeamMembers: function (component, event, helper) {
         communityService.navigateToPage('new-team-member');
+    },
+
+    openModal : function (component, event, helper) {
+        if(event.getSource().getLocalId() === 'confirmButton')
+            component.get('v.childComponent').removeClick();
+
+        var show = component.get('v.isModalOpen');
+        component.set('v.isModalOpen', !show);
     }
 })

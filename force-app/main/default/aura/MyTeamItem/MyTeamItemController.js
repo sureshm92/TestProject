@@ -8,5 +8,5 @@
     doRefresh: function (component, event, helper) {
         component.set('v.changedLevels',[]);
         component.set('v.refreshSDLITrigger', !component.get('v.refreshSDLITrigger'));
-    },
+    }
 })

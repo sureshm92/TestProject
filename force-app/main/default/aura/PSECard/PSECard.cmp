@@ -1,0 +1,28 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="PSECard">
+
+    <!-- attributes: -->
+    <aura:attribute name="pse" type="Object"/>
+    <aura:attribute name="psePath" type="List"/>
+
+    <!-- component body:-->
+    <div class="rr-white-panel padding" style="position: relative">
+        <aura:if isTrue="{!!empty(v.pse)}">
+            <div>
+                <c:RRLink class="psec-title-link" label="{!v.pse.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.pse.Clinical_Trial_Profile__c}"/>
+            </div>
+            <div class="sponsor-name">{!v.pse.Clinical_Trial_Profile__r.Study_Sponsor__c}</div>
+            <div class="objective-section">
+                <div class="objective-text">{!v.pse.Clinical_Trial_Profile__r.Detailed_Description__c}</div>
+                <div class="objective-link">
+                    <c:RRLink page="{!'study-workspace?id=' + v.pse.Clinical_Trial_Profile__c}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
+                </div>
+            </div>
+            <c:PSEPath pathItems="{!v.psePath}" pseId="{!v.pse.Id}"/>
+        </aura:if>
+    </div>
+
+</aura:component>
