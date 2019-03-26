@@ -1,0 +1,27 @@
+/**
+ * Created by Kryvolap on 25.03.2019.
+ */
+.THIS .ssi-site-name{
+    color: #000000;
+    font-size: 15px;
+    font-weight: bold;
+}
+.THIS .ssi-pi-name {
+    color: #999999;
+    font-size: 13px;
+}
+.THIS .ssi-site-type {
+    color: #999999;
+    font-size: 14px;
+    text-align: right;
+}
+.THIS .ssi-site-distance{
+    color: #999999;
+    font-size: 14px;
+    text-align: right;
+}
+.THIS .ssi-address{
+    color: #333333;
+    font-size: 13px;
+}
+

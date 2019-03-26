@@ -16,6 +16,10 @@
                 component.set("v.header",header);
                 capList = [
                     {
+                        text : $A.get("$Label.c.DLIT_L_Manage_team_member"),
+                        levels : [true,false,false]
+                    },
+                    {
                         text : $A.get("$Label.c.DLIT_L_Accept_a_referring_HCP"),
                         levels : [true,false,false]
                     },
@@ -29,10 +33,6 @@
                     },
                     {
                         text : $A.get("$Label.c.DLIT_L_Update_status_of_an_accepted_patient"),
-                        levels : [true,true,true]
-                    },
-                    {
-                        text : $A.get("$Label.c.DLIT_L_View_Dashboard"),
                         levels : [true,true,true]
                     },
                     {
@@ -51,6 +51,10 @@
                 component.set("v.header",header);
                 capList = [
                     {
+                        text : $A.get("$Label.c.DLIT_L_Manage_team_member"),
+                        levels : [true,false]
+                    },
+                    {
                         text : $A.get("$Label.c.DLIT_L_Select_a_study_site_to_refer_to"),
                         levels : [true,false]
                     },
@@ -64,10 +68,6 @@
                     },
                     {
                         text : $A.get("$Label.c.DLIT_L_Medical_Record_Review"),
-                        levels : [true,true]
-                    },
-                    {
-                        text : $A.get("$Label.c.DLIT_L_View_Dashboard"),
                         levels : [true,true]
                     },
                     {

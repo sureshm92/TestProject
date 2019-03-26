@@ -1,0 +1,13 @@
+<!--
+ - Created by Kryvolap on 18.03.2019.
+ -->
+
+<aura:component description="ReportsContainer" implements="forceCommunity:availableForAllPageTypes">
+    <div class="rr-min-body-height">
+        <c:RRNavigationPath>
+            <c:RRNPathItem label="{!$Label.c.PG_Report_L_Reports}"/>
+        </c:RRNavigationPath>
+        <c:Dashboard />
+        <c:Reports />
+    </div>
+</aura:component>

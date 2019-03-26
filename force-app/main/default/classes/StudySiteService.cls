@@ -69,6 +69,14 @@ public without sharing class StudySiteService {
             'Name',
             'Site__c',
             'Override_PI_Referral_Status__c',
+            'Is_Virtual_Study_Site__c',
+            'Site__r.BillingAddress',
+            'Site__r.BillingCountry',
+            'Site__r.BillingState',
+            'Site__r.BillingStateCode',
+            'Site__r.BillingPostalCode',
+            'Site__r.BillingCity',
+            'Site__r.BillingStreet',
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Id',
             'Clinical_Trial_Profile__r.Study_Title__c',
@@ -79,18 +87,25 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
-            'Clinical_Trial_Profile__r.Orientation_Required__c '
+            'Clinical_Trial_Profile__r.Orientation_Required__c ',
+            'Principal_Investigator__r.Name'
     };
 
-    public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates){
+
+    public static List<Study_Site__c> getStudySitesCommon(String filter){
         String query = 'SELECT ' + String.join(SS_COMMON_FIELDS, ',') +
-                ' FROM Study_Site__c ' +
-                ' WHERE ' + getUserModeFilter(userMode, excludeDelegates);
-        if(filter != null) query += ' ' + filter;
+                ' FROM Study_Site__c ';
+        if(filter != null) query += ' WHERE ' + filter;
         System.debug('EXECUTE QUERY: ' + query);
         List<Study_Site__c> ssList = Database.query(query);
         TranslateHelper.translate(ssList);
         return ssList;
+    }
+
+    public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates){
+        String userModeFilter = getUserModeFilter(userMode, excludeDelegates);
+        if(filter != null) userModeFilter += ' ' + filter;
+        return getStudySitesCommon(userModeFilter);
     }
 
     public static String getUserModeFilter(String userMode, Boolean excludeDelegates){
@@ -147,5 +162,107 @@ public without sharing class StudySiteService {
                 '  AND Override_PI_Referral_Status__c != NULL ' +
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
         return Database.query(query);
+    }
+    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels){
+
+        List<Study_Site__c> ssList = new List<Study_Site__c>();
+        Map<Id, String> delegateLevelMap = DelegateService.getPIStudySitesAccessLevelMap();
+
+        for(Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false)){
+            if(!delegateLevelMap.containsKey(site.Id) || delegateLevels.contains(delegateLevelMap.get(site.Id))){
+                ssList.add(site);
+            }
+        }
+        return ssList;
+    }
+    //contains selected filter values
+    public class SiteFilter{
+        public String mode;
+        public Id trialId;
+//        public List<Id> trialIds;
+        public String siteType;
+        public String distanceRange;
+        public String therapeuticArea;
+        public String searchText;
+        public List<String> searchFields;
+        public String sortType = SortOrder.STUDY_SITE_SORT_TYPES[0].value;
+        public String additionalFilter;
+
+        public SiteFilter(SiteFilterData filterData){
+            mode = filterData.mode;
+            trialId = filterData.trialId;
+//            trialIds = filterData.trialIds;
+        }
+    }
+
+    //contains pick list values for SiteFilter
+    public class SiteFilterData{
+        public String mode;
+        public Id trialId;
+//        public List<Id> trialIds;
+        public List<LabelValueItem> siteTypes;
+        public List<LabelValueItem> distanceRanges;
+        public List<LabelValueItem> therapeuticAreas;
+        public List<LabelValueItem> sortVariants = SortOrder.STUDY_SITE_SORT_TYPES;
+
+    }
+
+    public static SiteFilterData getSiteFilterData(Id trialId, String mode){
+        Id userContactId = CommunityService.getUserContact().Id;
+
+        SiteFilterData siteFilterData = new SiteFilterData();
+        siteFilterData.mode = mode;
+        siteFilterData.trialId = trialId;
+        siteFilterData.siteTypes = new List<LabelValueItem>();
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
+        siteFilterData.distanceRanges = new List<LabelValueItem>();
+        siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
+        siteFilterData.therapeuticAreas = new List<LabelValueItem>();
+        siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
+        return siteFilterData;
+    }
+    public class StudySiteDistanceWrapper{
+        public Study_Site__c site;
+        public Decimal distance;
+        public String siteType;
+
+        public StudySiteDistanceWrapper(Study_Site__c site){
+            this.site = site;
+            this.distance = 0;
+            if(!site.Is_Virtual_Study_Site__c){
+                this.siteType = 'Traditional';
+            }
+            else if(site.Site__r.BillingAddress == null){
+                this.siteType = 'Virtual';
+            }
+            else{
+                this.siteType = 'Hybrid';
+            }
+        }
+
+    }
+
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId( SiteFilter filter, PaginationData paginationData){
+        String filterString = 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\'' +
+                '  AND Override_PI_Referral_Status__c != NULL ' +
+                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
+        List<Study_Site__c> siteList = getStudySitesCommon(filterString);
+        List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
+        for(Study_Site__c site : siteList){
+            result.add(new StudySiteDistanceWrapper(site));
+        }
+
+        if(paginationData != null){
+            paginationData.setRecordsCount(result.size());
+            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
+            for(Integer i = paginationData.offset; i < paginationData.endOffset; i++){
+                pageList.add(result[i]);
+            }
+            return pageList;
+        }
+        return result;
     }
 }

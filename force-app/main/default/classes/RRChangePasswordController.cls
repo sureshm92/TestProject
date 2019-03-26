@@ -49,6 +49,7 @@ public without sharing class RRChangePasswordController {
                         Contact.LastName,
                         Contact.MailingAddress,
                         Contact.Is_First_Logon__c,
+                        Contact.Language__c,
                         LanguageLocaleKey,
                         LocaleSidKey
                 FROM User WHERE Id =: userId
@@ -59,7 +60,8 @@ public without sharing class RRChangePasswordController {
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
                         Account.BillingCity, Account.BillingState, Account.Fax,
                         Account.BillingCountry, Account.BillingPostalCode,
-                        Account.BillingCountryCode
+                        Account.BillingCountryCode,
+                        Language__c
                 FROM Contact WHERE Id =: contact.Id
         ];
         account = cont.Account;
@@ -143,7 +145,14 @@ public without sharing class RRChangePasswordController {
     }
 
     public void updateBrowserLanguageAction(){
-        translation.Language__c = TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
+        System.debug(contact);
+        if(contact != null && contact.Is_First_Logon__c && contact.Language__c != null && contact.Language__c != ''
+                && (translation.Language__c == null || translation.Language__c == '')) {
+            translation.Language__c = contact.Language__c;
+        }
+        else{
+            translation.Language__c = TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
+        }
         if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
         updateLanguageAction();
     }
