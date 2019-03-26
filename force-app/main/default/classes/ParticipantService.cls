@@ -37,7 +37,7 @@ public class ParticipantService {
                 if(pseList.size() > 0) {
                     state.pse = pseList[0];
                     state.isDelegate = state.pse.Participant__r.Contact__c != CommunityService.getUserContact().Id;
-                    state.ctp = state.pse.Study_Site__r.Clinical_Trial_Profile__r;
+                    state.ctp = state.pse.Clinical_Trial_Profile__r;
                     if(PSEService.PSE_STATUS_GROUP_COMPLETE.contains(state.pse.Status__c)){
                         state.value = ParticipantStates.ALUMNI;
                     }
