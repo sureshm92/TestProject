@@ -2,7 +2,7 @@
     padding-top: 17px;
 }
 
-.THIS .slvi-section + .slvi-section{
+.THIS .slvi-section + .slvi-section {
     border-top: 1px solid #F2F2F2;
 }
 
@@ -13,13 +13,13 @@
 }
 
 .THIS .slvi-name-section,
-.THIS .slvi-objective-section{
+.THIS .slvi-objective-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.THIS .study-name{
+.THIS .study-name {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -34,7 +34,7 @@
     line-height: 30px;
 }
 
-.THIS .slvi-status{
+.THIS .slvi-status {
     white-space: nowrap;
     padding: 0 5px;
     margin-left: 10px;
@@ -104,7 +104,7 @@
 }
 
 
-.THIS .slvi-btn + .slvi-btn{
+.THIS .slvi-btn + .slvi-btn {
     border-left: 1px solid #F2F2F2;
 }
 
@@ -115,7 +115,7 @@
     cursor: not-allowed;
 }
 
-.THIS  .slvi-btn .rr-icon-default {
+.THIS .slvi-btn .rr-icon-default {
     height: 24px;
     width: 20px;
     margin: auto;
@@ -129,10 +129,9 @@
     position: relative;
 }
 
-.THIS .slvi-btn .btn-content:active{
+.THIS .slvi-btn .btn-content:active {
     top: 1px;
 }
-
 
 
 .THIS .slvi-btn:hover {
@@ -140,37 +139,88 @@
     background-color: #F8F9FB;
 }
 
-.THIS .slvi-btn:active{
+.THIS .slvi-btn:active {
     /*box-shadow: inset 0 0 7px rgba(0,0,0,0.25);*/
-    box-shadow: inset 1px 4px 9px -6px rgba(0,0,0,0.35);
+    box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, 0.35);
 }
 
-.THIS .slvi-btn:first-child{
+.THIS .slvi-btn:first-child {
     border-bottom-left-radius: 5px;
 }
 
-.THIS .slvi-btn:last-child{
+.THIS .slvi-btn:last-child {
     border-bottom-right-radius: 5px;
 }
 
-.THIS .btn-wrapper{
+.THIS .btn-wrapper {
     flex-basis: 0;
 }
 
-.THIS .btn-wrapper.disabled{
+.THIS .btn-wrapper.disabled {
     cursor: not-allowed;
 }
 
-@media (max-width: 768px){
-    .THIS .slvi-buttons{
+.THIS .rr-link {
+    color: #297DFD;
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS .rr-link {
+    text-decoration: none;
+}
+
+.THIS .rr-link svg {
+    fill: #297DFD;
+    width: 14px;
+    height: 14px;
+}
+
+.THIS .clinic-name {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+.THIS .site-sub-header {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.THIS .site-address {
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .rr-link.expanded-icon .rr-icon-default {
+    transform-origin: center;
+    transition: 0.3s ease-in-out;
+    transform: rotate(90deg);
+    position: relative;
+    top: -1px;
+    margin-right: 3px;
+}
+
+.THIS .rr-link.hidden-icon .rr-icon-default {
+    transform: rotate(0deg);
+}
+
+@media (max-width: 768px) {
+    .THIS .slvi-buttons {
         flex-direction: column;
     }
 
-    .THIS .slvi-buttons .btn-wrapper{
+    .THIS .slvi-buttons .btn-wrapper {
         flex: 0;
     }
 
-    .THIS .slvi-buttons .slvi-btn + .slvi-btn{
+    .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #F2F2F2;
     }
 

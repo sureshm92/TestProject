@@ -36,5 +36,15 @@
                 //pass trial to 'Iam open to receive...' dialog:
                 parent.find('receiveReferralsModal').show(trial);
         }
+    },
+
+    toggleStudySiteListView: function(cmp, event, helper) {
+        let detailsExpanded = cmp.get("v.detailsExpanded");
+        if (detailsExpanded) {
+            cmp.set("v.detailsExpanded", false);
+        } else {
+            cmp.set("v.detailsExpanded", true);
+        }
+
     }
-})
+});

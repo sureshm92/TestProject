@@ -111,7 +111,7 @@ public class StudyActionsHCP extends StudyActions{
                 HCPEnrollmentService.HCP_S_DEACTIVATED_A,
                 HCPEnrollmentService.HCP_S_DECLINED_ACCEPTANCE
         };
-    
+
         actions.put(ACT_SHARE, new Action(
                 ACT_SHARE,
                 LABEL_SHARE,
@@ -211,7 +211,9 @@ public class StudyActionsHCP extends StudyActions{
         }
 
         //Share
-        if(hcpEnrollment!= null && shareStatuses.contains(hcpEnrollment.Status__c)) studyListViewItemActions.add(actions.get(ACT_SHARE));
+        if(hcpEnrollment!= null && shareStatuses.contains(hcpEnrollment.Status__c)) {
+            //studyListViewItemActions.add(actions.get(ACT_SHARE));
+        }
 
 
         //prepare study detail actions list:

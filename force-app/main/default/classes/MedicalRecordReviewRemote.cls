@@ -41,7 +41,7 @@ public without sharing class MedicalRecordReviewRemote {
     public static String createParticipantEnrollment(Id trialId, String participantId, String firstName, String lastName){
         Savepoint sp = Database.setSavepoint();
         try{
-            Clinical_Trial_Profile__c trial = SudyTrialService.getFullTrial(trialId);
+            Clinical_Trial_Profile__c trial = StudyTrialService.getFullTrial(trialId);
             HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
             SearchPEResult peResult = new SearchPEResult();
             //find already created participant enrollments:
