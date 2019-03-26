@@ -43,6 +43,11 @@ public without sharing class CommunityFacadeRemote {
                 else
                     availableModes.add(CommunityService.USER_MODE_PARTICIPANT);
             }
+            if (availableModes.size() == 0) {
+                if (userContact.userCommunityMode__c == CommunityService.USER_MODE_HCP) {
+                    availableModes.add(CommunityService.USER_MODE_HCP);
+                }
+            }
 
             List<String> modesList = new List<String>(availableModes);
             if(!availableModes.contains(userContact.userCommunityMode__c)) {
