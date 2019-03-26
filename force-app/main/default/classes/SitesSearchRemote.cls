@@ -51,7 +51,7 @@ public without sharing class SitesSearchRemote {
 
     @AuraEnabled
     public static String getInitData(Id trialId, String mode, String btnFilter, String userMode){
-        try{
+//        try{
             InitData initData = new InitData();
 
             initData.trial = TrialService.getTrial(trialId);
@@ -74,9 +74,9 @@ public without sharing class SitesSearchRemote {
             }
 
             return JSON.serialize(initData);
-        }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
+//        }catch (Exception e){
+//            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+//        }
     }
 
 }

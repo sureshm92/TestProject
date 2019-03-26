@@ -28,7 +28,13 @@
             "FirstName": "Joseph",
             "LastName": "Davis PI And HCP",
             "Email": "jdavis@somemail.com",
-            "AccountId": "@clinic1"
+            "AccountId": "@clinic1",
+            "MailingStreet": "515 West 52nd Street",
+            "MailingCountry": "United States",
+            "MailingCity": "New York",
+            "MailingState": "New York",
+            "MailingLatitude": 40.766594,
+            "MailingLongitude": -73.991509
         },
         {
             "attributes": {

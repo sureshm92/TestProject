@@ -156,7 +156,7 @@
                                 <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
                             </div>
                             <div class="slds-col slds-size_1-of-2" style="text-align: left;">
-                                <button class="apollo-btn primary" style="width: 328px;">Find More Sites for This Study</button>
+                                <button class="apollo-btn primary" onclick="{!c.navigateToSitesSearch}" style="width: 328px;">Find More Sites for This Study</button>
                             </div>
                         </div>
                     </div>

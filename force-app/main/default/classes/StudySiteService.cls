@@ -77,6 +77,8 @@ public without sharing class StudySiteService {
             'Site__r.BillingPostalCode',
             'Site__r.BillingCity',
             'Site__r.BillingStreet',
+            'Site__r.BillingLatitude',
+            'Site__r.BillingLongitude',
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Id',
             'Clinical_Trial_Profile__r.Study_Title__c',
@@ -224,22 +226,36 @@ public without sharing class StudySiteService {
         siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
         return siteFilterData;
     }
-    public class StudySiteDistanceWrapper{
+    public class StudySiteDistanceWrapper implements Comparable{
         public Study_Site__c site;
-        public Decimal distance;
+        public Double distance;
+        public String formatedDistance;
         public String siteType;
 
         public StudySiteDistanceWrapper(Study_Site__c site){
             this.site = site;
-            this.distance = 0;
+            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+            this.formatedDistance = ((distance * 10).round() / 10.0).format() + ' ' + DistanceHelper.getUnitsOfMeasurement();
             if(!site.Is_Virtual_Study_Site__c){
                 this.siteType = 'Traditional';
             }
-            else if(site.Site__r.BillingAddress == null){
+            else {
                 this.siteType = 'Virtual';
             }
+        }
+        public Integer compareTo(Object compareTo){
+            StudySiteDistanceWrapper compareToWrapper = (StudySiteDistanceWrapper)compareTo;
+            if(this.siteType == 'Virtual' && compareToWrapper.siteType == 'Virtual'){
+                return 0;
+            }
+            else if(this.siteType == 'Virtual'){
+                return -1;
+            }
+            else if(compareToWrapper.siteType == 'Virtual'){
+                return 1;
+            }
             else{
-                this.siteType = 'Hybrid';
+                return (Integer)(this.distance-compareToWrapper.distance);
             }
         }
 
@@ -261,7 +277,10 @@ public without sharing class StudySiteService {
             for(Integer i = paginationData.offset; i < paginationData.endOffset; i++){
                 pageList.add(result[i]);
             }
-            return pageList;
+            result = pageList;
+        }
+        if(filter.sortType == 'Distance'){
+            result.sort();
         }
         return result;
     }

@@ -18,7 +18,7 @@ public without sharing class SortOrder {
     };
 
     public static final List<LabelValueItem> STUDY_SITE_SORT_TYPES = new List<LabelValueItem>{
-            new LabelValueItem(ORDER_STUDY_SITE_STATUS, 'Status'),
+//            new LabelValueItem(ORDER_STUDY_SITE_STATUS, 'Status')
             new LabelValueItem(ORDER_STUDY_SITE_DISTANCE, 'Distance')
     };
 

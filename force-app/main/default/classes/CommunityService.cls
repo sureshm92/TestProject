@@ -197,7 +197,9 @@ public without sharing class CommunityService {
                         HCP_DelegateAccessLevel__c,
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
-                        Last_Session_Id__c
+                        Last_Session_Id__c,
+                        MailingLatitude,
+                        MailingLongitude
                 FROM Contact
                 WHERE Id = :contactId
         ];
