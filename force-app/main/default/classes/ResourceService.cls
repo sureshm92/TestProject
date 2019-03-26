@@ -1,11 +1,13 @@
 public with sharing class ResourceService {
 
     @TestVisible
+    private static String PARTICIPANT_TEST_ID = 'a0D4E0000000000000';
+    @TestVisible
     private static String DEFAULT_LANGUAGE = 'en_US';
     @TestVisible
-    private static String RESOURCE_SOURCE_STUDY = 'Study - Specific';
+    private static String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     @TestVisible
-    private static String RESOURCE_SOURCE_PLATFORM = 'Platform - TA';
+    private static String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
     @TestVisible
     private static String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
     private static Integer MAX_TITLE_LENGTH = 55;
@@ -139,11 +141,6 @@ public with sharing class ResourceService {
     }
 
     @TestVisible
-    private Id getClinicalTrialProfileId(Participant__c participant) {
-        return null;
-    }
-
-    @TestVisible
     private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
 
         List<Resource__c> resources = new List<Resource__c>();
@@ -182,7 +179,7 @@ public with sharing class ResourceService {
     @TestVisible
     private Participant__c getParticipant(String resourceType) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String participantId = 'a0C9E00000384lDUAQ';//(Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+        String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +
