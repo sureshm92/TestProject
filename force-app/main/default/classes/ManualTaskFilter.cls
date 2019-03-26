@@ -15,6 +15,8 @@ public with sharing class ManualTaskFilter {
     private static final String THERAPEUTIC_QUERY = 'SELECT Participant__r.Id FROM Therapeutic_Area_Patient__c ' +
             'WHERE ';
 
+    private static final String MAILING_COUNTRY_QUERY = 'SELECT Id FROM Contact WHERE ';
+
     //Color filters (statuses)
     private static final String[] PE_STATUSES_GREEN = new String[]{
             'Referral Sent to PI', 'Referral Accepted', 'Contact Successful', 'Eligibility Passed', 'Screening Complete'
@@ -68,6 +70,22 @@ public with sharing class ManualTaskFilter {
                 contacts.add(pe.Participant__r.Contact__c);
         }
 
+        if(!countries.isEmpty()) {
+            String foundContactsId = fieldJoin('Id', contacts);
+            String countryLabels = fieldJoin('MailingCountry', convertedCountries());
+
+            String query = MAILING_COUNTRY_QUERY + foundContactsId + 'AND ' + countryLabels;
+            List<Contact> contactsWithCountry =
+                    (List<Contact>) Database.query(query);
+
+            System.debug('Last filtration by country: ' + query);
+
+            if(!contactsWithCountry.isEmpty()) {
+                contacts.clear();
+                for(Contact contact : contactsWithCountry) contacts.add(contact.Id);
+            }
+        }
+
         return [
                 SELECT Id, Name
                 FROM User
@@ -100,33 +118,32 @@ public with sharing class ManualTaskFilter {
     private String getFiltersQuery() {
         List<String> filters = new List<String>();
 
-        if(!areas.isEmpty())
-            filters.add(filterTherapeutic());
+        if(!areas.isEmpty()) filters.add(filterTherapeutic());
 
-        if(!sponsors.isEmpty())
-            filters.add(fieldJoin('Study_Site__r.Site__c', sponsors));
+        if(!sponsors.isEmpty()) filters.add(fieldJoin('Study_Site__r.Site__c', sponsors));
 
-        if(!studies.isEmpty())
-            filters.add(fieldJoin('Clinical_Trial_Profile__c', studies));
+        if(!studies.isEmpty()) filters.add(fieldJoin('Clinical_Trial_Profile__c', studies));
 
-        if(!countries.isEmpty())
-            filters.add(fieldJoin('Participant__r.Mailing_Country__c', convertedCountries()));
-
-        if(!sites.isEmpty())
-            filters.add(fieldJoin('Study_Site__c', sites));
+        if(!sites.isEmpty()) filters.add(fieldJoin('Study_Site__c', sites));
 
         return filters.isEmpty() ? '' : ' AND ' + String.join(filters, ' AND ');
     }
 
     private String fieldJoin(String fieldName, List<LookupSearchResult> items) {
         List<String> ids = new List<String>();
-        for(LookupSearchResult result : items)
-            ids.add(result.getId());
+        for(LookupSearchResult result : items) ids.add(result.getId());
 
         return fieldName + ' IN (\'' + String.join(ids, SEPARATOR) + '\') ';
     }
 
     private String fieldJoin(String fieldName, List<String> items) {
+        return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
+    }
+
+    private String fieldJoin(String fieldName, Set<Id> ids) {
+        Set<String> idStrs = (Set<String>) JSON.deserialize(JSON.serialize(ids), Set<String>.class);
+        List<String> items = new List<String>(idStrs);
+
         return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
     }
 
@@ -137,10 +154,11 @@ public with sharing class ManualTaskFilter {
         List<LabelValueItem> allCountries = CountryStateUtil.getCountries();
         List<String> convertedCountries = new List<String>();
 
-        for(LookupSearchResult result : countries)
-            for(LabelValueItem item : allCountries)
-                if(result.getId().equalsIgnoreCase(item.value))
-                    convertedCountries.add(item.label);
+        for(LookupSearchResult result : countries) {
+            for(LabelValueItem item : allCountries) {
+                if(result.getId().equalsIgnoreCase(item.value)) convertedCountries.add(item.label);
+            }
+        }
 
         return convertedCountries;
     }

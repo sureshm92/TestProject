@@ -9,7 +9,7 @@ public without sharing class PSEService {
     public static final String PSE_STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
     public static final String PSE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
     public static final String PSE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
-    
+
     public static final List<String> PSE_STATUS_GROUP_ALL = new List<String>{
             PSE_STATUS_ENROLLED,
             PSE_STATUS_TREATMENT_PERIOD_STARTED,
@@ -17,7 +17,7 @@ public without sharing class PSEService {
             PSE_STATUS_PARTICIPATION_COMPLETE,
             PSE_STATUS_TRIAL_COMPLETE
     };
-    
+
     public static final List<String> PSE_STATUS_GROUP_COMPLETE = new List<String>{
             PSE_STATUS_PARTICIPATION_COMPLETE,
             PSE_STATUS_TRIAL_COMPLETE

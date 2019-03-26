@@ -3,7 +3,6 @@
  */
 
 public class PatientDelegateService {
-
     public class PatientDelegateServiceException extends Exception {
     }
 
@@ -46,9 +45,10 @@ public class PatientDelegateService {
         return conIds;
     }
 
-    public static List<Id> getDelegatedParticipantIds() {
+    public static List<Id> getDelegatedParticipantIds(){
+        List<Patient_Delegate__c> patientDelegates = getPatientDelegates();
         List<Id> patientIds = new List<Id>();
-        for (Patient_Delegate__c pd : getPatientDelegates()) patientIds.add(pd.Participant__c);
+        for(Patient_Delegate__c pd : getPatientDelegates()) patientIds.add(pd.Participant__c);
         return patientIds;
     }
 
@@ -100,3 +100,4 @@ public class PatientDelegateService {
         delete patientDelegate.get(0);
     }
 }
+

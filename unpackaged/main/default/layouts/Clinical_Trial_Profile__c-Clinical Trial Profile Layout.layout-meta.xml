@@ -140,6 +140,10 @@
                 <behavior>Edit</behavior>
                 <field>Therapeutic_Area__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Trial_Complete__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

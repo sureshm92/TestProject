@@ -29,6 +29,7 @@ public without sharing class CommunityService {
     public static final String USER_MODE_DELEGATE = 'Delegate';
 
 	//Exception messages
+    public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
 	private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
 	private static String ERROR_MISSING_PARTICIPANT_ON_CONTACT = 'Contact does not have related Participant';
 
@@ -56,10 +57,8 @@ public without sharing class CommunityService {
     }
 
     public static String getParticipantId() {
-        User currentUser;
-        if (userContact == null) {
-            currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-        }
+
+        User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
         if(currentUser.ContactId == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
         }
