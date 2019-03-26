@@ -9,6 +9,7 @@
         communityService.executeAction(component, 'getPSEStatusHistory', {
             pseId: pseId
         }, function (returnValue) {
+            debugger;
             var pathItems = JSON.parse(returnValue);
             component.set('v.pathItems', pathItems);
         }, null, function () {
