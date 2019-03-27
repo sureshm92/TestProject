@@ -917,6 +917,13 @@ You will be contacted by the study team regarding next steps in the enrollment p
 To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Referral Hub.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Delegate</shortDescription>
+        <value>Some text for patient delegate here</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1281,6 +1288,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Header Initial Patient</shortDescription>
         <value>You have been referred to a clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Initial_Patient_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Initial Patient Delegate</shortDescription>
+        <value>Header for patient delegate email</value>
     </labels>
     <labels>
         <fullName>Email_Header_Medication_Task_Reminder</fullName>

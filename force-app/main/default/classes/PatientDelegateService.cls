@@ -76,6 +76,8 @@ public class PatientDelegateService {
                 FROM Participant__c
                 WHERE Contact__c = :CommunityService.getUserContact().Id
         ];
+        
+        if(participant.size() == 0) throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
 
         Patient_Delegate__c delegate = new Patient_Delegate__c(
                 Contact__c = newDelegate.Id,
