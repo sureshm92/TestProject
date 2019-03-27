@@ -1,21 +1,34 @@
-<aura:component description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes">
 
-	<ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-				  scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
 
 
-	<!--Possible values are "Default", "Favorite", "Suggested"-->
-	<aura:attribute name="resourceMode" type="String" default="Default"/>
+    <!--Possible values are "Default", "Favorite", "Suggested"-->
+    <aura:attribute name="resourceMode" type="String" default="Default"/>
+    <aura:attribute name="noTAMessage" type="String[]" default="{!null}"/>
 
-	<lightning:layout horizontalAlign="center" class="width-limiter">
-		<lightning:layoutItem flexibility="auto" size="6">
-			<c:Resource resourceType="Video" resourceMode="{!v.resourceMode}"/>
-		</lightning:layoutItem>
-		<lightning:layoutItem flexibility="auto" size="6" class="resource-right">
-			<c:Resource resourceType="Article" resourceMode="{!v.resourceMode}"/>
-		</lightning:layoutItem>
-	</lightning:layout>
-	<div class="resource-disclaimer">
-		{!$Label.c.Resources_Expiration_Date_Disclaimer}
-	</div>
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.noTAMessage != null}">
+        <div class="resource-noTAMessage">
+            {!v.noTAMessage[0]} <br />
+            <a href="/s/settings?tab=account-settings">{!v.noTAMessage[1]}</a>
+            {!v.noTAMessage[2]}
+        </div>
+        <aura:set attribute="else">
+            <lightning:layout horizontalAlign="center" class="width-limiter">
+                <lightning:layoutItem flexibility="auto" size="6">
+                    <c:Resource resourceType="Video" resourceMode="{!v.resourceMode}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" size="6" class="resource-right">
+                    <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="resource-disclaimer">
+                {!$Label.c.Resources_Expiration_Date_Disclaimer}
+            </div>
+        </aura:set>
+    </aura:if>
+
 </aura:component>

@@ -55,4 +55,19 @@ public with sharing class ResourceRemote {
         }
         return trialId;
     }
+
+    @AuraEnabled
+    public static List<String> getNoTAMessage() {
+        List<String> noTAMessage = new List<String>();
+        ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        Participant__c currentParticipant = resourceService.getParticipant();
+        if(ParticipantDecoupler.getTherapeuticAreaPatients(currentParticipant).size() == 0) {
+            String message = Label.Resources_No_Therapeutic_Area;
+            noTAMessage.add(message.substringBefore('{'));
+            noTAMessage.add(message.substringBetween('{', '}'));
+            noTAMessage.add(message.substringAfter('}'));
+            return noTAMessage;
+        }
+        return null;
+    }
 }

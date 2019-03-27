@@ -26,3 +26,15 @@
 	height: 20px;
 	cursor: pointer;
 }
+
+.THIS .resource-noTAMessage {
+	display: block;
+	text-align: center;
+	position: relative;
+	top: 100px;
+	height: 350px;
+	color: #999999;
+	font-family: "Proxima Nova";
+	font-size: 17px;
+	line-height: 26px;
+}

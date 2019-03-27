@@ -25,3 +25,15 @@
 	line-height: 14px;
 	text-align: center;
 }
+
+.THIS.resource-noTAMessage {
+	display: block;
+	text-align: center;
+	position: relative;
+	top: 100px;
+	height: 52px;
+	color: #999999;
+	font-family: "Proxima Nova";
+	font-size: 17px;
+	line-height: 26px;
+}

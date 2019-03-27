@@ -13,6 +13,12 @@
 				resourceMode: component.get('v.resourceMode')
 			}, function (returnValue) {
 				if(!returnValue.errorMessage) {
+					for(let i = 0; i < returnValue.wrappers.length; i++) {
+						let title = returnValue.wrappers[i].title;
+						returnValue.wrappers[i].title = title.length > 55 ? title.substring(0, 52) + '...' : title;
+						let description = returnValue.wrappers[i].description;
+						returnValue.wrappers[i].description = description.length > 120 ? description.substring(0, 117) + '...' : description;
+					}
 					component.set("v.resources", returnValue.wrappers);
 					component.set("v.errorMessage", "");
 				} else {

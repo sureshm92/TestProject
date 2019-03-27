@@ -61,6 +61,10 @@ public with sharing class ResourceService {
         }, participant));
     }
 
+    public Participant__c getParticipant() {
+        return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
+    }
+
     @TestVisible
     private List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
         String language = this.getParticipantLanguage(participant);
@@ -191,11 +195,6 @@ public with sharing class ResourceService {
     }
 
     @TestVisible
-    private Participant__c getParticipant() {
-        return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
-    }
-
-    @TestVisible
     private String getParticipantLanguage(Participant__c participant) {
         return (String.isBlank(participant.Contact__r.Language__c) ? ResourceService.DEFAULT_LANGUAGE : participant.Contact__r.Language__c);
     }
@@ -244,12 +243,8 @@ public with sharing class ResourceService {
                 isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
                 isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
-            title = (resource.Title__c.length() > ResourceService.MAX_TITLE_LENGTH) ?
-                    resource.Title__c.substring(0, ResourceService.MAX_TITLE_LENGTH - 3) + '...' :
-                    resource.Title__c;
-            description = (resource.Description__c.length() > ResourceService.MAX_DESCRIPTION_LENGTH) ?
-                    resource.Description__c.substring(0, ResourceService.MAX_DESCRIPTION_LENGTH - 3) + '...' :
-                    resource.Description__c;
+            title = resource.Title__c;
+            description = resource.Description__c;
             image = resource.Image__c;
             expirationDate = resource.Expiration_Date__c;
             type = resource.RecordType.DeveloperName;

@@ -4,6 +4,7 @@
 	<aura:attribute name="videoResource" type="Object"/>
 	<aura:attribute name="articleResource" type="Object"/>
 	<aura:attribute name="trialId" type="String"/>
+	<aura:attribute name="noTAMessage" type="String[]" default="{!null}"/>
 
 	<!--HANDLERS-->
 	<aura:handler name="init" value="this" action="{!c.doInit}"/>
@@ -15,23 +16,31 @@
 			Resources
 		</header>
 
-		<div class="resource-content">
-			<lightning:layout horizontalAlign="center">
+		<aura:if isTrue="{!v.noTAMessage != null}">
+			<div class="resource-noTAMessage">
+				{!v.noTAMessage[0]} <br />
+				<a href="/s/settings?tab=account-settings">{!v.noTAMessage[1]}</a>
+				{!v.noTAMessage[2]}
+			</div>
+			<aura:set attribute="else">
+				<div class="resource-content">
+					<lightning:layout horizontalAlign="center">
 
-				<lightning:layoutItem size="6" flexibility="auto">
-					<c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"/>
-				</lightning:layoutItem>
-				<lightning:layoutItem size="6" flexibility="auto">
-					<c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"/>
-				</lightning:layoutItem>
+						<lightning:layoutItem size="6" flexibility="auto">
+							<c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"/>
+						</lightning:layoutItem>
+						<lightning:layoutItem size="6" flexibility="auto">
+							<c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"/>
+						</lightning:layoutItem>
 
-			</lightning:layout>
-		</div>
+					</lightning:layout>
+				</div>
 
-		<footer class="resource-footer" onclick="{!c.navigateToPage}">
-			{!$Label.c.Resources_See_All}
-		</footer>
-
+				<footer class="resource-footer" onclick="{!c.navigateToPage}">
+					{!$Label.c.Resources_See_All}
+				</footer>
+			</aura:set>
+		</aura:if>
 	</div>
 
 </aura:component>
