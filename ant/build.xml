@@ -97,8 +97,8 @@
             <arg value="/c convert-project.bat"/>
         </exec>
         <!-- TODO test for mac -->
-        <exec dir=".." executable="/bin/sh" osfamily="mac">
-            <arg path="-c convert-project.bat"/>
+        <exec dir=".." executable="pwsh" osfamily="mac">
+            <arg path="../convert-project.bat"/>
         </exec>
     </target>
 
