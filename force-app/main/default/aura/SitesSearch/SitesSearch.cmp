@@ -69,15 +69,15 @@
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:if isTrue="{!not(empty(v.pageList))}">
-                    <div class="slds-grid ss-main-panel">
-                        <div class="slds-col slds-size--1-of-2">
+                    <div class="slds-grid ss-main-panel slds-wrap">
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2 slds-order--2 slds-medium-order--1">
                             <aura:iteration items="{!v.pageList}" var="item">
                                 <c:SitesSearchItem
                                         studySiteWrapper="{!item}"
                                         parentComponent="{!this}"/>
                             </aura:iteration>
                         </div>
-                        <div class="slds-col slds-size--1-of-2 ss-map">
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2 slds-order--1 slds-medium-order--2 ss-map">
                             <lightning:map mapMarkers="{!v.mapMarkers}" zoomLevel="16"/>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
 
 
             <div class="slds-grid">
-                <div class="slds-col slds-size--1-of-2">
+                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
                     <!-- pagination -->
                     <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
                                           currentPage="{!v.paginationData.currentPage}"
@@ -95,7 +95,7 @@
                     <!-- change PE status action by PI: -->
                 </div>
             </div>
-            <c:Action_SendSiteRequestByHCP aura:id="changePEStatusByPIAction"/>
+            <c:Action_RequestToReferByHCP aura:id="requestToReferByHCPAction"/>
 
         </aura:if>
     </div>

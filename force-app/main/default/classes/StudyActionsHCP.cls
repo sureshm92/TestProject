@@ -175,6 +175,16 @@ public class StudyActionsHCP extends StudyActions{
                 }
         ));
 
+        actions.put(ACT_REQUEST_TO_REFER, new Action(
+                ACT_REQUEST_TO_REFER,
+                LABEL_REQUEST_TO_REFER,
+                '',
+                new List<DisableReason>{
+                        tcAcceptanceRequiredReason,
+                        studyNoLongerEnrollingReason
+                }
+        ));
+
 
         //prepare study item actions list:
         //MRR, Referring

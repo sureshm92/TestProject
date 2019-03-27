@@ -231,6 +231,8 @@ public without sharing class StudySiteService {
         public Double distance;
         public String formatedDistance;
         public String siteType;
+        public HCP_Enrollment__c hcpe;
+        public Map<String, StudyActions.Action> actions;
 
         public StudySiteDistanceWrapper(Study_Site__c site){
             this.site = site;
@@ -267,8 +269,20 @@ public without sharing class StudySiteService {
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
         List<Study_Site__c> siteList = getStudySitesCommon(filterString);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
+        Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
+        for(HCP_Enrollment__c hcpe:HCPEnrollmentService.getHCPEnrollmentsForHCPByTrial(filter.trialId)){
+            hcpeMap.put(hcpe.Study_Site__c, hcpe);
+        }
         for(Study_Site__c site : siteList){
-            result.add(new StudySiteDistanceWrapper(site));
+            StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site);
+            if(hcpeMap.containsKey(site.Id)){
+                siteWrapper.hcpe = hcpeMap.get(site.Id);
+                siteWrapper.actions = new StudyActionsHCP(hcpeMap.get(site.Id)).actions;
+            }
+            else{
+                siteWrapper.actions = new StudyActionsHCP(site.Clinical_Trial_Profile__r, site,null).actions;
+            }
+            result.add(siteWrapper);
         }
 
         if(paginationData != null){

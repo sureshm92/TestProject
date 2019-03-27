@@ -15,8 +15,8 @@
 
 
     <div class="rr-white-panel ssi-container condensed">
-        <div class="slds-grid slds-wrap">
-            <div class="slds-col slds-size--4-of-5 slds-p-around--medium">
+        <div class="slds-grid slds-wrap slds-p-around--medium">
+            <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ">
                 <div class="ssi-site-name">
                         {!v.studySiteWrapper.site.Name}
                 </div>
@@ -24,7 +24,7 @@
                         {!$Label.c.PG_DBPI_Dr + ' ' + v.studySiteWrapper.site.Principal_Investigator__r.Name}
                 </div>
             </div>
-            <div class="slds-col slds-size--1-of-5 slds-p-around--medium">
+            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <div class="ssi-site-type">
                         {!v.studySiteWrapper.siteType + ' Site'}
                 </div>
@@ -34,7 +34,7 @@
                     </div>
                 </aura:if>
             </div>
-            <div class="slds-col slds-size--4-of-5 slds-p-around--medium">
+            <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
                 <div class="ssi-address">
                 {!v.studySiteWrapper.site.Site__r.BillingStreet}
                     <br/>
@@ -43,7 +43,23 @@
                         {!v.studySiteWrapper.site.Site__r.BillingPostalCode}
                 </div>
             </div>
-            <div class="slds-col slds-size--1-of-5 slds-p-around--medium">
+            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                <aura:if isTrue="{!v.studySiteWrapper.hcpe == null}">
+                    <button class="apollo-btn tertiary btn-request-to-refer"
+                            onclick="{!c.requestToRefer}"
+                            disabled="{!v.studySiteWrapper.actions.requestToRefer.disabled}"
+                            title="{!v.studySiteWrapper.actions.requestToRefer.disableReason}">
+                        Request to Refer
+                    </button>
+                    <aura:set attribute="else">
+                        <button class="apollo-btn tertiary btn-refer-patient"
+                                disabled="{!v.studySiteWrapper.actions.refer.disabled}"
+                                title="{!v.studySiteWrapper.actions.refer.disableReason}"
+                                onclick="{!c.navigateToReferring}">
+                            Refer a Patient
+                        </button>
+                    </aura:set>
+                </aura:if>
             </div>
         </div>
     </div>
