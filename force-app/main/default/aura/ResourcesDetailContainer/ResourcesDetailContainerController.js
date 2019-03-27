@@ -5,7 +5,7 @@
         let resourceType = communityService.getUrlParameter('resourceType');
         let recId = communityService.getUrlParameter('id');
         let resId = communityService.getUrlParameter('resId');
-        let homePage = window.location.hash;
+        let homePage = document.location.hash;
 
         communityService.executeAction(component, 'getResourcesById', {
             resourceId: resId
