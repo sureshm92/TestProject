@@ -24,7 +24,11 @@
             var resourceType = event.currentTarget.dataset.type;
             var resourceId = event.currentTarget.dataset.id;
             var trialId = component.get('v.trialId');
-            communityService.navigateToPage("resources?resourceType=" + resourceType + "&id=" + trialId + '&resId=' + resourceId);
+            let pathToNavigate = 'resources?resourceType=' + resourceType + '&id=' + trialId + '&resId=' + resourceId;
+            if (window.location.pathname === '/s/') {
+                pathToNavigate += '#home';
+            }
+            communityService.navigateToPage(pathToNavigate);
         },
     }
 )
