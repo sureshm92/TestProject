@@ -16,22 +16,15 @@
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <div>
-        <div class="rectangle-8">
-            <c:RRLink page="{!v.backStudy}" class="margin-left-side1 button-back">
-                <c:RRIcon iconName="icon-arrow-left" color="#3294FE" class="icon-back-home"/>
-                {!$Label.c.Link_Back_To_Resources}</c:RRLink>
-            <div class="study-name-approved margin-left-side1">
-                <div class="study-name">
-                    {!v.studyName}
-                </div>
-            </div>
-            <div class="pre-eligibility-scre margin-left-side1">
-                {!v.resourceType}
-            </div>
-        </div>
-
+        <c:RRTopBar backLabel="{!$Label.c.Link_Back_To_Resources}"
+                    backPage="{!v.backStudy}"
+                    smallTitle="&nbsp;"
+                    bigTitle="{!v.resourceType}"/>
         <div class="resource-detail-block">
             <c:ResourcesDetailItem resource="{!v.resource}"/>
+        </div>
+        <div class="rr-width-limiter side-padding">
+            <c:CommunityFooter/>
         </div>
     </div>
 </aura:component>

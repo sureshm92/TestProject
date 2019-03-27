@@ -2,9 +2,13 @@
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
         component.set('v.showSpinner', true);
+
+        communityService.executeAction(component, 'isDelegate', null,
+            function (returnValue) {
+            debugger;
+                if(returnValue === 'TRUE') component.set('v.isDelegate', true);
+        });
         var mode = communityService.getUserMode();
-        console.debug('DEBUG>> USER MODE IS '+ mode);
-        debugger;
         var tabId = communityService.getUrlParameter('tab');
         if(tabId) {
             if(mode === 'HCP' || mode === 'PI') {
@@ -17,8 +21,6 @@
                 if (tabId === 'delegates' || tabId === 'account-settings')
                     component.set('v.currentTab', tabId);
             }
-            if(mode === 'Delegate' && tabId === 'account-settings')
-                component.set('v.currentTab', tabId);
         }
         component.set('v.userMode', mode);
         component.set('v.showSpinner', false);

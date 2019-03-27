@@ -21,6 +21,11 @@ public class PatientDelegateRemote {
     }
 
     @AuraEnabled
+    public static String isDelegate() {
+        return ParticipantService.getParticipantState().isDelegate ? 'TRUE' : 'FALSE';
+    }
+
+    @AuraEnabled
     public static String getLogOutUrl() {
         return Site.getBaseUrl();
     }

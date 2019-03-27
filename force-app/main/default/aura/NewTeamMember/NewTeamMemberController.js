@@ -98,13 +98,17 @@
             }
         }
 
+        component.find('mainSpinner').show();
         if (component.get('v.userMode') === 'Participant') {
             communityService.executeAction(component, 'savePatientDelegate', {
                 delegate: JSON.stringify(delegate)
             }, function (returnValue) {
                 communityService.showToast(
                     'Success', 'success', $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') + ' ' +
-                    (delegate.delegateContact.FirstName || '') + ' ' + delegate.delegateContact.LastName + '.');
+                    delegate.delegateContact.Name + '.');
+                component.refresh();
+            }, function () {
+                component.find('mainSpinner').hide();
             });
         } else
             component.find('saveDelegateLevelChanges').execute(delegate, component, delegate.delegateContact.Id === undefined);

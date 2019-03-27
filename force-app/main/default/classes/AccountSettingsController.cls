@@ -15,7 +15,8 @@ public without sharing class AccountSettingsController {
     
             if (initData.myContact.primaryContact__c == null) {
         
-                if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                if (userMode == CommunityService.USER_MODE_PARTICIPANT
+                        && !ParticipantService.getParticipantState().isDelegate) {
                     initData.participant = [
                             SELECT Id, First_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
@@ -24,14 +25,14 @@ public without sharing class AccountSettingsController {
                             WHERE Contact__c =: initData.myContact.Id
                     ];
                     //translate country:
-                    initData.participant.Mailing_Country__c = CountryStateUtil.getCountryName(initData.participant.Mailing_Country_Code__c);
+                    initData.participant.Mailing_Country__c =
+                            CountryStateUtil.getCountryName(initData.participant.Mailing_Country_Code__c);
 
                     //translate state
                     initData.participant.Mailing_State__c = CountryStateUtil.getStateName(
                             initData.participant.Mailing_Country_Code__c,
                             initData.participant.Mailing_State_Code__c
                     );
-
 
                 } else {
                     initData.institute = getInstituteById(initData.myContact.AccountId);
@@ -40,11 +41,17 @@ public without sharing class AccountSettingsController {
                 initData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
             }
             initData.userName = UserInfo.getUserName();
+            initData.isDelegate = ParticipantService.getParticipantState().isDelegate;
             return JSON.serialize(initData);
         }catch (Exception e){
             System.debug(e);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    @AuraEnabled
+    public static String isDelegate() {
+        return PatientDelegateRemote.isDelegate();
     }
 
     @AuraEnabled
@@ -195,5 +202,6 @@ public without sharing class AccountSettingsController {
         public Account institute;
         public Participant__c participant;
         public String userName;
+        public Boolean isDelegate;
     }
 }

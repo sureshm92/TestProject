@@ -126,6 +126,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConditionOfInterestRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -366,6 +370,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantDecoupler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantEnrollmentService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -422,6 +430,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceDecoupler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceExpBatchScheduler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -434,15 +446,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_ResourceRemote</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ResourceService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -578,7 +582,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TestDataFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ArticleService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -603,6 +615,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RRLoginRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceExpBatchScheduler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1105,6 +1129,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Therapeutic_Area__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Trial_Complete__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2408,8 +2437,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Enrolled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Follow_Up_Period_Started__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2483,6 +2522,16 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Participant_Dropped_Out__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Participation_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Phone__c</field>
         <readable>true</readable>
@@ -2491,6 +2540,11 @@
         <editable>false</editable>
         <field>Participant__c.Study_Enrollment_Status__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Treatment_Period_Started__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

@@ -40,10 +40,6 @@
                 <field>Resource_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Resource_Source__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Favorites__c</field>
             </layoutItems>

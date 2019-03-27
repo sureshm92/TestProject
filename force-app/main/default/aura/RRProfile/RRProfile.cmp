@@ -6,6 +6,7 @@
     <aura:attribute name="user" type="User" access="private"/>
     <aura:attribute name="showMenu" type="Boolean" default="false" access="private"/>
     <aura:attribute name="participantName" type="String" default="" access="private"/>
+    <aura:attribute name="isDelegate" type="Boolean" access="private"/>
     <!--=============================================================================================================-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--=============================================================================================================-->
@@ -21,7 +22,7 @@
             <aura:if isTrue="{!or(v.userMode == 'PI', v.userMode == 'HCP')}">
                 <div class="rrp-menu-item" onclick="{!c.navigateToMyTeam}">{!$Label.c.PG_PST_L_My_Team}</div>
             </aura:if>
-            <aura:if isTrue="{!v.userMode == 'Participant'}">
+            <aura:if isTrue="{!and(v.userMode == 'Participant', !v.isDelegate)}">
                 <div class="rrp-menu-item" onclick="{!c.navigateToDelegates}">{!$Label.c.PG_PST_L_Delegates}</div>
             </aura:if>
             <div class="rrp-menu-item"

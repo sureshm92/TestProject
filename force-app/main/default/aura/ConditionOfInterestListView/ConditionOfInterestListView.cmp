@@ -1,0 +1,18 @@
+<!--
+ - Created by AlexKetch on 3/21/2019.
+ -->
+
+<aura:component controller="ConditionOfInterestRemote" description="ConditionOfInterestListView">
+    <aura:attribute name="ConditionOfInterestList" type="Object[]"/>
+    <lightning:card footer="Card Footer" title="Hello">
+        <aura:set attribute="actions">
+            <lightning:button label="New"/>
+        </aura:set>
+        <aura:iteration items="{!v.ConditionOfInterestList}" var="CA">
+            {!CA}
+        </aura:iteration>
+        <aura:set attribute="footer">
+            <lightning:button label="New"/>
+        </aura:set>
+    </lightning:card>
+</aura:component>
