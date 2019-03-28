@@ -10,6 +10,7 @@
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="detailsExpanded" type="Boolean" default="false"/>
     <aura:attribute name="actionsList" type="Boolean"/>
+    <aura:attribute name="searchItem" type="Boolean" default="false"/>
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
@@ -79,7 +80,8 @@
                         <div id="{!action.id}" class="{!'slvi-btn' + if(action.disabled, ' disabled', '')}"
                              onclick="{!c.doAction}">
                             <div class="btn-content">
-                                <c:RRIcon iconName="{!action.iconName}"/>{!action.label}
+                                <c:RRIcon iconName="{!action.iconName}"/>
+                                {!action.label}
                             </div>
                         </div>
                     </div>
@@ -92,10 +94,26 @@
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-2">
                         <div style="padding-left: 30px;">
-                            <a href="javascript:void(0);" class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}" onclick="{!c.toggleStudySiteListView}">
-                                <span class="slds-m-right--xx-small">Associated Sites and Site Details</span>
-                                <c:RRIcon iconName="icon-chevron-right"/>
-                            </a>
+                            <div class="{!v.searchItem ? 'slds-hide' : ''}">
+                                <a href="javascript:void(0);"
+                                   class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
+                                   onclick="{!c.toggleStudySiteListView}">
+                                    <span class="slds-m-right--xx-small">Associated Sites and Site Details</span>
+                                    <c:RRIcon iconName="icon-chevron-right"/>
+                                </a>
+                            </div>
+                            <aura:if isTrue="{!v.searchItem}">
+                                <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments}">
+                                    <div>
+                                        <span class="slds-m-right--xx-small rr-blue-color">You are already associated with this study.</span>
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
+                                    <div>
+                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on refer a Patient to search for sites.</span>
+                                    </div>
+                                </aura:if>
+                            </aura:if>
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-2">
@@ -120,7 +138,10 @@
                                     <div class="site-sub-header slds-m-top--x-small">{!(hcpEnrollment.Study_Site__r.Principal_Investigator__r.Title + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.Name)}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12">
-                                    <div class="site-sub-header" style="text-align: right;">{!hcpEnrollment.Study_Site__r.Is_Virtual_Study_Site__c ? 'Virtual' : 'Traditional'} Site</div>
+                                    <div class="site-sub-header" style="text-align: right;">
+                                        {!hcpEnrollment.Study_Site__r.Is_Virtual_Study_Site__c ? 'Virtual' :
+                                        'Traditional'} Site
+                                    </div>
                                     <!--<div class="site-sub-header slds-m-topxx-small" style="text-align: right;">3.0 Miles</div>-->
                                 </div>
                             </div>

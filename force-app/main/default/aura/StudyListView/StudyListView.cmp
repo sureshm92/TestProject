@@ -17,6 +17,7 @@
     <aura:attribute name="currentTab" type="String" default="recruiting"/>
     <aura:attribute name="currentTrialId" type="String"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="isSearchResume" type="Boolean" default="false"/>
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
 
@@ -43,37 +44,46 @@
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
     <aura:if isTrue="{!v.isInitialized}">
-        <div>
+        <div class="{!v.isSearchResume ? 'slds-hide' : ''}">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Home_Page_Label}"/>
+            </c:RRNavigationPath>
+        </div>
+        <div class="{!v.isSearchResume ? '' : 'slds-hide'}">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="Studies" page=""/>
+                <c:RRNPathItem label="Search for Studies"/>
             </c:RRNavigationPath>
         </div>
 
         <aura:if isTrue="{!v.userMode == 'HCP'}">
             <div>
                 <c:FilterPanel searchText="{!v.filterData.searchText}"
-                               searchTextPlaceHolder="Search for Study"
+                               searchTextPlaceHolder="{!v.isSearchResume ? 'Global Search for Study' : 'Search for Study'}"
                                recordsPerPage="{!v.paginationData.pageRecordsCount}"
                                recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                                sortType="{!v.sortData.sortType}"
                                sortVariants="{!v.sortData.sortVariants}"
                                allRecordsCount="{!v.paginationData.allRecordsCount}">
-                    <c:rrSelect value="{!v.filterData.enrollmentStatus}" options="{!v.filterData.enrollmentStatuses}"
-                                placeholder="Enrollment Status"/>
-                    <!--
+                    <c:rrSelect value="{!v.filterData.enrollmentStatus}"
+                                options="{!v.filterData.enrollmentStatuses}"
+                                placeholder="Enrollment Status"
+                                class="{!v.isSearchResume ? 'slds-hide' : ''}"/>
                     <c:rrSelect value="{!v.filterData.therapeuticArea}" options="{!v.filterData.therapeuticAreas}"
-                                placeholder="Therapeutic Area"/>-->
+                                placeholder="Therapeutic Area"/>
                 </c:FilterPanel>
             </div>
 
             <div class="slv-items-panel">
-                <div class="rr-simple-white-panel">
+                <div class="{!(v.isSearchResume ? 'slds-hide' : '') + ' rr-simple-white-panel'}">
                     <div class="slds-grid slds-wrap" style="padding-left: 80px;">
                         <div class="slds-col slds-size_1-of-2" style="padding-top: 22px;">
                             <span class="header-white-panel">Don't see a study that you could refer your patients to?</span>
                         </div>
                         <div class="slds-col slds-size_1-of-2" style="padding-top: 16px;">
-                            <button class="apollo-btn primary search-more-btn">Search for More Studies</button>
+                            <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}">
+                                Search for More Studies
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -81,7 +91,8 @@
                 <div style="position: relative; min-height: 100px;" class="slds-gutters_">
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
-                        <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                        <c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
+                                             userMode="{!v.userMode}" parent="{!this}"/>
                     </aura:iteration>
                 </div>
             </div>

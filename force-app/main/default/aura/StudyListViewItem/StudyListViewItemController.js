@@ -5,7 +5,7 @@
         var trialId = trial.Id;
         var parent = component.get('v.parent');
         var actionId = event.currentTarget.id;
-        switch (actionId){
+        switch (actionId) {
             case 'medicalRecordReview':
                 communityService.navigateToPage('medical-record-review?id=' + trialId);
                 break;
@@ -35,10 +35,14 @@
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
                 parent.find('receiveReferralsModal').show(trial);
+                break;
+            case 'linkToStudySites':
+                communityService.navigateToPage('sites-search?id=' + trialId);
+                break;
         }
     },
 
-    toggleStudySiteListView: function(cmp, event, helper) {
+    toggleStudySiteListView: function (cmp, event, helper) {
         let detailsExpanded = cmp.get("v.detailsExpanded");
         if (detailsExpanded) {
             cmp.set("v.detailsExpanded", false);

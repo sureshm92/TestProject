@@ -211,6 +211,10 @@
     transform: rotate(0deg);
 }
 
+.THIS .rr-blue-color {
+    color: #297DFD;
+}
+
 @media (max-width: 768px) {
     .THIS .slvi-buttons {
         flex-direction: column;
