@@ -2,21 +2,18 @@
     {
         doInit : function (component, event, helper) {
 
-            var spinner = component.find('spinner');
-            if(spinner){ spinner.show(); }
-
+            component.set("v.resourcesLoading", true);
             communityService.executeAction(component, 'getResources', {
                 resourceType: component.get('v.resourceType'),
                 resourceMode: 'Default'
             }, function (returnValue) {
+                component.set("v.resourcesLoading", false);
                 if(!returnValue.errorMessage) {
                     component.set("v.resources", returnValue.wrappers);
                     component.set("v.errorMessage", "");
                 } else {
                     component.set("v.errorMessage", returnValue.errorMessage);
                 }
-                var spinner = component.find('spinner');
-                if(spinner){ spinner.hide(); }
             });
         },
 
