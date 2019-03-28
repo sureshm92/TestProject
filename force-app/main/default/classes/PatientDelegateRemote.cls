@@ -15,7 +15,7 @@ public class PatientDelegateRemote {
             return contacts.get(0).First_Name__c;
         }catch (Exception e) {
             AuraHelper.throwException(e);
-            return 'null';
+            return null;
         }
     }
 
@@ -35,7 +35,7 @@ public class PatientDelegateRemote {
             return ParticipantService.getParticipantState().isDelegate ? 'TRUE' : 'FALSE';
         }catch (Exception e) {
             AuraHelper.throwException(e);
-            return 'null';
+            return null;
         }
     }
 
@@ -45,7 +45,7 @@ public class PatientDelegateRemote {
             return Site.getBaseUrl();
         }catch (Exception e) {
             AuraHelper.throwException(e);
-            return 'null';
+            return null;
         }
     }
 }
