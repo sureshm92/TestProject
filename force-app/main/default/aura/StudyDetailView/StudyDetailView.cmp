@@ -81,29 +81,35 @@
                                 <!-- action buttons: -->
                                 <aura:set attribute="floatPositionRight">
                                     <aura:iteration items="{!v.studyDetail.studyActions}" var="action">
-                                        <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                        <button class="{!'apollo-btn text ico-in-top small-font sdv-btn' +
+                                                        (or(v.userMode != 'Participant',
+                                                            or(action.id == 'backHome',
+                                                                and(v.currentTab == 'tab-about-the-study',
+                                                                    or(action.id == 'downloadConsent', v.studyDetail.trial.Share_URL__c != ''))))
+                                                                ? '' : ' hidden-button')}"
                                                 disabled="{!action.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!action.disableReason}">
                                             <c:RRIcon iconName="{!action.iconName}"/>
                                             {!action.label}
                                         </button>
-                                        <aura:if isTrue="{!and(v.userMode == 'Participant', action.id == 'share')}">
+                                        <aura:if isTrue="{!action.id == 'shares'}">
                                             <div class="button-share-icon">
-                                                  <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.facebook.disabled}" id="{!v.studyDetail.actions.facebook.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.facebook.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.facebook.iconName}"/>
-                                                  </button>
-                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.twitter.disabled}" id="{!v.studyDetail.actions.twitter.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.twitter.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.twitter.iconName}"/>
-                                                  </button>
-                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.linkedin.disabled}" id="{!v.studyDetail.actions.linkedin.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.linkedin.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}"/>
-                                                  </button>
-                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.envelope.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.envelope.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.envelope.iconName}"/>
-                                                  </button>
+                                                <div class=""
+                                                     id="{!v.studyDetail.actions.envelope.id}" onclick="{!c.doAction}">
+                                                    <c:RRIcon iconName="{!v.studyDetail.actions.envelope.iconName}" class="share-button"/>
+                                                </div>
+                                                <div class=""
+                                                          id="{!v.studyDetail.actions.facebook.id}" onclick="{!c.doAction}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.facebook.iconName}" color="#3A5899" class="share-button"/>
+                                                  </div>
+                                                <div class=""
+                                                         id="{!v.studyDetail.actions.twitter.id}" onclick="{!c.doAction}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.twitter.iconName}" color="#1DA1F2" class="share-button"/>
+                                                  </div>
+                                                <div class=""
+                                                          id="{!v.studyDetail.actions.linkedin.id}" onclick="{!c.doAction}">
+                                                      <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}" color="#007BB5" class="share-button"/>
+                                                  </div>
+
                                             </div>
                                         </aura:if>
                                     </aura:iteration>

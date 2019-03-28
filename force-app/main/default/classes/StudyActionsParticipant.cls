@@ -62,7 +62,7 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
                 false
         ));
         actions.put('envelope', new StudyActions.Action(
-                'envelope',
+                StudyActions.ACT_SHARE,
                 '',
                 'icon-envelope',
                 false
@@ -71,11 +71,11 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
         studyDetailActions.add(new StudyActions.Action(
                 'downloadConsent',
                 'Download Consent',
-                'icon-import',
+                'icon-download-brand-new',
                 false
         ));
         studyDetailActions.add(new StudyActions.Action(
-                StudyActions.ACT_SHARE,
+                'shares',
                 StudyActions.LABEL_SHARE,
                 'share',
                 false
@@ -83,7 +83,7 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
         studyDetailActions.add(new StudyActions.Action(
                 'backHome',
                 'Back to Home',
-                'icon-home',
+                'icon-home-brand-new',
                 false
         ));
 
