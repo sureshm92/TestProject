@@ -10,26 +10,26 @@
             component.set('v.taskFilters', initData.filters);
 
             component.set('v.statuses', []);
-            component.set('v.task.Priority', 'Medium');
         });
     },
 
     dueNumberKeyPress : function(component, event, helper) {
         //Fired on press any key in field
         if(event.which == 13)
-            helper.addDays(component);
+            helper.setDays(component);
     },
 
-    dueDateAdd : function(component, event, helper) {
+    onRemindDaysChange : function(component, event, helper) {
         //Remove leading zero in field
-        var days = component.get('v.dayDue').toString().replace('^0+', '');
-        component.set('v.dayDue', parseInt(days));
+        var days = component.get('v.dayRemind').toString().replace('^0+', '');
+        var intDays = parseInt(days);
+        component.set('v.dayRemind', intDays);
 
-        communityService.executeAction(component, 'addDays', {
-            'dateStart' : component.get('v.task.Start_Date__c'),
-            'count' : component.get('v.dayDue')
+        communityService.executeAction(component, 'remindBeforeDays', {
+            'dateDue' : component.get('v.task.ActivityDate'),
+            'count' : intDays
         }, function (response) {
-            component.set('v.task.ActivityDate', response);
+            component.set('v.dateRemind', response);
         });
     },
 

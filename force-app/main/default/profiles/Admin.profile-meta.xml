@@ -592,10 +592,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TaskPriorityEnum</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TaskService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
