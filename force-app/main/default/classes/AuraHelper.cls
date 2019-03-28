@@ -4,8 +4,8 @@
 
 public class AuraHelper {
     
-    public static void throwException(Exception e){
+    public static Object throwException(Exception e){
         throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-    } 
+    }
 
 }
