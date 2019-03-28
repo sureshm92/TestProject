@@ -67,11 +67,9 @@ public with sharing class Test_ArticleService {
     @IsTest
     public static void testDefaultWithout3PartySource() {
         Resource__c test = getResource();
-        System.assertEquals(null, test.Image__c);
+        System.assert(String.isBlank(test.Image__c));
         test = getSelectResource(test.Id);
-        String[] urlPars = test.Image__c.split('/');
-        String name = urlPars[urlPars.size() - 1];
-        System.assertEquals(HEALTH_DAY_NAME_LOGO, name);
+        System.assert(String.isBlank(test.Image__c));
 
     }
 
@@ -150,26 +148,24 @@ public with sharing class Test_ArticleService {
 
     @IsTest
     public static void testUpdateDefaultLogoWithoutImage() {
-        Resource__c test = getResource('http://localhost/test.png', X_3PARTY_HEALTH_DAY);
+        Resource__c test = getResource('http://localhost/test.png', null);
         test = getSelectResource(test.Id);
         String[] urlPars = test.Image__c.split('/');
         String name = urlPars[urlPars.size() - 1];
         System.assertNotEquals(HEALTH_DAY_NAME_LOGO, name);
         updateResource(test, '');
         test = getSelectResource(test.Id);
-        urlPars = test.Image__c.split('/');
-        name = urlPars[urlPars.size() - 1];
-        System.assertEquals(HEALTH_DAY_NAME_LOGO, name);
+        System.assert(String.isBlank(test.Image__c));
 
     }
 
-    public static Resource__c getResource(Date publishDate, Date expDate, String imagePath, String x3PartySource) {
+    private static Resource__c getResource(Date publishDate, Date expDate, String imagePath, String x3PartySource) {
         Resource__c res = new Resource__c(
                 Name = 'Res-Tes',
                 Posting_Date__c = publishDate,
                 Expiration_Date__c = expDate,
                 Resource_Type__c = 'Articles',
-                Content_Class__c = 'Study-Specific',
+                Content_Class__c = '3rd Party',
                 Image__c = imagePath,
                 X3rd_Party_Source__c = x3PartySource
 
@@ -177,30 +173,30 @@ public with sharing class Test_ArticleService {
         insert res;
         return res;
     }
-    public static Resource__c getResource(Date publishDate, Date expDate) {
+    private static Resource__c getResource(Date publishDate, Date expDate) {
         return getResource(publishDate, expDate, null, null);
     }
 
-    public static Resource__c getResource() {
+    private static Resource__c getResource() {
         return getResource(null, null, null, null);
     }
 
-    public static Resource__c getResource(String imagePath, String x3rdPartySource) {
+    private static Resource__c getResource(String imagePath, String x3rdPartySource) {
         return getResource(null, null, imagePath, x3rdPartySource);
     }
 
-    public static void updateResource(Resource__c resource, Date publishDate, Date expDate) {
+    private static void updateResource(Resource__c resource, Date publishDate, Date expDate) {
         resource.Posting_Date__c = publishDate;
         resource.Expiration_Date__c = expDate;
         update resource;
     }
 
-    public static void updateResource(Resource__c resource, String imageName) {
+    private static void updateResource(Resource__c resource, String imageName) {
         resource.Image__c = imageName;
         update resource;
     }
 
-    public static Resource__c getSelectResource(Id idRes) {
+    private static Resource__c getSelectResource(Id idRes) {
         return [
                 SELECT
                         Posting_Date__c,
