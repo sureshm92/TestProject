@@ -359,18 +359,13 @@ public without sharing class MyTeamRemote {
     public static void editPatientDelegateDetail(String delegate) {
         try{
             Contact editedDelegate =  (Contact) JSON.deserialize(delegate, Contact.class);
-
-            List<Contact> matchedEmailContacts = [
-                    SELECT Id
-                    FROM Contact
-                    WHERE Email = :editedDelegate.Email
-            ];
-            if(!matchedEmailContacts.isEmpty())
-                AuraHelper.throwException(
-                        new PatientDelegateService.PatientDelegateServiceException('This email is already taken.'));
-
-            editedDelegate.userCommunityMode__c = 'Delegate';//For debug. Remove later
-            update editedDelegate;
+            if(PatientDelegateService.getDelegatedContactIds().contains(editedDelegate.Id)) {
+                update editedDelegate;
+            }
+            else {
+                AuraHelper.throwException(new PatientDelegateService.PatientDelegateServiceException(
+                        'This contact is not a patient delegate.'));
+            }
         }catch (Exception e) {
             AuraHelper.throwException(e);
         }
