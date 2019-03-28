@@ -42,9 +42,9 @@ public with sharing class ManualTaskRemote {
     }
 
     @AuraEnabled
-    public static Date addDays(Date dateStart, Integer count) {
+    public static Date remindBeforeDays(Date dateDue, Integer count) {
         try {
-            return dateStart.addDays(count);
+            return dateDue.addDays(-count);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -53,22 +53,26 @@ public with sharing class ManualTaskRemote {
     @AuraEnabled
     public static Date checkAndGetValidDate(Date start, Date due) {
         try {
-            if (due.dayOfYear() >= start.dayOfYear())
-                return due; else
-                    return start;
+            return due.dayOfYear() >= start.dayOfYear() ? due : start;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
     public class InitData {
-        public Task task = new Task();
-        public List<String> priorities = new List<String>();
-        public ManualTaskFilter filters = new ManualTaskFilter();
+        public Task task;
+        public ManualTaskFilter filters;
+        public List<LabelValueItem> priorities;
 
         public InitData() {
-            for (TaskPriorityEnum priority : TaskPriorityEnum.values())
-                priorities.add(priority.name());
+            task = new Task();
+            task.Priority = 'Not selected';
+            
+            filters = new ManualTaskFilter();
+
+            priorities = new List<LabelValueItem>();
+            priorities.add(new LabelValueItem('Not selected', 'Not selected'));
+            priorities.add(new LabelValueItem('Critical', 'Critical'));
         }
     }
 }
