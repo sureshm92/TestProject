@@ -109,7 +109,6 @@
                                                           id="{!v.studyDetail.actions.linkedin.id}" onclick="{!c.doAction}">
                                                       <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}" color="#007BB5" class="share-button"/>
                                                   </div>
-
                                             </div>
                                         </aura:if>
                                     </aura:iteration>
