@@ -41,7 +41,7 @@
             "aura:unescapedHtml",
             {
                 value: 'You currently do not have your communication preferences set to receive email.  ' +
-                    'Please <a href="settings?tab=account-settings" target="_blank">click</a> here to set your communications preferences in your account settings.'
+                    'Please click <a href="settings?tab=account-settings" target="_blank">here</a> to set your communications preferences in your account settings.'
             },
             function(compo) {
                 var container = component.find("emailPreferencesPopup");

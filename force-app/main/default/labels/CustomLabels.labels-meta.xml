@@ -356,6 +356,13 @@ Click OK to begin!</value>
         <value>Refer to this study</value>
     </labels>
     <labels>
+        <fullName>BTN_Request_to_refer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Request to refer</shortDescription>
+        <value>Request to refer</value>
+    </labels>
+    <labels>
         <fullName>BTN_Reset_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
