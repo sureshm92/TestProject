@@ -118,8 +118,10 @@
                     </div>
                     <div class="slds-col slds-size_1-of-2">
                         <div style="text-align: right; font-size: 14px; color: #666666;">
-                            <!--<span class="slds-m-right">Nearest Site: 4 Miles</span>-->
-                            <!--<span class="slds-m-right">Therapeutic Area: SomeArea</span>-->
+                            <aura:if isTrue="{!v.currentStudy.distance != null}">
+                                <span class="slds-m-right--small">Nearest site: {!v.currentStudy.distance}</span>
+                            </aura:if>
+                            <span class="slds-m-right--small">Therapeutic Area</span>
                             <span class="slds-m-right--small">{!v.currentStudy.trial.Override_Recruitment_Status__c}</span>
                         </div>
                     </div>
@@ -159,13 +161,28 @@
                                     <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12 slds-m-top--x-large">
-                                    <div style="text-align: right;">
-                                        <button class="apollo-btn primary"
-                                                style="background-color: white; color: #297DFD; box-shadow: none;">My
-                                            Patients
-                                        </button>
-                                        <button class="apollo-btn primary">Refer a Patient</button>
-                                    </div>
+                                    <aura:if isTrue="{!hcpEnrollment.isActivated}">
+                                        <div style="text-align: right;">
+                                            <button class="apollo-btn primary"
+                                                    style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                    onclick="{!c.doMyPatients}">
+                                                My Patients
+                                            </button>
+                                            <button class="apollo-btn primary" onclick="{!c.doReferPatient}">Refer a
+                                                Patient
+                                            </button>
+                                        </div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!hcpEnrollment.isPending}">
+                                        <div style="text-align: right;">
+                                            <button disabled='disabled'
+                                                    class="apollo-btn primary"
+                                                    style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                    onclick="{!c.doMyPatients}">
+                                                Pending Approval
+                                            </button>
+                                        </div>
+                                    </aura:if>
                                 </div>
                             </div>
                         </div>

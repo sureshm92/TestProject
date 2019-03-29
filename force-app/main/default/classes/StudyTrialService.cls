@@ -40,13 +40,19 @@ public without sharing class StudyTrialService {
         public Study_Site__c ss;
         public List<StudySiteService.StudySiteDistanceWrapper> sites = new List<StudySiteService.StudySiteDistanceWrapper>();
         public StudySiteService.StudySiteDistanceWrapper site;
-        public List<HCP_Enrollment__c> hcpEnrollments = new List<HCP_Enrollment__c>();
+        public List<EnrollmentWrapper> hcpEnrollments = new List<EnrollmentWrapper>();
         public HCP_Enrollment__c hcpe;
-        public Integer nearestSiteDistance;
         public List<StudyTotalPassed> statistics = new List<StudyTotalPassed>();
         public String trialRecruitmentStatusLabel;
         public Boolean hasHCPEnrollments;
         public String distance;
+    }
+
+    public class EnrollmentWrapper {
+        public HCP_Enrollment__c enrollment;
+        public Boolean isActivated;
+        public Boolean isDeclined;
+        public Boolean isPending;
     }
 
     public class SearchResults {
@@ -138,22 +144,68 @@ public without sharing class StudyTrialService {
         }
     }
 
+    public static List<String> transformToStudySiteFields(List<String> fields) {
+        String prefix = 'Clinical_Trial_Profile__r.';
+
+        List<String> res = new List<String>();
+        for (String currField : fields) {
+            res.add(prefix + currField);
+        }
+
+        return res;
+    }
+
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
-        String query = 'SELECT ' + String.join(TRIAL_FIELDS, ', ') + ' FROM Clinical_Trial_Profile__c WHERE ';
-        query += '(Override_Recruitment_Status__c = \'Actively Enrolling\') ';
+        Location userLocation = DistanceHelper.getUserLocation();
+
+        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
+        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'Actively Enrolling\') ';
 
         if (filterData.searchText != null && filterData.searchText.length() >= 3) {
-            query += 'AND (Study_Code_Name__c LIKE \'%' + filterData.searchText + '%\') ';
+            query += 'AND (Clinical_Trial_Profile__r.Study_Code_Name__c LIKE \'%' + filterData.searchText + '%\') ';
         }
 
         if (sortData.sortType == 'CreatedDate DESC') {
-            query += 'ORDER BY CreatedDate DESC ';
+            query += 'ORDER BY Clinical_Trial_Profile__r.CreatedDate DESC ';
         }
         if (sortData.sortType == 'Distance ASC') {
-            query += 'ORDER BY Study_Code_Name__c ASC ';
+            query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.latitude + ', ' + userLocation.longitude + '), \'mi\') ASC NULLS LAST ';
         }
-        query += 'LIMIT 50';
-        List<Clinical_Trial_Profile__c> trials = Database.query(query);
+        query += 'LIMIT 1000';
+        System.debug('query: ' + query);
+        List<Study_Site__c> studySites = Database.query(query);
+
+        Map<Id, List<Study_Site__c>> trialIdToStudySites = new Map<Id, List<Study_Site__c>>();
+        List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
+        for (Study_Site__c currStudySite : studySites) {
+            if (!trialIdToStudySites.containsKey(currStudySite.Clinical_Trial_Profile__r.Id)) {
+                trialIdToStudySites.put(currStudySite.Clinical_Trial_Profile__r.Id, new List<Study_Site__c>());
+                trials.add(currStudySite.Clinical_Trial_Profile__r);
+            }
+            trialIdToStudySites.get(currStudySite.Clinical_Trial_Profile__r.Id).add(currStudySite);
+        }
+
+        Map<Id, String> trialIdToDistanceString = new Map<Id, String>();
+        for (Id currTrialId : trialIdToStudySites.keySet()) {
+            Double minDistance;
+            System.debug('TRIAL: ' + currTrialId);
+            for (Study_Site__c currStudySite : trialIdToStudySites.get(currTrialId)) {
+                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Site__r);
+                System.debug('STUDY DISTANCE: ' + currStudySite.Name + ' ' + currDistance);
+                if (currDistance != 0) {
+                    if (minDistance == null) {
+                        minDistance = currDistance;
+                    } else {
+                        if (minDistance > currDistance) {
+                            minDistance = currDistance;
+                        }
+                    }
+                }
+            }
+            if (minDistance != null) {
+                trialIdToDistanceString.put(currTrialId, minDistance + ' ' + DistanceHelper.getUnitsOfMeasurement());
+            }
+        }
 
         List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
         Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
@@ -163,6 +215,26 @@ public without sharing class StudyTrialService {
         }
         paginationData.setRecordsCount(trials.size());
 
+        Map<Id, List<HCP_Enrollment__c>> trialIdToEnrollments = getTrialIdToEnrollments();
+
+        List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
+        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'icon-12', false);
+        for (Clinical_Trial_Profile__c trial : trialsOnPage) {
+            StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
+            studyDetailItem.trial = trial;
+            studyDetailItem.studyActions = new List<StudyActions.Action>{
+                    openStudySite
+            };
+            studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
+            studyDetailItem.hasHCPEnrollments = trialIdToEnrollments.get(trial.Id) != null && trialIdToEnrollments.get(trial.Id).size() > 0;
+            studyDetailItem.distance = trialIdToDistanceString.get(trial.Id);
+            pageRecords.add(studyDetailItem);
+        }
+
+        return pageRecords;
+    }
+
+    private static Map<Id, List<HCP_Enrollment__c>> getTrialIdToEnrollments() {
         String contactId = CommunityService.getUserContact().Id;
         List<HCP_Enrollment__c> relatedEnrollments = [
                 SELECT Id, Clinical_Trial_Profile__c
@@ -177,21 +249,23 @@ public without sharing class StudyTrialService {
             }
             trialIdToEnrollments.get(currEnrollment.Clinical_Trial_Profile__c).add(currEnrollment);
         }
+        return trialIdToEnrollments;
+    }
 
-        List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
-        for (Clinical_Trial_Profile__c trial : trialsOnPage) {
-            StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
-            studyDetailItem.trial = trial;
-            studyDetailItem.studyActions = new List<StudyActions.Action>{
-                    openStudySite
-            };
-            studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
-            studyDetailItem.hasHCPEnrollments = trialIdToEnrollments.get(trial.Id) != null && trialIdToEnrollments.get(trial.Id).size() > 0;
-            pageRecords.add(studyDetailItem);
+    public static List<EnrollmentWrapper> getEnrollmentsWrapper(List<HCP_Enrollment__c> enrollments) {
+        List<EnrollmentWrapper> result = new List<StudyTrialService.EnrollmentWrapper>();
+        for (HCP_Enrollment__c currEnrollment : enrollments) {
+            EnrollmentWrapper wrapper = new EnrollmentWrapper();
+            wrapper.enrollment = currEnrollment;
+            if (currEnrollment.Status__c != null) {
+                wrapper.isActivated = currEnrollment.Status__c.containsIgnoreCase('Activated');
+                wrapper.isPending = currEnrollment.Status__c.containsIgnoreCase('Pending') || currEnrollment.Status__c.containsIgnoreCase('Invitation Sent');
+            }
+
+            result.add(wrapper);
         }
 
-        return pageRecords;
+        return result;
     }
 
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
@@ -220,13 +294,32 @@ public without sharing class StudyTrialService {
 
             StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.sites = trialStudyMap.get(trial.Id);
+            studyDetailItem.hcpEnrollments = getEnrollmentsWrapper(hcpEnrollments);
             studyDetailItem.trial = trial;
             studyDetailItem.site = studyDetailItem.sites[0];
             studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
+            studyDetailItem.hcpe = studyDetailItem.hcpEnrollments[0];
 
-            // TODO: STATUS AND ACTIONS??
-            studyDetailItem.studyStatus = studyDetailItem.sites[0].hcpe.Status__c;
-            studyDetailItem.studyActions = (new StudyActionsHCP(studyDetailItem.sites[0].hcpe)).studyListViewItemActions;
+            List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
+            for (HCP_Enrollment__c currEnrollment : hcpEnrollments) {
+                StudyActionsHCP currSA = new StudyActionsHCP(currEnrollment);
+                List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
+                availableActions.addAll(currActions);
+            }
+
+            Map<String, StudyActions.Action> actionIdToAction = new Map<String, StudyActions.Action>();
+            for (StudyActions.Action currAction : availableActions) {
+                if (actionIdToAction.containsKey(currAction.id)) {
+                    StudyActions.Action existAction = actionIdToAction.get(currAction.id);
+                    if (existAction.disabled && !currAction.disabled) {
+                        actionIdToAction.put(currAction.id, currAction);
+                    }
+                } else {
+                    actionIdToAction.put(currAction.id, currAction);
+                }
+            }
+
+            studyDetailItem.studyActions = actionIdToAction.values();
 
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             pageRecords.add(studyDetailItem);
