@@ -79,6 +79,10 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Dropped_Out__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Conditions__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsTopToBottom</style>

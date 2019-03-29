@@ -61,7 +61,7 @@ public with sharing class ResourceRemote {
         List<String> noTAMessage = new List<String>();
         ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
         Participant__c currentParticipant = resourceService.getParticipant();
-        if(ParticipantDecoupler.getTherapeuticAreaPatients(currentParticipant).size() == 0) {
+        if(currentParticipant.Conditions__c == 0) {
             String message = Label.Resources_No_Therapeutic_Area;
             noTAMessage.add(message.substringBefore('{'));
             noTAMessage.add(message.substringBetween('{', '}'));

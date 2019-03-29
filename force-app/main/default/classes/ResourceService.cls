@@ -187,6 +187,7 @@ public with sharing class ResourceService {
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +
+                        'Conditions__c, ' +
                         '(SELECT Id, Therapeutic_Area__c, IsRelatedToStudy__c, Condition_Of_Interest_Order__c FROM Therapeutic_Area_Patients__r ORDER BY Condition_Of_Interest_Order__c), ' +
                         '(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true' + ' AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
                         'FROM Participant__c ' +
