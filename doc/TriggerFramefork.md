@@ -70,35 +70,3 @@ Stats for AccountTriggerHandler:BEFORE_INSERT
 13:41:22.2 (408320837)|USER_DEBUG|[198]|DEBUG|Dml statements used 0
 13:41:22.2 (408382123)|USER_DEBUG|[198]|DEBUG|Dml rows used 1
 ```
-        
-#### Setup org:
-
-1) Open org > User > edit > set role "View All"!
-2) Upload data:
-- upload org wide email address:
-
-```sh
-sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
-```
-- upload accounts and contacts:
-```sh
-sfdx force:data:tree:import -p data/import-plan.json
-```
-- From Clinical Trial Profle create Study Site with status "Invitation Sent" and set PI Contact
-- From Study Site create HCP Enrollment with status "Invitation sent" and set HCP Contact
-
-3) Go to setup > all communities > open community builder > press publish
-4) Select PI or HCP ?ontact and login in community
-
-## Dev, Build and Test
-
-
-## Resources
-
-
-## Description of Files and Directories
-
-
-## Issues
-
-
