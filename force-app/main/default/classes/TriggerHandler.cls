@@ -6,10 +6,12 @@ public virtual with sharing class TriggerHandler {
     private TriggerOperation currentTriggerEvent;
     private RunCounter counter;
     private DebugModeStats debugStats;
+    private System.Type handlerType;
     //PUBLIC INTERFACE
     //before
 
     protected TriggerHandler(System.Type handlerType) {
+        this.handlerType = handlerType;
         this.counter = new RunCounter(handlerType);
         this.debugStats = new DebugModeStats(handlerType);
     }
@@ -17,14 +19,19 @@ public virtual with sharing class TriggerHandler {
 
     }
     public virtual void beforeInsert(List<SObject> newList) {
+        this.setTriggerEvent(TriggerOperation.BEFORE_INSERT);
         this.debugStart();
         this.runBeforeHandle();
         this.onBeforeInsert(newList);
         this.runAfterHandle();
         this.debugFinish();
     }
+    public void setHandlerType(System.Type handlerType) {
+        this.handlerType = handlerType;
+    }
 
     public virtual void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        this.setTriggerEvent(TriggerOperation.BEFORE_UPDATE);
         this.debugStart();
         this.runBeforeHandle();
         this.onBeforeUpdate(newList, oldMap);
@@ -33,6 +40,7 @@ public virtual with sharing class TriggerHandler {
     }
 
     public virtual void beforeDelete(List<SObject> oldList) {
+        this.setTriggerEvent(TriggerOperation.BEFORE_DELETE);
         this.runBeforeHandle();
         this.onBeforeDelete(oldList);
         this.runAfterHandle();
@@ -41,6 +49,7 @@ public virtual with sharing class TriggerHandler {
 
     //after
     public virtual void afterInsert(List<SObject> newList) {
+        this.setTriggerEvent(TriggerOperation.AFTER_INSERT);
         this.debugStart();
         this.runBeforeHandle();
         this.onAfterInsert(newList);
@@ -49,6 +58,7 @@ public virtual with sharing class TriggerHandler {
     }
 
     public virtual void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        this.setTriggerEvent(TriggerOperation.AFTER_UPDATE);
         this.debugStart();
         this.runBeforeHandle();
         this.onAfterUpdate(newList, oldMap);
@@ -57,6 +67,7 @@ public virtual with sharing class TriggerHandler {
     }
 
     public virtual void afterDelete(List<SObject> oldList) {
+        this.setTriggerEvent(TriggerOperation.AFTER_DELETE);
         this.debugStart();
         this.runBeforeHandle();
         this.onAfterDelete(oldList);
@@ -65,6 +76,7 @@ public virtual with sharing class TriggerHandler {
     }
 
     public virtual void afterUnDelete(List<SObject> oldList) {
+        this.setTriggerEvent(TriggerOperation.AFTER_UNDELETE);
         this.debugStart();
         this.runBeforeHandle();
         this.onAfterUnDelete(oldList);
@@ -108,17 +120,29 @@ public virtual with sharing class TriggerHandler {
 
     private void debugStart() {
         if (TriggerHandlerExecutor.isDebugMode()) {
-            this.counter.run(this.currentTriggerEvent);
-            this.debugStats.logStart();
+            this.getCounter().run(this.currentTriggerEvent);
+            this.getDebugStatus().logStart();
         }
     }
     private void debugFinish() {
         if (TriggerHandlerExecutor.isDebugMode()) {
-            this.debugStats.logFinish();
-            this.debugStats.previewStats(this.currentTriggerEvent);
-            this.counter.runPreview(this.currentTriggerEvent);
+            this.getDebugStatus().logFinish();
+            this.getDebugStatus().previewStats(this.currentTriggerEvent);
+            this.getCounter().runPreview(this.currentTriggerEvent);
         }
 
+    }
+    private RunCounter getCounter() {
+        if (this.counter == null) {
+            this.counter = new RunCounter(this.handlerType);
+        }
+        return this.counter;
+    }
+    private DebugModeStats getDebugStatus() {
+        if (this.debugStats == null) {
+            this.debugStats = new DebugModeStats(this.handlerType);
+        }
+        return this.debugStats;
     }
     private class RunCounter {
 
