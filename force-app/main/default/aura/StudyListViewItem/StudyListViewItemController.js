@@ -8,6 +8,7 @@
         switch (actionId) {
             case 'medicalRecordReview':
                 communityService.navigateToPage('medical-record-review?id=' + trialId);
+                //communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'referToThisStudy':
             case 'refer':
@@ -21,7 +22,8 @@
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
                 break;
             case 'findStudySites':
-                communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
+                //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
+                communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
             case 'noThanks':
                 parent.showOpenNoTanksModal(trialId);
@@ -49,12 +51,19 @@
         } else {
             cmp.set("v.detailsExpanded", true);
         }
-
     },
-    navigateToSitesSearch : function (component, event, helper) {
-        var currentStudy = component.get('v.currentStudy');
+
+    doReferPatient: function(cmp, event, helper) {
+        var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage("sites-search?id=" + trialId);
+        communityService.navigateToPage('referring?id=' + trialId);
+    },
+
+    doMyPatients: function(cmp, event, helper) {
+        var currentStudy = cmp.get('v.currentStudy');
+        var trial = currentStudy.trial;
+        var trialId = trial.Id;
+        communityService.navigateToPage('my-patients');
     }
 });

@@ -26,7 +26,7 @@ public class StudyActionsHCP extends StudyActions{
         //init actions:
         actions.put(ACT_MEDICAL_RECORD_REVIEW, new Action(
                 ACT_MEDICAL_RECORD_REVIEW,
-                LABEL_MEDICAL_RECORD_REVIEW,
+                LABEL_PRE_ELIGIBILITY_SCREENING,
                 'chart-review-sent',
                 new List<DisableReason>{
                         tcAcceptanceRequiredReason,

@@ -118,8 +118,10 @@
                     </div>
                     <div class="slds-col slds-size_1-of-2">
                         <div style="text-align: right; font-size: 14px; color: #666666;">
-                            <!--<span class="slds-m-right">Nearest Site: 4 Miles</span>-->
-                            <!--<span class="slds-m-right">Therapeutic Area: SomeArea</span>-->
+                            <aura:if isTrue="{!v.currentStudy.distance != null}">
+                                <span class="slds-m-right--small">Nearest site: {!v.currentStudy.distance}</span>
+                            </aura:if>
+                            <span class="slds-m-right--small">Therapeutic Area</span>
                             <span class="slds-m-right--small">{!v.currentStudy.trial.Override_Recruitment_Status__c}</span>
                         </div>
                     </div>
@@ -133,39 +135,55 @@
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_9-of-12">
                                     <div class="clinic-name">
-                                        {!(hcpEnrollment.Study_Site__r.Name + ' (' + hcpEnrollment.Study_Site__r.Site__r.Name + ')')}
+                                        {!(hcpEnrollment.enrollment.Study_Site__r.Name + ' (' + hcpEnrollment.enrollment.Study_Site__r.Site__r.Name + ')')}
                                     </div>
-                                    <div class="site-sub-header slds-m-top--x-small">{!(hcpEnrollment.Study_Site__r.Principal_Investigator__r.Title + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.Name)}</div>
+                                    <div class="site-sub-header slds-m-top--x-small">{!(hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.Title + ' ' + hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.Name)}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12">
                                     <div class="site-sub-header" style="text-align: right;">
-                                        {!hcpEnrollment.Study_Site__r.Is_Virtual_Study_Site__c ? 'Virtual' :
+                                        {!hcpEnrollment.enrollment.Study_Site__r.Is_Virtual_Study_Site__c ? 'Virtual' :
                                         'Traditional'} Site
                                     </div>
-                                    <!--<div class="site-sub-header slds-m-topxx-small" style="text-align: right;">3.0 Miles</div>-->
                                 </div>
                             </div>
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
                                 <div class="slds-col slds-size_4-of-12">
-                                    <div class="site-address">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.street}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!(hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.city + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.state + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.postalCode)}</div>
+                                    <div class="site-address">{!hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.street}</div>
+                                    <div class="site-address slds-m-top--xx-small">
+                                        {!(hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.city + ' ' + hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.state + ' ' + hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.postalCode)}
+                                    </div>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
-                                    <div class="site-address">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.Name}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.Phone}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.Email}</div>
+                                    <div class="site-address">{!hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.Name}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.Phone}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!hcpEnrollment.enrollment.Study_Site__r.Principal_Investigator__r.Email}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12 slds-m-top--x-large">
-                                    <div style="text-align: right;">
-                                        <button class="apollo-btn primary"
-                                                style="background-color: white; color: #297DFD; box-shadow: none;">My
-                                            Patients
-                                        </button>
-                                        <button class="apollo-btn primary">Refer a Patient</button>
-                                    </div>
+                                    <aura:if isTrue="{!hcpEnrollment.isActivated}">
+                                        <div style="text-align: right;">
+                                            <button class="apollo-btn primary"
+                                                    style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                    onclick="{!c.doMyPatients}">
+                                                My Patients
+                                            </button>
+                                            <button class="apollo-btn primary" onclick="{!c.doReferPatient}">Refer a
+                                                Patient
+                                            </button>
+                                        </div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!hcpEnrollment.isPending}">
+                                        <div style="text-align: right;">
+                                            <button disabled='disabled'
+                                                    class="apollo-btn primary"
+                                                    style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                    onclick="{!c.doMyPatients}">
+                                                Pending Approval
+                                            </button>
+                                        </div>
+                                    </aura:if>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +195,9 @@
                                 <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
                             </div>
                             <div class="slds-col slds-size_1-of-2" style="text-align: left;">
-                                <button class="apollo-btn primary" onclick="{!c.navigateToSitesSearch}" style="width: 328px;">Find More Sites for This Study</button>
+                                <button class="apollo-btn primary" style="width: 328px;">Find More Sites for This
+                                    Study
+                                </button>
                             </div>
                         </div>
                     </div>
