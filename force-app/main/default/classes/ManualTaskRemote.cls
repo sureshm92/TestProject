@@ -66,12 +66,12 @@ public with sharing class ManualTaskRemote {
 
         public InitData() {
             task = new Task();
-            task.Priority = 'Not selected';
+            task.Priority = 'Normal';
             
             filters = new ManualTaskFilter();
 
             priorities = new List<LabelValueItem>();
-            priorities.add(new LabelValueItem('Not selected', 'Not selected'));
+            priorities.add(new LabelValueItem('Not selected', 'Normal'));
             priorities.add(new LabelValueItem('Critical', 'Critical'));
         }
     }
