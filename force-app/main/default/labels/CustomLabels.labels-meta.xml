@@ -1782,6 +1782,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Investigator phone</value>
     </labels>
     <labels>
+        <fullName>Link_Back_To_Home</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Back To Home</shortDescription>
+        <value>Back to Home</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1887,18 +1894,18 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Reports</value>
     </labels>
     <labels>
-        <fullName>Navigation_Settings</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation Settings</shortDescription>
-        <value>Settings</value>
-    </labels>
-    <labels>
         <fullName>Navigation_Search_for_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Navigation Search for Sites</shortDescription>
         <value>Search for Sites</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Settings</shortDescription>
+        <value>Settings</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -2329,7 +2336,6 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
     </labels>
-
     <labels>
         <fullName>PE_Patient_Id</fullName>
         <language>en_US</language>
@@ -5140,13 +5146,6 @@ is a placehilder to show you what it would look like.</value>
         <value>Site Type</value>
     </labels>
     <labels>
-        <fullName>PG_SFS_L_sites</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG SFS sites</shortDescription>
-        <value>sites</value>
-    </labels>
-    <labels>
         <fullName>PG_SFS_L_Therapeutic_Area</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5166,6 +5165,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SFS Virtual</shortDescription>
         <value>Virtual</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS sites</shortDescription>
+        <value>sites</value>
     </labels>
     <labels>
         <fullName>PG_SHR_Body</fullName>
@@ -5658,11 +5664,39 @@ is a placehilder to show you what it would look like.</value>
         <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
     </labels>
     <labels>
+        <fullName>Resources_Featured_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Article</shortDescription>
+        <value>Featured Article</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Featured_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Video</shortDescription>
+        <value>Featured Video</value>
+    </labels>
+    <labels>
         <fullName>Resources_Image_Unavailable</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Resources Image Unavailable</shortDescription>
         <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Articles</shortDescription>
+        <value>More Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Videos</shortDescription>
+        <value>More Videos</value>
     </labels>
     <labels>
         <fullName>Resources_No_Articles</fullName>
@@ -5693,46 +5727,18 @@ is a placehilder to show you what it would look like.</value>
         <value>You have not selected any Conditions Of Interest.</value>
     </labels>
     <labels>
-        <fullName>Resources_See_All</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources See All</shortDescription>
-        <value>See All</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Video</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Video</shortDescription>
-        <value>Featured Video</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Article</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Article</shortDescription>
-        <value>Featured Article</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Articles</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Articles</shortDescription>
-        <value>More Articles</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Videos</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Videos</shortDescription>
-        <value>More Videos</value>
-    </labels>
-    <labels>
         <fullName>Resources_No_Videos</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Videos</shortDescription>
         <value>Videos will be published shortly. Check back for updates.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources See All</shortDescription>
+        <value>See All</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>

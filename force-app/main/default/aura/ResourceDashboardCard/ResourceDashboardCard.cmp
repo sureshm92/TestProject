@@ -4,6 +4,7 @@
 	<aura:attribute name="videoResource" type="Object"/>
 	<aura:attribute name="articleResource" type="Object"/>
 	<aura:attribute name="trialId" type="String"/>
+	<aura:attribute name="resourcesLoading" type="Boolean[]"/>
 
 	<!--HANDLERS-->
 	<aura:handler name="init" value="this" action="{!c.doInit}"/>
@@ -19,10 +20,10 @@
 			<lightning:layout horizontalAlign="center">
 
 				<lightning:layoutItem size="6" flexibility="auto">
-					<c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"/>
+					<c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}" resourcesLoading="{!v.resourcesLoading[0]}"/>
 				</lightning:layoutItem>
 				<lightning:layoutItem size="6" flexibility="auto">
-					<c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"/>
+					<c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}" resourcesLoading="{!v.resourcesLoading[1]}"/>
 				</lightning:layoutItem>
 
 			</lightning:layout>
@@ -31,6 +32,10 @@
 		<footer class="resource-footer" onclick="{!c.navigateToPage}">
 			{!$Label.c.Resources_See_All}
 		</footer>
+
+		<aura:if isTrue="{!or(v.resourcesLoading[0], v.resourcesLoading[1])}">
+			<c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
+		</aura:if>
 
 	</div>
 

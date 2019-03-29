@@ -11,12 +11,12 @@
     <aura:attribute name="resourceType" type="String" default="Article"/>
     <!--<aura:attribute name="resourceType" type="String" default="Video"/>-->
     <aura:attribute name="studyName" type="String" default="contRAst-1 Rheumatoid Arthritis Study"/>
-    <aura:attribute name="backStudy" type="String"/>
+    <aura:attribute name="backStudy" type="String" default=""/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <div>
-        <c:RRTopBar backLabel="{!$Label.c.Link_Back_To_Resources}"
+        <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
                     backPage="{!v.backStudy}"
                     smallTitle="&nbsp;"
                     bigTitle="{!v.resourceType}"/>
