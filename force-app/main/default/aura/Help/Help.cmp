@@ -31,24 +31,38 @@
                     <div class="h-header-info-bold-text">{!$Label.c.PG_HLP_H_Dial_911}</div>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!and( v.userMode != 'Participant', v.isInitialized)}">
+            <aura:if isTrue="{!v.isInitialized}">
                 <div class="h-header-tabset">
                     <c:rrButtonTubSet>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help" currentTab="{!v.currentTab}"/>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}" tabId="feedback"
+                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help"
                                               currentTab="{!v.currentTab}"/>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem" currentTab="{!v.currentTab}"/>
+                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"
+                                              tabId="feedback"
+                                              currentTab="{!v.currentTab}"/>
+                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"
+                                              currentTab="{!v.currentTab}"/>
+                        <aura:if isTrue="{!v.userMode == 'Participant'}">
+                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"
+                                                  currentTab="{!v.currentTab}"/>
+                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"
+                                                  currentTab="{!v.currentTab}"/>
+                        </aura:if>
                     </c:rrButtonTubSet>
                 </div>
             </aura:if>
-
         </div>
+    <!--Display depending on the selected tab-->
         <aura:if isTrue="{!and(v.currentTab == 'help', v.isInitialized)}">
             <c:ApplicationHelp userMode="{!v.userMode}"/>
         </aura:if>
-        <aura:if isTrue="{!v.currentTab != 'help'}">
+        <aura:if isTrue="{!v.currentTab == 'study-h'}">
+            <c:StudyHelp/>
+        </aura:if>
+        <aura:if isTrue="{!or(v.currentTab == 'feedback', v.currentTab == 'problem')}">
             <div class="h-title">
-                <aura:if isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}</aura:if>
+                <aura:if isTrue="{!v.currentTab == 'feedback'}">
+                    {!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}
+                </aura:if>
                 <aura:if isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_H_Report_a_Problem}</aura:if>
             </div>
             <div class="slds-grid slds-grid_align-center">
@@ -59,8 +73,10 @@
                         <aura:if isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_T_What_happened}</aura:if>
                     </div>
                     <div class="h-body-text-area">
-                        <lightning:textArea value="{!v.description}" name="description" label="" variant="label-hidden"
-                                            placeholder="{!if(v.currentTab == 'problem', $Label.c.PG_HLP_F_Placeholder_Briefly_Explain , $Label.c.PG_HLP_F_Placeholder_Other)}"/>
+                        <lightning:textArea value="{!v.description}" name="description" label=""
+                                            variant="label-hidden"
+                                            placeholder="{!if(v.currentTab == 'req-data', $Label.c.PG_HLP_Req_Data_Placehold,
+                                            if(v.currentTab == 'problem', $Label.c.PG_HLP_F_Placeholder_Briefly_Explain , $Label.c.PG_HLP_F_Placeholder_Other))}"/>
                     </div>
 
                     <aura:if isTrue="{!v.currentTab == 'problem'}">
@@ -77,7 +93,8 @@
 
                                         <div class="slds-file-selector__dropzone">
 
-                                            <input onchange="{!c.onFileSelect}" id="file-upload-input-01" type="file"
+                                            <input onchange="{!c.onFileSelect}" id="file-upload-input-01"
+                                                   type="file"
                                                    accept="image/*" multiple="multiple"
                                                    class="slds-file-selector__input slds-assistive-text"/>
                                             <label class="slds-file-selector__body" for="file-upload-input-01">
@@ -108,11 +125,15 @@
                         </div>
                     </aura:if>
 
-                    <div class="h-body-button">
+                    <div class="{!if(v.currentTab == 'req-data', 'slds-float_right', 'h-body-button')}">
                         <c:RRSpinner aura:id="spinner"/>
                         <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
-                            <aura:if isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Feedback}</aura:if>
-                            <aura:if isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Problem}</aura:if>
+                            <aura:if
+                                    isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Feedback}</aura:if>
+                            <aura:if
+                                    isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Problem}</aura:if>
+                            <aura:if
+                                    isTrue="{!v.currentTab == 'req-data'}">{!$Label.c.Button_Submit_Your_Question}</aura:if>
                         </button>
                     </div>
 
@@ -121,7 +142,8 @@
                             {!$Label.c.PG_HLP_T1_Feedback}
                             <br/><br/>
                             {!$Label.c.PG_HLP_Terms_Note}
-                            <c:RRLink page="terms-and-conditions?ret=help" class="text">{!$Label.c.PG_HLP_T_Terms}</c:RRLink>
+                            <c:RRLink page="terms-and-conditions?ret=help"
+                                      class="text">{!$Label.c.PG_HLP_T_Terms}</c:RRLink>
                             .
                             {!$Label.c.PG_HLP_T2_Feedback}
                             <aura:if isTrue="{!v.userMode == 'HCP'}">
@@ -129,11 +151,9 @@
                             </aura:if>
                         </div>
                     </aura:if>
-
                 </div>
             </div>
         </aura:if>
-
 
     </div>
 </aura:component>

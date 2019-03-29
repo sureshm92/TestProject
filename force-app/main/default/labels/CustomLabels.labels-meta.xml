@@ -503,6 +503,13 @@ Click OK to begin!</value>
         <value>Remove</value>
     </labels>
     <labels>
+        <fullName>Button_Submit_Your_Question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Submit Your Question</shortDescription>
+        <value>Submit Your Question</value>
+    </labels>
+    <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1887,18 +1894,18 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Reports</value>
     </labels>
     <labels>
-        <fullName>Navigation_Settings</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation Settings</shortDescription>
-        <value>Settings</value>
-    </labels>
-    <labels>
         <fullName>Navigation_Search_for_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Navigation Search for Sites</shortDescription>
         <value>Search for Sites</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Settings</shortDescription>
+        <value>Settings</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -2329,7 +2336,6 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
     </labels>
-
     <labels>
         <fullName>PE_Patient_Id</fullName>
         <language>en_US</language>
@@ -3481,6 +3487,85 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG HLP H Report a Problem</shortDescription>
         <value>Report a Problem</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Req_Data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request for Data</shortDescription>
+        <value>Request for Data</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Req_Data_Placehold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Req_Data_Placehold</shortDescription>
+        <value>For questions about your personal data or to download a copy of your personal data, kindly use the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Help</shortDescription>
+        <value>Study Help</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_FAQ</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FAQ</shortDescription>
+        <value>Frequently asked questions (FAQs)</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Length</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What  length study</shortDescription>
+        <value>1. What is the length of the study?</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Lorem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change this at eng</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam. 
+
+Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, est vitae convallis sodales, tellus nisl consectetur ipsum, accumsan porta diam sapien a erat. Nam ac ultricies urna.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Videos</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Videos</shortDescription>
+        <value>Videos</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Videos_Watch</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Watch a video about this study</shortDescription>
+        <value>Watch a video about this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_What_Happens</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What happens if</shortDescription>
+        <value>3. What happens if I need to stop halfway through the study? Can I continue at a later date?</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Who_Do</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Who do I contact</shortDescription>
+        <value>2. Who do I contact if I am having issues with my health, or the study medication?</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Who_Do_I</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Who do I contact</shortDescription>
+        <value>4. Who do I contact if I have concerns while I am participating in the study?</value>
     </labels>
     <labels>
         <fullName>PG_HLP_T1_Feedback</fullName>
@@ -5140,13 +5225,6 @@ is a placehilder to show you what it would look like.</value>
         <value>Site Type</value>
     </labels>
     <labels>
-        <fullName>PG_SFS_L_sites</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG SFS sites</shortDescription>
-        <value>sites</value>
-    </labels>
-    <labels>
         <fullName>PG_SFS_L_Therapeutic_Area</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5166,6 +5244,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SFS Virtual</shortDescription>
         <value>Virtual</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS sites</shortDescription>
+        <value>sites</value>
     </labels>
     <labels>
         <fullName>PG_SHR_Body</fullName>
@@ -5658,11 +5743,39 @@ is a placehilder to show you what it would look like.</value>
         <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
     </labels>
     <labels>
+        <fullName>Resources_Featured_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Article</shortDescription>
+        <value>Featured Article</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Featured_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Video</shortDescription>
+        <value>Featured Video</value>
+    </labels>
+    <labels>
         <fullName>Resources_Image_Unavailable</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Resources Image Unavailable</shortDescription>
         <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Articles</shortDescription>
+        <value>More Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Videos</shortDescription>
+        <value>More Videos</value>
     </labels>
     <labels>
         <fullName>Resources_No_Articles</fullName>
@@ -5693,46 +5806,18 @@ is a placehilder to show you what it would look like.</value>
         <value>You have not selected any Conditions Of Interest.</value>
     </labels>
     <labels>
-        <fullName>Resources_See_All</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources See All</shortDescription>
-        <value>See All</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Video</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Video</shortDescription>
-        <value>Featured Video</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Article</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Article</shortDescription>
-        <value>Featured Article</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Articles</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Articles</shortDescription>
-        <value>More Articles</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Videos</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Videos</shortDescription>
-        <value>More Videos</value>
-    </labels>
-    <labels>
         <fullName>Resources_No_Videos</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Videos</shortDescription>
         <value>Videos will be published shortly. Check back for updates.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources See All</shortDescription>
+        <value>See All</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>

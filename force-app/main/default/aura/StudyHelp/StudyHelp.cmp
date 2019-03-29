@@ -1,0 +1,71 @@
+<!--
+ - Created by Igor Malyuta on 29.03.2019.
+ -->
+
+<aura:component description="StudyHelp">
+
+    <aura:attribute name="videoLink" type="String"/>
+
+    <div class="ah-main-container slds-grid slds-wrap">
+        <div class="video-container slds-col slds-size--1-of-1 slds-grid slds-wrap rr-white-panel">
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">{!$Label.c.PG_HLP_Study_H_Videos}</div>
+                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                    <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                        <div class="ah-item-label">{!$Label.c.PG_HLP_Study_H_Videos_Watch}</div>
+                        <div class="ah-item-sublabel">
+                            {!$Label.c.PG_AH_T_Short_video_in_English_only} {!if($Browser.formFactor=='PHONE','',' (' +
+                            $Label.c.PG_AH_T_Best_viewed_in_Google_Chrome + ')')}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7">
+                        <button class="apollo-btn tertiary ah-button"
+                                onclick="{!c.showVideo}">{!$Label.c.BTN_Watch}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col slds-size--1-of-1 ah-main-panel slds-grid slds-wrap rr-white-panel">
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                <div class="slds-col slds-size--1-of-1 ah-title">
+                    {!$Label.c.PG_HLP_Study_H_FAQ}
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">
+                    {!$Label.c.PG_HLP_Study_H_Length}
+                </div>
+                {!$Label.c.PG_HLP_Study_H_Lorem}
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">
+                    {!$Label.c.PG_HLP_Study_H_Who_Do}
+                </div>
+                {!$Label.c.PG_HLP_Study_H_Lorem}
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">
+                    {!$Label.c.PG_HLP_Study_H_What_Happens}
+                </div>
+                {!$Label.c.PG_HLP_Study_H_Lorem}
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                <div class="slds-col slds-size--1-of-1 ah-section-title">
+                    {!$Label.c.PG_HLP_Study_H_Who_Do_I}
+                </div>
+                {!$Label.c.PG_HLP_Study_H_Lorem}
+            </div>
+        </div>
+    </div>
+
+    <c:Popup aura:id="videoModal" title="" showFooter="false" showHeader="false" size="large"
+             closeButtonClicked="{!v.videoModalClicked}">
+        <aura:if isTrue="{!!empty(v.videoLink)}">
+            <video id="video-tour" controls="controls" class="ah-video-iframe">
+                <source src="{!v.videoLink}" type="video/mp4"/>
+            </video>
+        </aura:if>
+    </c:Popup>
+
+</aura:component>
