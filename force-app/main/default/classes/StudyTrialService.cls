@@ -294,15 +294,15 @@ public without sharing class StudyTrialService {
 
             StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.sites = trialStudyMap.get(trial.Id);
-            studyDetailItem.hcpEnrollments = getEnrollmentsWrapper(hcpEnrollments);
+//            studyDetailItem.hcpEnrollments = getEnrollmentsWrapper(hcpEnrollments);
             studyDetailItem.trial = trial;
             studyDetailItem.site = studyDetailItem.sites[0];
             studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
-            studyDetailItem.hcpe = studyDetailItem.hcpEnrollments[0];
+//            studyDetailItem.hcpe = studyDetailItem.hcpEnrollments[0];
 
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
-            for (HCP_Enrollment__c currEnrollment : hcpEnrollments) {
-                StudyActionsHCP currSA = new StudyActionsHCP(currEnrollment);
+            for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
+                StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
                 availableActions.addAll(currActions);
             }

@@ -8,6 +8,7 @@
         if (userMode === 'HCP') {
             communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
                 let initData = JSON.parse(returnValue);
+                debugger;
                 console.log('in getHCPInitData');
                 console.log(initData);
 

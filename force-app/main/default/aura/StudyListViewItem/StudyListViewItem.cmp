@@ -161,25 +161,29 @@
                                     <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12 slds-m-top--x-large">
-                                    <aura:if isTrue="{!hcpEnrollment.isActivated}">
+                                    <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
+                                            $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
                                         <div style="text-align: right;">
                                             <button class="apollo-btn primary"
                                                     style="background-color: white; color: #297DFD; box-shadow: none;"
                                                     onclick="{!c.doMyPatients}">
                                                 My Patients
                                             </button>
-                                            <button class="apollo-btn primary" onclick="{!c.doReferPatient}">Refer a
+                                            <button class="apollo-btn primary" onclick="{!c.doReferPatient}"
+                                            disabled="{!siteWrapper.actions.refer.disabled}"
+                                            title="{!siteWrapper.actions.refer.disableReason}">Refer a
                                                 Patient
                                             </button>
                                         </div>
                                     </aura:if>
-                                    <aura:if isTrue="{!hcpEnrollment.isPending}">
+                                    <aura:if isTrue="{!and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
+                                            $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action)}">
                                         <div style="text-align: right;">
                                             <button disabled='disabled'
                                                     class="apollo-btn primary"
                                                     style="background-color: white; color: #297DFD; box-shadow: none;"
                                                     onclick="{!c.doMyPatients}">
-                                                Pending Approval
+                                                {!siteWrapper.hcpe.Status__c}
                                             </button>
                                         </div>
                                     </aura:if>

@@ -65,5 +65,11 @@
         var trial = currentStudy.trial;
         var trialId = trial.Id;
         communityService.navigateToPage('my-patients');
+    },
+    navigateToSitesSearch : function (component, event, helper) {
+        var currentStudy = component.get('v.currentStudy');
+        var trial = currentStudy.trial;
+        var trialId = trial.Id;
+        communityService.navigateToPage("sites-search?id=" + trialId);
     }
 });
