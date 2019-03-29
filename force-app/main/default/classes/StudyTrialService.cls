@@ -218,7 +218,7 @@ public without sharing class StudyTrialService {
         Map<Id, List<HCP_Enrollment__c>> trialIdToEnrollments = getTrialIdToEnrollments();
 
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'icon-12', false);
+        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
             StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.trial = trial;
