@@ -128,35 +128,35 @@
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
                 <div style="padding: 0 40px 20px 40px">
 
-                    <aura:iteration items="{!v.currentStudy.hcpEnrollments}" var="hcpEnrollment">
+                    <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
                         <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_9-of-12">
                                     <div class="clinic-name">
-                                        {!(hcpEnrollment.Study_Site__r.Name + ' (' + hcpEnrollment.Study_Site__r.Site__r.Name + ')')}
+                                        {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
                                     </div>
-                                    <div class="site-sub-header slds-m-top--x-small">{!(hcpEnrollment.Study_Site__r.Principal_Investigator__r.Title + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.Name)}</div>
+                                    <div class="site-sub-header slds-m-top--x-small">{!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12">
                                     <div class="site-sub-header" style="text-align: right;">
-                                        {!hcpEnrollment.Study_Site__r.Is_Virtual_Study_Site__c ? 'Virtual' :
+                                        {!siteWrapper.site.Is_Virtual_Study_Site__c ? 'Virtual' :
                                         'Traditional'} Site
                                     </div>
-                                    <!--<div class="site-sub-header slds-m-topxx-small" style="text-align: right;">3.0 Miles</div>-->
+                                    <div class="site-sub-header slds-m-topxx-small" style="text-align: right;">{!siteWrapper.formatedDistance}</div>
                                 </div>
                             </div>
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
                                 <div class="slds-col slds-size_4-of-12">
-                                    <div class="site-address">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.street}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!(hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.city + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.state + ' ' + hcpEnrollment.Study_Site__r.Principal_Investigator__r.MailingAddress.postalCode)}</div>
+                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.MailingStreet}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}</div>
                                 </div>
                                 <div class="slds-col slds-size_1-of-12">
                                     <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
-                                    <div class="site-address">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.Name}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.Phone}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!hcpEnrollment.Study_Site__r.Principal_Investigator__r.Email}</div>
+                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>
                                 </div>
                                 <div class="slds-col slds-size_3-of-12 slds-m-top--x-large">
                                     <div style="text-align: right;">

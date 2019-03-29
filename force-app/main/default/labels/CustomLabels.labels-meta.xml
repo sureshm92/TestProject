@@ -335,6 +335,13 @@ Click OK to begin!</value>
         <value>Refer</value>
     </labels>
     <labels>
+        <fullName>BTN_Refer_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Refer a Patient</shortDescription>
+        <value>Refer a Patient</value>
+    </labels>
+    <labels>
         <fullName>BTN_Refer_Another_Patient_to_This_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>

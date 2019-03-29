@@ -38,12 +38,15 @@ public without sharing class StudyTrialService {
         public List<StudyActions.Action> studyActions;
         public String studyStatus;
         public Study_Site__c ss;
+        public List<StudySiteService.StudySiteDistanceWrapper> sites = new List<StudySiteService.StudySiteDistanceWrapper>();
+        public StudySiteService.StudySiteDistanceWrapper site;
         public List<HCP_Enrollment__c> hcpEnrollments = new List<HCP_Enrollment__c>();
         public HCP_Enrollment__c hcpe;
         public Integer nearestSiteDistance;
         public List<StudyTotalPassed> statistics = new List<StudyTotalPassed>();
         public String trialRecruitmentStatusLabel;
         public Boolean hasHCPEnrollments;
+        public String distance;
     }
 
     public class SearchResults {
@@ -176,7 +179,7 @@ public without sharing class StudyTrialService {
         }
 
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'icon-12', false);
+        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
             StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.trial = trial;
@@ -193,33 +196,37 @@ public without sharing class StudyTrialService {
 
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         // prepare enrollment records
-        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCP();
-        enrichEnrollmentRecords(enrollments);
-
-        Map<Id, List<HCP_Enrollment__c>> trialHCPEnrollmentMap = new Map<Id, List<HCP_Enrollment__c>>();
-        for (HCP_Enrollment__c enrollment : enrollments) {
-            if (!trialHCPEnrollmentMap.containsKey(enrollment.Study_Site__r.Clinical_Trial_Profile__c)) {
-                trialHCPEnrollmentMap.put(enrollment.Study_Site__r.Clinical_Trial_Profile__c, new List<HCP_Enrollment__c>());
+//        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCP();
+//        enrichEnrollmentRecords(enrollments);
+        StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
+        siteFilter.sortType='Distance-virtual-last';
+        List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter,null, true);
+        System.debug('strudy Sites:' + studySites);
+        Map<Id, List<StudySiteService.StudySiteDistanceWrapper>> trialStudyMap = new Map<Id, List<StudySiteService.StudySiteDistanceWrapper>>();
+        for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studySites) {
+            if (!trialStudyMap.containsKey(siteWrapper.site.Clinical_Trial_Profile__c)) {
+                trialStudyMap.put(siteWrapper.site.Clinical_Trial_Profile__c, new List<StudySiteService.StudySiteDistanceWrapper>());
             }
-            trialHCPEnrollmentMap.get(enrollment.Study_Site__r.Clinical_Trial_Profile__c).add(enrollment);
+            trialStudyMap.get(siteWrapper.site.Clinical_Trial_Profile__c).add(siteWrapper);
         }
 
 
         // get trials with fields and TC:
-        List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialHCPEnrollmentMap.keySet(), filterData, sortData, paginationData);
+        List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData, paginationData);
 
         // prepare list of studies:
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
 
             StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
-            studyDetailItem.hcpEnrollments = trialHCPEnrollmentMap.get(trial.Id);
+            studyDetailItem.sites = trialStudyMap.get(trial.Id);
             studyDetailItem.trial = trial;
-            studyDetailItem.hcpe = studyDetailItem.hcpEnrollments[0];
+            studyDetailItem.site = studyDetailItem.sites[0];
+            studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
 
             // TODO: STATUS AND ACTIONS??
-            studyDetailItem.studyStatus = studyDetailItem.hcpEnrollments[0].Status__c;
-            studyDetailItem.studyActions = (new StudyActionsHCP(studyDetailItem.hcpEnrollments[0])).studyListViewItemActions;
+            studyDetailItem.studyStatus = studyDetailItem.sites[0].hcpe.Status__c;
+            studyDetailItem.studyActions = (new StudyActionsHCP(studyDetailItem.sites[0].hcpe)).studyListViewItemActions;
 
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             pageRecords.add(studyDetailItem);

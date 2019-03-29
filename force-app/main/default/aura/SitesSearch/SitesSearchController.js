@@ -28,32 +28,27 @@
     },
 
     doUpdateRecords: function (component) {
+        debugger;
         if(component.get('v.skipUpdate')) return;
-        // var spinner = component.find('recordsSpinner');
-        // spinner.show();
-        // var filter = component.get('v.peFilter');
-        // var searchText = filter.searchText;
-        // var filterJSON = JSON.stringify(filter);
-        // var paginationJSON = JSON.stringify(component.get('v.paginationData'));
-        // var piBtnFilter = component.get('v.piBtnFilter');
-        // var action = component.get('c.getRecords');
-        //
-        // communityService.executeAction(component, 'getRecords', {
-        //     filterJSON: filterJSON,
-        //     paginationJSON: paginationJSON,
-        //     piBtnFilter: piBtnFilter,
-        //     userMode: communityService.getUserMode()
-        // }, function (returnValue) {
-        //     if(component.get('v.peFilter').searchText !== searchText) return;
-        //     var result = JSON.parse(returnValue);
-        //     component.set('v.skipUpdate', true);
-        //     component.set('v.pageList', result.peList);
-        //     var pagination = component.get('v.paginationData');
-        //     pagination.allRecordsCount = result.paginationData.allRecordsCount;
-        //     pagination.currentPage = result.paginationData.currentPage;
-        //     component.set('v.paginationData', pagination);
-        //     component.set('v.skipUpdate', false);
-        //     spinner.hide();
-        // })
+        var spinner = component.find('recordsSpinner');
+        spinner.show();
+        var filter = component.get('v.siteFilter');
+        var filterJSON = JSON.stringify(filter);
+        var paginationJSON = JSON.stringify(component.get('v.paginationData'));
+        communityService.executeAction(component, 'getRecords', {
+            filterJSON: filterJSON,
+            paginationJSON: paginationJSON,
+        }, function (returnValue) {
+            var result = JSON.parse(returnValue);
+            component.set('v.skipUpdate', true);
+            component.set('v.pageList', result.siteList);
+            component.set('v.mapMarkers',result.mapMarkers);
+            var pagination = component.get('v.paginationData');
+            pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            pagination.currentPage = result.paginationData.currentPage;
+            component.set('v.paginationData', pagination);
+            component.set('v.skipUpdate', false);
+            spinner.hide();
+        })
     },
 })

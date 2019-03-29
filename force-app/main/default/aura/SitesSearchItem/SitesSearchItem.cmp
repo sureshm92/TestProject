@@ -35,13 +35,15 @@
                 </aura:if>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
-                <div class="ssi-address">
-                {!v.studySiteWrapper.site.Site__r.BillingStreet}
-                    <br/>
-                        {!v.studySiteWrapper.site.Site__r.BillingCity},
-                        {!v.studySiteWrapper.site.Site__r.BillingStateCode},
-                        {!v.studySiteWrapper.site.Site__r.BillingPostalCode}
-                </div>
+                <aura:if isTrue="{!v.studySiteWrapper.siteType!='Virtual'}">
+                    <div class="ssi-address">
+                    {!v.studySiteWrapper.site.Site__r.BillingStreet}
+                        <br/>
+                            {!v.studySiteWrapper.site.Site__r.BillingCity},
+                            {!v.studySiteWrapper.site.Site__r.BillingStateCode},
+                            {!v.studySiteWrapper.site.Site__r.BillingPostalCode}
+                    </div>
+                </aura:if>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <aura:if isTrue="{!v.studySiteWrapper.hcpe == null}">
@@ -49,14 +51,15 @@
                             onclick="{!c.requestToRefer}"
                             disabled="{!v.studySiteWrapper.actions.requestToRefer.disabled}"
                             title="{!v.studySiteWrapper.actions.requestToRefer.disableReason}">
-                        Request to Refer
+                        {!$Label.c.BTN_Request_to_refer}
                     </button>
                     <aura:set attribute="else">
                         <button class="apollo-btn tertiary btn-refer-patient"
                                 disabled="{!v.studySiteWrapper.actions.refer.disabled}"
                                 title="{!v.studySiteWrapper.actions.refer.disableReason}"
                                 onclick="{!c.navigateToReferring}">
-                            Refer a Patient
+                            {!if(and(v.studySiteWrapper.actions.refer.disabled,
+                                    v.studySiteWrapper.actions.refer.disableReason == $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action), v.studySiteWrapper.hcpe.Status__c, $Label.c.BTN_Refer_a_Patient)}
                         </button>
                     </aura:set>
                 </aura:if>
