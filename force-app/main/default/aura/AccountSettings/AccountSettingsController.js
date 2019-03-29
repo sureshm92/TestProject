@@ -11,6 +11,7 @@
             initData.password.reNew = '';
             component.set("v.initData", initData);
             component.set("v.currentEmail", initData.myContact.Email);
+            component.set('v.isDelegate', initData.isDelegate);
             component.set('v.isInitialized', true);
         }, null, function () {
             component.set("v.showSpinner", false);

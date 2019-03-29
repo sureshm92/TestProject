@@ -339,6 +339,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NationalIdTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>NoTanksModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -359,6 +363,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEStatusHistoryRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEStatusHistoryTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSETriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaginationData</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -368,6 +384,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDecoupler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -392,6 +412,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Path</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -484,6 +512,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SiteRegisterControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SitesSearchRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1399,6 +1431,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Event.Task_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Guides_Setting__mdt.HCP_Quick_Reference__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1913,14 +1950,34 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>National_ID__c.Country_Code_Text__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>National_ID__c.Country_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>National_ID__c.Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>National_ID__c.Lead__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>National_ID__c.State_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>National_ID__c.State__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1970,6 +2027,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Opportunity.Survey_Result__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PSE_Status_History__c.Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2385,6 +2447,26 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.utmz__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.Fields__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.Named_Credential__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.Referral_Sources__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3064,6 +3146,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Task.Task_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Task_Catalog__mdt.Action_Link__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3240,13 +3327,6 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Contact-Contact %28Support%29 Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Contact-Contact %28Support%29 Layout</layout>
-        <recordType>Contact.MASTER</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3257,6 +3337,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Email_Template_Settings__mdt-Email Template Settings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
@@ -3286,6 +3369,9 @@
         <layout>Onboarding_Tour__mdt-Onboarding Tour Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>PSE_Status_History__c-PSE Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ParticipantEnrollmentSet__mdt-ParticipantEnrollmentSet Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3293,6 +3379,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Status_Integration__mdt-Participant Status Integration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>

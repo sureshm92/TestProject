@@ -33,12 +33,15 @@
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
     <div class="{!'rr-min-body-height ' + if(empty(v.trialId), 'stand-alone-mode', '')}">
         <aura:if isTrue="{!v.isInitialized}">
-            <aura:if isTrue="{!empty(v.trialId)}">
-                <c:RRNavigationPath> 
-                    <c:RRNPathItem label="{!$Label.c.PG_Report_L_Reports}"/>
-                </c:RRNavigationPath>
-            </aura:if>
+            <!--<aura:if isTrue="{!empty(v.trialId)}">-->
+                <!--<c:RRNavigationPath> -->
+                    <!--<c:RRNPathItem label="{!$Label.c.PG_Report_L_Reports}"/>-->
+                <!--</c:RRNavigationPath>-->
+            <!--</aura:if>-->
             <!-- filter panel -->
+
+
+            <div class="rr-white-panel padding" style="margin-top: -15px">
             <c:FilterPanel >
                 <aura:if isTrue="{!empty(v.trialId)}">
                     <c:rrSelect value="{!v.study}" options="{!v.reportsFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"/>
@@ -60,8 +63,6 @@
                     </button-->
                 </aura:set>
             </c:FilterPanel>
-
-            <div class="rr-white-panel padding" style="margin-top: -15px">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
                         <div class="db-header">{!$Label.c.PG_Report_L_Chart_reviews}</div>

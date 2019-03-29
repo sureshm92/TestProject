@@ -230,10 +230,20 @@ public class ParametersDataProvider {
                     'HCPName' => getFullContactName(cnt),
                     'HCPLanguage' => cnt.Language__c
             };
-        }else{
-            initParamsFromPE(contactId);
+        }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
+            parameters = new Map<String, String>{
+                    'ParticipantName' => getFullContactName(cnt),
+                    'ParticipantLanguage' => cnt.Language__c
+            };
+            if(!isDelegate) {
+                initParamsFromPE(contactId);
+            }else{
+                //todo prepare parameters for patient delegate
+            }
+            
         }
     }
+    
     
     private void initParamsFromUser(Id userId){
         User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];

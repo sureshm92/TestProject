@@ -25,7 +25,7 @@ public without sharing class TermsAndConditionsRemote {
     public static String getTrialTcData(Id ctpId){
         try{
             TCData tcData = getTCData(TermsAndConditions.getTrialTC(ctpId));
-            tcData.trial = SudyTrialService.getFullTrial(ctpId);
+            tcData.trial = StudyTrialService.getFullTrial(ctpId);
             return JSON.serialize(tcData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

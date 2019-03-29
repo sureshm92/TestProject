@@ -7,9 +7,6 @@
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
-    <aura:attribute name="isModalOpen" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="childComponent" type="Aura.Component"
-                    description="PatientDelegateItem set this attribute for identification"/>
     <aura:attribute name="delegates" type="List" access="private"/>
     <aura:attribute name="delegateOptions" type="List" access="private"/>
     <aura:attribute name="hasStudies" type="Boolean" access="private"/>
@@ -17,11 +14,13 @@
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
-    <aura:method name="showRemoveModal" action="{!c.openModal}" access="public"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!-- actions: -->
+    <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
 
     <!--component body-->
     <div class="mt-container">
@@ -57,43 +56,6 @@
                                               saveInProgress="{!v.saveInProgress}"/>
                                 <aura:set attribute="else">
                                     <c:PatientDelegateItem delegate="{!delegate}" parentComponent="{!this}"/>
-                                    <!--Modal for remove patient delegate-->
-                                    <aura:if isTrue="{!v.isModalOpen}">
-                                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01"
-                                                 aria-modal="true"
-                                                 aria-describedby="modal-content-id-1"
-                                                 class="slds-modal slds-fade-in-open">
-                                            <div class="slds-modal__container">
-                                                <header class="slds-modal__header modal-header">
-                                                    <h2 id="modal-heading-01"
-                                                        class="slds-text-heading_medium slds-hyphenate">
-                                                        {!$Label.c.PG_PST_L_Delegates_Remove_Delegate}
-                                                    </h2>
-                                                </header>
-                                                <div class="slds-modal__content" id="modal-content-id-1">
-                                                    <p class="modal-text">
-                                                        {!$Label.c.PG_PST_L_Delegates_Remove_Mess_P1 + ' ' +
-                                                        delegate.delegateContact.FirstName + ' ' +
-                                                        $Label.c.PG_PST_L_Delegates_Remove_Mess_P2}
-                                                    </p>
-                                                    <div class="slds-grid slds-gutters">
-                                                        <div class="slds-col">
-                                                            <lightning:button
-                                                                    class="slds-button slds-button_brand modal-button"
-                                                                    aura:id="confirmButton" label="Yes"
-                                                                    onclick="{!c.openModal}"/>
-                                                        </div>
-                                                        <div class="slds-col">
-                                                            <lightning:button
-                                                                    class="slds-button slds-button_neutral modal-button"
-                                                                    label="No" onclick="{!c.openModal}"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </section>
-                                        <div class="slds-backdrop slds-backdrop_open"></div>
-                                    </aura:if>
                                 </aura:set>
                             </aura:if>
                         </aura:iteration>

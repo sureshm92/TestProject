@@ -15,13 +15,6 @@
 
     inviteTeamMembers: function (component, event, helper) {
         communityService.navigateToPage('new-team-member');
-    },
-
-    openModal : function (component, event, helper) {
-        if(event.getSource().getLocalId() === 'confirmButton')
-            component.get('v.childComponent').removeClick();
-
-        var show = component.get('v.isModalOpen');
-        component.set('v.isModalOpen', !show);
     }
+
 })

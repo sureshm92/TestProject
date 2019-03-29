@@ -47,7 +47,13 @@ public without sharing class ViewPatientsRemote {
                     'Referral_ID__c',
                     'Patient_ID__c',
                     'Participant_Name__c',
-                    'Participant_Surname__c'
+                    'Participant_Surname__c',
+                    'Medical_Record_Review_Status__c',
+                    'Participant_Status__c',
+                    'Pre_screening_Status__c',
+                    'Non_Referral_Reason__c',
+                    'CreatedDate'
+
             };
             //add additional filtration:
             List<String> excludedStatuses = new List<String>{

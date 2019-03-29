@@ -1,41 +1,39 @@
 /**
  * Created by D.Yasinskyi on 14.02.2018
  */
+
 public without sharing class StudyListViewController {
-    
-    class StudyDetailItem {
-        Clinical_Trial_Profile__c trial;
-        List<StudyActions.Action> studyActions;
-        String studyStatus;
-        Study_Site__c ss;
-        HCP_Enrollment__c hcpe;
-        List<StudyTotalPassed> statistics = new List<StudyTotalPassed>();
-        String trialRecruitmentStatusLabel;
-    }
-    
-    class StudiesGroup{
+
+    class StudiesGroup {
         String name;
-        List<StudyDetailItem> studies = new List<StudyDetailItem>();
-        
-        StudiesGroup(String name){
+        List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
+
+        StudiesGroup(String name) {
             this.name = name;
         }
     }
-    
-    class InitData{
-        List<StudyDetailItem> trialsNoLongerRecruiting = new List<StudyDetailItem>();
+
+    class InitData {
+        List<StudyTrialService.StudyDetailItem> trialsNoLongerRecruiting = new List<StudyTrialService.StudyDetailItem>();
         List<StudiesGroup> currentlyRecruitingTrials = new List<StudiesGroup>();
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__c> peListNoLongerRecr = new List<Participant_Enrollment__c>();
     }
-    
+
+    class HCPInitData {
+        public StudyTrialService.StudySortData sortData;
+        public StudyTrialService.StudyFilterData filterData;
+        public PaginationData paginationData;
+        public List<StudyTrialService.StudyDetailItem> currentPageList;
+    }
+
     @AuraEnabled
     public static String getStudyTrialList(String userMode) {
-        try{
+        try {
             InitData initData = new InitData();
-            List<StudyDetailItem> studies;
+            List<StudyTrialService.StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
                 studies = getStudiesForHCP();
                 groupTrials(initData, studies, userMode);
@@ -45,34 +43,70 @@ public without sharing class StudyListViewController {
                 loadStatistics(studies);
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                for(Participant_Enrollment__c pe : peList){
-                    if(pe.Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING){
+                for (Participant_Enrollment__c pe : peList) {
+                    if (pe.Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
                         initData.peListNoLongerRecr.add(pe);
-                    }else{
+                    } else {
                         initData.peList.add(pe);
                     }
                 }
             }
             return JSON.serialize(initData);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
-    public static List<StudyDetailItem> getStudiesForHCP() {
+    @AuraEnabled
+    public static String searchStudies(String filterData, String sortData, String paginationData) {
+        String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData);
+        return studiesJSON;
+    }
+
+    @AuraEnabled
+    public static String getHCPInitData(String userMode) {
+        try {
+            HCPInitData initData = new HCPInitData();
+
+            //pagination:
+            initData.paginationData = new PaginationData();
+            initData.paginationData.pageRecordsCount = 5;
+            initData.paginationData.recordCountVariants = new List<LabelValueItem>{
+                    new LabelValueItem('3', '3'),
+                    new LabelValueItem('5', '5'),
+                    new LabelValueItem('10', '10')
+            };
+
+            //filters data:
+            initData.filterData = StudyTrialService.getStudyFilterData();
+
+            //sort data:
+            initData.sortData = StudyTrialService.getStudySortData();
+
+            //records for current filter, sort and pagination:
+            initData.currentPageList = StudyTrialService.getStudies(initData.filterData, initData.sortData, initData.paginationData);
+            initData.paginationData.setRecordsCount(initData.currentPageList.size());
+
+            return JSON.serialize(initData);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    public static List<StudyTrialService.StudyDetailItem> getStudiesForHCP() {
         // prepare map trialId -> HCPEnrollment:
         Map<Id, HCP_Enrollment__c> trialHCPEnrollmentMap = new Map<Id, HCP_Enrollment__c>();
-        for(HCP_Enrollment__c enrollment : HCPEnrollmentService.getHCPEnrollmentsForHCP()){
+        for (HCP_Enrollment__c enrollment : HCPEnrollmentService.getHCPEnrollmentsForHCP()) {
             trialHCPEnrollmentMap.put(enrollment.Study_Site__r.Clinical_Trial_Profile__c, enrollment);
         }
         // get trials with fields and TC:
-        List<Clinical_Trial_Profile__c> trials = SudyTrialService.getTrials(trialHCPEnrollmentMap.keySet());
+        List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialHCPEnrollmentMap.keySet());
         Map<Id, Boolean> termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
         //prepare list of studies:
-        List<StudyDetailItem> studies = new List<StudyDetailItem>();
+        List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
             HCP_Enrollment__c hcpe = trialHCPEnrollmentMap.get(trial.Id);
-            StudyDetailItem studyDetailItem = new StudyDetailItem();
+            StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.hcpe = hcpe;
             studyDetailItem.trial = trial;
             studyDetailItem.studyStatus = hcpe.Status__c;
@@ -83,21 +117,21 @@ public without sharing class StudyListViewController {
         return studies;
     }
 
-    public static List<StudyDetailItem> getStudiesForPI() {
+    public static List<StudyTrialService.StudyDetailItem> getStudiesForPI() {
         // prepare map trialId -> StudySite
         Map<Id, Study_Site__c> trialStudySiteMap = new Map<Id, Study_Site__c>();
         for (Study_Site__c studySite : StudySiteService.getStudySitesForPI()) {
             trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, studySite);
         }
         // get trials and TC:
-        List<Clinical_Trial_Profile__c> trials = SudyTrialService.getTrials(trialStudySiteMap.keySet());
+        List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialStudySiteMap.keySet());
         Map<Id, Boolean> termsAcceptedMap;
         termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
         // prepare result list:
-        List<StudyDetailItem> studies = new List<StudyDetailItem>();
+        List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
             Study_Site__c ss = trialStudySiteMap.get(trial.Id);
-            StudyDetailItem studyDetailItem = new StudyDetailItem();
+            StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.trial = trial;
             studyDetailItem.studyStatus = ss.Override_PI_Referral_Status__c;
             studyDetailItem.ss = ss;
@@ -108,8 +142,8 @@ public without sharing class StudyListViewController {
         }
         return studies;
     }
-    
-    public static void groupTrials(InitData initData, List<StudyDetailItem> allStudies, String userMode){
+
+    public static void groupTrials(InitData initData, List<StudyTrialService.StudyDetailItem> allStudies, String userMode) {
         StudiesGroup activated = new StudiesGroup(userMode == CommunityService.USER_MODE_PI ? Label.SGT_Accepted_and_active : Label.SGT_Activated);
         StudiesGroup pendingStudySiteAction = new StudiesGroup(Label.SGT_Pending_Study_Site_s_Action);
         StudiesGroup onHold = new StudiesGroup(Label.SGT_On_hold);
@@ -117,46 +151,46 @@ public without sharing class StudyListViewController {
         StudiesGroup declined = new StudiesGroup(Label.SGT_Declined_Acceptance);
         StudiesGroup declinedOther = new StudiesGroup(Label.SGT_Declined_by_Others);
         StudiesGroup deactivated = new StudiesGroup(Label.SGT_Deactivated);
-        for(StudyDetailItem item : allStudies){
+        for (StudyTrialService.StudyDetailItem item : allStudies) {
             TranslateHelper.translate(item.trial);
-            if(item.trial.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING){
+            if (item.trial.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
                 initData.trialsNoLongerRecruiting.add(item);
-            }else if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')){
+            } else if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')) {
                 activated.studies.add(item);
-            }else if(item.studyStatus == StudySiteService.PI_S_INVITATION_SENT){
+            } else if (item.studyStatus == StudySiteService.PI_S_INVITATION_SENT) {
                 pendingYourAction.studies.add(item);
-            }else if(item.studyStatus.contains('Pending')){
+            } else if (item.studyStatus.contains('Pending')) {
                 pendingStudySiteAction.studies.add(item);
-            }else if(item.studyStatus.startsWith('On Hold')){
+            } else if (item.studyStatus.startsWith('On Hold')) {
                 onHold.studies.add(item);
-            }else if(item.studyStatus == 'Declined (Acceptance)' || item.studyStatus == 'Non-Responsive (Admin)'){
+            } else if (item.studyStatus == 'Declined (Acceptance)' || item.studyStatus == 'Non-Responsive (Admin)') {
                 declined.studies.add(item);
-            }else if(item.studyStatus.contains('Declined')){
+            } else if (item.studyStatus.contains('Declined')) {
                 declinedOther.studies.add(item);
-            }else if(item.studyStatus == 'Deactivated (Admin)'){
+            } else if (item.studyStatus == 'Deactivated (Admin)') {
                 deactivated.studies.add(item);
             }
         }
-        if(activated.studies.size() > 0) initData.currentlyRecruitingTrials.add(activated);
-        if(pendingYourAction.studies.size() > 0) initData.currentlyRecruitingTrials.add(pendingYourAction);
-        if(pendingStudySiteAction.studies.size() > 0) initData.currentlyRecruitingTrials.add(pendingStudySiteAction);
-        if(onHold.studies.size() > 0) initData.currentlyRecruitingTrials.add(onHold);
-        if(declined.studies.size() > 0) initData.currentlyRecruitingTrials.add(declined);
-        if(declinedOther.studies.size() > 0) initData.currentlyRecruitingTrials.add(declinedOther);
-        if(deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);
+        if (activated.studies.size() > 0) initData.currentlyRecruitingTrials.add(activated);
+        if (pendingYourAction.studies.size() > 0) initData.currentlyRecruitingTrials.add(pendingYourAction);
+        if (pendingStudySiteAction.studies.size() > 0) initData.currentlyRecruitingTrials.add(pendingStudySiteAction);
+        if (onHold.studies.size() > 0) initData.currentlyRecruitingTrials.add(onHold);
+        if (declined.studies.size() > 0) initData.currentlyRecruitingTrials.add(declined);
+        if (declinedOther.studies.size() > 0) initData.currentlyRecruitingTrials.add(declinedOther);
+        if (deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);
     }
-    
-    
-    public static void loadStatistics(List<StudyDetailItem> studies){
+
+
+    public static void loadStatistics(List<StudyTrialService.StudyDetailItem> studies) {
         Map<Id, Integer> referredCountMap = ParticipantEnrollmentService.getReferredByTrial();
         String allReviewedFilter = ' AND Participant_Status__c IN (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES_WITH_REFERRING), '\',\'') + '\') ';
         Map<Id, Integer> allCountMap = ParticipantEnrollmentService.getPECountMapByTrialsForPI(allReviewedFilter);
-        for(StudyDetailItem item : studies){
+        for (StudyTrialService.StudyDetailItem item : studies) {
             item.statistics.add(new StudyTotalPassed('all',
                     allCountMap.get(item.trial.Id),
                     referredCountMap.get(item.trial.Id)
             ));
         }
     }
-    
+
 }

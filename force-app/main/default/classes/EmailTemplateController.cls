@@ -123,8 +123,13 @@ global without sharing class EmailTemplateController {
             String bodyLabel;
             String headerLabel;
             if(getDataProvider().isDelegate){
-                bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_DELEGATE;
-                headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_DELEGATE;
+                if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
+                    bodyLabel = 'Email_Body_Initial_Patient_Delegate';
+                    headerLabel = 'Email_Header_Initial_Patient_Delegate';
+                }else{
+                    bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_DELEGATE;
+                    headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_DELEGATE;
+                }
             } else if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
                 bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_PARTICIPANT;
                 headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_PARTICIPANT;
@@ -137,7 +142,7 @@ global without sharing class EmailTemplateController {
             }
             if(bodyLabel != null){
                 if(bodyLabel.contains(TEMPLATE_ID_INITIAL_PARTICIPANT) && getDataProvider().parameters.get('HCP') == null){
-                    bodyLabel += '_virtual';
+                    //bodyLabel += '_virtual';
                 }
                 bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             }
