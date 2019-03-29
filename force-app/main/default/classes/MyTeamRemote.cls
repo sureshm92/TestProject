@@ -177,9 +177,12 @@ public without sharing class MyTeamRemote {
         }
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Contact> delegateContacts;
-            if (useProvidedContacts)
-                delegateContacts = delegatesToProcess; else
-                    delegateContacts = PatientDelegateService.getDelegateContacts();
+            if (useProvidedContacts) {
+                delegateContacts = delegatesToProcess;
+            }
+            else {
+                delegateContacts = PatientDelegateService.getDelegateContacts();
+            }
 
             for (Contact patientDelegate : delegateContacts) {
                 DelegateWrapper dw = new DelegateWrapper();
@@ -387,8 +390,12 @@ public without sharing class MyTeamRemote {
 
     @AuraEnabled
     public static void removePatientDelegate(String delegate) {
-        Contact delegateContact = (Contact) JSON.deserialize(delegate, Contact.class);
-        PatientDelegateService.resetDelegate(delegateContact);
+        try{
+            Contact delegateContact = (Contact) JSON.deserialize(delegate, Contact.class);
+            PatientDelegateService.resetDelegate(delegateContact);
+        }catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
     }
 
     private static void createDelegate(DelegateWrapper delegate, String userMode) {

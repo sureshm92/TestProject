@@ -71,7 +71,7 @@
                                 <div class="slds-grid slds-wrap slds-gutters">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <div class="rr-form-element">
-                                            <lightning:input label="{!$Label.c.PG_AS_F_Email_address}"
+                                            <lightning:input label="{!$Label.c.PG_AS_F_Email_address}" readonly="true"
                                                              value="{!v.delegate.Email}"/>
                                         </div>
                                     </div>
