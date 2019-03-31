@@ -244,15 +244,22 @@ public without sharing class StudySiteService {
         public Map<String, StudyActions.Action> actions;
         public String sortType;
 
-        public StudySiteDistanceWrapper(Study_Site__c site){
+        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType){
             this.site = site;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
             this.formatedDistance = ((distance * 10).round() / 10.0).format() + ' ' + DistanceHelper.getUnitsOfMeasurement();
+            this.sortType = sortType;
             if(!site.Is_Virtual_Study_Site__c){
                 this.siteType = 'Traditional';
             }
             else {
                 this.siteType = 'Virtual';
+            }
+            this.hcpe = hcpe;
+            if (hcpe!=null) {
+                this.actions = new StudyActionsHCP(hcpe).actions;
+            } else {
+                this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
             }
         }
         public Integer compareTo(Object compareTo){
@@ -296,46 +303,21 @@ public without sharing class StudySiteService {
     }
 
     public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId( SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
-        String filterString = '';
-        if(filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())){
-            filterString= 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\'   AND ';
-        }
-        else if(filter.trialIds != null && !filter.trialIds.isEmpty()){
-            filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds,'\',\'') + '\')   AND ';
-        }
-        filterString += 'Override_PI_Referral_Status__c != NULL ' +
-                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
-        if(filter.siteType == 'Virtual'){
-            filterString += ' AND Is_Virtual_Study_Site__c = TRUE ';
-        }
-
-        else if(filter.siteType == 'Traditional'){
-            filterString += ' AND Is_Virtual_Study_Site__c = FALSE ';
-        }
-        System.debug('filterString SSDW ' + filterString);
-        List<Study_Site__c> siteList = getStudySitesCommon(filterString);
-        System.debug('site List:' + siteList);
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         for(Study_Site__c site : siteList){
             quueriedTrials.add(site.Clinical_Trial_Profile__c);
         }
+        System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
         List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
         for(HCP_Enrollment__c hcpe: enrollments){
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
         for(Study_Site__c site : siteList){
-            StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site);
-            siteWrapper.sortType = filter.sortType;
-            if(hcpeMap.containsKey(site.Id)){
-                siteWrapper.hcpe = hcpeMap.get(site.Id);
-                siteWrapper.actions = new StudyActionsHCP(hcpeMap.get(site.Id)).actions;
-            }
-            else{
-                siteWrapper.actions = new StudyActionsHCP(site.Clinical_Trial_Profile__r, site,null).actions;
-            }
-            if(siteWrapper.hcpe != null || !filterEmptyHCPE){
+            if(site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType );
                 result.add(siteWrapper);
             }
         }
@@ -348,9 +330,32 @@ public without sharing class StudySiteService {
             }
             result = pageList;
         }
-//        if(filter.sortType == 'Distance'){
             result.sort();
-//        }
         return result;
+    }
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
+        String filterString = '';
+        if(filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())){
+            filterString= 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\'   AND ';
+        }
+        else if(filter.trialIds != null && !filter.trialIds.isEmpty()){
+            filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds,'\',\'') + '\')   AND ';
+        }
+        else {
+            List<Id> studyIds = TrialService.getAvailableTrialIds(CommunityService.USER_MODE_HCP);
+            System.debug('studyIds SSN' + studyIds);
+            filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(studyIds,'\',\'') + '\')   AND ';
+        }
+        filterString += 'Override_PI_Referral_Status__c != NULL ' +
+                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
+        if(filter.siteType == 'Virtual'){
+            filterString += ' AND Is_Virtual_Study_Site__c = TRUE ';
+        }
+
+        else if(filter.siteType == 'Traditional'){
+            filterString += ' AND Is_Virtual_Study_Site__c = FALSE ';
+        }
+        System.debug('filterString SSDW ' + filterString);
+        return getStudySitesCommon(filterString);
     }
 }
