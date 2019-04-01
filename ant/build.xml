@@ -91,6 +91,35 @@
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
     </target>
 
+    <target name="delete-spaces">
+        <replaceregexp
+                file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml"
+                match="(\r?\n)\s*\r?\n"
+                replace="\1"
+                flags="g"
+        />
+        <echo message="replace" level="info"/>
+    </target>
+
+
+    <target name="convert-workflow-DX">
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <echo message="replace completed" level="info"/>
+    </target>
+
+    <target name="convert-workflow-source">
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>CurrentUser</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacevalue>
+        </replace>
+        <echo message="replace completed" level="info"/>
+    </target>
+
     <target name="convert-project">
         <delete dir="${source.dir}"/>
         <exec dir=".." executable="cmd" osfamily="windows">
