@@ -6,7 +6,7 @@ public with sharing class Test_ArticleService {
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
-    public static final String IQVIA_NAME_LOGO = 'IQVIA.png';
+    public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
     public static final String TEST_URL_IMAGE = 'http://localhost/test.png';
     public static final String TEST_NAME_IMAGE = 'test.png';
 
