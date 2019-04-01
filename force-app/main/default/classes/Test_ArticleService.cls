@@ -168,7 +168,7 @@ public with sharing class Test_ArticleService {
                 Name = 'Res-Tes',
                 Posting_Date__c = publishDate,
                 Expiration_Date__c = expDate,
-                Resource_Type__c = 'Articles',
+                Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
                 Content_Class__c = 'Study-Specific',
                 Image__c = imagePath,
                 X3rd_Party_Source__c = x3PartySource
