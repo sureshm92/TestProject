@@ -32,10 +32,6 @@
                 <field>Therapeutic_Areas__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Resource_Type__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Favorites__c</field>
             </layoutItems>
@@ -96,7 +92,7 @@
                 <field>Likes__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Content_Type__c</field>
             </layoutItems>
             <layoutItems>
