@@ -13,7 +13,7 @@
 				resourceMode: component.get('v.resourceMode')
 			}, function (returnValue) {
 				if(!returnValue.errorMessage) {
-					returnValue = helper.trimLongText();
+					returnValue = helper.trimLongText(returnValue);
 					component.set("v.resources", returnValue.wrappers);
 					component.set("v.errorMessage", "");
 				} else {
