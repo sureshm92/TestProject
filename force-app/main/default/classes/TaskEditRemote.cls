@@ -55,8 +55,39 @@ public without sharing class TaskEditRemote {
 
     @AuraEnabled
     public static Boolean checkEmailPreferencesIsOn() {
+        Boolean emailPreferencesIsOn = false;
         Contact currentContact = AccountSettingsController.getCurrentContact();
-        return currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
+        emailPreferencesIsOn = currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
                 || currentContact.HCP_Opt_In_Study_Emails__c || currentContact.HCP_Opt_In_Referral_Status_Emails__c;
+        if(!emailPreferencesIsOn){
+            emailPreferencesIsOn = checkDelegatesPreferencesIsOn();
+        }
+        if(!emailPreferencesIsOn){
+            emailPreferencesIsOn = checkDelegatesPreferencesIsOn();
+        }
+        return emailPreferencesIsOn;
+    }
+
+    private static Boolean checkDelegatesPreferencesIsOn(){
+        List<Patient_Delegate__c> delegates = new List<Patient_Delegate__c>();
+        delegates = PatientDelegateService.getPatientDelegates();
+        for(Patient_Delegate__c delegate : delegates){
+            if(delegate.Contact__r.Participant_Opt_In_Status_Emails__c || delegate.Contact__r.HCP_Opt_In_Patient_Status_Emails__c ||
+                    delegate.Contact__r.HCP_Opt_In_Study_Emails__c || delegate.Contact__r.HCP_Opt_In_Referral_Status_Emails__c){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @AuraEnabled
+    public static List<String> getTaskTypeList(){
+        List<String> pickListValuesList= new List<String>();
+        Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
+        List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry pickListValue : picklistEntry){
+            pickListValuesList.add(pickListValue.getLabel());
+        }
+        return pickListValuesList;
     }
 }

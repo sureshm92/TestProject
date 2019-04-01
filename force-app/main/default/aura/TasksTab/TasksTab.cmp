@@ -8,7 +8,6 @@
     <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
     <aura:attribute name="openTasks" type="Task[]"/>
     <aura:attribute name="completedTasks" type="Task[]"/>
-    <aura:attribute name="myTasks" type="Task[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -18,10 +17,13 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
     <aura:if isTrue="{!v.initialized}">
+
         <div>
             <!-- open tasks: -->
             <aura:if isTrue="{!v.taskMode == 'Open'}">
-                <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}</div>
+                <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
+                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">Create New Task</button>
+                </div>
                 <div class="rr-white-panel">
                     <c:RRTable>
                         <tr>
@@ -35,7 +37,11 @@
                                 <td>
                                     <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
                                 </td>
-                                <td>{!task.Priority}</td>
+                                <td>
+                                    <aura:if isTrue="{!task.Priority != 'Normal'}">
+                                        {!task.Priority}
+                                    </aura:if>
+                                </td>
                                 <td>
                                     <ui:outputDate value="{!task.ActivityDate}"/>
                                 </td>
@@ -54,36 +60,6 @@
                 </div>
             </aura:if>
 
-            <!-- My tasks: -->
-            <aura:if isTrue="{!v.taskMode == 'MyTasks'}">
-                <div class="tt-title">{!$Label.c.Task_Tab_My_Tasks}
-                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">Create New Task</button>
-                </div>
-                <div class="rr-white-panel">
-                    <c:RRTable>
-                        <tr>
-                            <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
-                            <th>{!$Label.c.Task_Tab_Table_Col_Completed_By}</th>
-                        </tr>
-                        <aura:iteration items="{!v.myTasks}" var="task">
-                            <tr>
-                                <td>
-                                    <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
-                                </td>
-                                <td>
-                                    <ui:outputDate value="{!task.ActivityDate}"/>
-                                </td>
-                                <td class="ignore">
-                                    <button id="{!task.Id}" class="apollo-btn tertiary" onclick="{!c.doCompleteTask}">{!$Label.c.BTN_Complete}</button>
-                                </td>
-                            </tr>
-                        </aura:iteration>
-                    </c:RRTable>
-                    <aura:if isTrue="{!empty(v.myTasks)}">
-                        <div class="tt-empty-list">{!$Label.c.PG_Task_Tab_No_Tasks}</div>
-                    </aura:if>
-                </div>
-            </aura:if>
 
             <!-- completed: -->
             <aura:if isTrue="{!v.taskMode == 'Completed'}">

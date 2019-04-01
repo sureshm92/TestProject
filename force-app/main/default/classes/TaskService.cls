@@ -18,7 +18,8 @@ public class TaskService {
             'Completed_Date__c',
             'ActivityDate',
             'Task_Code__c',
-            'WhatId'
+            'WhatId',
+            'Task_Type__c'
     };
     
     public static List<Task> getTasksCommon(String filter){
@@ -35,7 +36,7 @@ public class TaskService {
     }
     
     public static List<Task> getOpenTasks() {
-        return getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
+        return getTasksCommon(' Status=\'Open\' ORDER BY Priority, ActivityDate');
 //        List<Task> openTasks = getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
 //        List<String> priorities = new List<String>{'Critical', 'High', 'Medium', 'Normal', 'Low'};
 //        Map<String, List<Task>> priorityTasksMap = new Map<String, List<Task>>();
@@ -97,10 +98,6 @@ public class TaskService {
         List<Task> tasks = getTasksCommon(' Id = \'' + taskId + '\' ');
         if(tasks.size() == 0) throw new TaskServiceException('Task not found: ' + taskId);
         return tasks[0];
-    }
-    
-    public static List<Task> getMyTasks(){
-        return getTasksCommon(' Status=\'Open\' AND CreatedById = \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
     }
     
     public static List<Task> getCompletedTasks(){

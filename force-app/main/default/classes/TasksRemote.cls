@@ -19,8 +19,6 @@ public class TasksRemote {
         public List<Task> openTasks;
         @AuraEnabled
         public List<Task> completedTasks;
-        @AuraEnabled
-        public List<Task> myTasks;
     }
     
     @AuraEnabled
@@ -29,7 +27,6 @@ public class TasksRemote {
             ParticipantTasks participantTasks = new ParticipantTasks();
             participantTasks.openTasks = TaskService.getOpenTasks();
             participantTasks.completedTasks = TaskService.getCompletedTasks();
-            participantTasks.myTasks = TaskService.getMyTasks();
             return participantTasks;
         }catch (Exception e){
             AuraHelper.throwException(e);
