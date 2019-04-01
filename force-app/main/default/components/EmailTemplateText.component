@@ -6,6 +6,9 @@
 
     <!-- attributes: -->
     <apex:attribute name="userType" type="String" assignTo="{!userCommunityType}" description="PI/HCP/Participant" access="global" />
+    <apex:attribute name="recipientName" type="String" assignTo="{!emailRecipientName}" access="global" description=""/>
+    <apex:attribute name="recipientId" type="Id" assignTo="{!emailRecipientId}" access="global" description=""/>
+    <apex:attribute name="recipientLanguage" type="String" assignTo="{!emailRecipientLanguage}" access="global" description=""/>
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="target of data extraction" access="global" />
     <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="false" description="" access="global"/>
 

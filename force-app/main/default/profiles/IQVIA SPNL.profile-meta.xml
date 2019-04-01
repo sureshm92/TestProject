@@ -23,6 +23,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_RequestToReferByHCPRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -160,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DistanceHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -495,6 +503,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SendEmailToParticipant</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ShareModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -568,6 +580,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyTrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1417,6 +1433,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3136,6 +3157,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Reminder_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3665,6 +3691,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>UnderConstruction</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ettest</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

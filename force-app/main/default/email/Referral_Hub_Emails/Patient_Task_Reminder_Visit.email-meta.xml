@@ -3,9 +3,9 @@
     <apiVersion>45.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Visit task Reminder Type not selected</name>
+    <name>Patient Task Reminder Visit</name>
     <style>none</style>
-    <subject>Task overdue soon</subject>
+    <subject>Subject</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

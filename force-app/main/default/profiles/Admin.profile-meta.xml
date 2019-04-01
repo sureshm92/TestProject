@@ -503,6 +503,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SendEmailToParticipant</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ShareModalController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -704,6 +708,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TriggerHandlerExecutor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1429,6 +1437,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3148,6 +3161,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Reminder_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Start_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3878,6 +3896,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>UnderConstruction</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ettest</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
