@@ -82,7 +82,7 @@
                                 <aura:set attribute="floatPositionRight">
                                     <aura:iteration items="{!v.studyDetail.studyActions}" var="action">
                                         <button class="{!'apollo-btn text ico-in-top small-font sdv-btn' +
-                                                        (or(v.userMode != 'Participant',
+                                                        (or(and(v.userMode != 'Participant', v.userMode != 'Delegate'),
                                                             or(action.id == 'backHome',
                                                                 and(v.currentTab == 'tab-about-the-study',
                                                                     or(action.id == 'downloadConsent', v.studyDetail.trial.Share_URL__c != ''))))
