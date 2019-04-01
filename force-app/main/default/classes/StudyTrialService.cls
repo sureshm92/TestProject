@@ -168,10 +168,13 @@ public without sharing class StudyTrialService {
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY Clinical_Trial_Profile__r.CreatedDate DESC ';
         }
+
         if (sortData.sortType == 'Distance ASC') {
-            query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.latitude + ', ' + userLocation.longitude + '), \'mi\') ASC NULLS LAST ';
+            if (userLocation != null) {
+                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.latitude + ', ' + userLocation.longitude + '), \'mi\') ASC NULLS LAST ';
+            }
         }
-        query += 'LIMIT 1000';
+
         System.debug('query: ' + query);
         List<Study_Site__c> studySites = Database.query(query);
 
