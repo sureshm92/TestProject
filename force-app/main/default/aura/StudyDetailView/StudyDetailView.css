@@ -233,7 +233,7 @@
     visibility: hidden;
     display:inline-flex;
     position:absolute;
-    margin-left: 85px;
+    margin-left: -35px;
     margin-top: 70px;
     transition: all ease 0.3s;
 
