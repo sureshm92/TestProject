@@ -231,18 +231,32 @@
 }
 .THIS .button-share-icon {
     visibility: hidden;
-    display:block;
+    display:inline-flex;
     position:absolute;
-    margin-left: 65px;
-    margin-top: 73px;
+    margin-left: -35px;
+    margin-top: 70px;
     transition: all ease 0.3s;
 
 }
-.THIS #share:hover ~ .button-share-icon{
+.THIS #shares:hover ~ .button-share-icon{
     /*display: block !important;*/
-    visibility: visible !important;
+    visibility: visible;
 }
 .THIS .button-share-icon:hover {
     /*display: block !important;*/
-    visibility: visible !important;
+    visibility: visible;
+}
+.THIS .share-button {
+    margin-left: 10px;
+    height: 24px;
+    width: 24px;
+}
+.THIS .hidden-button{
+    visibility: hidden;
+}
+.THIS .share-button:hover {
+    -webkit-transform: scale(1.3);
+    -moz-transform: scale(1.3);
+    -o-transform: scale(1.3);
+    transform: scale(1.3);
 }

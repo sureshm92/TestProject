@@ -2,7 +2,12 @@
  * Created by Yehor Dobrovolskyi
  */
 public with sharing class ArticleService {
-    public static String HealthDayLogo = 'HealthDay.png';
+    private static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
+    private static final String CONTENT_CLASS_3_RD_PARTY = '3rd Party';
+    public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
+    public static final String X_3PARTY_IQVIA = 'IQVIA';
+    public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
+    public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
 
     public static void calculateExpirationDateBeforeInsert(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
@@ -44,11 +49,16 @@ public with sharing class ArticleService {
     public static void addDefaultImage(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (String.isBlank(resource.Image__c)) {
-                if (!String.isBlank(resource.X3rd_Party_Source__c)) {
+                if (CONTENT_CLASS_3_RD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
+                        && !X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(resource.X3rd_Party_Source__c) &&
+                        !String.isBlank(resource.X3rd_Party_Source__c)) {
                     System.debug(resource.X3rd_Party_Source__c);
-                    resource.Image__c = getStaticUrlImage(resource.X3rd_Party_Source__c + '.png');
-                } else {
-                    resource.Image__c = getStaticUrlImage(HealthDayLogo);
+                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(X_3PARTY_HEALTH_DAY)) {
+                        resource.Image__c = getStaticUrlImage(HEALTH_DAY_NAME_LOGO);
+                    }
+                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(X_3PARTY_IQVIA)) {
+                        resource.Image__c = getStaticUrlImage(IQVIA_NAME_LOGO);
+                    }
                 }
             }
         }
