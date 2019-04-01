@@ -23,6 +23,7 @@ public with sharing class TriggerHandlerExecutor {
         TriggerHandler handler = handlerPool.get(handlerType);
         if (handler == null) {
             handler = (TriggerHandler) handlerType.newInstance();
+            handler.setHandlerType(handlerType);
             handlerPool.put(handlerType, handler);
         }
         if (bypassHandlerTypes.contains(handlerType)) {
@@ -39,20 +40,20 @@ public with sharing class TriggerHandlerExecutor {
         if (Trigger.isBefore) {
             if (Trigger.isInsert) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_INSERT)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_INSERT)) {
                     handler.beforeInsert(Trigger.new);
                 }
 
             }
             if (Trigger.isUpdate) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_UPDATE)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_UPDATE)) {
                     handler.beforeUpdate(Trigger.new, Trigger.oldMap);
                 }
             }
             if (Trigger.isDelete) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_DELETE)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.BEFORE_DELETE)) {
                     handler.beforeDelete(Trigger.old);
                 }
             }
@@ -60,25 +61,25 @@ public with sharing class TriggerHandlerExecutor {
         if (Trigger.isAfter) {
             if (Trigger.isInsert) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_INSERT)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_INSERT)) {
                     handler.afterInsert(Trigger.new);
                 }
             }
             if (Trigger.isUpdate) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_UPDATE)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_UPDATE)) {
                     handler.afterUpdate(Trigger.new, Trigger.oldMap);
                 }
             }
             if (Trigger.isDelete) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_DELETE)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_DELETE)) {
                     handler.afterDelete(Trigger.old);
                 }
             }
             if (Trigger.isUndelete) {
                 if (!bypassHandlerTypesByEvent.containsKey(handlerType)
-                    || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_UNDELETE)) {
+                        || !bypassHandlerTypesByEvent.get(handlerType).contains(TriggerOperation.AFTER_UNDELETE)) {
                     handler.afterUnDelete(Trigger.new);
                 }
             }
@@ -86,11 +87,10 @@ public with sharing class TriggerHandlerExecutor {
     }
 
 
-
     public static void bypassHandler(System.Type handlerType) {
         bypassHandlerTypes.add(handlerType);
     }
-    public static void bypassHandler(System.Type handlerType, TriggerOperation  event) {
+    public static void bypassHandler(System.Type handlerType, TriggerOperation event) {
         if (!bypassHandlerTypesByEvent.containsKey(handlerType)) {
             Set<TriggerOperation > eventSet = new Set<TriggerOperation>{
                     event
@@ -117,7 +117,7 @@ public with sharing class TriggerHandlerExecutor {
     public static void clearbypass(System.Type handlerType) {
         bypassHandlerTypes.remove(handlerType);
     }
-    public static void clearbypass(System.Type handlerType, TriggerOperation  event) {
+    public static void clearbypass(System.Type handlerType, TriggerOperation event) {
         bypassHandlerTypesByEvent.get(handlerType).remove(event);
     }
 }

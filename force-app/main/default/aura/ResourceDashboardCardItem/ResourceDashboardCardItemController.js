@@ -2,13 +2,12 @@
     {
         doInit : function (component, event, helper) {
 
-            let spinner = component.find('spinner');
-            if(spinner){ spinner.show(); }
-
+            component.set("v.resourcesLoading", true);
             communityService.executeAction(component, 'getResources', {
                 resourceType: component.get('v.resourceType'),
                 resourceMode: 'Default'
             }, function (returnValue) {
+                component.set("v.resourcesLoading", false);
                 if(!returnValue.errorMessage) {
                     returnValue = helper.trimLongText(returnValue);
                     component.set("v.resources", returnValue.wrappers);
@@ -16,16 +15,18 @@
                 } else {
                     component.set("v.errorMessage", returnValue.errorMessage);
                 }
-                let spinner = component.find('spinner');
-                if(spinner){ spinner.hide(); }
             });
         },
 
         navigateToPage : function (component, event, helper) {
-            let resourceType = event.currentTarget.dataset.type;
-            let resourceId = event.currentTarget.dataset.id;
-            let trialId = component.get('v.trialId');
-            communityService.navigateToPage("resources?resourceType=" + resourceType + "&id=" + trialId + '&resId=' + resourceId);
+            var resourceType = event.currentTarget.dataset.type;
+            var resourceId = event.currentTarget.dataset.id;
+            var trialId = component.get('v.trialId');
+            let pathToNavigate = 'resources?resourceType=' + resourceType + '&id=' + trialId + '&resId=' + resourceId;
+            if (document.location.pathname === '/s/') {
+                pathToNavigate += '#home';
+            }
+            communityService.navigateToPage(pathToNavigate);
         },
     }
 )
