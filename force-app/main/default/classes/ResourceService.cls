@@ -61,6 +61,10 @@ public with sharing class ResourceService {
         }, participant));
     }
 
+    public Participant__c getParticipant() {
+        return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
+    }
+
     @TestVisible
     private List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
         String language = this.getParticipantLanguage(participant);
@@ -183,16 +187,12 @@ public with sharing class ResourceService {
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +
+                        'Conditions__c, ' +
                         '(SELECT Id, Therapeutic_Area__c, IsRelatedToStudy__c, Condition_Of_Interest_Order__c FROM Therapeutic_Area_Patients__r ORDER BY Condition_Of_Interest_Order__c), ' +
                         '(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true' + ' AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
                         'FROM Participant__c ' +
                         'WHERE Id = \'' + participantId + '\'';
         return ((List<Participant__c>) databaseProxy.query(participantQuery))[0];
-    }
-
-    @TestVisible
-    private Participant__c getParticipant() {
-        return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
     }
 
     @TestVisible
@@ -244,12 +244,8 @@ public with sharing class ResourceService {
                 isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
                 isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
-            title = (resource.Title__c.length() > ResourceService.MAX_TITLE_LENGTH) ?
-                    resource.Title__c.substring(0, ResourceService.MAX_TITLE_LENGTH - 3) + '...' :
-                    resource.Title__c;
-            description = (resource.Description__c.length() > ResourceService.MAX_DESCRIPTION_LENGTH) ?
-                    resource.Description__c.substring(0, ResourceService.MAX_DESCRIPTION_LENGTH - 3) + '...' :
-                    resource.Description__c;
+            title = resource.Title__c;
+            description = resource.Description__c;
             image = resource.Image__c;
             expirationDate = resource.Expiration_Date__c;
             type = resource.RecordType.DeveloperName;

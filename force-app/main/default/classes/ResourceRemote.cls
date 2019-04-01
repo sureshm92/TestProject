@@ -68,4 +68,19 @@ public with sharing class ResourceRemote {
         }
         return null;
     }
+
+    @AuraEnabled
+    public static String getNoTAMessage() {
+        ParticipantService.ParticipantState state = ParticipantService.getParticipantState();
+        ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        Participant__c currentParticipant = resourceService.getParticipant();
+        if((state.value == ParticipantService.ParticipantStates.ALUMNI) && (currentParticipant.Conditions__c == 0)) {
+            String noTAMessage;
+            String message = Label.Resources_No_Therapeutic_Area;
+            String goToProfile = '<br /><a href="/s/settings?tab=account-settings">' + Label.Resources_Go_To_Your_Profile + '</a>';
+            noTAMessage = String.format(message, new List<String>{goToProfile});
+            return noTAMessage;
+        }
+        return null;
+    }
 }

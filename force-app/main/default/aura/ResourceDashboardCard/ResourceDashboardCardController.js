@@ -8,6 +8,9 @@
                 }, function (returnValue) {
                     component.set("v.trialId", returnValue);
                 });
+                communityService.executeAction(component, 'getNoTAMessage', {}, function (returnValue) {
+                    component.set("v.noTAMessage", returnValue);
+                });
             }
         },
 

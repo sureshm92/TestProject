@@ -9,6 +9,7 @@
             }, function (returnValue) {
                 component.set("v.resourcesLoading", false);
                 if(!returnValue.errorMessage) {
+                    returnValue = helper.trimLongText(returnValue);
                     component.set("v.resources", returnValue.wrappers);
                     component.set("v.errorMessage", "");
                 } else {

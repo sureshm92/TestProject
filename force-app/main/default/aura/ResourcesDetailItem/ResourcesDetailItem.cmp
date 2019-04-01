@@ -13,7 +13,7 @@
 
     <div class="resource-container">
         <aura:if isTrue="{!v.resource.type == 'Article'}">
-            <div class="bitmap">
+            <div class="{!or(v.resource.image == null, v.resource.image == '') ? 'hide-image' : 'bitmap'}">
                 <img src="{!v.resource.image}" alt="{!$Label.c.Resources_Image_Unavailable}"/>
             </div>
             <aura:set attribute="else">
