@@ -21,6 +21,10 @@ public class DistanceHelper {
         return userLocation;
     }
 
+    public static String roundDouble(Double rawDouble) {
+        return ((rawDouble * 10).round() / 10.0).format();
+    }
+
     public static Double calculateDistanceTo(Account site) {
         if (site == null || site.BillingLatitude == null || site.BillingLongitude == null || getUserLocation() == null) {
             return 0;
@@ -28,6 +32,7 @@ public class DistanceHelper {
         Location siteLocation = Location.newInstance(site.BillingLatitude, site.BillingLongitude);
         return getUserLocation().getDistance(siteLocation, getUnitsOfMeasurement());
     }
+
     private static void init() {
         User communityUser = [SELECT Id, LocaleSidKey FROM User WHERE Id = :UserInfo.getUserId()];
         if (MILE_LOCALES.contains(communityUser.LocaleSidKey)) {

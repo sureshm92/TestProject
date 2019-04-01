@@ -28,6 +28,8 @@
             console.log('in searchStudies callback');
 
             let result = JSON.parse(returnValue);
+            console.log('result pagination data: ' + JSON.stringify(result.paginationData));
+
             cmp.set('v.skipUpdate', true);
             cmp.set('v.currentPageList', result.records);
 

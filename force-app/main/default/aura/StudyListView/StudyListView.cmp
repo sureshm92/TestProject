@@ -64,7 +64,8 @@
                                recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                                sortType="{!v.sortData.sortType}"
                                sortVariants="{!v.sortData.sortVariants}"
-                               allRecordsCount="{!v.paginationData.allRecordsCount}">
+                               allRecordsCount="{!v.paginationData.allRecordsCount}"
+                               itemTitle="studies">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder="Enrollment Status"
