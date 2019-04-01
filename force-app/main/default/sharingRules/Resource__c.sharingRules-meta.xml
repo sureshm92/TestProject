@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_With_portal</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share With portal</label>
+        <sharedTo>
+            <allCustomerPortalUsers/>
+        </sharedTo>
+        <criteriaItems>
+            <field>Remove_sharing__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+</SharingRules>

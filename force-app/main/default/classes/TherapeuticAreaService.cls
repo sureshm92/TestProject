@@ -10,7 +10,8 @@ public with sharing class TherapeuticAreaService {
 
         for (Participant_Study_Enrollment__c newPSE : newPSEs) {
             if (newPSE.Status__c != oldPSEMap.get(newPSE.Id).Status__c) {
-                if (oldPSEMap.get(newPSE.Id).Status__c == 'Enrolled') {
+                if (!PSEService.PSE_STATUS_GROUP_COMPLETE.contains(oldPSEMap.get(newPSE.Id).Status__c) &&
+                        PSEService.PSE_STATUS_GROUP_COMPLETE.contains(newPSE.Status__c)) {
                     changeList.add(newPSE);
                 }
             }
@@ -32,15 +33,12 @@ public with sharing class TherapeuticAreaService {
 
         for (Participant_Enrollment__c participantEnrollment : newPE) {
             if (participantEnrollment.Participant_Status__c != oldPEMap.get(participantEnrollment.Id).Participant_Status__c) {
-                if (oldPEMap.get(participantEnrollment.Id).Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI ||
-                        oldPEMap.get(participantEnrollment.Id).Participant_Status__c == 'Enrollment Success') {
-                    if (participantEnrollment.Participant_Status__c != ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI
-                            && participantEnrollment.Participant_Status__c != 'Enrollment Success') {
+                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(oldPEMap.get(participantEnrollment.Id).Participant_Status__c) &&
+                        !PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantEnrollment.Participant_Status__c)) {
                         changeList.add(participantEnrollment);
                     }
                 }
             }
-        }
         if (!changeList.isEmpty()) {
             Set<Id> participantId = new Set<Id>();
             for (Participant_Enrollment__c enrollment : changeList) {
@@ -58,7 +56,7 @@ public with sharing class TherapeuticAreaService {
         Set<TherapeuticAreaWrapper> newWrapper = new Set<TherapeuticAreaWrapper>();
 
         for (Therapeutic_Area_Patient__c newAreaPatient : areaPatients) {
-            TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c);
+            TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c, newAreaPatient.IsRelatedToStudy__c);
             if (newWrapper.contains(iKey)) {
                 newAreaPatient.addError('Duplicate Therapeutic Area Patient');
             } else {
@@ -73,23 +71,26 @@ public with sharing class TherapeuticAreaService {
                 SELECT
                         Participant__c,
                         Therapeutic_Area__c,
-                        IsRelatedToStudy__c
+                        IsRelatedToStudy__c,
+                        Condition_Of_Interest_Order__c
                 FROM Therapeutic_Area_Patient__c
                 WHERE Participant__c IN :newParticipantIdSet
                 AND Therapeutic_Area__c IN :newTherapeuticAreaId
         ]) {
-            dbWrapper.add(new TherapeuticAreaWrapper(dbAreaPatient.Participant__c, dbAreaPatient.Therapeutic_Area__c, dbAreaPatient));
+            dbWrapper.add(new TherapeuticAreaWrapper(dbAreaPatient.Participant__c, dbAreaPatient.Therapeutic_Area__c, dbAreaPatient.IsRelatedToStudy__c, dbAreaPatient));
         }
         System.debug('validationOnDuplicate dbWrapper count: ' + dbWrapper.size());
 
 
         List<SObject> duplicateObjects = new List<SObject>();
         for (Therapeutic_Area_Patient__c newAreaPatient : areaPatients) {
-            TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c);
+            TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c, newAreaPatient.IsRelatedToStudy__c);
             if (dbWrapper.contains(iKey)) {
                 Therapeutic_Area_Patient__c oldAreaPatient = dbWrapper.get(dbWrapper.indexOf(iKey)).areaPatient;
-                if (oldAreaPatient.IsRelatedToStudy__c != newAreaPatient.IsRelatedToStudy__c) {
-                    newAreaPatient.IsRelatedToStudy__c = true;
+                if (oldAreaPatient.Condition_Of_Interest_Order__c != newAreaPatient.Condition_Of_Interest_Order__c) {
+                    newAreaPatient.Condition_Of_Interest_Order__c = oldAreaPatient.Condition_Of_Interest_Order__c > newAreaPatient.Condition_Of_Interest_Order__c
+                            ? newAreaPatient.Condition_Of_Interest_Order__c
+                            : oldAreaPatient.Condition_Of_Interest_Order__c;
                 }
                 duplicateObjects.add(oldAreaPatient);
 //                newAreaPatient.addError('You are inserting Duplicate Therapeutic Area Patient');
@@ -117,28 +118,30 @@ public with sharing class TherapeuticAreaService {
     public class TherapeuticAreaWrapper {
         public Id participantId;
         public Id therapeuticAreaId;
+        public Boolean isPrimary;
         public Therapeutic_Area_Patient__c areaPatient;
 
-        public TherapeuticAreaWrapper(Id participantId, Id therapeuticAreaId) {
-            this(participantId, therapeuticAreaId, null);
+        public TherapeuticAreaWrapper(Id participantId, Id therapeuticAreaId, Boolean isPrimary) {
+            this(participantId, therapeuticAreaId, isPrimary, null);
         }
 
-        public TherapeuticAreaWrapper(Id participantId, Id therapeuticAreaId, Therapeutic_Area_Patient__c areaPatient) {
+        public TherapeuticAreaWrapper(Id participantId, Id therapeuticAreaId, Boolean isPrimary, Therapeutic_Area_Patient__c areaPatient) {
             this.participantId = participantId;
             this.therapeuticAreaId = therapeuticAreaId;
+            this.isPrimary = isPrimary;
             this.areaPatient = areaPatient;
         }
 
         public  Boolean equals(Object obj) {
             if (obj instanceof TherapeuticAreaWrapper) {
                 TherapeuticAreaWrapper wrapper = (TherapeuticAreaWrapper) obj;
-                return ((participantId == wrapper.participantId) && (therapeuticAreaId == wrapper.therapeuticAreaId));
+                return ((participantId == wrapper.participantId) && (therapeuticAreaId == wrapper.therapeuticAreaId) && isPrimary == wrapper.isPrimary);
             }
             return false;
         }
 
         public override Integer hashCode() {
-            return (System.hashCode(String.valueOf(participantId)) * 2) ^ System.hashCode(String.valueOf(therapeuticAreaId));
+            return (System.hashCode(String.valueOf(participantId)) * (isPrimary ? 2 : 1)) ^ System.hashCode(String.valueOf(therapeuticAreaId));
         }
 
     }
