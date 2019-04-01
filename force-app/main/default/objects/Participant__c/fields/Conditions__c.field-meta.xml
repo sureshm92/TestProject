@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conditions__c</fullName>
+    <description>If Conditions exist for this Participant, then this field &gt;0</description>
+    <externalId>false</externalId>
+    <label>Conditions</label>
+    <summaryFilterItems>
+        <field>Therapeutic_Area_Patient__c.Condition_Of_Interest_Order__c</field>
+        <operation>notEqual</operation>
+        <value>0</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Therapeutic_Area_Patient__c.Participant__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>
