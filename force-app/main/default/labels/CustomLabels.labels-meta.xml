@@ -5690,7 +5690,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Therapeutic Area</shortDescription>
-        <value>You have not selected any Conditions Of Interest.</value>
+        <value>You have not selected any Conditions of Interest. {0} to select up to 5 health conditions that you are interested in.</value>
     </labels>
     <labels>
         <fullName>Resources_See_All</fullName>
@@ -5705,6 +5705,13 @@
         <protected>true</protected>
         <shortDescription>Resources Featured Video</shortDescription>
         <value>Featured Video</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Go_To_Your_Profile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Go To Your Profile</shortDescription>
+        <value>Go to your Profile</value>
     </labels>
     <labels>
         <fullName>Resources_Featured_Article</fullName>
