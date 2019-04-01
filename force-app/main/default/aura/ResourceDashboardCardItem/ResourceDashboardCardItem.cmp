@@ -9,6 +9,7 @@
     <!--CONSTANTS-->
     <aura:attribute name="videoResource" type="String" default="Video" access="private"/>
     <aura:attribute name="articleResource" type="String" default="Article" access="private"/>
+    <aura:attribute name="resourcesLoading" type="Boolean"/>
 
     <!--HANDLERS-->
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
@@ -20,7 +21,6 @@
             {!v.resourceType == v.videoResource ? $Label.c.Resources_Featured_Video : $Label.c.Resources_Featured_Article}
         </div>
 
-        <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
         <div class="resource-main">
             <aura:if isTrue="{!v.errorMessage}">
 
