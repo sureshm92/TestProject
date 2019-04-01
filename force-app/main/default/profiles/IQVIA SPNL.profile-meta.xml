@@ -23,6 +23,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_RequestToReferByHCPRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -160,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DistanceHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -568,6 +576,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyTrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2796,6 +2808,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.Remove_sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2826,7 +2843,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.URL_Part__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Updated_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
