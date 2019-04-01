@@ -6,15 +6,13 @@
 
     <!--Possible values are "Default", "Favorite", "Suggested"-->
     <aura:attribute name="resourceMode" type="String" default="Default"/>
-    <aura:attribute name="noTAMessage" type="String[]" default="{!null}"/>
+    <aura:attribute name="noTAMessage" type="String" default="{!null}"/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <aura:if isTrue="{!v.noTAMessage != null}">
         <div class="resource-noTAMessage">
-            {!v.noTAMessage[0]} <br />
-            <a href="/s/settings?tab=account-settings">{!v.noTAMessage[1]}</a>
-            {!v.noTAMessage[2]}
+            <aura:unescapedHtml value="{!v.noTAMessage}"/>
         </div>
         <aura:set attribute="else">
             <lightning:layout horizontalAlign="center" class="width-limiter">

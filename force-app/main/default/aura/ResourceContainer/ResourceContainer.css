@@ -29,8 +29,7 @@
 .THIS.resource-noTAMessage {
 	display: block;
 	text-align: center;
-	position: relative;
-	top: 100px;
+	padding-top: 15%;
 	height: 52px;
 	color: #999999;
 	font-family: "Proxima Nova";

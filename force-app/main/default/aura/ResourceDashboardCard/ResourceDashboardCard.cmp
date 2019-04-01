@@ -1,50 +1,53 @@
-<aura:component controller="ResourceRemote" description="ResourceDashboardCard" implements="forceCommunity:availableForAllPageTypes">
+<aura:component controller="ResourceRemote" description="ResourceDashboardCard"
+                implements="forceCommunity:availableForAllPageTypes">
 
-	<!--ATTRIBUTES-->
-	<aura:attribute name="videoResource" type="Object"/>
-	<aura:attribute name="articleResource" type="Object"/>
-	<aura:attribute name="trialId" type="String"/>
-	<aura:attribute name="noTAMessage" type="String[]" default="{!null}"/>
-	<aura:attribute name="resourcesLoading" type="Boolean[]"/>
+    <!--ATTRIBUTES-->
+    <aura:attribute name="videoResource" type="Object"/>
+    <aura:attribute name="articleResource" type="Object"/>
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="noTAMessage" type="String" default="{!null}"/>
+    <aura:attribute name="resourcesLoading" type="Boolean[]"/>
 
-	<!--HANDLERS-->
-	<aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <!--HANDLERS-->
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
-	<!--COMPONENT BODY-->
-	<div class="rr-white-panel resource-card">
+    <!--COMPONENT BODY-->
+    <div class="rr-white-panel resource-card">
 
-		<header class="resource-card-title">
-			Resources
-		</header>
+        <header class="resource-card-title">
+            Resources
+        </header>
 
-		<aura:if isTrue="{!v.noTAMessage != null}">
-			<div class="resource-noTAMessage">
-				{!v.noTAMessage[0]} <br />
-				<a href="/s/settings?tab=account-settings">{!v.noTAMessage[1]}</a>
-				{!v.noTAMessage[2]}
-			</div>
-			<aura:set attribute="else">
-				<div class="resource-content">
-					<lightning:layout horizontalAlign="center">
+        <aura:if isTrue="{!v.noTAMessage != null}">
+            <div class="resource-noTAMessage">
+                <aura:unescapedHtml value="{!v.noTAMessage}"/>
+            </div>
+            <aura:set attribute="else">
+                <div class="resource-content">
+                    <lightning:layout horizontalAlign="center">
 
-				<lightning:layoutItem size="6" flexibility="auto">
-					<c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}" resourcesLoading="{!v.resourcesLoading[0]}"/>
-				</lightning:layoutItem>
-				<lightning:layoutItem size="6" flexibility="auto">
-					<c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}" resourcesLoading="{!v.resourcesLoading[1]}"/>
-				</lightning:layoutItem>
+                        <lightning:layoutItem size="6" flexibility="auto">
+                            <c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"
+                                                         resourcesLoading="{!v.resourcesLoading[0]}"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" flexibility="auto">
+                            <c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"
+                                                         resourcesLoading="{!v.resourcesLoading[1]}"/>
+                        </lightning:layoutItem>
 
-			</lightning:layout>
-		</div>
+                    </lightning:layout>
+                </div>
+            </aura:set>
+        </aura:if>
 
-		<footer class="resource-footer" onclick="{!c.navigateToPage}">
-			{!$Label.c.Resources_See_All}
-		</footer>
+        <footer class="resource-footer" onclick="{!c.navigateToPage}">
+            {!$Label.c.Resources_See_All}
+        </footer>
 
-		<aura:if isTrue="{!or(v.resourcesLoading[0], v.resourcesLoading[1])}">
-			<c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
-		</aura:if>
+        <aura:if isTrue="{!and(and(v.resourcesLoading != null, v.resourcesLoading.length), or(v.resourcesLoading[0], v.resourcesLoading[1]))}">
+            <c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
+        </aura:if>
 
-	</div>
+    </div>
 
 </aura:component>
