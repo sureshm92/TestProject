@@ -2,7 +2,7 @@
  * Created by Yehor Dobrovolskyi
  */
 public with sharing class ArticleService {
-    private static final String HEALTH_DAY_LOGO = 'HealthDay.png';
+    private static final String NO_IMAGE = 'NO-IMAGE.png';
     private static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     private static final String CONTENT_CLASS_3_RD_PARTY = '3rd Party';
 
@@ -52,7 +52,7 @@ public with sharing class ArticleService {
                     System.debug(resource.X3rd_Party_Source__c);
                     resource.Image__c = getStaticUrlImage(resource.X3rd_Party_Source__c + '.png');
                 } else {
-//                    resource.Image__c = getStaticUrlImage(HEALTH_DAY_LOGO);
+                    resource.Image__c = getStaticUrlImage(NO_IMAGE);
                 }
             }
         }
