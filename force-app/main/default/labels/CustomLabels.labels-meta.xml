@@ -851,7 +851,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action View My Home Page</shortDescription>
-        <value>View my Home Page</value>
+        <value>View My Home Page</value>
     </labels>
     <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
@@ -953,7 +953,14 @@ To track where you are in the clinical research study referral process and learn
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ## StudyCode study.  If you have any questions regarding this medication, please contact your ##PIName at ##SiteTelephoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##PatientFirstName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1238,7 +1245,14 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the #StudyCode study. If you are unable to make this appointment, please call to reschedule. </value>
+        <value>This is a quick email to remind you of your upcoming visit for the #StudyName study. If you are unable to make this appointment, please call to reschedule.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##PatientFirstName upcoming visit for the ##StudyName study.  If ##PatientFirstName is unable to make this appointment, please call to reschedule.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -1887,18 +1901,18 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Reports</value>
     </labels>
     <labels>
-        <fullName>Navigation_Settings</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation Settings</shortDescription>
-        <value>Settings</value>
-    </labels>
-    <labels>
         <fullName>Navigation_Search_for_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Navigation Search for Sites</shortDescription>
         <value>Search for Sites</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Settings</shortDescription>
+        <value>Settings</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -2329,7 +2343,6 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
     </labels>
-
     <labels>
         <fullName>PE_Patient_Id</fullName>
         <language>en_US</language>
@@ -5140,13 +5153,6 @@ is a placehilder to show you what it would look like.</value>
         <value>Site Type</value>
     </labels>
     <labels>
-        <fullName>PG_SFS_L_sites</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG SFS sites</shortDescription>
-        <value>sites</value>
-    </labels>
-    <labels>
         <fullName>PG_SFS_L_Therapeutic_Area</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5166,6 +5172,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SFS Virtual</shortDescription>
         <value>Virtual</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS sites</shortDescription>
+        <value>sites</value>
     </labels>
     <labels>
         <fullName>PG_SHR_Body</fullName>
@@ -5658,11 +5671,39 @@ is a placehilder to show you what it would look like.</value>
         <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
     </labels>
     <labels>
+        <fullName>Resources_Featured_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Article</shortDescription>
+        <value>Featured Article</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Featured_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Video</shortDescription>
+        <value>Featured Video</value>
+    </labels>
+    <labels>
         <fullName>Resources_Image_Unavailable</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Resources Image Unavailable</shortDescription>
         <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Articles</shortDescription>
+        <value>More Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Videos</shortDescription>
+        <value>More Videos</value>
     </labels>
     <labels>
         <fullName>Resources_No_Articles</fullName>
@@ -5693,46 +5734,18 @@ is a placehilder to show you what it would look like.</value>
         <value>You have not selected any Conditions Of Interest.</value>
     </labels>
     <labels>
-        <fullName>Resources_See_All</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources See All</shortDescription>
-        <value>See All</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Video</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Video</shortDescription>
-        <value>Featured Video</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Article</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Article</shortDescription>
-        <value>Featured Article</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Articles</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Articles</shortDescription>
-        <value>More Articles</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Videos</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Videos</shortDescription>
-        <value>More Videos</value>
-    </labels>
-    <labels>
         <fullName>Resources_No_Videos</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Videos</shortDescription>
         <value>Videos will be published shortly. Check back for updates.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources See All</shortDescription>
+        <value>See All</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>

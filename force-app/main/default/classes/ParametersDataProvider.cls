@@ -5,7 +5,7 @@
  *
  */
 
-public class ParametersDataProvider {
+public without sharing class ParametersDataProvider {
     
     public static final String DEFAULT_LANGUAGE = 'en_US';
     
@@ -14,11 +14,16 @@ public class ParametersDataProvider {
     public Boolean isDelegate = false;
     public List<DelegateLevelWrapper> delegateLevelsPI = new List<DelegateLevelWrapper>();
     public List<DelegateLevelWrapper> delegateLevelsHCP = new List<DelegateLevelWrapper>();
+    public String recipientName;
+    public Id recipientId;
+    public String recipientLanguage;
     
-    
-    
-    public ParametersDataProvider(Id sourceId, String userType, String outputMode){
-        userMode = userType;
+    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String userType, String outputMode){
+        this.userMode = userType;
+        this.recipientName = recipientName;
+        this.recipientId = recipientId;
+        this.recipientLanguage = recipientLanguage;
+        parameters = new Map<String, String>();
         if(sourceId != null){
             if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 initParamsFromPE(sourceId);
@@ -32,6 +37,8 @@ public class ParametersDataProvider {
                 initParamsFromUser(sourceId);
             } else if(sourceId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType()){
                 initParamsFromPSE(sourceId);
+            } else if(sourceId.getSobjectType() == Task.getSObjectType()){
+                initParamsFromTask(sourceId);
             }
         }else{
             initDummyParams();
@@ -65,20 +72,28 @@ public class ParametersDataProvider {
                 FROM Participant_Study_Enrollment__c
                 WHERE Id =: sourceId
         ];
-        
-        TranslateHelper.translate(pse, getUserLanguage());
     
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pse.Study_Site__r.Principal_Investigator__r),
                 'PILanguage' => pse.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pse.Participant__r),
-                'ParticipantLanguage' => getParticipantLanguage(pse.Participant__r),
+                'ParticipantLanguage' => getParticipantLanguage(pse.Participant__r)
+        };
+        
+        TranslateHelper.translate(pse, getUserLanguage());
+    
+        parameters.putAll(new Map<String, String>{
                 'PSEName' => pse.Name,
                 'StudyName' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pse.Study_Site__r.Name,
                 'SitePhoneNumber' => pse.Study_Site__r.Study_Site_Phone__c
-        };
+        });
+        
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT && pse.Participant__r.Contact__c != recipientId){
+            parameters.put('ParticipantName', recipientName);
+            parameters.put('PatientFirstName', pse.Participant__r.First_Name__c);
+        }
     }
     
     private void initParamsFromPE(Id sourceId){
@@ -134,6 +149,12 @@ public class ParametersDataProvider {
                 'HCP' => pe.HCP__c,
                 'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c
         });
+    
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT && pe.Participant__r.Contact__c != recipientId){
+            parameters.put('ParticipantName', recipientName);
+            parameters.put('PatientFirstName', pe.Participant__r.First_Name__c);
+        }
+
     }
     
     private void initParamsFromHCPE(Id hcpeId){
@@ -207,6 +228,46 @@ public class ParametersDataProvider {
 
     }
     
+    private void initParamsFromTask(Id taskId){
+        Task task = [
+                SELECT
+                        Id,
+                        Subject,
+                        ActivityDate,
+                        OwnerId
+                FROM Task
+                WHERE Id =: taskId
+        ];
+        User emailOwner = [
+                SELECT Id,
+                        LanguageLocaleKey,
+                        ContactId
+                FROM User
+                WHERE Id =: task.OwnerId
+        ];
+        parameters = new Map<String, String>{
+            'TaskName' => task.Subject,
+            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
+        };
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT){
+            parameters.put('ParticipantName', recipientName);
+            if(emailOwner.ContactId != null){
+                List<Participant__c> participants = [
+                        SELECT
+                                Id,
+                                Contact__c,
+                                First_Name__c,
+                                Last_Name__c
+                        FROM Participant__c
+                        WHERE Contact__c =: emailOwner.ContactId
+                ];
+                if(participants.size() > 0 && participants[0].Contact__c == recipientId){
+                    parameters.put('ParticipantName', getFullParticipantName(participants[0]));
+                }
+            }
+        }
+    }
+    
     private void initParamsFromContact(Id contactId){
         Contact cnt = [
                 SELECT Id, Name, Salutation,
@@ -256,6 +317,7 @@ public class ParametersDataProvider {
     }
     
     public String getUserLanguage(){
+        if(recipientLanguage != null) return recipientLanguage;
         String langParam = userMode + 'Language';
         String language = parameters.get(langParam);
         if(language != null) return language;
