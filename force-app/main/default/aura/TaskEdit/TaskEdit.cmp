@@ -126,14 +126,14 @@
                 </div>
             </div>
 
-            <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
                 <!--Due Date-->
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
                                      disabled="{!v.otherTask || v.taskStatusCompleted}" onchange="{!c.onChangeDueDate}"/>
                 </div>
                 <div></div>
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <!--Task Type here-->
                     <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type}">
                         <aura:iteration items="{!v.taskTypeList}" var="type">
@@ -145,7 +145,7 @@
 
             <!--Created Date Time-->
             <aura:if isTrue="{!v.editMode}">
-                <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
                     <div class="slds-col slds-size_1-of-1">
                         <lightning:input  label="{!$Label.c.Created_Date}" value="{!v.task.CreatedDate}" disabled="true" type="date"/>
                     </div>
@@ -153,13 +153,13 @@
             </aura:if>
 
 
-            <div class="te-col-header" style="margin-top: 15px;">
+            <div class="te-col-header slds-p-top_small" style="margin-top: 15px;">
                 {!$Label.c.Task_Reminder_Details}
             </div>
 
             <div class="slds-grid slds-gutters slds-wrap">
                 <!--Set Reminder-->
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <aura:if isTrue="{!v.emailTurnedOn}">
                         <lightning:select aura:id="reminderOptionsId" name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" onchange="{!c.onChangeSetReminder}">
                             <aura:iteration items="{!v.setReminderValueList}" var="rem">
@@ -173,7 +173,7 @@
                         </lightning:select>
                     </aura:if>
                 </div>
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <aura:if isTrue="{!!v.emailTurnedOn}">
                         <br/>
                         <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
@@ -182,9 +182,9 @@
                 </div>
             </div>
 
-            <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-grid slds-gutters slds-wrap slds-p-top_small">
                 <!--Reminder Frequency-->
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
                                       onchange="{!c.onChangeFreq}">
                         <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
@@ -193,7 +193,7 @@
                     </lightning:select>
                 </div>
                 <!--Reminder Date-->
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
                                      value="{!v.task.Completed_Date__c}"/>
                 </div>
