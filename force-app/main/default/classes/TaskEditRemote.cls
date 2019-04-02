@@ -65,7 +65,6 @@ public without sharing class TaskEditRemote {
         delegates = PatientDelegateService.getPatientDelegates();
         if(delegates.isEmpty()){
             wrapper.hasDelegates = false;
-            return true;
         }
         for(Patient_Delegate__c delegate : delegates){
             wrapper.hasDelegates = true;

@@ -29,11 +29,15 @@
             if (wrapper.task.Status === 'Completed') {
                 component.set('v.taskStatusCompleted', true);
             }
+            console.log('here');
             component.set('v.isDelegate', wrapper.isDelegate);
             component.set('v.hasDelegates', wrapper.hasDelegates);
             component.set('v.emailDelegateTurnedOn', wrapper.emailPreferencesDelegateIsOn);
             component.set('v.emailParticipantTurnedOn', wrapper.emailPreferencesParticipantIsOn);
-            if (!wrapper.emailPreferencesIsOn  && (!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates)) {
+            console.log(!wrapper.emailPreferencesParticipantIsOn);
+            console.log(!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates);
+            console.log((!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates) || !wrapper.hasDelegates);
+            if (!wrapper.emailPreferencesParticipantIsOn && ((!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates) || !wrapper.hasDelegates)) {
                 var reminderDateComponent = component.find('reminderDateId');
                 var reminderFrequencyComponent = component.find('reminderFreqId');
                 reminderFrequencyComponent.set('v.disabled', true);

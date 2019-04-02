@@ -169,7 +169,7 @@
                             </aura:iteration>
                         </lightning:select>
                     </aura:if>
-                    <aura:if isTrue="{!!v.emailParticipantTurnedOn || !v.emailDelegateTurnedOn}">
+                    <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; ((!v.emailDelegateTurnedOn &amp;&amp; v.hasDelegates) || !v.hasDelegates)}">
                         <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
                             <option text="Disabled"></option>
                         </lightning:select>
@@ -177,29 +177,42 @@
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <div class="icon-alert">
-                            <div class="icon">
-                                <aura:if isTrue="{!!v.emailParticipantTurnedOn || !v.emailDelegateTurnedOn}">
-                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                                </aura:if>
-                            </div>
-                            <div class="text">
-                                <aura:if isTrue="{!!v.isDelegate}">
-                                    <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; v.emailDelegateTurnedOn}">
+                            <aura:if isTrue="{!!v.isDelegate}">
+                                <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; v.emailDelegateTurnedOn}">
+                                    <div class="icon">
+                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                    </div>
+                                    <div class="text">
                                         <aura:unescapedHtml value="{!$Label.c.EmailPreferencesIsOff}"/>
-                                    </aura:if>
+                                    </div>
                                 </aura:if>
-                                <aura:if isTrue="{!v.isDelegate}">
-                                    <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; v.emailDelegateTurnedOn}">
-                                        {!$Label.c.Task_Reminders_Missing}
-                                    </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!v.isDelegate}">
+                                <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; v.emailDelegateTurnedOn}">
+                                    <div class="icon">
+                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                    </div>
+                                    <div class="text">
+                                        <aura:unescapedHtml value="{!$Label.c.Task_Reminders_Missing}"/>
+                                    </div>
                                 </aura:if>
-                                <aura:if isTrue="{!v.emailParticipantTurnedOn &amp;&amp; !v.emailDelegateTurnedOn}">
+                            </aura:if>
+                            <aura:if isTrue="{!v.emailParticipantTurnedOn &amp;&amp; !v.emailDelegateTurnedOn &amp;&amp; v.hasDelegates}">
+                                <div class="icon">
+                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                </div>
+                                <div class="text">
                                     {!$Label.c.Task_Reminders_Missing}
-                                </aura:if>
-                                <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; !v.emailDelegateTurnedOn}">
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; ((!v.emailDelegateTurnedOn &amp;&amp; v.hasDelegates) || !v.hasDelegates)}">
+                                <div class="icon">
+                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                </div>
+                                <div class="text">
                                     <aura:unescapedHtml value="{!$Label.c.EmailPreferencesIsOff}"/>
-                                </aura:if>
-                            </div>
+                                </div>
+                            </aura:if>
                         </div>
                 </div>
             </div>
