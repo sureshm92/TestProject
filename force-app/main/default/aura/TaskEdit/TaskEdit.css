@@ -27,3 +27,17 @@
 .THIS .slds-form-element__label{
     padding-bottom: 5px;
 }
+
+.THIS .te-form > .slds-col{
+    margin-bottom: 8px;
+}
+
+.THIS .icon-alert{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.THIS .icon-alert .text{
+    padding-left: 10px;
+}

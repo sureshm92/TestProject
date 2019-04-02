@@ -57,19 +57,18 @@ public without sharing class TaskEditRemote {
         Contact currentContact = AccountSettingsController.getCurrentContact();
         emailPreferencesIsOn = currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
                 || currentContact.HCP_Opt_In_Study_Emails__c || currentContact.HCP_Opt_In_Referral_Status_Emails__c;
-        if(!emailPreferencesIsOn){
-            emailPreferencesIsOn = checkDelegatesPreferencesIsOn();
-        }
-        if(!emailPreferencesIsOn){
-            emailPreferencesIsOn = checkDelegatesPreferencesIsOn();
-        }
         return emailPreferencesIsOn;
     }
 
-    private static Boolean checkDelegatesPreferencesIsOn(){
+    private static Boolean checkDelegatesPreferencesIsOn(TaskEditDataWrapper wrapper){
         List<Patient_Delegate__c> delegates = new List<Patient_Delegate__c>();
         delegates = PatientDelegateService.getPatientDelegates();
+        if(delegates.isEmpty()){
+            wrapper.hasDelegates = false;
+            return true;
+        }
         for(Patient_Delegate__c delegate : delegates){
+            wrapper.hasDelegates = true;
             if(delegate.Contact__r.Participant_Opt_In_Status_Emails__c || delegate.Contact__r.HCP_Opt_In_Patient_Status_Emails__c ||
                     delegate.Contact__r.HCP_Opt_In_Study_Emails__c || delegate.Contact__r.HCP_Opt_In_Referral_Status_Emails__c){
                 return true;
@@ -94,8 +93,10 @@ public without sharing class TaskEditRemote {
         if(taskId != null) {
             wrapper.task = getTaskById(taskId);
         }
-        wrapper.emailPreferencesIsOn = checkEmailPreferencesIsOn();
+        wrapper.emailPreferencesParticipantIsOn = checkEmailPreferencesIsOn();
+        wrapper.emailPreferencesDelegateIsOn = checkDelegatesPreferencesIsOn(wrapper);
         wrapper.taskTypeList = getTaskTypeList();
+        wrapper.isDelegate = ParticipantService.getParticipantState().isDelegate;
         return wrapper;
     }
 
@@ -103,14 +104,23 @@ public without sharing class TaskEditRemote {
         @AuraEnabled
         public Task task {get;set;}
         @AuraEnabled
-        public Boolean emailPreferencesIsOn {get;set;}
+        public Boolean emailPreferencesDelegateIsOn {get;set;}
+        @AuraEnabled
+        public Boolean emailPreferencesParticipantIsOn {get;set;}
         @AuraEnabled
         public List<String> taskTypeList {get;set;}
+        @AuraEnabled
+        public Boolean isDelegate {get;set;}
+        @AuraEnabled
+        public Boolean hasDelegates {get;set;}
 
         public TaskEditDataWrapper(){
             task = new Task();
-            emailPreferencesIsOn = false;
-            List<String> taskTypeList = new List<String>();
+            emailPreferencesDelegateIsOn = false;
+            emailPreferencesParticipantIsOn = false;
+            taskTypeList = new List<String>();
+            isDelegate = false;
+            hasDelegates = false;
         }
     }
 }

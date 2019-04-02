@@ -29,8 +29,11 @@
             if (wrapper.task.Status === 'Completed') {
                 component.set('v.taskStatusCompleted', true);
             }
-            component.set('v.emailTurnedOn', wrapper.emailPreferencesIsOn);
-            if (wrapper.emailPreferencesIsOn === false) {
+            component.set('v.isDelegate', wrapper.isDelegate);
+            component.set('v.hasDelegates', wrapper.hasDelegates);
+            component.set('v.emailDelegateTurnedOn', wrapper.emailPreferencesDelegateIsOn);
+            component.set('v.emailParticipantTurnedOn', wrapper.emailPreferencesParticipantIsOn);
+            if (!wrapper.emailPreferencesIsOn  && (!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates)) {
                 var reminderDateComponent = component.find('reminderDateId');
                 var reminderFrequencyComponent = component.find('reminderFreqId');
                 reminderFrequencyComponent.set('v.disabled', true);
@@ -138,7 +141,7 @@
         var dueDate = component.get('v.task.ActivityDate');
         var reminderFrequencyComponent = component.find('reminderFreqId');
         var reminderDateComponent = component.find('reminderDateId');
-        if(component.get('v.emailTurnedOn') && component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')){
+        if(component.get('v.emailParticipantTurnedOn') && component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')){
             if(dueDate) {
                 reminderFrequencyComponent.set('v.disabled', false);
             } else {
