@@ -36,7 +36,7 @@ public class TaskService {
     }
     
     public static List<Task> getOpenTasks() {
-        return getTasksCommon(' Status=\'Open\' ORDER BY Priority, ActivityDate');
+        return getTasksCommon(' Status=\'Open\' ORDER BY Priority, ActivityDate, CreatedDate');
     }
     
     public static List<Task> getPreviewTasks(){
