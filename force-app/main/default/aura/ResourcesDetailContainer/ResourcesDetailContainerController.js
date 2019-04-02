@@ -1,25 +1,30 @@
 ({
     doInit: function (component, event, helper) {
+        let spinner = component.find('spinner');
+        if(spinner){ spinner.show(); }
 
-        // let resourceType = new URL(window.location.href).searchParams.get("resourceType");
         let resourceType = communityService.getUrlParameter('resourceType');
         let recId = communityService.getUrlParameter('id');
         let resId = communityService.getUrlParameter('resId');
         let homePage = document.location.hash;
 
         communityService.executeAction(component, 'getResourcesById', {
-            resourceId: resId
+            resourceId: resId,
+            resourceType: resourceType
         }, function (returnValue) {
-            component.set("v.resource", returnValue[0]);
-        }, function (errorResponse) {
-            //todo add logic for handling errors like "no articles available" etc.
+            if (!returnValue.errorMessage) {
+                component.set("v.resource", returnValue.wrappers[0]);
+                component.set("v.errorMessage", "");
+            } else {
+                component.set("v.errorMessage", returnValue.errorMessage);
+            }
+            let spinner = component.find('spinner');
+            if(spinner){ spinner.hide(); }
         });
 
         if (resourceType) {
             component.set("v.resourceType", resourceType);
         }
-        // component.set("v.backStudy", document.referrer);
-
         if (homePage === '#home') {
             component.set('v.backStudy', '');
         } else if (recId) {
