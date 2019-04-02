@@ -1782,6 +1782,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Investigator phone</value>
     </labels>
     <labels>
+        <fullName>Link_Back_To_Home</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Back To Home</shortDescription>
+        <value>Back to Home</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2329,7 +2336,6 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
     </labels>
-
     <labels>
         <fullName>PE_Patient_Id</fullName>
         <language>en_US</language>
@@ -5733,6 +5739,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Resources More Videos</shortDescription>
         <value>More Videos</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Not_Access_In_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Not Access In Resource</shortDescription>
+        <value>Not access in this resource</value>
     </labels>
     <labels>
         <fullName>Resources_No_Videos</fullName>

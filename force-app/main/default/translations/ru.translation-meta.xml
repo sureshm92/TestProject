@@ -3333,6 +3333,10 @@
         <name>Resources_No_Videos</name>
     </customLabels>
     <customLabels>
+        <label>Нет доступа в к ресурсу</label>
+        <name>Resources_Not_Access_In_Resource</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources See All --></label>
         <name>Resources_See_All</name>
     </customLabels>
@@ -3610,15 +3614,9 @@
     </customTabs>
     <flowDefinitions>
         <flows>
-            <fullName>Welcome_to_the_Study_Patient_Delegate_Alert-1</fullName>
+            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
         </flows>
-        <fullName>Welcome_to_the_Study_Patient_Delegate_Alert</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Welcome_to_the_Study_Caregiver_Alert-1</fullName>
-        </flows>
-        <fullName>Welcome_to_the_Study_Caregiver_Alert</fullName>
+        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3628,33 +3626,9 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
+            <fullName>Create_Therapeutic_Area_Patient_from_PSE-1</fullName>
         </flows>
-        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>PSE_Creation-1</fullName>
-        </flows>
-        <fullName>PSE_Creation</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
-        </flows>
-        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Task_changes_status_to_Expired-1</fullName>
-        </flows>
-        <fullName>Task_changes_status_to_Expired</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Patient_Welcome_to_the_Study_Email-1</fullName>
-        </flows>
-        <fullName>Patient_Welcome_to_the_Study_Email</fullName>
+        <fullName>Create_Therapeutic_Area_Patient_from_PSE</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3664,9 +3638,9 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Create_Therapeutic_Area_Patient_from_PSE-1</fullName>
+            <fullName>Email_to_PI_New_Patient_Referral-1</fullName>
         </flows>
-        <fullName>Create_Therapeutic_Area_Patient_from_PSE</fullName>
+        <fullName>Email_to_PI_New_Patient_Referral</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3676,9 +3650,33 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Email_to_PI_New_Patient_Referral-1</fullName>
+            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
         </flows>
-        <fullName>Email_to_PI_New_Patient_Referral</fullName>
+        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>PSE_Creation-1</fullName>
+        </flows>
+        <fullName>PSE_Creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Patient_Welcome_to_the_Study_Email-1</fullName>
+        </flows>
+        <fullName>Patient_Welcome_to_the_Study_Email</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Task_changes_status_to_Expired-1</fullName>
+        </flows>
+        <fullName>Task_changes_status_to_Expired</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_HCP_Status-1</fullName>
+        </flows>
+        <fullName>Update_HCP_Status</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows>
@@ -3688,9 +3686,15 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
-            <fullName>Update_HCP_Status-1</fullName>
+            <fullName>Welcome_to_the_Study_Caregiver_Alert-1</fullName>
         </flows>
-        <fullName>Update_HCP_Status</fullName>
+        <fullName>Welcome_to_the_Study_Caregiver_Alert</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Welcome_to_the_Study_Patient_Delegate_Alert-1</fullName>
+        </flows>
+        <fullName>Welcome_to_the_Study_Patient_Delegate_Alert</fullName>
     </flowDefinitions>
     <quickActions>
         <label><!-- Follow Up --></label>
