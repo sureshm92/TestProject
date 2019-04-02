@@ -15,6 +15,7 @@
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
                 component.set("v.sortData", initData.sortData);
+                helper.prepareIcons(initData.currentPageList);
                 component.set("v.currentPageList", initData.currentPageList);
 
                 component.set("v.showSpinner", false);
@@ -41,7 +42,7 @@
     },
 
     doUpdateRecords: function (cmp, event, helper) {
-        helper.searchForRecords(cmp);
+        helper.searchForRecords(cmp, helper);
     },
 
     showNoThanksDialog: function (component, event, helper) {
@@ -52,6 +53,6 @@
 
     switchToSearchResume: function (cmp, event, helper) {
         cmp.set("v.isSearchResume", true);
-        helper.searchForRecords(cmp);
+        helper.searchForRecords(cmp,helper);
     }
 });

@@ -385,7 +385,7 @@ public without sharing class StudyTrialService {
                 Boolean matchSearchText = false;
                 for (String field : searchFields) {
                     String fieldValue = (String) currTrial.get(field);
-                    if (fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
+                    if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
                         matchSearchText = true;
                         break;
                     }

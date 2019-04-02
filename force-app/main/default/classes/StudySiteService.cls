@@ -247,7 +247,7 @@ public without sharing class StudySiteService {
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType){
             this.site = site;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
-            this.formatedDistance = ((distance * 10).round() / 10.0).format() + ' ' + DistanceHelper.getUnitsOfMeasurement();
+            this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurement();
             this.sortType = sortType;
             if(!site.Is_Virtual_Study_Site__c){
                 this.siteType = 'Traditional';

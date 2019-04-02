@@ -16,56 +16,76 @@
     <div class="rr-white-panel slvi-container">
         <div class="slvi-top-container slvi-section">
             <!-- Name: -->
-            <div class="slvi-name-section">
-                <div class="study-name">
-                    <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
-                              page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
+            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <div class="slvi-name-section">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-medium-size_10-of-12 slds-size_1-of-1 study-name">
+                            <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
+                                      page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
+                        </div>
+                    <!--Social Widgets-->
+                        <div class="slds-col slds-medium-size_2-of-12 slds-size_1-of-2 slds-order_3 slds-medium-order_2 rri-icon">
+                            <a href="https://www.google.com" target="_blank">
+                                <span class="slds-m-around_x-small">
+                                    <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
+                                </span>
+                            </a>
+                            <a href="https://www.google.com" target="_blank">
+                                <span class="slds-m-around_x-small">
+                                    <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
+                                </span>
+                            </a>
+                            <a href="https://www.google.com" target="_blank">
+                                <span class="slds-m-around_x-small">
+                                    <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
+                                </span>
+                            </a>
+                            <a href="https://www.google.com" target="_blank">
+                                <span class="slds-m-around_x-small">
+                                    <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12 slds-order_2 slds-medium-order_3 sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
                 </div>
 
-                <!--Social Widgets-->
-                <aura:if isTrue="{!v.userMode == 'HCP'}">
-                    <div class="rri-icon">
-                        <a href="https://www.google.com" target="_blank">
-                            <span class="slds-m-around_x-small">
-                                <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
-                            </span>
-                        </a>
-                        <a href="https://www.google.com" target="_blank">
-                            <span class="slds-m-around_x-small">
-                                <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
-                            </span>
-                        </a>
-                        <a href="https://www.google.com" target="_blank">
-                            <span class="slds-m-around_x-small">
-                                <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
-                            </span>
-                        </a>
-                        <a href="https://www.google.com" target="_blank">
-                            <span class="slds-m-around_x-small">
-                                <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
-                            </span>
-                        </a>
-                    </div>
-                </aura:if>
 
-                <!-- Status: -->
-                <aura:if isTrue="{!v.userMode != 'HCP'}">
-                    <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
-                        {!v.currentStudy.trialRecruitmentStatusLabel}
-                    </div>
-                </aura:if>
-            </div>
-
-            <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
-
-            <div class="slvi-objective-section">
-                <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
-                <div class="objective-link">
-                    <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
-                        <c:RRIcon iconName="icon-chevron-right"/>
-                    </c:RRLink>
                 </div>
-            </div>
+                <div class="slvi-objective-section">
+                    <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
+                    <div class="objective-link">
+                        <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
+                            <c:RRIcon iconName="icon-chevron-right"/>
+                        </c:RRLink>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.userMode != 'HCP'}">
+                <div class="slvi-name-section">
+                    <div class="study-name">
+                        <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
+                                  page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
+                    </div>
+
+
+
+                    <!-- Status: -->
+                        <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
+                            {!v.currentStudy.trialRecruitmentStatusLabel}
+                        </div>
+                </div>
+
+                <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
+
+                <div class="slvi-objective-section">
+                    <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
+                    <div class="objective-link">
+                        <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
+                            <c:RRIcon iconName="icon-chevron-right"/>
+                        </c:RRLink>
+                    </div>
+                </div>
+            </aura:if>
         </div>
 
         <!-- PI statistics: -->
@@ -90,10 +110,11 @@
         </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'HCP'}">
-            <div style="background-color: #f2f2f2; height: 43px; box-sizing: border-box; padding-top: 12px;">
-                <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size_1-of-2">
-                        <div style="padding-left: 30px;">
+            <div style="background-color: #f2f2f2; min-height: 43px; box-sizing: border-box; padding-top: 12px;">
+                <div class="slds-grid slds-wrap slds-p-horizontal_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2
+                                slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
+                        <div>
                             <div class="{!v.searchItem ? 'slds-hide' : ''}">
                                 <a href="javascript:void(0);"
                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
@@ -116,13 +137,33 @@
                             </aura:if>
                         </div>
                     </div>
-                    <div class="slds-col slds-size_1-of-2">
-                        <div style="text-align: right; font-size: 14px; color: #666666;">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
+                                slds-order_3 slds-medium-order_2 slds-m-vertical_x-small">
+                        <div class="slvi-status-item">
                             <aura:if isTrue="{!v.currentStudy.distance != null}">
-                                <span class="slds-m-right--small">Nearest site: {!v.currentStudy.distance}</span>
+                                <div style="float: left;">
+                                    <c:RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/>
+                                </div>
+                                <div>Nearest site: <aura:unescapedHtml value="{!v.currentStudy.distance}"/></div>
                             </aura:if>
-                            <span class="slds-m-right--small">Therapeutic Area</span>
-                            <span class="slds-m-right--small">{!v.currentStudy.trial.Override_Recruitment_Status__c}</span>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
+                                slds-order_2 slds-medium-order_3 slds-m-vertical_x-small">
+                        <div class="slvi-status-item">
+                            <div style="float: left;">
+                                <c:RRIcon class="slvi-status-icon blue-icon" iconName="about-the-study"/>
+                            </div>
+                            <div>Therapeutic Area</div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
+                                slds-order_1 slds-medium-order_4 slds-m-vertical_x-small">
+                        <div class="slvi-status-item">
+                            <div style="float: left;">
+                                <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}" iconName="{!v.currentStudy.trial.statusIcon}"/>
+                            </div>
+                            <div>{!v.currentStudy.trial.Override_Recruitment_Status__c}</div>
                         </div>
                     </div>
                 </div>
@@ -144,7 +185,7 @@
                                         {!siteWrapper.site.Is_Virtual_Study_Site__c ? 'Virtual' :
                                         'Traditional'} Site
                                     </div>
-                                    <div class="site-sub-header slds-m-topxx-small" style="text-align: right;">{!siteWrapper.formatedDistance}</div>
+                                    <div class="site-sub-header slds-m-topxx-small" style="text-align: right;"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
                                 </div>
                             </div>
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
@@ -193,14 +234,20 @@
                     </aura:iteration>
 
                     <div class="slds-p-around--medium">
-                        <div class="slds-grid slds-wrap slds-m-top_small">
-                            <div class="slds-col slds-size_1-of-2" style="text-align: right; padding: 5px 20px 0 0">
+                        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center" style="min-height: 100%;">
+                            <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
                                 <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
                             </div>
-                            <div class="slds-col slds-size_1-of-2" style="text-align: left;">
-                                <button class="apollo-btn primary" onclick="{!c.navigateToSitesSearch}" style="width: 328px;">Find More Sites for This Study</button>
+                            <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
+                                <button class="apollo-btn primary slvi-search-site-btn" onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study</button>
                             </div>
                         </div>
+<!--                        <div class="slds-grid slds-wrap slds-m-top_small">-->
+<!--                            <div class="slds-col slds-size_1-of-2" style="text-align: right; padding: 5px 20px 0 0">-->
+<!--                            </div>-->
+<!--                            <div class="slds-col slds-size_1-of-2" style="text-align: left;">-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>

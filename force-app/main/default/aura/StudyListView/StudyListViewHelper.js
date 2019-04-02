@@ -3,7 +3,7 @@
  */
 
 ({
-    searchForRecords: function (cmp) {
+    searchForRecords: function (cmp, helper) {
         console.log('in doUpdateRecords');
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
@@ -29,6 +29,7 @@
 
             let result = JSON.parse(returnValue);
             cmp.set('v.skipUpdate', true);
+            helper.prepareIcons(result.records);
             cmp.set('v.currentPageList', result.records);
 
             let pagination = cmp.get('v.paginationData');
@@ -39,5 +40,24 @@
             cmp.set('v.skipUpdate', false);
             spinner.hide();
         })
+    },
+    prepareIcons: function (currentPageList) {
+        debugger;
+        var iconMap = {
+            'Actively Enrolling': 'success',
+            'On hold': 'icon-pause-circle',
+            'Enrollment closed': 'icon-close-circle',
+            'No longer enrolling': 'icon-close-circle'
+        };
+        var styleMap = {
+            'Actively Enrolling': 'green-icon',
+            'On hold': 'orange-icon',
+            'Enrollment closed': 'orange-icon',
+            'No longer enrolling': 'red-icon'
+        };
+        for(var i = 0; i < currentPageList.length; i++){
+            currentPageList[i].trial.statusIcon = iconMap[currentPageList[i].trial.Override_Recruitment_Status__c];
+            currentPageList[i].trial.iconStyle = styleMap[currentPageList[i].trial.Override_Recruitment_Status__c];
+        }
     }
 });
