@@ -37,57 +37,6 @@ public class TaskService {
     
     public static List<Task> getOpenTasks() {
         return getTasksCommon(' Status=\'Open\' ORDER BY Priority, ActivityDate');
-//        List<Task> openTasks = getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
-//        List<String> priorities = new List<String>{'Critical', 'High', 'Medium', 'Normal', 'Low'};
-//        Map<String, List<Task>> priorityTasksMap = new Map<String, List<Task>>();
-//        List<Task> sortedTasks = new List<Task>();
-//
-//        System.debug('Open Tasks: ' + openTasks);
-//
-//        // initialize map
-//        for (String t: priorities) {
-//            priorityTasksMap.put(t, new List<Task>());
-//        }
-//        // fill map with Task's List
-//        for (Task t: openTasks) {
-//            if (t.Priority.equals('Critical')) {
-//                System.debug('Here is Critical');
-//                List<Task> critical = priorityTasksMap.get('Critical');
-//                critical.add(t);
-//                priorityTasksMap.put('Critical', critical);
-//            } else if (t.Priority == 'High') {
-//                List<Task> high = priorityTasksMap.get('High');
-//                high.add(t);
-//                priorityTasksMap.put('High', high);
-//            } else if (t.Priority == 'Medium') {
-//                List<Task> medium = priorityTasksMap.get('Medium');
-//                medium.add(t);
-//                priorityTasksMap.put('Medium', medium);
-//            } else if (t.Priority == 'Normal') {
-//                List<Task> normal = priorityTasksMap.get('Normal');
-//                normal.add(t);
-//                priorityTasksMap.put('Normal', normal);
-//            } else if (t.Priority == 'Low') {
-//                List<Task> low = priorityTasksMap.get('Low');
-//                low.add(t);
-//                priorityTasksMap.put('Low', low);
-//            }
-//        }
-//
-//        for (String priority: priorities) {
-//            List<Task> prTasks = priorityTasksMap.get(priority);
-//            for (Integer i = 0; i < prTasks.size(); i++) {
-//                if (i == (prTasks.size()-1)) {
-//                    sortedTasks.add(prTasks.get(prTasks.size()-1));
-//                    break;
-//                }
-//                if (prTasks.get(i).CreatedDate > prTasks.get(i+1).CreatedDate) {
-//                    sortedTasks.add(prTasks.get(i));
-//                }
-//            }
-//        }
-//
-//        return sortedTasks;
     }
     
     public static List<Task> getPreviewTasks(){

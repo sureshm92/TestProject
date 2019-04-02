@@ -4,8 +4,7 @@
 
 public without sharing class TaskEditRemote {
 
-    @AuraEnabled
-    public static Task getTaskById(Id taskId) {
+    private static Task getTaskById(Id taskId) {
         try {
             return TaskService.getTask(taskId);
         } catch (Exception e) {
@@ -53,8 +52,7 @@ public without sharing class TaskEditRemote {
         return 'Success';
     }
 
-    @AuraEnabled
-    public static Boolean checkEmailPreferencesIsOn() {
+    private static Boolean checkEmailPreferencesIsOn() {
         Boolean emailPreferencesIsOn = false;
         Contact currentContact = AccountSettingsController.getCurrentContact();
         emailPreferencesIsOn = currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
@@ -80,8 +78,7 @@ public without sharing class TaskEditRemote {
         return false;
     }
 
-    @AuraEnabled
-    public static List<String> getTaskTypeList(){
+    private static List<String> getTaskTypeList(){
         List<String> pickListValuesList= new List<String>();
         Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
         List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
@@ -89,5 +86,31 @@ public without sharing class TaskEditRemote {
             pickListValuesList.add(pickListValue.getLabel());
         }
         return pickListValuesList;
+    }
+
+    @AuraEnabled
+    public static TaskEditDataWrapper getTaskEditData(Id taskId){
+        TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
+        if(taskId != null) {
+            wrapper.task = getTaskById(taskId);
+        }
+        wrapper.emailPreferencesIsOn = checkEmailPreferencesIsOn();
+        wrapper.taskTypeList = getTaskTypeList();
+        return wrapper;
+    }
+
+    public class TaskEditDataWrapper {
+        @AuraEnabled
+        public Task task {get;set;}
+        @AuraEnabled
+        public Boolean emailPreferencesIsOn {get;set;}
+        @AuraEnabled
+        public List<String> taskTypeList {get;set;}
+
+        public TaskEditDataWrapper(){
+            task = new Task();
+            emailPreferencesIsOn = false;
+            List<String> taskTypeList = new List<String>();
+        }
     }
 }

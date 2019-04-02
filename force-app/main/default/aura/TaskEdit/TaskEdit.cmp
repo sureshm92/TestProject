@@ -35,7 +35,7 @@
                         <div>
                             <c:RRIcon iconName="icon-close-circle"/>
                             {!$Label.c.BTN_Cancel}
-                        </div>About the Study
+                        </div>{!$Label.c.About_the_Study}
                     </div>
                 </div>
             </div>
