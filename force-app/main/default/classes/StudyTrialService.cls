@@ -116,34 +116,6 @@ public without sharing class StudyTrialService {
         return JSON.serialize(sr);
     }
 
-    public static void enrichEnrollmentRecords(List<HCP_Enrollment__c> enrollments) {
-        Set<Id> studySiteIds = new Set<Id>();
-        for (HCP_Enrollment__c currEnrollment : enrollments) {
-            studySiteIds.add(currEnrollment.Study_Site__c);
-        }
-
-        Map<Id, Study_Site__c> idToStudySite = new Map<Id, Study_Site__c>([
-                SELECT Id,
-                        Site__r.Name,
-                        Principal_Investigator__r.Name,
-                        Principal_Investigator__r.Title,
-                        Principal_Investigator__r.Email,
-                        Principal_Investigator__r.Phone,
-                        Principal_Investigator__r.MailingAddress,
-                        Is_Virtual_Study_Site__c
-                FROM Study_Site__c
-                WHERE Id IN :studySiteIds
-        ]);
-
-        for (HCP_Enrollment__c currEnrollment : enrollments) {
-            Study_Site__c currStudySite = idToStudySite.get(currEnrollment.Study_Site__c);
-
-            currEnrollment.Study_Site__r.Site__r = currStudySite.Site__r;
-            currEnrollment.Study_Site__r.Principal_Investigator__r = currStudySite.Principal_Investigator__r;
-            currEnrollment.Study_Site__r.Is_Virtual_Study_Site__c = currStudySite.Is_Virtual_Study_Site__c;
-        }
-    }
-
     public static List<String> transformToStudySiteFields(List<String> fields) {
         String prefix = 'Clinical_Trial_Profile__r.';
 
@@ -168,10 +140,13 @@ public without sharing class StudyTrialService {
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY Clinical_Trial_Profile__r.CreatedDate DESC ';
         }
+
         if (sortData.sortType == 'Distance ASC') {
-            query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.latitude + ', ' + userLocation.longitude + '), \'mi\') ASC NULLS LAST ';
+            if (userLocation != null) {
+                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.latitude + ', ' + userLocation.longitude + '), \'mi\') ASC NULLS LAST ';
+            }
         }
-        query += 'LIMIT 1000';
+
         System.debug('query: ' + query);
         List<Study_Site__c> studySites = Database.query(query);
 
@@ -188,10 +163,8 @@ public without sharing class StudyTrialService {
         Map<Id, String> trialIdToDistanceString = new Map<Id, String>();
         for (Id currTrialId : trialIdToStudySites.keySet()) {
             Double minDistance;
-            System.debug('TRIAL: ' + currTrialId);
             for (Study_Site__c currStudySite : trialIdToStudySites.get(currTrialId)) {
                 Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Site__r);
-                System.debug('STUDY DISTANCE: ' + currStudySite.Name + ' ' + currDistance);
                 if (currDistance != 0) {
                     if (minDistance == null) {
                         minDistance = currDistance;
@@ -203,7 +176,7 @@ public without sharing class StudyTrialService {
                 }
             }
             if (minDistance != null) {
-                trialIdToDistanceString.put(currTrialId, minDistance + ' ' + DistanceHelper.getUnitsOfMeasurement());
+                trialIdToDistanceString.put(currTrialId, DistanceHelper.roundDouble(minDistance) + ' ' + DistanceHelper.getUnitsOfMeasurement());
             }
         }
 
@@ -252,29 +225,10 @@ public without sharing class StudyTrialService {
         return trialIdToEnrollments;
     }
 
-    public static List<EnrollmentWrapper> getEnrollmentsWrapper(List<HCP_Enrollment__c> enrollments) {
-        List<EnrollmentWrapper> result = new List<StudyTrialService.EnrollmentWrapper>();
-        for (HCP_Enrollment__c currEnrollment : enrollments) {
-            EnrollmentWrapper wrapper = new EnrollmentWrapper();
-            wrapper.enrollment = currEnrollment;
-            if (currEnrollment.Status__c != null) {
-                wrapper.isActivated = currEnrollment.Status__c.containsIgnoreCase('Activated');
-                wrapper.isPending = currEnrollment.Status__c.containsIgnoreCase('Pending') || currEnrollment.Status__c.containsIgnoreCase('Invitation Sent');
-            }
-
-            result.add(wrapper);
-        }
-
-        return result;
-    }
-
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
-        // prepare enrollment records
-//        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCP();
-//        enrichEnrollmentRecords(enrollments);
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
-        siteFilter.sortType='Distance-virtual-last';
-        List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter,null, true);
+        siteFilter.sortType = 'Distance-virtual-last';
+        List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
         System.debug('strudy Sites:' + studySites);
         Map<Id, List<StudySiteService.StudySiteDistanceWrapper>> trialStudyMap = new Map<Id, List<StudySiteService.StudySiteDistanceWrapper>>();
         for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studySites) {
@@ -284,9 +238,9 @@ public without sharing class StudyTrialService {
             trialStudyMap.get(siteWrapper.site.Clinical_Trial_Profile__c).add(siteWrapper);
         }
 
-
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData, paginationData);
+        paginationData.setRecordsCount(trials.size());
 
         // prepare list of studies:
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
@@ -294,11 +248,9 @@ public without sharing class StudyTrialService {
 
             StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
             studyDetailItem.sites = trialStudyMap.get(trial.Id);
-//            studyDetailItem.hcpEnrollments = getEnrollmentsWrapper(hcpEnrollments);
             studyDetailItem.trial = trial;
             studyDetailItem.site = studyDetailItem.sites[0];
             studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
-//            studyDetailItem.hcpe = studyDetailItem.hcpEnrollments[0];
 
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
@@ -324,9 +276,6 @@ public without sharing class StudyTrialService {
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             pageRecords.add(studyDetailItem);
         }
-
-        System.debug('in getStudies');
-        System.debug(JSON.serializePretty(pageRecords));
 
         return pageRecords;
     }
@@ -374,7 +323,6 @@ public without sharing class StudyTrialService {
         for (Integer i = leftRecord; i < rightRecord; i++) {
             trialsOnPage.add(trials[i]);
         }
-        paginationData.setRecordsCount(trials.size());
 
 
         List<Clinical_Trial_Profile__c> records = new List<Clinical_Trial_Profile__c>();

@@ -3,38 +3,46 @@
  */
 
 public class DistanceHelper {
-    public static final Set<String> MILE_LOCALES = new Set<String>{'en_US', 'en_GB', 'es_US'};
+    public static final Set<String> MILE_LOCALES = new Set<String>{
+            'en_US', 'en_GB', 'es_US'
+    };
     private static String unitsOfMeasurement;
     private static Location userLocation;
-    public static String getUnitsOfMeasurement(){
-        if(unitsOfMeasurement == null || unitsOfMeasurement == ''){
+    public static String getUnitsOfMeasurement() {
+        if (unitsOfMeasurement == null || unitsOfMeasurement == '') {
             init();
         }
         return unitsOfMeasurement;
     }
-    public static Location getUserLocation(){
-        if(userLocation == null){
+    public static Location getUserLocation() {
+        if (userLocation == null) {
             init();
         }
         return userLocation;
     }
-    public static Double calculateDistanceTo(Account site){
-        if(site.BillingLatitude == null || site.BillingLongitude == null || getUserLocation() == null)
+
+    public static String roundDouble(Double rawDouble) {
+        return ((rawDouble * 10).round() / 10.0).format();
+    }
+
+    public static Double calculateDistanceTo(Account site) {
+        if (site == null || site.BillingLatitude == null || site.BillingLongitude == null || getUserLocation() == null) {
             return 0;
+        }
         Location siteLocation = Location.newInstance(site.BillingLatitude, site.BillingLongitude);
         return getUserLocation().getDistance(siteLocation, getUnitsOfMeasurement());
     }
-    private static void init(){
+
+    private static void init() {
         User communityUser = [SELECT Id, LocaleSidKey FROM User WHERE Id = :UserInfo.getUserId()];
-        if(MILE_LOCALES.contains(communityUser.LocaleSidKey) ){
+        if (MILE_LOCALES.contains(communityUser.LocaleSidKey)) {
             unitsOfMeasurement = 'mi';
-        }
-        else {
+        } else {
             unitsOfMeasurement = 'km';
         }
         Contact communityContact = CommunityService.getUserContact();
-        if(communityContact.MailingLatitude != null && communityContact.MailingLongitude != null)
+        if (communityContact.MailingLatitude != null && communityContact.MailingLongitude != null) {
             userLocation = Location.newInstance(communityContact.MailingLatitude, communityContact.MailingLongitude);
-
+        }
     }
 }
