@@ -146,24 +146,8 @@
                                 </div>
                                 <div>Nearest site: <aura:unescapedHtml value="{!v.currentStudy.distance}"/></div>
                             </aura:if>
-                        </div>
-                    </div>
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
-                                slds-order_2 slds-medium-order_3 slds-m-vertical_x-small">
-                        <div class="slvi-status-item">
-                            <div style="float: left;">
-                                <c:RRIcon class="slvi-status-icon blue-icon" iconName="about-the-study"/>
-                            </div>
-                            <div>Therapeutic Area</div>
-                        </div>
-                    </div>
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
-                                slds-order_1 slds-medium-order_4 slds-m-vertical_x-small">
-                        <div class="slvi-status-item">
-                            <div style="float: left;">
-                                <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}" iconName="{!v.currentStudy.trial.statusIcon}"/>
-                            </div>
-                            <div>{!v.currentStudy.trial.Override_Recruitment_Status__c}</div>
+                            <span class="slds-m-right--small">{!v.currentStudy.therapeuticArea}</span>
+                            <span class="slds-m-right--small">{!v.currentStudy.trialRecruitmentStatusLabel}</span>
                         </div>
                     </div>
                 </div>
@@ -185,7 +169,8 @@
                                         {!siteWrapper.site.Is_Virtual_Study_Site__c ? 'Virtual' :
                                         'Traditional'} Site
                                     </div>
-                                    <div class="site-sub-header slds-m-topxx-small" style="text-align: right;"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
+                                    <div class="site-sub-header slds-m-topxx-small"
+                                         style="text-align: right;">{!siteWrapper.formatedDistance}</div>
                                 </div>
                             </div>
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
@@ -211,8 +196,8 @@
                                                 My Patients
                                             </button>
                                             <button class="apollo-btn primary" onclick="{!c.doReferPatient}"
-                                            disabled="{!siteWrapper.actions.refer.disabled}"
-                                            title="{!siteWrapper.actions.refer.disableReason}">Refer a
+                                                    disabled="{!siteWrapper.actions.refer.disabled}"
+                                                    title="{!siteWrapper.actions.refer.disableReason}">Refer a
                                                 Patient
                                             </button>
                                         </div>
@@ -238,8 +223,10 @@
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
                                 <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
                             </div>
-                            <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
-                                <button class="apollo-btn primary slvi-search-site-btn" onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study</button>
+                            <div class="slds-col slds-size_1-of-2" style="text-align: left;">
+                                <button class="apollo-btn primary" onclick="{!c.navigateToSitesSearch}"
+                                        style="width: 328px;">Find More Sites for This Study
+                                </button>
                             </div>
                         </div>
 <!--                        <div class="slds-grid slds-wrap slds-m-top_small">-->

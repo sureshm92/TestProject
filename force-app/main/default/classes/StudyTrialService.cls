@@ -17,6 +17,15 @@ public without sharing class StudyTrialService {
             'Official_Title__c',
             'Sponsor_Pays_for_Referral_Activity__c',
             'Override_Inclusion_Criteria__c',
+            'Override_Description__c',
+            'Therapeutic_Area__r.Name'
+    };
+
+    private static List<String> TRIAL_SEARCH_FIELDS = new List<String>{
+            'Official_Title__c',
+            'Study_Code_Name__c',
+            'Study_Sponsor__c',
+            'Override_Inclusion_Criteria__c',
             'Override_Description__c'
     };
 
@@ -46,6 +55,7 @@ public without sharing class StudyTrialService {
         public String trialRecruitmentStatusLabel;
         public Boolean hasHCPEnrollments;
         public String distance;
+        public String therapeuticArea;
     }
 
     public class EnrollmentWrapper {
@@ -63,12 +73,20 @@ public without sharing class StudyTrialService {
     public static StudyFilterData getStudyFilterData() {
         StudyFilterData filterData = new StudyFilterData();
 
-        filterData.therapeuticArea = 'All Therapeutic Areas';
-        filterData.therapeuticAreas = new List<LabelValueItem>{
-                new LabelValueItem('Therapeutic Area 1', 'Therapeutic Area 1'),
-                new LabelValueItem('Therapeutic Area 2', 'Therapeutic Area 2'),
-                new LabelValueItem('Therapeutic Area 3', 'Therapeutic Area 3')
-        };
+        String therapeuticArea = 'All Therapeutic Areas';
+        filterData.therapeuticArea = 'ALL';
+        List<LabelValueItem> taOptions = new List<LabelValueItem>();
+
+        taOptions.add(new LabelValueItem(therapeuticArea, 'ALL'));
+        for (AggregateResult ar : [
+                SELECT Name taName
+                FROM Therapeutic_Area__c
+                GROUP BY Name
+        ]) {
+            String taName = (String) ar.get('taName');
+            taOptions.add(new LabelValueItem(taName, taName));
+        }
+        filterData.therapeuticAreas = taOptions;
 
         filterData.enrollmentStatus = 'Actively Enrolling';
         filterData.enrollmentStatuses = new List<LabelValueItem>{
@@ -133,22 +151,70 @@ public without sharing class StudyTrialService {
         String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
         query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'Actively Enrolling\') ';
 
-        if (filterData.searchText != null && filterData.searchText.length() >= 3) {
-            query += 'AND (Clinical_Trial_Profile__r.Study_Code_Name__c LIKE \'%' + filterData.searchText + '%\') ';
-        }
-
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY Clinical_Trial_Profile__r.CreatedDate DESC ';
         }
 
         if (sortData.sortType == 'Distance ASC') {
             if (userLocation != null) {
-                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.latitude + ', ' + userLocation.longitude + '), \'mi\') ASC NULLS LAST ';
+                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
             }
         }
 
         System.debug('query: ' + query);
-        List<Study_Site__c> studySites = Database.query(query);
+        List<Study_Site__c> allStudySites = Database.query(query);
+
+        // search and filters
+        // TODO: need optimize
+        List<Study_Site__c> studySites = new List<Study_Site__c>();
+        for (Study_Site__c currSite : allStudySites) {
+
+            Boolean isMatchTerm = true;
+            if (String.isNotBlank(filterData.searchText)) {
+                isMatchTerm = false;
+                if (currSite.Clinical_Trial_Profile__r.Official_Title__c != null) {
+                    String fieldValue = currSite.Clinical_Trial_Profile__r.Official_Title__c;
+                    if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
+                        isMatchTerm = true;
+                    }
+                }
+
+                if (currSite.Clinical_Trial_Profile__r.Study_Code_Name__c != null) {
+                    String fieldValue = currSite.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                    if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
+                        isMatchTerm = true;
+                    }
+                }
+                if (currSite.Clinical_Trial_Profile__r.Study_Sponsor__c != null) {
+                    String fieldValue = currSite.Clinical_Trial_Profile__r.Study_Sponsor__c;
+                    if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
+                        isMatchTerm = true;
+                    }
+                }
+                if (currSite.Clinical_Trial_Profile__r.Override_Inclusion_Criteria__c != null) {
+                    String fieldValue = currSite.Clinical_Trial_Profile__r.Override_Inclusion_Criteria__c;
+                    if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
+                        isMatchTerm = true;
+                    }
+                }
+                if (currSite.Clinical_Trial_Profile__r.Override_Description__c != null) {
+                    String fieldValue = currSite.Clinical_Trial_Profile__r.Override_Description__c;
+                    if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
+                        isMatchTerm = true;
+                    }
+                }
+            }
+
+            Boolean isMatchTherapeuticAreaFilter = true;
+            if (currSite.Clinical_Trial_Profile__r.Therapeutic_Area__r.Name != filterData.therapeuticArea && filterData.therapeuticArea != 'ALL') {
+                isMatchTherapeuticAreaFilter = false;
+            }
+
+            if (isMatchTerm && isMatchTherapeuticAreaFilter) {
+                studySites.add(currSite);
+            }
+        }
+
 
         Map<Id, List<Study_Site__c>> trialIdToStudySites = new Map<Id, List<Study_Site__c>>();
         List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
@@ -201,6 +267,7 @@ public without sharing class StudyTrialService {
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studyDetailItem.hasHCPEnrollments = trialIdToEnrollments.get(trial.Id) != null && trialIdToEnrollments.get(trial.Id).size() > 0;
             studyDetailItem.distance = trialIdToDistanceString.get(trial.Id);
+            studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
             pageRecords.add(studyDetailItem);
         }
 
@@ -251,6 +318,7 @@ public without sharing class StudyTrialService {
             studyDetailItem.trial = trial;
             studyDetailItem.site = studyDetailItem.sites[0];
             studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
+            studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
 
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
@@ -301,14 +369,6 @@ public without sharing class StudyTrialService {
     }
 
     public static List<Clinical_Trial_Profile__c> searchTrials(Set<Id> trialsId, StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
-        List<String> searchFields = new List<String>{
-                'Official_Title__c',
-                'Study_Code_Name__c',
-                'Study_Sponsor__c',
-                'Override_Inclusion_Criteria__c',
-                'Override_Description__c'
-        };
-
         String trialQuery = 'SELECT ' + String.join(TRIAL_FIELDS, ', ') + ' FROM Clinical_Trial_Profile__c WHERE (Id IN :trialsId) ';
         if (sortData.sortType == 'Distance ASC') {
             trialQuery += ' ORDER BY Study_Code_Name__c ASC ';
@@ -331,7 +391,7 @@ public without sharing class StudyTrialService {
             Boolean isMatchTerm = true;
             if (String.isNotBlank(filterData.searchText)) {
                 Boolean matchSearchText = false;
-                for (String field : searchFields) {
+                for (String field : TRIAL_SEARCH_FIELDS) {
                     String fieldValue = (String) currTrial.get(field);
                     if (fieldValue != null && fieldValue.indexOfIgnoreCase(filterData.searchText) != -1) {
                         matchSearchText = true;
@@ -349,7 +409,12 @@ public without sharing class StudyTrialService {
                 isMatchEnrollmentFilter = false;
             }
 
-            if (isMatchTerm && isMatchEnrollmentFilter) {
+            Boolean isMatchTherapeuticAreaFilter = true;
+            if (currTrial.Therapeutic_Area__r.Name != filterData.therapeuticArea && filterData.therapeuticArea != 'ALL') {
+                isMatchTherapeuticAreaFilter = false;
+            }
+
+            if (isMatchTerm && isMatchEnrollmentFilter && isMatchTherapeuticAreaFilter) {
                 records.add(currTrial);
             }
         }
