@@ -51,13 +51,30 @@
                 </div>
             </aura:if>
         </div>
-    <!--Display depending on the selected tab-->
+        <!--Display depending on the selected tab-->
         <aura:if isTrue="{!and(v.currentTab == 'help', v.isInitialized)}">
             <c:ApplicationHelp userMode="{!v.userMode}"/>
         </aura:if>
+
+        <aura:if isTrue="{!v.currentTab == 'req-data'}">
+            <div class="req-data-panel rr-white-panel">
+                <p class="req-data-title">{!$Label.c.PG_HLP_Req_Data}</p>
+                <p class="req-data-inf-text">{!$Label.c.PG_HLP_Req_Data_Title}</p>
+                <lightning:textArea value="{!v.description}" name="description" label=""
+                                    variant="label-hidden"
+                                    placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
+                <div class="slds-text-align--right">
+                    <button class="apollo-btn primary req-data-button" tabindex="1" onclick="{!c.submitRequest}">
+                        {!$Label.c.Button_Submit_Your_Question}
+                    </button>
+                </div>
+            </div>
+        </aura:if>
+
         <aura:if isTrue="{!v.currentTab == 'study-h'}">
             <c:StudyHelp/>
         </aura:if>
+
         <aura:if isTrue="{!or(v.currentTab == 'feedback', v.currentTab == 'problem')}">
             <div class="h-title">
                 <aura:if isTrue="{!v.currentTab == 'feedback'}">
@@ -66,7 +83,6 @@
                 <aura:if isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_H_Report_a_Problem}</aura:if>
             </div>
             <div class="slds-grid slds-grid_align-center">
-
                 <div class="h-body slds-col slds-col slds-size_1-of-1 slds-medium-size--6-of-12">
                     <div class="h-body-title">
                         <aura:if isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_T_Let_us_know}</aura:if>
@@ -132,8 +148,6 @@
                                     isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Feedback}</aura:if>
                             <aura:if
                                     isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Problem}</aura:if>
-                            <aura:if
-                                    isTrue="{!v.currentTab == 'req-data'}">{!$Label.c.Button_Submit_Your_Question}</aura:if>
                         </button>
                     </div>
 
