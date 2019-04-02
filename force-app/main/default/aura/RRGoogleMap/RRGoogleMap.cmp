@@ -7,8 +7,15 @@
 
     <!--attributes-->
     <aura:attribute name="accounts" type="List"/>
+    <aura:attribute name="hasAddress" type="Boolean" access="private"/>
     <aura:attribute name="markers" type="Object[]" access="private"/>
 
-    <lightning:map mapMarkers="{!v.markers}" zoomLevel="10"/>
+    <aura:if isTrue="{!v.hasAddress}">
+        <lightning:map mapMarkers="{!v.markers}" zoomLevel="10"/>
+        <aura:set attribute="else">
+            <div class="inform-text">{!$Label.c.GMap_Not_Available}</div>
+        </aura:set>
+    </aura:if>
+
 
 </aura:component>
