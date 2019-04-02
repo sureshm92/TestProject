@@ -14,8 +14,7 @@
             + ' ' + $A.get('$Label.c.PG_PST_L_Delegates_Remove_Mess_P2');
 
         var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
-        actionRemoveDelegate.set('v.messageText', messText);
-        actionRemoveDelegate.execute(delegateWrapper.delegateContact, function () {
+        actionRemoveDelegate.execute(delegateWrapper.delegateContact, messText, function () {
             component.get('v.parentComponent').refresh();
         });
     }

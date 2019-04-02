@@ -1092,6 +1092,10 @@
         <name>Investigator_phone</name>
     </customLabels>
     <customLabels>
+        <label>На главную</label>
+        <name>Link_Back_To_Home</name>
+    </customLabels>
+    <customLabels>
         <label>Вернуться к вводу пароля</label>
         <name>Link_Back_To_Login</name>
     </customLabels>

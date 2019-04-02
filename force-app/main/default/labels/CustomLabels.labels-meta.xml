@@ -1796,6 +1796,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Investigator phone</value>
     </labels>
     <labels>
+        <fullName>Link_Back_To_Home</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Back To Home</shortDescription>
+        <value>Back to Home</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
