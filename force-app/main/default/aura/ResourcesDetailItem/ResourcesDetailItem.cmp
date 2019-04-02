@@ -40,22 +40,15 @@
             </div>
             <div class="resource-description-footer">
                 <div class="resources-icon icon-like" onclick="{!c.doLike}">
-                    <!--WILL BE CHANGED-->
-
                     <aura:if isTrue="{!v.resource.isVoted}">
-
                         <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>
                         <aura:set attribute="else">
                             <c:RRIcon iconName="icon-like-brand-new" class="resources-icon-like"/>
                         </aura:set>
                     </aura:if>
-
                 </div>
 
                 <div class="resources-icon" onclick="{!c.doFavorite}">
-
-                    <!--WILL BE CHANGED-->
-
                     <aura:if isTrue="{!v.resource.isFavorite}">
                         <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resources-icon-star"/>
                         <aura:set attribute="else">
@@ -64,6 +57,11 @@
                     </aura:if>
                 </div>
             </div>
+            <aura:if isTrue="{!v.resource.isUpdated}">
+                <div class="resource-content-updated">
+                    {!$Label.c.Resources_Content_Has_Been_Updated}
+                </div>
+            </aura:if>
             <div class="resource-body">
 
                 <!--DESCRIPTION - FULL - MAYBE FIELD body -->

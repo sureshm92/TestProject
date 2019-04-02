@@ -76,6 +76,7 @@ public with sharing class ResourceService {
                         'Image__c, ' +
                         'Video__c, ' +
                         'Body__c, ' +
+                        'Updated_Date__c, ' +
                         'RecordType.DeveloperName, ' +
                         '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
                         'FROM Resource__c ' +
@@ -233,6 +234,8 @@ public with sharing class ResourceService {
         public String type;
         @AuraEnabled
         public String video;
+        @AuraEnabled
+        public Boolean isUpdated;
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
@@ -247,6 +250,7 @@ public with sharing class ResourceService {
             resourceId = resource.Id;
             video = resource.Video__c;
             body = resource.Body__c;
+            isUpdated = resource.Updated_Date__c != null;
         }
     }
 }
