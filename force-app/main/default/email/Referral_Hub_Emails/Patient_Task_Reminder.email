@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Visit_Task_Reminder}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Task_Reminder_Type_Not_Selected}"
                          recipientType="Contact"
                          relatedToType="Task"
                          language="{!recipient.Language__c}">
@@ -9,7 +9,7 @@
                          recipientName="{!recipient.Name}"
                          recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Visit_Task_Reminder}"
+                         header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
@@ -25,7 +25,7 @@
                              recipientName="{!recipient.Name}"
                              recipientLanguage="{!recipient.Language__c}"
                              sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Visit_Task_Reminder}"
+                             header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"

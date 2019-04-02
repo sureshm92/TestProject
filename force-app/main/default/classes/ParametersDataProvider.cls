@@ -18,13 +18,12 @@ public without sharing class ParametersDataProvider {
     public Id recipientId;
     public String recipientLanguage;
     
-    
-    
     public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String userType, String outputMode){
         this.userMode = userType;
         this.recipientName = recipientName;
         this.recipientId = recipientId;
         this.recipientLanguage = recipientLanguage;
+        parameters = new Map<String, String>();
         if(sourceId != null){
             if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 initParamsFromPE(sourceId);
@@ -240,7 +239,9 @@ public without sharing class ParametersDataProvider {
                 WHERE Id =: taskId
         ];
         User emailOwner = [
-                SELECT Id, LanguageLocaleKey
+                SELECT Id,
+                        LanguageLocaleKey,
+                        ContactId
                 FROM User
                 WHERE Id =: task.OwnerId
         ];
@@ -250,6 +251,20 @@ public without sharing class ParametersDataProvider {
         };
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantName', recipientName);
+            if(emailOwner.ContactId != null){
+                List<Participant__c> participants = [
+                        SELECT
+                                Id,
+                                Contact__c,
+                                First_Name__c,
+                                Last_Name__c
+                        FROM Participant__c
+                        WHERE Contact__c =: emailOwner.ContactId
+                ];
+                if(participants.size() > 0 && participants[0].Contact__c == recipientId){
+                    parameters.put('ParticipantName', getFullParticipantName(participants[0]));
+                }
+            }
         }
     }
     

@@ -120,12 +120,14 @@ public class UserService {
     
     
     public static String formatDateTime(Datetime dt, String locale) {
+        if (dt == null) return '';
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
         if (dateFormat == null) return dt.format();
         return dt.format(dateFormat);
     }
     
     public static String formatDate(Date d, String locale) {
+        if (d == null) return '';
         Datetime dt = Datetime.newInstance(d, Time.newInstance(12, 0, 0, 0));
         String result = formatDateTime(dt, locale);
         return result.substringBefore(' ');
