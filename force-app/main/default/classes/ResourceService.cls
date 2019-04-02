@@ -1,17 +1,12 @@
 public with sharing class ResourceService {
 
+    public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
+    public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
+    public static final String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
     @TestVisible
     private static String PARTICIPANT_TEST_ID = 'a0D4E0000000000000';
     @TestVisible
     private static String DEFAULT_LANGUAGE = 'en_US';
-    @TestVisible
-    private static String RESOURCE_SOURCE_STUDY = 'Study-Specific';
-    @TestVisible
-    private static String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
-    @TestVisible
-    private static String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
-    private static Integer MAX_TITLE_LENGTH = 55;
-    private static Integer MAX_DESCRIPTION_LENGTH = 120;
     @TestVisible
     private static String RESOURCE_TYPE_ARTICLE = 'Article';
     @TestVisible
@@ -100,7 +95,7 @@ public with sharing class ResourceService {
         resourcesIds.addAll(resourcesIdsSet);
 
         String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
-        String orderByClause = 'ORDER BY Posting_Date__c';
+        String orderByClause = 'ORDER BY Posting_Date__c NULLS LAST';
         return this.getResources(participant, whereClause, orderByClause);
     }
 

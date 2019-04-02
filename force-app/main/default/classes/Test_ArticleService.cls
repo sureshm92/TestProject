@@ -165,7 +165,7 @@ public with sharing class Test_ArticleService {
                 Posting_Date__c = publishDate,
                 Expiration_Date__c = expDate,
                 Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
-                Content_Class__c = '3rd Party',
+                Content_Class__c = ResourceService.RESOURCE_SOURCE_THIRD_PARTY,
                 Image__c = imagePath,
                 X3rd_Party_Source__c = x3PartySource
 

@@ -10,9 +10,10 @@ public with sharing class ResourceExpBatchScheduler implements Schedulable{
 
         String query = 'SELECT ' +
                 'Id,' +
-                'Expiration_Date__c ' +
+                'Expiration_Date__c, ' +
+                'Content_Class__c ' +
                 'FROM Resource__c ' +
-                'WHERE Expiration_Date__c <= today';
+                'WHERE Expiration_Date__c <= today  AND Remove_sharing__c = false';
         Database.executeBatch(new BatchProcess(query, new ResourceExpirationBatchHandlerImpl()), 1000);
         System.abortJob(SC.getTriggerId());
         start();
