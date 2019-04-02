@@ -1,6 +1,26 @@
 /**Created by D.Yasinskyi on 23.05.2018*/
 public without sharing class HelpController {
 
+    /**
+     * This is initialize method for current user.
+     * @return UserContact
+     */
+    @AuraEnabled
+    public static String getUserInfo() {
+        String returnValue;
+        try{
+            UserContact userContact = new UserContact();
+            userContact.currentContact = CommunityService.getUserContact();
+            userContact.isDelegate = ParticipantService.getParticipantState().isDelegate;
+            returnValue = JSON.serialize(userContact);
+            return returnValue;
+        }catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+
+        return returnValue;
+    }
+
     @AuraEnabled
     public static void createCase(String description, String type, String files) {
 
@@ -102,6 +122,11 @@ public without sharing class HelpController {
         }
 
         insert links;
+    }
+
+    public class UserContact {
+        Contact currentContact;
+        Boolean isDelegate;
     }
 
     public class FileContainer {

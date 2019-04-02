@@ -8,6 +8,8 @@
     <aura:attribute name="currentTab" type="String" default="help" access="private"/>
     <aura:attribute name="description" type="String" access="private"/>
     <aura:attribute name="userMode" type="String" access="private"/>
+    <aura:attribute name="userContact" type="Contact" access="private"/>
+    <aura:attribute name="isDelegate" type="Boolean" default="false" access="private"/>
     <aura:attribute name="fileList" type="List" access="private"/>
     <aura:attribute type="Boolean" name="isInitialized" access="private" default="false"/>
 
@@ -43,7 +45,7 @@
                                               currentTab="{!v.currentTab}"/>
                         <aura:if isTrue="{!v.userMode == 'Participant'}">
                             <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"
-                                                  currentTab="{!v.currentTab}"/>
+                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>
                             <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"
                                                   currentTab="{!v.currentTab}"/>
                         </aura:if>
@@ -64,7 +66,7 @@
                                     variant="label-hidden"
                                     placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
                 <div class="slds-text-align--right">
-                    <button class="apollo-btn primary req-data-button" tabindex="1" onclick="{!c.submitRequest}">
+                    <button class="apollo-btn primary req-data-button" tabindex="1" onclick="{!c.onSubmitQuestion}">
                         {!$Label.c.Button_Submit_Your_Question}
                     </button>
                 </div>
@@ -168,6 +170,13 @@
                 </div>
             </div>
         </aura:if>
-
     </div>
+
+    <c:Popup aura:id="req-modal" title="" showHeader="false" showClose="false" footerText="" size="small">
+        {!$Label.c.PG_HLP_Req_Data_Poput_Mess}
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary" onclick="{!c.onSubmitQuestionOk}">{!$Label.c.BTN_OK}</button>
+<!--            <button class="apollo-btn tertiary" onclick="{!c.doNo}">{!$Label.c.BTN_No}</button>-->
+        </aura:set>
+    </c:Popup>
 </aura:component>

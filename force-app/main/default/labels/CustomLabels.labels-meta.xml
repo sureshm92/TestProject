@@ -1775,6 +1775,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Copyright © 2018 IQVIA. All Rights Reserved.</value>
     </labels>
     <labels>
+        <fullName>GMap_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty address</shortDescription>
+        <value>A Google map is not available for this study site location.</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3501,6 +3508,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>Req_Data_Placehold</shortDescription>
         <value>For questions about your personal data or to download a copy of your personal data, kindly use the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Req_Data_Poput_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Poput_Mess</shortDescription>
+        <value>Thank you for submitting your request.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_Req_Data_Title</fullName>
