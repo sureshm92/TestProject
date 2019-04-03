@@ -9,6 +9,7 @@
                   scripts="{!join(',', $Resource.rr_community_js, $Resource.clamp_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
+
     <!-- Attributes: -->
     <aura:attribute name="userMode" type="String" access="private"/>
     <aura:attribute name="currentlyRecruitingTrials" type="List"/>

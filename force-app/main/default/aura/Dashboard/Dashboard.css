@@ -5,6 +5,10 @@
     margin-top: 10px;
     padding-bottom: 60px;
 }
+.THIS.db-content-empty{
+    margin-top: 20px;
+}
+
 .THIS .db-header{
     font-size: 30px;
     line-height: 40px;
