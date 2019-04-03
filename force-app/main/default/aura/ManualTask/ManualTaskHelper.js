@@ -7,6 +7,6 @@
     },
 
     setDays : function (component) {
-        $A.enqueueAction(component.get('c.remindDaysReduce'));
+        $A.enqueueAction(component.get('c.onRemindDaysChange'));
     }
 })

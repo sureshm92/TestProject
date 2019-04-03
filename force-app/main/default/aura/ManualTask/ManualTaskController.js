@@ -33,10 +33,16 @@
         });
     },
 
-    dueDateValid : function(component, event, helper) {
+    dateValid : function(component, event, helper) {
+        var startDate = component.get('v.task.Start_Date__c');
+        var dueDate = component.get('v.task.ActivityDate');
+        if(!startDate || !dueDate) {
+            return;
+        }
+
         communityService.executeAction(component, 'checkAndGetValidDate', {
-            'start' : component.get('v.task.Start_Date__c'),
-            'due' : component.get('v.task.ActivityDate')
+            'start' : startDate,
+            'due' : dueDate
         }, function (response) {
             component.set('v.task.ActivityDate', response);
         });
