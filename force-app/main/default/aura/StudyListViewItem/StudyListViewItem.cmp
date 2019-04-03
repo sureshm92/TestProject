@@ -53,10 +53,7 @@
 
                 </div>
                 <div class="slvi-objective-section">
-                    <div class="objective-text">
-                        {!v.currentStudy.trial.Detailed_Description__c}
-
-                    </div>
+                    <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
                             <c:RRIcon iconName="icon-chevron-right"/>
@@ -163,7 +160,7 @@
                             <div style="float: left;">
                                 <c:RRIcon class="slvi-status-icon blue-icon" iconName="about-the-study"/>
                             </div>
-                            <div>Therapeutic Area</div>
+                            <div>{!v.currentStudy.therapeuticArea}</div>
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
@@ -259,12 +256,6 @@
                                 <button class="apollo-btn primary slvi-search-site-btn" onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study</button>
                             </div>
                         </div>
-<!--                        <div class="slds-grid slds-wrap slds-m-top_small">-->
-<!--                            <div class="slds-col slds-size_1-of-2" style="text-align: right; padding: 5px 20px 0 0">-->
-<!--                            </div>-->
-<!--                            <div class="slds-col slds-size_1-of-2" style="text-align: left;">-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>
