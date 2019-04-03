@@ -43,7 +43,7 @@ public without sharing class SitesSearchRemote {
 
     @AuraEnabled
     public static String getInitData(Id trialId, String mode, String btnFilter, String userMode){
-//        try{
+        try{
             InitData initData = new InitData();
 
             initData.trial = TrialService.getTrial(trialId);
@@ -54,7 +54,7 @@ public without sharing class SitesSearchRemote {
 
             initData.siteFilter = new StudySiteService.SiteFilter(initData.siteFilterData);
 
-            initData.currentPageList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(initData.siteFilter, initData.paginationData);
+            initData.currentPageList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(initData.siteFilter, initData.paginationData, false);
             for(Integer i = 1; i<= initData.currentPageList.size(); i++){
                 initData.currentPageList[i-1].site.Name = String.valueOf(i) + '. ' + initData.currentPageList[i-1].site.Name;
             }
@@ -66,9 +66,40 @@ public without sharing class SitesSearchRemote {
             }
 
             return JSON.serialize(initData);
-//        }catch (Exception e){
-//            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-//        }
+        }catch (Exception e){
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+
+    class SearchResult{
+        List<StudySiteService.StudySiteDistanceWrapper> siteList;
+        PaginationData paginationData;
+        List<MapMarker> mapMarkers;
+    }
+
+    @AuraEnabled
+    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode){
+        StudySiteService.SiteFilter filter = (StudySiteService.SiteFilter)JSON.deserialize(filterJSON, StudySiteService.SiteFilter.class);
+        PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
+        try {
+
+            SearchResult result = new SearchResult();
+            result.siteList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(filter, pagination, false);
+            for(Integer i = 1; i<= result.siteList.size(); i++){
+                result.siteList[i-1].site.Name = String.valueOf(i) + '. ' + result.siteList[i-1].site.Name;
+            }
+            result.mapMarkers = new List<MapMarker>();
+            for(StudySiteService.StudySiteDistanceWrapper siteWrapper : result.siteList){
+                if(siteWrapper.site.Site__r.BillingAddress != null){
+                    result.mapMarkers.add(new MapMarker(siteWrapper.site));
+                }
+            }
+            result.paginationData = pagination;
+            return JSON.serialize(result);
+        }catch (Exception e){
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
 
 }

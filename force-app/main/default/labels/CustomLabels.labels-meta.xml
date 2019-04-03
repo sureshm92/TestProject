@@ -251,6 +251,13 @@ Click OK to begin!</value>
         <value>Mark as Completed</value>
     </labels>
     <labels>
+        <fullName>BTN_My_Patients</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN My Patients</shortDescription>
+        <value>My Patients</value>
+    </labels>
+    <labels>
         <fullName>BTN_Next</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -333,6 +340,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN Refer</shortDescription>
         <value>Refer</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Refer_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Refer a Patient</shortDescription>
+        <value>Refer a Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Refer_Another_Patient_to_This_Study</fullName>
@@ -6308,6 +6322,20 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Changes made successfully</shortDescription>
         <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Kilometers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Kilometers</shortDescription>
+        <value>Kilometers</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Miles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Miles</shortDescription>
+        <value>Miles</value>
     </labels>
     <labels>
         <fullName>URL_Cookies</fullName>
