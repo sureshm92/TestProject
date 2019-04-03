@@ -47,10 +47,28 @@
         }
 
     },
+
     navigateToSitesSearch : function (component, event, helper) {
         var currentStudy = component.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
         communityService.navigateToPage("sites-search?id=" + trialId);
+    },
+
+    onEmailClick : function (component, event, helper) {
+        var hcpe = component.get('v.currentStudy').hcpEnrollments[0];
+        component.find('emailModal').show(hcpe);
+    },
+
+    onFacebookClick: function (component, event, helper) {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
+    },
+
+    onTwitterClick: function (component, event, helper) {
+        window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
+    },
+
+    onLinkedInClick: function (component, event, helper) {
+        window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
     }
-});
+})
