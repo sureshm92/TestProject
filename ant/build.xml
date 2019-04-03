@@ -87,6 +87,7 @@
         </xmltask>
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
+            <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
         </xmltask>
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
     </target>
