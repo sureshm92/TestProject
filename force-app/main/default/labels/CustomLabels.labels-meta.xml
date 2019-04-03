@@ -1824,6 +1824,76 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Interactive Advertising Bureau</value>
     </labels>
     <labels>
+        <fullName>MP_Motivation_Message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 1</shortDescription>
+        <value>Motivation message 1</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_10</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 10</shortDescription>
+        <value>MP Motivation Message 10</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 2</shortDescription>
+        <value>Motivation message 2</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 3</shortDescription>
+        <value>Motivation message 3</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 4</shortDescription>
+        <value>MP Motivation Message 4</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 5</shortDescription>
+        <value>MP Motivation Message 5</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 6</shortDescription>
+        <value>MP Motivation Message 6</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 7</shortDescription>
+        <value>MP Motivation Message 7</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 8</shortDescription>
+        <value>MP Motivation Message 8</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_9</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 9</shortDescription>
+        <value>MP Motivation Message 9</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Dashboard</fullName>
         <language>en_US</language>
         <protected>false</protected>
