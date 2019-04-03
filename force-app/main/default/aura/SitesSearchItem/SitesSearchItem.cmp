@@ -30,7 +30,7 @@
                 </div>
                 <aura:if isTrue="{!v.studySiteWrapper.siteType!='Virtual'}">
                     <div class="ssi-site-distance">
-                            {!v.studySiteWrapper.formatedDistance}
+                            <aura:unescapedHtml value="{!v.studySiteWrapper.formatedDistance}"/>
                     </div>
                 </aura:if>
             </div>

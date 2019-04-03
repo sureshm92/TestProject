@@ -2,17 +2,18 @@
  * Created by Kryvolap
  */
 ({
-    doInit: function (component, event, hepler) {
+    doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         var trialId = communityService.getUrlParameter('id');
         var spinner = component.find('mainSpinner');
         spinner.show();
-
+        window.addEventListener('resize', $A.getCallback(function(){
+            helper.doUpdateStudyTitle(component);
+        }));
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            debugger;
             component.set('v.skipUpdate', true);
             component.set('v.trial', initData.trial);
             component.set('v.pageList', initData.currentPageList);
@@ -20,15 +21,18 @@
             component.set('v.paginationData', initData.paginationData);
             component.set('v.siteFilter', initData.siteFilter);
             component.set('v.isInitialized', true);
+
             component.set('v.mapMarkers', initData.mapMarkers);
 
             component.set('v.skipUpdate', false);
             spinner.hide();
+            setTimeout($A.getCallback(function () {
+                helper.doUpdateStudyTitle(component);
+            }), 10);
         });
     },
 
     doUpdateRecords: function (component) {
-        debugger;
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordsSpinner');
         spinner.show();
@@ -51,4 +55,5 @@
             spinner.hide();
         })
     },
+
 })

@@ -11,7 +11,7 @@ public without sharing class MyTeamRemote {
         try {
             MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
             detail.currentUserContactId = CommunityService.getUserContact().Id;
-            detail.delegates = getDelegates(userMode, false, null);
+            detail.delegates = getDelegates(userMode, true, null);
             detail.delegateOptions = getDelegateOptions(userMode);
             if (userMode == CommunityService.USER_MODE_PI) {
                 detail.hasStudies = !StudySiteService.getStudySitesWithDelegateLevelFiltered( ACTIVE_STUDY_SITES_FILTER, new Set<String>{DelegateService.DELEGATE_LEVEL_1}).isEmpty();
@@ -64,7 +64,7 @@ public without sharing class MyTeamRemote {
 
             MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
             detail.currentUserContactId = CommunityService.getUserContact().Id;
-            detail.delegates = getDelegates(userMode, true, contactsToProcess);
+            detail.delegates = getDelegates(userMode, false, contactsToProcess);
             detail.delegateOptions = getDelegateOptions(userMode);
             detail.hasStudies = true;
             return JSON.serialize(detail);
@@ -74,8 +74,9 @@ public without sharing class MyTeamRemote {
 
     }
 
-    private static List<DelegateWrapper> getDelegates(String userMode, Boolean useProvidedContacts, List<Contact> delegatesToProcess) {
+    private static List<DelegateWrapper> getDelegates(String userMode, Boolean excludeCurrentUser, List<Contact> delegatesToProcess) {
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
+        Boolean useProvidedContacts = delegatesToProcess != null && !delegatesToProcess.isEmpty();
         if (userMode == CommunityService.USER_MODE_PI) {
             List<Study_Site__c> studySites;
             if(!useProvidedContacts){
@@ -103,7 +104,7 @@ public without sharing class MyTeamRemote {
                 }
 
                 for (Contact delegateContact : delegateContacts) {
-                    if(delegateContact.Id != CommunityService.getUserContact().Id) {
+                    if(!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
                     for (Study_Site__c study : studySites) {
@@ -152,7 +153,7 @@ public without sharing class MyTeamRemote {
                     }
                 }
                 for (Contact delegateContact : delegateContacts) {
-                    if(delegateContact.Id != CommunityService.getUserContact().Id) {
+                    if(!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
                         DelegateWrapper dw = new DelegateWrapper();
                         dw.delegateContact = delegateContact;
                         for (HCP_Enrollment__c enrollment : hcpEnrollments) {

@@ -14,17 +14,18 @@
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
-        <div class="slvi-top-container slvi-section">
-            <!-- Name: -->
+
             <aura:if isTrue="{!v.userMode == 'HCP'}">
-                <div class="slvi-name-section">
+                <div class="slvi-top-container-hcp slvi-section">
+                    <!-- Name: -->
+                <div class="slvi-name-section-hcp">
                     <div class="slds-grid slds-wrap">
                         <div class="slds-col slds-medium-size_10-of-12 slds-size_1-of-1 study-name">
-                            <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
+                            <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                         </div>
                     <!--Social Widgets-->
-                        <div class="slds-col slds-medium-size_2-of-12 slds-size_1-of-2 slds-order_3 slds-medium-order_2 rri-icon">
+                        <div class="slds-col slds-medium-size_2-of-12 slds-size_1-of-3 slds-order_3 slds-medium-order_2 rri-icon">
                             <a href="https://www.google.com" target="_blank">
                                 <span class="slds-m-around_x-small">
                                     <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
@@ -46,21 +47,28 @@
                                 </span>
                             </a>
                         </div>
-                        <div class="slds-col slds-size_6-of-12 slds-order_2 slds-medium-order_3 sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
+                        <div class="slds-col slds-size_2-of-3 slds-order_2 slds-medium-order_3 sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
                 </div>
 
 
                 </div>
                 <div class="slvi-objective-section">
-                    <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
+                    <div class="objective-text">
+                        {!v.currentStudy.trial.Detailed_Description__c}
+
+                    </div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
                             <c:RRIcon iconName="icon-chevron-right"/>
                         </c:RRLink>
                     </div>
+
                 </div>
+            </div>
             </aura:if>
+
             <aura:if isTrue="{!v.userMode != 'HCP'}">
+                <div class="slvi-top-container slvi-section">
                 <div class="slvi-name-section">
                     <div class="study-name">
                         <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
@@ -85,8 +93,9 @@
                         </c:RRLink>
                     </div>
                 </div>
+                </div>
+
             </aura:if>
-        </div>
 
         <!-- PI statistics: -->
         <c:StudyTotalPassed userMode="{!v.userMode}" statistics="{!v.currentStudy.statistics}" class="slvi-section"/>
@@ -131,7 +140,7 @@
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
-                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on refer a Patient to search for sites.</span>
+                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Study Site to search for sites.</span>
                                     </div>
                                 </aura:if>
                             </aura:if>
@@ -169,65 +178,73 @@
                 </div>
             </div>
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
-                <div style="padding: 0 40px 20px 40px">
+                <div class="slds-p-horizontal_medium slds-p-bottom_small">
 
                     <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
                         <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
                             <div class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_9-of-12">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
                                     <div class="clinic-name">
                                         {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
                                     </div>
                                     <div class="site-sub-header slds-m-top--x-small">{!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}</div>
                                 </div>
-                                <div class="slds-col slds-size_3-of-12">
-                                    <div class="site-sub-header" style="text-align: right;">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                                    <div class="site-sub-header site-distance">
                                         {!siteWrapper.site.Is_Virtual_Study_Site__c ? 'Virtual' :
                                         'Traditional'} Site
                                     </div>
-                                    <div class="site-sub-header slds-m-topxx-small" style="text-align: right;"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
+                                    <div class="site-sub-header slds-m-topxx-small site-distance"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
                                 </div>
                             </div>
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
-                                <div class="slds-col slds-size_4-of-12">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                     <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.MailingStreet}</div>
                                     <div class="site-address slds-m-top--xx-small">{!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}</div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-12">
+                                <div class="slds-col slds-show_medium slds-size_1-of-12">
                                     <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>
                                 </div>
-                                <div class="slds-col slds-size_4-of-12">
+                                <div class="slds-col slds-m-vertical_small slds-hide_medium slds-size_1-of-2">
+                                    <div style="height: 1px; background-color: gray; "></div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                     <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>
                                     <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>
                                     <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>
                                 </div>
-                                <div class="slds-col slds-size_3-of-12 slds-m-top--x-large">
-                                    <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
-                                            $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
-                                        <div style="text-align: right;">
-                                            <button class="apollo-btn primary"
-                                                    style="background-color: white; color: #297DFD; box-shadow: none;"
-                                                    onclick="{!c.doMyPatients}">
-                                                My Patients
-                                            </button>
-                                            <button class="apollo-btn primary" onclick="{!c.doReferPatient}"
-                                            disabled="{!siteWrapper.actions.refer.disabled}"
-                                            title="{!siteWrapper.actions.refer.disableReason}">Refer a
-                                                Patient
-                                            </button>
-                                        </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
+                                    <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
+                                        <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
+                                                $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <button class="apollo-btn primary slvi-site-btn"
+                                                        style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                        onclick="{!c.doMyPatients}">
+                                                    {!$Label.c.BTN_My_Patients}
+                                                </button>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <button class="apollo-btn primary slvi-site-btn" onclick="{!c.doReferPatient}"
+                                                disabled="{!siteWrapper.actions.refer.disabled}"
+                                                title="{!siteWrapper.actions.refer.disableReason}">
+                                                    {!$Label.c.BTN_Refer_a_Patient}
+                                                </button>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
+                                                $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action)}">
+                                            <div class="slds-col slds-size_1-of-3 slds-show_medium"/>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                                                <button disabled='disabled'
+                                                        class="apollo-btn tertiary slvi-site-btn"
+                                                        style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                        onclick="{!c.doMyPatients}">
+                                                    {!siteWrapper.hcpe.Status__c}
+                                                </button>
+                                            </div>
                                     </aura:if>
-                                    <aura:if isTrue="{!and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
-                                            $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action)}">
-                                        <div style="text-align: right;">
-                                            <button disabled='disabled'
-                                                    class="apollo-btn primary"
-                                                    style="background-color: white; color: #297DFD; box-shadow: none;"
-                                                    onclick="{!c.doMyPatients}">
-                                                {!siteWrapper.hcpe.Status__c}
-                                            </button>
-                                        </div>
-                                    </aura:if>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -176,7 +176,7 @@ public without sharing class StudyTrialService {
                 }
             }
             if (minDistance != null) {
-                trialIdToDistanceString.put(currTrialId, DistanceHelper.roundDouble(minDistance) + ' ' + DistanceHelper.getUnitsOfMeasurement());
+                trialIdToDistanceString.put(currTrialId, DistanceHelper.roundDouble(minDistance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel());
             }
         }
 

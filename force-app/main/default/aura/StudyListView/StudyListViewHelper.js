@@ -61,5 +61,41 @@
             currentPageList[i].trial.statusIcon = iconMap[currentPageList[i].trial.Override_Recruitment_Status__c];
             currentPageList[i].trial.iconStyle = styleMap[currentPageList[i].trial.Override_Recruitment_Status__c];
         }
-    }
+    },
+    doUpdateStudyTitle: function (component) {
+        debugger;
+        if(component.isValid()) {
+            var studyTitles = document.getElementsByClassName("study-title");
+            for(var i =0; i< studyTitles.length; i++){
+                var studyTitle = studyTitles.item(i);
+                if(studyTitle != null ){
+                    if(window.innerWidth < 768){
+                        $clamp(studyTitle,{clamp: 3});
+                    }
+                    else{
+                        $clamp(studyTitle,{clamp: 1});
+                    }
+                }
+            }
+
+        }
+    },
+    doUpdateStudyDescription: function (component) {
+        debugger;
+        if(component.isValid()) {
+            var studyDescriptions = document.getElementsByClassName("slvi-objective-section");
+            for(var i =0; i< studyDescriptions.length; i++){
+                var studyDescription = studyDescriptions.item(i);
+                if(studyDescription != null ){
+                    if(window.innerWidth < 768){
+                        $clamp(studyDescription.firstChild,{clamp: 3, truncationHTML : studyDescription.lastElementChild.innerHTML});
+                    }
+                    else{
+                        $clamp(studyDescription.firstChild,{clamp: 1, truncationHTML : studyDescription.lastElementChild.innerHTML});
+                    }
+                }
+            }
+
+        }
+    },
 });

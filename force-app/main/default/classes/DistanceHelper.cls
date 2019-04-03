@@ -14,6 +14,13 @@ public class DistanceHelper {
         }
         return unitsOfMeasurement;
     }
+    public static String getUnitsOfMeasurementLabel() {
+        if (unitsOfMeasurement == null || unitsOfMeasurement == '') {
+            init();
+        }
+
+        return (unitsOfMeasurement=='mi'?Label.UOM_Miles:Label.UOM_Kilometers);
+    }
     public static Location getUserLocation() {
         if (userLocation == null) {
             init();

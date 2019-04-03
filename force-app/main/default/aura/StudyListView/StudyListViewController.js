@@ -6,6 +6,10 @@
         component.set('v.userMode', userMode);
 
         if (userMode === 'HCP') {
+            window.addEventListener('resize', $A.getCallback(function(){
+                helper.doUpdateStudyTitle(component);
+                // helper.doUpdateStudyDescription(component);
+            }));
             communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 debugger;
@@ -20,6 +24,10 @@
 
                 component.set("v.showSpinner", false);
                 component.set('v.isInitialized', true);
+                setTimeout($A.getCallback(function () {
+                    helper.doUpdateStudyTitle(component);
+                    // helper.doUpdateStudyDescription(component);
+                }), 10);
             });
         } else {
             communityService.executeAction(component, 'getStudyTrialList', {
