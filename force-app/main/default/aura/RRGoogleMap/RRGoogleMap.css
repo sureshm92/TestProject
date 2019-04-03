@@ -6,3 +6,10 @@
 .THIS .slds-coordinates{
     display: none;
 }
+
+.THIS.inform-text{
+    margin-left: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 30px;
+}
