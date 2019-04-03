@@ -24,22 +24,22 @@
                 <!--Social Widgets-->
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <div class="rri-icon">
-                        <a href="https://www.google.com" target="_blank">
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onEmailClick}">
                             <span class="slds-m-around_x-small">
                                 <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
                             </span>
                         </a>
-                        <a href="https://www.google.com" target="_blank">
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onFacebookClick}">
                             <span class="slds-m-around_x-small">
                                 <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
                             </span>
                         </a>
-                        <a href="https://www.google.com" target="_blank">
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onTwitterClick}">
                             <span class="slds-m-around_x-small">
                                 <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
                             </span>
                         </a>
-                        <a href="https://www.google.com" target="_blank">
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onLinkedInClick}">
                             <span class="slds-m-around_x-small">
                                 <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
                             </span>
@@ -164,4 +164,6 @@
             </div>
         </aura:if>
     </div>
+
+    <c:ShareModal aura:id="emailModal" parent="{!v.parent}"/>
 </aura:component>
