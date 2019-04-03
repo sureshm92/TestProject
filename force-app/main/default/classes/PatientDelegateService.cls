@@ -21,6 +21,19 @@ public class PatientDelegateService {
         return patientDelegate.get(0).Contact__r.Id == userContact.Id;
     }
 
+    public static Id getDelegatePatientUserId(){
+        List<User> user = [
+                SELECT  Id
+                FROM    User
+                WHERE   ContactId = :getDelegatePatientUserContactId()
+                LIMIT   1
+        ];
+        if(user.isEmpty()){
+            AuraHelper.throwException(new PatientDelegateServiceException('Contact Delegate has no Patient'));
+        }
+        return user[0].Id;
+    }
+
     public static Id getDelegatePatientUserContactId() {
         if (!isPatientDelegate())
             AuraHelper.throwException(new PatientDelegateServiceException('Contact userType not Delegate'));
@@ -50,6 +63,19 @@ public class PatientDelegateService {
         List<Id> patientIds = new List<Id>();
         for(Patient_Delegate__c pd : getPatientDelegates()) patientIds.add(pd.Participant__c);
         return patientIds;
+    }
+
+    public static List<Id> getDelegatedParticipantUserIds(){
+        List<Id> userIds = new List<Id>();
+        List<User> users = [
+                SELECT  Id
+                FROM    User
+                WHERE   ContactId IN: getDelegatedParticipantIds()
+        ];
+        for(User user: users){
+            userIds.add(user.Id);
+        }
+        return userIds;
     }
 
     public static List<Patient_Delegate__c> getPatientDelegates() {

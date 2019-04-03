@@ -23,20 +23,31 @@ public class TaskService {
     };
     
     public static List<Task> getTasksCommon(String filter){
-        String ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
+        String ownerFilter;
+        if(!ParticipantService.getParticipantState().isDelegate){
+            ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
+        } else {
+            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatedParticipantUserIds() + '\'';
+        }
         if(filter == null) {
             filter = ownerFilter;
         }else{
             filter = ownerFilter + ' AND ' + filter;
         }
         String query = 'SELECT ' + String.join(DEFAULT_FIELDS, ',') + ' FROM Task WHERE ' + filter;
+        System.debug(query);
         List<Task> tasks = Database.query(query);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return tasks;
     }
     
     public static List<Task> getOpenTasks() {
-        return getTasksCommon(' Status=\'Open\' ORDER BY Priority, ActivityDate, CreatedDate');
+        return getTasksCommon(' Status=\'Open\'' + getVisibilityFilter() + ' ORDER BY Priority, ActivityDate, CreatedDate');
+    }
+
+    private static String getVisibilityFilter(){
+        String role = ParticipantService.getParticipantState().isDelegate ? 'Delegates' : 'Owner';
+        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
     }
     
     public static List<Task> getPreviewTasks(){
@@ -50,7 +61,7 @@ public class TaskService {
     }
     
     public static List<Task> getCompletedTasks(){
-        return getTasksCommon(' Status IN (\'Completed\', \'Ignored\') ORDER BY Completed_Date__c DESC');
+        return getTasksCommon(' Status IN (\'Completed\', \'Ignored\')' + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
     }
     
     public static void ignoreTask(Id taskId){

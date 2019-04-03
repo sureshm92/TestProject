@@ -70,17 +70,14 @@
             communityService.showErrorToast('', 'Task Name cannot be empty');
             return;
         }
-
-        communityService.executeAction(component, 'checkEmailPreferencesIsOn', {}, function () {
-            component.find('spinner').show();
-            communityService.executeAction(component, 'upsertTask', {
-                'paramTask': component.get('v.task')
-            }, function () {
-                window.history.go(-1);
-            }, null, function () {
-                component.find('spinner').hide();
-            })
-        });
+        component.find('spinner').show();
+        communityService.executeAction(component, 'upsertTask', {
+            'paramTask': component.get('v.task')
+        }, function () {
+            window.history.go(-1);
+        }, null, function () {
+            component.find('spinner').hide();
+        })
     },
 
     doDeleteTask: function (component, event, helper) {
