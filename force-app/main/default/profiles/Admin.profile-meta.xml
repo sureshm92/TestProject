@@ -3,7 +3,7 @@
     <applicationVisibilities>
         <application>Developer</application>
         <default>false</default>
-        <visible>false</visible>
+        <visible>true</visible>
     </applicationVisibilities>
     <applicationVisibilities>
         <application>IQVIA_RR_CRM</application>
@@ -20,6 +20,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Action_ChangePEStatusByPIRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Action_RequestToReferByHCPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -379,7 +383,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
->>>>>>> PH_R1_Sprint3
         <apexClass>PaginationData</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1437,6 +1440,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Visible_For__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3152,6 +3160,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Visible_For__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

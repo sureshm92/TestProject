@@ -21,6 +21,19 @@ public class PatientDelegateService {
         return patientDelegate.get(0).Contact__r.Id == userContact.Id;
     }
 
+    public static Id getDelegatePatientUserId(){
+        List<User> user = [
+                SELECT  Id
+                FROM    User
+                WHERE   ContactId = :getDelegatePatientUserContactId()
+                LIMIT   1
+        ];
+        if(user.isEmpty()){
+            AuraHelper.throwException(new PatientDelegateServiceException('Contact Delegate has no Patient'));
+        }
+        return user[0].Id;
+    }
+
     public static Id getDelegatePatientUserContactId() {
         if (!isPatientDelegate())
             AuraHelper.throwException(new PatientDelegateServiceException('Contact userType not Delegate'));
@@ -52,6 +65,19 @@ public class PatientDelegateService {
         return patientIds;
     }
 
+    public static List<Id> getDelegatedParticipantUserIds(){
+        List<Id> userIds = new List<Id>();
+        List<User> users = [
+                SELECT  Id
+                FROM    User
+                WHERE   ContactId IN: getDelegatedParticipantIds()
+        ];
+        for(User user: users){
+            userIds.add(user.Id);
+        }
+        return userIds;
+    }
+
     public static List<Patient_Delegate__c> getPatientDelegates() {
         return [
                 SELECT
@@ -61,7 +87,11 @@ public class PatientDelegateService {
                         Contact__r.Name,
                         Contact__r.FirstName,
                         Contact__r.LastName,
-                        Contact__r.Email
+                        Contact__r.Email,
+                        Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
+                        Contact__r.HCP_Opt_In_Study_Emails__c,
+                        Contact__r.HCP_Opt_In_Referral_Status_Emails__c
                 FROM Patient_Delegate__c
                 WHERE Participant__r.Contact__c = :CommunityService.getUserContact().Id
         ];

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
+        <application>Developer</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>IQVIA_RR_CRM</application>
         <default>false</default>
         <visible>false</visible>
@@ -15,6 +20,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Action_ChangePEStatusByPIRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Action_RequestToReferByHCPRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -155,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DistanceHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -334,6 +347,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NationalIdTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>NoTanksModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -358,6 +375,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEStatusHistoryTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PSETriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -371,6 +392,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDecoupler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -390,11 +415,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Path</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -490,6 +523,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SitesSearchRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SortOrder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -539,6 +576,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyTrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -599,6 +640,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_CommunityUserOnStudySite</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1398,6 +1443,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Visible_For__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Guides_Setting__mdt.HCP_Quick_Reference__c</field>
         <readable>false</readable>
@@ -1914,12 +1964,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>National_ID__c.Country_Code_Text__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>National_ID__c.Country_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>National_ID__c.Country__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>National_ID__c.Lead__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>National_ID__c.State_Code__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>National_ID__c.State__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1971,6 +2041,11 @@
         <editable>true</editable>
         <field>Opportunity.Survey_Result__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PSE_Status_History__c.Status__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2389,6 +2464,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.Fields__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.Named_Credential__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Status_Integration__mdt.Referral_Sources__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Study_Enrollment__c.Clinical_Trial_Profile__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2548,26 +2643,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Status_Integration__mdt.ApiFieldNames__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Status_Integration__mdt.Fields__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Status_Integration__mdt.Named_Credential__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Status_Integration__mdt.Referral_Sources__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Point_of_Contact__c.Contact__c</field>
         <readable>true</readable>
@@ -2686,11 +2761,6 @@
         <editable>true</editable>
         <field>Resource__c.Country__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Resource__c.Description__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3093,6 +3163,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Visible_For__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task_Catalog__mdt.Action_Link__c</field>
         <readable>false</readable>
@@ -3151,6 +3226,11 @@
         <editable>true</editable>
         <field>Terms_And_Conditions__c.Unique_Id__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Therapeutic_Area_Patient__c.Condition_Of_Interest_Order__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3292,6 +3372,9 @@
         <layout>Knowledge__kav-Knowledge Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Lead-Lead Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Material_Sent__c-Material Sent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3319,10 +3402,16 @@
         <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Participant_Status_Integration__mdt-Participant Status Integration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Participant__c-PII Compliant</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Participant_Status_Integration__mdt-Participant Status Integration Layout</layout>
+        <layout>Patient_Delegate__c-Caregiver Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
@@ -3343,6 +3432,9 @@
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
         <recordType>Resource__c.Video</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ScheduleIntervalSettings__mdt-ScheduleIntervalSetting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Score__c-Score Layout</layout>
@@ -3367,6 +3459,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Tracking_Information__c-Tracking Information Layout</layout>
@@ -3742,6 +3837,10 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
+        <tab>Alert__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>CTE__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -3770,6 +3869,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Patient_Delegate__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Resource__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -3792,6 +3895,10 @@
     <tabVisibilities>
         <tab>Terms_And_Conditions__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Therapeutic_Area__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Translation_Import_Export</tab>
@@ -3860,11 +3967,19 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>EnableCommunityAppLauncher</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>EnableNotifications</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>ExportReport</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>FieldServiceAccess</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
