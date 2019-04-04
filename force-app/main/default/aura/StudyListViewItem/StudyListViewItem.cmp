@@ -50,6 +50,31 @@
                         <div class="slds-col slds-size_2-of-3 slds-order_2 slds-medium-order_3 sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
                 </div>
 
+                <!--Social Widgets-->
+                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                    <div class="rri-icon">
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onEmailClick}">
+                            <span class="slds-m-around_x-small">
+                                <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
+                            </span>
+                        </a>
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onFacebookClick}">
+                            <span class="slds-m-around_x-small">
+                                <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
+                            </span>
+                        </a>
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onTwitterClick}">
+                            <span class="slds-m-around_x-small">
+                                <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
+                            </span>
+                        </a>
+                        <a href="javascript:void(0);" target="_blank" onclick="{!c.onLinkedInClick}">
+                            <span class="slds-m-around_x-small">
+                                <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
+                            </span>
+                        </a>
+                    </div>
+                </aura:if>
 
                 </div>
                 <div class="slvi-objective-section">
@@ -261,4 +286,6 @@
             </div>
         </aura:if>
     </div>
+
+    <c:ShareModal aura:id="emailModal" parent="{!v.parent}"/>
 </aura:component>
