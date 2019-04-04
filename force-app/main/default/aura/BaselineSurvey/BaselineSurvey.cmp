@@ -1,0 +1,21 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="BaselineSurvey" implements="forceCommunity:availableForAllPageTypes">
+
+    <!-- aura attributes: -->
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <!-- component body: -->
+    <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
+                backPage="study-workspace"
+                smallTitle="TODO Study Name Here"
+                bigTitle="{!$Label.c.PG_BLS_Header}">
+
+        <aura:if isTrue="{!v.initialized}">
+        </aura:if>
+
+    </c:RRTopBar>
+
+</aura:component>
