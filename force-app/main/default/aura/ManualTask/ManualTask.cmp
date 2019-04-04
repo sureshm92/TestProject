@@ -9,7 +9,8 @@
 
     <!--attributes: -->
     <aura:attribute name="task" type="Task"/>
-    <aura:attribute name="priorities" type="String[]"/>
+    <aura:attribute name="priorities" type="List"/>
+    <aura:attribute name="visibility" type="List"/>
     <aura:attribute name="showNumbersAdd" type="Boolean" default="false"/>
     <aura:attribute name="dateRemind" type="Date"/>
     <aura:attribute name="dayRemind" type="Integer"/>
@@ -60,10 +61,21 @@
                 <div class="section-title">Filters for Task recipients</div>
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2">
-                        <lightning:checkboxGroup
-                                name="patientStatus" label="Set Patient Status"
-                                options="{!v.patientStatuses}"
-                                value="{!v.statuses}" required="true"/>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size--1-of-2">
+                                <lightning:checkboxGroup
+                                        name="patientStatus" label="Set Patient Status"
+                                        options="{!v.patientStatuses}"
+                                        value="{!v.statuses}" required="true"/>
+                            </div>
+                            <div class="slds-col slds-size--1-of-2">
+                                <lightning:select label="Make this Task visible to:" value="{!v.task.Visible_For__c}">
+                                    <aura:iteration items="{!v.visibility}" var="visible">
+                                        <option label="{!visible.label}" value="{!visible.value}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
 
                         <c:ManualTaskLookup label="Therapeutic Area" selection="{!v.taskFilters.areas}"
                                             objType="therapeutic"/>
