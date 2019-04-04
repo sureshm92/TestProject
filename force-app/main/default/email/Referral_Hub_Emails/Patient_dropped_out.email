@@ -1,0 +1,26 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient}"
+                         recipientType="User"
+                         relatedToType="Participant_Study_Enrollment__c"
+                         language="{!relatedTo.Participant__r.Contact__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="Participant"
+                         sourceId="{!relatedTo.Id}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Patient16}"
+                         signature="{!$Label.Email_Signature_drop_out}">       
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="Participant"
+                             sourceId="{!relatedTo.Id}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_Patient16}"
+                             signature="{!$Label.Email_Signature_drop_out}">
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

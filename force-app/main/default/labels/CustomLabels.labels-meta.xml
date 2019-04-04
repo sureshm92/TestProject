@@ -1052,6 +1052,13 @@ If you would like to be contacted about future clinical research opportunities, 
         <value>Congratulations, you have been enrolled in the clinical research study: ##StudyTitle. You will be contacted by the Principal Investigator’s site regarding next steps in the study process. To track your clinical research study status, please login to the IQVIA™ Patient Hub.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient16</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_Patient16</shortDescription>
+        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. We want to ensure you are successful as you continue to manage your health. Please feel free to contact us at any time, if we can be of assistance with any future trial information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1554,6 +1561,15 @@ The IQVIA Patient Hub Support Team</value>
 The IQVIA Study Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_drop_out</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature drop out</shortDescription>
+        <value>Best Regards,
+
+IQVIA Study Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1887,18 +1903,18 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Reports</value>
     </labels>
     <labels>
-        <fullName>Navigation_Settings</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Navigation Settings</shortDescription>
-        <value>Settings</value>
-    </labels>
-    <labels>
         <fullName>Navigation_Search_for_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Navigation Search for Sites</shortDescription>
         <value>Search for Sites</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Settings</shortDescription>
+        <value>Settings</value>
     </labels>
     <labels>
         <fullName>No_Access</fullName>
@@ -2329,7 +2345,6 @@ If you are prompted with a window indicating that the file format and extension 
         <shortDescription>PE MedicalRecordReview</shortDescription>
         <value>Medical Record Review</value>
     </labels>
-
     <labels>
         <fullName>PE_Patient_Id</fullName>
         <language>en_US</language>
@@ -5140,13 +5155,6 @@ is a placehilder to show you what it would look like.</value>
         <value>Site Type</value>
     </labels>
     <labels>
-        <fullName>PG_SFS_L_sites</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG SFS sites</shortDescription>
-        <value>sites</value>
-    </labels>
-    <labels>
         <fullName>PG_SFS_L_Therapeutic_Area</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5166,6 +5174,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SFS Virtual</shortDescription>
         <value>Virtual</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS sites</shortDescription>
+        <value>sites</value>
     </labels>
     <labels>
         <fullName>PG_SHR_Body</fullName>
@@ -5658,11 +5673,39 @@ is a placehilder to show you what it would look like.</value>
         <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
     </labels>
     <labels>
+        <fullName>Resources_Featured_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Article</shortDescription>
+        <value>Featured Article</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Featured_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Featured Video</shortDescription>
+        <value>Featured Video</value>
+    </labels>
+    <labels>
         <fullName>Resources_Image_Unavailable</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Resources Image Unavailable</shortDescription>
         <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Articles</shortDescription>
+        <value>More Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resources_More_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources More Videos</shortDescription>
+        <value>More Videos</value>
     </labels>
     <labels>
         <fullName>Resources_No_Articles</fullName>
@@ -5693,46 +5736,18 @@ is a placehilder to show you what it would look like.</value>
         <value>You have not selected any Conditions Of Interest.</value>
     </labels>
     <labels>
-        <fullName>Resources_See_All</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources See All</shortDescription>
-        <value>See All</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Video</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Video</shortDescription>
-        <value>Featured Video</value>
-    </labels>
-    <labels>
-        <fullName>Resources_Featured_Article</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources Featured Article</shortDescription>
-        <value>Featured Article</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Articles</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Articles</shortDescription>
-        <value>More Articles</value>
-    </labels>
-    <labels>
-        <fullName>Resources_More_Videos</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources More Videos</shortDescription>
-        <value>More Videos</value>
-    </labels>
-    <labels>
         <fullName>Resources_No_Videos</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Videos</shortDescription>
         <value>Videos will be published shortly. Check back for updates.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources See All</shortDescription>
+        <value>See All</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
