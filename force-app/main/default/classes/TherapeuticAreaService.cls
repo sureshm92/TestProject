@@ -11,7 +11,7 @@ public with sharing class TherapeuticAreaService {
         return tANames;
     }
 
-    public Map<String, Therapeutic_Area__c> getTherapeuticAreasByNames(List<Therapeutic_Area__c> therapeuticAreas) {
+    public Map<String, Therapeutic_Area__c> getTAsByNamesMap(List<Therapeutic_Area__c> therapeuticAreas) {
         Map<String, Therapeutic_Area__c> tAsByNames = new Map<String, Therapeutic_Area__c>();
         for (Therapeutic_Area__c singleTA : therapeuticAreas) {
             tAsByNames.put(singleTA.Name, singleTA);
@@ -19,7 +19,7 @@ public with sharing class TherapeuticAreaService {
         return tAsByNames;
     }
 
-    public List<Therapeutic_Area__c> createTherapeuticAreas(Set<String> therapeuticAreaNames) {
+    public List<Therapeutic_Area__c> createTAsByNames(Set<String> therapeuticAreaNames) {
         List<Therapeutic_Area__c> therapeuticAreas = new List<Therapeutic_Area__c>();
         for (String singleTAName : therapeuticAreaNames) {
             therapeuticAreas.add(new Therapeutic_Area__c(Name = singleTAName));
@@ -28,7 +28,7 @@ public with sharing class TherapeuticAreaService {
         return therapeuticAreas;
     }
 
-    public List<Therapeutic_Area__c> getTherapeuticAreas(Set<String> tANames, Boolean createIfNotExist) {
+    public List<Therapeutic_Area__c> getTAsByNames(Set<String> tANames, Boolean createIfNotExist) {
 
         List<Therapeutic_Area__c> therapeuticAreas = [SELECT Id, Name FROM Therapeutic_Area__c WHERE Name IN :tANames];
         if(!createIfNotExist) {
@@ -40,7 +40,7 @@ public with sharing class TherapeuticAreaService {
         }
         tANames.removeAll(existingTANames);
         if (!tANames.isEmpty()) {
-            therapeuticAreas.addAll(this.createTherapeuticAreas(tANames));
+            therapeuticAreas.addAll(this.createTAsByNames(tANames));
         }
         return therapeuticAreas;
     }

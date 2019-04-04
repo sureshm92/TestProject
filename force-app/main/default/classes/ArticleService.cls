@@ -9,7 +9,7 @@ public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
 
-    public void calculateExpirationDateBeforeInsert(List<Resource__c> resources) {
+    public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
                 this.calculateExpirationDateBeforeInsert(resource);
@@ -18,7 +18,7 @@ public with sharing class ArticleService {
 
     }
 
-    public void calculateExpirationDateBeforeUpdate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
+    public void calculateExpirationDate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resourcesNew) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
                 this.calculateExpirationDateBeforeUpdate(resource, oldResMap.get(resource.Id));
@@ -26,7 +26,7 @@ public with sharing class ArticleService {
         }
     }
 
-    public void processTherapeuticAreasAfterInsert(List<Resource__c> resources) {
+    public void processTherapeuticAreas(List<Resource__c> resources) {
 
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
@@ -34,11 +34,11 @@ public with sharing class ArticleService {
         for (Resource__c singleResource : resources) {
             tANames.addAll(tAService.getTANamesOnResource(singleResource));
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTherapeuticAreas(tANames, true);
-        tAAService.createTherapeuticAreaAssignments(therapeuticAreas, resources);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        tAAService.createTAAsForResources(therapeuticAreas, resources);
     }
 
-    public void processTherapeuticAreasAfterUpdate(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
+    public void processTherapeuticAreas(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
 
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
@@ -46,8 +46,8 @@ public with sharing class ArticleService {
         for (Resource__c singleResource : newResources) {
             tANames.addAll(tAService.getTANamesOnResource(singleResource));
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTherapeuticAreas(tANames, true);
-        tAAService.processAssignments(newResources, oldResourcesByIds, therapeuticAreas);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        tAAService.createDeleteTAAs(newResources, oldResourcesByIds, therapeuticAreas);
     }
 
     public void addDefaultImage(List<Resource__c> resources) {

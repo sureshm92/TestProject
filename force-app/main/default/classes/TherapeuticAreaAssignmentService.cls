@@ -3,33 +3,33 @@ Created by Dmytro Pokutnii
 */
 public with sharing class TherapeuticAreaAssignmentService {
 
-    public void createTherapeuticAreaAssignments(List<Therapeutic_Area__c> therapeuticAreas, List<Resource__c> resources) {
+    public void createTAAsForResources(List<Therapeutic_Area__c> therapeuticAreas, List<Resource__c> resources) {
 
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
-        Map<String, Therapeutic_Area__c> tAsByNames = tAService.getTherapeuticAreasByNames(therapeuticAreas);
+        Map<String, Therapeutic_Area__c> tAsByNames = tAService.getTAsByNamesMap(therapeuticAreas);
         List<Therapeutic_Area_Assignment__c> tAAsToCreate = new List<Therapeutic_Area_Assignment__c>();
         for (Resource__c singleResource : resources) {
-            tAAsToCreate.addAll(this.createTherapeuticAreaAssignments(tAsByNames, singleResource));
+            tAAsToCreate.addAll(this.createTAAsForResource(tAsByNames, singleResource));
         }
         insert tAAsToCreate;
     }
 
-    public void processAssignments(List<Resource__c> newResource, Map<Id, Resource__c> oldResourcesByIds, List<Therapeutic_Area__c> therapeuticAreas) {
+    public void createDeleteTAAs(List<Resource__c> newResource, Map<Id, Resource__c> oldResourcesByIds, List<Therapeutic_Area__c> therapeuticAreas) {
 
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
-        Map<String, Therapeutic_Area__c> tAsByNames = tAService.getTherapeuticAreasByNames(therapeuticAreas);
+        Map<String, Therapeutic_Area__c> tAsByNames = tAService.getTAsByNamesMap(therapeuticAreas);
         List<TAAWrapper> wrappers = new List<TAAWrapper>();
         for (Resource__c singleResource : newResource) {
             wrappers.add(this.getTAAWrapper(singleResource, oldResourcesByIds.get(singleResource.Id)));
         }
-        this.createTAAs(wrappers, tAsByNames);
-        this.deleteTAAs(wrappers);
+        this.createTAAsByWrappers(wrappers, tAsByNames);
+        this.deleteTAAsByWrappers(wrappers);
     }
 
-    private void deleteTAAs(List<TAAWrapper> wrappers) {
+    private void deleteTAAsByWrappers(List<TAAWrapper> wrappers) {
 
-        List<Therapeutic_Area_Assignment__c> tAAs = this.getTAAs(wrappers);
-        Map<Id, List<Therapeutic_Area_Assignment__c>> tAAsByResourceId = this.getTAAsByResourceId(tAAs);
+        List<Therapeutic_Area_Assignment__c> tAAs = this.getTAAsByTAAWrappers(wrappers);
+        Map<Id, List<Therapeutic_Area_Assignment__c>> tAAsByResourceId = this.getTAAsByResourceIdMap(tAAs);
         List<Therapeutic_Area_Assignment__c> tAAsToDelete = new List<Therapeutic_Area_Assignment__c>();
         for (TAAWrapper singleWrapper : wrappers) {
             tAAsToDelete.addAll(this.getTAAsToDelete(singleWrapper, tAAsByResourceId));
@@ -37,7 +37,7 @@ public with sharing class TherapeuticAreaAssignmentService {
         delete tAAsToDelete;
     }
 
-    private void createTAAs(List<TAAWrapper> wrappers, Map<String, Therapeutic_Area__c> tAsByNames) {
+    private void createTAAsByWrappers(List<TAAWrapper> wrappers, Map<String, Therapeutic_Area__c> tAsByNames) {
 
         List<Therapeutic_Area_Assignment__c> tAAsToCreate = new List<Therapeutic_Area_Assignment__c>();
         for (TAAWrapper singleWrapper : wrappers) {
@@ -65,7 +65,7 @@ public with sharing class TherapeuticAreaAssignmentService {
         return tAAsToDelete;
     }
 
-    private List<Therapeutic_Area_Assignment__c> getTAAs(List<TAAWrapper> wrappers) {
+    private List<Therapeutic_Area_Assignment__c> getTAAsByTAAWrappers(List<TAAWrapper> wrappers) {
 
         Set<String> tANamesToDelete = new Set<String>();
         Set<Id> resourceIds = new Set<Id>();
@@ -85,7 +85,7 @@ public with sharing class TherapeuticAreaAssignmentService {
         return tAAs;
     }
 
-    private Map<Id, List<Therapeutic_Area_Assignment__c>> getTAAsByResourceId(List<Therapeutic_Area_Assignment__c> tAAs) {
+    private Map<Id, List<Therapeutic_Area_Assignment__c>> getTAAsByResourceIdMap(List<Therapeutic_Area_Assignment__c> tAAs) {
 
         Map<Id, List<Therapeutic_Area_Assignment__c>> tAAsByResourceId = new Map<Id, List<Therapeutic_Area_Assignment__c>>();
         for (Therapeutic_Area_Assignment__c singleTAA : tAAs) {
@@ -116,7 +116,7 @@ public with sharing class TherapeuticAreaAssignmentService {
         return result;
     }
 
-    private List<Therapeutic_Area_Assignment__c> createTherapeuticAreaAssignments(Map<String, Therapeutic_Area__c> tAsByNames, Resource__c resource) {
+    private List<Therapeutic_Area_Assignment__c> createTAAsForResource(Map<String, Therapeutic_Area__c> tAsByNames, Resource__c resource) {
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         List<Therapeutic_Area_Assignment__c> tAAs = new List<Therapeutic_Area_Assignment__c>();
         Set<String> tANames = tAService.getTANamesOnResource(resource);
