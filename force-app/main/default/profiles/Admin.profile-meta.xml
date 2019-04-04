@@ -1447,6 +1447,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Visible_For__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Guides_Setting__mdt.HCP_Quick_Reference__c</field>
         <readable>true</readable>
@@ -3159,6 +3164,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Visible_For__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

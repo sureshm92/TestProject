@@ -18,6 +18,9 @@ public without sharing class TaskEditRemote {
             if (paramTask.OwnerId == null) {
                 paramTask.OwnerId = Id.valueOf(UserInfo.getUserId());
             }
+            if (paramTask.Visible_For__c == null) {
+                paramTask.Visible_For__c = 'Owner;Delegates;';
+            }
             upsert paramTask;
 
         } catch (Exception e) {
