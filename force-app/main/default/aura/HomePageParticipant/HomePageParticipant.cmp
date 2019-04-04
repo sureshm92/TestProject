@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="welcomeMessage" type="String"/>
     <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="pse" type="Object"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -40,9 +41,12 @@
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <div class="slds-col">
-                            <c:UpcomingVisitsPreviewPanel/>
-                        </div>
+                        <!--Show if status is Enrolled-->
+                        <aura:if isTrue="{!!empty(v.pse)}">
+                            <div class="slds-col">
+                                <c:UpcomingVisitsPreviewPanel/>
+                            </div>
+                        </aura:if>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
