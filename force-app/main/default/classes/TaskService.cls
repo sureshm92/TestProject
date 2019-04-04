@@ -21,75 +21,36 @@ public class TaskService {
             'Completed_Date__c',
             'ActivityDate',
             'Task_Code__c',
-            'WhatId'
+            'WhatId',
+            'Task_Type__c'
     };
     
     public static List<Task> getTasksCommon(String filter){
-        String ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
+        String ownerFilter;
+        if(!ParticipantService.getParticipantState().isDelegate){
+            ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
+        } else {
+            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatedParticipantUserIds() + '\'';
+        }
         if(filter == null) {
             filter = ownerFilter;
         }else{
             filter = ownerFilter + ' AND ' + filter;
         }
         String query = 'SELECT ' + String.join(DEFAULT_FIELDS, ',') + ' FROM Task WHERE ' + filter;
+        System.debug(query);
         List<Task> tasks = Database.query(query);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return tasks;
     }
     
     public static List<Task> getOpenTasks() {
-        return getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
-//        List<Task> openTasks = getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
-//        List<String> priorities = new List<String>{'Critical', 'High', 'Medium', 'Normal', 'Low'};
-//        Map<String, List<Task>> priorityTasksMap = new Map<String, List<Task>>();
-//        List<Task> sortedTasks = new List<Task>();
-//
-//        System.debug('Open Tasks: ' + openTasks);
-//
-//        // initialize map
-//        for (String t: priorities) {
-//            priorityTasksMap.put(t, new List<Task>());
-//        }
-//        // fill map with Task's List
-//        for (Task t: openTasks) {
-//            if (t.Priority.equals('Critical')) {
-//                System.debug('Here is Critical');
-//                List<Task> critical = priorityTasksMap.get('Critical');
-//                critical.add(t);
-//                priorityTasksMap.put('Critical', critical);
-//            } else if (t.Priority == 'High') {
-//                List<Task> high = priorityTasksMap.get('High');
-//                high.add(t);
-//                priorityTasksMap.put('High', high);
-//            } else if (t.Priority == 'Medium') {
-//                List<Task> medium = priorityTasksMap.get('Medium');
-//                medium.add(t);
-//                priorityTasksMap.put('Medium', medium);
-//            } else if (t.Priority == 'Normal') {
-//                List<Task> normal = priorityTasksMap.get('Normal');
-//                normal.add(t);
-//                priorityTasksMap.put('Normal', normal);
-//            } else if (t.Priority == 'Low') {
-//                List<Task> low = priorityTasksMap.get('Low');
-//                low.add(t);
-//                priorityTasksMap.put('Low', low);
-//            }
-//        }
-//
-//        for (String priority: priorities) {
-//            List<Task> prTasks = priorityTasksMap.get(priority);
-//            for (Integer i = 0; i < prTasks.size(); i++) {
-//                if (i == (prTasks.size()-1)) {
-//                    sortedTasks.add(prTasks.get(prTasks.size()-1));
-//                    break;
-//                }
-//                if (prTasks.get(i).CreatedDate > prTasks.get(i+1).CreatedDate) {
-//                    sortedTasks.add(prTasks.get(i));
-//                }
-//            }
-//        }
-//
-//        return sortedTasks;
+        return getTasksCommon(' Status=\'Open\'' + getVisibilityFilter() + ' ORDER BY Priority, ActivityDate, CreatedDate');
+    }
+
+    private static String getVisibilityFilter(){
+        String role = ParticipantService.getParticipantState().isDelegate ? 'Delegates' : 'Owner';
+        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
     }
     
     public static List<Task> getPreviewTasks(){
@@ -102,12 +63,8 @@ public class TaskService {
         return tasks[0];
     }
     
-    public static List<Task> getMyTasks(){
-        return getTasksCommon(' Status=\'Open\' AND CreatedById = \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC');
-    }
-    
     public static List<Task> getCompletedTasks(){
-        return getTasksCommon(' Status IN (\'Completed\', \'Ignored\') ORDER BY Completed_Date__c DESC');
+        return getTasksCommon(' Status IN (\'Completed\', \'Ignored\')' + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
     }
     
     public static void ignoreTask(Id taskId){
