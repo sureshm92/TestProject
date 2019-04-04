@@ -19,7 +19,8 @@ public class TaskService {
             'ActivityDate',
             'Task_Code__c',
             'WhatId',
-            'Task_Type__c'
+            'Task_Type__c',
+            'Visible_For__c'
     };
     
     public static List<Task> getTasksCommon(String filter){
@@ -27,7 +28,7 @@ public class TaskService {
         if(!ParticipantService.getParticipantState().isDelegate){
             ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
         } else {
-            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatedParticipantUserIds() + '\'';
+            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatePatientUserContactId() + '\'';
         }
         if(filter == null) {
             filter = ownerFilter;
