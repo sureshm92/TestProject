@@ -37,9 +37,9 @@
                 </lightning:select>
 
                 <lightning:input type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}"
-                                 required="true"/>
+                                 required="true" onchange="{!c.dateValid}"/>
                 <lightning:input aura:id="due" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
-                                 onchange="{!c.dueDateValid}"/>
+                                 onchange="{!c.dateValid}"/>
 
                 <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
                     <aura:if isTrue="{!not(empty(v.task.ActivityDate))}">
