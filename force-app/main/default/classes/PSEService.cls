@@ -54,7 +54,8 @@ public without sharing class PSEService {
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
-            'Study_Site__r.Site__r.Name'
+            'Study_Site__r.Site__r.Name',
+            'Motivational_Message_Id__c'
     };
     
     public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){

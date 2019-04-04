@@ -45,21 +45,28 @@ public class PatientDelegateService {
         ];
         return patientDelegate.get(0).Participant__r.Contact__r.Id;
     }
-
+    
     public static List<Contact> getDelegateContacts() {
+        return getDelegateContacts(CommunityService.getUserContact().Id);
+    }
+    
+    public static List<Contact> getDelegateContacts(Id participantContactId) {
         List<Contact> contacts = new List<Contact>();
-        for (Patient_Delegate__c pd : getPatientDelegates()) contacts.add(pd.Contact__r);
+        for (Patient_Delegate__c pd : getPatientDelegates(participantContactId)) contacts.add(pd.Contact__r);
         return contacts;
     }
-
+    
     public static List<Id> getDelegatedContactIds() {
+        return getDelegatedContactIds(CommunityService.getUserContact().Id);
+    }
+    
+    public static List<Id> getDelegatedContactIds(Id participantContactId) {
         List<Id> conIds = new List<Id>();
-        for (Contact con : getDelegateContacts()) conIds.add(con.Id);
+        for (Contact con : getDelegateContacts(participantContactId)) conIds.add(con.Id);
         return conIds;
     }
-
+    
     public static List<Id> getDelegatedParticipantIds(){
-        List<Patient_Delegate__c> patientDelegates = getPatientDelegates();
         List<Id> patientIds = new List<Id>();
         for(Patient_Delegate__c pd : getPatientDelegates()) patientIds.add(pd.Participant__c);
         return patientIds;
@@ -79,6 +86,10 @@ public class PatientDelegateService {
     }
 
     public static List<Patient_Delegate__c> getPatientDelegates() {
+        return getPatientDelegates(CommunityService.getUserContact().Id);
+    }
+    
+    public static List<Patient_Delegate__c> getPatientDelegates(Id participantContactId){
         return [
                 SELECT
                         Id,
@@ -93,7 +104,7 @@ public class PatientDelegateService {
                         Contact__r.HCP_Opt_In_Study_Emails__c,
                         Contact__r.HCP_Opt_In_Referral_Status_Emails__c
                 FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c = :CommunityService.getUserContact().Id
+                WHERE Participant__r.Contact__c = : participantContactId
         ];
     }
 

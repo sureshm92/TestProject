@@ -6,6 +6,9 @@ public class TaskService {
     
     public class TaskServiceException extends Exception{}
     
+    public static final String TASK_TYPE_MEDICATION = 'Medication';
+    public static final String TASK_TYPE_VISIT = 'Visit';
+    
     public static final List<String> DEFAULT_FIELDS = new List<String>{
             'Id',
             'Status',
