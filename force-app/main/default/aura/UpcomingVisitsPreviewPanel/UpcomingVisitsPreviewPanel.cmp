@@ -7,7 +7,7 @@
         <div class="sv-header">
             <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
             <button class="apollo-btn primary sv-btn" onclick="{!c.onBookTravel}">
-                {!$Label.c.Home_Page_StudyVisit_Button}
+                {!$Label.c.Home_Page_StudyVisit_Btn}
             </button>
         </div>
         <div class="sv-body">
