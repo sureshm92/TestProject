@@ -1059,6 +1059,13 @@ If you would like to be contacted about future clinical research opportunities, 
         <value>Congratulations, you have been enrolled in the clinical research study: ##StudyTitle. You will be contacted by the Principal Investigator’s site regarding next steps in the study process. To track your clinical research study status, please login to the IQVIA™ Patient Hub.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient16</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_Patient16</shortDescription>
+        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. We want to ensure you are successful as you continue to manage your health. Please feel free to contact us at any time, if we can be of assistance with any future trial information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1566,6 +1573,15 @@ The IQVIA Patient Hub Support Team</value>
         <value>Sincerely, 
 
 The IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_drop_out</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature drop out</shortDescription>
+        <value>Best Regards,
+
+IQVIA Study Team</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
