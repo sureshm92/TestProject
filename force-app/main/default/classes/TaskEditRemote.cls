@@ -15,11 +15,17 @@ public without sharing class TaskEditRemote {
     @AuraEnabled
     public static String upsertTask(Task paramTask) {
         try{
-            if (paramTask.OwnerId == null) {
+            Boolean isDelegate = ParticipantService.getParticipantState().isDelegate;
+            if(isDelegate){
+                paramTask.OwnerId = Id.valueOf(PatientDelegateService.getDelegatePatientUserId());
+            } else{
                 paramTask.OwnerId = Id.valueOf(UserInfo.getUserId());
             }
             if (paramTask.Visible_For__c == null) {
-                paramTask.Visible_For__c = 'Owner;Delegates;';
+                paramTask.Visible_For__c = 'Owner;Delegates';
+            }
+            if(paramTask.Task_Type__c == 'Medication' && paramTask.Task_Type__c == 'Visit'){
+                paramTask.WhatId = ParticipantService.getParticipantState().pse.Id;
             }
             upsert paramTask;
 
@@ -99,6 +105,7 @@ public without sharing class TaskEditRemote {
         wrapper.emailPreferencesDelegateIsOn = checkDelegatesPreferencesIsOn(wrapper);
         wrapper.taskTypeList = getTaskTypeList();
         wrapper.isDelegate = ParticipantService.getParticipantState().isDelegate;
+        wrapper.isReferral = (ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.REFERRAL);
         return wrapper;
     }
 
@@ -115,6 +122,8 @@ public without sharing class TaskEditRemote {
         public Boolean isDelegate {get;set;}
         @AuraEnabled
         public Boolean hasDelegates {get;set;}
+        @AuraEnabled
+        public Boolean isReferral {get;set;}
 
         public TaskEditDataWrapper(){
             task = new Task();
@@ -123,6 +132,7 @@ public without sharing class TaskEditRemote {
             taskTypeList = new List<String>();
             isDelegate = false;
             hasDelegates = false;
+            isReferral = true;
         }
     }
 }

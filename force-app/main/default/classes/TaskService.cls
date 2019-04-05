@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class TaskService {
+public without sharing class TaskService {
     
     public class TaskServiceException extends Exception{}
     
@@ -22,7 +22,8 @@ public class TaskService {
             'ActivityDate',
             'Task_Code__c',
             'WhatId',
-            'Task_Type__c'
+            'Task_Type__c',
+            'Visible_For__c'
     };
     
     public static List<Task> getTasksCommon(String filter){
@@ -30,7 +31,7 @@ public class TaskService {
         if(!ParticipantService.getParticipantState().isDelegate){
             ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
         } else {
-            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatedParticipantUserIds() + '\'';
+            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatePatientUserId() + '\'';
         }
         if(filter == null) {
             filter = ownerFilter;
@@ -45,7 +46,7 @@ public class TaskService {
     }
     
     public static List<Task> getOpenTasks() {
-        return getTasksCommon(' Status=\'Open\'' + getVisibilityFilter() + ' ORDER BY Priority, ActivityDate, CreatedDate');
+        return getTasksCommon(' Status=\'Open\'' + getVisibilityFilter() + ' ORDER BY Priority, ActivityDate NULLS LAST, CreatedDate');
     }
 
     private static String getVisibilityFilter(){

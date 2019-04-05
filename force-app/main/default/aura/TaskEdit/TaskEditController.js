@@ -34,6 +34,10 @@
             component.set('v.hasDelegates', wrapper.hasDelegates);
             component.set('v.emailDelegateTurnedOn', wrapper.emailPreferencesDelegateIsOn);
             component.set('v.emailParticipantTurnedOn', wrapper.emailPreferencesParticipantIsOn);
+            component.set('v.isReferral', wrapper.isReferral);
+            if(wrapper.isReferral){
+                component.set('v.task.Task_Type__c', null);
+            }
             console.log(!wrapper.emailPreferencesParticipantIsOn);
             console.log(!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates);
             console.log((!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates) || !wrapper.hasDelegates);

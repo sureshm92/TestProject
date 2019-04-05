@@ -17,6 +17,7 @@
     <aura:attribute name="emailParticipantTurnedOn" type="Boolean"/>
     <aura:attribute name="emailDelegateTurnedOn" type="Boolean"/>
     <aura:attribute name="isDelegate" type="Boolean"/>
+    <aura:attribute name="isReferral" type="Boolean"/>
     <aura:attribute name="hasDelegates" type="Boolean"/>
 
     <!-- handlers: -->
@@ -137,11 +138,13 @@
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <!--Task Type here-->
-                    <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type}">
-                        <aura:iteration items="{!v.taskTypeList}" var="type">
-                            <option text="{!type}"></option>
-                        </aura:iteration>
-                    </lightning:select>
+                    <aura:if isTrue="{!!v.isReferral}">
+                        <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type}">
+                            <aura:iteration items="{!v.taskTypeList}" var="type">
+                                <option text="{!type}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </aura:if>
                 </div>
             </div>
 
