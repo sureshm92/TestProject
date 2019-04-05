@@ -42,13 +42,8 @@ public with sharing class ArticleService {
 
     public static String getStaticUrlImage(String imageName) {
         List<StaticResource> resourceList = [SELECT Name, NamespacePrefix, SystemModstamp FROM StaticResource WHERE Name = 'PH_Default_Image'];
-
-        // Checking if the result is returned or not
         if (resourceList.size() == 1) {
-
-            // Getting namespace
             String namespace = resourceList[0].NamespacePrefix;
-            // Resource URL
             return '/resource/' + resourceList[0].SystemModstamp.getTime() + '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + 'PH_Default_Image/' + imageName;
         } else {
             return '';
