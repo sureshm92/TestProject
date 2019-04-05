@@ -12,7 +12,7 @@ public with sharing class ArticleService {
     public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
-                this.calculateExpirationDateBeforeInsert(resource);
+                this.calculateExpirationDate(resource);
             }
         }
 
@@ -21,12 +21,12 @@ public with sharing class ArticleService {
     public void calculateExpirationDate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resourcesNew) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
-                this.calculateExpirationDateBeforeUpdate(resource, oldResMap.get(resource.Id));
+                this.calculateExpirationDate(resource, oldResMap.get(resource.Id));
             }
         }
     }
 
-    public void processTherapeuticAreas(List<Resource__c> resources) {
+    public void assignTherapeuticAreas(List<Resource__c> resources) {
 
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
@@ -38,7 +38,7 @@ public with sharing class ArticleService {
         tAAService.createTAAsForResources(therapeuticAreas, resources);
     }
 
-    public void processTherapeuticAreas(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
+    public void assignTherapeuticAreas(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
 
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
@@ -83,7 +83,7 @@ public with sharing class ArticleService {
         }
     }
 
-    private void calculateExpirationDateBeforeInsert(Resource__c resource) {
+    private void calculateExpirationDate(Resource__c resource) {
         if (resource.Expiration_Date__c == null) {
             if (resource.Posting_Date__c != null) {
                 resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
@@ -100,7 +100,7 @@ public with sharing class ArticleService {
         }
     }
 
-    private void calculateExpirationDateBeforeUpdate(Resource__c newResource, Resource__c oldResource) {
+    private void calculateExpirationDate(Resource__c newResource, Resource__c oldResource) {
         if (newResource.Posting_Date__c != oldResource.Posting_Date__c
                 || newResource.Expiration_Date__c != oldResource.Expiration_Date__c) {
             if (newResource.Posting_Date__c != null) {

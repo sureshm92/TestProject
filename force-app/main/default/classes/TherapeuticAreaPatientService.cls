@@ -3,7 +3,6 @@ public with sharing class TherapeuticAreaPatientService {
     public static void deleteTherapeuticAreaPatientFromPSE(List<Participant_Study_Enrollment__c> newPSEs,
             Map<Id, Participant_Study_Enrollment__c> oldPSEMap) {
         List<Participant_Study_Enrollment__c> changeList = new List<Participant_Study_Enrollment__c>();
-
         for (Participant_Study_Enrollment__c newPSE : newPSEs) {
             if (newPSE.Status__c != oldPSEMap.get(newPSE.Id).Status__c) {
                 if (!PSEService.PSE_STATUS_GROUP_COMPLETE.contains(oldPSEMap.get(newPSE.Id).Status__c) &&
@@ -25,7 +24,6 @@ public with sharing class TherapeuticAreaPatientService {
             Map<Id, Participant_Enrollment__c> oldPEMap) {
 
         List<Participant_Enrollment__c> changeList = new List<Participant_Enrollment__c>();
-
         for (Participant_Enrollment__c participantEnrollment : newPE) {
             if (participantEnrollment.Participant_Status__c != oldPEMap.get(participantEnrollment.Id).Participant_Status__c) {
                 if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(oldPEMap.get(participantEnrollment.Id).Participant_Status__c) &&
@@ -44,11 +42,11 @@ public with sharing class TherapeuticAreaPatientService {
     }
 
     public static void validationOnDuplicate(List<Therapeutic_Area_Patient__c> areaPatients) {
+
         Set<Id> newParticipantIdSet = new Set<Id>();
         Set<Id> newTherapeuticAreaId = new Set<Id>();
         List<TherapeuticAreaWrapper> dbWrapper = new List<TherapeuticAreaWrapper>();
         Set<TherapeuticAreaWrapper> newWrapper = new Set<TherapeuticAreaWrapper>();
-
         for (Therapeutic_Area_Patient__c newAreaPatient : areaPatients) {
             TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c, newAreaPatient.IsRelatedToStudy__c);
             if (newWrapper.contains(iKey)) {
@@ -59,8 +57,6 @@ public with sharing class TherapeuticAreaPatientService {
                 newWrapper.add(iKey);
             }
         }
-
-        System.debug('validationOnDuplicate newWrapper count: ' + newWrapper.size());
         for (Therapeutic_Area_Patient__c dbAreaPatient : [
                 SELECT
                         Participant__c,
@@ -73,7 +69,6 @@ public with sharing class TherapeuticAreaPatientService {
         ]) {
             dbWrapper.add(new TherapeuticAreaWrapper(dbAreaPatient.Participant__c, dbAreaPatient.Therapeutic_Area__c, dbAreaPatient.IsRelatedToStudy__c, dbAreaPatient));
         }
-
         List<SObject> duplicateObjects = new List<SObject>();
         for (Therapeutic_Area_Patient__c newAreaPatient : areaPatients) {
             TherapeuticAreaWrapper iKey = new TherapeuticAreaWrapper(newAreaPatient.Participant__c, newAreaPatient.Therapeutic_Area__c, newAreaPatient.IsRelatedToStudy__c);
@@ -85,7 +80,6 @@ public with sharing class TherapeuticAreaPatientService {
                             : oldAreaPatient.Condition_Of_Interest_Order__c;
                 }
                 duplicateObjects.add(oldAreaPatient);
-//                newAreaPatient.addError('You are inserting Duplicate Therapeutic Area Patient');
             }
         }
         if (!duplicateObjects.isEmpty()) {
@@ -94,6 +88,7 @@ public with sharing class TherapeuticAreaPatientService {
     }
 
     private static void deleteTherapeuticAreaPatient(Set<Id> participantId) {
+
         List<Therapeutic_Area_Patient__c> areaPatients = [
                 SELECT Id
                 FROM Therapeutic_Area_Patient__c
@@ -106,6 +101,7 @@ public with sharing class TherapeuticAreaPatientService {
     }
 
     public class TherapeuticAreaWrapper {
+
         public Id participantId;
         public Id therapeuticAreaId;
         public Boolean isPrimary;
@@ -133,6 +129,5 @@ public with sharing class TherapeuticAreaPatientService {
         public override Integer hashCode() {
             return (System.hashCode(String.valueOf(participantId)) * (isPrimary ? 2 : 1)) ^ System.hashCode(String.valueOf(therapeuticAreaId));
         }
-
     }
 }

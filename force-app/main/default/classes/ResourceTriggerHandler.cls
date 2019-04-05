@@ -18,11 +18,11 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
 
     public override void afterInsert(List<SObject> newList) {
         ArticleService articleService = (ArticleService) ClassFactory.newInstance(ArticleService.class);
-        articleService.processTherapeuticAreas(newList);
+        articleService.assignTherapeuticAreas(newList);
     }
 
     public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
         ArticleService articleService = (ArticleService) ClassFactory.newInstance(ArticleService.class);
-        articleService.processTherapeuticAreas(newList, (Map<Id, Resource__c>) oldMap);
+        articleService.assignTherapeuticAreas(newList, (Map<Id, Resource__c>) oldMap);
     }
 }
