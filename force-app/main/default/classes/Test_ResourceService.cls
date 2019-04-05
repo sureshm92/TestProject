@@ -54,7 +54,7 @@ public class Test_ResourceService {
         Test.stopTest();
         System.assertEquals(false, wrappers[0].isFavorite);
         System.assertEquals(false, wrappers[0].isVoted);
-        System.assertEquals(resources[0].Id, wrappers[0].resourceId);
+        System.assertEquals(resources[0].Id, wrappers[0].resource.Id);
     }
 
     @IsTest

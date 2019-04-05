@@ -4,6 +4,7 @@
 public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
+    public static final String PH_FOLDER_LOGO = 'PH_Default_Image';
 
     public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
@@ -65,10 +66,16 @@ public with sharing class ArticleService {
     }
 
     public String getStaticUrlImage(String imageName) {
-        List<StaticResource> resourceList = [SELECT Name, NamespacePrefix, SystemModstamp FROM StaticResource WHERE Name = 'PH_Default_Image'];
+        List<StaticResource> resourceList = [
+                SELECT Name,
+                        NamespacePrefix,
+                        SystemModstamp
+                FROM StaticResource
+                WHERE Name = :PH_FOLDER_LOGO
+        ];
         if (resourceList.size() == 1) {
             String namespace = resourceList[0].NamespacePrefix;
-            return '/resource/' + resourceList[0].SystemModstamp.getTime() + '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + 'PH_Default_Image/' + imageName;
+            return '/resource/' + resourceList[0].SystemModstamp.getTime() + '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + PH_FOLDER_LOGO + '/' + imageName;
         } else {
             return '';
         }

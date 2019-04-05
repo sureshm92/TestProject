@@ -242,7 +242,7 @@ public with sharing class ResourceService {
         }
     }
 
-    public class ResourceWrapper {
+    public virtual class ResourceWrapper {
 
         @AuraEnabled
         public Resource__c resource;

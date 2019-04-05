@@ -25,8 +25,8 @@
         </aura:if>
 
         <div class="resource-description">
-            <aura:if isTrue="{!!empty(v.resourceWrapper.resource.headerFieldWrappers)}">
-                <aura:iteration items="{!v.resourceWrapper.resource.headerFieldWrappers}" var="field">
+            <aura:if isTrue="{!!empty(v.resourceWrapper.headerFieldWrappers)}">
+                <aura:iteration items="{!v.resourceWrapper.headerFieldWrappers}" var="field">
                     <div class="{!field.cssClassName}">
                         <lightning:formattedRichText value="{!field.valueField}"/>
                     </div>
@@ -60,8 +60,8 @@
                     {!$Label.c.Resources_Content_Has_Been_Updated}
                 </div>
             </aura:if>
-            <aura:if isTrue="{!!empty(v.resourceWrapper.resource.bodyFieldWrappers)}">
-                <aura:iteration items="{!v.resourceWrapper.resource.bodyFieldWrappers}" var="field">
+            <aura:if isTrue="{!!empty(v.resourceWrapper.bodyFieldWrappers)}">
+                <aura:iteration items="{!v.resourceWrapper.bodyFieldWrappers}" var="field">
                     <div class="{!field.cssClassName}">
                         <lightning:formattedRichText value="{!field.valueField}"/>
                     </div>
