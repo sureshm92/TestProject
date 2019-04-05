@@ -29,7 +29,6 @@
             if (wrapper.task.Status === 'Completed') {
                 component.set('v.taskStatusCompleted', true);
             }
-            console.log('here');
             component.set('v.isDelegate', wrapper.isDelegate);
             component.set('v.hasDelegates', wrapper.hasDelegates);
             component.set('v.emailDelegateTurnedOn', wrapper.emailPreferencesDelegateIsOn);

@@ -133,7 +133,7 @@
             <div class="slds-grid slds-gutters slds-wrap">
                 <!--Due Date-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
+                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Complete_By_Date}" value="{!v.task.ActivityDate}"
                                      disabled="{!v.otherTask || v.taskStatusCompleted}" onchange="{!c.onChangeDueDate}"/>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -149,13 +149,13 @@
             </div>
 
             <!--Created Date Time-->
-            <aura:if isTrue="{!v.editMode}">
+            <!--<aura:if isTrue="{!v.editMode}">
                 <div class="slds-grid te-form slds-gutters slds-wrap">
                     <div class="slds-col slds-size_1-of-1">
                         <lightning:input  label="{!$Label.c.Created_Date}" value="{!v.task.CreatedDate}" disabled="true" type="date"/>
                     </div>
                 </div>
-            </aura:if>
+            </aura:if>-->
 
 
             <div class="te-col-header" style="margin-top: 15px;">
