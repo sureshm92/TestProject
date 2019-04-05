@@ -1,10 +1,11 @@
+/**
+ * created by Dmytro Pokutnii
+ */
 public with sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
     public static final String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
-    @TestVisible
-    private static String PARTICIPANT_TEST_ID = 'a0D4E0000000000000';
     @TestVisible
     private static String DEFAULT_LANGUAGE = 'en_US';
     @TestVisible
@@ -58,6 +59,10 @@ public with sharing class ResourceService {
 
     public Participant__c getParticipant() {
         return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
+    }
+
+    public ParticipantService.ParticipantState getParticipantState() {
+        return ParticipantService.getParticipantState();
     }
 
     @TestVisible
@@ -179,7 +184,8 @@ public with sharing class ResourceService {
     @TestVisible
     private Participant__c getParticipant(String resourceType) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+        CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
+        String participantId = cService.getParticipantId();
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +

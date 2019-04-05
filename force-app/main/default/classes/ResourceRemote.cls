@@ -24,7 +24,8 @@ public with sharing class ResourceRemote {
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
 
         try {
-            String participantId = (Test.isRunningTest() ? PARTICIPANT_TEST_ID : CommunityService.getParticipantId());
+            CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
+            String participantId = cService.getParticipantId();
             String resourceActionQuery =
                     'SELECT Id, ' +
                             'IsFavorite__c, ' +
@@ -33,13 +34,7 @@ public with sharing class ResourceRemote {
                             'WHERE Resource__c = \'' + resourceId + '\'' + ' AND Participant__c = \'' + participantId + '\'';
             DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
             List<Resource_Action__c> actions = (List<Resource_Action__c>) databaseProxy.query(resourceActionQuery);
-
-            Resource_Action__c action;
-            if (!actions.isEmpty()) {
-                action = actions[0];
-            } else {
-                action = new Resource_Action__c(Resource__c = resourceId, Participant__c = participantId);
-            }
+            Resource_Action__c action = !actions.isEmpty() ? actions[0] : new Resource_Action__c(Resource__c = resourceId, Participant__c = participantId);
             action.IsFavorite__c = isFavorite;
             action.IsVoted__c = isVoted;
             databaseProxy.upsertRecord(action);
@@ -53,13 +48,11 @@ public with sharing class ResourceRemote {
 
         try {
             String trialId;
-            if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-                List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                if (peList.size() > 0) {
-                    trialId = peList[0].Study_Site__r.Clinical_Trial_Profile__c;
-                }
-            }
-            if (String.isBlank(trialId)) {
+            ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+            ParticipantService.ParticipantState state = resourceService.getParticipantState();
+            if (state.ctp != null) {
+                trialId = state.ctp.Id;
+            } else {
                 throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
             }
             return trialId;
@@ -73,10 +66,9 @@ public with sharing class ResourceRemote {
     public static String getNoTAMessage() {
 
         try {
-            ParticipantService.ParticipantState state = ParticipantService.getParticipantState();
             ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
-            Participant__c currentParticipant = resourceService.getParticipant();
-            if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (currentParticipant.Conditions__c == 0)) {
+            ParticipantService.ParticipantState state = resourceService.getParticipantState();
+            if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (state.participant.Conditions__c == 0)) {
                 String noTAMessage;
                 String message = Label.Resources_No_Therapeutic_Area;
                 String goToProfile = '<br /><a href="/s/settings?tab=account-settings">' + Label.Resources_Go_To_Your_Profile + '</a>';
