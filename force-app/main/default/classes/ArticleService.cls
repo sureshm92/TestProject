@@ -2,12 +2,9 @@
  * Created by Yehor Dobrovolskyi
  */
 public with sharing class ArticleService {
-    private static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
-    private static final String CONTENT_CLASS_3_RD_PARTY = '3rd Party';
-    public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
-    public static final String X_3PARTY_IQVIA = 'IQVIA';
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
+    public static final String PH_FOLDER_LOGO = 'PH_Default_Image';
 
     public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
@@ -53,14 +50,14 @@ public with sharing class ArticleService {
     public void addDefaultImage(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (String.isBlank(resource.Image__c)) {
-                if (CONTENT_CLASS_3_RD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
-                        && !X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(resource.X3rd_Party_Source__c) &&
+                if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
+                        && !ResourceService.X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(resource.X3rd_Party_Source__c) &&
                         !String.isBlank(resource.X3rd_Party_Source__c)) {
                     System.debug(resource.X3rd_Party_Source__c);
-                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(X_3PARTY_HEALTH_DAY)) {
+                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_HEALTH_DAY)) {
                         resource.Image__c = getStaticUrlImage(HEALTH_DAY_NAME_LOGO);
                     }
-                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(X_3PARTY_IQVIA)) {
+                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_IQVIA)) {
                         resource.Image__c = getStaticUrlImage(IQVIA_NAME_LOGO);
                     }
                 }
@@ -69,15 +66,16 @@ public with sharing class ArticleService {
     }
 
     public String getStaticUrlImage(String imageName) {
-        List<StaticResource> resourceList = [SELECT Name, NamespacePrefix, SystemModstamp FROM StaticResource WHERE Name = 'PH_Default_Image'];
-
-        // Checking if the result is returned or not
+        List<StaticResource> resourceList = [
+                SELECT Name,
+                        NamespacePrefix,
+                        SystemModstamp
+                FROM StaticResource
+                WHERE Name = :PH_FOLDER_LOGO
+        ];
         if (resourceList.size() == 1) {
-
-            // Getting namespace
             String namespace = resourceList[0].NamespacePrefix;
-            // Resource URL
-            return '/resource/' + resourceList[0].SystemModstamp.getTime() + '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + 'PH_Default_Image/' + imageName;
+            return '/resource/' + resourceList[0].SystemModstamp.getTime() + '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + PH_FOLDER_LOGO + '/' + imageName;
         } else {
             return '';
         }

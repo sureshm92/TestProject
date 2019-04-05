@@ -2690,6 +2690,16 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.CSS_Class_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.X3rd_Party_Source__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Resource_Version__c.Content_Text__c</field>
         <readable>true</readable>
@@ -3415,6 +3425,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource_Field_Api__mdt-Resource Field Api Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource_Version__c-Resource Version Layout</layout>
