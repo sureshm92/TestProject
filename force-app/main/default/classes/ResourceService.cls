@@ -1,3 +1,6 @@
+/**
+ * created by Dmytro Pokutnii
+ */
 public with sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
@@ -7,8 +10,6 @@ public with sharing class ResourceService {
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
     private static final String EXPIRATION_DATE = 'Expiration_Date__c';
-    @TestVisible
-    private static String PARTICIPANT_TEST_ID = 'a0D4E0000000000000';
     @TestVisible
     private static String DEFAULT_LANGUAGE = 'en_US';
     @TestVisible
