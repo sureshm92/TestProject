@@ -13,7 +13,7 @@
             resourceType: resourceType
         }, function (returnValue) {
             if (!returnValue.errorMessage) {
-                component.set("v.resource", returnValue.wrappers[0]);
+                component.set("v.resourceWrapper", returnValue.wrappers[0]);
                 component.set("v.errorMessage", "");
             } else {
                 component.set("v.errorMessage", returnValue.errorMessage);
@@ -25,6 +25,7 @@
         if (resourceType) {
             component.set("v.resourceType", resourceType);
         }
+
         if (homePage === '#home') {
             component.set('v.backStudy', '');
         } else if (recId) {

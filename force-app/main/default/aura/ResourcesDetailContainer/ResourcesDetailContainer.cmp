@@ -7,7 +7,7 @@
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"/>
 
-    <aura:attribute name="resource" type="ResourceService.ResourceWrapper"/>
+    <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="resourceType" type="String" default="Article"/>
     <!--<aura:attribute name="resourceType" type="String" default="Video"/>-->
     <aura:attribute name="backStudy" type="String"/>
@@ -29,7 +29,7 @@
             </div>
             <aura:set attribute="else">
                 <div class="resource-detail-block">
-                    <c:ResourcesDetailItem resource="{!v.resource}"/>
+                    <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}"/>
                 </div>
             </aura:set>
         </aura:if>
