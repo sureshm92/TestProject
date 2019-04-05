@@ -74,10 +74,16 @@ public class PatientDelegateService {
 
     public static List<Id> getDelegatedParticipantUserIds(){
         List<Id> userIds = new List<Id>();
+        Id contactId;
+        if(ParticipantService.getParticipantState().isDelegate){
+            contactId = getDelegatePatientUserContactId();
+        } else {
+            contactId = CommunityService.getUserContact().Id;
+        }
         List<User> users = [
                 SELECT  Id
                 FROM    User
-                WHERE   ContactId IN: getDelegatedContactIds(getDelegatePatientUserContactId())
+                WHERE   ContactId IN: getDelegatedContactIds(contactId)
         ];
         for(User user: users){
             userIds.add(user.Id);
