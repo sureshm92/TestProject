@@ -83,7 +83,8 @@
                             <div class="as-sub-title"
                                  style="margin-bottom: 15px">{!$Label.c.PG_AS_T_HCP_Email_Preferences}</div>
                             <div class="as-email-pref-item slds-grid slds-gutters">
-                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                                 variant="label-hidden"
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle"
                                                  checked="{!v.initData.myContact.HCP_Opt_In_Patient_Status_Emails__c}"
@@ -91,7 +92,8 @@
                                 {!$Label.c.PG_AS_L_Opt_In_HCP_Patient_Status_Emails}
                             </div>
                             <div class="as-email-pref-item slds-grid slds-gutters">
-                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                                 variant="label-hidden"
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle"
                                                  checked="{!v.initData.myContact.HCP_Opt_In_Study_Emails__c}"
@@ -99,7 +101,8 @@
                                 {!$Label.c.PG_AS_L_Opt_In_HCP_Study_Emails}
                             </div>
                             <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                                 variant="label-hidden"
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle"
                                                  checked="{!v.initData.myContact.HCP_Opt_In_Referral_Status_Emails__c}"
@@ -110,7 +113,8 @@
                         <aura:if isTrue="{!v.userMode== 'Participant'}">
                             <div class="as-sub-title">{!$Label.c.PG_AS_T_Participant_Email_Preferences}</div>
                             <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}" variant="label-hidden"
+                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                                 variant="label-hidden"
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle"
                                                  checked="{!v.initData.myContact.Participant_Opt_In_Status_Emails__c}"
@@ -121,9 +125,87 @@
                         <div style="height: 15px"></div>
                     </div>
                 </aura:if>
-
             </div>
 
+            <!-- Cookies settings -->
+            <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
+                <div class="as-email-preference">
+                    <div class="as-title">Cookie Settings</div>
+                    <div class="as-sub-title"
+                         style="margin-bottom: 15px">Some essential features on Referral Hub site just won’t work
+                        without cookies.
+                        And having other cookies switched off can seriously affect the way you’ll be able to enjoy our
+                        services.
+                        Please check your cookie settings below and turn on any cookies you’re happy with.
+                        "Strictly necessary" cookies can’t be turned off.
+                        However "Functional" cookies can be turned on or off below.
+                    </div>
+                    <div class="collapse-section slds-m-top--large">
+                        <c:RRCollapse label="Strictly Necessary Cookies" isCollapsed="true">
+                            <div class="ah-main-container slds-grid slds-wrap slds-m-top--large">
+                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                                        <aura:iteration var="cookieItem" items="{!v.initData.cookieSettings}">
+                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                                <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                    <div class="ah-item-label">{!cookieItem.cookieName}</div>
+                                                    <div class="ah-item-sublabel">{!cookieItem.cookieDescription}</div>
+                                                </div>
+                                            </div>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:RRCollapse>
+                    </div>
+
+                    <div class="collapse-section slds-m-top--large">
+                        <c:RRCollapse label="Functional Cookies" isCollapsed="true">
+                            <div class="ah-main-container slds-grid slds-wrap slds-m-top--large">
+                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
+                                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                            <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                <div class="ah-item-label">RRCookies</div>
+                                                <div class="ah-item-sublabel">Used to store cookies agreement decision.
+                                                    It prevents from popup appearing several times.
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
+                                                <lightning:input type="toggle" label=""
+                                                                 messageToggleActive="{!$Label.c.BTN_On}"
+                                                                 variant="label-hidden"
+                                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                                 class="slds-col ah-toggle"
+                                                                 checked="{!v.initData.myContact.RRCookiesAllowedCookie__c}"
+                                                                 onchange="{!c.doSwitchOptInCookies}"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
+                                            <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
+                                                <div class="ah-item-label">RRLanguage</div>
+                                                <div class="ah-item-sublabel">Used to store user preferred language.
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
+                                                <lightning:input type="toggle" label=""
+                                                                 messageToggleActive="{!$Label.c.BTN_On}"
+                                                                 variant="label-hidden"
+                                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                                 class="slds-col ah-toggle"
+                                                                 checked="{!v.initData.myContact.RRLanguageAllowedCookie__c}"
+                                                                 onchange="{!c.doSwitchOptInCookies}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:RRCollapse>
+                    </div>
+
+                    <div style="height: 15px"></div>
+                </div>
+            </div>
 
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
