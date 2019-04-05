@@ -679,6 +679,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TherapeuticAreaAssignmentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaPatientService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TherapeuticAreaPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2879,6 +2887,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.X3rd_Party_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

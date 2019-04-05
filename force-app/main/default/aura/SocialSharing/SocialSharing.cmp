@@ -1,0 +1,46 @@
+<!--
+ - Created by AlexKetch on 4/2/2019.
+ -->
+
+<aura:component description="SocialSharing">
+    <aura:attribute type="String" name="mailBoxIconName"/>
+    <aura:attribute type="String" name="facebookIconName"/>
+    <aura:attribute type="String" name="linkedInIconName"/>
+    <aura:attribute type="String" name="twitterIconName"/>
+    <aura:attribute type="String" name="mailBoxIconClass"/>
+    <aura:attribute type="String" name="linkedInIconClass"/>
+    <aura:attribute type="String" name="twitterIconClass"/>
+    <aura:attribute type="String" name="facebookIconClass"/>
+    <aura:attribute type="String" name="mailSendMessage"/>
+    <aura:attribute type="String" name="cssClass"/>
+    <aura:attribute type="String" name="linkToShare"/>
+    <div class="{!v.cssClass != null?v.cssClass:'resource-share-icons'}">
+        <div class="resource-element">
+            <a href="javascript:void(0);" target="popup" onclick="{!c.onEmailClick}">
+                <c:RRIcon iconName="{!v.mailBoxIconName}" id="email" class="{!v.mailBoxIconClass}"/>
+            </a>
+        </div>
+        <a href="javascript:void(0);" target="popup" onclick="{!c.onFacebookClick}">
+            <c:RRIcon iconName="{!v.facebookIconName}" id="facebook" class="{!v.facebookIconClass}"/>
+        </a>
+        <div class="resource-element">
+            <a href="javascript:void(0);" target="popup" onclick="{!c.onTwitterClick}">
+                <c:RRIcon iconName="{!v.twitterIconName}" id="twitter" class="{!v.twitterIconClass}"/>
+            </a>
+        </div>
+        <div class="resource-element">
+            <a href="javascript:void(0);" target="popup" onclick="{!c.onLinkedInClick}">
+                <c:RRIcon iconName="{!v.linkedInIconName}" id="linked-in" class="{!v.linkedInIconClass}"/>
+            </a>
+        </div>
+    </div>
+    <!--<div>
+
+        <a href="javascript:void(0);" target="popup" onclick="{!c.onLinkedInClick}">
+            <c:RRIcon iconName="linked-in" id="linked-in" class="resources-icon-like"/>
+        </a>
+    </div>-->
+    <c:ShareModal
+            shareModalTitle="{!$Label.c.Resource_Social_Share_email_title}"
+            modalDialogBody="{!v.mailSendMessage}" aura:id="emailModal" parent="{!this}"/>
+</aura:component>

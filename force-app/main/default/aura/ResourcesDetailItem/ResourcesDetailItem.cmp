@@ -54,6 +54,22 @@
                         </aura:set>
                     </aura:if>
                 </div>
+                <aura:if isTrue="{!v.resourceWrapper.isShareable}">
+                    <div class="resources-icon-social">
+                        <c:SocialSharing
+                                facebookIconClass="resources-icon-like"
+                                facebookIconName="facebook"
+                                mailBoxIconName="email"
+                                mailBoxIconClass="resources-icon-like"
+                                twitterIconName="twitter"
+                                twitterIconClass="resources-icon-like"
+                                linkedInIconName="linked-in"
+                                linkedInIconClass="resources-icon-like"
+                                linkToShare="{!v.resourceWrapper.resource.article_external_link__c}"
+                                mailSendMessage="{!v.resourceWrapper.shareMessage}"
+                        />
+                    </div>
+                </aura:if>
             </div>
             <aura:if isTrue="{!v.resourceWrapper.resource.Updated_Date__c != null}">
                 <div class="resource-content-updated">
