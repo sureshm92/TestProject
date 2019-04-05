@@ -14,7 +14,7 @@
     <aura:method name="hide" action="{!c.doHide}"/>
 
     <!-- component body: -->
-    <c:Popup aura:id="shareModal" title="{!$Label.c.PG_SHR_Title}" size="small">
+    <c:Popup aura:id="shareModal" title="{!$Label.c.PG_SHR_Title}" size="small" showClose="false">
         <div class="modal-dialog-body">
             {!$Label.c.PG_SHR_Body}
         </div>
