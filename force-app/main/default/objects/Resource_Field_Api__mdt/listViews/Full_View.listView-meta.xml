@@ -8,7 +8,6 @@
     <columns>X3rd_Party_Source__c</columns>
     <columns>Resource_Type__c</columns>
     <columns>CSS_Class_Name__c</columns>
-    <columns>Is_Resource_Action_Field__c</columns>
     <filterScope>Everything</filterScope>
     <label>Full View</label>
     <language>en_US</language>

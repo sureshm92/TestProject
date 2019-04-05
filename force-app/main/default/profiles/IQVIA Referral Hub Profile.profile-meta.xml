@@ -2713,11 +2713,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Resource_Field_Api__mdt.Is_Resource_Action_Field__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Resource_Field_Api__mdt.X3rd_Party_Source__c</field>
         <readable>false</readable>
     </fieldPermissions>

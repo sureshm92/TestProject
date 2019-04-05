@@ -34,7 +34,7 @@
                     </div>
                 </aura:iteration>
             </aura:if>
-            <div class="{!v.resource.expirationDate == null ? 'hide-image' : 'resource-expiration-date'}">
+            <div class="resource-expiration-date">
                 Expires:
                 <ui:outputDate value="{!v.resource.expirationDate}" format="dd-MMM-y"/>
             </div>

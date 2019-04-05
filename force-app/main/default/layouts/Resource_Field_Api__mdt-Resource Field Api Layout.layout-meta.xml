@@ -28,10 +28,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Is_Resource_Action_Field__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>CSS_Class_Name__c</field>
             </layoutItems>
             <layoutItems>
