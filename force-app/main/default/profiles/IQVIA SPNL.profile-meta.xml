@@ -23,6 +23,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_RequestToReferByHCPRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -160,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DistanceHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -568,6 +576,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyTrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2495,6 +2507,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Conditions__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Contact__c</field>
         <readable>true</readable>
@@ -2687,6 +2704,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Resource_Action__c.Participant__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.CSS_Class_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.Is_Resource_Action_Field__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.X3rd_Party_Source__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3415,6 +3447,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource_Field_Api__mdt-Resource Field Api Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource_Version__c-Resource Version Layout</layout>

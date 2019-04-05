@@ -2,8 +2,8 @@
  * Created by Yehor Dobrovolskyi on 20.02.2019.020.
  */
 .THIS .resource-detail-block{
-    max-width: 628px;
-    margin: 36px auto auto;
+    width: 100%;
+    margin: 0 auto auto;
 }
 .THIS .resource-error-message {
     /*top: 20%;*/
@@ -14,4 +14,7 @@
     font-size: 24px;
     line-height: 26px;
     text-align: center;
+}
+.THIS .footer-resource {
+    background: #eeeeee;
 }

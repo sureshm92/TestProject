@@ -27,14 +27,14 @@
         </aura:if>
 
         <div class="resource-description">
-            <div class="resource-title">
-				{!v.resource.title}
-			</div>
-            <div class="resource-description-short">
-                <!--SHORT DESCRIPTION!!!-->
-                {!v.resource.description}
-            </div>
-            <div class="resource-expiration-date">
+            <aura:if isTrue="{!!empty(v.resource.headerFieldWrappers)}">
+                <aura:iteration items="{!v.resource.headerFieldWrappers}" var="field">
+                    <div class="{!field.cssClassName}">
+                        <lightning:formattedRichText value="{!field.valueField}"/>
+                    </div>
+                </aura:iteration>
+            </aura:if>
+            <div class="{!v.resource.expirationDate == null ? 'hide-image' : 'resource-expiration-date'}">
                 Expires:
                 <ui:outputDate value="{!v.resource.expirationDate}" format="dd-MMM-y"/>
             </div>
@@ -62,13 +62,13 @@
                     {!$Label.c.Resources_Content_Has_Been_Updated}
                 </div>
             </aura:if>
-            <div class="resource-body">
-
-                <!--DESCRIPTION - FULL - MAYBE FIELD body -->
-
-                <lightning:formattedRichText value="{!v.resource.body}"/>
-                <!--{!v.resource.body}-->
-            </div>
+            <aura:if isTrue="{!!empty(v.resource.bodyFieldWrappers)}">
+                <aura:iteration items="{!v.resource.bodyFieldWrappers}" var="field">
+                    <div class="{!field.cssClassName}">
+                        <lightning:formattedRichText value="{!field.valueField}"/>
+                    </div>
+                </aura:iteration>
+            </aura:if>
         </div>
     </div>
 

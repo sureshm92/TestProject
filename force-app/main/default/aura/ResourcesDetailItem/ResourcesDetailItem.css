@@ -1,4 +1,14 @@
+.THIS {
+
+}
+
+.THIS.resource-container {
+    max-width: 650px;
+    margin: 0 auto auto;
+}
+
 .THIS .bitmap {
+    padding-top: 5%;
     width: 100%;
     display: flex;
     align-items: center;
@@ -6,6 +16,7 @@
 }
 
 .THIS .resource-description-footer {
+    margin-bottom: 12px;
     display: flex;
 }
 
@@ -29,6 +40,7 @@
     display: inline-block;
     vertical-align: text-top;
 }
+
 .THIS .resources-icon-dislike {
     height: 17px;
     width: 18px;
@@ -45,7 +57,7 @@
 }
 
 .THIS .resource-description {
-    margin-top: 30px;
+    margin-top: 5px;
 }
 
 .THIS .resource-description-header {
@@ -81,6 +93,7 @@
     margin-top: 15px;
     padding-bottom: 50px;
 }
+
 .THIS .resource-title {
     color: #666666;
     font-family: "Proxima Nova";
@@ -88,12 +101,14 @@
     font-weight: 500;
     line-height: 30px;
 }
+
 .THIS .resource-description-short {
     color: #999999;
     font-family: "Proxima Nova";
     font-size: 12px;
     line-height: 14px;
 }
+
 .THIS .resource-expiration-date {
     height: 14px;
     color: #999999;
@@ -102,6 +117,7 @@
     font-style: italic;
     line-height: 14px;
 }
+
 .THIS .ah-video-iframe {
     position: relative;
     padding-bottom: 56.25%;
@@ -109,13 +125,49 @@
     height: 0;
     overflow: hidden;
 }
-.THIS .my_iframe{
+
+.THIS .my_iframe {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
+
 .THIS .hide-image {
     display: none;
+}
+
+.THIS .image-caption {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    /*line-height: 14px;*/
+    margin-bottom: 12px;
+}
+
+.THIS .byline-author {
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    /*line-height: 14px;*/
+    margin-bottom: 12px;
+}
+
+
+/* large 1024 */
+@media all and (max-width: 1023px) {
+    .THIS.resource-container {
+        padding: 2%;
+        border-radius: 4px;
+        margin: 5% 3% 3%;
+        box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.24);
+        border: 1px solid #F2F2F2;
+        background-color: #FFFFFF;
+        overflow: hidden;
+    }
+
+    .THIS .bitmap {
+        padding: 2%;
+    }
 }
