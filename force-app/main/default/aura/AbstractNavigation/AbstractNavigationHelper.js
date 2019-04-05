@@ -18,6 +18,12 @@
                 icon: 'referred-patient'
             },
 
+            'dashboard': {
+                page: 'dashboard',
+                label: $A.get('$Label.c.Navigation_Dashboard'),
+                icon: 'dashboard'
+            },
+
             'medical-record-review-log': {
                 page: 'medical-record-review-log',
                 label: $A.get('$Label.c.Navigation_Medical_Record_Review_Log'),
@@ -99,6 +105,7 @@
 
             PI: [
                 this.allPagesMap[''],
+                this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
                 this.allPagesMap['my-referring-clinics'],
                 this.allPagesMap['reports'],
