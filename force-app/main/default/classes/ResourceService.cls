@@ -100,6 +100,7 @@ public with sharing class ResourceService {
                         'RecordType.DeveloperName, ' +
                         'Content_Class__c, ' +
                         'Image_Subtitle__c, ' +
+                        'article_external_link__c, ' +
                         'Subtitle__c, ' +
                         'Byline__c, ' +
                         'Author_s_Name__c, ' +
@@ -153,7 +154,7 @@ public with sharing class ResourceService {
     private List<Resource__c> getStudySpecificResources(Participant__c participant, String resourceType) {
 
         Clinical_Trial_Profile__c trial = ParticipantService.getParticipantState().ctp;
-        if(trial == null) {
+        if (trial == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
         }
         String resStudyQuery = 'SELECT Id, ' +
@@ -164,7 +165,7 @@ public with sharing class ResourceService {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<Res_study__c> studyToResourceJunctions = (List<Res_study__c>) databaseProxy.query(resStudyQuery);
         Set<String> resourcesIds = new Set<String>();
-        for(Res_study__c junction : studyToResourceJunctions) {
+        for (Res_study__c junction : studyToResourceJunctions) {
             resourcesIds.add('\'' + junction.Resource__c + '\'');
         }
         return this.getResources(resourcesIds, participant);
@@ -257,17 +258,19 @@ public with sharing class ResourceService {
                 this.isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
                 this.isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
-          this.resource = resource;
+            this.resource = resource;
         }
     }
 
-    public class ResourceDetailWrapper extends ResourceWrapper{
+    public class ResourceDetailWrapper extends ResourceWrapper {
         @AuraEnabled
         public List<ResourceFieldWrapper> headerFieldWrappers = new List<ResourceFieldWrapper>();
         @AuraEnabled
         public List<ResourceFieldWrapper> bodyFieldWrappers = new List<ResourceFieldWrapper>();
         @AuraEnabled
-        public String urlShare;
+        public String shareMessage;
+        @AuraEnabled
+        public Boolean isShareable;
 
         private Boolean cutList = false;
 
@@ -284,7 +287,8 @@ public with sharing class ResourceService {
                 resourceFieldApis = getResourceFieldApis(null, resource.RecordType.DeveloperName);
             }
             if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.URL_Part__c)) {
-                urlShare = resource.URL_Part__c;
+                shareMessage = this.getShareMessage();
+                this.isShareable = true;
             }
             for (Resource_Field_Api__mdt fieldApi : resourceFieldApis) {
                 if (EXPIRATION_DATE.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
@@ -315,6 +319,11 @@ public with sharing class ResourceService {
                     ORDER BY Order__c
             ];
             return resourceFieldApis;
+        }
+        private String getShareMessage() {
+            return String.format(Label.Resources_social, new List<String>{
+                    this.resource.article_external_link__c
+            });
         }
     }
 

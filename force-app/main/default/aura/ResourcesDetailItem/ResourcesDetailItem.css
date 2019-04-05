@@ -18,6 +18,8 @@
 .THIS .resource-description-footer {
     margin-bottom: 12px;
     display: flex;
+    justify-content: start;
+    align-items: flex-end;
 }
 
 .THIS .resources-icon-like {
@@ -49,11 +51,19 @@
     vertical-align: text-top;
     transform: scale(-1, 1)
 }
+.THIS .resources-icon-social {
+    margin-left: 0.5rem;
+}
 
 .THIS .resources-icon-star {
     height: 17px;
     width: 18px;
     margin-left: 4px;
+}
+
+.THIS .flex-container {
+    display: flex;
+    justify-content: space-between;
 }
 
 .THIS .resource-description {

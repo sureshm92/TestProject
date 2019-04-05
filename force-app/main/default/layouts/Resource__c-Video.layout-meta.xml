@@ -115,6 +115,10 @@
                 <behavior>Edit</behavior>
                 <field>Remove_sharing__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>article_external_link__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>

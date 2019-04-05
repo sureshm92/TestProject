@@ -5713,6 +5713,13 @@ is a placehilder to show you what it would look like.</value>
         <value>See All</value>
     </labels>
     <labels>
+        <fullName>Resources_social</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>resource send emial soical</shortDescription>
+        <value>link {0} to share</value>
+    </labels>
+    <labels>
         <fullName>Resources_Featured_Video</fullName>
         <language>en_US</language>
         <protected>true</protected>
