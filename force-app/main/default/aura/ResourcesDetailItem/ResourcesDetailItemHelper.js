@@ -1,13 +1,13 @@
 /**
  * Created by Yehor Dobrovolskyi
  */({
-    setResourceAction: function (component, resource) {
-        component.set('v.resource', resource);
-        console.log(resource);
+    setResourceAction: function (component, resourceWrapper) {
+        component.set('v.resourceWrapper', resourceWrapper);
+        console.log(resourceWrapper);
         communityService.executeAction(component, 'setResourceAction', {
-            resourceId: resource.resourceId,
-            isFavorite: resource.isFavorite,
-            isVoted: resource.isVoted
+            resourceId: resourceWrapper.resource.Id,
+            isFavorite: resourceWrapper.isFavorite,
+            isVoted: resourceWrapper.isVoted
         });
     },
 })
