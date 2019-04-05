@@ -3,7 +3,7 @@
     <!--ATTRIBUTES-->
     <aura:attribute name="trialId" type="String" description="id of the study" required="true"/>
     <aura:attribute name="resourceType" type="String" default="Article"/>
-    <aura:attribute name="resources" type="ResourceService.ResourceWrapper[]"/>
+    <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
 
     <!--CONSTANTS-->
@@ -29,15 +29,15 @@
                 </div>
 
                 <aura:set attribute="else">
-                    <div class="resource-image-container resource-pointer" data-type="{!v.resources[0].type}" data-id="{!v.resources[0].resourceId}" onclick="{!c.navigateToPage}">
-                        <img src="{!v.resources[0].image}"/>
+                    <div class="resource-image-container resource-pointer" data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                        <img src="{!v.resourceWrappers[0].resource.Image__c}"/>
                     </div>
                     <div class="resource-description">
-                        <div class="resource-description-title resource-pointer" data-type="{!v.resources[0].type}" data-id="{!v.resources[0].resourceId}" onclick="{!c.navigateToPage}">
-                            {!v.resources[0].title}
+                        <div class="resource-description-title resource-pointer" data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                            {!v.resourceWrappers[0].resource.Title__c}
                         </div>
-                        <div class="resource-description-text resource-pointer" data-type="{!v.resources[0].type}" data-id="{!v.resources[0].resourceId}" onclick="{!c.navigateToPage}">
-                            {!v.resources[0].description}
+                        <div class="resource-description-text resource-pointer" data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                            {!v.resourceWrappers[0].resource.Description__c}
                         </div>
                     </div>
                 </aura:set>
@@ -48,14 +48,14 @@
         <div class="resource-more-links">
             {!v.resourceType == v.videoResource ? $Label.c.Resources_More_Videos : $Label.c.Resources_More_Articles}
             <aura:if isTrue="{! !v.errorMessage}">
-                <aura:if isTrue="{!v.resources.length > 1}">
-                    <div class="resource-more-single-link resource-pointer" data-type="{!v.resources[1].type}" data-id="{!v.resources[1].resourceId}" onclick="{!c.navigateToPage}">
-                        {!v.resources[1].title}
+                <aura:if isTrue="{!v.resourceWrappers.length > 1}">
+                    <div class="resource-more-single-link resource-pointer" data-type="{!v.resourceWrappers[1].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[1].resource.Id}" onclick="{!c.navigateToPage}">
+                        {!v.resourceWrappers[1].resource.Title__c}
                     </div>
                 </aura:if>
-                <aura:if isTrue="{!v.resources.length > 2}">
-                    <div class="resource-more-single-link resource-pointer" data-type="{!v.resources[2].type}" data-id="{!v.resources[2].resourceId}" onclick="{!c.navigateToPage}">
-                        {!v.resources[2].title}
+                <aura:if isTrue="{!v.resourceWrappers.length > 2}">
+                    <div class="resource-more-single-link resource-pointer" data-type="{!v.resourceWrappers[2].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[2].resource.Id}" onclick="{!c.navigateToPage}">
+                        {!v.resourceWrappers[2].resource.Title__c}
                     </div>
                 </aura:if>
             </aura:if>

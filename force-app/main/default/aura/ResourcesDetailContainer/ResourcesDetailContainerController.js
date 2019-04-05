@@ -10,7 +10,7 @@
         communityService.executeAction(component, 'getResourcesById', {
             resourceId: resId
         }, function (returnValue) {
-            component.set("v.resource", returnValue[0]);
+            component.set("v.resourceWrapper", returnValue[0]);
         }, function (errorResponse) {
             //todo add logic for handling errors like "no articles available" etc.
         });
@@ -18,7 +18,6 @@
         if (resourceType) {
             component.set("v.resourceType", resourceType);
         }
-        // component.set("v.backStudy", document.referrer);
 
         if (homePage === '#home') {
             component.set('v.backStudy', '');

@@ -221,42 +221,18 @@ public with sharing class ResourceService {
     public class ResourceWrapper {
 
         @AuraEnabled
-        public String resourceId;
+        public Resource__c resource;
         @AuraEnabled
         public Boolean isFavorite = false;
         @AuraEnabled
         public Boolean isVoted = false;
-        @AuraEnabled
-        public String title;
-        @AuraEnabled
-        public String description;
-        @AuraEnabled
-        public String body;
-        @AuraEnabled
-        public String image;
-        @AuraEnabled
-        public Date expirationDate;
-        @AuraEnabled
-        public String type;
-        @AuraEnabled
-        public String video;
-        @AuraEnabled
-        public Boolean isUpdated;
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
-                isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
-                isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
+                this.isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
+                this.isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
-            title = resource.Title__c;
-            description = resource.Description__c;
-            image = resource.Image__c;
-            expirationDate = resource.Expiration_Date__c;
-            type = resource.RecordType.DeveloperName;
-            resourceId = resource.Id;
-            video = resource.Video__c;
-            body = resource.Body__c;
-            isUpdated = resource.Updated_Date__c != null;
+          this.resource = resource;
         }
     }
 }
