@@ -56,7 +56,7 @@
     },
 
     onEmailClick : function (component, event, helper) {
-        var hcpe = component.get('v.currentStudy').hcpEnrollments[0];
+        var hcpe = component.get('v.currentStudy').hcpe;
         component.find('emailModal').show(hcpe);
     },
 
