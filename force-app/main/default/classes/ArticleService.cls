@@ -9,24 +9,48 @@ public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
 
-    public static void calculateExpirationDateBeforeInsert(List<Resource__c> resources) {
+    public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
-                ArticleService.calculateExpirationDateBeforeInsert(resource);
+                this.calculateExpirationDate(resource);
             }
         }
 
     }
 
-    public static void calculateExpirationDateBeforeUpdate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
+    public void calculateExpirationDate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resourcesNew) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
-                ArticleService.calculateExpirationDateBeforeUpdate(resource, oldResMap.get(resource.Id));
+                this.calculateExpirationDate(resource, oldResMap.get(resource.Id));
             }
         }
     }
 
-    public static void addDefaultImage(List<Resource__c> resources) {
+    public void assignTherapeuticAreas(List<Resource__c> resources) {
+
+        TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+        TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
+        Set<String> tANames = new Set<String>();
+        for (Resource__c singleResource : resources) {
+            tANames.addAll(tAService.getTANamesOnResource(singleResource));
+        }
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        tAAService.createTAAsForResources(therapeuticAreas, resources);
+    }
+
+    public void assignTherapeuticAreas(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
+
+        TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+        TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
+        Set<String> tANames = new Set<String>();
+        for (Resource__c singleResource : newResources) {
+            tANames.addAll(tAService.getTANamesOnResource(singleResource));
+        }
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        tAAService.createDeleteTAAs(newResources, oldResourcesByIds, therapeuticAreas);
+    }
+
+    public void addDefaultImage(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (String.isBlank(resource.Image__c)) {
                 if (CONTENT_CLASS_3_RD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
@@ -44,7 +68,7 @@ public with sharing class ArticleService {
         }
     }
 
-    public static String getStaticUrlImage(String imageName) {
+    public String getStaticUrlImage(String imageName) {
         List<StaticResource> resourceList = [SELECT Name, NamespacePrefix, SystemModstamp FROM StaticResource WHERE Name = 'PH_Default_Image'];
 
         // Checking if the result is returned or not
@@ -59,7 +83,7 @@ public with sharing class ArticleService {
         }
     }
 
-    private static void calculateExpirationDateBeforeInsert(Resource__c resource) {
+    private void calculateExpirationDate(Resource__c resource) {
         if (resource.Expiration_Date__c == null) {
             if (resource.Posting_Date__c != null) {
                 resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
@@ -76,19 +100,18 @@ public with sharing class ArticleService {
         }
     }
 
-    private static void calculateExpirationDateBeforeUpdate(Resource__c newResource, Resource__c oldResource) {
+    private void calculateExpirationDate(Resource__c newResource, Resource__c oldResource) {
         if (newResource.Posting_Date__c != oldResource.Posting_Date__c
                 || newResource.Expiration_Date__c != oldResource.Expiration_Date__c) {
-                if (newResource.Posting_Date__c != null) {
-                    newResource.Expiration_Date__c = newResource.Posting_Date__c.addMonths(12);
-                } else if (newResource.Expiration_Date__c != null) {
-                    newResource.Posting_Date__c = newResource.Expiration_Date__c.addMonths(-12);
-                } else {
-                    Date createResource = Date.today();
-                    newResource.Posting_Date__c = createResource;
-                    newResource.Expiration_Date__c = createResource.addMonths(12);
-                }
+            if (newResource.Posting_Date__c != null) {
+                newResource.Expiration_Date__c = newResource.Posting_Date__c.addMonths(12);
+            } else if (newResource.Expiration_Date__c != null) {
+                newResource.Posting_Date__c = newResource.Expiration_Date__c.addMonths(-12);
+            } else {
+                Date createResource = Date.today();
+                newResource.Posting_Date__c = createResource;
+                newResource.Expiration_Date__c = createResource.addMonths(12);
+            }
         }
     }
-
 }
