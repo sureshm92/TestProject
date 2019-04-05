@@ -7,22 +7,25 @@ private class Test_Batch_ReviewOnboardingFAQ {
     @IsTest
     static void testBehavior() {
 
-        Test.startTest();
         Contact testContact = new Contact(
                 FirstName='Igor',
-                LastName = 'Malyuta',
-                Email = 'email@mail.com',
-                Phone = '888-999-808',
-                Language__c='en_US'
+                LastName = 'Malyuta'
+
         );
         insert testContact;
 
         testContact.userCommunity_ShowTour__c = 'PI';
         update testContact;
 
+        Test.startTest();
         Batch_ReviewOnboardingFAQ.run('HCP;Participant');
-
         Test.stopTest();
-        System.assertEquals(Batch_ReviewOnboardingFAQ.DEFAULT_FIELD_VALUE, testContact.userCommunity_ShowTour__c);
+
+        Contact contact = [
+                SELECT Id, userCommunity_ShowTour__c
+                FROM Contact
+                WHERE Id = :testContact.Id
+        ].get(0);
+        System.assertEquals(Batch_ReviewOnboardingFAQ.DEFAULT_FIELD_VALUE, contact.userCommunity_ShowTour__c);
     }
 }

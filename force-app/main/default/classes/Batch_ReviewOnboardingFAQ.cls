@@ -4,7 +4,7 @@
 
 public with sharing class Batch_ReviewOnboardingFAQ implements Database.Batchable<SObject> {
 
-    private static final String QUERY = 'SELECT Id, userCommunity_ShowTour__c FROM Contact';
+    public static final String QUERY = 'SELECT Id, userCommunity_ShowTour__c FROM Contact';
     public static final String DEFAULT_FIELD_VALUE = 'PI;HCP;Participant';
 
     private String userModsToReset;
@@ -24,8 +24,8 @@ public with sharing class Batch_ReviewOnboardingFAQ implements Database.Batchabl
                 if (!mods.contains(userModsToReset)) {
                     mods += ';' + userModsToReset;
                 }
+                contact.userCommunity_ShowTour__c = mods;
             }
-
             update contacts;
         }
     }
