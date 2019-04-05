@@ -7,15 +7,15 @@
         },
 
         doLike: function (component, event, helper) {
-            var resource = component.get('v.resource');
-            resource.isVoted = !resource.isVoted;
-            helper.setResourceAction(component, resource);
+            var resourceWrapper = component.get('v.resourceWrapper');
+            resourceWrapper.isVoted = !resourceWrapper.isVoted;
+            helper.setResourceAction(component, resourceWrapper);
         },
 
         doFavorite: function (component, event, helper) {
-            let resource = component.get('v.resource');
-            resource.isFavorite = !resource.isFavorite;
-            helper.setResourceAction(component, resource);
+            let resourceWrapper = component.get('v.resourceWrapper');
+            resourceWrapper.isFavorite = !resourceWrapper.isFavorite;
+            helper.setResourceAction(component, resourceWrapper);
         },
 
         doRender: function (component, event, helper) {
