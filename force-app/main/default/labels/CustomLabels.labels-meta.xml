@@ -833,6 +833,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My Studies</value>
     </labels>
     <labels>
+        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
+        <value>Complete Baseline Survey</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_Enroll_Now</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -887,6 +894,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Email Action View Study Details</shortDescription>
         <value>View Study Details</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey body text</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1297,6 +1311,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <value>Guest</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1582,6 +1603,13 @@ The IQVIA Study Team</value>
         <value>Best Regards,
 
 IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
@@ -6210,6 +6238,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Title Edit Task</shortDescription>
         <value>Edit Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
+        <value>Please, complete baseline survey</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>

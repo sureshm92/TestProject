@@ -48,9 +48,9 @@ trigger UserProcess on User (after insert, after update) {
                     if(participant != null){
                         tasksForInsert.add(new Task(
                                 OwnerId = user.Id,
-                                Task_Code__c = 'T0001',
+                                Task_Code__c = 'Complete_Your_Profile',
                                 WhatId = participant.Id,
-                                Subject = 'T0001',
+                                Subject = 'Complete_Your_Profile',
                                 ActivityDate = Date.today().addDays(3)
                         ));
                     }

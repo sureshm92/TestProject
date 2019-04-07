@@ -217,6 +217,9 @@
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
+        <connector>
+            <targetReference>p_a6789186_606a_4601_99eb_ec5f64b2736c</targetReference>
+        </connector>
         <fields>
             <name>q_35f3e3ed_a18c_4bb2_a336_10ba90c75588</name>
             <choiceReferences>c_b9fcb4a7_6e31_46ea_add9_0eef08ea66a8</choiceReferences>
@@ -277,6 +280,18 @@
             <fieldType>RadioButtons</fieldType>
             <isRequired>false</isRequired>
         </fields>
+        <pausedText>Survey paused. To pick up where you left off, refresh this page or click the link in your Survey Invitation.</pausedText>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>p_a6789186_606a_4601_99eb_ec5f64b2736c</name>
+        <label>Page 2</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
         <pausedText>Survey paused. To pick up where you left off, refresh this page or click the link in your Survey Invitation.</pausedText>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
