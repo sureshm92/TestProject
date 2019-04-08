@@ -15,5 +15,7 @@
                 component.set('v.pse', pse);
                 component.find('spinner').hide();
             });
+
+        component.set('v.state', communityService.getParticipantState());
     }
 })

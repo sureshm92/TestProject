@@ -13,21 +13,21 @@ public class HomePageParticipantRemote {
     @AuraEnabled
     public static String getInitData(){
         try{
-            ParticipantService.ParticipantState state = ParticipantService.getParticipantState();
-            InitData initData = new InitData();
-            initData.pe = state.pe;
-            initData.pse = state.pse;
+            ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
 
-            if(state.isDelegate) {
+            InitData initData = new InitData();
+            initData.pe = participantState.pe;
+            initData.pse = participantState.pse;
+            if(participantState.isDelegate) {
                 initData.name = (String) CommunityService.getUserContact().get('Name');
-            } else {
-                initData.name = state.pe.Participant__r.Full_Name__c;
+            }
+            else {
+                initData.name = initData.pe.Participant__r.Full_Name__c;
             }
 
             return JSON.serialize(initData);
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+             return (String) AuraHelper.throwException(e);
         }
     }
-
 }

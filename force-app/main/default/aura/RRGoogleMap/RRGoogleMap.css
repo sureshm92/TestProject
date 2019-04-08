@@ -7,9 +7,14 @@
     display: none;
 }
 
-.THIS.inform-text{
-    margin-left: 30px;
-    margin-bottom: 30px;
+.THIS.inform-window{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 665px;
+    height: 374px;
+    background-color: #D9D9D9;
+    color: #6b6b6b;
+    font-size: 20px;
     text-align: center;
-    font-size: 30px;
 }

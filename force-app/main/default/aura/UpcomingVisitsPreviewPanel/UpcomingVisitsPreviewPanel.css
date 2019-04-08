@@ -1,5 +1,5 @@
 /**
- * Created by Igor Malyuta on 03.04.2019.
+ * Created by Igor Malyuta on 08.04.2019.
  */
 .THIS.sv-panel {
     display: flex;
@@ -22,8 +22,8 @@
 
 .THIS .sv-btn {
     box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16),
-                0 4px 4px 0 rgba(0, 0, 0, 0.04),
-                0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    0 4px 4px 0 rgba(0, 0, 0, 0.04),
+    0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
 .THIS .sv-body{

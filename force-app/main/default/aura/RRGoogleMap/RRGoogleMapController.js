@@ -42,4 +42,5 @@
         component.set('v.hasAddress', hasAddress);
         component.set('v.markers', markers);
     }
+
 })

@@ -1,5 +1,5 @@
 /**
- * Created by Igor Malyuta on 03.04.2019.
+ * Created by Igor Malyuta on 08.04.2019.
  */
 ({
     onBookTravel : function (component, event, helper) {
@@ -8,6 +8,6 @@
 
     onClickOk : function (component, event, helper) {
         //redirect to url in new window
-        communityService.navigateToHome();
+        window.location.href = 'https://www.iqvia.com/';
     }
 })

@@ -5,34 +5,52 @@
 public with sharing class Batch_ReviewOnboardingFAQ implements Database.Batchable<SObject> {
 
     public static final String QUERY = 'SELECT Id, userCommunity_ShowTour__c FROM Contact';
-    public static final String DEFAULT_FIELD_VALUE = 'PI;HCP;Participant';
 
-    private String userModsToReset;
+    public static final String SHOW_ALL = 'PI;HCP;Participant';
+    public static final String SHOW_PI = 'PI';
+    public static final String SHOW_HCP = 'HCP';
+    public static final String SHOW_PARTICIPANT = 'Participant';
 
-    public Batch_ReviewOnboardingFAQ(String userModsToReset) {
-        this.userModsToReset = userModsToReset;
+    private String showMods;
+
+    public Batch_ReviewOnboardingFAQ(String showMods) {
+        this.showMods = showMods;
     }
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(QUERY);
     }
 
-    public void execute(Database.BatchableContext param1, List<SObject> contacts) {
-        if(contacts.get(0).getSObjectType() == Contact.getSObjectType()) {
-            for(Contact contact : (List<Contact>) contacts) {
-                String mods = contact.userCommunity_ShowTour__c;
-                if (!mods.contains(userModsToReset)) {
-                    mods += ';' + userModsToReset;
+    public void execute(Database.BatchableContext param1, List<Contact> contacts) {
+        for (Contact contact : contacts) {
+            if(showMods.equals(SHOW_ALL)) {
+                contact.userCommunity_ShowTour__c = SHOW_ALL;
+            }else {
+                String mods = contact.userCommunity_ShowTour__c != null ? contact.userCommunity_ShowTour__c : '';
+                if (!mods.contains(showMods)) {
+                    mods += ';' + showMods;
                 }
                 contact.userCommunity_ShowTour__c = mods;
             }
-            update contacts;
         }
+        update contacts;
     }
 
     public void finish(Database.BatchableContext param1) {}
 
-    public static void run(String userModsToReset) {
-        Database.executeBatch(new Batch_ReviewOnboardingFAQ(userModsToReset), 100);
+    public static void runAll() {
+        Database.executeBatch(new Batch_ReviewOnboardingFAQ(SHOW_ALL));
+    }
+
+    public static void runPI() {
+        Database.executeBatch(new Batch_ReviewOnboardingFAQ(SHOW_PI));
+    }
+
+    public static void runHCP() {
+        Database.executeBatch(new Batch_ReviewOnboardingFAQ(SHOW_HCP));
+    }
+
+    public static void runParticipant() {
+        Database.executeBatch(new Batch_ReviewOnboardingFAQ(SHOW_PARTICIPANT));
     }
 }

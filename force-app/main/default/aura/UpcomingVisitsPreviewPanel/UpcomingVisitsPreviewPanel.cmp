@@ -39,7 +39,8 @@
         </div>
     </div>
 
-    <c:Popup aura:id="popup" title="" headerText="This service may not be available everywhere.  Check with your study team for any questions."
+    <c:Popup aura:id="popup" title=""
+             headerText="This service may not be available everywhere.  Check with your study team for any questions."
              showClose="false" size="small">
         <aura:set attribute="footerButtons">
             <button class="apollo-btn primary" onclick="{!c.onClickOk}">{!$Label.c.BTN_OK}</button>

@@ -2169,6 +2169,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Reports</value>
     </labels>
     <labels>
+        <fullName>Navigation_Resources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Resources</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Search_for_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5131,6 +5138,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG RS L Passed Pre-Eligibility Screening</shortDescription>
         <value>Passed Pre-Eligibility Screening</value>
+    </labels>
+    <labels>
+        <fullName>PG_RW_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resources Workspace</shortDescription>
+        <value>Resources Workspace</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_All_fields_are_required</fullName>
