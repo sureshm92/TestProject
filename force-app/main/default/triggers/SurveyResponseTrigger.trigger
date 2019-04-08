@@ -17,6 +17,8 @@ trigger SurveyResponseTrigger on SurveyResponse (after insert, after update) {
         }
     }
     
+    System.debug('Survey changed!');
+    
     List<Task> tasksForComplete = [
             SELECT Id
             FROM Task
@@ -26,6 +28,7 @@ trigger SurveyResponseTrigger on SurveyResponse (after insert, after update) {
     for (Task t : tasksForComplete){
         t.Status = TaskService.TASK_STATUS_COMPLETED;
     }
+    System.debug('FOR COMPETE SIZE: ' + tasksForComplete.size());
     update tasksForComplete;
     
     List<Task> tasksForPause = [
@@ -37,5 +40,6 @@ trigger SurveyResponseTrigger on SurveyResponse (after insert, after update) {
     for (Task t : tasksForPause){
         t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
     }
+    System.debug('FOR PAUSE SIZE: ' + tasksForComplete.size());
     update tasksForPause;
 }
