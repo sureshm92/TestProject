@@ -5636,6 +5636,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+        <fullName>Resource_Social_Share_email_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Share resource via email</shortDescription>
+        <value>Share resource via email</value>
+    </labels>
+    <labels>
         <fullName>Resource_Tab_Favorites</fullName>
         <language>en_US</language>
         <protected>true</protected>
