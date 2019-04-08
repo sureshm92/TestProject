@@ -6,7 +6,7 @@ public without sharing class TaskEditRemote {
     
     public class TaskEditDataWrapper {
         @AuraEnabled public Task task {get;set;}
-        @AuraEnabled public Boolean emailPreferencesDelegateIsOn {get;set;}
+        @AuraEnabled public Boolean emailPreferencesDelegateIsOff {get;set;}
         @AuraEnabled public Boolean emailPreferencesParticipantIsOn {get;set;}
         @AuraEnabled public List<String> taskTypeList {get;set;}
         @AuraEnabled public Boolean isDelegate {get;set;}
@@ -15,8 +15,8 @@ public without sharing class TaskEditRemote {
         
         public TaskEditDataWrapper(){
             task = new Task();
-            emailPreferencesDelegateIsOn = checkEmailPreferencesIsOn();
-            emailPreferencesParticipantIsOn = checkDelegatesPreferencesIsOn();
+            emailPreferencesDelegateIsOff = checkDelegatesPreferencesIsOff();
+            emailPreferencesParticipantIsOn = checkEmailPreferencesIsOn();
             taskTypeList = getTaskTypeList();
             isDelegate = PatientDelegateService.isDelegate;
             hasDelegates = PatientDelegateService.delegates.size() > 0;
@@ -80,11 +80,11 @@ public without sharing class TaskEditRemote {
         return PatientDelegateService.participant.Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
-    private static Boolean checkDelegatesPreferencesIsOn(){
+    private static Boolean checkDelegatesPreferencesIsOff(){
         List<Contact> delegates = new List<Contact>();
         delegates = PatientDelegateService.getDelegateContacts();
         for(Contact delegate : delegates){
-            if(delegate.Participant_Opt_In_Status_Emails__c) return true;
+            if(!delegate.Participant_Opt_In_Status_Emails__c) return true;
         }
         return false;
     }
