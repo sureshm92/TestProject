@@ -67,6 +67,6 @@
         </aura:if>
     </div>
 
-    <!--c:Alerts userMode="{!v.mode}"/-->
+    <c:Alerts userMode="{!v.mode}"/>
 
 </aura:component>
