@@ -87,7 +87,7 @@
                                                         (or(and(v.userMode != 'Participant', v.userMode != 'Delegate'),
                                                             or(action.id == 'backHome',
                                                                 and(v.currentTab == 'tab-about-the-study',
-                                                                    or(action.id == 'termsAndConditions', v.studyDetail.trial.Share_URL__c != ''))))
+                                                                    or(action.id == 'viewTermsAndConditions', v.studyDetail.trial.Share_URL__c != ''))))
                                                                 ? '' : ' hidden-button')}"
                                                 disabled="{!action.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!action.disableReason}">
                                             <c:RRIcon iconName="{!action.iconName}"/>
@@ -226,8 +226,6 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
-                        <br/>
-                        <br/>
                         <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
                     </aura:if>
 

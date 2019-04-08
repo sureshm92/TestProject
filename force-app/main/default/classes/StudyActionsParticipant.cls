@@ -69,7 +69,7 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
         ));
 
         studyDetailActions.add(new StudyActions.Action(
-                'termsAndConditions',
+                'viewTermsAndConditions',
                 'Terms and Conditions',
                 'paper-many',
                 false

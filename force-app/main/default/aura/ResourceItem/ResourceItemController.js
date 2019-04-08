@@ -3,7 +3,7 @@
         navigateToPage : function (component, event, helper) {
             var resourceWrapper = component.get("v.resourceWrapper");
             var recId = communityService.getUrlParameter('id');
-            communityService.navigateToPage("resources?resourceType=" + resourceWrapper.resource.RecordType.DeveloperName + "&id=" + recId + '&resId=' + resourceWrapper.resource.Id);
+            communityService.navigateToPage("resources?resourceType=" + resourceWrapper.resource.RecordType.DeveloperName + "&id=" + recId + '&resId=' + resourceWrapper.resource.Id + '&ret=' + communityService.createRetString());
         },
 
         doFavorite : function (component, event, helper) {
