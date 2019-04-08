@@ -4,11 +4,10 @@
                          language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
-                         recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
                          parametersProvider="Email_Template_Parameters_From_PSE"
                          sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Patient_Dropped_Out}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Patient16}"
@@ -17,11 +16,10 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              parametersProvider="Email_Template_Parameters_From_PSE"
                              sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Patient_Dropped_Out}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Patient16}"
