@@ -5,8 +5,6 @@
 
     <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
-                         recipientLanguage="{!recipient.Language__c}"
                          parametersProvider="Email_Template_Parameters_From_PE"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient2}"
@@ -22,8 +20,6 @@
     <messaging:plainTextEmailBody>
 
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.Language__c}"
                              parametersProvider="Email_Template_Parameters_From_PE"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient2}"

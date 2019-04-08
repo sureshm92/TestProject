@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class TaskTriggerHandler {
+public without sharing class TaskTriggerHandler {
     
     public static void checkTaskFieldsBeforeInsert(){
         if(Trigger.isBefore && (Trigger.isUpdate || Trigger.isInsert)){

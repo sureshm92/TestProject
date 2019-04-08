@@ -34,6 +34,7 @@ public class CatalogParametersHelper {
         Map<String, String> paramsMap = getParamsMap(pp.Parameters__c);
         Set<String> fields = new Set<String>(paramsMap.values());
         List<SObject> sObjects = queryObjects(pp.Source_Object_Type__c, fields, new Set<Id>{sourceId});
+        TranslateHelper.translate(sObjects, locale);
         Map<String, String> resultMap = new Map<String, String>();
         for(String paramName : paramsMap.keySet()){
             String fieldPath = paramsMap.get(paramName);
