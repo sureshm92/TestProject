@@ -1,13 +1,13 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient}"
-                         recipientType="User"
-                         relatedToType="Participant_Study_Enrollment__c"
-                         language="{!recipient.LanguageLocaleKey}">
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Welcome_To_The_Study}"
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          recipientName="{!recipient.Name}"
-                         recipientLanguage="{!recipient.LanguageLocaleKey}"
-                         parametersProvider="Email_Template_Parameters_From_PSE"
+                         recipientLanguage="{!recipient.Language__c}"
+                         parametersProvider="Email_Template_Parameters_From_PE"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient2}"
                          title="{!$Label.Email_Title}"
@@ -23,8 +23,8 @@
 
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.LanguageLocaleKey}"
-                             parametersProvider="Email_Template_Parameters_From_PSE"
+                             recipientLanguage="{!recipient.Language__c}"
+                             parametersProvider="Email_Template_Parameters_From_PE"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient2}"
                              title="{!$Label.Email_Title}"

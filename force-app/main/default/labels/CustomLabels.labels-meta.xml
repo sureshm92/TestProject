@@ -882,13 +882,6 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My Studies</value>
     </labels>
     <labels>
-        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
-        <value>Complete Baseline Survey</value>
-    </labels>
-    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -901,6 +894,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>EmailPreferencesIsOff</shortDescription>
         <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;settings?tab=account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
+        <value>Complete Baseline Survey</value>
     </labels>
     <labels>
         <fullName>Email_Action_Enroll_Now</fullName>
@@ -1764,6 +1764,13 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Patient8</shortDescription>
         <value>Clinical research study referral update</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Dropped_Out</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Dropped Out</shortDescription>
+        <value>You are dropped out</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP2</fullName>

@@ -1,10 +1,13 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient}"
-                         recipientType="User"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Patient_Dropped_Out}"
+                         recipientType="Contact"
                          relatedToType="Participant_Study_Enrollment__c"
                          language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="Participant"
+        <c:EmailTemplate recipientId="{!recipient.Id}"
+                         recipientName="{!recipient.Name}"
+                         recipientLanguage="{!recipient.Language__c}"
+                         parametersProvider="Email_Template_Parameters_From_PSE"
                          sourceId="{!relatedTo.Id}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -14,7 +17,10 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="Participant"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
+                             recipientName="{!recipient.Name}"
+                             recipientLanguage="{!recipient.Language__c}"
+                             parametersProvider="Email_Template_Parameters_From_PSE"
                              sourceId="{!relatedTo.Id}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
