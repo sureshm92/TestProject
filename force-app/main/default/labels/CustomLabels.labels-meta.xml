@@ -41,6 +41,20 @@ Click OK to begin!</value>
         <value>Welcome to the PH!</value>
     </labels>
     <labels>
+        <fullName>About_the_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>About the Study</shortDescription>
+        <value>About the Study</value>
+    </labels>
+    <labels>
+        <fullName>Admin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Admin</shortDescription>
+        <value>IQVI Admin</value>
+    </labels>
+    <labels>
         <fullName>BTN_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -545,6 +559,13 @@ Click OK to begin!</value>
         <value>https://hpsdevv3-iqviaconnect.cs67.force.com</value>
     </labels>
     <labels>
+        <fullName>Complete_By_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Complete By Date</shortDescription>
+        <value>Complete By Date</value>
+    </labels>
+    <labels>
         <fullName>Cookies_Info_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -558,6 +579,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By closing this cookie message, you are agreeing to our use of cookies.</value>
+    </labels>
+    <labels>
+        <fullName>Created_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Created Date</shortDescription>
+        <value>Created Date</value>
     </labels>
     <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
@@ -819,11 +847,32 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Yesterday</value>
     </labels>
     <labels>
+        <fullName>Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate</shortDescription>
+        <value>Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Disabled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Disabled</shortDescription>
+        <value>Disabled</value>
+    </labels>
+    <labels>
         <fullName>Doc_L_Oh_no_there_are_no_items_here</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Doc L Oh no, there are no items here.</shortDescription>
         <value>Oh no, there are no items here.</value>
+    </labels>
+    <labels>
+        <fullName>Due_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Due Date</shortDescription>
+        <value>Due Date</value>
     </labels>
     <labels>
         <fullName>Eamil_Action_View_My_Studies</fullName>
@@ -838,6 +887,20 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Email Action Complete Baseline Survey</shortDescription>
         <value>Complete Baseline Survey</value>
+    </labels>
+    <labels>
+        <fullName>Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>EmailPreferencesIsOff</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>EmailPreferencesIsOff</shortDescription>
+        <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;settings?tab=account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
     </labels>
     <labels>
         <fullName>Email_Action_Enroll_Now</fullName>
@@ -2036,6 +2099,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>No access</value>
     </labels>
     <labels>
+        <fullName>None</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>None</shortDescription>
+        <value>None</value>
+    </labels>
+    <labels>
         <fullName>OT_DPI_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2386,6 +2456,20 @@ If you are prompted with a window indicating that the file format and extension 
         <protected>false</protected>
         <shortDescription>OT RP S4 T</shortDescription>
         <value>View overall status of past referrals. Refer eligible patients directly from this page.</value>
+    </labels>
+    <labels>
+        <fullName>One_day_before</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>One day before</shortDescription>
+        <value>1 day before</value>
+    </labels>
+    <labels>
+        <fullName>Originator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Originator</shortDescription>
+        <value>Originator</value>
     </labels>
     <labels>
         <fullName>PES_L_All_Steps</fullName>
@@ -5687,6 +5771,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Study sites</value>
     </labels>
     <labels>
+        <fullName>Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Patient</shortDescription>
+        <value>Patient</value>
+    </labels>
+    <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5762,6 +5853,20 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder Date</shortDescription>
+        <value>Reminder Date</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Frequency</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder Frequency</shortDescription>
+        <value>Reminder Frequency</value>
     </labels>
     <labels>
         <fullName>Resource_Tab_Favorites</fullName>
@@ -6016,6 +6121,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Pre-Eligibility Screenings Completions</value>
     </labels>
     <labels>
+        <fullName>Set_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Set Reminder</shortDescription>
+        <value>Set Reminder</value>
+    </labels>
+    <labels>
         <fullName>TST_Complete_Your_Question</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6240,6 +6352,34 @@ is a placehilder to show you what it would look like.</value>
         <value>Edit Task</value>
     </labels>
     <labels>
+        <fullName>Task_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details</shortDescription>
+        <value>Task Details</value>
+    </labels>
+    <labels>
+        <fullName>Task_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Name</shortDescription>
+        <value>Task Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminder_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminder Details</shortDescription>
+        <value>Task Reminder Details (Optional)</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminders_Missing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminders Missing</shortDescription>
+        <value>Currently all recipients do not have their communication preference set to receive emails. Some task reminders may not be delivered.</value>
+    </labels>
+    <labels>
         <fullName>Task_Subject_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6308,6 +6448,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
         <value>Priority</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Type</shortDescription>
+        <value>Task Type</value>
     </labels>
     <labels>
         <fullName>Test_Label_With_Param</fullName>

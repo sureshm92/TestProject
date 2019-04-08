@@ -4,7 +4,6 @@
 
 public class PSETriggerHandler {
     
-    public static final String TASK_CODE_COMPLETE_BASELINE_SURVEY = 'Complete_Baseline_Survey';
     
     public static void processStatusHistory(){
         if(Trigger.isAfter && (Trigger.isInsert || Trigger.isUpdate)){
@@ -38,11 +37,7 @@ public class PSETriggerHandler {
             for(Participant__c participant : participants) contactIds.add(participant.Contact__c);
             List<User> users = [SELECT Id FROM User WHERE ContactId IN: contactIds];
             for(User taskOwner : users){
-                tasks.add(new Task(
-                        OwnerId = taskOwner.Id,
-                        Subject = TASK_CODE_COMPLETE_BASELINE_SURVEY,
-                        Task_Code__c =TASK_CODE_COMPLETE_BASELINE_SURVEY
-                ));
+                tasks.add(TaskService.createCompleteBaselineSurveyTask(taskOwner.Id));
             }
             insert tasks;
         }

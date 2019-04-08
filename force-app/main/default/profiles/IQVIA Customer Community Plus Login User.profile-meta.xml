@@ -607,10 +607,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TaskPriorityEnum</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TaskService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1475,6 +1471,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Visible_For__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3210,6 +3211,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Task_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Visible_For__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

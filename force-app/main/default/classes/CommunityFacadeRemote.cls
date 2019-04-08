@@ -21,12 +21,12 @@ public without sharing class CommunityFacadeRemote {
         }
     }
 
-    private class CommunityData{
-        String communityMode;
-        List<String> communityTypes;
-        String pathPrefix;
-        Boolean isTCAccepted;
-        String language;
+    public class CommunityData{
+        public String communityMode;
+        public List<String> communityTypes;
+        public String pathPrefix;
+        public Boolean isTCAccepted;
+        public String language;
     }
 
     @AuraEnabled
