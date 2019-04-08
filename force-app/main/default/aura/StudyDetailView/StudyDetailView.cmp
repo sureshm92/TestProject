@@ -24,6 +24,8 @@
     <aura:attribute name="resourceImagePath" type="String" access="private"/>
     <aura:attribute name="resourceMode" type="String" default="Default"/>
     <aura:attribute name="taskMode" type="String" default="Open"/>
+    <aura:attribute name="isShare" type="Boolean"/>
+    <aura:attribute type="String" name="shareMessage"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -85,32 +87,12 @@
                                                         (or(and(v.userMode != 'Participant', v.userMode != 'Delegate'),
                                                             or(action.id == 'backHome',
                                                                 and(v.currentTab == 'tab-about-the-study',
-                                                                    or(action.id == 'downloadConsent', v.studyDetail.trial.Share_URL__c != ''))))
+                                                                    or(action.id == 'termsAndConditions', v.studyDetail.trial.Share_URL__c != ''))))
                                                                 ? '' : ' hidden-button')}"
                                                 disabled="{!action.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!action.disableReason}">
                                             <c:RRIcon iconName="{!action.iconName}"/>
                                             {!action.label}
                                         </button>
-                                        <aura:if isTrue="{!action.id == 'shares'}">
-                                            <div class="button-share-icon">
-                                                <div class=""
-                                                     id="{!v.studyDetail.actions.envelope.id}" onclick="{!c.doAction}">
-                                                    <c:RRIcon iconName="{!v.studyDetail.actions.envelope.iconName}" class="share-button"/>
-                                                </div>
-                                                <div class=""
-                                                          id="{!v.studyDetail.actions.facebook.id}" onclick="{!c.doAction}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.facebook.iconName}" color="#3A5899" class="share-button"/>
-                                                  </div>
-                                                <div class=""
-                                                         id="{!v.studyDetail.actions.twitter.id}" onclick="{!c.doAction}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.twitter.iconName}" color="#1DA1F2" class="share-button"/>
-                                                  </div>
-                                                <div class=""
-                                                          id="{!v.studyDetail.actions.linkedin.id}" onclick="{!c.doAction}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}" color="#007BB5" class="share-button"/>
-                                                  </div>
-                                            </div>
-                                        </aura:if>
                                     </aura:iteration>
                                 </aura:set>
                             </c:RRTabSet>
@@ -126,6 +108,21 @@
                         <!-- PI -->
                         <aura:if isTrue="{!v.userMode == 'PI'}">
                             <button class="apollo-btn text" data-anchor="referringClinicsAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isShare}">
+                                <c:SocialSharing
+                                        facebookIconClass="share-social-icon"
+                                        facebookIconName="facebook"
+                                        mailBoxIconName="email"
+                                        mailBoxIconClass="share-social-icon"
+                                        twitterIconName="twitter"
+                                        twitterIconClass="share-social-icon"
+                                        linkedInIconName="linked-in"
+                                        linkedInIconClass="share-social-icon"
+                                        linkToShare="{!v.studyDetail.trial.Share_URL__c}"
+                                        mailSendMessage="{!v.shareMessage}"
+                                        cssClass="share-social-buttons"
+                                />
                         </aura:if>
                     </div>
 

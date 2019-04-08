@@ -38,6 +38,26 @@
         history.pushState(null, '',
             communityService.getCommunityURLPathPrefix() + '/study-workspace?' + paramsStr);
 
-    }
+    },
+
+    mailSendMessage: function (component) {
+        let urlShare = component.get('v.studyDetail.trial.Share_URL__c');
+        let messageShare = $A.get("$Label.c.Resources_social");
+        if (urlShare && messageShare) {
+            if (!String.format) {
+                String.format = function (format) {
+                    var args = Array.prototype.slice.call(arguments, 1);
+                    return format.replace(/{(\d+)}/g, function (match, number) {
+                        return typeof args[number] != 'undefined'
+                            ? args[number]
+                            : match
+                            ;
+                    });
+                };
+            }
+            messageShare = String.format(messageShare, urlShare);
+            component.set('v.shareMessage', messageShare);
+        }
+    },
 
 })
