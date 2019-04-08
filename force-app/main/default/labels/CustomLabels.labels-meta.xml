@@ -1850,6 +1850,13 @@ IQVIA Study Team</value>
         <value>Upcoming Visit Task</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Welcome_To_The_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Welcome To The Study</shortDescription>
+        <value>Welcome to the study</value>
+    </labels>
+    <labels>
         <fullName>Email_Text_View_Stub</fullName>
         <language>en_US</language>
         <protected>false</protected>
