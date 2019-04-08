@@ -82,18 +82,22 @@
             'my-study':{
                 page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_My_Study')
+            },
+
+            'resources':{
+                page: 'study-workspace?tab=tab-resources',
+                label: $A.get('$Label.c.Navigation_Resources')
             }
-
-
-
         };
 
         //init items for every type
+        var middleMenuItem = communityService.getParticipantState() === 'ALUMNI' ? 'resources' : 'my-study';
+
         this.itemsMap = {
 
             Participant: [
                 this.allPagesMap['participant-home'],
-                this.allPagesMap['my-study'],
+                this.allPagesMap[middleMenuItem],
                 this.allPagesMap['help']
             ],
 

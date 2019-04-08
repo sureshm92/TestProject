@@ -9,6 +9,7 @@
     <!-- attributes: -->
     <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail"/>
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
+    <aura:attribute name="state" type="String" description="ALUMNI, PROSPECT, REFERRAL, PARTICIPANT"/>
     <aura:attribute name="currentTab" type="String" default="tab-about-the-study"/>
     <aura:attribute name="multiMode" type="Boolean"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
@@ -45,16 +46,26 @@
             <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
-                        <c:RRNavigationPath>
-                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
-                        </c:RRNavigationPath>
-                        <aura:if isTrue="{!!empty(v.studyDetail.trial.Profile_Picture__c)}">
-                            <div class="rr-width-limiter">
-                                <img class="contrast-logo" src="{!v.studyDetail.trial.Profile_Picture__c}"/>
-                            </div>
+                        <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                            <c:RRNavigationPath>
+                                <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
+                            </c:RRNavigationPath>
+                            <aura:if isTrue="{!!empty(v.studyDetail.trial.Profile_Picture__c)}">
+                                <div class="rr-width-limiter">
+                                    <img class="contrast-logo" src="{!v.studyDetail.trial.Profile_Picture__c}"/>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!empty(v.studyDetail.trial.Profile_Picture__c)}">
+                                <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+                            </aura:if>
                         </aura:if>
-                        <aura:if isTrue="{!empty(v.studyDetail.trial.Profile_Picture__c)}">
-                            <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+                        <aura:if isTrue="{!v.state == 'ALUMNI'}">
+                            <c:RRNavigationPath>
+                                <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
+                            </c:RRNavigationPath>
+                            <div class="rr-width-limiter">
+                                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+                            </div>
                         </aura:if>
                     </aura:if>
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
@@ -65,7 +76,6 @@
                         <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
                     </aura:if>
                 </div>
-
 
                 <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                     <c:RRAnchor aura:id="tabsTarget"/>
@@ -130,7 +140,9 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}">
-                        <button id="changeResourceMode" data-resource-mode="Documents" class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
+                        <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                            <button id="changeResourceMode" data-resource-mode="Documents" class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
+                        </aura:if>
                         <button id="changeResourceMode" data-resource-mode="Default" class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
                         <button id="changeResourceMode" data-resource-mode="Favorite" class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
                     </div>

@@ -177,9 +177,12 @@ public without sharing class MyTeamRemote {
         }
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Contact> delegateContacts;
-            if (useProvidedContacts)
-                delegateContacts = delegatesToProcess; else
-                    delegateContacts = PatientDelegateService.getDelegateContacts();
+            if (useProvidedContacts) {
+                delegateContacts = delegatesToProcess;
+            }
+            else {
+                delegateContacts = PatientDelegateService.getDelegateContacts();
+            }
 
             for (Contact patientDelegate : delegateContacts) {
                 DelegateWrapper dw = new DelegateWrapper();

@@ -3,7 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if (!helper.itemsMap) helper.initItemsMap();
+        if(communityService.isInitialized()) {
+            if (!helper.itemsMap) helper.initItemsMap();
+        }
     },
 
     doChangeItemsList: function (component, event, helper) {

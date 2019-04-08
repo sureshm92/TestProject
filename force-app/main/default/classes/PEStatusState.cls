@@ -64,7 +64,8 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_FAILED,
             PE_STATUS_ENROLLMENT_FAILED,
             PE_STATUS_FAILED_REVIEW,
-            PE_STATUS_FAILED_REFERRAL
+            PE_STATUS_FAILED_REFERRAL,
+            PE_STATUS_EXCLUDED_FROM_REFERRING
     };
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS = new List<String>{
             PE_STATUS_REFERRAL_SENT_TO_PI,
