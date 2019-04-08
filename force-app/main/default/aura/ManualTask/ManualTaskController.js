@@ -7,6 +7,7 @@
             var initData = JSON.parse(returnValue);
             component.set('v.task', initData.task);
             component.set('v.priorities', initData.priorities);
+            component.set('v.visibility', initData.visibility);
             component.set('v.taskFilters', initData.filters);
 
             component.set('v.statuses', []);
