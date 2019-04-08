@@ -903,6 +903,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My Studies</value>
     </labels>
     <labels>
+        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
+        <value>Complete Baseline Survey</value>
+    </labels>
+    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -971,6 +978,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Email Action View Study Details</shortDescription>
         <value>View Study Details</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey body text</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1141,6 +1155,13 @@ If you would like to be contacted about future clinical research opportunities, 
         <protected>false</protected>
         <shortDescription>Email_Body_Patient15</shortDescription>
         <value>Congratulations, you have been enrolled in the clinical research study: ##StudyTitle. You will be contacted by the Principal Investigator’s site regarding next steps in the study process. To track your clinical research study status, please login to the IQVIA™ Patient Hub.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient16</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_Patient16</shortDescription>
+        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. We want to ensure you are successful as you continue to manage your health. Please feel free to contact us at any time, if we can be of assistance with any future trial information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -1372,6 +1393,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Guest User Name</shortDescription>
         <value>Guest</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -1650,6 +1678,22 @@ The IQVIA Patient Hub Support Team</value>
         <value>Sincerely, 
 
 The IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_drop_out</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature drop out</shortDescription>
+        <value>Best Regards,
+
+IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
@@ -3256,6 +3300,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS T Privacy Rights</shortDescription>
         <value>For questions about your personal data or privacy rights, please contact us using the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_BLS_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG BLS Header</shortDescription>
+        <value>Base Line Survey</value>
     </labels>
     <labels>
         <fullName>PG_CP_L_Address</fullName>
@@ -6490,6 +6541,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Task Reminders Missing</shortDescription>
         <value>Currently all recipients do not have their communication preference set to receive emails. Some task reminders may not be delivered.</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
+        <value>Please, complete baseline survey</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>

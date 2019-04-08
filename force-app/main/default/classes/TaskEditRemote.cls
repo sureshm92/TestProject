@@ -3,30 +3,53 @@
  */
 
 public without sharing class TaskEditRemote {
-
-    private static Task getTaskById(Id taskId) {
-        try {
-            return TaskService.getTask(taskId);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+    
+    public class TaskEditDataWrapper {
+        @AuraEnabled public Task task {get;set;}
+        @AuraEnabled public Boolean emailPreferencesDelegateIsOn {get;set;}
+        @AuraEnabled public Boolean emailPreferencesParticipantIsOn {get;set;}
+        @AuraEnabled public List<String> taskTypeList {get;set;}
+        @AuraEnabled public Boolean isDelegate {get;set;}
+        @AuraEnabled public Boolean hasDelegates {get;set;}
+        @AuraEnabled public Boolean isReferral {get;set;}
+        
+        public TaskEditDataWrapper(){
+            task = new Task();
+            emailPreferencesDelegateIsOn = checkEmailPreferencesIsOn();
+            emailPreferencesParticipantIsOn = checkDelegatesPreferencesIsOn();
+            taskTypeList = getTaskTypeList();
+            isDelegate = PatientDelegateService.isDelegate;
+            hasDelegates = PatientDelegateService.delegates.size() > 0;
+            isReferral = ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.REFERRAL;
         }
     }
-
+    
+    @AuraEnabled
+    public static TaskEditDataWrapper getTaskEditData(Id taskId){
+        TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
+        if(taskId != null) wrapper.task = TaskService.getTask(taskId);
+        return wrapper;
+    }
+    
     @AuraEnabled
     public static String upsertTask(Task paramTask) {
         try{
-            if (paramTask.OwnerId == null) {
-                paramTask.OwnerId = Id.valueOf(UserInfo.getUserId());
+            Boolean isDelegate = ParticipantService.getParticipantState().isDelegate;
+            if(isDelegate){
+                paramTask.OwnerId = PatientDelegateService.getDelegatePatientUserId();
+            } else{
+                paramTask.OwnerId = UserInfo.getUserId();
             }
             if (paramTask.Visible_For__c == null) {
-                paramTask.Visible_For__c = 'Owner;Delegates;';
+                paramTask.Visible_For__c = 'Owner;Delegates';
+            }
+            if(paramTask.Task_Type__c == 'Medication' && paramTask.Task_Type__c == 'Visit'){
+                paramTask.WhatId = ParticipantService.getParticipantState().pse.Id;
             }
             upsert paramTask;
-
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
-
         return 'Success';
     }
 
@@ -35,9 +58,8 @@ public without sharing class TaskEditRemote {
         try {
             delete paramTask;
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
-
         return 'Success';
     }
 
@@ -49,32 +71,20 @@ public without sharing class TaskEditRemote {
             upsert paramTask;
 
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
-
         return 'Success';
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        Boolean emailPreferencesIsOn = false;
-        Contact currentContact = AccountSettingsController.getCurrentContact();
-        emailPreferencesIsOn = currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
-                || currentContact.HCP_Opt_In_Study_Emails__c || currentContact.HCP_Opt_In_Referral_Status_Emails__c;
-        return emailPreferencesIsOn;
+        return PatientDelegateService.participant.Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
-    private static Boolean checkDelegatesPreferencesIsOn(TaskEditDataWrapper wrapper){
-        List<Patient_Delegate__c> delegates = new List<Patient_Delegate__c>();
-        delegates = PatientDelegateService.getPatientDelegates();
-        if(delegates.isEmpty()){
-            wrapper.hasDelegates = false;
-        }
-        for(Patient_Delegate__c delegate : delegates){
-            wrapper.hasDelegates = true;
-            if(delegate.Contact__r.Participant_Opt_In_Status_Emails__c || delegate.Contact__r.HCP_Opt_In_Patient_Status_Emails__c ||
-                    delegate.Contact__r.HCP_Opt_In_Study_Emails__c || delegate.Contact__r.HCP_Opt_In_Referral_Status_Emails__c){
-                return true;
-            }
+    private static Boolean checkDelegatesPreferencesIsOn(){
+        List<Contact> delegates = new List<Contact>();
+        delegates = PatientDelegateService.getDelegateContacts();
+        for(Contact delegate : delegates){
+            if(delegate.Participant_Opt_In_Status_Emails__c) return true;
         }
         return false;
     }
@@ -89,40 +99,5 @@ public without sharing class TaskEditRemote {
         return pickListValuesList;
     }
 
-    @AuraEnabled
-    public static TaskEditDataWrapper getTaskEditData(Id taskId){
-        TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
-        if(taskId != null) {
-            wrapper.task = getTaskById(taskId);
-        }
-        wrapper.emailPreferencesParticipantIsOn = checkEmailPreferencesIsOn();
-        wrapper.emailPreferencesDelegateIsOn = checkDelegatesPreferencesIsOn(wrapper);
-        wrapper.taskTypeList = getTaskTypeList();
-        wrapper.isDelegate = ParticipantService.getParticipantState().isDelegate;
-        return wrapper;
-    }
 
-    public class TaskEditDataWrapper {
-        @AuraEnabled
-        public Task task {get;set;}
-        @AuraEnabled
-        public Boolean emailPreferencesDelegateIsOn {get;set;}
-        @AuraEnabled
-        public Boolean emailPreferencesParticipantIsOn {get;set;}
-        @AuraEnabled
-        public List<String> taskTypeList {get;set;}
-        @AuraEnabled
-        public Boolean isDelegate {get;set;}
-        @AuraEnabled
-        public Boolean hasDelegates {get;set;}
-
-        public TaskEditDataWrapper(){
-            task = new Task();
-            emailPreferencesDelegateIsOn = false;
-            emailPreferencesParticipantIsOn = false;
-            taskTypeList = new List<String>();
-            isDelegate = false;
-            hasDelegates = false;
-        }
-    }
 }

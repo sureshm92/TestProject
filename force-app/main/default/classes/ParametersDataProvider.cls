@@ -17,28 +17,36 @@ public without sharing class ParametersDataProvider {
     public String recipientName;
     public Id recipientId;
     public String recipientLanguage;
+    public String parametersProviderName;
     
-    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String userType, String outputMode){
+    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String parametersProviderName, String userType, String outputMode){
         this.userMode = userType;
         this.recipientName = recipientName;
         this.recipientId = recipientId;
         this.recipientLanguage = recipientLanguage;
+        this.parametersProviderName = parametersProviderName;
         parameters = new Map<String, String>();
+        updateRecipientName();
         if(sourceId != null){
-            if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                initParamsFromPE(sourceId);
-            } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                initParamsFromHCPE(sourceId);
-            } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
-                initParamsFromSS(sourceId);
-            } else if(sourceId.getSobjectType() == Contact.getSObjectType()){
-                initParamsFromContact(sourceId);
-            } else if(sourceId.getSobjectType() == User.getSObjectType()){
-                initParamsFromUser(sourceId);
-            } else if(sourceId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType()){
-                initParamsFromPSE(sourceId);
-            } else if(sourceId.getSobjectType() == Task.getSObjectType()){
-                initParamsFromTask(sourceId);
+            if(parametersProviderName == null){
+                if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                    initParamsFromPE(sourceId);
+                } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
+                    initParamsFromHCPE(sourceId);
+                } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
+                    initParamsFromSS(sourceId);
+                } else if(sourceId.getSobjectType() == Contact.getSObjectType()){
+                    initParamsFromContact(sourceId);
+                } else if(sourceId.getSobjectType() == User.getSObjectType()){
+                    initParamsFromUser(sourceId);
+                } else if(sourceId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType()){
+                    initParamsFromPSE(sourceId);
+                } else if(sourceId.getSobjectType() == Task.getSObjectType()){
+                    initParamsFromTask(sourceId);
+                }
+            }else{
+                Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
+                parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
             }
         }else{
             initDummyParams();
@@ -89,11 +97,6 @@ public without sharing class ParametersDataProvider {
                 'StudySiteName' => pse.Study_Site__r.Name,
                 'SitePhoneNumber' => pse.Study_Site__r.Study_Site_Phone__c
         });
-        
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT && pse.Participant__r.Contact__c != recipientId){
-            parameters.put('ParticipantName', recipientName);
-            parameters.put('PatientFirstName', pse.Participant__r.First_Name__c);
-        }
     }
     
     private void initParamsFromPE(Id sourceId){
@@ -149,12 +152,6 @@ public without sharing class ParametersDataProvider {
                 'HCP' => pe.HCP__c,
                 'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c
         });
-    
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT && pe.Participant__r.Contact__c != recipientId){
-            parameters.put('ParticipantName', recipientName);
-            parameters.put('PatientFirstName', pe.Participant__r.First_Name__c);
-        }
-
     }
     
     private void initParamsFromHCPE(Id hcpeId){
@@ -249,23 +246,6 @@ public without sharing class ParametersDataProvider {
             'TaskName' => task.Subject,
             'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT){
-            parameters.put('ParticipantName', recipientName);
-            if(emailOwner.ContactId != null){
-                List<Participant__c> participants = [
-                        SELECT
-                                Id,
-                                Contact__c,
-                                First_Name__c,
-                                Last_Name__c
-                        FROM Participant__c
-                        WHERE Contact__c =: emailOwner.ContactId
-                ];
-                if(participants.size() > 0 && participants[0].Contact__c == recipientId){
-                    parameters.put('ParticipantName', getFullParticipantName(participants[0]));
-                }
-            }
-        }
     }
     
     private void initParamsFromContact(Id contactId){
@@ -301,7 +281,6 @@ public without sharing class ParametersDataProvider {
             }else{
                 //todo prepare parameters for patient delegate
             }
-            
         }
     }
     
@@ -312,6 +291,7 @@ public without sharing class ParametersDataProvider {
     }
     
     public String getUserName(){
+        if(recipientName != null) return recipientName;
         String userNameParam = userMode + 'Name';
         return parameters.get(userNameParam);
     }
@@ -385,6 +365,27 @@ public without sharing class ParametersDataProvider {
         String participantLanguage = participant.Contact__r.Language__c;
         if(participant.Contact__c == null) participantLanguage = participant.Language_Preference_Code__c;
         return participantLanguage;
+    }
+    
+    private void updateRecipientName(){
+        if (recipientId == null) return ;
+        Id recipientContactId = recipientId;
+        Id rId = recipientId;
+        if (rId.getSobjectType() == User.getSObjectType()) {
+            User recipientUser = [
+                    SELECT Id, ContactId, LanguageLocaleKey
+                    FROM User
+                    WHERE Id =: recipientId
+            ];
+            recipientContactId = recipientUser.ContactId;
+        }
+        
+        if (recipientContactId != null) {
+            List<Participant__c> participants = [SELECT First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c = :recipientContactId];
+            if (participants.size() > 0) {
+                recipientName = getFullParticipantName(participants[0]);
+            }
+        }
     }
   
 }

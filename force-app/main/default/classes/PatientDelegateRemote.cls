@@ -10,10 +10,10 @@ public class PatientDelegateRemote {
             List<Participant__c> contacts = [
                     SELECT First_Name__c
                     FROM Participant__c
-                    WHERE Contact__r.Id = :PatientDelegateService.getDelegatePatientUserContactId()];
-
+                    WHERE Id =: PatientDelegateService.participant.Id];
+    
             return contacts.get(0).First_Name__c;
-        }catch (Exception e) {
+        }catch (Exception e){
             AuraHelper.throwException(e);
             return null;
         }
@@ -24,8 +24,8 @@ public class PatientDelegateRemote {
         try{
             Contact contactToWithdraw = (Contact) JSON.deserialize(delegate, Contact.class);
             PatientDelegateService.resetDelegate(contactToWithdraw);
-        }catch (Exception e) {
-            AuraHelper.throwException(e);
+        }catch (Exception e){
+        
         }
     }
 
@@ -33,7 +33,7 @@ public class PatientDelegateRemote {
     public static String isDelegate() {
         try{
             return ParticipantService.getParticipantState().isDelegate ? 'TRUE' : 'FALSE';
-        }catch (Exception e) {
+        }catch (Exception e){
             AuraHelper.throwException(e);
             return null;
         }
@@ -41,11 +41,6 @@ public class PatientDelegateRemote {
 
     @AuraEnabled
     public static String getLogOutUrl() {
-        try{
-            return Site.getBaseUrl();
-        }catch (Exception e) {
-            AuraHelper.throwException(e);
-            return null;
-        }
+        return Site.getBaseUrl();
     }
 }

@@ -30,17 +30,24 @@
                             <th class="priority">{!$Label.c.Originator}</th>
                             <th class="completed-by">{!$Label.c.Due_date}</th>
                             <th class="completed-by">{!$Label.c.Reminder_Date}</th>
+                            <th></th>
                         </tr>
                         <aura:iteration items="{!v.openTasks}" var="taskWrapper">
                             <tr>
                                 <td>
-                                    <c:RRLink label="{!taskWrapper.openTask.Subject}" page="{!'edit-task?id=' + taskWrapper.openTask.Id}"/>
+                                    <c:RRLink label="{!taskWrapper.openTask.Subject}"
+                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'edit-task?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
                                 </td>
                                 <td>
                                     {!taskWrapper.originator}
                                 </td>
                                 <td>
-                                    <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
+                                        In Progress
+                                    </aura:if>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
+                                        <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                    </aura:if>
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c != null}">
@@ -48,6 +55,11 @@
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c == null}">
                                         {!$Label.c.None}
+                                    </aura:if>
+                                </td>
+                                <td class="ignore">
+                                    <aura:if isTrue="{!taskWrapper.originator != $Label.c.Admin}">
+                                        <button id="{!taskWrapper.openTask.Id}" class="apollo-btn tertiary" onclick="{!c.doIgnoreTask}">{!$Label.c.BTN_Ignore}</button>
                                     </aura:if>
                                 </td>
                             </tr>

@@ -2,12 +2,28 @@
  * Created by Leonid Bartenev
  */
 
-public class TaskService {
+public without sharing class TaskService {
     
     public class TaskServiceException extends Exception{}
     
+    public static final String TASK_STATUS_OPEN = 'Open';
+    public static final String TASK_STATUS_COMPLETED = 'Completed';
+    public static final String TASK_STATUS_IN_PROGRESS = 'In Progress';
+    public static final String TASK_STATUS_IGNORED = 'Ignored';
+    
+    public static final String TASK_PRIORITY_NORMAL = 'Normal';
+    public static final String TASK_PRIORITY_CRITICAL = 'Critical';
+    
+    public static final String TASK_VISIBILITY_OWNER = 'Owner';
+    public static final String TASK_VISIBILITY_DELEGATE = 'Delegate';
+    
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
+    
+    public static final String TASK_CODE_COMPLETE_BASELINE_SURVEY = 'Complete_Baseline_Survey';
+    public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
+    
+    public static final String OPEN_TASKS_ORDER = ' ORDER BY Priority DESC, ActivityDate NULLS LAST, CreatedDate DESC';
     
     public static final List<String> DEFAULT_FIELDS = new List<String>{
             'Id',
@@ -23,7 +39,8 @@ public class TaskService {
             'Task_Code__c',
             'WhatId',
             'Task_Type__c',
-            'Visible_For__c'
+            'Visible_For__c',
+            'Action_URL__c'
     };
     
     public static List<Task> getTasksCommon(String filter){
@@ -31,7 +48,7 @@ public class TaskService {
         if(!ParticipantService.getParticipantState().isDelegate){
             ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
         } else {
-            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatePatientUserContactId() + '\'';
+            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatePatientUserId() + '\'';
         }
         if(filter == null) {
             filter = ownerFilter;
@@ -46,16 +63,12 @@ public class TaskService {
     }
     
     public static List<Task> getOpenTasks() {
-        return getTasksCommon(' Status=\'Open\'' + getVisibilityFilter() + ' ORDER BY Priority, ActivityDate, CreatedDate');
+        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER);
     }
 
-    private static String getVisibilityFilter(){
-        String role = ParticipantService.getParticipantState().isDelegate ? 'Delegates' : 'Owner';
-        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
-    }
-    
     public static List<Task> getPreviewTasks(){
-        return getTasksCommon(' Status=\'Open\' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ORDER BY Priority DESC, CreatedDate DESC LIMIT 5 ');
+        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() +
+                ' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ' + OPEN_TASKS_ORDER + ' LIMIT 5');
     }
     
     public static Task getTask(Id taskId){
@@ -65,21 +78,72 @@ public class TaskService {
     }
     
     public static List<Task> getCompletedTasks(){
-        return getTasksCommon(' Status IN (\'Completed\', \'Ignored\')' + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
+        return getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
     }
     
     public static void ignoreTask(Id taskId){
         Task task = getTask(taskId);
-        task.Status = 'Ignored';
+        task.Status = TASK_STATUS_IGNORED;
         task.Completed_Date__c = Datetime.now();
         update task;
     }
     
     public static void completeTask(Id taskId){
         Task task = getTask(taskId);
-        task.Status = 'Completed';
+        task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
         update task;
     }
- 
+    
+    
+    public static Task createCompleteBaselineSurveyTask(Id ownerId){
+        return new Task(
+                OwnerId = ownerId,
+                Subject = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
+                Task_Code__c = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
+                Status = TASK_STATUS_OPEN,
+                Priority = TASK_PRIORITY_CRITICAL,
+                ActivityDate = Date.today().addDays(3),
+                Visible_For__c = TASK_VISIBILITY_OWNER
+        );
+    }
+    
+    public static Task createCompleteYourProfileTask(Id ownerId, Id participantId, Id participantContactId){
+        return new Task(
+                OwnerId = ownerId,
+                Subject = TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE,
+                Task_Code__c = TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE,
+                Status = TASK_STATUS_OPEN,
+                Priority = TASK_PRIORITY_CRITICAL,
+                WhatId = participantId,
+                WhoId = participantContactId,
+                ActivityDate = Date.today().addDays(3),
+                Visible_For__c = TASK_VISIBILITY_OWNER
+        );
+    }
+    
+    private static String getVisibilityFilter(){
+        String role = ParticipantService.getParticipantState().isDelegate ? 'Delegates' : 'Owner';
+        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
+    }
+    
+    public static String getOpenTasksFilter(){
+        List<String> statusFilter = new List<String>{
+                TASK_STATUS_OPEN,
+                TASK_STATUS_IN_PROGRESS
+        };
+        return ' Status IN (\'' + String.join(statusFilter, '\',\'') +  '\') ';
+    }
+    
+    private static String getCompletedTasksFilter(){
+        List<String> statusFilter = new List<String>{
+                TASK_STATUS_IGNORED,
+                TASK_STATUS_COMPLETED
+        };
+        return ' Status IN (\'' + String.join(statusFilter, '\',\'') +  '\') ';
+        
+    }
+
+
+
 }

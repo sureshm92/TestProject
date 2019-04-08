@@ -25,15 +25,19 @@
         communityService.executeAction(component, 'getTaskEditData', {
             'taskId': paramTaskId
         }, function (wrapper) {
+            debugger;
             component.set('v.task', wrapper.task);
             if (wrapper.task.Status === 'Completed') {
                 component.set('v.taskStatusCompleted', true);
             }
-            console.log('here');
             component.set('v.isDelegate', wrapper.isDelegate);
             component.set('v.hasDelegates', wrapper.hasDelegates);
             component.set('v.emailDelegateTurnedOn', wrapper.emailPreferencesDelegateIsOn);
             component.set('v.emailParticipantTurnedOn', wrapper.emailPreferencesParticipantIsOn);
+            component.set('v.isReferral', wrapper.isReferral);
+            if(wrapper.isReferral){
+                component.set('v.task.Task_Type__c', null);
+            }
             console.log(!wrapper.emailPreferencesParticipantIsOn);
             console.log(!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates);
             console.log((!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates) || !wrapper.hasDelegates);
@@ -87,13 +91,6 @@
             window.history.go(-1);
         })
     },
-    doDeleteTask: function (component, event, helper) {
-        communityService.executeAction(component, 'deleteTask', {
-            'paramTask': component.get('v.task')
-        }, function (string) {
-            window.history.go(-1);
-        })
-    },
 
     doMarkAsCompleted: function (component, event, helper) {
         component.find('spinner').show();
@@ -105,6 +102,7 @@
             component.find('spinner').hide();
         })
     },
+
     onChangeFreq: function (component, event, helper) {
         var freq = event.getSource().get('v.value');
         var reminderDateComponent = component.find('reminderDateId');
@@ -123,6 +121,7 @@
             reminderDateComponent.set('v.disabled', true);
         }
     },
+
     onChangeSetReminder: function (component, event, helper) {
         var reminderFrequencyValue = event.getSource().get('v.value');
         var reminderDateComponent = component.find('reminderDateId');
@@ -138,6 +137,7 @@
             reminderDateComponent.set('v.disabled', false);
         }
     },
+
     onChangeDueDate: function (component, event, helper) {
         var dueDate = component.get('v.task.ActivityDate');
         var reminderFrequencyComponent = component.find('reminderFreqId');

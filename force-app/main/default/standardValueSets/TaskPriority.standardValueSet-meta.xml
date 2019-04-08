@@ -5,7 +5,7 @@
         <fullName>High</fullName>
         <default>false</default>
         <label>High</label>
-        <highPriority>true</highPriority>
+        <highPriority>false</highPriority>
     </standardValue>
     <standardValue>
         <fullName>Normal</fullName>
@@ -23,12 +23,6 @@
         <fullName>Critical</fullName>
         <default>false</default>
         <label>Critical</label>
-        <highPriority>false</highPriority>
-    </standardValue>
-    <standardValue>
-        <fullName>Not selected</fullName>
-        <default>false</default>
-        <label>Not selected</label>
-        <highPriority>false</highPriority>
+        <highPriority>true</highPriority>
     </standardValue>
 </StandardValueSet>

@@ -286,13 +286,13 @@ public without sharing class ParticipantEnrollmentService {
                         delegatesFilter +
                     ') ';
         } else{
-            Id userContactId;
-            if(PatientDelegateService.isPatientDelegate())
-                userContactId = PatientDelegateService.getDelegatePatientUserContactId();
-            else
-                userContactId = CommunityService.getUserContact().Id;
-
-            return 'Participant__r.Contact__c = \'' + userContactId + '\' ';
+            if(PatientDelegateService.isDelegate){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            }
+            return '( ' +
+                    '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                        delegatesFilter +
+                    ')';
         }
     }
     

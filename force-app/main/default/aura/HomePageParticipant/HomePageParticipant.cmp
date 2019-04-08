@@ -55,7 +55,7 @@
                         <aura:set attribute="header">My Results</aura:set>
                         <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>
                     </c:RRPanel>
-                    <c:ResourceDashboardCard/>
+                    <!--c:ResourceDashboardCard/-->
                 </div>
             </div>
         </aura:if>

@@ -37,6 +37,7 @@ public without sharing class PSEService {
             'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Clinical_Trial_Profile__r.Baseline_Survey_URL__c',
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -95,8 +96,9 @@ public without sharing class PSEService {
                     delegatesFilter +
                     ') ';
         } else{
-            List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds();
-            delegatesFilter = ' OR Participant__c IN (\'' + String.join(delegatedParticipantIds, '\',\'') + '\')';
+            if(PatientDelegateService.isDelegate){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            }
             return '( ' +
                     '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
                     delegatesFilter +

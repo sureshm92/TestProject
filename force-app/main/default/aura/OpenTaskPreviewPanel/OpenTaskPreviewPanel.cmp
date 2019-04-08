@@ -23,7 +23,10 @@
                     </tr>
                     <aura:iteration items="{!v.tasks}" var="task">
                         <tr>
-                            <td><c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/></td>
+                            <td>
+                                <c:RRLink label="{!task.Subject}"
+                                          page="{!if(empty(task.Action_URL__c), 'edit-task?id=' + task.Id, task.Action_URL__c)}"/>
+                            </td>
                             <td><ui:outputDate value="{!task.ActivityDate}"/></td>
                         </tr>
                     </aura:iteration>

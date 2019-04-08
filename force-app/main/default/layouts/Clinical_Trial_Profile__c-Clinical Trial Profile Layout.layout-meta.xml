@@ -144,6 +144,10 @@
                 <behavior>Edit</behavior>
                 <field>Trial_Complete__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Baseline_Survey_URL__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
