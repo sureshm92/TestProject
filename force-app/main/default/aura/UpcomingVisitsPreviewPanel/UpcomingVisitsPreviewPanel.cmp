@@ -2,21 +2,48 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="UpcomingVisitsPreviewPanel">
-    <c:HomePreviewTablePanel title="Upcoming Visits">
-        <c:RRTable>
-            <tr>
-                <th>Name</th>
-                <th style="width:130px">Vist Date</th>
-            </tr>
-            <tr>
-                <td><a href="">Some link</a></td>
-                <td>werwer</td>
-            </tr>
-            <tr>
-                <td><a href="">Some link</a></td>
-                <td>werwer</td>
-            </tr>
-        </c:RRTable>
-    </c:HomePreviewTablePanel>
+<aura:component description="StudyVisitsPreviewPanel">
+    <div class="sv-panel rr-white-panel">
+        <div class="sv-header">
+            <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
+            <button class="apollo-btn primary sv-btn" onclick="{!c.onBookTravel}">
+                {!$Label.c.Home_Page_StudyVisit_Btn}
+            </button>
+        </div>
+        <div class="sv-body">
+            <c:RRTable>
+                <tr>
+                    <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                    <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                    <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                </tr>
+                <tr>
+                    <td><a href="">Visit 1 Physical</a></td>
+                    <td>Week 1</td>
+                    <td>some icons</td>
+                </tr>
+                <tr>
+                    <td><a href="">Visit 2 Lab Visit</a></td>
+                    <td>Week 2</td>
+                    <td>some icons</td>
+                </tr>
+                <tr>
+                    <td><a href="">Visit 3 Assessment</a></td>
+                    <td>Week 3</td>
+                    <td>some icons</td>
+                </tr>
+            </c:RRTable>
+        </div>
+        <div class="sv-footer">
+            <c:RRLink page="study-workspace?tab=tab-referred-patient" label="See All"/>
+        </div>
+    </div>
+
+    <c:Popup aura:id="popup" title=""
+             headerText="This service may not be available everywhere.  Check with your study team for any questions."
+             showClose="false" size="small">
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary" onclick="{!c.onClickOk}">{!$Label.c.BTN_OK}</button>
+        </aura:set>
+    </c:Popup>
 </aura:component>

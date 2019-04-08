@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="welcomeMessage" type="String"/>
     <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="pse" type="Object"/>
     <aura:attribute name="state" type="String" description="ALUMNI, PROSPECT, REFERRAL, PARTICIPANT"/>
 
     <!-- handlers: -->
@@ -53,7 +54,7 @@
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                        <aura:if isTrue="{!and(v.state != 'ALUMNI', !empty(v.pse))}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
                             </div>

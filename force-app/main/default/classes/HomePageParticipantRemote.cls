@@ -6,6 +6,7 @@ public class HomePageParticipantRemote {
     
     public class InitData{
         public Participant_Enrollment__c pe;
+        public Participant_Study_Enrollment__c pse;
         public String name;
     }
     
@@ -16,6 +17,7 @@ public class HomePageParticipantRemote {
 
             InitData initData = new InitData();
             initData.pe = participantState.pe;
+            initData.pse = participantState.pse;
             if(participantState.isDelegate) {
                 initData.name = (String) CommunityService.getUserContact().get('Name');
             }
