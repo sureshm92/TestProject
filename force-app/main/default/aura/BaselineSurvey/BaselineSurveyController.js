@@ -11,7 +11,8 @@
             var ctp = JSON.parse(ctpJSON);
             component.set('v.ctp', ctp);
         }, function () {
-            component.find('spinner').hide();
+            communityService.navigateToHome();
+            //component.find('spinner').hide();
         })
     },
 

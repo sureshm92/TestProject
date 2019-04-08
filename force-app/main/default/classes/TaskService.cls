@@ -78,10 +78,6 @@ public without sharing class TaskService {
     }
     
     public static List<Task> getCompletedTasks(){
-        List<String> statusFilter = new List<String>{
-                TASK_STATUS_IGNORED,
-                TASK_STATUS_COMPLETED
-        };
         return getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
     }
     
@@ -131,7 +127,7 @@ public without sharing class TaskService {
         return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
     }
     
-    private static String getOpenTasksFilter(){
+    public static String getOpenTasksFilter(){
         List<String> statusFilter = new List<String>{
                 TASK_STATUS_OPEN,
                 TASK_STATUS_IN_PROGRESS
