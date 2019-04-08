@@ -1924,11 +1924,11 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>My Studies</value>
     </labels>
     <labels>
-        <fullName>Home_Page_StudyVisit_Button</fullName>
+        <fullName>Home_Page_StudyVisit_Btn</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Book Travel btn</shortDescription>
-        <value>Book Travel</value>
+        <shortDescription>Travel Support</shortDescription>
+        <value>Travel Support</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Schedule</fullName>
