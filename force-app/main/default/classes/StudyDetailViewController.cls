@@ -176,11 +176,11 @@ public without sharing class StudyDetailViewController {
                     'referred-patient',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Referred_Patients')
             ));
-            tabs.add(new StudyTab(
-                    'tab-medical-record-review-log',
-                    'chart-review-sent',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Medical_Record_Review_Log')
-            ));
+//            tabs.add(new StudyTab(
+//                    'tab-medical-record-review-log',
+//                    'chart-review-sent',
+//                    TranslateHelper.getLabelValue('PG_SW_Tab_Medical_Record_Review_Log')
+//            ));
             tabs.add(new StudyTab(
                     'tab-referred-study-sites',
                     'referred-clinic',

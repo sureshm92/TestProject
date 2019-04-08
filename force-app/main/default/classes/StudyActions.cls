@@ -88,7 +88,7 @@ public abstract class StudyActions {
 
 
     public static final String LABEL_EXCLUDE_FROM_REFERRING = Label.BTN_Exclude_from_referring;
-    public static final String LABEL_UNDO_EXCLUDE_FROM_REFERRING = Label.BTN_Undo_exclusion_and_refer_to_this_study;
+    public static final String LABEL_UNDO_EXCLUDE_FROM_REFERRING = Label.BTN_Undo_exclude;
     public static final String LABEL_REFER_TO_THIS_STUDY = Label.BTN_Refer_to_this_study;
     public static final String LABEL_REFER = Label.BTN_Refer;
     public static final String LABEL_SHARE = Label.BTN_Share;

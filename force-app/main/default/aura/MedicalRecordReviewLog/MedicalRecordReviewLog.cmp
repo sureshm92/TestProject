@@ -8,7 +8,6 @@
     <aura:attribute name="showSpinner"              type="Boolean" default="true"                     access="private"/>
     <aura:attribute name="currentPageList"          type="List"                                       access="private"/>
     <!--=============================================================================================================-->
-    <aura:attribute name="showHeader"               type="Boolean" default="true"                     access="private"/>
     <aura:attribute name="skipUpdate"               type="Boolean" default="true"                     access="private"/>
     <aura:attribute name="emptyListMessage"         type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
     <!--=============================================================================================================-->
@@ -18,18 +17,30 @@
     <aura:attribute name="peFilterData"             type="Object"                                     access="private"/>
     <aura:attribute name="paginationData"           type="Object"                                     access="private"/>
     <!--=============================================================================================================-->
+    <aura:attribute name="showStatistics"           type="Boolean" default="true"                     access="public"/>
+    <aura:attribute name="studyFilterEnabled"       type="Boolean" default="false"                    access="public"/>
+    <aura:attribute name="trialId"                  type="String"                                     access="public"/>
+    <aura:attribute name="showMore"                 type="Boolean" default="false"                    access="public"/>
+    <aura:attribute name="header"                 type="String" default=""                          access="public"/>
+
+
     <aura:handler event="c:EventCommunityInitialized"               action="{!c.doInit}"/>
     <!--=============================================================================================================-->
     <aura:handler name="change"     value="{!v.filterInfo.isActive}"                     action="{!c.doUpdate}"/>
+    <aura:handler name="change"     value="{!v.showMore}"                                action="{!c.doUpdate}"/>
     <aura:handler name="change"     value="{!v.paginationData.pageRecordsCount}"         action="{!c.doUpdate}"/>
     <aura:handler name="change"     value="{!v.paginationData.currentPage}"              action="{!c.doUpdate}"/>
     <aura:handler name="change"     value="{!v.peFilter}"                                action="{!c.doUpdate}"/>
     <!--=============================================================================================================-->
+
+    <aura:method name="refresh" action="{!c.doUpdate}" access="public"/>
+
+
     <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
     <!--=============================================================================================================-->
     <aura:if isTrue="{! !v.showSpinner}">
         <div class="mrrl-container">
-            <aura:if isTrue="{!v.showHeader}">
+            <aura:if isTrue="{!v.showStatistics}">
                 <c:RRNavigationPath> 
                     <c:RRNPathItem label="{!$Label.c.PG_MRRL_L_Medical_Record_Review_Log}"/>
                 </c:RRNavigationPath>
@@ -43,7 +54,11 @@
                 </div>
             </aura:if>
             <div class="mrrl-body">
-
+                <aura:if isTrue="{!!empty(v.header)}">
+                    <div class="mrri-header">
+                        {!v.header}
+                    </div>
+                </aura:if>
                 <div class="mrrl-body-filter">
                     <c:FilterPanel searchText="{!v.peFilter.searchText}"
                                    searchTextPlaceHolder="{!$Label.c.PG_MRRL_L_Search_for_a_patient}"
@@ -51,13 +66,15 @@
                                    recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                                    sortType="{!v.peFilter.sortType}"
                                    sortVariants="{!v.peFilterData.sortVariants}"
-                                   allRecordsCount="{!v.paginationData.allRecordsCount}">
-                        <aura:if isTrue="{!v.showHeader}">
-                            <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"/>
+                                   allRecordsCount="{!v.paginationData.allRecordsCount}"
+                                   showMoreEnabled="true"
+                                   showMore="{!v.showMore}" >
+                        <aura:if isTrue="{!v.studyFilterEnabled}">
+                            <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>
                         </aura:if>
-                        <c:rrSelect value="{!v.peFilter.reviewResult}" options="{!v.peFilterData.reviewResults}" placeholder="{!$Label.c.PG_MRRL_L_Review_results}"/>
-                        <c:rrSelect value="{!v.peFilter.referredType}" options="{!v.peFilterData.referredTypes}" placeholder="{!$Label.c.PG_MRRL_L_Referred}"/>
-                        <c:rrSelect value="{!v.peFilter.dateRange}" options="{!v.peFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}"/>
+                        <c:rrSelect value="{!v.peFilter.reviewResult}" options="{!v.peFilterData.reviewResults}" placeholder="{!$Label.c.PG_MRRL_L_Review_results}" disabled="{!not(empty(v.peFilter.searchText))}"/>
+                        <c:rrSelect value="{!v.peFilter.showExcludedFromReferring}" options="{!v.peFilterData.excludedFromReferring}" placeholder="{!$Label.c.PG_MRRL_L_Excluded_from_referring}" disabled="{!not(empty(v.peFilter.searchText))}"/>
+                        <c:rrSelect value="{!v.peFilter.dateRange}" options="{!v.peFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}" disabled="{!not(empty(v.peFilter.searchText))}"/>
                     </c:FilterPanel>
                 </div>
 
@@ -68,16 +85,18 @@
                     <c:EmptyListStub targetList="{!v.currentPageList}"/>
 
                     <aura:iteration items="{!v.currentPageList}" var="item">
-                        <c:MedicalRecordReviewLogItem participantEnrollment="{!item.pe}" actions="{!item.actions}"/>
+                        <c:MedicalRecordReviewLogItem participantEnrollment="{!item.pe}" actions="{!item.actions}" showStudyLink="{!v.studyFilterEnabled}" parent="{!this}"/>
                     </aura:iteration>
                 </div>
 
             </div>
+            <aura:if isTrue="{!!v.showMore}">
             <div class="mrrl-footer">
                     <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
                                           currentPage="{!v.paginationData.currentPage}"
                                           allRecordsCount="{!v.paginationData.allRecordsCount}"/>
             </div>
+            </aura:if>
         </div>
     </aura:if>
 </aura:component>

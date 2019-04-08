@@ -447,6 +447,13 @@ Click OK to begin!</value>
         <value>Start Over</value>
     </labels>
     <labels>
+        <fullName>BTN_Undo_exclude</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Undo exclude</shortDescription>
+        <value>Undo exclude</value>
+    </labels>
+    <labels>
         <fullName>BTN_Undo_exclusion_and_refer_to_this_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2352,6 +2359,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Patient Id</value>
     </labels>
     <labels>
+        <fullName>PE_Patient_Phone_number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Patient phone number</shortDescription>
+        <value>Patient phone number</value>
+    </labels>
+    <labels>
         <fullName>PE_Phone_number</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3749,6 +3763,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>No longer interested</value>
     </labels>
     <labels>
+        <fullName>PG_MPS_L_NOT_YET_REFERRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MPS L NOT YET REFERRED</shortDescription>
+        <value>NOT YET REFERRED</value>
+    </labels>
+    <labels>
         <fullName>PG_MPS_L_Passed_referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3796,6 +3817,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG MPS L Referrals pending acceptance</shortDescription>
         <value>Referrals pending acceptance</value>
+    </labels>
+    <labels>
+        <fullName>PG_MPS_L_REFERRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MPS L REFERRED</shortDescription>
+        <value>REFERRED</value>
     </labels>
     <labels>
         <fullName>PG_MRCV_L_Pending_Activation</fullName>
@@ -3973,6 +4001,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Date range</value>
     </labels>
     <labels>
+        <fullName>PG_MRRL_L_Excluded_from_referring</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRRL L Excluded from referring</shortDescription>
+        <value>Excluded from referring</value>
+    </labels>
+    <labels>
         <fullName>PG_MRRL_L_Failed_referral</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3985,6 +4020,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG MRRL L Failed review</shortDescription>
         <value>Failed review</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRRL_L_Hide_Excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRRL L Hide excluded</shortDescription>
+        <value>Hide excluded</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Medical_Record_Review_Log</fullName>
@@ -4048,6 +4090,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG MRRL L Search for a patient</shortDescription>
         <value>Search for a patient</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRRL_L_Show_Excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRRL L Show excluded</shortDescription>
+        <value>Show excluded</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Studies</fullName>

@@ -1,4 +1,5 @@
 ({
+
     doAction: function (component, event) {
         var currentStudy = component.get('v.currentStudy');
         var trial = currentStudy.trial;
