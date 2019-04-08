@@ -1479,6 +1479,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <value>Thank you for your interest in participating in a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Patient_Dropped_Out</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Dropped Out</shortDescription>
+        <value>You are dropped out</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_RP10</fullName>
         <language>en_US</language>
         <protected>false</protected>
