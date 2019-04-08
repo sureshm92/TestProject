@@ -51,7 +51,7 @@
                 </div>
 
                 <!--Social Widgets-->
-                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <!--aura:if isTrue="{!v.userMode == 'HCP'}">
                     <div class="rri-icon">
                         <a href="javascript:void(0);" target="_blank" onclick="{!c.onEmailClick}">
                             <span class="slds-m-around_x-small">
@@ -74,7 +74,7 @@
                             </span>
                         </a>
                     </div>
-                </aura:if>
+                </aura:if-->
 
                 </div>
                 <div class="slvi-objective-section">
