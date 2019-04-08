@@ -63,10 +63,11 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                     <aura:if isTrue="{!v.state != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
-                        <c:RRPanel>
-                            <aura:set attribute="header">My Results</aura:set>
-                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>
-                        </c:RRPanel>
+                        <!--Hidden until the next release-->
+<!--                        <c:RRPanel>-->
+<!--                            <aura:set attribute="header">My Results</aura:set>-->
+<!--                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>-->
+<!--                        </c:RRPanel>-->
                     </aura:if>
                     <c:ResourceDashboardCard/>
                 </div>
