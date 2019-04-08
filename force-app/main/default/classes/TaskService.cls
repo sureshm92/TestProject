@@ -96,13 +96,14 @@ public without sharing class TaskService {
     }
     
     
-    public static Task createCompleteBaselineSurveyTask(Id ownerId){
+    public static Task createCompleteBaselineSurveyTask(Id ownerId, Id participantContactId){
         return new Task(
                 OwnerId = ownerId,
                 Subject = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
                 Task_Code__c = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
                 Status = TASK_STATUS_OPEN,
                 Priority = TASK_PRIORITY_CRITICAL,
+                WhoId = participantContactId,
                 ActivityDate = Date.today().addDays(3),
                 Visible_For__c = TASK_VISIBILITY_OWNER
         );

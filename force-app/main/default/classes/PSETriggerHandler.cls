@@ -57,9 +57,9 @@ public class PSETriggerHandler {
             List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN: participantIds];
             List<Id> contactIds = new List<Id>();
             for(Participant__c participant : participants) contactIds.add(participant.Contact__c);
-            List<User> users = [SELECT Id FROM User WHERE ContactId IN: contactIds];
+            List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN: contactIds];
             for(User taskOwner : users){
-                tasks.add(TaskService.createCompleteBaselineSurveyTask(taskOwner.Id));
+                tasks.add(TaskService.createCompleteBaselineSurveyTask(taskOwner.Id, taskOwner.ContactId));
             }
             insert tasks;
         }
