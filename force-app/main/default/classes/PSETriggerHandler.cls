@@ -4,6 +4,28 @@
 
 public class PSETriggerHandler {
     
+    public static void setDefaultFieldsBeforeUpsert(){
+        if(Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate)){
+            Set<Id> ssIds = new Set<Id>();
+            Set<Id> participantIds = new Set<Id>();
+            for (Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>)Trigger.new){
+                ssIds.add(pse.Study_Site__c);
+                participantIds.add(pse.Participant__c);
+            }
+            Map<Id, Study_Site__c> studySitesMap = new Map<Id, Study_Site__c>([
+                    SELECT Id, Principal_Investigator__c FROM Study_Site__c WHERE Id IN: ssIds
+            ]);
+            Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>([
+                    SELECT Id, Contact__c FROM Participant__c WHERE Id IN: participantIds
+            ]);
+            for (Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>)Trigger.new){
+                pse.PI_Contact__c = null;
+                pse.Participant_Contact__c = null;
+                if(pse.Study_Site__c != null) pse.PI_Contact__c = studySitesMap.get(pse.Study_Site__c).Principal_Investigator__c;
+                if(pse.Participant__c != null) pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
+            }
+        }
+    }
     
     public static void processStatusHistory(){
         if(Trigger.isAfter && (Trigger.isInsert || Trigger.isUpdate)){

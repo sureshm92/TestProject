@@ -27,7 +27,7 @@ public class PatientDelegateService {
         if (isDelegate) {
             participant = participantsPDList[0].Participant__r;
         } else {
-            participant = [
+            List<Participant__c> participants = [
                     SELECT
                             Id,
                             First_Name__c,
@@ -37,9 +37,12 @@ public class PatientDelegateService {
                     FROM Participant__c
                     WHERE Contact__c = :CommunityService.getUserContact().Id
             ];
+            if(participants.size() > 0) participant = participants[0];
         }
-        List<Patient_Delegate__c> delegatesPDList = getPatientDelegates(participant.Contact__c);
-        for (Patient_Delegate__c pd : delegatesPDList) delegates.add(pd.Contact__r);
+        if(participant != null){
+            List<Patient_Delegate__c> delegatesPDList = getPatientDelegates(participant.Contact__c);
+            for (Patient_Delegate__c pd : delegatesPDList) delegates.add(pd.Contact__r);
+        }
     }
     
     public static Id getDelegatePatientUserId() {

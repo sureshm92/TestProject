@@ -169,18 +169,6 @@
         <template>Referral_Hub_Emails/Patient_Welcome_to_the_Study</template>
     </alerts>
     <alerts>
-        <fullName>Patient_dropped_out</fullName>
-        <description>Patient dropped out</description>
-        <protected>false</protected>
-        <recipients>
-            <field>Participant_Contact__c</field>
-            <type>contactLookup</type>
-        </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
-        <template>Referral_Hub_Emails/Patient_dropped_out</template>
-    </alerts>
-    <alerts>
         <fullName>email_to_VT_ePR_Patient_New_Study</fullName>
         <description>email to VT ePR Patient- New Study</description>
         <protected>false</protected>
