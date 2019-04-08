@@ -373,11 +373,18 @@ public without sharing class ParametersDataProvider {
         Id rId = recipientId;
         if (rId.getSobjectType() == User.getSObjectType()) {
             User recipientUser = [
-                    SELECT Id, ContactId, LanguageLocaleKey
+                    SELECT Id, ContactId, Contact.Name,
+                            LanguageLocaleKey
                     FROM User
                     WHERE Id =: recipientId
             ];
             recipientContactId = recipientUser.ContactId;
+            recipientName = recipientUser.Contact.Name;
+            recipientLanguage = recipientUser.LanguageLocaleKey;
+        }else{
+            Contact cnt = [SELECT Id, Name, Language__c FROM Contact WHERE Id =: recipientId];
+            recipientName = cnt.Name;
+            recipientLanguage = cnt.Language__c;
         }
         
         if (recipientContactId != null) {
