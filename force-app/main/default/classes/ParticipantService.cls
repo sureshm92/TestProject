@@ -12,6 +12,7 @@ public class ParticipantService {
         @AuraEnabled public Participant_Study_Enrollment__c pse;
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
+        @AuraEnabled public Participant__c participant;
 
         public ParticipantState(){
             value = ParticipantStates.PROSPECT;
@@ -24,6 +25,7 @@ public class ParticipantService {
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
         if(peList.size() >  0) {
             state.pe = peList[0];
+            state.participant = state.pe.Participant__r;
             state.isDelegate = state.pe.Participant__r.Contact__c != CommunityService.getUserContact().Id;
             if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(state.pe.Participant_Status__c)){
                 state.value = ParticipantStates.ALUMNI;

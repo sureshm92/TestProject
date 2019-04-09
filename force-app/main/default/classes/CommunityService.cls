@@ -56,18 +56,20 @@ public without sharing class CommunityService {
         userContact = getContactById(contactId);
     }
 
-    public static String getParticipantId() {
+    public String getParticipantId() {
 
         User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
         if(currentUser.ContactId == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
         }
-
         Contact contact  = [SELECT Id, (SELECT Id FROM Participants__r) FROM Contact WHERE Id = :currentUser.ContactId];
-        if(contact.Participants__r.size() == 0) {
-            throw new CommunityServiceException(CommunityService.ERROR_MISSING_PARTICIPANT_ON_CONTACT);
-        } else {
+        ParticipantService.ParticipantState state = ParticipantService.getParticipantState();
+        if(contact.Participants__r.size() != 0 && !state.isDelegate) {
             return contact.Participants__r[0].Id;
+        } else if (state.isDelegate) {
+            return state.participant.Id;
+        } else {
+            throw new CommunityServiceException(CommunityService.ERROR_MISSING_PARTICIPANT_ON_CONTACT);
         }
     }
 
