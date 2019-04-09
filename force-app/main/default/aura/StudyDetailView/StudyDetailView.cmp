@@ -25,6 +25,8 @@
     <aura:attribute name="resourceImagePath" type="String" access="private"/>
     <aura:attribute name="resourceMode" type="String" default="Default"/>
     <aura:attribute name="taskMode" type="String" default="Open"/>
+    <aura:attribute name="isShare" type="Boolean"/>
+    <aura:attribute type="String" name="shareMessage"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -91,7 +93,12 @@
                                 <!-- action buttons: -->
                                 <aura:set attribute="floatPositionRight">
                                     <aura:iteration items="{!v.studyDetail.studyActions}" var="action">
-                                        <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                        <button class="{!'apollo-btn text ico-in-top small-font sdv-btn' +
+                                                        (or(and(v.userMode != 'Participant', v.userMode != 'Delegate'),
+                                                            or(action.id == 'backHome',
+                                                                and(v.currentTab == 'tab-about-the-study',
+                                                                    or(action.id == 'viewTermsAndConditions', v.studyDetail.trial.Share_URL__c != ''))))
+                                                                ? '' : ' hidden-button')}"
                                                 disabled="{!action.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!action.disableReason}">
                                             <c:RRIcon iconName="{!action.iconName}"/>
                                             {!action.label}
@@ -235,8 +242,6 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
-                        <br/>
-                        <br/>
                         <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
                     </aura:if>
 
