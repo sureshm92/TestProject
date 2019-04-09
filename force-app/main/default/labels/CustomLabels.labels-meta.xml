@@ -265,6 +265,13 @@ Click OK to begin!</value>
         <value>Mark as Completed</value>
     </labels>
     <labels>
+        <fullName>BTN_My_Patients</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN My Patients</shortDescription>
+        <value>My Patients</value>
+    </labels>
+    <labels>
         <fullName>BTN_Next</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -361,6 +368,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN Refer Now</shortDescription>
         <value>Refer Now</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Refer_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Refer a Patient</shortDescription>
+        <value>Refer a Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Refer_to_this_study</fullName>
@@ -515,6 +529,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>Remove</shortDescription>
         <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>Button_Submit_Your_Question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Submit Your Question</shortDescription>
+        <value>Submit Your Question</value>
     </labels>
     <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
@@ -1910,6 +1931,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Copyright © 2018 IQVIA. All Rights Reserved.</value>
     </labels>
     <labels>
+        <fullName>GMap_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty address</shortDescription>
+        <value>A Google map is not available for this study site location.</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1917,11 +1945,53 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>My Studies</value>
     </labels>
     <labels>
+        <fullName>Home_Page_StudyVisit_Btn</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Travel Support</shortDescription>
+        <value>Travel Support</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Schedule</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Schedule</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>StudyVisit_Title</shortDescription>
+        <value>Study Visits</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Visit</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_WhToEx</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>What to Expect</value>
+    </labels>
+    <labels>
         <fullName>Investigator_phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Investigator Phone</shortDescription>
         <value>Investigator phone</value>
+    </labels>
+    <labels>
+        <fullName>Link_Back_To_Home</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Back To Home</shortDescription>
+        <value>Back to Home</value>
     </labels>
     <labels>
         <fullName>Link_Back_To_Login</fullName>
@@ -2097,6 +2167,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>false</protected>
         <shortDescription>Navigation Reports</shortDescription>
         <value>Reports</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Resources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Resources</shortDescription>
+        <value>Resources</value>
     </labels>
     <labels>
         <fullName>Navigation_Search_for_Sites</fullName>
@@ -3722,6 +3799,99 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Report a Problem</value>
     </labels>
     <labels>
+        <fullName>PG_HLP_Req_Data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Request for Data</shortDescription>
+        <value>Request for Data</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Req_Data_Placehold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Req_Data_Placehold</shortDescription>
+        <value>For questions about your personal data or to download a copy of your personal data, kindly use the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Req_Data_Poput_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Poput_Mess</shortDescription>
+        <value>Thank you for submitting your request.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Req_Data_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Req_Data_Title</shortDescription>
+        <value>For questions about your personal data or to download a copy of your personal data, kindly use the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Help</shortDescription>
+        <value>Study Help</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_FAQ</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FAQ</shortDescription>
+        <value>Frequently asked questions (FAQs)</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Length</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What  length study</shortDescription>
+        <value>1. What is the length of the study?</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Lorem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Change this at eng</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.
+
+Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, est vitae convallis sodales, tellus nisl consectetur ipsum, accumsan porta diam sapien a erat. Nam ac ultricies urna.</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Videos</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Videos</shortDescription>
+        <value>Videos</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Videos_Watch</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Watch a video about this study</shortDescription>
+        <value>Watch a video about this study</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_What_Happens</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>What happens if</shortDescription>
+        <value>3. What happens if I need to stop halfway through the study? Can I continue at a later date?</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Who_Do</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Who do I contact</shortDescription>
+        <value>2. Who do I contact if I am having issues with my health, or the study medication?</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_Study_H_Who_Do_I</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Who do I contact</shortDescription>
+        <value>4. Who do I contact if I have concerns while I am participating in the study?</value>
+    </labels>
+    <labels>
         <fullName>PG_HLP_T1_Feedback</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4968,6 +5138,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG RS L Passed Pre-Eligibility Screening</shortDescription>
         <value>Passed Pre-Eligibility Screening</value>
+    </labels>
+    <labels>
+        <fullName>PG_RW_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resources Workspace</shortDescription>
+        <value>Resources Workspace</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_All_fields_are_required</fullName>
@@ -6482,7 +6659,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Test Label With Param</shortDescription>
-        <value>For this: ##param1, use this: ##zzz</value>
+        <value>For this: ##param1, use this: ##zzz  some</value>
     </labels>
     <labels>
         <fullName>Toast_Changes_Successfully</fullName>
@@ -6490,6 +6667,20 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Changes made successfully</shortDescription>
         <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Kilometers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Kilometers</shortDescription>
+        <value>Kilometers</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Miles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Miles</shortDescription>
+        <value>Miles</value>
     </labels>
     <labels>
         <fullName>URL_Cookies</fullName>
