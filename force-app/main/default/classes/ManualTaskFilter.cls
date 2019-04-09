@@ -85,7 +85,7 @@ public with sharing class ManualTaskFilter {
         for (Participant__c partic : participants) {
             if (partic.Contact__c != null) {
                 Id partContact = partic.Contact__c;
-                if (!countryCodes.isEmpty()) {
+                if (countryCodes != null) {
                     if (countryCodes.contains(partic.Mailing_Country_Code__c)) {
                         contacts.add(partContact);
                     }
