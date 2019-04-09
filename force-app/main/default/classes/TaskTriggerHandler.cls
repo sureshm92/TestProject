@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class TaskTriggerHandler {
+public without sharing class TaskTriggerHandler {
     
     public static void checkTaskFieldsBeforeInsert(){
         if(Trigger.isBefore && (Trigger.isUpdate || Trigger.isInsert)){
@@ -48,7 +48,7 @@ public class TaskTriggerHandler {
                         continue;
                     }
                 }
-                
+                task.Action_URL__c = card.Action_Link__c;
                 checkedTasks.add(task);
             }
         }
@@ -99,6 +99,24 @@ public class TaskTriggerHandler {
             }
             task.Subject = CatalogParametersHelper.prepareLabel(card.Subject_Label__c, cardParametersValueMap);
             task.Description = CatalogParametersHelper.prepareLabel(card.Comments_Label__c, cardParametersValueMap);
+            task.Action_URL__c = CatalogParametersHelper.prepareMergeFields(card.Action_Link__c, cardParametersValueMap);
+            
+        }
+    }
+    
+    public static void processSendImmediateEmails(List<Task> tasks){
+        if(Trigger.isAfter && Trigger.isInsert){
+            Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
+            List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+            for (Task task : tasks){
+                if(task.Task_Code__c != null){
+                    Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
+                    if(card != null && card.Immediate_Email_Template__c != null){
+                        emailMessages.add(SendEmailTemplate.createEmail(card.Immediate_Email_Template__c, task.OwnerId, task.Id));
+                    }
+                }
+            }
+            if(emailMessages.size() > 0) SendEmailTemplate.sendEmailMessages(emailMessages);
         }
     }
     
@@ -111,7 +129,9 @@ public class TaskTriggerHandler {
                         Subject_Label__c,
                         Comments_Label__c,
                         Source_Object_Type__c,
-                        Parameters__c
+                        Action_Link__c,
+                        Parameters__c,
+                        Immediate_Email_Template__c
                 FROM Task_Catalog__mdt
                 WHERE DeveloperName IN:catalogCodes
         ];

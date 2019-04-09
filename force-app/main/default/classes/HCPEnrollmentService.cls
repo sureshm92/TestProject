@@ -171,6 +171,13 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
+            'Study_Site__r.Site__r.Name',
+            'Study_Site__r.Principal_Investigator__r.Name',
+            'Study_Site__r.Principal_Investigator__r.Title',
+            'Study_Site__r.Principal_Investigator__r.Email',
+            'Study_Site__r.Principal_Investigator__r.Phone',
+            'Study_Site__r.Principal_Investigator__r.MailingAddress',
+            'Study_Site__r.Is_Virtual_Study_Site__c',
             'Override_PI_Status__c',
             'Orientation_Date__c'
     };
@@ -281,6 +288,14 @@ public without sharing class HCPEnrollmentService {
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,
                 ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + trialId + '\' ',
+                false
+        );
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCPByTrials(List<Id> trialIds) {
+        return getHCPEnrollmentsCommon(
+                CommunityService.USER_MODE_HCP,
+                ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(trialIds,'\',\'') + '\' )',
                 false
         );
     }

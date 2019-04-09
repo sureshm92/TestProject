@@ -25,7 +25,7 @@
                         </div>
                         <div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
                             <div class="title">{!pathItem.pseSH.Status__c}</div>
-                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDateTime value="{!pathItem.pseSH.Changed_Date__c}"/></div>
+                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDate value="{!pathItem.pseSH.Changed_Date__c}"/></div>
                         </div>
                     </div>
                 </aura:iteration>

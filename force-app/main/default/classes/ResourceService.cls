@@ -6,6 +6,10 @@ public with sharing class ResourceService {
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
     public static final String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
+    public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
+    public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
+    public static final String X_3PARTY_IQVIA = 'IQVIA';
+    private static final String EXPIRATION_DATE = 'Expiration_Date__c';
     @TestVisible
     private static String DEFAULT_LANGUAGE = 'en_US';
     @TestVisible
@@ -61,9 +65,9 @@ public with sharing class ResourceService {
         }
         Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(resources);
         if (resourceMap.get(resourceId) != null) {
-            return new ResourceWrapperContainer(this.getResourceWrappers(new List<Resource__c>{
-                    resourceMap.get(resourceId)
-            }));
+            return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
+                    new ResourceDetailWrapper(resourceMap.get(resourceId))
+            });
         }
         return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
     }
@@ -94,6 +98,17 @@ public with sharing class ResourceService {
                         'Body__c, ' +
                         'Updated_Date__c, ' +
                         'RecordType.DeveloperName, ' +
+                        'Content_Class__c, ' +
+                        'Image_Subtitle__c, ' +
+                        'article_external_link__c, ' +
+                        'Subtitle__c, ' +
+                        'Byline__c, ' +
+                        'Author_s_Name__c, ' +
+                        'URL_Part__c, ' +
+                        'Copyright__c, ' +
+                        'X3rd_Party_Source__c, ' +
+                        'Image_Title__c, ' +
+                        'Source__c, ' +
                         '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
                         'FROM Resource__c ' +
                         whereClause +
@@ -139,7 +154,7 @@ public with sharing class ResourceService {
     private List<Resource__c> getStudySpecificResources(Participant__c participant, String resourceType) {
 
         Clinical_Trial_Profile__c trial = ParticipantService.getParticipantState().ctp;
-        if(trial == null) {
+        if (trial == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
         }
         String resStudyQuery = 'SELECT Id, ' +
@@ -150,7 +165,7 @@ public with sharing class ResourceService {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<Res_study__c> studyToResourceJunctions = (List<Res_study__c>) databaseProxy.query(resStudyQuery);
         Set<String> resourcesIds = new Set<String>();
-        for(Res_study__c junction : studyToResourceJunctions) {
+        for (Res_study__c junction : studyToResourceJunctions) {
             resourcesIds.add('\'' + junction.Resource__c + '\'');
         }
         return this.getResources(resourcesIds, participant);
@@ -229,7 +244,7 @@ public with sharing class ResourceService {
         }
     }
 
-    public class ResourceWrapper {
+    public virtual class ResourceWrapper {
 
         @AuraEnabled
         public Resource__c resource;
@@ -244,6 +259,86 @@ public with sharing class ResourceService {
                 this.isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
             this.resource = resource;
+        }
+    }
+
+    public class ResourceDetailWrapper extends ResourceWrapper {
+        @AuraEnabled
+        public List<ResourceFieldWrapper> headerFieldWrappers = new List<ResourceFieldWrapper>();
+        @AuraEnabled
+        public List<ResourceFieldWrapper> bodyFieldWrappers = new List<ResourceFieldWrapper>();
+        @AuraEnabled
+        public String shareMessage;
+        @AuraEnabled
+        public Boolean isShareable;
+
+        private Boolean cutList = false;
+
+        public ResourceDetailWrapper(Resource__c resource) {
+            super(resource);
+            loadDataResource(resource);
+        }
+
+        private void loadDataResource(Resource__c resource) {
+            Resource_Field_Api__mdt[] resourceFieldApis;
+            if (X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) {
+                resourceFieldApis = getResourceFieldApis(resource.X3rd_Party_Source__c, resource.RecordType.DeveloperName);
+            } else {
+                resourceFieldApis = getResourceFieldApis(null, resource.RecordType.DeveloperName);
+            }
+            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.URL_Part__c)) {
+                shareMessage = this.getShareMessage();
+                this.isShareable = true;
+            }
+            for (Resource_Field_Api__mdt fieldApi : resourceFieldApis) {
+                if (EXPIRATION_DATE.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                    cutList = true;
+                    continue;
+                }
+                Object valueField = resource.get(fieldApi.Field_Api_Name__c);
+                if (valueField != null) {
+                    if (!cutList) {
+                        headerFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
+                    } else {
+                        bodyFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
+                    }
+                }
+            }
+        }
+
+        private Resource_Field_Api__mdt[] getResourceFieldApis(String x3rdPartySource, String resourceType) {
+            Resource_Field_Api__mdt[] resourceFieldApis = [
+                    SELECT Order__c,
+                            Resource_Type__c,
+                            X3rd_Party_Source__c,
+                            Field_Api_Name__c,
+                            CSS_Class_Name__c
+                    FROM Resource_Field_Api__mdt
+                    WHERE X3rd_Party_Source__c = :x3rdPartySource
+                    AND Resource_Type__c = :resourceType
+                    ORDER BY Order__c
+            ];
+            return resourceFieldApis;
+        }
+        private String getShareMessage() {
+            return String.format(Label.Resources_social, new List<String>{
+                    this.resource.article_external_link__c
+            });
+        }
+    }
+
+    public class ResourceFieldWrapper {
+        @AuraEnabled
+        public String apyName;
+        @AuraEnabled
+        public Object valueField;
+        @AuraEnabled
+        public String cssClassName;
+
+        public ResourceFieldWrapper(String apyName, Object valueField, String cssClassName) {
+            this.apyName = apyName;
+            this.valueField = valueField;
+            this.cssClassName = cssClassName;
         }
     }
 }

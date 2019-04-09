@@ -7,6 +7,8 @@
     <!-- attributes: -->
     <aura:attribute name="welcomeMessage" type="String"/>
     <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="pse" type="Object"/>
+    <aura:attribute name="state" type="String" description="ALUMNI, PROSPECT, REFERRAL, PARTICIPANT"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -26,37 +28,52 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
                         <div class="slds-col">
-                            <aura:if isTrue="{!!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
-                                <div class="rr-white-panel hp-logo-panel">
-                                    <img src="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
-                                </div>
+                            <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                                <aura:if
+                                        isTrue="{!!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                    <div class="rr-white-panel hp-logo-panel">
+                                        <img src="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
+                                    </div>
+                                </aura:if>
+                                <aura:if
+                                        isTrue="{!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                    <div class="rr-white-panel hp-logo-panel logo-text">
+                                        {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                    </div>
+                                </aura:if>
                             </aura:if>
-                            <aura:if isTrue="{!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
-                                <div class="rr-white-panel hp-logo-panel logo-text">
-                                    {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                            <aura:if isTrue="{!v.state == 'ALUMNI'}">
+                                <c:RRNavigationPath>
+                                    <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
+                                </c:RRNavigationPath>
+                                <div class="rr-width-limiter">
+                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
                                 </div>
                             </aura:if>
                         </div>
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <div class="slds-col">
-                            <c:UpcomingVisitsPreviewPanel/>
-                        </div>
+                        <aura:if isTrue="{!and(v.state != 'ALUMNI', !empty(v.pse))}">
+                            <div class="slds-col">
+                                <c:UpcomingVisitsPreviewPanel/>
+                            </div>
+                        </aura:if>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
-                    <c:ParticipantStatePanel/>
-                    <c:RRPanel>
-                        <aura:set attribute="header">My Results</aura:set>
-                        <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>
-                    </c:RRPanel>
+                    <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                        <c:ParticipantStatePanel/>
+                        <!--Hidden until the next release-->
+<!--                        <c:RRPanel>-->
+<!--                            <aura:set attribute="header">My Results</aura:set>-->
+<!--                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>-->
+<!--                        </c:RRPanel>-->
+                    </aura:if>
                     <c:ResourceDashboardCard/>
                 </div>
             </div>
         </aura:if>
         <div style="height: 30px"/>
-
     </div>
-
 </aura:component>

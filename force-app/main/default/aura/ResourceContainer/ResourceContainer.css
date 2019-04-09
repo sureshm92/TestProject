@@ -1,6 +1,7 @@
 .THIS.width-limiter {
 	max-width: 1120px;
 	margin: auto;
+	padding-top: 32px;
 }
 
 @media (max-width: 1140px) {

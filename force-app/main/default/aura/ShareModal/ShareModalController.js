@@ -2,7 +2,7 @@
     doShow: function (component, event) {
         var params = event.getParam('arguments');
         component.set('v.targetEmail', '');
-        component.set('v.hcpe', params.hcpe);
+        component.set('v.trial', params.trial);
         component.find('shareModal').show();
     },
 
@@ -19,10 +19,22 @@
 
         var spinner = component.find('spinner');
         spinner.show();
-        var hcpe = component.get('v.hcpe');
+
+        //Forming params for sendEmail
+        var trial = component.get('v.trial');
+        var id;
+        var contactId;
+        var userMode = communityService.getUserMode();
+        if(userMode === 'HCP') {
+            contactId = trial.HCP_Contact__c;
+        }
+        else if(userMode === 'Participant') {
+            id = null;//Messaging.SingleEmailMessage.setWhatId() need related obj
+            contactId = null;
+        }
         communityService.executeAction(component, 'sendEmail', {
-            hcpeId: hcpe.Id,
-            hcpContactId: hcpe.HCP_Contact__c,
+            hcpeId: id,
+            hcpContactId: contactId,
             email: email
         }, function (returnValue) {
             var parent = component.get('v.parent');

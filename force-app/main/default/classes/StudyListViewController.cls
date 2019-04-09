@@ -58,13 +58,13 @@ public without sharing class StudyListViewController {
     }
 
     @AuraEnabled
-    public static String searchStudies(String filterData, String sortData, String paginationData) {
-        String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData);
+    public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume) {
+        String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume);
         return studiesJSON;
     }
 
     @AuraEnabled
-    public static String getHCPInitData(String userMode) {
+    public static String getHCPInitData() {
         try {
             HCPInitData initData = new HCPInitData();
 
@@ -81,11 +81,10 @@ public without sharing class StudyListViewController {
             initData.filterData = StudyTrialService.getStudyFilterData();
 
             //sort data:
-            initData.sortData = StudyTrialService.getStudySortData();
+            initData.sortData = StudyTrialService.getStudySortDataForHCP();
 
             //records for current filter, sort and pagination:
             initData.currentPageList = StudyTrialService.getStudies(initData.filterData, initData.sortData, initData.paginationData);
-            initData.paginationData.setRecordsCount(initData.currentPageList.size());
 
             return JSON.serialize(initData);
         } catch (Exception e) {
@@ -99,6 +98,7 @@ public without sharing class StudyListViewController {
         for (HCP_Enrollment__c enrollment : HCPEnrollmentService.getHCPEnrollmentsForHCP()) {
             trialHCPEnrollmentMap.put(enrollment.Study_Site__r.Clinical_Trial_Profile__c, enrollment);
         }
+
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialHCPEnrollmentMap.keySet());
         Map<Id, Boolean> termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);

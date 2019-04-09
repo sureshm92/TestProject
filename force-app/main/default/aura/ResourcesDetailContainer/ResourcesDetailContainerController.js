@@ -4,9 +4,8 @@
         if(spinner){ spinner.show(); }
 
         let resourceType = communityService.getUrlParameter('resourceType');
-        let recId = communityService.getUrlParameter('id');
         let resId = communityService.getUrlParameter('resId');
-        let homePage = document.location.hash;
+        let retString = communityService.getUrlParameter('ret');
 
         communityService.executeAction(component, 'getResourcesById', {
             resourceId: resId,
@@ -25,12 +24,11 @@
         if (resourceType) {
             component.set("v.resourceType", resourceType);
         }
-
-        if (homePage === '#home') {
+        if(retString){
+            let retPage = communityService.getRetPage(retString);
+            component.set('v.backStudy', retPage);
+        }else{
             component.set('v.backStudy', '');
-        } else if (recId) {
-            component.set("v.backStudy", "s/study-workspace?id=" + recId + "&tab=tab-resources");
         }
-
     },
 })

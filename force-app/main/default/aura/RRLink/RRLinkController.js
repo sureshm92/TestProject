@@ -9,7 +9,7 @@
     onClick: function (component, event) {
         event.preventDefault();
         var page = component.get('v.page');
-        if(page) communityService.navigateToPage(page);
+        if(page !== undefined) communityService.navigateToPage(page);
     }
 
 })

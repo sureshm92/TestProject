@@ -70,6 +70,7 @@ public without sharing class StudySiteService {
             'Site__c',
             'Override_PI_Referral_Status__c',
             'Is_Virtual_Study_Site__c',
+            'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
             'Site__r.BillingState',
@@ -90,7 +91,15 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Orientation_Required__c ',
-            'Principal_Investigator__r.Name'
+            'Principal_Investigator__r.Name',
+            'Principal_Investigator__r.Title',
+            'Principal_Investigator__r.MailingStreet',
+            'Principal_Investigator__r.MailingCity',
+            'Principal_Investigator__r.MailingState',
+            'Principal_Investigator__r.MailingPostalCode',
+            'Principal_Investigator__r.MailingAddress',
+            'Principal_Investigator__r.Phone',
+            'Principal_Investigator__r.Email'
     };
 
 
@@ -181,7 +190,7 @@ public without sharing class StudySiteService {
     public class SiteFilter{
         public String mode;
         public Id trialId;
-//        public List<Id> trialIds;
+        public List<Id> trialIds;
         public String siteType;
         public String distanceRange;
         public String therapeuticArea;
@@ -193,7 +202,7 @@ public without sharing class StudySiteService {
         public SiteFilter(SiteFilterData filterData){
             mode = filterData.mode;
             trialId = filterData.trialId;
-//            trialIds = filterData.trialIds;
+            trialIds = filterData.trialIds;
         }
     }
 
@@ -201,7 +210,7 @@ public without sharing class StudySiteService {
     public class SiteFilterData{
         public String mode;
         public Id trialId;
-//        public List<Id> trialIds;
+        public List<Id> trialIds;
         public List<LabelValueItem> siteTypes;
         public List<LabelValueItem> distanceRanges;
         public List<LabelValueItem> therapeuticAreas;
@@ -233,56 +242,84 @@ public without sharing class StudySiteService {
         public String siteType;
         public HCP_Enrollment__c hcpe;
         public Map<String, StudyActions.Action> actions;
+        public String sortType;
 
-        public StudySiteDistanceWrapper(Study_Site__c site){
+        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType){
             this.site = site;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
-            this.formatedDistance = ((distance * 10).round() / 10.0).format() + ' ' + DistanceHelper.getUnitsOfMeasurement();
+            this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            this.sortType = sortType;
             if(!site.Is_Virtual_Study_Site__c){
                 this.siteType = 'Traditional';
             }
             else {
                 this.siteType = 'Virtual';
             }
+            this.hcpe = hcpe;
+            if (hcpe!=null) {
+                this.actions = new StudyActionsHCP(hcpe).actions;
+            } else {
+                this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
+            }
         }
         public Integer compareTo(Object compareTo){
             StudySiteDistanceWrapper compareToWrapper = (StudySiteDistanceWrapper)compareTo;
-            if(this.siteType == 'Virtual' && compareToWrapper.siteType == 'Virtual'){
-                return 0;
+            switch on sortType {
+                when 'Distance'{
+                    if(this.siteType == 'Virtual' && compareToWrapper.siteType == 'Virtual'){
+                        return 0;
+                    }
+                    else if(this.siteType == 'Virtual'){
+                        return -1;
+                    }
+                    else if(compareToWrapper.siteType == 'Virtual'){
+                        return 1;
+                    }
+                    else{
+                        return (Integer)(this.distance-compareToWrapper.distance);
+                    }
+                }
+                when 'Distance-virtual-last'{
+                    if(this.siteType == 'Virtual' && compareToWrapper.siteType == 'Virtual'){
+                        return 0;
+                    }
+                    else if(this.siteType == 'Virtual'){
+                        return 1;
+                    }
+                    else if(compareToWrapper.siteType == 'Virtual'){
+                        return -1;
+                    }
+                    else{
+                        return (Integer)(this.distance-compareToWrapper.distance);
+                    }
+                }
+                when else{
+                    return 0;
+                }
             }
-            else if(this.siteType == 'Virtual'){
-                return -1;
-            }
-            else if(compareToWrapper.siteType == 'Virtual'){
-                return 1;
-            }
-            else{
-                return (Integer)(this.distance-compareToWrapper.distance);
-            }
+
         }
 
     }
 
-    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId( SiteFilter filter, PaginationData paginationData){
-        String filterString = 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\'' +
-                '  AND Override_PI_Referral_Status__c != NULL ' +
-                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
-        List<Study_Site__c> siteList = getStudySitesCommon(filterString);
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId( SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
+        Set<Id> quueriedTrials = new Set<Id>();
+        for(Study_Site__c site : siteList){
+            quueriedTrials.add(site.Clinical_Trial_Profile__c);
+        }
+        System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
-        for(HCP_Enrollment__c hcpe:HCPEnrollmentService.getHCPEnrollmentsForHCPByTrial(filter.trialId)){
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        for(HCP_Enrollment__c hcpe: enrollments){
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
         for(Study_Site__c site : siteList){
-            StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site);
-            if(hcpeMap.containsKey(site.Id)){
-                siteWrapper.hcpe = hcpeMap.get(site.Id);
-                siteWrapper.actions = new StudyActionsHCP(hcpeMap.get(site.Id)).actions;
+            if(site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType );
+                result.add(siteWrapper);
             }
-            else{
-                siteWrapper.actions = new StudyActionsHCP(site.Clinical_Trial_Profile__r, site,null).actions;
-            }
-            result.add(siteWrapper);
         }
 
         if(paginationData != null){
@@ -293,9 +330,32 @@ public without sharing class StudySiteService {
             }
             result = pageList;
         }
-        if(filter.sortType == 'Distance'){
             result.sort();
-        }
         return result;
+    }
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
+        String filterString = '';
+        if(filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())){
+            filterString= 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\'   AND ';
+        }
+        else if(filter.trialIds != null && !filter.trialIds.isEmpty()){
+            filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds,'\',\'') + '\')   AND ';
+        }
+        else {
+            List<Id> studyIds = TrialService.getAvailableTrialIds(CommunityService.USER_MODE_HCP);
+            System.debug('studyIds SSN' + studyIds);
+            filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(studyIds,'\',\'') + '\')   AND ';
+        }
+        filterString += 'Override_PI_Referral_Status__c != NULL ' +
+                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
+        if(filter.siteType == 'Virtual'){
+            filterString += ' AND Is_Virtual_Study_Site__c = TRUE ';
+        }
+
+        else if(filter.siteType == 'Traditional'){
+            filterString += ' AND Is_Virtual_Study_Site__c = FALSE ';
+        }
+        System.debug('filterString SSDW ' + filterString);
+        return getStudySitesCommon(filterString);
     }
 }

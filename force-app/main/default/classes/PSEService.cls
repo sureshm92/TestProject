@@ -9,6 +9,7 @@ public without sharing class PSEService {
     public static final String PSE_STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
     public static final String PSE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
     public static final String PSE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
+    public static final String PSE_STATUS_DROP_OUT = 'Drop Out';
 
     public static final List<String> PSE_STATUS_GROUP_ALL = new List<String>{
             PSE_STATUS_ENROLLED,
@@ -20,7 +21,8 @@ public without sharing class PSEService {
 
     public static final List<String> PSE_STATUS_GROUP_COMPLETE = new List<String>{
             PSE_STATUS_PARTICIPATION_COMPLETE,
-            PSE_STATUS_TRIAL_COMPLETE
+            PSE_STATUS_TRIAL_COMPLETE,
+            PSE_STATUS_DROP_OUT
     };
     
     public static final List<String> PSE_DEFAULT_FIELDS_LIST = new List<String>{
@@ -37,6 +39,7 @@ public without sharing class PSEService {
             'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Clinical_Trial_Profile__r.Baseline_Survey_URL__c',
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -54,7 +57,8 @@ public without sharing class PSEService {
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
-            'Study_Site__r.Site__r.Name'
+            'Study_Site__r.Site__r.Name',
+            'Motivational_Message_Id__c'
     };
     
     public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){
@@ -94,8 +98,9 @@ public without sharing class PSEService {
                     delegatesFilter +
                     ') ';
         } else{
-            List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds();
-            delegatesFilter = ' OR Participant__c IN (\'' + String.join(delegatedParticipantIds, '\',\'') + '\')';
+            if(PatientDelegateService.isDelegate){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            }
             return '( ' +
                     '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
                     delegatesFilter +

@@ -207,10 +207,39 @@
 .THIS .invisible-tab{
     display: none;
 }
+.THIS .resources-icon-social {
+    margin-left: 0.5rem;
+}
+.THIS .share-social-buttons {
+    display: inline-flex;
+    justify-content: end;
+    align-items: flex-end;
+    min-width: 6rem;
+    float: right;
+    margin-right: 65px;
+}
+.THIS .share-social-icon {
+    margin-right: 0.5rem;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+}
+
+.THIS .contrast-logo {
+    max-width: 136px;
+    margin: 10px 0;
+}
+
+.THIS .hidden-button{
+    visibility: hidden;
+}
 
 @media (max-width: 768px){
     .THIS .sdv-top-bar .links .apollo-btn.text{
         font-size: 13px;
+    }
+    .THIS  .share-social-buttons {
+        margin-right: 0;
     }
 }
 
@@ -231,32 +260,18 @@
 }
 .THIS .button-share-icon {
     visibility: hidden;
-    display:inline-flex;
+    display:block;
     position:absolute;
-    margin-left: -35px;
-    margin-top: 70px;
+    margin-left: 65px;
+    margin-top: 73px;
     transition: all ease 0.3s;
 
 }
-.THIS #shares:hover ~ .button-share-icon{
+.THIS #share:hover ~ .button-share-icon{
     /*display: block !important;*/
-    visibility: visible;
+    visibility: visible !important;
 }
 .THIS .button-share-icon:hover {
     /*display: block !important;*/
-    visibility: visible;
-}
-.THIS .share-button {
-    margin-left: 10px;
-    height: 24px;
-    width: 24px;
-}
-.THIS .hidden-button{
-    visibility: hidden;
-}
-.THIS .share-button:hover {
-    -webkit-transform: scale(1.3);
-    -moz-transform: scale(1.3);
-    -o-transform: scale(1.3);
-    transform: scale(1.3);
+    visibility: visible !important;
 }

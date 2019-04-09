@@ -18,6 +18,12 @@
                 icon: 'referred-patient'
             },
 
+            'dashboard': {
+                page: 'dashboard',
+                label: $A.get('$Label.c.Navigation_Dashboard'),
+                icon: 'dashboard'
+            },
+
             'medical-record-review-log': {
                 page: 'medical-record-review-log',
                 label: $A.get('$Label.c.Navigation_Medical_Record_Review_Log'),
@@ -82,23 +88,28 @@
             'my-study':{
                 page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_My_Study')
+            },
+
+            'resources':{
+                page: 'study-workspace?tab=tab-resources',
+                label: $A.get('$Label.c.Navigation_Resources')
             }
-
-
-
         };
 
         //init items for every type
+        var middleMenuItem = communityService.getParticipantState() === 'ALUMNI' ? 'resources' : 'my-study';
+
         this.itemsMap = {
 
             Participant: [
                 this.allPagesMap['participant-home'],
-                this.allPagesMap['my-study'],
+                this.allPagesMap[middleMenuItem],
                 this.allPagesMap['help']
             ],
 
             PI: [
                 this.allPagesMap[''],
+                this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
                 this.allPagesMap['my-referring-clinics'],
                 this.allPagesMap['reports'],

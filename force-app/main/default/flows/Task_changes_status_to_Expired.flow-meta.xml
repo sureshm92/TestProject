@@ -35,6 +35,37 @@
                 <processMetadataValues>
                     <name>inputDataType</name>
                     <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>leftHandSideType</name>
+                    <value>
+                        <stringValue>Date</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>operatorDataType</name>
+                    <value>
+                        <stringValue>Date</stringValue>
+                    </value>
+                </processMetadataValues>
+                <processMetadataValues>
+                    <name>rightHandSideType</name>
+                    <value>
+                        <stringValue>Boolean</stringValue>
+                    </value>
+                </processMetadataValues>
+                <leftValueReference>myVariable_current.ActivityDate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <processMetadataValues>
+                    <name>inputDataType</name>
+                    <value>
                         <stringValue>Date</stringValue>
                     </value>
                 </processMetadataValues>
@@ -59,7 +90,7 @@
                 <leftValueReference>myVariable_current.ActivityDate</leftValueReference>
                 <operator>LessThan</operator>
                 <rightValue>
-                    <elementReference>formula_2_myRule_1_0875842976</elementReference>
+                    <elementReference>formula_2_myRule_1_6072403864</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -72,12 +103,12 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>TODAY()</stringValue>
+                <stringValue>TODAY ()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_0875842976</name>
+        <name>formula_2_myRule_1_6072403864</name>
         <dataType>Date</dataType>
-        <expression>TODAY()</expression>
+        <expression>TODAY ()</expression>
     </formulas>
     <interviewLabel>Task_changes_status_to_Expired-2_InterviewLabel</interviewLabel>
     <label>Task changes status to Expired</label>

@@ -9,6 +9,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="showDashboardforPI" type="Boolean" default="true"/>
     <aura:attribute name="piData" type="Object"/>
     <aura:attribute name="hcpData" type="Object"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
@@ -22,11 +23,13 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
     <aura:if isTrue="{!v.isInitialized}">
-        <!--<c:RRNavigationPath>-->
-            <!--<c:RRNPathItem label="{!$Label.c.PG_DB_L_Dashboard}"/>-->
-        <!--</c:RRNavigationPath>-->
-        <div class="db-content">
-            <aura:if isTrue="{!v.userMode == 'PI'}">
+        <aura:if isTrue="{!and(v.userMode == 'PI',v.showDashboardforPI)}">
+        <c:RRNavigationPath>
+            <c:RRNPathItem label="{!$Label.c.PG_DB_L_Dashboard}"/>
+        </c:RRNavigationPath>
+        </aura:if>
+        <div class="{!if(v.showDashboardforPI,'db-content','db-content-empty')}">
+            <aura:if isTrue="{!and(v.userMode == 'PI',v.showDashboardforPI)}">
                 <c:DashboardPI piData="{!v.piData}" parent="{!this}"/>
                 <!-- change PE status action by PI: -->
                 <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
