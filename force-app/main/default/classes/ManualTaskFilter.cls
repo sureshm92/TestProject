@@ -70,7 +70,9 @@ public with sharing class ManualTaskFilter {
                     (List<Participant_Enrollment__c>) Database.query(query);
 
             for (Participant_Enrollment__c pe : participantEnrollments) {
-                participants.add(pe.Participant__r);
+                if(pe.Participant__r != null) {
+                    participants.add(pe.Participant__r);
+                }
             }
         }
 
