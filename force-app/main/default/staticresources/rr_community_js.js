@@ -17,6 +17,7 @@ window.communityService = (function () {
     var alreadyShowedMap = {};
     var isNewSession;
     var language;
+    var participantState;
 
     //community service functions:
     var service = {
@@ -30,6 +31,7 @@ window.communityService = (function () {
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 language = communityData.language;
+                participantState = communityData.state;
                 isInitializedFlag = true;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
@@ -83,6 +85,9 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
+        getParticipantState(){
+            return participantState;
+        },
         getLanguage: function(){
             return language;
         },

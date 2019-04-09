@@ -33,5 +33,13 @@ public class SObjectHelper {
         }
         return true;
     }
+    
+    public static List<Id> toIdsList(List<SObject> sObjects){
+        List<Id> resList = new List<Id>();
+        for(SObject so : sObjects){
+            resList.add((Id)so.get('Id'));
+        }
+        return resList;
+    }
 
 }

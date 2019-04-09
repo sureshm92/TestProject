@@ -87,6 +87,7 @@
         </xmltask>
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
+            <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
         </xmltask>
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
     </target>
@@ -126,8 +127,8 @@
             <arg value="/c convert-project.bat"/>
         </exec>
         <!-- TODO test for mac -->
-        <exec dir=".." executable="/bin/sh" osfamily="mac">
-            <arg path="-c convert-project.bat"/>
+        <exec dir=".." executable="pwsh" osfamily="mac">
+            <arg path="../convert-project.bat"/>
         </exec>
     </target>
 

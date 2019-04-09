@@ -24,6 +24,7 @@ public without sharing class CommunityFacadeRemote {
     private class CommunityData{
         String communityMode;
         List<String> communityTypes;
+        String state;
         String pathPrefix;
         Boolean isTCAccepted;
         String language;
@@ -56,6 +57,7 @@ public without sharing class CommunityFacadeRemote {
             cd.isTCAccepted  = isTCAccepted();
             cd.communityMode = userContact.userCommunityMode__c;
             cd.communityTypes = modesList;
+            cd.state = participantState.value.name();
             cd.pathPrefix = Site.getPathPrefix();
             cd.language = UserInfo.getLanguage();
             return JSON.serialize(cd); 

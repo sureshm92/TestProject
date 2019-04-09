@@ -5,7 +5,6 @@
 
         communityService.executeAction(component, 'isDelegate', null,
             function (returnValue) {
-            debugger;
                 if(returnValue === 'TRUE') component.set('v.isDelegate', true);
         });
         var mode = communityService.getUserMode();

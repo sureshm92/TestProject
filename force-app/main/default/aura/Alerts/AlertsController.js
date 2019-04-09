@@ -16,7 +16,9 @@
                     component.set('v.currentAlert', alerts[currentAlertIndex]);
                     component.find('alertsDialog').show();
                 }else{
+                    debugger;
                     component.find('onboardingSlideTour').initialShow();
+                    component.find('motivationalMessages').show();
                 }
             });
         }
@@ -38,7 +40,9 @@
         }else{
             component.find('alertsDialog').set('v.showModal', false);
             component.set('v.currentAlert', null);
+            debugger;
             component.find('onboardingSlideTour').initialShow();
+            component.find('motivationalMessages').show();
         }
     }
 })

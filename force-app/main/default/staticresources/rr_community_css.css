@@ -130,6 +130,10 @@ body{
     background: #FFE200;
 }
 
+.toastContainer > .slds-theme--info{
+    background: #4A90E2
+}
+
 .toastContainer .toastTitle,
 .toastContainer .toastIcon {
     display: none;

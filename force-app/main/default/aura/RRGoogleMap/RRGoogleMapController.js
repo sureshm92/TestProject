@@ -4,11 +4,15 @@
 ({
     doInit: function (component, event, helper) {
         var markers = [];
+        var hasAddress = false;
         var accounts = component.get('v.accounts');
         for (var i = 0; i < accounts.length; i++) {
             var clinicWrapper = accounts[i];
-            if(!clinicWrapper.clinic.BillingCity)
+            if(!clinicWrapper.clinic.BillingCity || !clinicWrapper.clinic.BillingStreet) {
                 continue;
+            }
+
+            hasAddress = true;
 
             //Url forming
             var descriptionLink;
@@ -27,9 +31,7 @@
                     City: clinicWrapper.clinic.BillingCity,
                     PostalCode: clinicWrapper.clinic.BillingPostalCode,
                     State: clinicWrapper.clinic.BillingState,
-                    Country: clinicWrapper.clinic.BillingCountry,
-                    Latitude: clinicWrapper.clinic.BillingLatitude,
-                    Longitude: clinicWrapper.clinic.BillingLongitude
+                    Country: clinicWrapper.clinic.BillingCountry
                 },
                 icon: 'custom:custom86',
                 title: clinicWrapper.name,
@@ -37,6 +39,8 @@
             });
         }
 
+        component.set('v.hasAddress', hasAddress);
         component.set('v.markers', markers);
     }
+
 })

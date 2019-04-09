@@ -41,53 +41,54 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
 
     public StudyActionsParticipant() {
         this.actions  = new Map<String, StudyActions.Action>();
+        if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
+            actions.put('facebook', new StudyActions.Action(
+                    'facebook',
+                    '',
+                    'icon-facebook',
+                    false
+            )) ;
+            actions.put('twitter', new StudyActions.Action(
+                    'twitter',
+                    '',
+                    'icon-twitter',
+                    false
+            )) ;
+            actions.put('linkedin', new StudyActions.Action(
+                    'linkedin',
+                    '',
+                    'icon-linkedin',
+                    false
+            ));
+            actions.put('envelope', new StudyActions.Action(
+                    'envelope',
+                    '',
+                    'icon-envelope',
+                    false
+            ));
+        }
+
         this.studyDetailActions = new List<StudyActions.Action>();
+        if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
+            studyDetailActions.add(new StudyActions.Action(
+                    'downloadConsent',
+                    'Download Consent',
+                    'icon-import',
+                    false
+            ));
+            studyDetailActions.add(new StudyActions.Action(
+                    StudyActions.ACT_SHARE,
+                    StudyActions.LABEL_SHARE,
+                    'share',
+                    false
+            ));
+        }
 
-        actions.put('facebook', new StudyActions.Action(
-                'facebook',
-                '',
-                'icon-facebook',
-                false
-        )) ;
-        actions.put('twitter', new StudyActions.Action(
-                'twitter',
-                '',
-                'icon-twitter',
-                false
-        )) ;
-        actions.put('linkedin', new StudyActions.Action(
-                'linkedin',
-                '',
-                'icon-linkedin',
-                false
-        ));
-        actions.put('envelope', new StudyActions.Action(
-                StudyActions.ACT_SHARE,
-                '',
-                'icon-envelope',
-                false
-        ));
-
-        studyDetailActions.add(new StudyActions.Action(
-                'viewTermsAndConditions',
-                'Terms and Conditions',
-                'paper-many',
-                false
-        ));
-        studyDetailActions.add(new StudyActions.Action(
-                'shares',
-                StudyActions.LABEL_SHARE,
-                'share',
-                false
-        ));
         studyDetailActions.add(new StudyActions.Action(
                 'backHome',
                 'Back to Home',
-                'icon-home-brand-new',
+                'icon-home',
                 false
         ));
-
     }
-
-
 }

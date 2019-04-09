@@ -77,12 +77,15 @@ public with sharing class ManualTaskFilter {
         Set<Id> contacts = new Set<Id>();
         List<String> countryCodes = getCountryCode();
         for (Participant__c partic : participants) {
-            if (!countries.isEmpty()) {
-                if (countryCodes.contains(partic.Mailing_Country_Code__c)) {
-                    contacts.add(partic.Contact__c);
+            Id partContact = partic.Contact__c;
+            if (partContact != null) {
+                if (!countries.isEmpty()) {
+                    if (countryCodes.contains(partic.Mailing_Country_Code__c)) {
+                        contacts.add(partContact);
+                    }
+                } else {
+                    contacts.add(partContact);
                 }
-            }else {
-                contacts.add(partic.Contact__c);
             }
         }
 

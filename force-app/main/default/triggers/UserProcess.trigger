@@ -46,13 +46,7 @@ trigger UserProcess on User (after insert, after update) {
                 if(user.ContactId != null){
                     Participant__c participant = participantsByContactIdMap.get(user.ContactId);
                     if(participant != null){
-                        tasksForInsert.add(new Task(
-                                OwnerId = user.Id,
-                                Task_Code__c = 'T0001',
-                                WhatId = participant.Id,
-                                Subject = 'T0001',
-                                ActivityDate = Date.today().addDays(3)
-                        ));
+                        tasksForInsert.add(TaskService.createCompleteYourProfileTask(user.Id, participant.Id, user.ContactId));
                     }
                 }
             }
