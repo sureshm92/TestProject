@@ -17,17 +17,14 @@ trigger SurveyResponseTrigger on SurveyResponse (after insert, after update) {
         }
     }
     
-    System.debug('Survey changed!');
-    
     List<Task> tasksForComplete = [
             SELECT Id
             FROM Task
             WHERE WhoId IN: contactIdsForCloseTask
             AND Task_Code__c =: TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY
     ];
-    for (Task t : tasksForComplete){
-        t.Status = TaskService.TASK_STATUS_COMPLETED;
-    }
+    for (Task t : tasksForComplete) TaskService.completeTask(t);
+    
     System.debug('FOR COMPETE SIZE: ' + tasksForComplete.size());
     update tasksForComplete;
     

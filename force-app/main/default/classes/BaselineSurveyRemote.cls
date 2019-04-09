@@ -18,11 +18,13 @@ public class BaselineSurveyRemote {
             }
             List<Task> tasks = TaskService.getTasksCommon('Task_Code__c =\'' + TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY +'\' AND ' + TaskService.getOpenTasksFilter());
             if(tasks.size() == 0) throw new BaselineSurveyException('Baseline survey already completed');
+            if(participantState.pse.Clinical_Trial_Profile__r.Baseline_Survey_URL__c == null){
+                throw new BaselineSurveyException('Baseline Survey not defined');
+            }
             return JSON.serialize(participantState.pse.Clinical_Trial_Profile__r);
         }catch (Exception e){
-            AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
-        return null;
     }
 
 }

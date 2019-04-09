@@ -90,9 +90,13 @@ public without sharing class TaskService {
     
     public static void completeTask(Id taskId){
         Task task = getTask(taskId);
+        completeTask(task);
+        update task;
+    }
+    
+    public static void completeTask(Task task){
         task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
-        update task;
     }
     
     
@@ -104,7 +108,6 @@ public without sharing class TaskService {
                 Status = TASK_STATUS_OPEN,
                 Priority = TASK_PRIORITY_CRITICAL,
                 WhoId = participantContactId,
-                ActivityDate = Date.today().addDays(3),
                 Visible_For__c = TASK_VISIBILITY_OWNER
         );
     }
@@ -118,7 +121,6 @@ public without sharing class TaskService {
                 Priority = TASK_PRIORITY_CRITICAL,
                 WhatId = participantId,
                 WhoId = participantContactId,
-                ActivityDate = Date.today().addDays(3),
                 Visible_For__c = TASK_VISIBILITY_OWNER
         );
     }
