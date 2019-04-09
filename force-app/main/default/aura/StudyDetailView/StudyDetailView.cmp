@@ -103,7 +103,7 @@
                                             <c:RRIcon iconName="{!action.iconName}"/>
                                             {!action.label}
                                         </button>
-                                        <aura:if isTrue="{!and(v.userMode == 'Participant', action.id == 'share')}">
+                                        <aura:if isTrue="{!and(v.userMode == 'Participant', action.id == 'shares')}">
                                             <div class="button-share-icon">
                                                   <button class="apollo-btn text ico-in-top small-font sdv-btn"
                                                           disabled="{!v.studyDetail.actions.facebook.disabled}" id="{!v.studyDetail.actions.facebook.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.facebook.disableReason}">

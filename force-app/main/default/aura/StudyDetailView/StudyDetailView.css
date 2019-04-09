@@ -267,7 +267,7 @@
     transition: all ease 0.3s;
 
 }
-.THIS #share:hover ~ .button-share-icon{
+.THIS #shares:hover ~ .button-share-icon{
     /*display: block !important;*/
     visibility: visible !important;
 }
