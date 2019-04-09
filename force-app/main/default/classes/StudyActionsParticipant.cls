@@ -68,12 +68,12 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
                 false
         ));
 
-//        studyDetailActions.add(new StudyActions.Action(
-//                'downloadConsent',
-//                'Download Consent',
-//                'icon-download-brand-new',
-//                false
-//        ));
+        studyDetailActions.add(new StudyActions.Action(
+                'viewTermsAndConditions',
+                'Terms and Conditions',
+                'paper-many',
+                false
+        ));
         studyDetailActions.add(new StudyActions.Action(
                 'shares',
                 StudyActions.LABEL_SHARE,
