@@ -695,6 +695,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TherapeuticAreaAssignmentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaPatientService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TherapeuticAreaPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2567,6 +2575,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Conditions__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Contact__c</field>
         <readable>true</readable>
@@ -2762,6 +2775,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.CSS_Class_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource_Field_Api__mdt.X3rd_Party_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Resource_Version__c.Content_Text__c</field>
         <readable>true</readable>
@@ -2868,6 +2891,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.Remove_sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2898,7 +2926,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.URL_Part__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Updated_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2909,6 +2947,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.X3rd_Party_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3504,6 +3547,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource_Field_Api__mdt-Resource Field Api Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource_Version__c-Resource Version Layout</layout>

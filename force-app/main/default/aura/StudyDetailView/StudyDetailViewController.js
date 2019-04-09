@@ -29,6 +29,7 @@
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                 component.set('v.isInitialized', true);
                 spinner.hide();
+                helper.mailSendMessage(component);
             });
         }
     },
@@ -91,6 +92,9 @@
             case 'changeTaskMode':
                 var taskMode = event.currentTarget.dataset.taskMode;
                 component.set('v.taskMode', taskMode);
+                break;
+            case 'shares':
+                component.set('v.isShare', !component.get('v.isShare'));
                 break;
         }
     },

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customApplications>
-        <label><!-- Developer --></label>
-        <name>Developer</name>
-    </customApplications>
-    <customApplications>
-        <label><!-- IQVIA Referral Hub --></label>
-        <name>IQVIA_RR_CRM</name>
-    </customApplications>
     <customLabels>
         <label>Поздравляю ##UserName!
 
@@ -3347,6 +3339,10 @@
         <name>Resources_No_Videos</name>
     </customLabels>
     <customLabels>
+        <label>Нет доступа в к ресурсу</label>
+        <name>Resources_Not_Access_In_Resource</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources See All --></label>
         <name>Resources_See_All</name>
     </customLabels>
@@ -3614,13 +3610,4 @@
         <label><!-- URL Interactive Advertising Bureau --></label>
         <name>URL_Interactive_Advertising_Bureau</name>
     </customLabels>
-    <customTabs>
-        <label><!-- Manual Tasks Creation --></label>
-        <name>Manual_Tasks_Creation</name>
-    </customTabs>
-    <customTabs>
-        <label><!-- Study Export/Import --></label>
-        <name>Translation_Import_Export</name>
-    </customTabs>
-
 </Translations>

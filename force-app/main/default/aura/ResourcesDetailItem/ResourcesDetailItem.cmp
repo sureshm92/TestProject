@@ -4,73 +4,85 @@
 
 <aura:component description="ResourcesDetailItem" controller="ResourceRemote">
 
-    <aura:attribute name="resource" type="ResourceService.ResourceWrapper"/>
+    <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
-    <!--<aura:handler name="change" value="{!v.resourceType}" action="{!c.doInit}"/>-->
-
 
     <div class="resource-container">
-        <aura:if isTrue="{!v.resource.type == 'Article'}">
-            <div class="bitmap">
-                <img src="{!v.resource.image}" alt="{!$Label.c.Resources_Image_Unavailable}"/>
+        <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == 'Article'}">
+            <div class="{!or(v.resourceWrapper.resource.Image__c == null, v.resourceWrapper.resource.Image__c == '') ? 'hide-image' : 'bitmap'}">
+                <img src="{!v.resourceWrapper.resource.Image__c}" alt="{!$Label.c.Resources_Image_Unavailable}"/>
             </div>
             <aura:set attribute="else">
                 <div class="ah-video-iframe">
                     <iframe class="my_iframe"
                             frameborder="0"
-                            src="{!v.resource.video}">
+                            src="{!v.resourceWrapper.resource.Video__c}">
                     </iframe>
                 </div>
             </aura:set>
         </aura:if>
 
         <div class="resource-description">
-            <div class="resource-title">
-				{!v.resource.title}
-			</div>
-            <div class="resource-description-short">
-                <!--SHORT DESCRIPTION!!!-->
-                {!v.resource.description}
-            </div>
+            <aura:if isTrue="{!!empty(v.resourceWrapper.headerFieldWrappers)}">
+                <aura:iteration items="{!v.resourceWrapper.headerFieldWrappers}" var="field">
+                    <div class="{!field.cssClassName}">
+                        <lightning:formattedRichText value="{!field.valueField}"/>
+                    </div>
+                </aura:iteration>
+            </aura:if>
             <div class="resource-expiration-date">
                 Expires:
-                <ui:outputDate value="{!v.resource.expirationDate}" format="dd-MMM-y"/>
+                <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>
             </div>
             <div class="resource-description-footer">
                 <div class="resources-icon icon-like" onclick="{!c.doLike}">
-                    <!--WILL BE CHANGED-->
-
-                    <aura:if isTrue="{!v.resource.isVoted}">
-
+                    <aura:if isTrue="{!v.resourceWrapper.isVoted}">
                         <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>
                         <aura:set attribute="else">
                             <c:RRIcon iconName="icon-like-brand-new" class="resources-icon-like"/>
                         </aura:set>
                     </aura:if>
-
                 </div>
 
                 <div class="resources-icon" onclick="{!c.doFavorite}">
-
-                    <!--WILL BE CHANGED-->
-
-                    <aura:if isTrue="{!v.resource.isFavorite}">
+                    <aura:if isTrue="{!v.resourceWrapper.isFavorite}">
                         <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resources-icon-star"/>
                         <aura:set attribute="else">
                             <c:RRIcon iconName="icon-star" class="resources-icon-star"/>
                         </aura:set>
                     </aura:if>
                 </div>
+                <aura:if isTrue="{!v.resourceWrapper.isShareable}">
+                    <div class="resources-icon-social">
+                        <c:SocialSharing
+                                facebookIconClass="resources-icon-like"
+                                facebookIconName="facebook"
+                                mailBoxIconName="email"
+                                mailBoxIconClass="resources-icon-like"
+                                twitterIconName="twitter"
+                                twitterIconClass="resources-icon-like"
+                                linkedInIconName="linked-in"
+                                linkedInIconClass="resources-icon-like"
+                                linkToShare="{!v.resourceWrapper.resource.article_external_link__c}"
+                                mailSendMessage="{!v.resourceWrapper.shareMessage}"
+                        />
+                    </div>
+                </aura:if>
             </div>
-            <div class="resource-body">
-
-                <!--DESCRIPTION - FULL - MAYBE FIELD body -->
-
-                <lightning:formattedRichText value="{!v.resource.body}"/>
-                <!--{!v.resource.body}-->
-            </div>
+            <aura:if isTrue="{!v.resourceWrapper.resource.Updated_Date__c != null}">
+                <div class="resource-content-updated">
+                    {!$Label.c.Resources_Content_Has_Been_Updated}
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!!empty(v.resourceWrapper.bodyFieldWrappers)}">
+                <aura:iteration items="{!v.resourceWrapper.bodyFieldWrappers}" var="field">
+                    <div class="{!field.cssClassName}">
+                        <lightning:formattedRichText value="{!field.valueField}"/>
+                    </div>
+                </aura:iteration>
+            </aura:if>
         </div>
     </div>
 

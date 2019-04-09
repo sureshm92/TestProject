@@ -9,7 +9,8 @@
             }, function (returnValue) {
                 component.set("v.resourcesLoading", false);
                 if(!returnValue.errorMessage) {
-                    component.set("v.resources", returnValue.wrappers);
+                    returnValue = helper.trimLongText(returnValue);
+                    component.set("v.resourceWrappers", returnValue.wrappers);
                     component.set("v.errorMessage", "");
                 } else {
                     component.set("v.errorMessage", returnValue.errorMessage);
@@ -21,10 +22,7 @@
             var resourceType = event.currentTarget.dataset.type;
             var resourceId = event.currentTarget.dataset.id;
             var trialId = component.get('v.trialId');
-            let pathToNavigate = 'resources?resourceType=' + resourceType + '&id=' + trialId + '&resId=' + resourceId;
-            if (document.location.pathname === '/s/') {
-                pathToNavigate += '#home';
-            }
+            let pathToNavigate = 'resources?resourceType=' + resourceType + '&id=' + trialId + '&resId=' + resourceId + '&ret=' + communityService.createRetString();
             communityService.navigateToPage(pathToNavigate);
         },
     }

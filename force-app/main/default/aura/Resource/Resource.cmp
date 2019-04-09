@@ -28,7 +28,7 @@
 					<lightning:layout horizontalAlign="center" verticalAlign="start" multipleRows="true">
 						<aura:iteration items="{!v.resourcesOnPage}" var="resource" indexVar="indexVar">
 							<lightning:layoutItem flexibility="auto" size="12">
-								<c:ResourceItem resource="{!resource}" class="{!indexVar==3 ? 'last-resource-container' : ''}"/>
+								<c:ResourceItem resourceWrapper="{!resource}" class="{!indexVar==3 ? 'last-resource-container' : ''}"/>
 							</lightning:layoutItem>
 						</aura:iteration>
 					</lightning:layout>

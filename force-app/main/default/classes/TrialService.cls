@@ -63,7 +63,8 @@ public without sharing class TrialService {
                         Study_Code_Name__c,
                         Official_Title__c,
                         Interventions__c,
-                        Profile_Picture__c
+                        Profile_Picture__c,
+                        Share_URL__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id =: trialId
         ];
