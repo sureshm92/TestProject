@@ -42,7 +42,7 @@ public without sharing class LanguageSwitcherRemote {
             //TODO Move this to another place:
             List<Task> tasks = TaskService.getTasksCommon('Task_Code__c =\'' + TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE +'\' AND ' + TaskService.getOpenTasksFilter());
             if(tasks.size() > 0){
-                tasks[0].Status = TaskService.TASK_STATUS_COMPLETED;
+                TaskService.completeTask(tasks[0]);
                 update tasks[0];
             }
         }catch (Exception e){
