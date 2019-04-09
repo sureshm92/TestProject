@@ -3333,6 +3333,10 @@
         <name>Resources_No_Videos</name>
     </customLabels>
     <customLabels>
+        <label>Нет доступа в к ресурсу</label>
+        <name>Resources_Not_Access_In_Resource</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources See All --></label>
         <name>Resources_See_All</name>
     </customLabels>

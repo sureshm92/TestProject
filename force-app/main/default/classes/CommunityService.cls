@@ -28,10 +28,10 @@ public without sharing class CommunityService {
     public static final String USER_MODE_PARTICIPANT = 'Participant';
     public static final String USER_MODE_DELEGATE = 'Delegate';
 
-	//Exception messages
+    //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
-	private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
-	private static String ERROR_MISSING_PARTICIPANT_ON_CONTACT = 'Contact does not have related Participant';
+    private static String ERROR_MISSING_CONTACT_ON_USER = 'User Contact can not be NULL';
+    private static String ERROR_MISSING_PARTICIPANT_ON_CONTACT = 'Contact does not have related Participant';
 
 
     //hold contact instance:
@@ -86,8 +86,8 @@ public without sharing class CommunityService {
                 SELECT Id, Name, FirstName, LastName, ContactId, Email
                 FROM User
                 WHERE
-                //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
-                 ContactId IN :contactIds
+                        //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
+                        ContactId IN :contactIds
                 //AND email != null
         ];
     }

@@ -1,3 +1,6 @@
+/**
+ * created by Dmytro Pokutnii
+ */
 public with sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
@@ -46,12 +49,23 @@ public with sharing class ResourceService {
         return new ResourceWrapperContainer(wrappers);
     }
 
-    public List<ResourceService.ResourceWrapper> getResourcesById(String resourceId) {
+    public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
 
-        Participant__c participant = this.getParticipant();
-        return this.getResourceWrappers(this.getResources(new Set<String>{
-                '\'' + resourceId + '\''
-        }, participant));
+        Participant__c participant = this.getParticipant(resourceType);
+        if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
+            return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
+        }
+        List<Resource__c> resources = this.getSortedResources(participant, resourceType);
+        if (resources.isEmpty()) {
+            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
+        }
+        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(resources);
+        if (resourceMap.get(resourceId) != null) {
+            return new ResourceWrapperContainer(this.getResourceWrappers(new List<Resource__c>{
+                    resourceMap.get(resourceId)
+            }));
+        }
+        return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
     }
 
     public Participant__c getParticipant() {
@@ -226,8 +240,8 @@ public with sharing class ResourceService {
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
-                isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
-                isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
+                this.isFavorite = ResourceDecoupler.getResourceActions(resource)[0].IsFavorite__c;
+                this.isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
             this.resource = resource;
         }
