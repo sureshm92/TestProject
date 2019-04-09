@@ -87,7 +87,12 @@
                         <aura:iteration items="{!v.completedTasks}" var="task">
                             <tr class="{!if(task.Status == 'Ignored', 'ignored', '')}">
                                 <td>
-                                    <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
+                                    <aura:if isTrue="{!task.Status == 'Ignored'}">
+                                        <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!task.Status == 'Completed'}">
+                                        {!task.Subject}
+                                    </aura:if>
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!task.Status == 'Ignored'}">
