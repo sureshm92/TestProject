@@ -249,4 +249,4 @@
         <c:CommunityFooter/>
     </div>
 
-</aura:component>{!task.Subject}
+</aura:component>
