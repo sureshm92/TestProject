@@ -6,4 +6,5 @@ trigger PSEProcess on Participant_Study_Enrollment__c (before insert, before upd
     PSETriggerHandler.setDefaultFieldsBeforeUpsert();
     PSETriggerHandler.processStatusHistory();
     PSETriggerHandler.createCompleteBaselineSurveyTask();
+    PSETriggerHandler.deactivateDeceasedUsers();
 }
