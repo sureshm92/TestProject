@@ -8,6 +8,7 @@
 
     onClickOk : function (component, event, helper) {
         //redirect to url in new window
-        window.location.href = 'https://www.iqvia.com/';
+        window.open('https://www.iqvia.com/', '_blank') ;
+        component.find('popup').hide();
     }
 })
