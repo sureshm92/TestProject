@@ -415,7 +415,7 @@ public without sharing class ParticipantEnrollmentService {
         if(String.isEmpty(filter.searchText)){
             if(!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
             if(!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
-            if(!String.isEmpty(filter.referringStatus)) filterStr += filter.referringStatus;
+            if(!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
             if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
             if(!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';

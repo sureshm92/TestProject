@@ -95,11 +95,11 @@ public without sharing class MedicalRecordReviewLogController {
                         filter.additionalFilter += ' AND Participant_Status__c != \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'';
                     }
                 }
-                filter.additionalFilter += ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
-                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\'' +
-                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
-                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             }
+            filter.additionalFilter += ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
+                    ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\'' +
+                    ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
+                    ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             resultDetail.currentPageList = convertToPEWrapperList(
                     ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination)
             );

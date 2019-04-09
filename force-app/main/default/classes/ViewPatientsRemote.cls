@@ -95,10 +95,13 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode){
+    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
         try {
+            if(studyChanged){
+                filter.studySite = null;
+            }
             if(piBtnFilter != null){
                 /*filter.study = null;
                 filter.studySite = null;
@@ -128,16 +131,16 @@ public without sharing class ViewPatientsRemote {
                     new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
             });
             result.peFilter = filter;
-            Boolean siteExists = false;
-            for(LabelValueItem site: result.peFilterData.studySites){
-                if (site.value == filter.studySite) {
-                    siteExists = true;
-                    break;
-                }
-            }
-            if(!siteExists){
-                filter.studySite = null;
-            }
+//            Boolean siteExists = false;
+//            for(LabelValueItem site: result.peFilterData.studySites){
+//                if (site.value == filter.studySite) {
+//                    siteExists = true;
+//                    break;
+//                }
+//            }
+//            if(!siteExists){
+//                filter.studySite = null;
+//            }
             return JSON.serialize(result);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

@@ -2344,6 +2344,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Investigator name</value>
     </labels>
     <labels>
+        <fullName>PE_Investigator_Recruitment_Expert</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Investigator Recruitment Expert</shortDescription>
+        <value>Investigator/Recruitment Expert</value>
+    </labels>
+    <labels>
         <fullName>PE_MedicalRecordReview</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3404,6 +3411,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG FP L of</shortDescription>
         <value>of</value>
+    </labels>
+    <labels>
+        <fullName>PG_FP_L_Show_more</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG FP L Show more</shortDescription>
+        <value>Show more</value>
+    </labels>
+    <labels>
+        <fullName>PG_FP_L_Show_less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG FP L Show less</shortDescription>
+        <value>Show less</value>
     </labels>
     <labels>
         <fullName>PG_FS_L_Choose_File</fullName>
@@ -5600,6 +5621,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG VP L No Items</shortDescription>
         <value>Oh no, there are no items to display</value>
+    </labels>
+    <labels>
+        <fullName>PG_VP_L_Referral_status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG VP L Referral status</shortDescription>
+        <value>Referral status</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Referring_statuses</fullName>

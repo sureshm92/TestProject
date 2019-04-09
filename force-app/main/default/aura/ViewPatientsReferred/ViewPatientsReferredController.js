@@ -47,19 +47,24 @@
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
         var piBtnFilter = component.get('v.piBtnFilter');
         var action = component.get('c.getRecords');
+        var trialId = component.get('v.trialId');
 
         communityService.executeAction(component, 'getRecords', {
             filterJSON: filterJSON,
             paginationJSON: paginationJSON,
             piBtnFilter: piBtnFilter,
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            studyChanged: trialId !== filter.study
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
             component.set('v.pageList', result.peList);
-            component.set('v.peFilterData.studySites', result.peFilterData.studySites);
-            component.set('v.peFilter', result.peFilter);
+            if(trialId != filter.study){
+                component.set('v.peFilterData.studySites', result.peFilterData.studySites);
+                component.set('v.peFilter', result.peFilter);
+                component.set('v.trialId', filter.study)
+            }
             var pagination = component.get('v.paginationData');
             pagination.allRecordsCount = result.paginationData.allRecordsCount;
             pagination.currentPage = result.paginationData.currentPage;

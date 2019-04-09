@@ -71,7 +71,7 @@
                     </div>
                     <aura:if isTrue="{!v.showMoreEnabled}">
                         <div class="show-more">
-                            <a onclick="{!c.doSwitchShowMore}">{!if(v.showMore,'Show less', 'Show more')}</a>
+                            <a onclick="{!c.doSwitchShowMore}">{!if(v.showMore,$Label.c.PG_FP_L_Show_less, $Label.c.PG_FP_L_Show_more)}</a>
                         </div>
                     </aura:if>
                 </div>

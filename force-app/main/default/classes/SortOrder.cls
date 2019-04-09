@@ -19,7 +19,7 @@ public without sharing class SortOrder {
     };
 
     public static final List<LabelValueItem> STUDIES_HCP_SORT_TYPES = new List<LabelValueItem>{
-            new LabelValueItem(ORDER_MOST_NEAREST, 'Distance ASC'),
+            new LabelValueItem(ORDER_STUDY_SITE_DISTANCE, 'Distance ASC'),
             new LabelValueItem(ORDER_LAST_CREATED, 'CreatedDate DESC')
     };
 

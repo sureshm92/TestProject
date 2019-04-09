@@ -144,6 +144,18 @@ public class StudyActionsHCP extends StudyActions{
                 'primary'
         ));
 
+
+        actions.put(ACT_MY_PATIENTS, new Action(
+                ACT_MY_PATIENTS,
+                LABEL_MY_PATIENTS,
+                'referrals',
+                new List<DisableReason>{
+                        studyNoLongerEnrollingReason
+                },
+                'primary'
+        ));
+
+
         actions.put(ACT_NO_THANKS, new Action(
                 ACT_NO_THANKS,
                 LABEL_NO_THANKS,
@@ -190,6 +202,7 @@ public class StudyActionsHCP extends StudyActions{
         //MRR, Referring
         if(hcpEnrollment!= null && HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c)){
             if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
+            studyListViewItemActions.add(actions.get(ACT_MY_PATIENTS));
             if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
             if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
                 studyListViewItemActions.add(actions.get(ACT_REFER));
@@ -224,6 +237,7 @@ public class StudyActionsHCP extends StudyActions{
         if(hcpEnrollment!= null && shareStatuses.contains(hcpEnrollment.Status__c)) {
             //studyListViewItemActions.add(actions.get(ACT_SHARE));
         }
+
 
 
         //prepare study detail actions list:
