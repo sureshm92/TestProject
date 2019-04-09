@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customApplications>
-        <label><!-- Developer --></label>
-        <name>Developer</name>
-    </customApplications>
-    <customApplications>
-        <label><!-- IQVIA Referral Hub --></label>
-        <name>IQVIA_RR_CRM</name>
-    </customApplications>
     <customLabels>
         <label>Поздравляю ##UserName!
 
