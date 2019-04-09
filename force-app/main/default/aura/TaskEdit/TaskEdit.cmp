@@ -211,7 +211,7 @@
                                     {!$Label.c.Task_Reminders_Missing}
                                 </div>
                             </aura:if>
-                            <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; ((v.emailDelegateTurnedOff &amp;&amp; v.hasDelegates) || !v.hasDelegates)}">
+                            <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; (v.emailDelegateTurnedOff &amp;&amp; v.hasDelegates)}">
                                 <div class="icon">
                                     <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
                                 </div>
