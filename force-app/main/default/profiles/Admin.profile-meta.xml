@@ -51,6 +51,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BaselineSurveyRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BatchException</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -315,6 +319,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MotivationalMessagesRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MyPatientsStatistics</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -504,6 +512,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailTemplate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SendEmailToParticipant</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -711,6 +723,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>UserService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -833,6 +849,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Age__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Baseline_Survey_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1432,7 +1453,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Action_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2057,6 +2088,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Parameters_Provider__mdt.Parameters__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ParticipantEnrollmentSet__mdt.Fields__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2493,6 +2529,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Study_Enrollment__c.Motivational_Message_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Study_Enrollment__c.PI_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Study_Enrollment__c.Participant_Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3152,7 +3203,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Action_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3183,6 +3244,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task_Catalog__mdt.Comments_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task_Catalog__mdt.Immediate_Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3389,6 +3455,12 @@
         <layout>Material_Sent__c-Material Sent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Motivation_Plan_Message__mdt-Motivation Plan Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Motivation_Plans__mdt-Motivation Plan Messages Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>National_ID__c-National ID Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3402,6 +3474,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>PSE_Status_History__c-PSE Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Parameters_Provider__mdt-Parameters Provider Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ParticipantEnrollmentSet__mdt-ParticipantEnrollmentSet Layout</layout>
@@ -3464,6 +3539,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Task-Task Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Task_Catalog__mdt-Task Catalog Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Terms_And_Conditions_Acceptance__c-Terms And Conditions Acceptance Layout</layout>

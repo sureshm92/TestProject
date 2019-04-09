@@ -5,9 +5,10 @@
         var trialId = trial.Id;
         var parent = component.get('v.parent');
         var actionId = event.currentTarget.id;
-        switch (actionId){
+        switch (actionId) {
             case 'medicalRecordReview':
                 communityService.navigateToPage('medical-record-review?id=' + trialId);
+                //communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'referToThisStudy':
             case 'refer':
@@ -21,7 +22,8 @@
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
                 break;
             case 'findStudySites':
-                communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
+                //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
+                communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
             case 'noThanks':
                 parent.showOpenNoTanksModal(trialId);
@@ -35,22 +37,57 @@
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
                 parent.find('receiveReferralsModal').show(trial);
+                break;
+            case 'linkToStudySites':
+                communityService.navigateToPage('sites-search?id=' + trialId);
+                break;
         }
     },
 
-    toggleStudySiteListView: function(cmp, event, helper) {
+    toggleStudySiteListView: function (cmp, event, helper) {
         let detailsExpanded = cmp.get("v.detailsExpanded");
         if (detailsExpanded) {
             cmp.set("v.detailsExpanded", false);
         } else {
             cmp.set("v.detailsExpanded", true);
         }
-
     },
+
+    doReferPatient: function(cmp, event, helper) {
+        var currentStudy = cmp.get('v.currentStudy');
+        var trial = currentStudy.trial;
+        var trialId = trial.Id;
+        communityService.navigateToPage('referring?id=' + trialId);
+    },
+
+    doMyPatients: function(cmp, event, helper) {
+        var currentStudy = cmp.get('v.currentStudy');
+        var trial = currentStudy.trial;
+        var trialId = trial.Id;
+        communityService.navigateToPage('my-patients');
+    },
+
     navigateToSitesSearch : function (component, event, helper) {
         var currentStudy = component.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
         communityService.navigateToPage("sites-search?id=" + trialId);
+    },
+
+    onEmailClick : function (component, event, helper) {
+        var hcpe = component.get('v.currentStudy').hcpe;
+        component.find('emailModal').show(hcpe);
+    },
+
+    onFacebookClick: function (component, event, helper) {
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
+    },
+
+    onTwitterClick: function (component, event, helper) {
+        window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
+    },
+
+    onLinkedInClick: function (component, event, helper) {
+        window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
     }
-});
+})

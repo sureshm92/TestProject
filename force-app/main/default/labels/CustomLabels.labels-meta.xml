@@ -265,6 +265,13 @@ Click OK to begin!</value>
         <value>Mark as Completed</value>
     </labels>
     <labels>
+        <fullName>BTN_My_Patients</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN My Patients</shortDescription>
+        <value>My Patients</value>
+    </labels>
+    <labels>
         <fullName>BTN_Next</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -347,6 +354,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN Refer</shortDescription>
         <value>Refer</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Refer_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Refer a Patient</shortDescription>
+        <value>Refer a Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Refer_Another_Patient_to_This_Study</fullName>
@@ -903,6 +917,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;settings?tab=account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
     </labels>
     <labels>
+        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
+        <value>Complete Baseline Survey</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_Enroll_Now</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -921,7 +942,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action View My Home Page</shortDescription>
-        <value>View my Home Page</value>
+        <value>View My Home Page</value>
     </labels>
     <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
@@ -957,6 +978,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Email Action View Study Details</shortDescription>
         <value>View Study Details</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey body text</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1023,7 +1051,14 @@ To track where you are in the clinical research study referral process and learn
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ## StudyCode study.  If you have any questions regarding this medication, please contact your ##PIName at ##SiteTelephoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##PatientFirstName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1120,6 +1155,13 @@ If you would like to be contacted about future clinical research opportunities, 
         <protected>false</protected>
         <shortDescription>Email_Body_Patient15</shortDescription>
         <value>Congratulations, you have been enrolled in the clinical research study: ##StudyTitle. You will be contacted by the Principal Investigator’s site regarding next steps in the study process. To track your clinical research study status, please login to the IQVIA™ Patient Hub.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient16</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_Patient16</shortDescription>
+        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. We want to ensure you are successful as you continue to manage your health. Please feel free to contact us at any time, if we can be of assistance with any future trial information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -1308,7 +1350,14 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the #StudyCode study. If you are unable to make this appointment, please call to reschedule. </value>
+        <value>This is a quick email to remind you of your upcoming visit for the #StudyName study. If you are unable to make this appointment, please call to reschedule.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##PatientFirstName upcoming visit for the ##StudyName study.  If ##PatientFirstName is unable to make this appointment, please call to reschedule.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -1344,6 +1393,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Guest User Name</shortDescription>
         <value>Guest</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -1442,6 +1498,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Header Patient4</shortDescription>
         <value>Thank you for your interest in participating in a clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Dropped_Out</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Dropped Out</shortDescription>
+        <value>You are dropped out</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP10</fullName>
@@ -1624,6 +1687,22 @@ The IQVIA Patient Hub Support Team</value>
 The IQVIA Study Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_drop_out</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature drop out</shortDescription>
+        <value>Best Regards,
+
+IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
+        <value>Complete baseline survey</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1715,6 +1794,13 @@ The IQVIA Study Team</value>
         <value>Clinical research study referral update</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Patient_Dropped_Out</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Dropped Out</shortDescription>
+        <value>You are dropped out</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_RP2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1769,6 +1855,13 @@ The IQVIA Study Team</value>
         <protected>true</protected>
         <shortDescription>Email Subject Visit Task Reminder</shortDescription>
         <value>Upcoming Visit Task</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Welcome_To_The_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Welcome To The Study</shortDescription>
+        <value>Welcome to the study</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>
@@ -1894,6 +1987,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Investigator phone</value>
     </labels>
     <labels>
+        <fullName>Link_Back_To_Home</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Link Back To Home</shortDescription>
+        <value>Back to Home</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Login</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1920,6 +2020,76 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>false</protected>
         <shortDescription>Link Interactive Advertising Bureau</shortDescription>
         <value>Interactive Advertising Bureau</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 1</shortDescription>
+        <value>Motivation message 1</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_10</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 10</shortDescription>
+        <value>MP Motivation Message 10</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 2</shortDescription>
+        <value>Motivation message 2</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 3</shortDescription>
+        <value>Motivation message 3</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_4</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 4</shortDescription>
+        <value>MP Motivation Message 4</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_5</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 5</shortDescription>
+        <value>MP Motivation Message 5</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_6</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 6</shortDescription>
+        <value>MP Motivation Message 6</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 7</shortDescription>
+        <value>MP Motivation Message 7</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 8</shortDescription>
+        <value>MP Motivation Message 8</value>
+    </labels>
+    <labels>
+        <fullName>MP_Motivation_Message_9</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MP Motivation Message 9</shortDescription>
+        <value>MP Motivation Message 9</value>
     </labels>
     <labels>
         <fullName>Navigation_Dashboard</fullName>
@@ -3158,6 +3328,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS T Privacy Rights</shortDescription>
         <value>For questions about your personal data or privacy rights, please contact us using the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_BLS_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG BLS Header</shortDescription>
+        <value>Base Line Survey</value>
     </labels>
     <labels>
         <fullName>PG_CP_L_Address</fullName>
@@ -6401,6 +6578,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Currently all recipients do not have their communication preference set to receive emails. Some task reminders may not be delivered.</value>
     </labels>
     <labels>
+        <fullName>Task_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
+        <value>Please, complete baseline survey</value>
+    </labels>
+    <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6483,6 +6667,20 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Changes made successfully</shortDescription>
         <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Kilometers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Kilometers</shortDescription>
+        <value>Kilometers</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Miles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Miles</shortDescription>
+        <value>Miles</value>
     </labels>
     <labels>
         <fullName>URL_Cookies</fullName>

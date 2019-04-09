@@ -12,6 +12,7 @@
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="delegateContact" type="String"/>
+        <aura:attribute name="messageText" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 

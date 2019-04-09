@@ -6,6 +6,9 @@ public without sharing class ShareModalController {
     @AuraEnabled
     public static void sendEmail(String hcpeId, String hcpContactId, String email) {
         try{
+            if(hcpContactId == null) {
+                hcpContactId = CommunityService.getUserContact().Id;
+            }
             SendEmailTemplate.sendShareEmail(hcpeId, hcpContactId, email);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

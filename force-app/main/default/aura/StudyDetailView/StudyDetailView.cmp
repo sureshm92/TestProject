@@ -111,7 +111,7 @@
                                                       <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}"/>
                                                   </button>
                                                 <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.envelope.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.envelope.disableReason}">
+                                                          disabled="{!v.studyDetail.actions.envelope.disabled}" id="{!v.studyDetail.actions.envelope.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.envelope.disableReason}">
                                                       <c:RRIcon iconName="{!v.studyDetail.actions.envelope.iconName}"/>
                                                   </button>
                                             </div>

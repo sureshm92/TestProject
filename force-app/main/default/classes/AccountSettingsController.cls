@@ -110,6 +110,7 @@ public without sharing class AccountSettingsController {
                         , LastName
                         , AccountId
                         , Email
+                        , Phone
                         , primaryContact__c
                         , primaryContact__r.AccountId
                         , HasOptedOutOfEmail

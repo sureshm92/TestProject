@@ -49,8 +49,25 @@
             case 'refer':
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
-            case 'share':
-                component.find('shareModal').show(studyDetail.hcpe);
+            case 'envelope': {
+                var modal = component.find('shareModal');
+                if (communityService.getUserMode() === 'HCP') {
+                    modal.show(studyDetail.hcpe);
+                }
+                else if (communityService.getUserMode() === 'Participant') {
+                    modal.show(trial);
+                }
+            }
+                break;
+            case 'facebook':
+                window.
+                    open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
+                break;
+            case 'twitter':
+                window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
+                break;
+            case 'linkedin':
+                window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
                 break;
             case 'viewTermsAndConditions':
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());

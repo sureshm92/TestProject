@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- Developer --></label>
+        <name>Developer</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- IQVIA Referral Hub --></label>
+        <name>IQVIA_RR_CRM</name>
+    </customApplications>
     <customLabels>
         <label>Поздравляю ##UserName!
 
@@ -209,6 +217,10 @@
         <name>BTN_Refer_to_this_study</name>
     </customLabels>
     <customLabels>
+        <label><!-- BTN Request to refer --></label>
+        <name>BTN_Request_to_refer</name>
+    </customLabels>
+    <customLabels>
         <label>Сбросить Пароль</label>
         <name>BTN_Reset_Password</name>
     </customLabels>
@@ -390,6 +402,10 @@
         <name>DLIT_L_Decline_or_place_on_hold_a_referring_HCP</name>
     </customLabels>
     <customLabels>
+        <label><!-- DLIT L Manage team member --></label>
+        <name>DLIT_L_Manage_team_member</name>
+    </customLabels>
+    <customLabels>
         <label>Анкета</label>
         <name>DLIT_L_Medical_Record_Review</name>
     </customLabels>
@@ -482,6 +498,10 @@
         <name>Email_Action_Login_now</name>
     </customLabels>
     <customLabels>
+        <label>Просмотреть Мою Домашнюю Страницу</label>
+        <name>Email_Action_View_My_Home_Page</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Action View My Patients --></label>
         <name>Email_Action_View_My_Patients</name>
     </customLabels>
@@ -492,6 +512,10 @@
     <customLabels>
         <label>Посмотреть Мои Рекомендательные Клиники</label>
         <name>Email_Action_View_My_Referring_Clinics</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Action View My Visits --></label>
+        <name>Email_Action_View_My_Visits</name>
     </customLabels>
     <customLabels>
         <label>Посмотреть подробности испытаний</label>
@@ -525,12 +549,24 @@
         <name>Email_Body_Initial_Patient</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Body Initial Patient Delegate --></label>
+        <name>Email_Body_Initial_Patient_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Благодарим Вас за интерес к клиническому научному исследованию: ##StudyName.
 
 С вами свяжется сайт главного исследователя ##StudySiteName, чтобы узнать о следующих шагах в процессе регистрации.
 
 Чтобы отследить, где вы находитесь в процессе направления на клинические исследования, и узнать больше о будущих возможностях клинических исследований, присоединяйтесь к сообществу IQVIA ™ Referral Hub.</label>
         <name>Email_Body_Initial_Patient_Virtual</name>
+    </customLabels>
+    <customLabels>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о предстоящей дозировке медикаментов для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по адресу ##SitePhoneNumber.</label>
+        <name>Email_Body_Medication_Task_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##PatientFirstName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по телефону: ##SitePhoneNumber.</label>
+        <name>Email_Body_Medication_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
         <label>Новое клиническое исследование было добавлено в вашу учетную запись на IQVIA ™ Referral Hub.
@@ -728,8 +764,20 @@
         <name>Email_Body_Share</name>
     </customLabels>
     <customLabels>
+        <label>Это быстрое письмо, напоминающее о вашем ##TaskName до ##CompleteByDate.</label>
+        <name>Email_Body_Task_Reminder_Type_Not_Selected</name>
+    </customLabels>
+    <customLabels>
         <label>Какой то текст для lockout случая</label>
         <name>Email_Body_User_Lockout</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Body Visit Task Reminder --></label>
+        <name>Email_Body_Visit_Task_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label>Это быстрое письмо с напоминанием о предстоящем визите ##PatientFirstName для исследования ##StudyName. Если ##PatientFirstName не может назначить встречу, позвоните, чтобы перенести встречу.</label>
+        <name>Email_Body_Visit_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
         <label>Вот ваши текущие разрешения в ваших клиниках:</label>
@@ -766,6 +814,14 @@
     <customLabels>
         <label>Вы были направлены на клиническое исследование</label>
         <name>Email_Header_Initial_Patient</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Header Initial Patient Delegate --></label>
+        <name>Email_Header_Initial_Patient_Delegate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Header Medication Task Reminder --></label>
+        <name>Email_Header_Medication_Task_Reminder</name>
     </customLabels>
     <customLabels>
         <label>Пожалуйста посмотрите и ответьте на запрос пациента</label>
@@ -852,8 +908,16 @@
         <name>Email_Header_Share</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Header Task Reminder Type Not Selected --></label>
+        <name>Email_Header_Task_Reminder_Type_Not_Selected</name>
+    </customLabels>
+    <customLabels>
         <label>Спасибо за ваш интерес к использованию</label>
         <name>Email_Header_Thank_You_For_Your_Interest</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Header Visit Task Reminder --></label>
+        <name>Email_Header_Visit_Task_Reminder</name>
     </customLabels>
     <customLabels>
         <label>Ваш уровень доступа был изменен</label>
@@ -890,7 +954,9 @@
         <name>Email_Signature_New</name>
     </customLabels>
     <customLabels>
-        <label><!-- Email Signature VT --></label>
+        <label>Искренне,
+
+Команда исследования IQVIA</label>
         <name>Email_Signature_VT</name>
     </customLabels>
     <customLabels>
@@ -904,6 +970,10 @@
     <customLabels>
         <label>Вы были направлены на клиническое исследование.</label>
         <name>Email_Subject_Initial_Patient</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Subject Medication Task Reminder --></label>
+        <name>Email_Subject_Medication_Task_Reminder</name>
     </customLabels>
     <customLabels>
         <label>Новое клиническое исследование доступно</label>
@@ -966,6 +1036,14 @@
         <name>Email_Subject_Status_Has_Changed</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Subject Task Reminder Type Not Selected --></label>
+        <name>Email_Subject_Task_Reminder_Type_Not_Selected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Subject Visit Task Reminder --></label>
+        <name>Email_Subject_Visit_Task_Reminder</name>
+    </customLabels>
+    <customLabels>
         <label>Похоже, ваш браузер блокирует HTML для этого письма. Пожалуйста, включите HTML для просмотра содержимого.</label>
         <name>Email_Text_View_Stub</name>
     </customLabels>
@@ -1012,6 +1090,10 @@
     <customLabels>
         <label>Телефон исследователя</label>
         <name>Investigator_phone</name>
+    </customLabels>
+    <customLabels>
+        <label>На главную</label>
+        <name>Link_Back_To_Home</name>
     </customLabels>
     <customLabels>
         <label>Вернуться к вводу пароля</label>
@@ -1072,6 +1154,10 @@
     <customLabels>
         <label>Отчеты</label>
         <name>Navigation_Reports</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Navigation Search for Sites --></label>
+        <name>Navigation_Search_for_Sites</name>
     </customLabels>
     <customLabels>
         <label><!-- Navigation Settings --></label>
@@ -1316,6 +1402,10 @@
     <customLabels>
         <label>Имя исследователя</label>
         <name>PE_Investigator_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PE MedicalRecordReview --></label>
+        <name>PE_MedicalRecordReview</name>
     </customLabels>
     <customLabels>
         <label>Id пациента</label>
@@ -2514,6 +2604,10 @@
         <name>PG_PP_L_Patient_Profile</name>
     </customLabels>
     <customLabels>
+        <label><!-- Delegate permition --></label>
+        <name>PG_PST_L_Delegate_Permitted</name>
+    </customLabels>
+    <customLabels>
         <label>Делегаты</label>
         <name>PG_PST_L_Delegates</name>
     </customLabels>
@@ -2530,6 +2624,10 @@
         <name>PG_PST_L_Delegates_Back</name>
     </customLabels>
     <customLabels>
+        <label><!-- This person can&apos;t be assigned --></label>
+        <name>PG_PST_L_Delegates_CantAssign</name>
+    </customLabels>
+    <customLabels>
         <label>Нажмите &quot;Добавить нового делегата&quot; для просмотра информации.</label>
         <name>PG_PST_L_Delegates_Click_Add_New</name>
     </customLabels>
@@ -2540,6 +2638,14 @@
     <customLabels>
         <label>Делегат</label>
         <name>PG_PST_L_Delegates_Delegate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Delegate Information --></label>
+        <name>PG_PST_L_Delegates_Delegate_Information</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Designed Text --></label>
+        <name>PG_PST_L_Delegates_Designed_Text</name>
     </customLabels>
     <customLabels>
         <label><!-- Disclaimer --></label>
@@ -2562,6 +2668,22 @@
         <name>PG_PST_L_Delegates_Receive_Emails</name>
     </customLabels>
     <customLabels>
+        <label><!-- Remove Delegate --></label>
+        <name>PG_PST_L_Delegates_Remove_Delegate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Remove Himself --></label>
+        <name>PG_PST_L_Delegates_Remove_Himself</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Remove_Mess_P1 --></label>
+        <name>PG_PST_L_Delegates_Remove_Mess_P1</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Remove_Mess_P2 --></label>
+        <name>PG_PST_L_Delegates_Remove_Mess_P2</name>
+    </customLabels>
+    <customLabels>
         <label>Сохранить делегата</label>
         <name>PG_PST_L_Delegates_Save</name>
     </customLabels>
@@ -2582,8 +2704,16 @@
         <name>PG_PST_L_Delegates_SuccRemove</name>
     </customLabels>
     <customLabels>
+        <label><!-- Withdraw From Delegate --></label>
+        <name>PG_PST_L_Delegates_Withdraw_From_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label><!-- You cannot add this person! --></label>
         <name>PG_PST_L_Delegates_WrongAdd</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- You have successfully withdraw from your delegate appointment. --></label>
+        <name>PG_PST_L_Delegates_You_Withdraw_Succ</name>
     </customLabels>
     <customLabels>
         <label>Моя команда</label>
@@ -2847,6 +2977,54 @@
     <customLabels>
         <label>Все</label>
         <name>PG_SDRC_L_All</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS All Site Types --></label>
+        <name>PG_SFS_L_All_Site_Types</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS All Therapeutic Areas --></label>
+        <name>PG_SFS_L_All_Therapeutic_Areas</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Any distance --></label>
+        <name>PG_SFS_L_Any_distance</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Distance --></label>
+        <name>PG_SFS_L_Distance</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Distance from you --></label>
+        <name>PG_SFS_L_Distance_from_you</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Hybrid --></label>
+        <name>PG_SFS_L_Hybrid</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Referral Status --></label>
+        <name>PG_SFS_L_Referral_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Site Type --></label>
+        <name>PG_SFS_L_Site_Type</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Therapeutic Area --></label>
+        <name>PG_SFS_L_Therapeutic_Area</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Traditional --></label>
+        <name>PG_SFS_L_Traditional</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Virtual --></label>
+        <name>PG_SFS_L_Virtual</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS sites --></label>
+        <name>PG_SFS_L_sites</name>
     </customLabels>
     <customLabels>
         <label>Получатель получит ссылку</label>
@@ -3129,8 +3307,24 @@
         <name>Resources_Expiration_Date_Disclaimer</name>
     </customLabels>
     <customLabels>
+        <label><!-- Resources Featured Article --></label>
+        <name>Resources_Featured_Article</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Featured Video --></label>
+        <name>Resources_Featured_Video</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Resources Image Unavailable --></label>
         <name>Resources_Image_Unavailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources More Articles --></label>
+        <name>Resources_More_Articles</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources More Videos --></label>
+        <name>Resources_More_Videos</name>
     </customLabels>
     <customLabels>
         <label><!-- Resources No Articles --></label>
@@ -3151,6 +3345,10 @@
     <customLabels>
         <label><!-- Resources No Videos --></label>
         <name>Resources_No_Videos</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources See All --></label>
+        <name>Resources_See_All</name>
     </customLabels>
     <customLabels>
         <label>RU ACCEPTED AND ACTIVE</label>
@@ -3405,6 +3603,10 @@
         <name>Test_Label_With_Param</name>
     </customLabels>
     <customLabels>
+        <label><!-- Changes made successfully --></label>
+        <name>Toast_Changes_Successfully</name>
+    </customLabels>
+    <customLabels>
         <label><!-- URL Cookies --></label>
         <name>URL_Cookies</name>
     </customLabels>
@@ -3412,4 +3614,13 @@
         <label><!-- URL Interactive Advertising Bureau --></label>
         <name>URL_Interactive_Advertising_Bureau</name>
     </customLabels>
+    <customTabs>
+        <label><!-- Manual Tasks Creation --></label>
+        <name>Manual_Tasks_Creation</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Study Export/Import --></label>
+        <name>Translation_Import_Export</name>
+    </customTabs>
+
 </Translations>

@@ -15,17 +15,13 @@ public class TasksRemote {
     }
     
     public class ParticipantTasks{
-        @AuraEnabled
-        public List<OpenTask> openTasksWrapper;
-        @AuraEnabled
-        public List<Task> completedTasks;
+        @AuraEnabled public List<OpenTask> openTasksWrapper;
+        @AuraEnabled public List<Task> completedTasks;
     }
 
     public class OpenTask{
-        @AuraEnabled
-        public Task openTask;
-        @AuraEnabled
-        public String originator;
+        @AuraEnabled public Task openTask;
+        @AuraEnabled public String originator;
     }
     
     @AuraEnabled
@@ -52,10 +48,26 @@ public class TasksRemote {
     
     @AuraEnabled
     public static ParticipantTasks ignoreTask(Id taskId){
-        TaskService.ignoreTask(taskId);
-        return getParticipantTasks();
+        try{
+            TaskService.ignoreTask(taskId);
+            return getParticipantTasks();
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+        return null;
     }
-
+    
+    @AuraEnabled
+    public static ParticipantTasks completeTask(Id taskId){
+        try{
+            TaskService.completeTask(taskId);
+            return getParticipantTasks();
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+    
     private static void createOriginatorsList(List<OpenTask> tasks) {
         Id participantId;
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getDelegatedParticipantUserIds());
@@ -75,10 +87,5 @@ public class TasksRemote {
         }
     }
     
-    @AuraEnabled
-    public static ParticipantTasks completeTask(Id taskId){
-        TaskService.completeTask(taskId);
-        return getParticipantTasks();
-    }
 
 }

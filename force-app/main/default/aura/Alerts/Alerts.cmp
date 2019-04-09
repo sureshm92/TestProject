@@ -37,5 +37,6 @@
     </c:Popup>
 
     <c:OnboardingSlideTour aura:id="onboardingSlideTour" userMode="{!v.userMode}"/>
+    <c:MotivationalMessages aura:id="motivationalMessages" userMode="{!v.userMode}"/>
 
 </aura:component>
