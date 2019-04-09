@@ -99,5 +99,4 @@ public without sharing class TaskEditRemote {
         return pickListValuesList;
     }
 
-
 }
