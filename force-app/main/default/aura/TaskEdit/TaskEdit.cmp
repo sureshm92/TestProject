@@ -227,7 +227,7 @@
                 <!--Reminder Frequency-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
-                                      onchange="{!c.onChangeFreq}" disabled="{!v.disableFrequency}">
+                                      onchange="{!c.onChangeFreq}" disabled="{!v.disableFrequency}" value="Complete By Date">
                         <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
                             <option text="{!freq}"></option>
                         </aura:iteration>
