@@ -104,7 +104,7 @@ public with sharing class ResourceService {
         resourcesIds.addAll(resourcesIdsSet);
 
         String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
-        String orderByClause = 'ORDER BY Version_Date__c NULLS LAST';
+        String orderByClause = 'ORDER BY Version_Date__c DESC NULLS LAST';
         return this.getResources(participantState.participant, whereClause, orderByClause);
     }
 
@@ -157,7 +157,7 @@ public with sharing class ResourceService {
         resourcesIds.addAll(resourcesIdsSet);
 
         String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
-        String orderByClause = 'ORDER BY Posting_Date__c NULLS LAST';
+        String orderByClause = 'ORDER BY Posting_Date__c DESC NULLS LAST';
         return this.getResources(participant, whereClause, orderByClause);
     }
 
