@@ -5,14 +5,15 @@ public without sharing class AccountSettingsController {
 
     @AuraEnabled
     public static String getInitData(String userMode) {
-        try{
+        try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
-    
             initData.myContact = getCurrentContact();
+            initData.cookieSettings = getCookieSettings();
+
             if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 initData.myContact = fillParticipantContact(initData.myContact);
             }
-    
+
             if (initData.myContact.primaryContact__c == null) {
         
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT
@@ -22,7 +23,7 @@ public without sharing class AccountSettingsController {
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
                                     Mailing_Country_Code__c, Mailing_State_Code__c
                             FROM Participant__c
-                            WHERE Contact__c =: initData.myContact.Id
+                            WHERE Contact__c = :initData.myContact.Id
                     ];
                     //translate country:
                     initData.participant.Mailing_Country__c =
@@ -43,7 +44,7 @@ public without sharing class AccountSettingsController {
             initData.userName = UserInfo.getUserName();
             initData.isDelegate = ParticipantService.getParticipantState().isDelegate;
             return JSON.serialize(initData);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.debug(e);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -64,7 +65,7 @@ public without sharing class AccountSettingsController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     @AuraEnabled
     public static void changePassword(String newPassword, String verifyNewPassword, String oldPassword) {
         PageReference pr;
@@ -74,9 +75,9 @@ public without sharing class AccountSettingsController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     @AuraEnabled
-    public static void changeOptInEmail(Boolean participantOptInStatusEmail, Boolean hcpOptInPatientEmail, Boolean hcpOptInStudyEmail, Boolean hcpOptInRefStatusEmail){
+    public static void changeOptInEmail(Boolean participantOptInStatusEmail, Boolean hcpOptInPatientEmail, Boolean hcpOptInStudyEmail, Boolean hcpOptInRefStatusEmail) {
         try {
             Contact currentContact = getCurrentContact();
             currentContact.Participant_Opt_In_Status_Emails__c = participantOptInStatusEmail;
@@ -88,7 +89,19 @@ public without sharing class AccountSettingsController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
+    @AuraEnabled
+    public static void changeOptInCookies(Boolean rrCookieAllowed, Boolean rrLanguageAllowed) {
+        try {
+            Contact currentContact = getCurrentContact();
+            currentContact.RRCookiesAllowedCookie__c = rrCookieAllowed;
+            currentContact.RRLanguageAllowedCookie__c = rrLanguageAllowed;
+            update currentContact;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
     private static Contact fillParticipantContact(Contact pContact) {
         List<Participant__c> pList = [
                 SELECT First_Name__c
@@ -110,6 +123,7 @@ public without sharing class AccountSettingsController {
                         , LastName
                         , AccountId
                         , Email
+                        , Phone
                         , primaryContact__c
                         , primaryContact__r.AccountId
                         , HasOptedOutOfEmail
@@ -118,7 +132,8 @@ public without sharing class AccountSettingsController {
                         , HCP_Opt_In_Study_Emails__c
                         , HCP_Opt_In_Referral_Status_Emails__c
                         , Delegate_Opt_In_Status_Emails__c
-
+                        , RRCookiesAllowedCookie__c
+                        , RRLanguageAllowedCookie__c
                 FROM Contact
                 WHERE Id IN (
                         SELECT ContactId
@@ -128,12 +143,11 @@ public without sharing class AccountSettingsController {
                 LIMIT 1
         ];
     }
-    
+
     @AuraEnabled
     public static void createCase(String description, String type) {
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
-        if(ars.isEmpty()) throw new AuraHandledException('No case assigenment rule found!');
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
         dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
@@ -197,11 +211,43 @@ public without sharing class AccountSettingsController {
         ];
     }
 
+    public static List<CookieSettings> getCookieSettings() {
+        List<CookieSettings> cookieSettings = new List<CookieSettings>();
+        cookieSettings.add(new CookieSettings('autocomplete', 'Used to determine whether the browser remembers a user’s login ID'));
+        cookieSettings.add(new CookieSettings('clientSrc', 'Used to authenticate a user'));
+        cookieSettings.add(new CookieSettings('force-proxy-stream', 'Used to redirect server requests for sticky sessions'));
+        cookieSettings.add(new CookieSettings('force-stream', 'Used to redirect server requests for sticky sessions'));
+        cookieSettings.add(new CookieSettings('RRetURL', 'Used to redirect user logins'));
+        cookieSettings.add(new CookieSettings('RSID', 'Used to redirect user logins'));
+        cookieSettings.add(new CookieSettings('sfdc-stream', 'Used to redirect server requests for sticky sessions'));
+        cookieSettings.add(new CookieSettings('sid', 'Used to authenticate a user'));
+        cookieSettings.add(new CookieSettings('sid_Client', 'Used to authenticate a user'));
+        cookieSettings.add(new CookieSettings('oid', 'Used to redirect a user to the correct Salesforce org and assist the user for the next login'));
+        cookieSettings.add(new CookieSettings('x-apm-brtm-bt-p', 'Used to maintain browser type'));
+        cookieSettings.add(new CookieSettings('x-apm-brtm-bt-pv', 'Used to maintain browser version'));
+
+        return cookieSettings;
+    }
+
     public class AccountData {
         public Contact myContact;
         public Account institute;
         public Participant__c participant;
         public String userName;
-        public Boolean isDelegate;
+     	public Boolean isDelegate;
+        @AuraEnabled
+        public List<CookieSettings> cookieSettings;
+    }
+
+    public class CookieSettings {
+        public CookieSettings(String name, String description) {
+            this.cookieName = name;
+            this.cookieDescription = description;
+        }
+
+        @AuraEnabled
+        public String cookieName { get; set; }
+        @AuraEnabled
+        public String cookieDescription { get; set; }
     }
 }

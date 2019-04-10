@@ -33,7 +33,7 @@ public without sharing class StudyDetailViewController {
             return 0;
         }
     }
-    
+
     public class StudyTab {
         public String id;
         public String iconName;
@@ -49,9 +49,9 @@ public without sharing class StudyDetailViewController {
     @AuraEnabled
     public static String getTrialDetail(String trialId, String userMode) {
         try {
-            if(trialId == null && userMode == CommunityService.USER_MODE_PARTICIPANT){
+            if (trialId == null && userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                if(peList.size() > 0) trialId = peList[0].Study_Site__r.Clinical_Trial_Profile__c;
+                if (peList.size() > 0) trialId = peList[0].Study_Site__r.Clinical_Trial_Profile__c;
             }
             TrialDetail trialDetail = new TrialDetail();
             trialDetail.trial = TrialService.getTrial(trialId);
@@ -165,22 +165,22 @@ public without sharing class StudyDetailViewController {
 
     public static List<StudyTab> getStudyTabs(String userMode) {
         List<StudyTab> tabs = new List<StudyTab>();
-        tabs.add(new StudyTab(
-                'tab-about-the-study',
-                'about-the-study',
-                TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
-        ));
         if(userMode == CommunityService.USER_MODE_HCP){
+            tabs.add(new StudyTab(
+                    'tab-about-the-study',
+                    'about-the-study',
+                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+            ));
             tabs.add(new StudyTab(
                     'tab-referred-patients',
                     'referred-patient',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Referred_Patients')
             ));
-            tabs.add(new StudyTab(
-                    'tab-medical-record-review-log',
-                    'chart-review-sent',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Medical_Record_Review_Log')
-            ));
+//            tabs.add(new StudyTab(
+//                    'tab-medical-record-review-log',
+//                    'chart-review-sent',
+//                    TranslateHelper.getLabelValue('PG_SW_Tab_Medical_Record_Review_Log')
+//            ));
             tabs.add(new StudyTab(
                     'tab-referred-study-sites',
                     'referred-clinic',
@@ -192,6 +192,11 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
             ));
         }else if(userMode == CommunityService.USER_MODE_PI){
+            tabs.add(new StudyTab(
+                    'tab-about-the-study',
+                    'about-the-study',
+                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+            ));
             tabs.add(new StudyTab(
                     'tab-referrals',
                     'referrals',
@@ -207,12 +212,21 @@ public without sharing class StudyDetailViewController {
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
             ));
-        } else {
-            tabs.add(new StudyTab(
-                    'tab-referred-patient',
-                    'referred-patient',
-                    'Visits'
-            ));
+        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
+            ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
+            if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-about-the-study',
+                        'about-the-study',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+                ));
+                tabs.add(new StudyTab(
+                        'tab-referred-patient',
+                        'referred-patient',
+                        'Visits'
+                ));
+            }
+        
             tabs.add(new StudyTab(
                     'tab-tasks',
                     'task',
@@ -223,12 +237,16 @@ public without sharing class StudyDetailViewController {
                     'resources',
                     'Resources'
             ));
-            tabs.add(new StudyTab(
-                    'tab-lab-results',
-                    'reports',
-                    'Lab Results'
-            ));
+        
+            if(stateValue != ParticipantService.ParticipantStates.ALUMNI) {//I didn't find a better solution.
+                tabs.add(new StudyTab(
+                        'tab-lab-results',
+                        'reports',
+                        'Lab Results'
+                ));
+            }
         }
+        
         return tabs;
     }
 

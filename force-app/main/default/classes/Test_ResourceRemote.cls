@@ -17,8 +17,15 @@ public class Test_ResourceRemote {
 						new Test_ResourceRemote.DatabaseProxyStub('setResourceAction_ActionExist_Test')
 				)
 		);
+		ClassFactory.putStubTypeByClassName(
+				'CommunityService',
+				(CommunityService) Test.createStub(
+						CommunityService.class,
+						new Test_ResourceService.CommunityServiceStub('getParticipant_Test')
+				)
+		);
 		Test.startTest();
-		ResourceRemote.setResourceAction(ResourceRemote.RESOURCE_TEST_ID, true, true);
+		ResourceRemote.setResourceAction(TestDataFactory.getFakeId(Participant__c.getSObjectType()), true, true);
 		Test.stopTest();
 	}
 
@@ -33,8 +40,15 @@ public class Test_ResourceRemote {
 						new Test_ResourceRemote.DatabaseProxyStub('setResourceAction_ActionDoesNotExist_Test')
 				)
 		);
+		ClassFactory.putStubTypeByClassName(
+				'CommunityService',
+				(CommunityService) Test.createStub(
+						CommunityService.class,
+						new Test_ResourceService.CommunityServiceStub('getParticipant_Test')
+				)
+		);
 		Test.startTest();
-		ResourceRemote.setResourceAction(ResourceRemote.RESOURCE_TEST_ID, false, true);
+		ResourceRemote.setResourceAction(TestDataFactory.getFakeId(Participant__c.getSObjectType()), false, true);
 		Test.stopTest();
 	}
 
@@ -106,11 +120,29 @@ public class Test_ResourceRemote {
 				if (testMethodName.contains('setResourceAction_ActionDoesNotExist_Test')) {
 					System.assertEquals(true, Boolean.valueOf(((SObject)listOfArgs[0]).get('IsVoted__c')));
 					System.assertEquals(false, Boolean.valueOf(((SObject)listOfArgs[0]).get('IsFavorite__c')));
-					System.assertEquals(ResourceRemote.RESOURCE_TEST_ID, String.valueOf(((SObject)listOfArgs[0]).get('Resource__c')));
-					System.assertEquals(ResourceRemote.PARTICIPANT_TEST_ID, String.valueOf(((SObject)listOfArgs[0]).get('Participant__c')));
 					return null;
 				}
 			}
+			return null;
+		}
+	}
+
+	public class CommunityServiceStub implements System.StubProvider {
+
+		String testMethodName;
+
+		public CommunityServiceStub(String testMethodName) {
+			this.testMethodName = testMethodName;
+		}
+
+		public Object handleMethodCall(Object stubbedObject, String stubbedMethodName,
+				Type returnType, List<Type> listOfParamTypes, List<String> listOfParamNames,
+				List<Object> listOfArgs) {
+
+			if (stubbedMethodName == 'getParticipantId') {
+				return TestDataFactory.getFakeId(Participant__c.getSObjectType());
+			}
+
 			return null;
 		}
 	}

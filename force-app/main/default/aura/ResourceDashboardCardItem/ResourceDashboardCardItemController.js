@@ -2,21 +2,19 @@
     {
         doInit : function (component, event, helper) {
 
-            var spinner = component.find('spinner');
-            if(spinner){ spinner.show(); }
-
+            component.set("v.resourcesLoading", true);
             communityService.executeAction(component, 'getResources', {
                 resourceType: component.get('v.resourceType'),
                 resourceMode: 'Default'
             }, function (returnValue) {
+                component.set("v.resourcesLoading", false);
                 if(!returnValue.errorMessage) {
-                    component.set("v.resources", returnValue.wrappers);
+                    returnValue = helper.trimLongText(returnValue);
+                    component.set("v.resourceWrappers", returnValue.wrappers);
                     component.set("v.errorMessage", "");
                 } else {
                     component.set("v.errorMessage", returnValue.errorMessage);
                 }
-                var spinner = component.find('spinner');
-                if(spinner){ spinner.hide(); }
             });
         },
 
@@ -24,7 +22,8 @@
             var resourceType = event.currentTarget.dataset.type;
             var resourceId = event.currentTarget.dataset.id;
             var trialId = component.get('v.trialId');
-            communityService.navigateToPage("resources?resourceType=" + resourceType + "&id=" + trialId + '&resId=' + resourceId);
+            let pathToNavigate = 'resources?resourceType=' + resourceType + '&id=' + trialId + '&resId=' + resourceId + '&ret=' + communityService.createRetString();
+            communityService.navigateToPage(pathToNavigate);
         },
     }
 )

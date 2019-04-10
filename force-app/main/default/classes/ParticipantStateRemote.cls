@@ -23,9 +23,8 @@ public class ParticipantStateRemote {
             }
             return JSON.serialize(initData);
         }catch (Exception e){
-            AuraHelper.throwException(e);
+            return (String)AuraHelper.throwException(e);
         }
-        return null;
     }
     
     @AuraEnabled

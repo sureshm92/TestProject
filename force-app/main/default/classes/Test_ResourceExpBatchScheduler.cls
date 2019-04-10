@@ -23,7 +23,7 @@ public with sharing class Test_ResourceExpBatchScheduler {
                     Name = 'Res '+ i,
                     Expiration_Date__c = expDate,
                     Posting_Date__c = publish,
-                    Resource_Type__c = 'Articles',
+                    Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
                     Content_Class__c = 'Study-Specific'
             );
             resources.add(res);

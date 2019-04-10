@@ -198,6 +198,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Mailing_Country_Code__c',
             'Participant__r.Mailing_Zip_Postal_Code__c',
             'Participant__r.Contact__c',
+            'Participant__r.Conditions__c',
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
@@ -286,13 +287,13 @@ public without sharing class ParticipantEnrollmentService {
                         delegatesFilter +
                     ') ';
         } else{
-            Id userContactId;
-            if(PatientDelegateService.isPatientDelegate())
-                userContactId = PatientDelegateService.getDelegatePatientUserContactId();
-            else
-                userContactId = CommunityService.getUserContact().Id;
-
-            return 'Participant__r.Contact__c = \'' + userContactId + '\' ';
+            if(PatientDelegateService.isDelegate){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            }
+            return '( ' +
+                    '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                        delegatesFilter +
+                    ')';
         }
     }
     
@@ -327,7 +328,7 @@ public without sharing class ParticipantEnrollmentService {
         public String referringStatus;
         public String enrollmentStatus;
         public String reviewResult;
-        public String referredType;
+        public String showExcludedFromReferring;
         public String dateRange;
         public Date startDate;
         public Date endDate;
@@ -352,7 +353,7 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> studySites;
         public List<LabelValueItem> referringStatuses = PEStatusState.getReferringStatusesLVList();
         public List<LabelValueItem> reviewResults;
-        public List<LabelValueItem> referredTypes;
+        public List<LabelValueItem> excludedFromReferring;
         public List<LabelValueItem> referringClinics;
         public List<LabelValueItem> dateRanges = DateRangeFilterData.getRanges();
         public List<LabelValueItem> sortVariants = SortOrder.SORT_TYPES;
@@ -360,7 +361,7 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> enrollmentStatuses = PEStatusState.getEnrollmentStatusesLVList();
     }
 
-    public static PEFilterData getPEFilterData(Id trialId, String mode){
+    public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial){
         Id userContactId = CommunityService.getUserContact().Id;
         Clinical_Trial_Profile__c trial;
         PEFilterData peFilterData = new PEFilterData();
@@ -370,13 +371,13 @@ public without sharing class ParticipantEnrollmentService {
         peFilterData.studies = new List<LabelValueItem>();
         peFilterData.studies.add(new LabelValueItem(Label.PG_MRRL_L_All_studies, null));
         peFilterData.trialIds = new List<Id>();
-        if(trialId != null){
+        /*if(trialId != null){
             peFilterData.trialIds.add(trialId);
             trial = trialsMap.get(trialId);
             if(trial != null){
                 peFilterData.studies.add(new LabelValueItem(trial.Study_Code_Name__c, trial.Id));
             }
-        }else{
+        }else*/{
             for(String id : trialsMap.keySet()){
                 peFilterData.trialIds.add(id);
                 trial = trialsMap.get(id);
@@ -387,8 +388,16 @@ public without sharing class ParticipantEnrollmentService {
         peFilterData.studySites = new List<LabelValueItem>();
         peFilterData.studySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, null));
         if(mode == CommunityService.USER_MODE_HCP){
-            List<Study_Site__c> studySites = StudySiteService.getStudySitesForHCP(peFilterData.trialIds);
+            List<Study_Site__c> studySites;
+            if(restrictTrial && trialId!=null){
+                studySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
+            }
+            else{
+                studySites = StudySiteService.getStudySitesForHCP(peFilterData.trialIds);
+            }
             for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
+
+
         }
 
         peFilterData.referringClinics = new List<LabelValueItem>();
@@ -407,7 +416,7 @@ public without sharing class ParticipantEnrollmentService {
         if(String.isEmpty(filter.searchText)){
             if(!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
             if(!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
-            if(!String.isEmpty(filter.referringStatus)) filterStr += filter.referringStatus;
+            if(!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
             if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
             if(!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
@@ -430,9 +439,11 @@ public without sharing class ParticipantEnrollmentService {
                 Boolean isFound = false;
                 for(String searchField : filter.searchFields){
                     String searchFieldValue = getSObjectFieldValue(pe, searchField) + '';
-                    if(searchFieldValue.containsIgnoreCase(filter.searchText)){
-                        isFound = true;
-                        break;
+                    for(String searchWord: filter.searchText.split(' ')){
+                        if(searchFieldValue.containsIgnoreCase(searchWord)){
+                            isFound = true;
+                            break;
+                        }
                     }
                 }
                 if(isFound) filteredPEList.add(pe);

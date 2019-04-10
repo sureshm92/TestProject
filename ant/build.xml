@@ -87,8 +87,52 @@
         </xmltask>
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
+            <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
+            <!-- temporary remove SiteDotCom file from deployment -->
+            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
         </xmltask>
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
+    </target>
+
+    <target name="retrieve-site-dot-com">
+        <sf:retrieve username="${sf.int.username}"
+                     password="${sf.int.password}"
+                     serverurl="${sf.serverurl}"
+                     retrieveTarget="${retrieve.dir}"
+                     unpackaged="${retrieve.dir}/sitedotcom-package.xml"/>
+        <copyfile src="${retrieve.dir}/siteDotComSites/IQVIA_Referral_Hub_C.site"
+                  dest="../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site"/>
+        <delete dir="${retrieve.dir}/siteDotComSites"/>
+        <delete file="${retrieve.dir}/package.xml"/>
+    </target>
+
+    <target name="delete-spaces">
+        <replaceregexp
+                file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml"
+                match="(\r?\n)\s*\r?\n"
+                replace="\1"
+                flags="g"
+        />
+        <echo message="replace" level="info"/>
+    </target>
+
+
+    <target name="convert-workflow-DX">
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <echo message="replace completed" level="info"/>
+    </target>
+
+    <target name="convert-workflow-source">
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>CurrentUser</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacevalue>
+        </replace>
+        <echo message="replace completed" level="info"/>
     </target>
 
     <target name="convert-project">
@@ -97,8 +141,8 @@
             <arg value="/c convert-project.bat"/>
         </exec>
         <!-- TODO test for mac -->
-        <exec dir=".." executable="/bin/sh" osfamily="mac">
-            <arg path="-c convert-project.bat"/>
+        <exec dir=".." executable="pwsh" osfamily="mac">
+            <arg path="../convert-project.bat"/>
         </exec>
     </target>
 

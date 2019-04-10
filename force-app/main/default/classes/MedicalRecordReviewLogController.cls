@@ -37,6 +37,8 @@ public without sharing class MedicalRecordReviewLogController {
             pDetail.peFilterData = setFilterData(trialId, userMode);
             //filters:
             pDetail.peFilter = new ParticipantEnrollmentService.PEFilter(pDetail.peFilterData);
+            pDetail.peFilter.study = trialId;
+            pDetail.peFilter.showExcludedFromReferring='hide';
             //set up search fields
             pDetail.peFilter.searchFields = new List<String>{
                     'Participant_Name__c',
@@ -49,7 +51,9 @@ public without sharing class MedicalRecordReviewLogController {
                 pDetail.peFilter.additionalFilter = ADDITIONAL_FILTER +
                         ' AND Participant_Status__c =\'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\'';
             } else {
-                pDetail.peFilter.additionalFilter = ADDITIONAL_FILTER;
+                pDetail.peFilter.additionalFilter = ADDITIONAL_FILTER + ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\'' +
+                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
+                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             }
             //set SummrayContainers and FilterInfo
             if(String.isEmpty(trialId)){
@@ -68,7 +72,10 @@ public without sharing class MedicalRecordReviewLogController {
     @AuraEnabled
     public static String getRecords(String filterJSON, String paginationJSON, Boolean applyPendingFilter){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
-        PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
+        PaginationData pagination;
+        if(paginationJSON != ''){
+            pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
+        }
         try {
             ParticipantDetail resultDetail = new ParticipantDetail();
             if(applyPendingFilter){
@@ -78,27 +85,31 @@ public without sharing class MedicalRecordReviewLogController {
                 filter.additionalFilter = ADDITIONAL_FILTER;
             }
 
-            if(String.isNotEmpty(filter.reviewResult)){
-                filter.additionalFilter += ' AND Medical_Record_Review_Status__c = \'' + filter.reviewResult + '\'';
-            }
+            if(String.isEmpty(filter.searchText)){
+                if(String.isNotEmpty(filter.reviewResult)){
+                    filter.additionalFilter += ' AND Medical_Record_Review_Status__c = \'' + filter.reviewResult + '\'';
+                }
 
-            if(String.isNotEmpty(filter.referredType)){
-                if(filter.referredType == ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING){
-                    filter.additionalFilter += ' AND Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'';
-                } else if(filter.referredType == 'no'){
-                    filter.additionalFilter += ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
-                            ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\')';
-                } else if(filter.referredType == 'yes'){
-                    filter.additionalFilter += ' AND (Participant_Status__c != \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
-                            ' AND Participant_Status__c != \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\'' +
-                            ' AND Participant_Status__c != \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
-                            ' AND Participant_Status__c != \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
+                if(String.isNotEmpty(filter.showExcludedFromReferring)){
+                    if(filter.showExcludedFromReferring == 'hide'){
+                        filter.additionalFilter += ' AND Participant_Status__c != \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'';
+                    }
                 }
             }
+            filter.additionalFilter += ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
+                    ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\'' +
+                    ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
+                    ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             resultDetail.currentPageList = convertToPEWrapperList(
                     ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination)
             );
-            resultDetail.paginationData = pagination;
+            if(pagination!=null){
+                resultDetail.paginationData = pagination;
+            }
+            else{
+                resultDetail.paginationData = new PaginationData();
+                resultDetail.paginationData.allRecordsCount = resultDetail.currentPageList.size();
+            }
             return JSON.serialize(resultDetail);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -160,15 +171,15 @@ public without sharing class MedicalRecordReviewLogController {
         for (Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode)) {
             trialsByName.put(trial.Id, trial.Study_Code_Name__c);
         }
-        if(String.isNotEmpty(trialId)){
-            peFilterData.trialIds.add(Id.valueOf(trialId));
-            peFilterData.studies.add(new LabelValueItem(trialsByName.get(Id.valueOf(trialId)), trialId));
-        } else {
+//        if(String.isNotEmpty(trialId)){
+//            peFilterData.trialIds.add(Id.valueOf(trialId));
+//            peFilterData.studies.add(new LabelValueItem(trialsByName.get(Id.valueOf(trialId)), trialId));
+//        } else {
             for(Id studyId : trialsByName.keySet()){
                 peFilterData.trialIds.add(studyId);
                 peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));
             }
-        }
+//        }
 
         peFilterData.mode = userMode;
 
@@ -183,11 +194,10 @@ public without sharing class MedicalRecordReviewLogController {
         peFilterData.reviewResults.add(new LabelValueItem(Label.PG_MRRL_L_Failed_review, ParticipantEnrollmentService.MRR_STATUS_FAIL));
 
         //set referred
-        peFilterData.referredTypes = new List<LabelValueItem>();
-        peFilterData.referredTypes.add(new LabelValueItem(Label.PG_SDRC_L_All, null));
-        peFilterData.referredTypes.add(new LabelValueItem(Label.BTN_Yes, 'yes'));
-        peFilterData.referredTypes.add(new LabelValueItem(Label.BTN_No, 'no'));
-        peFilterData.referredTypes.add(new LabelValueItem(Label.PG_MRRLI_MSG_Excluded_from_referring, ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING));
+        peFilterData.excludedFromReferring = new List<LabelValueItem>();
+        peFilterData.excludedFromReferring.add(new LabelValueItem(Label.PG_MRRL_L_Hide_Excluded, 'hide'));
+        peFilterData.excludedFromReferring.add(new LabelValueItem(Label.PG_MRRL_L_Show_Excluded, 'show'));
+       // peFilterData.referredTypes.add(new LabelValueItem(Label.PG_MRRLI_MSG_Excluded_from_referring, ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING));
 
         //set Date Range
         peFilterData.dateRanges = DateRangeFilterData.getRanges();

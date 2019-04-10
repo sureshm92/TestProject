@@ -19,7 +19,10 @@
         } else if (PStatus === "Failed Referral") {
             component.set("v.isReferred", false);
             component.set("v.referringMessage", pEnroll.Non_Referral_Reason__c + " " + $A.get("$Label.c.PG_MRRLI_MSG_not_referred"));
-        } else if (PStatus !== "Failed Review" && PStatus !== "Pending Referral") {
+        } else if (PStatus === "Pending Referral") {
+            component.set("v.isReferred", false);
+            component.set("v.referringMessage", "");
+        }else if (PStatus !== "Failed Review" && PStatus !== "Pending Referral") {
             component.set("v.isReferred", true);
             if(PreSStatus === "Pass"){
                 component.set("v.referringMessage", $A.get("$Label.c.PG_MRRLI_MSG_Passed_pre_eligibility_screening_referred"));

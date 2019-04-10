@@ -3,28 +3,53 @@
  */
 
 public without sharing class TaskEditRemote {
-
-    @AuraEnabled
-    public static Task getTaskById(Id taskId) {
-        try {
-            return TaskService.getTask(taskId);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+    
+    public class TaskEditDataWrapper {
+        @AuraEnabled public Task task {get;set;}
+        @AuraEnabled public Boolean emailPreferencesDelegateIsOff {get;set;}
+        @AuraEnabled public Boolean emailPreferencesParticipantIsOn {get;set;}
+        @AuraEnabled public List<String> taskTypeList {get;set;}
+        @AuraEnabled public Boolean isDelegate {get;set;}
+        @AuraEnabled public Boolean hasDelegates {get;set;}
+        @AuraEnabled public Boolean isReferral {get;set;}
+        
+        public TaskEditDataWrapper(){
+            task = new Task();
+            emailPreferencesDelegateIsOff = checkDelegatesPreferencesIsOff();
+            emailPreferencesParticipantIsOn = checkEmailPreferencesIsOn();
+            taskTypeList = getTaskTypeList();
+            isDelegate = PatientDelegateService.isDelegate;
+            hasDelegates = PatientDelegateService.delegates.size() > 0;
+            isReferral = ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.REFERRAL;
         }
     }
-
+    
+    @AuraEnabled
+    public static TaskEditDataWrapper getTaskEditData(Id taskId){
+        TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
+        if(taskId != null) wrapper.task = TaskService.getTask(taskId);
+        return wrapper;
+    }
+    
     @AuraEnabled
     public static String upsertTask(Task paramTask) {
         try{
-            if (paramTask.OwnerId == null) {
-                paramTask.OwnerId = Id.valueOf(UserInfo.getUserId());
+            Boolean isDelegate = ParticipantService.getParticipantState().isDelegate;
+            if(isDelegate){
+                paramTask.OwnerId = PatientDelegateService.getDelegatePatientUserId();
+            } else{
+                paramTask.OwnerId = UserInfo.getUserId();
+            }
+            if (paramTask.Visible_For__c == null) {
+                paramTask.Visible_For__c = 'Owner;Delegates';
+            }
+            if(paramTask.Task_Type__c == 'Medication' && paramTask.Task_Type__c == 'Visit'){
+                paramTask.WhatId = ParticipantService.getParticipantState().pse.Id;
             }
             upsert paramTask;
-
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
-
         return 'Success';
     }
 
@@ -33,9 +58,8 @@ public without sharing class TaskEditRemote {
         try {
             delete paramTask;
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
-
         return 'Success';
     }
 
@@ -47,16 +71,32 @@ public without sharing class TaskEditRemote {
             upsert paramTask;
 
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
-
         return 'Success';
     }
 
-    @AuraEnabled
-    public static Boolean checkEmailPreferencesIsOn() {
-        Contact currentContact = AccountSettingsController.getCurrentContact();
-        return currentContact.Participant_Opt_In_Status_Emails__c || currentContact.HCP_Opt_In_Patient_Status_Emails__c
-                || currentContact.HCP_Opt_In_Study_Emails__c || currentContact.HCP_Opt_In_Referral_Status_Emails__c;
+    private static Boolean checkEmailPreferencesIsOn() {
+        return PatientDelegateService.participant.Contact__r.Participant_Opt_In_Status_Emails__c;
     }
+
+    private static Boolean checkDelegatesPreferencesIsOff(){
+        List<Contact> delegates = new List<Contact>();
+        delegates = PatientDelegateService.getDelegateContacts();
+        for(Contact delegate : delegates){
+            if(!delegate.Participant_Opt_In_Status_Emails__c) return true;
+        }
+        return false;
+    }
+
+    private static List<String> getTaskTypeList(){
+        List<String> pickListValuesList= new List<String>();
+        Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
+        List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry pickListValue : picklistEntry){
+            pickListValuesList.add(pickListValue.getLabel());
+        }
+        return pickListValuesList;
+    }
+
 }

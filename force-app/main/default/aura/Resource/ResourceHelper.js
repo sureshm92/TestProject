@@ -1,28 +1,22 @@
 (
-	{
-		getStubResource : function (resourceType, resourceMode) {
-
-			var stubResource = {
-				"imagePath" : "",
-				"title" : "Example of the title for a resource",
-				"description" : "Example of the text description for a resource. Here comes any text that should highlight the main point of an article or video.",
-				"isFavorite" : false,
-				"numberOfLikes": Math.round(Math.random()*10)
-			};
-
-			if (resourceType === "Videos") {
-				stubResource.imagePath = "https://quintilesimscmo--hpsdevv3--c.documentforce.com/servlet/servlet.ImageServer?id=0150n0000007oVI&oid=00D0n0000000lXG&lastMod=1550688756000";
-				stubResource.type = "Video";
-			} else {
-				stubResource.imagePath = "https://quintilesimscmo--hpsdevv3--c.documentforce.com/servlet/servlet.ImageServer?id=0150n0000007oVN&oid=00D0n0000000lXG&lastMod=1550688735000";
-				stubResource.type = "Article";
+    {
+        trimLongText : function (returnValue) {
+            let wrappers = returnValue.wrappers;
+			if(wrappers) {
+                for (let i = 0; i < wrappers.length; i++) {
+					if (wrappers[i].resource) {
+                        let title = wrappers[i].resource.Title__c;
+						if (wrappers[i].resource.Title__c) {
+                            wrappers[i].resource.Title__c = title.length > 55 ? title.substring(0, 52) + '...' : title;
+						}
+					    let description = wrappers[i].resource.Description__c;
+                        if (wrappers[i].resource.Description__c) {
+						    wrappers[i].resource.Description__c = description.length > 120 ? description.substring(0, 117) + '...' : description;
+						}
+					}
+				}
 			}
-
-			if(resourceMode === "Favorite") {
-				stubResource.isFavorite = true;
-			}
-
-			return stubResource;
-		},
-	}
+            return returnValue;
+        }
+    }
 )

@@ -2,7 +2,8 @@
     doShow: function (component, event) {
         var params = event.getParam('arguments');
         component.set('v.targetEmail', '');
-        component.set('v.hcpe', params.hcpe);
+        component.set('v.whatId', params.whatId);
+        component.set('v.fromId', params.fromId);
         component.find('shareModal').show();
     },
 
@@ -16,13 +17,14 @@
             communityService.showErrorToast('', $A.get("$Label.c.TST_Invalid_email_address"));
             return;
         }
-
         var spinner = component.find('spinner');
         spinner.show();
-        var hcpe = component.get('v.hcpe');
+
+        var whatId = component.get('v.whatId');
+        var fromId = component.get('v.fromId');
         communityService.executeAction(component, 'sendEmail', {
-            hcpeId: hcpe.Id,
-            hcpContactId: hcpe.HCP_Contact__c,
+            whatId: whatId,
+            fromId: fromId,
             email: email
         }, function (returnValue) {
             var parent = component.get('v.parent');

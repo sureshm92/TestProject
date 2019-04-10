@@ -7,7 +7,7 @@ public with sharing class Test_Task {
 
     @IsTest public static void testCheckTask() {
 
-        String taskCatalogName = 'T0001';
+        String taskCatalogName = 'Complete_Your_Profile';
         String expectedSubject = 'Dear Conon Barbar, please, complete your Patient Profile';
 
         Account account = new Account(

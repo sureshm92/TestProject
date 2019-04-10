@@ -24,7 +24,7 @@
             <aura:if isTrue="{!empty(v.pictureSrc)}">
                 <div class="sl-placeholder">
                     <c:RRIcon iconName="icon-image"/>
-                    <div>Drag study logo here</div> 
+                    <div>Drag study logo here (Max 95Kb)</div>
                 </div>
             </aura:if>
         </aura:if>

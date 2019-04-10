@@ -1,6 +1,7 @@
 .THIS.width-limiter {
 	max-width: 1120px;
 	margin: auto;
+	padding-top: 32px;
 }
 
 @media (max-width: 1140px) {
@@ -24,4 +25,15 @@
 	font-style: italic;
 	line-height: 14px;
 	text-align: center;
+}
+
+.THIS.resource-noTAMessage {
+	display: block;
+	text-align: center;
+	padding-top: 15%;
+	height: 52px;
+	color: #999999;
+	font-family: "Proxima Nova";
+	font-size: 17px;
+	line-height: 26px;
 }

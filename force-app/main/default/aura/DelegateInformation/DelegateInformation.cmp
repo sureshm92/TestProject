@@ -22,12 +22,14 @@
                 <div class="height-stub line"></div>
             </div>
             <div class="slds-col slds-size--2-of-3">
-                <p style="margin-top: 89px">{!v.infoText}</p>
-                <button class="apollo-btn tertiary mti-button"
-                        title="{!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}"
-                        onclick="{!c.onclickWithdraw}">
-                    {!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}
-                </button>
+                <div class="mti-info-text">
+                    <p>{!v.infoText}</p>
+                    <button class="apollo-btn tertiary mti-button"
+                            title="{!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}"
+                            onclick="{!c.onclickWithdraw}">
+                        {!$Label.c.PG_PST_L_Delegates_Withdraw_From_Delegate}
+                    </button>
+                </div>
             </div>
         </div>
     </div>

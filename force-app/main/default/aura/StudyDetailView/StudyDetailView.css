@@ -207,10 +207,39 @@
 .THIS .invisible-tab{
     display: none;
 }
+.THIS .resources-icon-social {
+    margin-left: 0.5rem;
+}
+.THIS .share-social-buttons {
+    display: inline-flex;
+    justify-content: end;
+    align-items: flex-end;
+    min-width: 6rem;
+    float: right;
+    margin-right: 65px;
+}
+.THIS .share-social-icon {
+    margin-right: 0.5rem;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+}
+
+.THIS .contrast-logo {
+    max-width: 136px;
+    margin: 10px 0;
+}
+
+.THIS .hidden-button{
+    visibility: hidden;
+}
 
 @media (max-width: 768px){
     .THIS .sdv-top-bar .links .apollo-btn.text{
         font-size: 13px;
+    }
+    .THIS  .share-social-buttons {
+        margin-right: 0;
     }
 }
 
@@ -238,7 +267,7 @@
     transition: all ease 0.3s;
 
 }
-.THIS #share:hover ~ .button-share-icon{
+.THIS #shares:hover ~ .button-share-icon{
     /*display: block !important;*/
     visibility: visible !important;
 }

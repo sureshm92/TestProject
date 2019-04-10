@@ -64,7 +64,8 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_FAILED,
             PE_STATUS_ENROLLMENT_FAILED,
             PE_STATUS_FAILED_REVIEW,
-            PE_STATUS_FAILED_REFERRAL
+            PE_STATUS_FAILED_REFERRAL,
+            PE_STATUS_EXCLUDED_FROM_REFERRING
     };
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS = new List<String>{
             PE_STATUS_REFERRAL_SENT_TO_PI,
@@ -76,7 +77,17 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_COMPLETE,
             PE_STATUS_SCREENING_IN_PROGRESS
     };
-    
+    public static final List<String> PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD = new List<String>{
+            PE_STATUS_REFERRAL_SENT_TO_PI,
+            PE_STATUS_REFERRAL_ACCEPTED,
+            PE_STATUS_CONTACT_SUCCESSFUL,
+            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PE_STATUS_ELIGIBILITY_PASSED,
+            PE_STATUS_SCREENING_COMPLETE,
+            PE_STATUS_SCREENING_IN_PROGRESS
+    };
+
+
     // Table with data: Status Step -> available states and real statuses names
     public static List<StatusStep> STATUS_STEPS_TABLE = new List<StatusStep>{
             new StatusStep(PE_ST_REFERRED,
@@ -223,16 +234,11 @@ public without sharing class PEStatusState {
     
     public static List<LabelValueItem> getReferringStatusesLVList(){
         List<LabelValueItem> resList = new List<LabelValueItem>{
-                new LabelValueItem(Label.PES_L_All_referring_statuses, null),
-                new LabelValueItem(Label.PG_MPS_L_Failed_pre_eligibility_screening,
-                        'AND Participant_Status__c=\'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\' ' +
-                                'AND Non_Referral_Reason__c=\'' + ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\''),
-                new LabelValueItem(Label.PG_MPS_L_Had_discussion_not_interested,
-                        'AND Participant_Status__c=\'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\' ' +
-                                'AND Non_Referral_Reason__c=\'' + ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''),
-                new LabelValueItem(Label.PG_MPS_L_No_longer_interested,
-                        'AND Participant_Status__c=\'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\' ' +
-                                'AND Non_Referral_Reason__c=\'' + ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\'')
+                new LabelValueItem(Label.PES_L_All_enrollment_statuses, null),
+                new LabelValueItem(Label.DI_L_In_progress, '(\'' + String.join(PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD, '\',\'') + '\')'),
+                new LabelValueItem(Label.PG_MSS_L_On_hold, '(\'' + PE_STATUS_REFERRAL_ON_HOLD + '\')'),
+                new LabelValueItem(Label.PG_MPS_L_Enrolled, '(\'' + PE_STATUS_ENROLLMENT_SUCCESS + '\')'),
+                new LabelValueItem(Label.PG_MRR_R_Failed, '(\'' + String.join(PE_STATUS_GROUP_FAILED, '\',\'') + '\')')
         };
         return resList;
     }

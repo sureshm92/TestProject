@@ -6,37 +6,45 @@
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.task', initData.task);
+            component.set('v.task.Visible_For__c', 'Owner;Delegates');//Def value, if not selected
             component.set('v.priorities', initData.priorities);
+            component.set('v.visibility', initData.visibility);
             component.set('v.taskFilters', initData.filters);
 
             component.set('v.statuses', []);
-            component.set('v.task.Priority', 'Medium');
         });
     },
 
     dueNumberKeyPress : function(component, event, helper) {
         //Fired on press any key in field
         if(event.which == 13)
-            helper.addDays(component);
+            helper.setDays(component);
     },
 
-    dueDateAdd : function(component, event, helper) {
+    onRemindDaysChange : function(component, event, helper) {
         //Remove leading zero in field
-        var days = component.get('v.dayDue').toString().replace('^0+', '');
-        component.set('v.dayDue', parseInt(days));
+        var days = component.get('v.dayRemind').toString().replace('^0+', '');
+        var intDays = parseInt(days);
+        component.set('v.dayRemind', intDays);
 
-        communityService.executeAction(component, 'addDays', {
-            'dateStart' : component.get('v.task.Start_Date__c'),
-            'count' : component.get('v.dayDue')
+        communityService.executeAction(component, 'remindBeforeDays', {
+            'dateDue' : component.get('v.task.ActivityDate'),
+            'count' : intDays
         }, function (response) {
-            component.set('v.task.ActivityDate', response);
+            component.set('v.dateRemind', response);
         });
     },
 
-    dueDateValid : function(component, event, helper) {
+    dateValid : function(component, event, helper) {
+        var startDate = component.get('v.task.Start_Date__c');
+        var dueDate = component.get('v.task.ActivityDate');
+        if(!startDate || !dueDate) {
+            return;
+        }
+
         communityService.executeAction(component, 'checkAndGetValidDate', {
-            'start' : component.get('v.task.Start_Date__c'),
-            'due' : component.get('v.task.ActivityDate')
+            'start' : startDate,
+            'due' : dueDate
         }, function (response) {
             component.set('v.task.ActivityDate', response);
         });

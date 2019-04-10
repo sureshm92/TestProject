@@ -6,20 +6,28 @@
         component.set('v.userMode', userMode);
 
         if (userMode === 'HCP') {
-            communityService.executeAction(component, 'getHCPInitData', {
-                userMode: userMode
-            }, function (returnValue) {
+            window.addEventListener('resize', $A.getCallback(function(){
+                helper.doUpdateStudyTitle(component);
+                // helper.doUpdateStudyDescription(component);
+            }));
+            communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
                 let initData = JSON.parse(returnValue);
+                debugger;
                 console.log('in getHCPInitData');
                 console.log(initData);
 
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
                 component.set("v.sortData", initData.sortData);
+                helper.prepareIcons(initData.currentPageList);
                 component.set("v.currentPageList", initData.currentPageList);
 
                 component.set("v.showSpinner", false);
                 component.set('v.isInitialized', true);
+                setTimeout($A.getCallback(function () {
+                    helper.doUpdateStudyTitle(component);
+                    // helper.doUpdateStudyDescription(component);
+                }), 10);
             });
         } else {
             communityService.executeAction(component, 'getStudyTrialList', {
@@ -41,47 +49,18 @@
         }
     },
 
-    doUpdateRecords: function (component) {
-        console.log('in doUpdateRecords');
-        if (component.get('v.skipUpdate') === true || component.get('v.isInitialized') === false) {
-            return;
-        }
-
-        console.log('in doUpdateRecords2');
-
-        let spinner = component.find('recordsSpinner');
-        spinner.show();
-        let filter = component.get('v.filterData');
-        let searchText = filter.searchText;
-        let filterJSON = JSON.stringify(filter);
-        let paginationJSON = JSON.stringify(component.get('v.paginationData'));
-        let sortJSON = JSON.stringify(component.get('v.sortData'));
-
-        communityService.executeAction(component, 'searchStudies', {
-            filterData: filterJSON,
-            sortData: sortJSON,
-            paginationData: paginationJSON
-        }, function (returnValue) {
-            if (component.get('v.filterData').searchText !== searchText) return;
-            console.log('in searchStudies callback');
-
-            let result = JSON.parse(returnValue);
-            component.set('v.skipUpdate', true);
-            component.set('v.currentPageList', result.records);
-
-            let pagination = component.get('v.paginationData');
-            pagination.allRecordsCount = result.paginationData.allRecordsCount;
-            pagination.currentPage = result.paginationData.currentPage;
-            component.set('v.paginationData', pagination);
-
-            component.set('v.skipUpdate', false);
-            spinner.hide();
-        })
+    doUpdateRecords: function (cmp, event, helper) {
+        helper.searchForRecords(cmp, helper);
     },
 
     showNoThanksDialog: function (component, event, helper) {
         let params = event.getParam('arguments');
         component.set('v.currentTrialId', params.trialId);
         component.find('noTanksModal').show();
+    },
+
+    switchToSearchResume: function (cmp, event, helper) {
+        cmp.set("v.isSearchResume", true);
+        helper.searchForRecords(cmp,helper);
     }
 });

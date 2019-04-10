@@ -14,6 +14,7 @@ public without sharing class TrialService {
             for(Study_Site__c ss : studySites) trials.add(ss.Clinical_Trial_Profile__r);
         }else if(mode == CommunityService.USER_MODE_HCP){
             List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, null, false);
+            System.debug('hcpCommon' + hcpEnrollments);
             for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
                 if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
             }
@@ -63,7 +64,8 @@ public without sharing class TrialService {
                         Study_Code_Name__c,
                         Official_Title__c,
                         Interventions__c,
-                        Profile_Picture__c
+                        Profile_Picture__c,
+                        Share_URL__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id =: trialId
         ];

@@ -1,0 +1,10 @@
+.THIS.resource-share-icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    min-width: 6rem;
+}
+
+.THIS .resource-element{
+    cursor: pointer;
+}

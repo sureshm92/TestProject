@@ -5,7 +5,7 @@
 <aura:component description="SitesSearch" implements="forceCommunity:availableForAllPageTypes"
                 controller="SitesSearchRemote">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  scripts="{!join(',', $Resource.rr_community_js, $Resource.clamp_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -35,40 +35,37 @@
 
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
-
-            <!-- statistic panel -->
             <c:RRNavigationPath>
-                <c:RRNPathItem label="{!$Label.c.Navigation_My_Studies}"/>
-                <c:RRNPathItem label="{!v.trial.Study_Code_Name__c}"/>
+                <c:RRNPathItem label="{!$Label.c.Navigation_My_Studies}" page=""/>
+                <c:RRNPathItem label="{!v.trial.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.trial.Id}"/>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Search_for_Sites}"/>
             </c:RRNavigationPath>
 
             <div class="study-name">
-                <c:RRLink label="{!v.trial.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.trial.Id}"/>
+                <c:RRLink class="study-title" label="{!v.trial.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.trial.Id}"/>
             </div>
+
 
             <!-- filter panel -->
             <c:FilterPanel recordsPerPage="{!v.paginationData.pageRecordsCount}"
                            recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
-                           sortType="{!v.siteFilter.sortType}"
-                           sortVariants="{!v.siteFilterData.sortVariants}"
                            allRecordsCount="{!v.paginationData.allRecordsCount}"
                            itemTitle="{!$Label.c.PG_SFS_L_sites}">
                 <c:rrSelect value="{!v.siteFilter.distanceRange}" options="{!v.siteFilterData.distanceRanges}"
                             placeholder="{!$Label.c.PG_SFS_L_Distance_from_you}" useSentenceFont="false"/>
                 <c:rrSelect value="{!v.siteFilter.siteType}" options="{!v.siteFilterData.siteTypes}"
                             placeholder="{!$Label.c.PG_SFS_L_Site_Type}" useSentenceFont="false"/>
-                <c:rrSelect value="{!v.siteFilter.therapeuticArea}" options="{!v.siteFilterData.therapeuticAreas}"
-                            placeholder="{!$Label.c.PG_SFS_L_Therapeutic_Area}"/>
 
             </c:FilterPanel>
 
 
             <!-- list of items: -->
             <div style="position: relative; min-height: 100px; padding-bottom: 1px" class="slds-gutters_">
+
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
-                <aura:if isTrue="{!not(empty(v.pageList))}">
+                    <aura:if isTrue="{!not(empty(v.pageList))}">
+
                     <div class="slds-grid ss-main-panel slds-wrap">
                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2 slds-order--2 slds-medium-order--1">
                             <aura:iteration items="{!v.pageList}" var="item">

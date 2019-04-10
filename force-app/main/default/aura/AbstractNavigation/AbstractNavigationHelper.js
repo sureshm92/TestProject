@@ -18,17 +18,23 @@
                 icon: 'referred-patient'
             },
 
-            'medical-record-review-log': {
-                page: 'medical-record-review-log',
-                label: $A.get('$Label.c.Navigation_Medical_Record_Review_Log'),
-                icon: 'chart-review-sent'
+            'dashboard': {
+                page: 'dashboard',
+                label: $A.get('$Label.c.Navigation_Dashboard'),
+                icon: 'dashboard'
             },
 
-            'my-study-sites': {
-                page: 'my-study-sites',
-                label: $A.get('$Label.c.Navigation_My_Study_Sites'),
-                icon: 'referred-clinic'
-            },
+            // 'medical-record-review-log': {
+            //     page: 'medical-record-review-log',
+            //     label: $A.get('$Label.c.Navigation_Medical_Record_Review_Log'),
+            //     icon: 'chart-review-sent'
+            // },
+
+            // 'my-study-sites': {
+            //     page: 'my-study-sites',
+            //     label: $A.get('$Label.c.Navigation_My_Study_Sites'),
+            //     icon: 'referred-clinic'
+            // },
 
             'reports': {
                 page: 'reports',
@@ -82,23 +88,28 @@
             'my-study':{
                 page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_My_Study')
+            },
+
+            'resources':{
+                page: 'study-workspace?tab=tab-resources',
+                label: $A.get('$Label.c.Navigation_Resources')
             }
-
-
-
         };
 
         //init items for every type
+        var middleMenuItem = communityService.getParticipantState() === 'ALUMNI' ? 'resources' : 'my-study';
+
         this.itemsMap = {
 
             Participant: [
                 this.allPagesMap['participant-home'],
-                this.allPagesMap['my-study'],
+                this.allPagesMap[middleMenuItem],
                 this.allPagesMap['help']
             ],
 
             PI: [
                 this.allPagesMap[''],
+                this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
                 this.allPagesMap['my-referring-clinics'],
                 this.allPagesMap['reports'],
@@ -108,8 +119,8 @@
             HCP: [
                 this.allPagesMap[''],
                 this.allPagesMap['my-patients'],
-                this.allPagesMap['medical-record-review-log'],
-                this.allPagesMap['my-study-sites'],
+                // this.allPagesMap['medical-record-review-log'],
+                // this.allPagesMap['my-study-sites'],
                 this.allPagesMap['reports'],
                 this.allPagesMap['help']
             ]

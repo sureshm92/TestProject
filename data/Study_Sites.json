@@ -10,7 +10,8 @@
             "Site__c": "@clinic1",
             "Principal_Investigator__c": "@contact3",
             "Override_PI_Referral_Status__c": "Invitation Sent",
-            "Study_Site_Key__c": "12132123132313"
+            "Study_Site_Key__c": "12132123132313",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
         }
     ]
 }
