@@ -199,6 +199,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Mailing_Zip_Postal_Code__c',
             'Participant__r.Contact__c',
             'Participant__r.Conditions__c',
+            'Participant__r.Contact__r.Language__c',
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',

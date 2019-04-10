@@ -2,7 +2,7 @@
 
 	<aura:attribute name="resourceType" type="String" default="Article"/>
 	<aura:attribute name="resourceMode" type="String" default="Default"/>
-	<aura:attribute name="resources" type="ResourceService.ResourceWrapper[]"/>
+	<aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
 	<aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
 	<aura:attribute name="resourceTitle" type="String" default="" access="private"/>
 	<aura:attribute name="errorMessage" type="String" default=""/>
@@ -33,8 +33,8 @@
 						</aura:iteration>
 					</lightning:layout>
 				</div>
-				<footer class="resource-footer" style="{!lessthan(v.resources.length, 4) ? 'display: none;' : ''}">
-					<c:rrPagination allObjects="{!v.resources}" currentObjects="{!v.resourcesOnPage}" entriesOnPage="4"/>
+				<footer class="resource-footer" style="{!lessthan(v.resourceWrappers.length, 4) ? 'display: none;' : ''}">
+					<c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}" entriesOnPage="4"/>
 				</footer>
 			</aura:set>
 		</aura:if>
