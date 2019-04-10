@@ -6,21 +6,19 @@ public without sharing class TaskEditRemote {
     
     public class TaskEditDataWrapper {
         @AuraEnabled public Task task {get;set;}
-        @AuraEnabled public Boolean emailPreferencesDelegateIsOff {get;set;}
-        @AuraEnabled public Boolean emailPreferencesParticipantIsOn {get;set;}
         @AuraEnabled public List<String> taskTypeList {get;set;}
-        @AuraEnabled public Boolean isDelegate {get;set;}
-        @AuraEnabled public Boolean hasDelegates {get;set;}
         @AuraEnabled public Boolean isReferral {get;set;}
+        @AuraEnabled public String errorMessage {get;set;}
+        @AuraEnabled public Boolean reminderEnabled {get;set;}
         
         public TaskEditDataWrapper(){
             task = new Task();
-            emailPreferencesDelegateIsOff = checkDelegatesPreferencesIsOff();
-            emailPreferencesParticipantIsOn = checkEmailPreferencesIsOn();
+            List<Contact> delegates = PatientDelegateService.getDelegateContacts();
+            Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
             taskTypeList = getTaskTypeList();
-            isDelegate = PatientDelegateService.isDelegate;
-            hasDelegates = PatientDelegateService.delegates.size() > 0;
             isReferral = ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.REFERRAL;
+            errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
+            reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
         }
     }
     
@@ -80,15 +78,6 @@ public without sharing class TaskEditRemote {
         return PatientDelegateService.participant.Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
-    private static Boolean checkDelegatesPreferencesIsOff(){
-        List<Contact> delegates = new List<Contact>();
-        delegates = PatientDelegateService.getDelegateContacts();
-        for(Contact delegate : delegates){
-            if(!delegate.Participant_Opt_In_Status_Emails__c) return true;
-        }
-        return false;
-    }
-
     private static List<String> getTaskTypeList(){
         List<String> pickListValuesList= new List<String>();
         Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
@@ -97,6 +86,43 @@ public without sharing class TaskEditRemote {
             pickListValuesList.add(pickListValue.getLabel());
         }
         return pickListValuesList;
+    }
+
+    private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates){
+        String errorMessage = '';
+        if(!emailEnabledForAllRelatedContacts(emailPreferencesIsOn, delegates)){
+            errorMessage = Label.Task_Reminders_Missing;
+        }
+        if(!emailEnabledForCurrentContact()){
+            errorMessage = Label.EmailPreferencesIsOff;
+        }
+        return errorMessage;
+    }
+
+    private static Boolean emailEnabledForAllRelatedContacts(Boolean emailPreferencesIsOn, List<Contact> delegates){
+        if(!emailPreferencesIsOn)
+            return false;
+        for(Contact delegate : delegates){
+            if(!delegate.Participant_Opt_In_Status_Emails__c) return false;
+        }
+        return true;
+    }
+    private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates){
+        if(emailPreferencesIsOn)
+            return true;
+        for(Contact delegate : delegates) {
+            if (delegate.Participant_Opt_In_Status_Emails__c) return true;
+        }
+        return false;
+    }
+
+    private static Boolean emailEnabledForCurrentContact(){
+        Contact currentContact = [
+                SELECT  Participant_Opt_In_Status_Emails__c
+                FROM    Contact
+                WHERE   Id = :CommunityService.getUserContact().Id
+        ];
+        return currentContact.Participant_Opt_In_Status_Emails__c;
     }
 
 }
