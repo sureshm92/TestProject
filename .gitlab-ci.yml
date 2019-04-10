@@ -59,7 +59,7 @@ validateScratchKiev:
   tags:
   - shell
   only:
-  - $PH_R1_Sprint_KBranch
+  - "$PH_R1_Sprint_KBranch"
   - merge_requests
 
   stage: validateScratch
