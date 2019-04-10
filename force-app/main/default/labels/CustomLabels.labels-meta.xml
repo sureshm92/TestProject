@@ -4,7 +4,7 @@
         <fullName>AL_Body_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>AL Body Welcome Studyddccc</shortDescription>
+        <shortDescription>AL Body Welcome Study</shortDescription>
         <value>Congratularions ##UserName!
 
             You are now enrolled in the ##StudyName study!
@@ -6179,6 +6179,13 @@ is a placehilder to show you what it would look like.</value>
         <value>You have not selected any favorite videos.</value>
     </labels>
     <labels>
+        <fullName>Resources_No_Study_Documents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources No Study Documents</shortDescription>
+        <value>Content will be published shortly. Check back for updates</value>
+    </labels>
+    <labels>
         <fullName>Resources_No_Therapeutic_Area</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6212,6 +6219,27 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>resource send emial soical</shortDescription>
         <value>link {0} to share</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Study_Document_Table_Col_Summary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Study Document Table Col Summary</shortDescription>
+        <value>Summary</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Study_Document_Table_Col_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Study Document Table Col Title</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Study_Document_Table_Col_Version_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Study Document Table Col Version Date</shortDescription>
+        <value>Version Date</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
@@ -6701,7 +6729,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Test Label With Param</shortDescription>
-        <value>For this: ##param1, use this: ##zzz  some</value>
+        <value>For this: ##param1, use this: ##zzz</value>
     </labels>
     <labels>
         <fullName>Toast_Changes_Successfully</fullName>

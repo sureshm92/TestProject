@@ -8,15 +8,15 @@ public class Test_ResourceService {
 
     @IsTest
     public static void getParticipantLanguage_Test() {
-        Participant__c participantWithLanguageDefined = TestDataFactory.getParticipant(
+        Participant__c participantWithLanguageDefined = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(),
                 new Map<String, Object>{
-                        'Contact__r' => TestDataFactory.getContact(new Map<String, Object>{
+                        'Contact__r' => (Contact) TestDataFactory.getSObject(Contact.getSObjectType(), new Map<String, Object>{
                                 'Language__c' => 'ru'
                         })
                 }
         );
-        Participant__c participantWithoutLanguageDefined = TestDataFactory.getParticipant(new Map<String, Object>{
-                'Contact__r' => new Contact()
+        Participant__c participantWithoutLanguageDefined = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
+                'Contact__r' => (Contact) TestDataFactory.getSObject(Contact.getSObjectType())
         });
         Test.startTest();
         String languageRU = new ResourceService().getParticipantLanguage(participantWithLanguageDefined);
@@ -36,6 +36,13 @@ public class Test_ResourceService {
                         new Test_ResourceService.DatabaseProxyStub('getParticipant_Test')
                 )
         );
+        ClassFactory.putStubTypeByClassName(
+                'CommunityService',
+                (CommunityService) Test.createStub(
+                        CommunityService.class,
+                        new Test_ResourceService.CommunityServiceStub('getParticipant_Test')
+                )
+        );
         Test.startTest();
         Participant__c participant = new ResourceService().getParticipant();
         Test.stopTest();
@@ -45,8 +52,8 @@ public class Test_ResourceService {
     @IsTest
     public static void getResourceWrappers_NoActions_Test() {
         List<Resource__c> resources = new List<Resource__c>{
-                TestDataFactory.getResource(new Map<String, Object>{
-                        'Id' => TestDataFactory.getFakeId(Resource__c.SObjectType)
+                (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                        'Id' => TestDataFactory.getFakeId(Resource__c.getSObjectType())
                 })
         };
         Test.startTest();
@@ -60,12 +67,12 @@ public class Test_ResourceService {
     @IsTest
     public static void getResourceWrappers_OneAction_Test() {
         List<Resource__c> resources = new List<Resource__c>{
-                TestDataFactory.getResource(new Map<String, Object>{
-                        'Id' => TestDataFactory.getFakeId(Resource__c.SObjectType)
+                (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                        'Id' => TestDataFactory.getFakeId(Resource__c.getSObjectType())
                 })
         };
         ResourceDecoupler.resourceActionsByResourceIds.put(resources[0].Id, new List<Resource_Action__c>{
-                TestDataFactory.getResourceAction()
+                (Resource_Action__c) TestDataFactory.getSObject(Resource_Action__c.getSObjectType())
         });
         Test.startTest();
         List<ResourceService.ResourceWrapper> wrappers = new ResourceService().getResourceWrappers(resources);
@@ -84,6 +91,13 @@ public class Test_ResourceService {
                         new Test_ResourceService.DatabaseProxyStub('getResources_WithResourceType_Article_NoTherapeuticAreas_Test')
                 )
         );
+        ClassFactory.putStubTypeByClassName(
+                'CommunityService',
+                (CommunityService) Test.createStub(
+                        CommunityService.class,
+                        new Test_ResourceService.CommunityServiceStub('getParticipant_Test')
+                )
+        );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
         Test.stopTest();
@@ -98,6 +112,13 @@ public class Test_ResourceService {
                 (DatabaseProxy) Test.createStub(
                         DatabaseProxy.class,
                         new Test_ResourceService.DatabaseProxyStub('getResources_WithResourceType_Article_NoResources_Test')
+                )
+        );
+        ClassFactory.putStubTypeByClassName(
+                'CommunityService',
+                (CommunityService) Test.createStub(
+                        CommunityService.class,
+                        new Test_ResourceService.CommunityServiceStub('getParticipant_Test')
                 )
         );
         Test.startTest();
@@ -116,10 +137,96 @@ public class Test_ResourceService {
                         new Test_ResourceService.DatabaseProxyStub('getResources_WithResourceType_Video_NoResources_Test')
                 )
         );
+        ClassFactory.putStubTypeByClassName(
+                'CommunityService',
+                (CommunityService) Test.createStub(
+                        CommunityService.class,
+                        new Test_ResourceService.CommunityServiceStub('getParticipant_Test')
+                )
+        );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_VIDEO);
         Test.stopTest();
         System.assertEquals(Label.Resources_No_Videos, container.errorMessage);
+    }
+
+    @IsTest
+    public static void getResources_Integration_Test() {
+
+        Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+        Account participantAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
+                'Name' => 'Participant'
+        });
+        insert new List<Account>{
+                singleAccount, participantAccount
+        };
+
+        Contact piContact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType(), new Map<String, Object>{
+                'AccountId' => singleAccount.Id,
+                'LastName' => 'portalTestUser1',
+                'Email' => 'some@email.com'
+        });
+        insert piContact;
+
+        Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
+        insert singleParticipant;
+
+        Therapeutic_Area__c tA = (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType());
+        insert tA;
+
+        Clinical_Trial_Profile__c clinicalTrialProfile = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
+                new Map<String, Object>{
+                    'Therapeutic_Area__c' => tA.Id
+                });
+        insert clinicalTrialProfile;
+
+        Study_Site__c studySite = (Study_Site__c) TestDataFactory.getSObject(Study_Site__c.getSObjectType(), new Map<String, Object>{
+                'Clinical_Trial_Profile__c' => clinicalTrialProfile.Id,
+                'Site__c' => singleAccount.Id,
+                'Principal_Investigator__c' => piContact.Id,
+                'Override_PI_Referral_Status__c' => 'Invitation Sent'
+        });
+        insert studySite;
+
+        Participant_Enrollment__c enrollment = (Participant_Enrollment__c) TestDataFactory.getSObject(Participant_Enrollment__c.getSObjectType(),
+                new Map<String, Object>{
+                        'Medical_Record_Review_Status__c' => 'Pass',
+                        'Pre_screening_Status__c' => 'Pass',
+                        'Participant_Name__c' => singleParticipant.First_Name__c,
+                        'Participant_Surname__c' => singleParticipant.Last_Name__c,
+                        'Patient_ID__c' => '12345678',
+                        'Participant_Status__c' => 'Referral Sent to PI',
+                        'Referral_Source__c' => 'HCP',
+                        'Study_Site__c' => studySite.Id,
+                        'Participant__c' => singleParticipant.Id
+                });
+        insert enrollment;
+
+        System.debug([SELECT Name FROM User]);
+//        Test.startTest();
+//        ResourceService.ResourceWrapperContainer container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_VIDEO);
+//        Test.stopTest();
+//        System.assertEquals(Label.Resources_No_Videos, container.errorMessage);
+    }
+
+    public class CommunityServiceStub implements System.StubProvider {
+
+        String testMethodName;
+
+        public CommunityServiceStub(String testMethodName) {
+            this.testMethodName = testMethodName;
+        }
+
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName,
+                Type returnType, List<Type> listOfParamTypes, List<String> listOfParamNames,
+                List<Object> listOfArgs) {
+
+            if (stubbedMethodName == 'getParticipantId') {
+                return TestDataFactory.getFakeId(Participant__c.getSObjectType());
+            }
+
+            return null;
+        }
     }
 
     public class DatabaseProxyStub implements System.StubProvider {
@@ -151,14 +258,20 @@ public class Test_ResourceService {
 
         private List<Participant__c> getParticipantsList() {
             if (testMethodName.contains('getParticipant_Test')) {
-                return new List<Participant__c>{new Participant__c(First_Name__c = 'Test Participant')};
+                return new List<Participant__c>{
+                        (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
+                                'First_Name__c' => 'Test Participant'
+                        })
+                };
             }
             if (testMethodName.contains('getResources_WithResourceType_Article_NoTherapeuticAreas_Test')) {
-                return new List<Participant__c>{TestDataFactory.getParticipant()};
+                return new List<Participant__c>{
+                        (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType())
+                };
             }
             if (this.testMethodName.contains('getResources_WithResourceType_Article_NoResources_Test') || this.testMethodName.containsIgnoreCase('getResources_WithResourceType_Video_NoResources_Test')) {
-                Participant__c participant = TestDataFactory.getParticipant(new Map<String, Object>{
-                        'Contact__r' => TestDataFactory.getContact(new Map<String, Object>{
+                Participant__c participant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
+                        'Contact__r' => (Contact) TestDataFactory.getSObject(Contact.getSObjectType(), new Map<String, Object>{
                                 'Language__c' => 'ru'
                         }),
                         'Id' => TestDataFactory.getFakeId(Participant__c.SObjectType)
@@ -166,12 +279,14 @@ public class Test_ResourceService {
                 ParticipantDecoupler.therapeuticAreaPatientsByParticipantIds.put(
                         participant.Id,
                         new List<Therapeutic_Area_Patient__c>{
-                                TestDataFactory.getTherapeuticAreaPatient(new Map<String, Object>{
-                                        'Therapeutic_Area__r' => TestDataFactory.getTherapeuticArea()
+                                (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType(), new Map<String, Object>{
+                                        'Therapeutic_Area__r' => (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType())
                                 })
                         }
                 );
-                return new List<Participant__c>{participant};
+                return new List<Participant__c>{
+                        participant
+                };
             }
             return null;
         }
