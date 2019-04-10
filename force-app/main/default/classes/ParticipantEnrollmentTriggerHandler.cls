@@ -172,11 +172,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Id = participant.Contact__c,
                         userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
                 ));
-                alertsForInsert.add(new Alert__c(
+                /*alertsForInsert.add(new Alert__c(
                         Record_ID__c = newPE.Id,
                         Contact__c = participant.Contact__c,
                         Alert_Code__c = 'Welcome_to_the_Study'
-                ));
+                ));*/
 
             }
         }
