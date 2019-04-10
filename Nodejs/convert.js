@@ -1,4 +1,4 @@
-const profileFolders = ['../force-app/main/default/profiles', '../unpackaged/main/default/profiles'];
+const profileFolders = ['../force-app/main/default/profiles'];
 const translationFolder = '../force-app/main/default/translations';
 const objectsFolder = '../force-app/main/default/objects/Contact/recordTypes/MASTER.recordType-meta.xml';
 const fs = require("fs");;
