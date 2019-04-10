@@ -88,6 +88,8 @@
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
             <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
+            <!-- temporary remove SiteDotCom file from deployment -->
+            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
         </xmltask>
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
     </target>
