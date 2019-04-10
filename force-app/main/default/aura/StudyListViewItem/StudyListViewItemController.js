@@ -16,7 +16,7 @@
                 break;
             case 'share':
                 //pass trial to 'Share' dialog:
-                parent.find('shareModal').show(currentStudy.hcpe);
+                parent.find('shareModal').show(trial.Id, currentStudy.hcpe.HCP_Contact__c);
                 break;
             case 'viewTermsAndConditions':
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());

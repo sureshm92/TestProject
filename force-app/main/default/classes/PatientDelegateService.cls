@@ -124,7 +124,8 @@ public class PatientDelegateService {
         ];
         
         if (participant.size() == 0) throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
-        
+
+
         Patient_Delegate__c delegate = new Patient_Delegate__c(
                 Contact__c = newDelegate.Id,
                 Participant__c = participant.get(0).Id

@@ -1388,6 +1388,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <value>Privacy Policy</value>
     </labels>
     <labels>
+        <fullName>Email_Guest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Guest</shortDescription>
+        <value>Guest</value>
+    </labels>
+    <labels>
         <fullName>Email_Guest_User_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>

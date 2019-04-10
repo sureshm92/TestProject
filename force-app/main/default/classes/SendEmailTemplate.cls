@@ -22,13 +22,13 @@ public without sharing class SendEmailTemplate {
         sendEmailMessages(emailMessages);
     }
     
-    public static void sendShareEmail(Id hcpeId, Id hcpContactId,  String emailAddr) {
+    public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr) {
         Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: CommunityService.COMMUNITY_ET_SHARE_STUDY LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplateId);
-        msg.setWhatId(hcpeId);
-        msg.setTargetObjectId(hcpContactId);
+        msg.setWhatId(whatId);
+        msg.setTargetObjectId(fromId);
         msg.setToAddresses(new List<String>{emailAddr});
         msgList.add(msg);
         // Send the emails in a transaction, then roll it back

@@ -2,7 +2,8 @@
     doShow: function (component, event) {
         var params = event.getParam('arguments');
         component.set('v.targetEmail', '');
-        component.set('v.trial', params.trial);
+        component.set('v.whatId', params.whatId);
+        component.set('v.fromId', params.fromId);
         component.find('shareModal').show();
     },
 
@@ -16,25 +17,14 @@
             communityService.showErrorToast('', $A.get("$Label.c.TST_Invalid_email_address"));
             return;
         }
-
         var spinner = component.find('spinner');
         spinner.show();
 
-        //Forming params for sendEmail
-        var trial = component.get('v.trial');
-        var id;
-        var contactId;
-        var userMode = communityService.getUserMode();
-        if(userMode === 'HCP') {
-            contactId = trial.HCP_Contact__c;
-        }
-        else if(userMode === 'Participant') {
-            id = null;//Messaging.SingleEmailMessage.setWhatId() need related obj
-            contactId = null;
-        }
+        var whatId = component.get('v.whatId');
+        var fromId = component.get('v.fromId');
         communityService.executeAction(component, 'sendEmail', {
-            hcpeId: id,
-            hcpContactId: contactId,
+            whatId: whatId,
+            fromId: fromId,
             email: email
         }, function (returnValue) {
             var parent = component.get('v.parent');
