@@ -3,7 +3,8 @@
 <aura:component controller="ShareModalController" description="ShareModal">
 
     <!-- attributes: -->
-    <aura:attribute name="hcpe" type="Object"/>
+    <aura:attribute name="whatId" type="String"/>
+    <aura:attribute name="fromId" type="String"/>
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
     <aura:attribute name="targetEmail" type="String"/>
     <aura:attribute name="modalDialogBody" type="String" default="{!$Label.c.PG_SHR_Body}"/>
@@ -11,7 +12,8 @@
 
     <!-- methods: -->
     <aura:method name="show" action="{!c.doShow}">
-        <aura:attribute name="hcpe" type="Object" access="public"/>
+        <aura:attribute name="whatId" type="String" access="public"/>
+        <aura:attribute name="fromId" type="String" access="public"/>
     </aura:method>
     <aura:method name="hide" action="{!c.doHide}"/>
 

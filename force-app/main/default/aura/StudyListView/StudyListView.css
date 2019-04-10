@@ -17,13 +17,13 @@
 
 .THIS .rr-simple-white-panel {
     box-sizing: border-box;
-    height: 72px;
     width: 100%;
     border: 1px solid #F2F2F2;
     border-radius: 5px;
     background-color: #FFFFFF;
     margin-bottom: 30px;
     margin-top: 0;
+    padding: 16px ;
 }
 
 .THIS .header-white-panel {
@@ -34,5 +34,22 @@
 }
 
 .THIS .search-more-btn {
-    width: 445px;
+    width: 100%;
 }
+@media all and (min-width: 768px) {
+    .THIS .slv-padded-panel-left {
+        padding-left: 4.5rem;
+    }
+
+    .THIS .slv-padded-panel-right {
+        padding-right: 4.5rem;
+    }
+}
+@media all and (max-width: 767px) {
+    .THIS .slv-header-item + .slv-header-item {
+        margin-top: 16px;
+    }
+}
+
+
+

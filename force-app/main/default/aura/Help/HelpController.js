@@ -6,6 +6,11 @@
         component.set('v.userMode', communityService.getUserMode());
         component.set("v.isInitialized", true);
 
+        communityService.executeAction(component, 'getUserInfo', null, function (response) {
+            var userInfo = JSON.parse(response);
+            component.set('v.userContact', userInfo.currentContact);
+            component.set('v.isDelegate', userInfo.isDelegate);
+        });
     },
 
     submitRequest: function (component, event, helper) {
@@ -27,6 +32,15 @@
             return;
         }
         helper.createNewCase(component, description, type);
+    },
+
+    onSubmitQuestion : function (component, event, helper) {
+        //show popup and do nothing
+        component.find('req-modal').show();
+    },
+
+    onSubmitQuestionOk : function (component, event, helper) {
+        component.find('req-modal').hide();
     },
 
     onFileSelect: function (component, event, helper) {

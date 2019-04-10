@@ -19,6 +19,10 @@ global without sharing class EmailTemplateController {
     public static final String PARAM_PREFIX = '##';
     
     global String userCommunityType {get; set;}
+    global String emailRecipientName {get; set;}
+    global String emailRecipientId {get; set;}
+    global String emailRecipientLanguage {get; set;}
+    global String emailParametersProvider {get; set;}
     global Id sourceRecordId {get; set;}
     global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
     
@@ -77,7 +81,7 @@ global without sharing class EmailTemplateController {
     
     public ParametersDataProvider getDataProvider(){
         if (dataProvider == null) {
-            dataProvider = new ParametersDataProvider(sourceRecordId, userCommunityType, outputMode);
+            dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode);
         }
         return dataProvider;
     }

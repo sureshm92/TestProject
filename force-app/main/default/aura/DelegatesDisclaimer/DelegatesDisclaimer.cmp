@@ -3,5 +3,7 @@
  -->
 
 <aura:component description="DelegatesDisclaimer">
-    <p>{!$Label.c.PG_PST_L_Delegates_Disclaimer}</p>
+    <div>
+        <p class="mti-text">{!$Label.c.PG_PST_L_Delegates_Disclaimer}</p>
+    </div>
 </aura:component>

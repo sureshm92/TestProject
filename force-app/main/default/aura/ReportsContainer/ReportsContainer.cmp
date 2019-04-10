@@ -7,7 +7,7 @@
         <c:RRNavigationPath>
             <c:RRNPathItem label="{!$Label.c.PG_Report_L_Reports}"/>
         </c:RRNavigationPath>
-        <c:Dashboard />
+        <c:Dashboard showDashboardforPI="false" />
         <c:Reports />
     </div>
 </aura:component>

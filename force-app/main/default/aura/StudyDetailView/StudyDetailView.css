@@ -254,3 +254,24 @@
         top: 80px;
     }
 }
+.THIS .contrast-logo {
+    max-width: 136px;
+    margin: 10px 0;
+}
+.THIS .button-share-icon {
+    visibility: hidden;
+    display:block;
+    position:absolute;
+    margin-left: 65px;
+    margin-top: 73px;
+    transition: all ease 0.3s;
+
+}
+.THIS #shares:hover ~ .button-share-icon{
+    /*display: block !important;*/
+    visibility: visible !important;
+}
+.THIS .button-share-icon:hover {
+    /*display: block !important;*/
+    visibility: visible !important;
+}

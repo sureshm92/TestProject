@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -34,6 +35,16 @@
                 <fullName>Trial Complete</fullName>
                 <default>false</default>
                 <label>Trial Complete</label>
+            </value>
+            <value>
+                <fullName>Drop Out</fullName>
+                <default>false</default>
+                <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
             </value>
         </valueSetDefinition>
     </valueSet>

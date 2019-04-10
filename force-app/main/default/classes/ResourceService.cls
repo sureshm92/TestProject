@@ -37,7 +37,7 @@ public with sharing class ResourceService {
             return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Favorite_Articles : Label.Resources_No_Favorite_Videos);
         }
         ResourceService.ResourceWrapperContainer container = this.getResources(resourceType);
-        if (container.wrappers.isEmpty()) {
+        if (container.wrappers == null || container.wrappers.isEmpty()) {
             return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Favorite_Articles : Label.Resources_No_Favorite_Videos);
         }
         /*get only favorite resources from all available and sorted resources*/

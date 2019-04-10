@@ -1,33 +1,14 @@
-<messaging:emailTemplate subject="{$Label.Email_Subject_Medication_Task_Reminder}"
-                         recipientType="User"
-                         relatedToType="Task"
-                         language="{!recipient.LanguageLocaleKey}">
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Medication_Task_Reminder}"
+                         recipientType="Contact"
+                         relatedToType="Participant_Study_Enrollment__c"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody>
-        <c:EmailTemplate userType="Participant"
-                         sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Medication_Task_Reminder}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_Medication_Task_Reminder}"
-                         signature="{!$Label.Email_Signature}">
-
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
-                              buttonURL="{!$Label.CommunityURL}"/>
-        </c:EmailTemplate>
+        <!-- deprecated!!! -->
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody>
-        <c:EmailTemplateText userType="Participant"
-                             sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Medication_Task_Reminder}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Medication_Task_Reminder}"
-                             signature="{!$Label.Email_Signature}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
-                                  buttonURL="{!$Label.CommunityURL}"/>
-        </c:EmailTemplateText>
+        <!-- deprecated!!! -->
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

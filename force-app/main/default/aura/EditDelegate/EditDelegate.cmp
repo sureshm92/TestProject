@@ -11,7 +11,6 @@
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="{!true}" access="private"/>
     <aura:attribute name="delegate" type="Contact" access="private"/>
     <aura:attribute name="isCorrectEmail" type="Boolean" default="false" access="private"/>
     <aura:attribute name="currentUserContactId" type="String" access="private"/>
@@ -25,7 +24,7 @@
     <aura:handler name="change" value="{!v.delegate.Email}" action="{!c.doCheckEmail}"/>
 
     <!-- component body-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
+    <c:RRSpinner aura:id="mainSpinner" size="medium"/>
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">

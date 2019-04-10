@@ -1,0 +1,32 @@
+<aura:component controller="ResourceRemote" description="StudyDocumentContainer">
+
+
+    <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
+    <div class="rr-white-panel">
+        <c:RRTable>
+            <tr>
+                <th></th>
+                <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
+                <th class="study-document-summary">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
+                <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
+            </tr>
+            <aura:iteration items="{!v.resourceWrappers}" var="resourceWrapper">
+                <tr>
+                    <td class="study-document-icon">
+                        <c:RRIcon iconName="icon-file-pdf"/>
+                    </td>
+                    <td>
+                        <c:RRLink label="{!resourceWrapper.resource.Title__c}" page="{!'study-document?id=' + resourceWrapper.resource.Id}"/>
+                    </td>
+                    <td>{!resourceWrapper.resource.Description__c}</td>
+                    <td>
+                        <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}"/>
+                    </td>
+                </tr>
+            </aura:iteration>
+        </c:RRTable>
+        <aura:if isTrue="{!errorMessage != null}">
+            <div class="tt-empty-list">{!$Label.c.Resources_No_Study_Documents}</div>
+        </aura:if>
+    </div>
+</aura:component>

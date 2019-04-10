@@ -41,25 +41,23 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <!--compactLayoutAssignment>Participant_Enrollment</compactLayoutAssignment-->
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <description>Participant Profile</description>
-    <enableActivities>false</enableActivities>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
-
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
     <label>Participant Enrollment</label>
     <nameField>
         <displayFormat>REFERRALID{00000}</displayFormat>
         <label>Participant Profile Name</label>
         <trackFeedHistory>false</trackFeedHistory>
-
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Participant Enrollments</pluralLabel>

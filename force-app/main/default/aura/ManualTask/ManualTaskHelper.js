@@ -6,7 +6,7 @@
         $A.enqueueAction(component.get('c.doInit'));
     },
 
-    addDays : function (component) {
-        $A.enqueueAction(component.get('c.dueDateAdd'));
+    setDays : function (component) {
+        $A.enqueueAction(component.get('c.onRemindDaysChange'));
     }
 })

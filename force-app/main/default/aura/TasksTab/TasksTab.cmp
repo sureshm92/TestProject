@@ -6,9 +6,8 @@
 
     <!-- attributes: -->
     <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
-    <aura:attribute name="openTasks" type="Task[]"/>
+    <aura:attribute name="openTasks" type="Object[]"/>
     <aura:attribute name="completedTasks" type="Task[]"/>
-    <aura:attribute name="myTasks" type="Task[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -21,26 +20,47 @@
         <div>
             <!-- open tasks: -->
             <aura:if isTrue="{!v.taskMode == 'Open'}">
-                <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}</div>
+                <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
+                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">Create New Task</button>
+                </div>
                 <div class="rr-white-panel">
                     <c:RRTable>
                         <tr>
                             <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
-                            <th class="priority">{!$Label.c.Task_Tab_Table_Col_Priority}</th>
-                            <th class="completed-by">{!$Label.c.Task_Tab_Table_Col_Completed_By}</th>
+                            <th class="priority">{!$Label.c.Originator}</th>
+                            <th class="completed-by">{!$Label.c.Due_date}</th>
+                            <th class="completed-by">{!$Label.c.Reminder_Date}</th>
                             <th></th>
                         </tr>
-                        <aura:iteration items="{!v.openTasks}" var="task">
+                        <aura:iteration items="{!v.openTasks}" var="taskWrapper">
                             <tr>
                                 <td>
-                                    <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
+                                    <c:RRLink label="{!taskWrapper.openTask.Subject}"
+                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'edit-task?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
                                 </td>
-                                <td>{!task.Priority}</td>
                                 <td>
-                                    <ui:outputDate value="{!task.ActivityDate}"/>
+                                    {!taskWrapper.originator}
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
+                                        In Progress
+                                    </aura:if>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
+                                        <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c != null}">
+                                        <ui:outputDate value="{!taskWrapper.openTask.Completed_Date__c}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c == null}">
+                                        {!$Label.c.None}
+                                    </aura:if>
                                 </td>
                                 <td class="ignore">
-                                    <button id="{!task.Id}" class="apollo-btn tertiary" onclick="{!c.doIgnoreTask}">{!$Label.c.BTN_Ignore}</button>
+                                    <aura:if isTrue="{!taskWrapper.originator != $Label.c.Admin}">
+                                        <button id="{!taskWrapper.openTask.Id}" class="apollo-btn tertiary" onclick="{!c.doIgnoreTask}">{!$Label.c.BTN_Ignore}</button>
+                                    </aura:if>
                                 </td>
                             </tr>
                         </aura:iteration>
@@ -54,36 +74,6 @@
                 </div>
             </aura:if>
 
-            <!-- My tasks: -->
-            <aura:if isTrue="{!v.taskMode == 'MyTasks'}">
-                <div class="tt-title">{!$Label.c.Task_Tab_My_Tasks}
-                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">Create New Task</button>
-                </div>
-                <div class="rr-white-panel">
-                    <c:RRTable>
-                        <tr>
-                            <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
-                            <th>{!$Label.c.Task_Tab_Table_Col_Completed_By}</th>
-                        </tr>
-                        <aura:iteration items="{!v.myTasks}" var="task">
-                            <tr>
-                                <td>
-                                    <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
-                                </td>
-                                <td>
-                                    <ui:outputDate value="{!task.ActivityDate}"/>
-                                </td>
-                                <td class="ignore">
-                                    <button id="{!task.Id}" class="apollo-btn tertiary" onclick="{!c.doCompleteTask}">{!$Label.c.BTN_Complete}</button>
-                                </td>
-                            </tr>
-                        </aura:iteration>
-                    </c:RRTable>
-                    <aura:if isTrue="{!empty(v.myTasks)}">
-                        <div class="tt-empty-list">{!$Label.c.PG_Task_Tab_No_Tasks}</div>
-                    </aura:if>
-                </div>
-            </aura:if>
 
             <!-- completed: -->
             <aura:if isTrue="{!v.taskMode == 'Completed'}">
@@ -97,7 +87,12 @@
                         <aura:iteration items="{!v.completedTasks}" var="task">
                             <tr class="{!if(task.Status == 'Ignored', 'ignored', '')}">
                                 <td>
-                                    <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
+                                    <aura:if isTrue="{!task.Status == 'Ignored'}">
+                                        <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!task.Status == 'Completed'}">
+                                        {!task.Subject}
+                                    </aura:if>
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!task.Status == 'Ignored'}">

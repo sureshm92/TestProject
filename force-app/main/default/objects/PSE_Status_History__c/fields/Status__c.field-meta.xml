@@ -34,6 +34,16 @@
                 <default>false</default>
                 <label>Trial Complete</label>
             </value>
+            <value>
+                <fullName>Drop Out</fullName>
+                <default>false</default>
+                <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
