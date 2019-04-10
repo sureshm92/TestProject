@@ -71,19 +71,19 @@ validateScratchKiev:
   #- sfdx force:source:push -u scratch -f
   - echo "validate scratch success"
 
-validateScratchMoscow:
-  tags:
-  - shell
-  only:
-  - $PH_R1_Sprint_MBranch
-  - merge_requests
+#validateScratchMoscow:
+ # tags:
+  #- shell
+  #only:
+  #- $PH_R1_Sprint_MBranch
+  #- merge_requests
 
-  stage: validateScratchMoscow
-  script:
-  - echo "$PH_R1_SPRINT_M_AUTH" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubM -d
-  - echo "login dev hub successfully"
-  - sfdx --version
+  #stage: validateScratchMoscow
+  #script:
+  #- echo "$PH_R1_SPRINT_M_AUTH" > sfdx-auth-url
+  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubM -d
+  #- echo "login dev hub successfully"
+ # - sfdx --version
   #- sfdx force:source:push -u scratch -f
-  - echo "validate scratch success"
+  #- echo "validate scratch success"
 
