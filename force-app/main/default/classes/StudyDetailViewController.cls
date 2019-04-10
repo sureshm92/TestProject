@@ -165,12 +165,12 @@ public without sharing class StudyDetailViewController {
 
     public static List<StudyTab> getStudyTabs(String userMode) {
         List<StudyTab> tabs = new List<StudyTab>();
-        tabs.add(new StudyTab(
-                'tab-about-the-study',
-                'about-the-study',
-                TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
-        ));
         if(userMode == CommunityService.USER_MODE_HCP){
+            tabs.add(new StudyTab(
+                    'tab-about-the-study',
+                    'about-the-study',
+                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+            ));
             tabs.add(new StudyTab(
                     'tab-referred-patients',
                     'referred-patient',
@@ -192,6 +192,11 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
             ));
         }else if(userMode == CommunityService.USER_MODE_PI){
+            tabs.add(new StudyTab(
+                    'tab-about-the-study',
+                    'about-the-study',
+                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+            ));
             tabs.add(new StudyTab(
                     'tab-referrals',
                     'referrals',
