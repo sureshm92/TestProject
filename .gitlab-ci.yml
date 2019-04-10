@@ -21,7 +21,7 @@ validateINT:
   except:
   - push
   - commit
-  - PH_R1_Sprint5_K
+  - PH-R1_Sprint5_K_AK
 
   stage: validateINT
   script:
