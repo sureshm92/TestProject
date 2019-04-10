@@ -16,4 +16,17 @@ public without sharing class MedicalRecordReviewLogItemController {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
     }
+    @AuraEnabled
+    public static String undoChangeStatusToExcludeFromReferring(String participantEnrollmentId) {
+        try {
+            Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                    Id = participantEnrollmentId,
+                    Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL
+            );
+            update participantEnrollment;
+            return ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
 }

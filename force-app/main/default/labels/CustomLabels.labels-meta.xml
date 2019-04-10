@@ -461,6 +461,13 @@ Click OK to begin!</value>
         <value>Start Over</value>
     </labels>
     <labels>
+        <fullName>BTN_Undo_exclude</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Undo exclude</shortDescription>
+        <value>Undo exclude</value>
+    </labels>
+    <labels>
         <fullName>BTN_Undo_exclusion_and_refer_to_this_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2640,6 +2647,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Investigator name</value>
     </labels>
     <labels>
+        <fullName>PE_Investigator_Recruitment_Expert</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Investigator Recruitment Expert</shortDescription>
+        <value>Investigator/Recruitment Expert</value>
+    </labels>
+    <labels>
         <fullName>PE_MedicalRecordReview</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2652,6 +2666,13 @@ If you are prompted with a window indicating that the file format and extension 
         <protected>false</protected>
         <shortDescription>PE Patient Id</shortDescription>
         <value>Patient Id</value>
+    </labels>
+    <labels>
+        <fullName>PE_Patient_Phone_number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Patient phone number</shortDescription>
+        <value>Patient phone number</value>
     </labels>
     <labels>
         <fullName>PE_Phone_number</fullName>
@@ -3701,6 +3722,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>of</value>
     </labels>
     <labels>
+        <fullName>PG_FP_L_Show_more</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG FP L Show more</shortDescription>
+        <value>Show more</value>
+    </labels>
+    <labels>
+        <fullName>PG_FP_L_Show_less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG FP L Show less</shortDescription>
+        <value>Show less</value>
+    </labels>
+    <labels>
         <fullName>PG_FS_L_Choose_File</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4151,6 +4186,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>No longer interested</value>
     </labels>
     <labels>
+        <fullName>PG_MPS_L_NOT_YET_REFERRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MPS L NOT YET REFERRED</shortDescription>
+        <value>NOT YET REFERRED</value>
+    </labels>
+    <labels>
         <fullName>PG_MPS_L_Passed_referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4198,6 +4240,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG MPS L Referrals pending acceptance</shortDescription>
         <value>Referrals pending acceptance</value>
+    </labels>
+    <labels>
+        <fullName>PG_MPS_L_REFERRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MPS L REFERRED</shortDescription>
+        <value>REFERRED</value>
     </labels>
     <labels>
         <fullName>PG_MRCV_L_Pending_Activation</fullName>
@@ -4375,6 +4424,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Date range</value>
     </labels>
     <labels>
+        <fullName>PG_MRRL_L_Excluded_from_referring</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRRL L Excluded from referring</shortDescription>
+        <value>Excluded from referring</value>
+    </labels>
+    <labels>
         <fullName>PG_MRRL_L_Failed_referral</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4387,6 +4443,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG MRRL L Failed review</shortDescription>
         <value>Failed review</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRRL_L_Hide_Excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRRL L Hide excluded</shortDescription>
+        <value>Hide excluded</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Medical_Record_Review_Log</fullName>
@@ -4450,6 +4513,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG MRRL L Search for a patient</shortDescription>
         <value>Search for a patient</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRRL_L_Show_Excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRRL L Show excluded</shortDescription>
+        <value>Show excluded</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Studies</fullName>
@@ -5960,6 +6030,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG VP L No Items</shortDescription>
         <value>Oh no, there are no items to display</value>
+    </labels>
+    <labels>
+        <fullName>PG_VP_L_Referral_status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG VP L Referral status</shortDescription>
+        <value>Referral status</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Referring_statuses</fullName>

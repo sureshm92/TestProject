@@ -10,6 +10,8 @@
     <aura:attribute name="isReferred" type="Boolean" default="false" access="private"/>
     <aura:attribute name="recordReviewMessage" type="String" access="private"/>
     <aura:attribute name="referringMessage" type="String" access="private"/>
+    <aura:attribute name="showStudyLink" type="Boolean" access="public" default="false"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -17,9 +19,17 @@
     <!-- component body: -->
     <div class="mrrli-container slds-grid slds-wrap slds-grid_align-spread slds-is-relative">
         <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}"/>
-        <div class="{!'mrrli-info slds-col' + if($Browser.isPhone, ' slds-size_1-of-1', '')}">
+        <div class="mrrli-info slds-col slds-medium-size_2-of-3 slds-size_1-of-1">
             <div class="mrrli-info-top">
-                <div>{!v.participantEnrollment.Name}</div>
+                <div>
+                    <aura:if isTrue="{! or(!empty(v.participantEnrollment.Participant_Name__c), !empty(v.participantEnrollment.Participant_Surname__c))}">
+                        <div>{! v.participantEnrollment.Participant_Name__c + ' ' + v.participantEnrollment.Participant_Surname__c}</div>
+                        <aura:set attribute="else">
+                                {!v.participantEnrollment.Name}
+                        </aura:set>
+                    </aura:if>
+
+                </div>
                 <div>
                     <c:rrStatusInformer status="{!v.isReviewPass}" title="{!v.recordReviewMessage}"/>
                 </div>
@@ -28,30 +38,35 @@
                 </div>
             </div>
             <div class="mrrli-info-bottom">
-                <div>{!v.participantEnrollment.Patient_ID__c}</div>
-                <aura:if isTrue="{! or(!empty(v.participantEnrollment.Participant_Name__c), !empty(v.participantEnrollment.Participant_Surname__c))}">
-                    <div>{! v.participantEnrollment.Participant_Name__c + ' ' + v.participantEnrollment.Participant_Surname__c}</div>
+                <div class="mrrli-fields">{!v.participantEnrollment.Patient_ID__c}</div>
+                <div class="mrrli-fields">{!v.addedOnDate}</div>
+                <aura:if isTrue="{!v.showStudyLink}">
+                    <div class="mrrli-study-link"><c:RRLink label="{!v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id='+v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__c}"/> </div>
                 </aura:if>
-                <div>{!v.addedOnDate}</div>
-                <div>{!v.participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
             </div>
         </div>
 
-        <div class="{!'mrrli-buttons slds-col' + if($Browser.isPhone, ' slds-size_1-of-1', '')}">
+        <div class="mrrli-buttons slds-col slds-medium-size_1-of-3 slds-size_1-of-1">
             <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Pending Referral'}">
-                <button class="apollo-btn tertiary red" onclick="{!c.excludeFromReferring}"
-                        disabled="{!v.actions.excludeFromReferring.disabled}"
-                        title="{!v.actions.excludeFromReferring.disableReason}">
-                    {!v.actions.excludeFromReferring.label}
-                </button>
-                <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
-                        disabled="{!v.actions.referToThisStudy.disabled}"
-                        title="{!v.actions.referToThisStudy.disableReason}">
-                    {!v.actions.referToThisStudy.label}
-                </button>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
+                        <button class="apollo-btn tertiary red" onclick="{!c.excludeFromReferring}"
+                                disabled="{!v.actions.excludeFromReferring.disabled}"
+                                title="{!v.actions.excludeFromReferring.disableReason}">
+                            {!v.actions.excludeFromReferring.label}
+                        </button>
+                    </div>
+                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
+                        <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
+                                disabled="{!v.actions.referToThisStudy.disabled}"
+                                title="{!v.actions.referToThisStudy.disableReason}">
+                            {!v.actions.referToThisStudy.label}
+                        </button>
+                    </div>
+                </div>
             </aura:if>
             <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}">
-                <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
+                <button class="apollo-btn primary" style="width: 100%" onclick="{!c.undoExcludeFromReferring}"
                         disabled="{!v.actions.undoExcludeFromReferring.disabled}"
                         title="{!v.actions.undoExcludeFromReferring.disableReason}">
                     {!v.actions.undoExcludeFromReferring.label}

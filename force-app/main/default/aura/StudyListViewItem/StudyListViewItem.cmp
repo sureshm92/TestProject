@@ -215,8 +215,7 @@
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                     <div class="site-sub-header site-distance">
-                                        {!siteWrapper.site.Is_Virtual_Study_Site__c ? 'Virtual' :
-                                        'Traditional'} Site
+                                        {!siteWrapper.siteType + 'Site'}
                                     </div>
                                     <div class="site-sub-header slds-m-topxx-small site-distance"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
                                 </div>
@@ -242,7 +241,8 @@
                                         <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
                                             <div class="slds-col slds-size_1-of-2">
-                                                <button class="apollo-btn primary slvi-site-btn"
+                                                <button data-site-id="{!siteWrapper.site.Id}"
+                                                        class="apollo-btn primary slvi-site-btn"
                                                         style="background-color: white; color: #297DFD; box-shadow: none;"
                                                         onclick="{!c.doMyPatients}">
                                                     {!$Label.c.BTN_My_Patients}

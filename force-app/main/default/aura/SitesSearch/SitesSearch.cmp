@@ -49,16 +49,12 @@
             <!-- filter panel -->
             <c:FilterPanel recordsPerPage="{!v.paginationData.pageRecordsCount}"
                            recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
-                           sortType="{!v.siteFilter.sortType}"
-                           sortVariants="{!v.siteFilterData.sortVariants}"
                            allRecordsCount="{!v.paginationData.allRecordsCount}"
                            itemTitle="{!$Label.c.PG_SFS_L_sites}">
                 <c:rrSelect value="{!v.siteFilter.distanceRange}" options="{!v.siteFilterData.distanceRanges}"
                             placeholder="{!$Label.c.PG_SFS_L_Distance_from_you}" useSentenceFont="false"/>
                 <c:rrSelect value="{!v.siteFilter.siteType}" options="{!v.siteFilterData.siteTypes}"
                             placeholder="{!$Label.c.PG_SFS_L_Site_Type}" useSentenceFont="false"/>
-                <c:rrSelect value="{!v.siteFilter.therapeuticArea}" options="{!v.siteFilterData.therapeuticAreas}"
-                            placeholder="{!$Label.c.PG_SFS_L_Therapeutic_Area}"/>
 
             </c:FilterPanel>
 

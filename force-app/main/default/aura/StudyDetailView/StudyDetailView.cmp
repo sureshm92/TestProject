@@ -217,15 +217,15 @@
                         </div>
                     </aura:if>
 
-                    <aura:if isTrue="{!v.isMRRTabInitialized}">
-                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">
-                            <c:MedicalRecordReviewLog />
-                        </div>
-                    </aura:if>
+<!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
+<!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
+<!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
+<!--                        </div>-->
+<!--                    </aura:if>-->
 
                     <aura:if isTrue="{!v.isReferralsTabInitialized}">
                         <div class="{!if(v.currentTab == 'tab-referrals', 'visible-tab', 'invisible-tab')}">
-                            <c:ViewPatients trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
+                            <c:ViewPatientsReferred trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
                         </div>
                     </aura:if>
 
