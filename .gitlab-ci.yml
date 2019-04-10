@@ -21,6 +21,7 @@ validateINT:
   except:
   - push
   - commit
+  - PH_R1_Sprint5_K
 
   stage: validateINT
   script:
@@ -62,7 +63,7 @@ validateScratchKiev:
   - PH_R1_Sprint5_K
   - merge_requests
 
-  stage: validateScratch
+  stage: validateScratchKiev
   script:
   - echo "$PH_R1_SPRINT_K_AUTH" > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubK -d
