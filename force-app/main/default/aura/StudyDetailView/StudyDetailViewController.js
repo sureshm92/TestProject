@@ -50,7 +50,7 @@
             case 'refer':
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
-            case 'envelope': {
+            case 'share': {
                 var modal = component.find('shareModal');
                 if (communityService.getUserMode() === 'HCP') {
                     modal.show(studyDetail.hcpe);

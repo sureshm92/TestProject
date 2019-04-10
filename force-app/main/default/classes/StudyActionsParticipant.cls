@@ -61,7 +61,7 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
                     false
             ));
             actions.put('envelope', new StudyActions.Action(
-                    'envelope',
+                    StudyActions.ACT_SHARE,
                     '',
                     'icon-envelope',
                     false
@@ -71,13 +71,13 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
         this.studyDetailActions = new List<StudyActions.Action>();
         if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
             studyDetailActions.add(new StudyActions.Action(
-                    'downloadConsent',
-                    'Download Consent',
-                    'icon-import',
+                    'viewTermsAndConditions',
+                    'Terms and Conditions',
+                    'paper-many',
                     false
             ));
             studyDetailActions.add(new StudyActions.Action(
-                    StudyActions.ACT_SHARE,
+                    'shares',
                     StudyActions.LABEL_SHARE,
                     'share',
                     false
@@ -87,7 +87,7 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
         studyDetailActions.add(new StudyActions.Action(
                 'backHome',
                 'Back to Home',
-                'icon-home',
+                'icon-home-brand-new',
                 false
         ));
     }
