@@ -1,0 +1,76 @@
+stages:
+- deployINT
+- validateINT
+
+
+
+cache:
+  paths:
+  - node_modules
+  - ~/.sfdx
+  - .sfdx
+
+#loginINT:
+  #tags:
+  #- shell
+  #only:
+ # - PH_R1_Sprint3_K_YMlCI
+  #stage: loginINT
+  #script:
+  #- echo "$SFDX_AUTH_URL" > sfdx-auth-url
+  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+
+validateINT:
+  tags:
+  - shell
+  only:
+  - PH_R1_Sprint3_K_YMlCI
+  - merge_requests
+  except:
+  - push
+  - commit
+
+  stage: validateINT
+  script:
+  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+  - echo "test1"
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - sfdx force:source:convert -d output
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+
+deployINT:
+  tags:
+  - shell
+  only:
+  - PH_R1_Sprint3_K_YMlCI
+
+  stage: validateINT
+  script:
+  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+  - echo "test1"
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - sfdx force:source:convert -d output
+  - echo "deploy Int success"
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  #- sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+
+
