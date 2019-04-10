@@ -3,7 +3,7 @@
  */
 ({
     onEmailClick: function (component, event, helper) {
-        component.find('emailModal').show('test');
+        component.find('emailModal').show();
     },
 
     onFacebookClick: function (component, event, helper) {

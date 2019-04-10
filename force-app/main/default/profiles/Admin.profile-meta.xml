@@ -2950,6 +2950,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Version_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Video__c</field>
         <readable>true</readable>
@@ -3584,6 +3589,10 @@
         <recordType>Resource__c.Article</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Study Document</layout>
+        <recordType>Resource__c.Study_Document</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Resource__c-Video</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4066,6 +4075,11 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Resource__c.Article</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Study_Document</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

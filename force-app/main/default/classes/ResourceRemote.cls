@@ -1,8 +1,4 @@
 public with sharing class ResourceRemote {
-    @TestVisible
-    private static String RESOURCE_TEST_ID = 'a0I4E0000000000000';
-    @TestVisible
-    private static String PARTICIPANT_TEST_ID = 'a0D4E0000000000000';
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {

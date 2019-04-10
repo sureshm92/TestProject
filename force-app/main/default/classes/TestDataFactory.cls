@@ -1,29 +1,56 @@
 public class TestDataFactory {
 
-    private static final Map<String, Object> RESOURCE_REQUIRED_FIELDS = new Map<String, Object>{
-            'Title__c' => 'Test subject',
-            'Description__c' => 'Test description',
-            'Posting_Date__c' => Date.today(),
-            'Expiration_Date__c' => Date.today().addDays(1)
-    };
+    private static final Map<SObjectType, Map<String, Object>> REQUIRED_FIELDS = new Map<SObjectType, Map<String, Object>>{
+            Resource__c.getSObjectType() => new Map<String, Object>{
+                    'Title__c' => 'Test subject',
+                    'Description__c' => 'Test description',
+                    'Posting_Date__c' => Date.today(),
+                    'Expiration_Date__c' => Date.today().addDays(1)
+            },
 
-    private static final Map<String, Object> CONTACT_REQUIRED_FIELDS = new Map<String, Object>{
-            'LastName' => 'Test Last Name'
-    };
+            Contact.getSObjectType() => new Map<String, Object>{
+                    'LastName' => 'Test Last Name'
+            },
 
-    private static final Map<String, Object> PARTICIPANT_REQUIRED_FIELDS = new Map<String, Object>{};
+            Account.getSObjectType() => new Map<String, Object>{
+                    'Name' => 'Test Name'
+            },
 
-    private static final Map<String, Object> RESOURCE_ACTION_REQUIRED_FIELDS = new Map<String, Object> {
-            'IsFavorite__c' => true,
-            'IsVoted__c' => true
-    };
+            Participant__c.getSObjectType() => new Map<String, Object>{
+                    'First_Name__c' => 'Test Participant First Name',
+                    'Last_Name__c' => 'Test Participant Last Name',
+                    'Email__c' => 'test@test.com',
+                    'Phone__c' => '13241321223',
+                    'Mailing_Country_Code__c' => 'US',
+                    'Mailing_State_Code__c' => 'NY',
+                    'Mailing_Zip_Postal_Code__c' => '1234231234',
+                    'Language_Preference_Code__c' => 'en_US'
+            },
 
-    private static final Map<String, Object> THERAPEUTIC_AREA_PATIENT_REQUIRED_FIELDS = new Map<String, Object>{
-            'Condition_Of_Interest_Order__c' => 0
-    };
+            Resource_Action__c.getSObjectType() => new Map<String, Object>{
+                    'IsFavorite__c' => true,
+                    'IsVoted__c' => true
+            },
 
-    private static final Map<String, Object> THERAPEUTIC_AREA_REQUIRED_FIELDS = new Map<String, Object>{
-            'Name' => 'Test'
+            Therapeutic_Area_Patient__c.getSObjectType() => new Map<String, Object>{
+                    'Condition_Of_Interest_Order__c' => 0
+            },
+
+            Therapeutic_Area__c.getSObjectType() => new Map<String, Object>{
+                    'Name' => 'Test Name'
+            },
+
+            Clinical_Trial_Profile__c.getSObjectType() => new Map<String, Object>{
+                    'Protocol_ID__c' => 'test protocol Id',
+                    'Study_Title__c' => 'Test Study Title',
+                    'Study_Code_Name__c' => 'Test Study Code Name',
+                    'NCT_Number__c' => 'NCT00000000'
+            },
+
+            Study_Site__c.getSObjectType() => new Map<String, Object>{
+                    'Name' => 'Test Study Name',
+                    'Study_Site_Key__c' => '12132123132313'
+            }
     };
 
     public static Integer fakeId_num = 1;
@@ -31,61 +58,29 @@ public class TestDataFactory {
     public static String getFakeId(Schema.SObjectType sObjectType) {
         String result = String.valueOf(fakeId_num++);
         return sObjectType.getDescribe().getKeyPrefix() +
-                '0'.repeat(12-result.length()) + result;
+                '0'.repeat(12 - result.length()) + result;
     }
 
-    /*getters without parameters - with default values for required fields*/
+    /*getter without parameters - with default values for required fields*/
 
-    public static Contact getContact() {
-        return (Contact)getSObjectWithFilledFields(new Contact(), TestDataFactory.CONTACT_REQUIRED_FIELDS);
+    public static SObject getSObject(Schema.SObjectType sObjectType) {
+        return TestDataFactory.getSObjectWithFilledFields(sObjectType.newSObject(), TestDataFactory.REQUIRED_FIELDS.get(sObjectType));
     }
 
-    public static Resource__c getResource() {
-        return (Resource__c)getSObjectWithFilledFields(new Resource__c(), TestDataFactory.RESOURCE_REQUIRED_FIELDS);
-    }
+    /*getter with parameters*/
 
-    public static Participant__c getParticipant() {
-        return (Participant__c)getSObjectWithFilledFields(new Participant__c(), TestDataFactory.PARTICIPANT_REQUIRED_FIELDS);
-    }
-
-    public static Resource_Action__c getResourceAction() {
-        return (Resource_Action__c)getSObjectWithFilledFields(new Resource_Action__c(), TestDataFactory.RESOURCE_ACTION_REQUIRED_FIELDS);
-    }
-
-    public static Therapeutic_Area_Patient__c getTherapeuticAreaPatient() {
-        return (Therapeutic_Area_Patient__c)getSObjectWithFilledFields(new Therapeutic_Area_Patient__c(), TestDataFactory.THERAPEUTIC_AREA_PATIENT_REQUIRED_FIELDS);
-    }
-
-    public static Therapeutic_Area__c getTherapeuticArea() {
-        return (Therapeutic_Area__c)getSObjectWithFilledFields(new Therapeutic_Area__c(), TestDataFactory.THERAPEUTIC_AREA_REQUIRED_FIELDS);
-    }
-
-    /*getters with parameters*/
-
-    public static Contact getContact(Map<String, Object> fieldsValuesByName) {
-        return (Contact)getSObjectWithFilledFields(TestDataFactory.getContact(), fieldsValuesByName);
-    }
-
-    public static Resource__c getResource(Map<String, Object> fieldValuesByNames) {
-        return (Resource__c)getSObjectWithFilledFields(TestDataFactory.getResource(), fieldValuesByNames);
-    }
-
-    public static Participant__c getParticipant(Map<String, Object> fieldValuesByNames) {
-        return (Participant__c)getSObjectWithFilledFields(TestDataFactory.getParticipant(), fieldValuesByNames);
-    }
-
-    public static Therapeutic_Area_Patient__c getTherapeuticAreaPatient(Map<String, Object> fieldValuesByNames) {
-        return (Therapeutic_Area_Patient__c)getSObjectWithFilledFields(TestDataFactory.getTherapeuticAreaPatient(), fieldValuesByNames);
-    }
-
-    public static Therapeutic_Area__c getTherapeuticArea(Map<String, Object> fieldValuesByNames) {
-        return (Therapeutic_Area__c)getSObjectWithFilledFields(TestDataFactory.getTherapeuticArea(), fieldValuesByNames);
+    public static SObject getSObject(Schema.SObjectType sObjectType, Map<String, Object> fieldValuesByNames) {
+        return TestDataFactory.getSObjectWithFilledFields(TestDataFactory.getSObject(sObjectType), fieldValuesByNames);
     }
 
     private static SObject getSObjectWithFilledFields(SObject record, Map<String, Object> fieldValuesByNames) {
-        for(String fieldName : fieldValuesByNames.keySet()) {
-            if(fieldName.containsIgnoreCase('__r')) {
-                record.putSObject(fieldName, (SObject)fieldValuesByNames.get(fieldName));
+        if (fieldValuesByNames == null) {
+            System.debug('-------------------FIELD VALUES BY NAMES MAP IS EMPTY-----------------------');
+            return record;
+        }
+        for (String fieldName : fieldValuesByNames.keySet()) {
+            if (fieldName.containsIgnoreCase('__r')) {
+                record.putSObject(fieldName, (SObject) fieldValuesByNames.get(fieldName));
             } else {
                 record.put(fieldName, fieldValuesByNames.get(fieldName));
             }
