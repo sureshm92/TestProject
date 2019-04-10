@@ -52,7 +52,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Admin</shortDescription>
-        <value>IQVI Admin</value>
+        <value>IQVIA Admin</value>
     </labels>
     <labels>
         <fullName>BTN_Accept</fullName>
@@ -356,13 +356,6 @@ Click OK to begin!</value>
         <value>Refer</value>
     </labels>
     <labels>
-        <fullName>BTN_Refer_a_Patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer a Patient</shortDescription>
-        <value>Refer a Patient</value>
-    </labels>
-    <labels>
         <fullName>BTN_Refer_Another_Patient_to_This_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -375,6 +368,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN Refer Now</shortDescription>
         <value>Refer Now</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Refer_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Refer a Patient</shortDescription>
+        <value>Refer a Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Refer_to_this_study</fullName>
@@ -903,13 +903,6 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My Studies</value>
     </labels>
     <labels>
-        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
-        <value>Complete Baseline Survey</value>
-    </labels>
-    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -922,6 +915,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>EmailPreferencesIsOff</shortDescription>
         <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;settings?tab=account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
+        <value>Complete Baseline Survey</value>
     </labels>
     <labels>
         <fullName>Email_Action_Enroll_Now</fullName>

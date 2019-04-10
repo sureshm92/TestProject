@@ -14,13 +14,9 @@
     <aura:attribute name="taskTypeList" type="String[]" default="Not Selected,Visit,Medication"/>
     <aura:attribute name="setReminderValueList" type="String[]" default="Email,Disabled"/>
     <aura:attribute name="reminderFrequencyList" type="String[]" default="Complete By Date,1 day before"/>
-    <aura:attribute name="emailParticipantTurnedOn" type="Boolean"/>
-    <aura:attribute name="emailDelegateTurnedOff" type="Boolean"/>
-    <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="isReferral" type="Boolean"/>
-    <aura:attribute name="hasDelegates" type="Boolean"/>
-    <aura:attribute name="disableFrequency" type="Boolean" default="false"/>
-    <aura:attribute name="disableDate" type="Boolean" default="false"/>
+    <aura:attribute name="reminderEnabled" type="Boolean"/>
+    <aura:attribute name="errorMessage" type="String"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -151,16 +147,6 @@
                 </div>
             </div>
 
-            <!--Created Date Time-->
-            <!--<aura:if isTrue="{!v.editMode}">
-                <div class="slds-grid te-form slds-gutters slds-wrap">
-                    <div class="slds-col slds-size_1-of-1">
-                        <lightning:input  label="{!$Label.c.Created_Date}" value="{!v.task.CreatedDate}" disabled="true" type="date"/>
-                    </div>
-                </div>
-            </aura:if>-->
-
-
             <div class="te-col-header" style="margin-top: 15px;">
                 {!$Label.c.Task_Reminder_Details}
             </div>
@@ -168,58 +154,31 @@
             <div class="slds-grid te-form slds-gutters slds-wrap">
                 <!--Set Reminder-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <aura:if isTrue="{!v.emailParticipantTurnedOn || (!v.emailDelegateTurnedOff &amp;&amp; v.hasDelegates)}">
+                    <aura:if isTrue="{!v.reminderEnabled}">
                         <lightning:select aura:id="reminderOptionsId" name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" onchange="{!c.onChangeSetReminder}">
                             <aura:iteration items="{!v.setReminderValueList}" var="rem">
                                 <option text="{!rem}"></option>
                             </aura:iteration>
                         </lightning:select>
                     </aura:if>
-                    <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; ((v.emailDelegateTurnedOff &amp;&amp; v.hasDelegates) || !v.hasDelegates)}">
+                    <aura:if isTrue="{!!v.reminderEnabled}">
                         <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
                             <option text="Disabled"></option>
                         </lightning:select>
                     </aura:if>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <div class="icon-alert">
-                            <aura:if isTrue="{!!v.isDelegate}">
-                                <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; !v.emailDelegateTurnedOff}">
-                                    <div class="icon">
-                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                                    </div>
-                                    <div class="text">
-                                        <aura:unescapedHtml value="{!$Label.c.EmailPreferencesIsOff}"/>
-                                    </div>
-                                </aura:if>
-                            </aura:if>
-                            <aura:if isTrue="{!v.isDelegate}">
-                                <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; !v.emailDelegateTurnedOff}">
-                                    <div class="icon">
-                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                                    </div>
-                                    <div class="text">
-                                        <aura:unescapedHtml value="{!$Label.c.Task_Reminders_Missing}"/>
-                                    </div>
-                                </aura:if>
-                            </aura:if>
-                            <aura:if isTrue="{!v.emailParticipantTurnedOn &amp;&amp; v.emailDelegateTurnedOff &amp;&amp; v.hasDelegates}">
-                                <div class="icon">
-                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                                </div>
-                                <div class="text">
-                                    {!$Label.c.Task_Reminders_Missing}
-                                </div>
-                            </aura:if>
-                            <aura:if isTrue="{!!v.emailParticipantTurnedOn &amp;&amp; (v.emailDelegateTurnedOff &amp;&amp; v.hasDelegates)}">
-                                <div class="icon">
-                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                                </div>
-                                <div class="text">
-                                    <aura:unescapedHtml value="{!$Label.c.EmailPreferencesIsOff}"/>
-                                </div>
-                            </aura:if>
-                        </div>
+                    <div class="icon-alert">
+                        <aura:if isTrue="{!v.errorMessage}">
+                            <div class="icon">
+                                <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                            </div>
+                            <div class="text">
+                                <aura:unescapedHtml value="{!v.errorMessage}"/>
+                            </div>
+                        </aura:if>
+
+                    </div>
                 </div>
             </div>
 
@@ -227,7 +186,7 @@
                 <!--Reminder Frequency-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
-                                      onchange="{!c.onChangeFreq}" disabled="{!v.disableFrequency}" value="Complete By Date">
+                                      onchange="{!c.onChangeFreq}" disabled="{!!v.reminderEnabled}" value="Complete By Date">
                         <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
                             <option text="{!freq}"></option>
                         </aura:iteration>
@@ -236,7 +195,7 @@
                 <!--Reminder Date-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
-                                     value="{!v.task.Completed_Date__c}" disabled="{!v.disableDate}"/>
+                                     value="{!v.task.Completed_Date__c}" disabled="{!!v.reminderEnabled}"/>
                 </div>
             </div>
 

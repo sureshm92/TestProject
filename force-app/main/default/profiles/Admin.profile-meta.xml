@@ -67,6 +67,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -644,6 +648,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_BaseCRCPCommunity</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
