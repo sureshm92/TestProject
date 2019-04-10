@@ -94,6 +94,18 @@
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
     </target>
 
+    <target name="retrieve-site-dot-com">
+        <sf:retrieve username="${sf.int.username}"
+                     password="${sf.int.password}"
+                     serverurl="${sf.serverurl}"
+                     retrieveTarget="${retrieve.dir}"
+                     unpackaged="${retrieve.dir}/sitedotcom-package.xml"/>
+        <copyfile src="${retrieve.dir}/siteDotComSites/IQVIA_Referral_Hub_C.site"
+                  dest="../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site"/>
+        <delete dir="${retrieve.dir}/siteDotComSites"/>
+        <delete file="${retrieve.dir}/package.xml"/>
+    </target>
+
     <target name="delete-spaces">
         <replaceregexp
                 file="${dx.default.dir}/workflows/Participant_Enrollment__c.workflow-meta.xml"
