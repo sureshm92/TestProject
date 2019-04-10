@@ -30,7 +30,7 @@
 
                 <aura:set attribute="else">
                     <div class="resource-image-container resource-pointer" data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
-                        <img src="{!v.resourceWrappers[0].resource.Image__c}"/>
+                        <img alt="{!$Label.c.Resources_Image_Unavailable}" src="{!v.resourceWrappers[0].resource.Image__c}"/>
                     </div>
                     <div class="resource-description">
                         <div class="resource-description-title resource-pointer" data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}" data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">

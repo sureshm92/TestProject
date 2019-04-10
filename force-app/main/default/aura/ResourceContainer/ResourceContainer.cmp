@@ -3,29 +3,39 @@
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"/>
 
+    <!--ATTRIBUTES-->
 
-    <!--Possible values are "Default", "Favorite", "Suggested"-->
-    <aura:attribute name="resourceMode" type="String" default="Default"/>
+    <aura:attribute name="resourceMode" type="String" default="Default" description="Possible values are 'Default', 'Favorite', 'Documents'"/>
     <aura:attribute name="noTAMessage" type="String" default="{!null}"/>
+    <aura:attribute name="documentsResourceMode" type="String" default="Documents" access="private" description="constant variable"/>
+
+    <!--HANDLERS-->
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
-    <aura:if isTrue="{!v.noTAMessage != null}">
-        <div class="resource-noTAMessage">
-            <aura:unescapedHtml value="{!v.noTAMessage}"/>
-        </div>
-        <aura:set attribute="else">
-            <lightning:layout horizontalAlign="center" class="width-limiter">
-                <lightning:layoutItem flexibility="auto" size="6">
-                    <c:Resource resourceType="Video" resourceMode="{!v.resourceMode}"/>
-                </lightning:layoutItem>
-                <lightning:layoutItem flexibility="auto" size="6" class="resource-right">
-                    <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}"/>
-                </lightning:layoutItem>
-            </lightning:layout>
-            <div class="resource-disclaimer">
-                {!$Label.c.Resources_Expiration_Date_Disclaimer}
+    <!--COMPONENT BODY-->
+
+    <aura:if isTrue="{!v.resourceMode != v.documentsResourceMode}">
+        <aura:if isTrue="{!v.noTAMessage != null}">
+            <div class="resource-noTAMessage">
+                <aura:unescapedHtml value="{!v.noTAMessage}"/>
             </div>
+            <aura:set attribute="else">
+                <lightning:layout horizontalAlign="center" class="width-limiter">
+                    <lightning:layoutItem flexibility="auto" size="6">
+                        <c:Resource resourceType="Video" resourceMode="{!v.resourceMode}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="6" class="resource-right">
+                        <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <div class="resource-disclaimer">
+                    {!$Label.c.Resources_Expiration_Date_Disclaimer}
+                </div>
+            </aura:set>
+        </aura:if>
+        <aura:set attribute="else">
+            <c:StudyDocumentContainer />
         </aura:set>
     </aura:if>
 
