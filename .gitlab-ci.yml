@@ -4,8 +4,6 @@ stages:
 - validateScratchKiev
 - validateScratchMoscow
 
-
-
 cache:
   paths:
   - node_modules
@@ -15,13 +13,13 @@ cache:
 validateINT:
   tags:
   - shell
+  except:
+  - PH-R1_Sprint5_K_AK
+  - commit
+  - push
   only:
   - PH_R1_Sprint
   - merge_requests
-  except:
-  - push
-  - commit
-  - PH-R1_Sprint5_K_AK
 
   stage: validateINT
   script:
