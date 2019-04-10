@@ -70,6 +70,7 @@ public without sharing class StudySiteService {
             'Site__c',
             'Override_PI_Referral_Status__c',
             'Is_Virtual_Study_Site__c',
+            'Study_Site_Type__c',
             'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
@@ -226,9 +227,13 @@ public without sharing class StudySiteService {
         siteFilterData.trialId = trialId;
         siteFilterData.siteTypes = new List<LabelValueItem>();
         siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
-        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
-        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
-        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
+        Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
+        for (PicklistEntry ple : siteTypesfield.getPicklistValues()){
+            siteFilterData.siteTypes.add(new LabelValueItem(ple.label,ple.value));
+        }
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
         siteFilterData.distanceRanges = new List<LabelValueItem>();
         siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
         siteFilterData.therapeuticAreas = new List<LabelValueItem>();
@@ -248,13 +253,14 @@ public without sharing class StudySiteService {
             this.site = site;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
             this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
-            this.sortType = sortType;
-            if(!site.Is_Virtual_Study_Site__c){
-                this.siteType = 'Traditional';
+            if(sortType != null && sortType != ''){
+                this.sortType = sortType;
             }
-            else {
-                this.siteType = 'Virtual';
+            else{
+                this.sortType = 'Distance';
             }
+
+            this.siteType = site.Study_Site_Type__c;
             this.hcpe = hcpe;
             if (hcpe!=null) {
                 this.actions = new StudyActionsHCP(hcpe).actions;
@@ -348,13 +354,10 @@ public without sharing class StudySiteService {
         }
         filterString += 'Override_PI_Referral_Status__c != NULL ' +
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
-        if(filter.siteType == 'Virtual'){
-            filterString += ' AND Is_Virtual_Study_Site__c = TRUE ';
+        if(filter.siteType != null && filter.siteType != ''){
+            filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
 
-        else if(filter.siteType == 'Traditional'){
-            filterString += ' AND Is_Virtual_Study_Site__c = FALSE ';
-        }
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
     }

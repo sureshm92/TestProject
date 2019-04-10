@@ -1,4 +1,5 @@
 ({
+
     doAction: function (component, event) {
         var currentStudy = component.get('v.currentStudy');
         var trial = currentStudy.trial;
@@ -24,6 +25,10 @@
             case 'findStudySites':
                 //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
                 communityService.navigateToPage('sites-search?id=' + trialId);
+                break;
+            case 'myPatients':
+                //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
+                communityService.navigateToPage('my-patients?id=' + trialId);
                 break;
             case 'noThanks':
                 parent.showOpenNoTanksModal(trialId);
@@ -64,7 +69,10 @@
         var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage('my-patients');
+        debugger;
+        var siteId = event.target.dataset.siteId;
+
+        communityService.navigateToPage('my-patients?id='+trialId+(siteId?'&siteId='+siteId:''));
     },
 
     navigateToSitesSearch : function (component, event, helper) {

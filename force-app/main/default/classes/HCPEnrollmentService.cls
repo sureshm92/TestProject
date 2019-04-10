@@ -178,6 +178,7 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Phone',
             'Study_Site__r.Principal_Investigator__r.MailingAddress',
             'Study_Site__r.Is_Virtual_Study_Site__c',
+            'Study_Site__r.Study_Site_Type__c',
             'Override_PI_Status__c',
             'Orientation_Date__c'
     };
@@ -189,6 +190,7 @@ public without sharing class HCPEnrollmentService {
         if(filter != null) query += ' ' + filter;
         System.debug('EXECUTE QUERY: ' + query);
         List<HCP_Enrollment__c> hcpeList = Database.query(query);
+        System.debug('Query:' + query + ' result hcpeList = ' + hcpeList);
         TranslateHelper.translate(hcpeList);
         return hcpeList;
 
@@ -356,6 +358,7 @@ public without sharing class HCPEnrollmentService {
                 ' AND Status__c != NULL ' +
                 ' AND Override_PI_Status__c != NULL ' +
                 ' AND Study_Site__r.Clinical_Trial_Profile__c != NULL ';
+        System.debug('HCPE filter' + filter);
         return filter;
     }
 }
