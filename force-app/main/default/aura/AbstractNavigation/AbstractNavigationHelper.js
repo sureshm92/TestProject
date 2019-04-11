@@ -24,17 +24,17 @@
                 icon: 'dashboard'
             },
 
-            'medical-record-review-log': {
-                page: 'medical-record-review-log',
-                label: $A.get('$Label.c.Navigation_Medical_Record_Review_Log'),
-                icon: 'chart-review-sent'
-            },
+            // 'medical-record-review-log': {
+            //     page: 'medical-record-review-log',
+            //     label: $A.get('$Label.c.Navigation_Medical_Record_Review_Log'),
+            //     icon: 'chart-review-sent'
+            // },
 
-            'my-study-sites': {
-                page: 'my-study-sites',
-                label: $A.get('$Label.c.Navigation_My_Study_Sites'),
-                icon: 'referred-clinic'
-            },
+            // 'my-study-sites': {
+            //     page: 'my-study-sites',
+            //     label: $A.get('$Label.c.Navigation_My_Study_Sites'),
+            //     icon: 'referred-clinic'
+            // },
 
             'reports': {
                 page: 'reports',
@@ -119,8 +119,8 @@
             HCP: [
                 this.allPagesMap[''],
                 this.allPagesMap['my-patients'],
-                this.allPagesMap['medical-record-review-log'],
-                this.allPagesMap['my-study-sites'],
+                // this.allPagesMap['medical-record-review-log'],
+                // this.allPagesMap['my-study-sites'],
                 this.allPagesMap['reports'],
                 this.allPagesMap['help']
             ]

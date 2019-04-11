@@ -22,7 +22,7 @@
                     component.set('v.scrollRequired', navMenu.scrollWidth > navMenu.clientWidth);
                 }
             });
-            setTimeout(scrollEnableCheckHandler, 300);
+            setTimeout(scrollEnableCheckHandler, 300); 
             window.addEventListener('resize', scrollEnableCheckHandler);
         } catch (e) {
             console.error(e);
@@ -53,13 +53,15 @@
         if (navMenuCmp) {
             var navMenu = navMenuCmp.getElement();
             var navMenuWidth = navMenu.getBoundingClientRect().width;
-            debugger;
-            if (direction === 'right') {
-                component.set('v.scrollDirection', 'left');
-                navMenu.scrollLeft = 0;
-            } else {
-                navMenu.scrollLeft = 3000;
-                component.set('v.scrollDirection', 'right');
+            try{
+                if (direction === 'right') {
+                    component.set('v.scrollDirection', 'left');
+                    navMenu.scrollLeft = 0;
+                } else {
+                    navMenu.scrollLeft = 3000;
+                    component.set('v.scrollDirection', 'right');
+                }
+            }catch (e) {
             }
         }
     }

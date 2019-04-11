@@ -27,19 +27,21 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getInitData(Id trialId, String mode, String btnFilter, String userMode){
+    public static String getInitData(Id trialId,Id siteId, String mode, String btnFilter, String userMode){
         try{
             InitData initData = new InitData();
             //pagination:
             initData.paginationData = new PaginationData();
             //filters data:
-            initData.peFilterData = ParticipantEnrollmentService.getPEFilterData(trialId, mode);
+            initData.peFilterData = ParticipantEnrollmentService.getPEFilterData(trialId, mode, true);
             initData.peFilterData.sortVariants.addAll(new List<LabelValueItem>{
                     new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
                     new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
             });
             //filters: 
             initData.peFilter = new ParticipantEnrollmentService.PEFilter(initData.peFilterData);
+            initData.peFilter.studySite = siteId;
+            initData.peFilter.study = trialId;
             //set up search fields
             initData.peFilter.searchFields = new List<String>{
                     'Participant__r.First_Name__c',
@@ -88,13 +90,18 @@ public without sharing class ViewPatientsRemote {
     class SearchResult{
         List<PEWrapper> peList;
         PaginationData paginationData;
+        ParticipantEnrollmentService.PEFilter peFilter;
+        ParticipantEnrollmentService.PEFilterData peFilterData;
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode){
+    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
         try {
+            if(studyChanged){
+                filter.studySite = null;
+            }
             if(piBtnFilter != null){
                 /*filter.study = null;
                 filter.studySite = null;
@@ -118,6 +125,22 @@ public without sharing class ViewPatientsRemote {
                     userMode
             );
             result.paginationData = pagination;
+            result.peFilterData = ParticipantEnrollmentService.getPEFilterData(filter.study, userMode, true);
+            result.peFilterData.sortVariants.addAll(new List<LabelValueItem>{
+                    new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
+                    new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
+            });
+            result.peFilter = filter;
+//            Boolean siteExists = false;
+//            for(LabelValueItem site: result.peFilterData.studySites){
+//                if (site.value == filter.studySite) {
+//                    siteExists = true;
+//                    break;
+//                }
+//            }
+//            if(!siteExists){
+//                filter.studySite = null;
+//            }
             return JSON.serialize(result);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -137,7 +160,7 @@ public without sharing class ViewPatientsRemote {
         try{
             InitDataForPatientProfile initData = new InitDataForPatientProfile();
             //filters data:
-            ParticipantEnrollmentService.PEFilterData peFilterData = ParticipantEnrollmentService.getPEFilterData(null, mode);
+            ParticipantEnrollmentService.PEFilterData peFilterData = ParticipantEnrollmentService.getPEFilterData(null, mode, false);
             //init filters:
             ParticipantEnrollmentService.PEFilter peFilter = new ParticipantEnrollmentService.PEFilter(peFilterData);
             List<String> excludedStatuses = new List<String>{

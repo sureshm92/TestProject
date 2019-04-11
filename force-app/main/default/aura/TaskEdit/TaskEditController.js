@@ -27,20 +27,14 @@
         }, function (wrapper) {
             debugger;
             component.set('v.task', wrapper.task);
+            component.set('v.errorMessage', wrapper.errorMessage);
+            component.set('v.reminderEnabled', wrapper.reminderEnabled);
             if (wrapper.task.Status === 'Completed') {
                 component.set('v.taskStatusCompleted', true);
             }
-            component.set('v.isDelegate', wrapper.isDelegate);
-            component.set('v.hasDelegates', wrapper.hasDelegates);
-            component.set('v.emailDelegateTurnedOff', wrapper.emailPreferencesDelegateIsOff);
-            component.set('v.emailParticipantTurnedOn', wrapper.emailPreferencesParticipantIsOn);
             component.set('v.isReferral', wrapper.isReferral);
             if(wrapper.isReferral){
                 component.set('v.task.Task_Type__c', null);
-            }
-            if (!wrapper.emailPreferencesParticipantIsOn && ((!wrapper.emailPreferencesDelegateIsOn && wrapper.hasDelegates) || !wrapper.hasDelegates)) {
-                component.set('v.disableFrequency', true);
-                component.set('v.disableDate', true);
             }
             if(!component.get('v.task.ActivityDate')){
                 component.set('v.disableFrequency', true);
@@ -50,7 +44,7 @@
                 component.set('v.editMode', true);
             } else {
                 component.set('v.editMode', false);
-                component.set('v.tascomponent.findk.Status', 'Open');
+                component.set('v.task.Status', 'Open');
             }
             component.find('spinner').hide();
             component.set('v.initialized', true);
@@ -136,7 +130,7 @@
         var dueDate = component.get('v.task.ActivityDate');
         var reminderFrequencyComponent = component.find('reminderFreqId');
         var reminderDateComponent = component.find('reminderDateId');
-        if(component.get('v.emailParticipantTurnedOn') && component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')){
+        if(component.get('v.reminderEnabled') && component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')){
             if(dueDate) {
                 reminderFrequencyComponent.set('v.disabled', false);
             } else {

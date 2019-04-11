@@ -6,6 +6,7 @@
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.task', initData.task);
+            component.set('v.task.Visible_For__c', 'Owner;Delegates');//Def value, if not selected
             component.set('v.priorities', initData.priorities);
             component.set('v.visibility', initData.visibility);
             component.set('v.taskFilters', initData.filters);

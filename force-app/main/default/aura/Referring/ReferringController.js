@@ -4,8 +4,10 @@
 ({
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
+        debugger;
         var trialId = communityService.getUrlParameter("id");
         var peId = communityService.getUrlParameter("peid");
+        var hcpeId = communityService.getUrlParameter("hcpeid");
         if(!trialId) communityService.navigateToPage('');
         if(communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
         var spinner = component.find('mainSpinner');
@@ -21,11 +23,13 @@
         communityService.executeAction(component, 'getInitData', {
             trialId: trialId,
             peId: peId,
+            hcpeId: hcpeId,
             userMode: communityService.getUserMode()
         }, function (returnValue) {
             debugger;
             var initData = JSON.parse(returnValue);
             component.set('v.trialId', trialId);
+            component.set('v.hcpeId', hcpeId);
             component.set('v.hadDiscussion', undefined);
             component.set('v.stillInterested', undefined);
             component.set('v.trial', initData.trial);
@@ -34,6 +38,7 @@
             component.set('v.pendingPEnrollments', initData.pendingPEnrollments);
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Discussion"));
             component.set('v.studySites', initData.studies);
+            component.set('v.studySiteMarkers', initData.markers);
             component.set('v.showMRRButton', initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c);
             component.set('v.searchResult', undefined);
             component.set('v.mrrResult', 'Pending');
@@ -56,7 +61,7 @@
             if(!initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c){
                 component.set('v.currentState', 'Search PE');
             }
-            component.set('v.actions', initData.actions);
+            //component.set('v.actions', initData.actions);
             spinner.hide();
         }, function (errHandler) {
             //communityService.navigateToHome();
@@ -83,11 +88,19 @@
         component.set('v.hadDiscussion', false);
     },
 
-    doStillInterested: function (component) {
+    doStillInterested: function (component,event,helper) {
+        debugger;
         var trial = component.get('v.trial');
+        var hcpeId = component.get('v.hcpeId');
         window.scrollTo(0, 0);
         if(trial.Link_to_Pre_screening__c){
-            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
+            if(!hcpeId){
+                component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
+            }
+            else{
+                helper.addEventListener(component, helper);
+                component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
+            }
         }else{
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Contact_Info"));
         }
@@ -95,6 +108,9 @@
     },
 
     doSelectSite: function (component, event, helper) {
+        debugger;
+        var hcpeId = event.target.dataset.hcpeId;
+        component.set('v.hcpeId',hcpeId);
         component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
         component.find('mainSpinner').show();
         helper.addEventListener(component, helper);
@@ -103,7 +119,8 @@
     },
 
     doGoToMedicalRecordReview: function (component) {
-        communityService.navigateToPage('medical-record-review?id=' + component.get('v.trialId'));
+        var hcpeId = component.get('v.hcpeId');
+        communityService.navigateToPage('medical-record-review?id=' + component.get('v.trialId')+(hcpeId?'&hcpeid='+hcpeId:''));
     },
 
     doGoHome: function () {
@@ -111,7 +128,8 @@
     },
 
     doReferrAnotherPatient: function (component) {
-        communityService.navigateToPage('referring?id=' + component.get('v.trialId'));
+        var hcpeId = component.get('v.hcpeId');
+        communityService.navigateToPage('referring?id=' + component.get('v.trialId')+(hcpeId?'&hcpeid='+hcpeId:''));
     },
 
     doReferSelectedPE: function (component, event, helper) {
@@ -135,14 +153,17 @@
     },
 
     doSaveParticipant: function (component) {
+        debugger;
         var participant = component.get('v.participant');
         var trial = component.get('v.trial');
+        var hcpeId = component.get('v.hcpeId');
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
         spinner.show();
 
         communityService.executeAction(component, 'saveParticipant', {
             trialId: trial.Id,
+            hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant)
         }, function (returnValue) {

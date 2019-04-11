@@ -67,8 +67,7 @@ public without sharing class TaskService {
     }
 
     public static List<Task> getPreviewTasks(){
-        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() +
-                ' AND CreatedById != \'' + UserInfo.getUserId()  + '\' ' + OPEN_TASKS_ORDER + ' LIMIT 5');
+        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5');
     }
     
     public static Task getTask(Id taskId){

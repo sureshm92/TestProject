@@ -81,3 +81,34 @@
 .THIS .ah-toggle{
     flex: inherit;
 }
+
+.THIS.ah-main-container{
+    margin-top: 30px;
+    padding: 10px;
+}
+.THIS .ah-main-panel{
+    background-color: #FFFFFF;
+    padding: 0px 20px 30px 20px;
+}
+.THIS .ah-item-label{
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+}
+.THIS .ah-item-sublabel{
+    color: #666666;
+    font-size: 13px;
+}
+.THIS .ah-item-panel{
+    box-sizing: border-box;
+    border: 1px solid #D9D9D9;
+    background-color: #F8F9FB;
+    padding: 17px;
+}
+.THIS .ah-section-title{
+    color: black;
+    font-weight: 600;
+    font-size: 17px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

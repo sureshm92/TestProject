@@ -10,6 +10,7 @@ public without sharing class PSEService {
     public static final String PSE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
     public static final String PSE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
     public static final String PSE_STATUS_DROP_OUT = 'Drop Out';
+    public static final String PSE_STATUS_DECEASED = 'Deceased';
 
     public static final List<String> PSE_STATUS_GROUP_ALL = new List<String>{
             PSE_STATUS_ENROLLED,
@@ -22,7 +23,8 @@ public without sharing class PSEService {
     public static final List<String> PSE_STATUS_GROUP_COMPLETE = new List<String>{
             PSE_STATUS_PARTICIPATION_COMPLETE,
             PSE_STATUS_TRIAL_COMPLETE,
-            PSE_STATUS_DROP_OUT
+            PSE_STATUS_DROP_OUT,
+            PSE_STATUS_DECEASED
     };
     
     public static final List<String> PSE_DEFAULT_FIELDS_LIST = new List<String>{

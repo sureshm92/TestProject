@@ -48,7 +48,7 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <description>All clinical trial details which exist at clinicaltrials.gov, with additional metadata describing the inclusion / exclusion criteria, and identification of which clinical trials are awarded to QuintilesIMS</description>
-    <enableActivities>false</enableActivities>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
