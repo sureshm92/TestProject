@@ -11,9 +11,11 @@
     <aura:attribute name="trialId" type="String"/>
     <aura:attribute name="trial" type="Object"/>
     <aura:attribute name="pEnrollment" type="Object"/>
+    <aura:attribute name="hcpeId" type="String"/>
     <aura:attribute name="hcpEnrollment" type="Object"/>
     <aura:attribute name="pendingPEnrollments" type="List"/>
     <aura:attribute name="studySites" type="List"/>
+    <aura:attribute name="studySiteMarkers" type="List"/>
     <aura:attribute name="participant" type="Object"/>
     <aura:attribute name="emailRepeat" type="String"/>
     <aura:attribute name="allRequiredCompleted" type="Boolean" default="false"/>
@@ -51,9 +53,10 @@
 
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
-    <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
+    <!--<aura:if isTrue="{!!empty(v.hcpEnrollment)}">-->
+    <aura:if isTrue="{!!empty(v.trial)}">
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!v.hcpEnrollment.Study_Site__r.Name}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!if(!empty(v.hcpEnrollment),v.hcpEnrollment.Study_Site__r.Name,'')}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
             <aura:if isTrue="{!v.currentState == 'Screening'}">
                 <div class="buttons-area">
                     <div class="rr-width-limiter buttons-block">
@@ -95,9 +98,10 @@
                         <div class="title">{!$Label.c.PG_Ref_L_New_Patient}</div>
                         <div class="rr-sub-title">{!$Label.c.PG_Ref_L_Please_complete_Medical_Record_Review_first}</div>
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.medicalRecordReview.disabled}"
-                                title="{!v.actions.medicalRecordReview.disableReason}"
+
                                 onclick="{!c.doGoToMedicalRecordReview}">
+                            <!--disabled="{!v.actions.medicalRecordReview.disabled}"
+                            title="{!v.actions.medicalRecordReview.disableReason}"-->
                             {!$Label.c.BTN_Start_Medical_Record_Review}
                         </button>
                     </div>
@@ -120,10 +124,12 @@
                                             <div class="mrr-item-btns">
                                                 <!--<button class="apollo-btn tertiary">View Medical Record Result</button> todo delete-->
                                                 <button class="apollo-btn primary" id="{!pe.Id}"
-                                                        disabled="{!v.actions.referToThisStudy.disabled}"
-                                                        title="{!v.actions.referToThisStudy.disableReason}"
+
                                                         onclick="{!c.doReferSelectedPE}">
-                                                    {!v.actions.referToThisStudy.label}
+                                                    <!--disabled="{!v.actions.referToThisStudy.disabled}"
+                                                    title="{!v.actions.referToThisStudy.disableReason}"-->
+                                                    <!--{!v.actions.referToThisStudy.label}-->
+                                                    {!$Label.c.BTN_Refer_to_this_study}
                                                 </button>
                                             </div>
                                         </div>
@@ -186,20 +192,45 @@
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1">
                                 <!-- todo -->
                                 <aura:iteration items="{!v.studySites}" var="ss">
-                                    <div class="sdas-footer-info">
-                                        <div class="name">1. {!ss.name}</div>
-                                        <div class="address">
-                                            <div class="address-1">{!ss.addrStreet}</div>
-                                            <div class="address-3">{!ss.addrCity}</div>
+<!--                                    <div class="sdas-footer-info">-->
+<!--                                        <div class="name">1. {!ss.name}</div>-->
+<!--                                        <div class="address">-->
+<!--                                            <div class="address-1">{!ss.addrStreet}</div>-->
+<!--                                            <div class="address-3">{!ss.addrCity}</div>-->
+<!--                                        </div>-->
+<!--                                        <button data-hcpe-id="{!ss.hcpeId}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">-->
+<!--                                            {!$Label.c.BTN_Select_as_Preferred_Site}-->
+<!--                                        </button>-->
+<!--                                    </div>-->
+                                    <div class="slds-grid slds-wrap slds-p-around--medium">
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ">
+                                            <div class="ssi-site-name">
+                                                    {!ss.site.Name}
+                                            </div>
+                                            <div class="ssi-pi-name">
+                                                    {!ss.site.Principal_Investigator__r.Salutation + ' ' + ss.site.Principal_Investigator__r.Name}
+                                            </div>
                                         </div>
-                                        <button class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">
-                                            {!$Label.c.BTN_Select_as_Preferred_Site}
-                                        </button>
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                                            <div class="ssi-site-type">
+                                                    {!ss.siteType + ' Site'}
+                                            </div>
+                                            <aura:if isTrue="{!ss.siteType!='Virtual'}">
+                                                <div class="ssi-site-distance">
+                                                    <aura:unescapedHtml value="{!ss.formatedDistance}"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
+                                            <button data-hcpe-id="{!ss.hcpe.Id}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">
+                                                {!$Label.c.BTN_Select_as_Preferred_Site}
+                                            </button>
+                                        </div>
                                     </div>
                                 </aura:iteration>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
-                                <c:RRGoogleMap accounts="{!v.studySites}"/>
+                                <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>
                             </div>
                         </div>
                     </div>
@@ -306,8 +337,9 @@
                                         </div>
                                         <button class="apollo-btn primary" style="width: 100%; margin: 20px 0 50px 0"
                                                 onclick="{!c.doSaveParticipant}"
-                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"
-                                                title="{!v.actions.refer.disableReason}">
+                                                disabled="{!!v.allRequiredCompleted}">
+<!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
+<!--                                                title="{!v.actions.refer.disableReason}">-->
                                             {!$Label.c.BTN_Refer_Now}
                                         </button>
                                     </div>
@@ -327,9 +359,10 @@
                     <div class="q-failed">
                         <!--span>Text relating to patient who failed questionare</span-->
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.refer.disabled}"
-                                title="{!v.actions.refer.disableReason}"
                                 onclick="{!c.doReferrAnotherPatient}">
+                                <!--disabled="{!v.actions.refer.disabled}"
+                                title="{!v.actions.refer.disableReason}"-->
+
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
@@ -345,9 +378,10 @@
                     <div class="q-failed">
                         <span>{!$Label.c.PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud}</span>
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.refer.disabled}"
-                                title="{!v.actions.refer.disableReason}"
+
                                 onclick="{!c.doReferrAnotherPatient}">
+                            <!--                                disabled="{!v.actions.refer.disabled}"-->
+                            <!--                                title="{!v.actions.refer.disableReason}"-->
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
@@ -363,9 +397,10 @@
                     <div class="q-failed">
                         <span>{!$Label.c.PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud}</span>
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.refer.disabled}"
-                                title="{!v.actions.refer.disableReason}"
+
                                 onclick="{!c.doReferrAnotherPatient}">
+                            <!--disabled="{!v.actions.refer.disabled}"
+                                title="{!v.actions.refer.disableReason}"-->
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                     </div>
@@ -380,9 +415,10 @@
                     <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST1_Email_sent}</div>
                     <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST2_Email_sent}</div>
                     <button class="apollo-btn primary"
-                            disabled="{!v.actions.refer.disabled}"
-                            title="{!v.actions.refer.disableReason}"
+
                             onclick="{!c.doReferrAnotherPatient}">
+                        <!--disabled="{!v.actions.refer.disabled}"
+                            title="{!v.actions.refer.disableReason}"-->
                         {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                     </button>
                     <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
@@ -393,7 +429,7 @@
                 <div class="rr-width-limiter side-padding">
                     <c:SearchParticipantEnrollment aura:id="searchPECmp"
                             trialId="{!v.trialId}"
-                            hcpEnrollment="{!v.hcpEnrollment}"
+                            trial="{!v.trial}"
                             searchData="{!v.searchData}"
                             searchResult="{!v.searchResult}"
                             mrrResult="{!v.mrrResult}"

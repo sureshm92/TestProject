@@ -62,7 +62,8 @@
         var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage('referring?id=' + trialId);
+        var hcpeId = event.target.dataset.hcpeId;
+        communityService.navigateToPage('referring?id=' + trialId +(hcpeId?'&hcpeid='+hcpeId:''));
     },
 
     doMyPatients: function(cmp, event, helper) {
