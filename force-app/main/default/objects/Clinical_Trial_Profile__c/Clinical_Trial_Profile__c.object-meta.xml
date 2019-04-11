@@ -45,7 +45,7 @@
         <type>Flexipage</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <!--compactLayoutAssignment>Clinical_Trial_Profile</compactLayoutAssignment-->
     <deploymentStatus>Deployed</deploymentStatus>
     <description>All clinical trial details which exist at clinicaltrials.gov, with additional metadata describing the inclusion / exclusion criteria, and identification of which clinical trials are awarded to QuintilesIMS</description>
     <enableActivities>true</enableActivities>
@@ -56,12 +56,12 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <label>Clinical Trial Profile</label>
     <nameField>
         <displayFormat>S-{00000}</displayFormat>
         <label>Clinical Trial Profile Name</label>
         <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Clinical Trial Profiles</pluralLabel>

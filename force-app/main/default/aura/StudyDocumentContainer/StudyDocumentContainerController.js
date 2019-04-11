@@ -4,9 +4,7 @@
 
             let spinner = component.find('spinner');
             if(spinner){ spinner.show(); }
-
             let resourceMode = component.get("v.resourceMode");
-
             communityService.executeAction(component, 'getResources', {
                 resourceType: null,
                 resourceMode: resourceMode
