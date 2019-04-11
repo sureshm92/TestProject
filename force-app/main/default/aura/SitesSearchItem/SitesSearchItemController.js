@@ -5,7 +5,8 @@
     navigateToReferring : function (component, event, helper) {
         var studySiteWrapper = component.get('v.studySiteWrapper');
         var trialId = studySiteWrapper.site.Clinical_Trial_Profile__c;
-        communityService.navigateToPage("referring?id=" + trialId);
+        var hcpeId = event.target.dataset.hcpeId;
+        communityService.navigateToPage('referring?id=' + trialId +(hcpeId?'&hcpeid='+hcpeId:''));
     },
     requestToRefer : function (component, event, helper) {
         debugger;

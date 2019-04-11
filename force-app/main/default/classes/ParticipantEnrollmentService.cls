@@ -59,10 +59,10 @@ public without sharing class ParticipantEnrollmentService {
         return null;
     }
     
-    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id hcpEnrollmentId){
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId){
         return getPEnrolmentsCommon(
                 CommunityService.USER_MODE_HCP,
-                ' AND HCP__c =\'' + hcpEnrollmentId + '\' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
+                ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
         );
     }
 

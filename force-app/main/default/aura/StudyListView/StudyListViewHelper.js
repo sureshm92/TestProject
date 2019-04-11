@@ -11,6 +11,7 @@
 
         let spinner = cmp.find('recordsSpinner');
         spinner.show();
+        debugger;
         let filter = cmp.get('v.filterData');
         let searchText = filter.searchText;
         let filterJSON = JSON.stringify(filter);
@@ -33,7 +34,7 @@
             cmp.set('v.skipUpdate', true);
             helper.prepareIcons(result.records);
             cmp.set('v.currentPageList', result.records);
-
+            debugger;
             let pagination = cmp.get('v.paginationData');
             pagination.allRecordsCount = result.paginationData.allRecordsCount;
             pagination.currentPage = result.paginationData.currentPage;
