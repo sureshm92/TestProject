@@ -28,22 +28,22 @@
                         <!--Social Widgets-->
                         <aura:if isTrue="{!v.userMode == 'HCP'}">
                             <div class="rri-icon">
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onEmailClick}">
+                                <a href="javascript:void(0);" target="_blank" data-id="email" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
                                     </span>
                                 </a>
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onFacebookClick}">
+                                <a href="javascript:void(0);" target="_blank" data-id="facebook" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
                                     </span>
                                 </a>
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onTwitterClick}">
+                                <a href="javascript:void(0);" target="_blank" data-id="twitter" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
                                     </span>
                                 </a>
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onLinkedInClick}">
+                                <a href="javascript:void(0);" target="_blank" data-id="linkedin" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
                                     </span>

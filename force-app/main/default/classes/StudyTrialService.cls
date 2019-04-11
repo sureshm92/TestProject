@@ -12,6 +12,7 @@ public without sharing class StudyTrialService {
             'Terms_And_Conditions_ID__c',
             'Link_to_Medical_Record_Review__c',
             'Link_to_Pre_screening__c',
+            'Share_URL__c',
             'Study_Title__c',
             'Study_Code_Name__c',
             'Official_Title__c',

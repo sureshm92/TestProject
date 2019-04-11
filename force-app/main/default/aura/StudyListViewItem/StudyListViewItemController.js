@@ -83,20 +83,24 @@
         communityService.navigateToPage("sites-search?id=" + trialId);
     },
 
-    onEmailClick : function (component, event, helper) {
-        var hcpe = component.get('v.currentStudy').hcpe;
-        component.find('emailModal').show(hcpe);
-    },
-
-    onFacebookClick: function (component, event, helper) {
-        window.open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
-    },
-
-    onTwitterClick: function (component, event, helper) {
-        window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
-    },
-
-    onLinkedInClick: function (component, event, helper) {
-        window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
+    onShareClick : function (component, event, helper) {
+        var url = component.get('v.currentStudy').trial.Share_URL__c;
+        console.log('URL: '+url);
+        var id = event.target.dataset.id;
+        console.log('Id share: '+id);
+        switch (id) {
+            case 'email':
+                helper.onEmailClick(component);
+                break;
+            case 'facebook':
+                helper.onFacebookClick(component, url);
+                break;
+            case 'twitter':
+                helper.onTwitterClick(component, url);
+                break;
+            case 'linkedin':
+                helper.onLinkedInClick(component, url);
+                break;
+        }
     }
 })
