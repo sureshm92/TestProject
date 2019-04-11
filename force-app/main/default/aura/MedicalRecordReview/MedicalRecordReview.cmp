@@ -8,6 +8,8 @@
 
     <!-- atributes: -->
     <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="hcpeId" type="String"/>
+    <aura:attribute name="trial" type="Object"/>
     <aura:attribute name="hcpEnrollment" type="Object"/>
     <aura:attribute name="searchResult" type="Object"/>
     <aura:attribute name="searchData" type="Object"/>
@@ -23,10 +25,10 @@
 
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
 
-    <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
+    <aura:if isTrue="{!!empty(v.trial)}">
 
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!v.hcpEnrollment.Study_Site__r.Name}" bigTitle="{!$Label.c.DLIT_L_Medical_Record_Review}"/>
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!if(empty(v.hcpEnrollment),'',v.hcpEnrollment.Study_Site__r.Name)}" bigTitle="{!$Label.c.DLIT_L_Medical_Record_Review}"/>
 
         <!-- page conent -->
         <div class="rr-body-content" style="position: relative">
@@ -37,14 +39,16 @@
                             <div class="rr-card">
                                 <c:RRIcon iconName="chart-review-sent" class="rr-card-ico"/>
                                 <div class="rr-secondary-text" style="padding-top: 4px">{!$Label.c.PG_MRR_L_Please_complete_medical_record_review_for}</div>
-                                <div class="rr-primary-text">{!$Label.c.PG_DBPI_Dr} {!v.hcpEnrollment.HCP_Contact__r.Name}</div>
-                                <div class="rr-secondary-text">{!$Label.c.PG_DBPI_at} {!v.hcpEnrollment.Study_Site__r.Name}</div>
+                                <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
+                                    <div class="rr-primary-text">{!$Label.c.PG_DBPI_Dr} {!v.hcpEnrollment.HCP_Contact__r.Name}</div>
+                                    <div class="rr-secondary-text">{!$Label.c.PG_DBPI_at} {!v.hcpEnrollment.Study_Site__r.Name}</div>
+                                </aura:if>
                             </div>
                             <div class="rr-secondary-text" style="padding-top: 20px">{!$Label.c.PG_MRR_Note_Remember}</div>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 right-column">
                             <c:SearchParticipantEnrollment trialId="{!v.trialId}"
-                                                           hcpEnrollment="{!v.hcpEnrollment}"
+                                                           trial="{!v.trial}"
                                                            searchData="{!v.searchData}"
                                                            searchResult="{!v.searchResult}"
                                                            mrrResult="{!v.mrrResult}"
@@ -58,9 +62,9 @@
                         <c:RRIcon iconName="icon-close-circle"/>
                         <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.medicalRecordReview.disabled}"
-                                title="{!v.actions.medicalRecordReview.disableReason}"
                                 onclick="{!c.doClearForm}">
+                            <!--disabled="{!v.actions.medicalRecordReview.disabled}"
+                            title="{!v.actions.medicalRecordReview.disableReason}"-->
                             {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review}
                         </button>
                         <!--button class="apollo-btn tertiary">View and Print Medical Record Review Result</button-->
@@ -73,15 +77,15 @@
                         <c:RRIcon iconName="icon-check-circle"/>
                         <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.referToThisStudy.disabled}"
-                                title="{!v.actions.referToThisStudy.disableReason}"
                                 onclick="{!c.doReferPatient}">
                             {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
+                            <!--disabled="{!v.actions.referToThisStudy.disabled}"
+                                                            title="{!v.actions.referToThisStudy.disableReason}"-->
                         </button>
                         <button class="apollo-btn primary"
-                                disabled="{!v.actions.medicalRecordReview.disabled}"
-                                title="{!v.actions.medicalRecordReview.disableReason}"
                                 onclick="{!c.doStartMRR}">
+                            <!--disabled="{!v.actions.medicalRecordReview.disabled}"
+                            title="{!v.actions.medicalRecordReview.disableReason}"-->
                             {!$Label.c.PG_MRR_BTN_Complete_another_Medical_Record_Review_for_this_Study}
                         </button>
                         <!--button class="apollo-btn tertiary">View and Print Medical Record Review Result</button-->

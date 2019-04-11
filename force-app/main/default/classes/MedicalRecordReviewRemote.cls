@@ -6,24 +6,28 @@ public without sharing class MedicalRecordReviewRemote {
 
     public class InitData{
         public HCP_Enrollment__c hcpEnrollment;
+        public Clinical_Trial_Profile__c trial;
         public Map<String, StudyActions.Action> actions;
     }
 
     @AuraEnabled
-    public static String getInitData(String trialId){
+    public static String getInitData(String trialId, String hcpeId){
         try{
-            HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
-            //localize MRR
-            if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != null){
-                hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c =
-                        CommunityFacadeRemote.getLocalizedURL(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c);
-            }
-            if(hcpEnrollment == null) throw new CommunityServiceException('Data not found');
-            new StudyActionsHCP(hcpEnrollment).checkAction(StudyActions.ACT_MEDICAL_RECORD_REVIEW);
-            StudyActions sActions = new StudyActionsHCP(hcpEnrollment);
             InitData initData = new InitData();
-            initData.hcpEnrollment = hcpEnrollment;
-            initData.actions = sActions.actions;
+            initData.trial = StudyTrialService.getFullTrial(trialId);
+            if(hcpeId!=null){
+                HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
+                //localize MRR
+                if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != null){
+                    hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c =
+                            CommunityFacadeRemote.getLocalizedURL(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c);
+                }
+                if(hcpEnrollment == null) throw new CommunityServiceException('Data not found');
+                new StudyActionsHCP(hcpEnrollment).checkAction(StudyActions.ACT_MEDICAL_RECORD_REVIEW);
+                StudyActions sActions = new StudyActionsHCP(hcpEnrollment);
+                initData.hcpEnrollment = hcpEnrollment;
+                initData.actions = sActions.actions;
+            }
             //check accessibility;
             return JSON.serialize(initData);
         }catch (Exception e){

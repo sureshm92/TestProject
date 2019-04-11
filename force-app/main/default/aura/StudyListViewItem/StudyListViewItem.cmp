@@ -249,10 +249,11 @@
                                                 </button>
                                             </div>
                                             <div class="slds-col slds-size_1-of-2">
-                                                <button class="apollo-btn primary slvi-site-btn" onclick="{!c.doReferPatient}"
-                                                disabled="{!siteWrapper.actions.refer.disabled}"
-                                                title="{!siteWrapper.actions.refer.disableReason}">
-                                                    {!$Label.c.BTN_Refer_a_Patient}
+                                                <button data-hcpe-id="{!siteWrapper.hcpe.Id}"
+                                                        class="apollo-btn primary slvi-site-btn" onclick="{!c.doReferPatient}"
+                                                        disabled="{!siteWrapper.actions.refer.disabled}"
+                                                        title="{!siteWrapper.actions.refer.disableReason}">
+                                                        {!$Label.c.BTN_Refer_a_Patient}
                                                 </button>
                                             </div>
                                         </aura:if>
