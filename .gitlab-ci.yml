@@ -1,0 +1,87 @@
+stages:
+- deployINT
+- validateINT
+- validateScratchKiev
+- validateScratchMoscow
+
+cache:
+  paths:
+  - node_modules
+  - ~/.sfdx
+  - .sfdx
+
+validateINT:
+  tags:
+  - shell
+  only:
+  - PH_R1_Sprint
+  - merge_requests
+  except:
+  - push
+  - commit
+
+  stage: validateINT
+  script:
+  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+  - echo "test1"
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - sfdx force:source:convert -d output
+  - sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+
+deployINT:
+  tags:
+  - shell
+  only:
+  - PH_R1_Sprint
+  except:
+  - merge_requests
+
+  stage: deployINT
+  script:
+  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+  - echo "test1"
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - sfdx force:source:convert -d output
+  - sfdx force:mdapi:deploy -d output -u devhub  -w 60
+  - echo "deploy Int success"
+
+  #validateScratchKiev:
+  #tags:
+  #- shell
+  #only:
+  #- PH_R1_Sprint5_K
+  #- merge_requests
+
+  #stage: validateScratchKiev
+  #script:
+  #- echo "$PH_R1_SPRINT_K_AUTH" > sfdx-auth-url
+  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubK -d
+  #- echo "login dev hub successfully"
+  #- sfdx --version
+  #- sfdx force:source:push -u scratch -f
+  #- echo "validate scratch success"
+
+#validateScratchMoscow:
+ # tags:
+  #- shell
+  #only:
+  #- $PH_R1_Sprint_MBranch
+  #- merge_requests
+
+  #stage: validateScratchMoscow
+  #script:
+  #- echo "$PH_R1_SPRINT_M_AUTH" > sfdx-auth-url
+  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubM -d
+  #- echo "login dev hub successfully"
+ # - sfdx --version
+  #- sfdx force:source:push -u scratch -f
+  #- echo "validate scratch success"
+
