@@ -65,4 +65,40 @@ public class PSETriggerHandler {
         }
     }
 
+    public static void deactivateDeceasedUsers() {
+        if(Trigger.isAfter && Trigger.isUpdate) {
+            List<Id> contactIds = new List<Id>();
+
+            List<Participant_Study_Enrollment__c> pseList = [
+                    SELECT Id,
+                           Participant__r.Contact__c,
+                           Status__c
+                    FROM Participant_Study_Enrollment__c
+                    WHERE Id IN: Trigger.new
+            ];
+            for(Participant_Study_Enrollment__c pse : pseList) {
+                if(pse.Status__c.equals(PSEService.PSE_STATUS_DECEASED)) {
+                    contactIds.add(pse.Participant__r.Contact__c);
+                }
+            }
+
+            if(!contactIds.isEmpty()) {
+                updateUsers(contactIds);
+            }
+        }
+    }
+
+    @Future
+    private static void updateUsers(List<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive, ContactId
+                FROM User
+                WHERE ContactId IN :contactIds
+        ];
+        for(User u : users) {
+            u.IsActive = false;
+        }
+
+        update users;
+    }
 }

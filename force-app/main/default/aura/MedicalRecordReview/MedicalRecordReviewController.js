@@ -9,10 +9,13 @@
         var spinner = component.find('mainSpinner');
         spinner.show();
         var recId = communityService.getUrlParameter("id");
+        var hcpeId = communityService.getUrlParameter("hcpeid");
         if(recId){
             component.set('v.trialId', recId);
+            component.set('v.hcpeId', hcpeId);
             communityService.executeAction(component, 'getInitData', {
-                trialId: recId
+                trialId: recId,
+                hcpeId: hcpeId
             }, function (returnValue) {
                 debugger;
                 var initData = JSON.parse(returnValue);
@@ -21,6 +24,7 @@
                 };
                 component.set('v.searchData', searchData);
                 component.set("v.hcpEnrollment", initData.hcpEnrollment);
+                component.set("v.trial", initData.trial);
                 component.set("v.actions", initData.actions);
                 spinner.hide();
             }, null, function () {

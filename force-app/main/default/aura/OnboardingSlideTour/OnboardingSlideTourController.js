@@ -36,10 +36,12 @@
                 component.set('v.slides', tour.slides);
                 component.set('v.isNewSession', tour.isNewSession);
                 if(tour.slides.length > 0) component.set('v.currentSlide', tour.slides[0]);
-                component.find('carouselBody').getElement().scrollLeft = 0;
                 if(component.get('v.showAfterInit')) component.set('v.visible', true);
                 component.find('spinner').hide();
                 component.set('v.isInitialized', true);
+                try{
+                    component.find('carouselBody').getElement().scrollLeft = 0;
+                }catch (e) {}
             });
         }
 

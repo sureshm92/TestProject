@@ -21,12 +21,12 @@
     doChangeEmail: function (component, event, helper) {
         var initData = component.get("v.initData");
         var newEmail = initData.myContact.Email;
-        if(!newEmail) {
+        if (!newEmail) {
             communityService.showToast("error", "error", $A.get("$Label.c.TST_Email_can_t_be_empty"));
             return;
         }
         var oldEmail = component.get("v.currentEmail");
-        if(newEmail === oldEmail) {
+        if (newEmail === oldEmail) {
             communityService.showToast("waring", "warning", $A.get("$Label.c.TST_Emails_are_same"));
             return;
         }
@@ -62,7 +62,7 @@
         });
     },
 
-    doSwitchOptInEmail : function (component, event, helper) {
+    doSwitchOptInEmail: function (component, event, helper) {
         var initData = component.get("v.initData");
         communityService.executeAction(component, 'changeOptInEmail', {
             participantOptInStatusEmail: initData.myContact.Participant_Opt_In_Status_Emails__c,
@@ -74,9 +74,19 @@
         });
     },
 
-    doSubmitQuestion : function (component, event, helper) {
+    doSwitchOptInCookies: function (component, event, helper) {
+        var initData = component.get("v.initData");
+        communityService.executeAction(component, 'changeOptInCookies', {
+            rrCookieAllowed: initData.myContact.RRCookiesAllowedCookie__c,
+            rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
+        }, function () {
+            //do nothing
+        });
+    },
+
+    doSubmitQuestion: function (component, event, helper) {
         var description = component.get("v.privacyFormText");
-        if(!description) {
+        if (!description) {
             communityService.showToast("warning", "warning", $A.get("$Label.c.TST_Complete_Your_Question"));
             return;
         }
@@ -86,9 +96,9 @@
             description: description,
             type: 'Privacy'
         }, function () {
-                communityService.showToast("success", "success",  $A.get("$Label.c.TST_Thank_you_for_submitting_your_question"));
-                component.set("v.privacyFormText",'');
-        },null,function () {
+            communityService.showToast("success", "success", $A.get("$Label.c.TST_Thank_you_for_submitting_your_question"));
+            component.set("v.privacyFormText", '');
+        }, null, function () {
             component.set("v.showSpinner", false);
         })
     }

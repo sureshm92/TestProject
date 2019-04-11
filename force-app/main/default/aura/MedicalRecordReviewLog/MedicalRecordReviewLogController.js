@@ -4,7 +4,7 @@
         if(communityService.getUserMode() !== "HCP") communityService.navigateToPage('');
         component.set("v.showSpinner", true);
         component.set('v.userMode', communityService.getUserMode());
-        var trialId = communityService.getUrlParameter('id');
+        var trialId = component.get("v.trialId");
         var isFilterActive = (communityService.getUrlParameter('showPending') === 'true');
 
         communityService.executeAction(component, 'getParticipantDetail', {
@@ -25,7 +25,6 @@
                 filterInfo.isActive = isFilterActive;
                 component.set("v.filterInfo", filterInfo);
             }
-            component.set("v.showHeader", !trialId);
             component.set("v.showSpinner", false);
             component.set("v.skipUpdate", false);
         });
@@ -37,10 +36,11 @@
         spinner.show();
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
+        var showMore = component.get('v.showMore');
 
         communityService.executeAction(component, 'getRecords', {
             filterJSON: JSON.stringify(filter),
-            paginationJSON: JSON.stringify(component.get('v.paginationData')),
+            paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
             applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
@@ -49,7 +49,9 @@
             component.set('v.currentPageList', result.currentPageList);
             var pagination = component.get('v.paginationData');
             pagination.allRecordsCount = result.paginationData.allRecordsCount;
-            pagination.currentPage = result.paginationData.currentPage;
+            if(!showMore){
+                pagination.currentPage = result.paginationData.currentPage;
+            }
             component.set('v.paginationData', pagination);
             component.set("v.skipUpdate", false);
             spinner.hide();

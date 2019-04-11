@@ -73,3 +73,11 @@
         margin-right: 0;
     }
 }
+.THIS .mrrli-fields{
+    white-space: nowrap;
+}
+.THIS .mrrli-study-link{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

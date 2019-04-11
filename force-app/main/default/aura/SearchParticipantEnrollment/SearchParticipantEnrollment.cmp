@@ -8,7 +8,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String"/>
-    <aura:attribute name="hcpEnrollment" type="Object"/>
+    <aura:attribute name="trial" type="Object"/>
     <aura:attribute name="searchResult" type="Object"/>
     <aura:attribute name="searchData" type="Object"/>
     <aura:attribute name="mrrResult" type="String"/>
@@ -65,7 +65,7 @@
 
             <aura:if isTrue="{!v.searchResult.result == 'New' || v.searchResult.result == 'MRR Pending'}">
                 <iframe id="mrrGizmoFrame" class="mrr-gizmo-frame mrr-padding"
-                        src="{!v.hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
+                        src="{!v.trial.Link_to_Medical_Record_Review__c}"
                         onload="{!c.doFrameLoaded}" style="{!'height: '+v.frameHeight}"></iframe>
             </aura:if>
 

@@ -21,7 +21,7 @@
                         {!v.studySiteWrapper.site.Name}
                 </div>
                 <div class="ssi-pi-name">
-                        {!$Label.c.PG_DBPI_Dr + ' ' + v.studySiteWrapper.site.Principal_Investigator__r.Name}
+                        {!v.studySiteWrapper.site.Principal_Investigator__r.Salutation + ' ' + v.studySiteWrapper.site.Principal_Investigator__r.Name}
                 </div>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
@@ -54,7 +54,8 @@
                         {!$Label.c.BTN_Request_to_refer}
                     </button>
                     <aura:set attribute="else">
-                        <button class="apollo-btn tertiary btn-refer-patient"
+                        <button data-hcpe-Id="{!v.studySiteWrapper.hcpe.Id}"
+                                class="apollo-btn tertiary btn-refer-patient"
                                 disabled="{!v.studySiteWrapper.actions.refer.disabled}"
                                 title="{!v.studySiteWrapper.actions.refer.disableReason}"
                                 onclick="{!c.navigateToReferring}">

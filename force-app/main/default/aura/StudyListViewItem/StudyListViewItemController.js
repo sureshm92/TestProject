@@ -1,4 +1,5 @@
 ({
+
     doAction: function (component, event) {
         var currentStudy = component.get('v.currentStudy');
         var trial = currentStudy.trial;
@@ -16,7 +17,7 @@
                 break;
             case 'share':
                 //pass trial to 'Share' dialog:
-                parent.find('shareModal').show(currentStudy.hcpe);
+                parent.find('shareModal').show(trial.Id, currentStudy.hcpe.HCP_Contact__c);
                 break;
             case 'viewTermsAndConditions':
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
@@ -24,6 +25,10 @@
             case 'findStudySites':
                 //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
                 communityService.navigateToPage('sites-search?id=' + trialId);
+                break;
+            case 'myPatients':
+                //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
+                communityService.navigateToPage('my-patients?id=' + trialId);
                 break;
             case 'noThanks':
                 parent.showOpenNoTanksModal(trialId);
@@ -57,14 +62,18 @@
         var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage('referring?id=' + trialId);
+        var hcpeId = event.target.dataset.hcpeId;
+        communityService.navigateToPage('referring?id=' + trialId +(hcpeId?'&hcpeid='+hcpeId:''));
     },
 
     doMyPatients: function(cmp, event, helper) {
         var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage('my-patients');
+        debugger;
+        var siteId = event.target.dataset.siteId;
+
+        communityService.navigateToPage('my-patients?id='+trialId+(siteId?'&siteId='+siteId:''));
     },
 
     navigateToSitesSearch : function (component, event, helper) {

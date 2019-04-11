@@ -70,16 +70,22 @@ public with sharing class ManualTaskFilter {
                     (List<Participant_Enrollment__c>) Database.query(query);
 
             for (Participant_Enrollment__c pe : participantEnrollments) {
-                participants.add(pe.Participant__r);
+                if(pe.Participant__r != null) {
+                    participants.add(pe.Participant__r);
+                }
             }
         }
 
         Set<Id> contacts = new Set<Id>();
-        List<String> countryCodes = getCountryCode();
+        List<String> countryCodes;
+        if(!countries.isEmpty()) {
+            countryCodes = getCountryCode();
+        }
+
         for (Participant__c partic : participants) {
-            Id partContact = partic.Contact__c;
-            if (partContact != null) {
-                if (!countries.isEmpty()) {
+            if (partic.Contact__c != null) {
+                Id partContact = partic.Contact__c;
+                if (countryCodes != null) {
                     if (countryCodes.contains(partic.Mailing_Country_Code__c)) {
                         contacts.add(partContact);
                     }
