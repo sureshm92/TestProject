@@ -3,6 +3,8 @@ stages:
 - validateINT
 - validateScratchKiev
 - validateScratchMoscow
+- validateINF
+- deployINF
 
 cache:
   paths:
@@ -23,14 +25,14 @@ validateINT:
   stage: validateINT
   script:
   - echo "$SFDX_AUTH_URL" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
-  - echo "test1"
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
   - sfdx --version
   - cd Nodejs
   - node convert.js
   - cd ..
   - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u devhub -c -w 60
+  - sfdx force:mdapi:deploy -d output -u INT -c -w 60
+  - echo "validate Int success"
 
 deployINT:
   tags:
@@ -43,15 +45,57 @@ deployINT:
   stage: deployINT
   script:
   - echo "$SFDX_AUTH_URL" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
   - echo "test1"
   - sfdx --version
   - cd Nodejs
   - node convert.js
   - cd ..
   - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u devhub  -w 60
+  - sfdx force:mdapi:deploy -d output -u INT  -w 60
   - echo "deploy Int success"
+
+ValidateINF:
+  tags:
+  - shell
+  only:
+  - master
+  - merge_requests
+  except:
+  - push
+  - commit
+
+  stage: validateINF
+  script:
+  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - sfdx force:source:convert -d output
+  - sfdx force:mdapi:deploy -d output -u INF -c -w 60
+  - echo "validate Inf success"
+
+DeployINF:
+  tags:
+  - shell
+  only:
+  - master
+  except:
+  - merge_requests
+
+  stage: deployINF
+  script:
+  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - sfdx force:source:convert -d output
+  - sfdx force:mdapi:deploy -d output -u INF  -w 60
+  - echo "deploy Inf success"
 
   #validateScratchKiev:
   #tags:
