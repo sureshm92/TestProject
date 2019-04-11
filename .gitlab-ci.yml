@@ -67,7 +67,7 @@ ValidateINF:
 
   stage: validateINF
   script:
-  - echo "SFDX_AUTH_URL_INF" > sfdx-auth-url
+  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
   - sfdx --version
   - cd Nodejs
