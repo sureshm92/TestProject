@@ -67,6 +67,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -644,6 +648,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_BaseCRCPCommunity</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1369,6 +1377,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Provider_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRCookiesAllowedCookie__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRLanguageAllowedCookie__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2948,6 +2966,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Resource__c.article_external_link__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ScheduleIntervalSettings__mdt.Days__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3208,8 +3231,18 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Site_Staff__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Study_Site_Email__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3230,6 +3263,11 @@
         <editable>false</editable>
         <field>Study_Site__c.Study_Site_Status_Reason__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Study_Site_Type__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3599,6 +3637,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Plan__c-Visit Plan Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit__c-Visit Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>

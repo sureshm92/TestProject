@@ -482,6 +482,13 @@ Click OK to begin!</value>
         <value>View</value>
     </labels>
     <labels>
+        <fullName>BTN_View_Download_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download Consent</shortDescription>
+        <value>Download Consent</value>
+    </labels>
+    <labels>
         <fullName>BTN_View_all</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3701,6 +3708,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Show entries</value>
     </labels>
     <labels>
+        <fullName>PG_FP_L_Show_less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG FP L Show less</shortDescription>
+        <value>Show less</value>
+    </labels>
+    <labels>
+        <fullName>PG_FP_L_Show_more</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG FP L Show more</shortDescription>
+        <value>Show more</value>
+    </labels>
+    <labels>
         <fullName>PG_FP_L_Showing</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3720,20 +3741,6 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG FP L of</shortDescription>
         <value>of</value>
-    </labels>
-    <labels>
-        <fullName>PG_FP_L_Show_more</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG FP L Show more</shortDescription>
-        <value>Show more</value>
-    </labels>
-    <labels>
-        <fullName>PG_FP_L_Show_less</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG FP L Show less</shortDescription>
-        <value>Show less</value>
     </labels>
     <labels>
         <fullName>PG_FS_L_Choose_File</fullName>
@@ -4179,18 +4186,18 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Had discussion, not interested</value>
     </labels>
     <labels>
-        <fullName>PG_MPS_L_No_longer_interested</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG MPS L No longer interested</shortDescription>
-        <value>No longer interested</value>
-    </labels>
-    <labels>
         <fullName>PG_MPS_L_NOT_YET_REFERRED</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MPS L NOT YET REFERRED</shortDescription>
         <value>NOT YET REFERRED</value>
+    </labels>
+    <labels>
+        <fullName>PG_MPS_L_No_longer_interested</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MPS L No longer interested</shortDescription>
+        <value>No longer interested</value>
     </labels>
     <labels>
         <fullName>PG_MPS_L_Passed_referrals</fullName>
@@ -4212,6 +4219,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG MPS L Patients overall</shortDescription>
         <value>Patients overall</value>
+    </labels>
+    <labels>
+        <fullName>PG_MPS_L_REFERRED</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MPS L REFERRED</shortDescription>
+        <value>REFERRED</value>
     </labels>
     <labels>
         <fullName>PG_MPS_L_Referrals_accepted</fullName>
@@ -4240,13 +4254,6 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG MPS L Referrals pending acceptance</shortDescription>
         <value>Referrals pending acceptance</value>
-    </labels>
-    <labels>
-        <fullName>PG_MPS_L_REFERRED</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG MPS L REFERRED</shortDescription>
-        <value>REFERRED</value>
     </labels>
     <labels>
         <fullName>PG_MRCV_L_Pending_Activation</fullName>
@@ -5913,6 +5920,13 @@ is a placehilder to show you what it would look like.</value>
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>PG_SW_Tab_Lab_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab Results tab</shortDescription>
+        <value>Lab Results</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_Tab_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5948,11 +5962,32 @@ is a placehilder to show you what it would look like.</value>
         <value>Reports</value>
     </labels>
     <labels>
+        <fullName>PG_SW_Tab_Resources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resources tab</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_Tab_Study_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW Tab Study Sites</shortDescription>
         <value>Study Sites</value>
+    </labels>
+    <labels>
+        <fullName>PG_SW_Tab_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tasks tab</shortDescription>
+        <value>Tasks</value>
+    </labels>
+    <labels>
+        <fullName>PG_SW_Tab_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>Visits</value>
     </labels>
     <labels>
         <fullName>PG_SW_Title</fullName>
@@ -6291,13 +6326,6 @@ is a placehilder to show you what it would look like.</value>
         <value>See All</value>
     </labels>
     <labels>
-        <fullName>Resources_social</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>resource send emial soical</shortDescription>
-        <value>link {0} to share</value>
-    </labels>
-    <labels>
         <fullName>Resources_Study_Document_Table_Col_Summary</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6317,6 +6345,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Resources Study Document Table Col Version Date</shortDescription>
         <value>Version Date</value>
+    </labels>
+    <labels>
+        <fullName>Resources_social</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>resource send emial soical</shortDescription>
+        <value>link {0} to share</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
