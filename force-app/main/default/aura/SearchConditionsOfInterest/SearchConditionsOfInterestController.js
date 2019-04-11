@@ -3,7 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
+    },
+
+    show: function (component) {
         component.find('searchModal').show();
+    },
+
+    hide: function(component, event, helper) {
+        component.find('searchModal').hide();
     },
 
     bulkSearch: function (component, event, helper) {
