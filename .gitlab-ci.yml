@@ -3,7 +3,7 @@ stages:
 - validateINT
 - validateScratchKiev
 - validateScratchMoscow
-- calidateINF
+- validateINF
 - deployINF
 
 cache:
@@ -25,8 +25,7 @@ validateINT:
   stage: validateINT
   script:
   - echo "$SFDX_AUTH_URL" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
-  - echo "test1"
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
   - sfdx --version
   - cd Nodejs
   - node convert.js
@@ -46,7 +45,7 @@ deployINT:
   stage: deployINT
   script:
   - echo "$SFDX_AUTH_URL" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
   - echo "test1"
   - sfdx --version
   - cd Nodejs
@@ -70,7 +69,6 @@ ValidateINF:
   script:
   - echo "SFDX_AUTH_URL_INF > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-  - echo "test1"
   - sfdx --version
   - cd Nodejs
   - node convert.js
@@ -90,8 +88,7 @@ DeployINF:
   stage: deployINF
   script:
   - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhub -d
-  - echo "test1"
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
   - sfdx --version
   - cd Nodejs
   - node convert.js
