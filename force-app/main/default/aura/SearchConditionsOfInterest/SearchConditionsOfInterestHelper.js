@@ -3,43 +3,45 @@
  */
 ({
     valueChange: function (component, event, helper) {
-        debugger;
         component.set('v.bypass', false);
         let value = event.getSource().get('v.value');
-        if (!value) {
+        if (value) {
             component.set('v.displayFooter', true);
-            var evt = component.getEvent('setDefaultPage');
-            evt.fire();
-            return;
-        }
-        component.set('v.displayFooter', false);
-        value = value.toUpperCase();
-        console.log('valueSearch', value);
-        let originalItems = component.get('v.originalItems');
-        let criterias = component.get('v.searchCriterias');
-        let filteredItems = originalItems.filter(checkCriteria);
-        //component.set('v.bypass',true);
-        component.set('v.displayedItems', filteredItems);
-        //component.set('v.bypass',false);
-        function checkCriteria(e) {
-            debugger;
-            let result = false;
-            if (!value) {
-                result = true;
-            }
-            for (let i = 0; i < criterias.length; i++) {
-                let index = e.csValues.findIndex(x => x.name.toUpperCase() == criterias[i].toUpperCase());
-                if (index > -1) {
-                    if (e.csValues[index].Value) {
-                        result = e.csValues[index].Value.toUpperCase().indexOf(value) > -1;
-                        if (result) return result;
+            // communityService.executeAction(component, 'searchConditionOfInterest', {
+            //     nameTA : value
+            // }, function (returnValue) {
+            //     component.set('v.therapeuticAreas', returnValue);
+            // })
+            var action = component.get("c.searchConditionOfInterest");
+            action.setParams({nameTA: value});
+            action.setCallback(this, function (response) {
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    let taList = component.get('v.therapeuticAreas');
+                    let taWrappers = response.getReturnValue();
+                    taWrappers.forEach(taWrapper => {
+                        if (taList.some(ta => ta.Id === taWrapper.therArea.Id)) {
+                            taWrapper.isSelected = true;
+                        }
+                    });
+                    component.set('v.displayedItems', taWrappers);
+                } else if (state === "ERROR") {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " +
+                                errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
                     }
                 }
-
-            }
-            return result;
-
+            });
+            $A.enqueueAction(action);
+        } else {
+            let arr = [];
+            component.set('v.displayedItems', arr);
+            component.set('v.displayFooter', false);
         }
-
     },
 })

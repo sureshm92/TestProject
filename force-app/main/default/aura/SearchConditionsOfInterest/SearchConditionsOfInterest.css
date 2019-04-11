@@ -1,0 +1,19 @@
+/**
+ * Created by Yehor Dobrovolskyi
+ */
+.THIS {
+}
+.THIS .alert-count-condition{
+    height: 17px;
+    width: auto;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-style: italic;
+    line-height: 17px;
+    text-align: center;
+}
+.THIS table{
+    border-top: 0;
+    border-collapse: collapse;
+}
