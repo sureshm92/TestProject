@@ -101,15 +101,7 @@ public with sharing class ArticleService {
     private void calculateExpirationDate(Resource__c newResource, Resource__c oldResource) {
         if (newResource.Posting_Date__c != oldResource.Posting_Date__c
                 || newResource.Expiration_Date__c != oldResource.Expiration_Date__c) {
-            if (newResource.Posting_Date__c != null) {
-                newResource.Expiration_Date__c = newResource.Posting_Date__c.addMonths(12);
-            } else if (newResource.Expiration_Date__c != null) {
-                newResource.Posting_Date__c = newResource.Expiration_Date__c.addMonths(-12);
-            } else {
-                Date createResource = Date.today();
-                newResource.Posting_Date__c = createResource;
-                newResource.Expiration_Date__c = createResource.addMonths(12);
-            }
+            calculateExpirationDate(newResource);
         }
     }
 }
