@@ -189,7 +189,6 @@ public with sharing class Test_ArticleService {
             , String x3PartySource
             , Boolean iscreate) {
         Resource__c res = new Resource__c(
-                Name = 'Res-Tes',
                 Posting_Date__c = publishDate,
                 Expiration_Date__c = expDate,
                 Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
