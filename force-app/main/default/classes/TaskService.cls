@@ -43,7 +43,22 @@ public without sharing class TaskService {
             'Action_URL__c'
     };
     
-    public static List<Task> getTasksCommon(String filter){
+    private static TaskService instance;
+    
+    public static TaskService getInstance(){
+        if(instance == null) instance = new TaskService();
+        return instance;
+    }
+    
+    private TaskService(){
+        //lock Task Service Constructor outside
+    }
+    
+    public static void setMock(StubProvider mock){
+        instance = (TaskService) Test.createStub(TaskService.class, mock);
+    }
+    
+    public List<Task> getTasksCommon(String filter){
         String ownerFilter;
         if(!ParticipantService.getParticipantState().isDelegate){
             ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
@@ -62,44 +77,44 @@ public without sharing class TaskService {
         return tasks;
     }
     
-    public static List<Task> getOpenTasks() {
+    public List<Task> getOpenTasks() {
         return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER);
     }
 
-    public static List<Task> getPreviewTasks(){
+    public List<Task> getPreviewTasks(){
         return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5');
     }
     
-    public static Task getTask(Id taskId){
+    public Task getTask(Id taskId){
         List<Task> tasks = getTasksCommon(' Id = \'' + taskId + '\' ');
         if(tasks.size() == 0) throw new TaskServiceException('Task not found: ' + taskId);
         return tasks[0];
     }
     
-    public static List<Task> getCompletedTasks(){
+    public List<Task> getCompletedTasks(){
         return getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
     }
     
-    public static void ignoreTask(Id taskId){
+    public void ignoreTask(Id taskId){
         Task task = getTask(taskId);
         task.Status = TASK_STATUS_IGNORED;
         task.Completed_Date__c = Datetime.now();
         update task;
     }
     
-    public static void completeTask(Id taskId){
+    public void completeTask(Id taskId){
         Task task = getTask(taskId);
         completeTask(task);
         update task;
     }
     
-    public static void completeTask(Task task){
+    public void completeTask(Task task){
         task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
     }
     
     
-    public static Task createCompleteBaselineSurveyTask(Id ownerId, Id participantContactId){
+    public Task createCompleteBaselineSurveyTask(Id ownerId, Id participantContactId){
         return new Task(
                 OwnerId = ownerId,
                 Subject = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
@@ -111,7 +126,7 @@ public without sharing class TaskService {
         );
     }
     
-    public static Task createCompleteYourProfileTask(Id ownerId, Id participantId, Id participantContactId){
+    public Task createCompleteYourProfileTask(Id ownerId, Id participantId, Id participantContactId){
         return new Task(
                 OwnerId = ownerId,
                 Subject = TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE,
@@ -124,12 +139,12 @@ public without sharing class TaskService {
         );
     }
     
-    private static String getVisibilityFilter(){
+    private String getVisibilityFilter(){
         String role = ParticipantService.getParticipantState().isDelegate ? 'Delegates' : 'Owner';
         return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
     }
     
-    public static String getOpenTasksFilter(){
+    public String getOpenTasksFilter(){
         List<String> statusFilter = new List<String>{
                 TASK_STATUS_OPEN,
                 TASK_STATUS_IN_PROGRESS
@@ -137,13 +152,12 @@ public without sharing class TaskService {
         return ' Status IN (\'' + String.join(statusFilter, '\',\'') +  '\') ';
     }
     
-    private static String getCompletedTasksFilter(){
+    private String getCompletedTasksFilter(){
         List<String> statusFilter = new List<String>{
                 TASK_STATUS_IGNORED,
                 TASK_STATUS_COMPLETED
         };
         return ' Status IN (\'' + String.join(statusFilter, '\',\'') +  '\') ';
-        
     }
 
 

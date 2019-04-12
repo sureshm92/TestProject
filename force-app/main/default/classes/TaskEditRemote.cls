@@ -25,7 +25,7 @@ public without sharing class TaskEditRemote {
     @AuraEnabled
     public static TaskEditDataWrapper getTaskEditData(Id taskId){
         TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
-        if(taskId != null) wrapper.task = TaskService.getTask(taskId);
+        if(taskId != null) wrapper.task = TaskService.getInstance().getTask(taskId);
         return wrapper;
     }
     

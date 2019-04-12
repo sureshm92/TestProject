@@ -161,7 +161,7 @@ public class PatientDelegateService {
                 FROM Patient_Delegate__c
                 WHERE Contact__c = :delegate.Id
         ];
-        delete patientDelegate.get(0); 
+        delete patientDelegate.get(0);
     }
     
 }
