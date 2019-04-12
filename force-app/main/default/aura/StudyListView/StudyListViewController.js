@@ -61,6 +61,7 @@
 
     switchToSearchResume: function (cmp, event, helper) {
         cmp.set("v.isSearchResume", true);
+        cmp.set("v.filterData.searchText","");
         helper.searchForRecords(cmp,helper);
     }
 });

@@ -412,7 +412,7 @@ public without sharing class StudyTrialService {
         paginationData.setRecordsCount(records.size());
         List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
         Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
-        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, trials.size());
+        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, records.size());
         for (Integer i = leftRecord; i < rightRecord; i++) {
             trialsOnPage.add(records[i]);
         }

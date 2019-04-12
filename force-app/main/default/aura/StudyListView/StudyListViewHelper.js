@@ -40,7 +40,9 @@
             pagination.currentPageCount = result.paginationData.currentPageCount;
             pagination.currentPage = result.paginationData.currentPage;
             cmp.set('v.paginationData', pagination);
-
+            setTimeout($A.getCallback(function () {
+                helper.doUpdateStudyTitle(cmp);
+            }), 10);
             cmp.set('v.skipUpdate', false);
             spinner.hide();
         })
