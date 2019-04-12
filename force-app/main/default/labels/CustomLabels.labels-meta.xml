@@ -6878,4 +6878,11 @@ is a placehilder to show you what it would look like.</value>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
     </labels>
+    <labels>
+        <fullName>Update_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update Participant</shortDescription>
+        <value>Update Participant</value>
+    </labels>
 </CustomLabels>

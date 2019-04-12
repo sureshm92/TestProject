@@ -35,6 +35,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AlertTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AlertsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -160,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DatabaseProxy</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -607,6 +615,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SurveyResponseTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TaskEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -671,6 +683,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -692,6 +708,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Task</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -719,6 +739,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -732,6 +756,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UserService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
