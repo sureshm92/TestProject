@@ -84,10 +84,8 @@
     },
 
     onShareClick : function (component, event, helper) {
-        var url = component.get('v.currentStudy').trial.Share_URL__c;
-        console.log('URL: '+url);
-        var id = event.target.dataset.id;
-        console.log('Id share: '+id);
+        let url = component.get('v.currentStudy').trial.Share_URL__c;
+        let id = event.currentTarget.dataset.id;
         switch (id) {
             case 'email':
                 helper.onEmailClick(component);

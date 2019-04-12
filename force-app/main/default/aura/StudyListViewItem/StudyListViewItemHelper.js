@@ -3,7 +3,7 @@
  */
 ({
     onEmailClick : function (component) {
-        var hcpe = component.get('v.currentStudy').hcpe;
+        let hcpe = component.get('v.currentStudy').hcpe;
         component.find('emailModal').show(hcpe);
     },
 
