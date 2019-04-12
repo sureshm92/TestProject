@@ -59,10 +59,10 @@ public without sharing class ParticipantEnrollmentService {
         return null;
     }
     
-    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id hcpEnrollmentId){
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId){
         return getPEnrolmentsCommon(
                 CommunityService.USER_MODE_HCP,
-                ' AND HCP__c =\'' + hcpEnrollmentId + '\' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
+                ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
         );
     }
 
@@ -287,8 +287,8 @@ public without sharing class ParticipantEnrollmentService {
                         delegatesFilter +
                     ') ';
         } else{
-            if(PatientDelegateService.isDelegate){
-                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            if(PatientDelegateService.getInstance().isDelegate()){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
             }
             return '( ' +
                     '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +

@@ -35,7 +35,24 @@ public without sharing class CommunityService {
 
     //hold contact instance:
     private static Contact userContact;
-
+    
+    private static CommunityService instance;
+    
+    public static CommunityService getInstance(){
+        if(instance == null) instance = new CommunityService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (CommunityService) Test.createStub(CommunityService.class, stubProvider);
+    }
+    
+    public Id getCurrentContactId(){
+        return CommunityService.getUserContact().Id;
+    }
+    
+    //Old static logic: ------------------------------------------------------------------------------------------------
+    
     public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];

@@ -76,7 +76,6 @@ public without sharing class StudyTrialService {
         String therapeuticArea = 'All Therapeutic Areas';
         filterData.therapeuticArea = 'ALL';
         List<LabelValueItem> taOptions = new List<LabelValueItem>();
-
         taOptions.add(new LabelValueItem(therapeuticArea, 'ALL'));
         for (AggregateResult ar : [
                 SELECT Name taName

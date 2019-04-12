@@ -21,6 +21,20 @@ public class ParticipantService {
     }
     
     private static ParticipantState participantState;
+    private static ParticipantService instance;
+    
+    public static ParticipantService getInstance(){
+        if(instance == null) instance = new ParticipantService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (ParticipantService) Test.createStub(ParticipantService.class, stubProvider);
+    }
+    
+    public ParticipantState getState(){
+        return getParticipantState();
+    }
     
     public static ParticipantState getParticipantState(){
         if(participantState == null){

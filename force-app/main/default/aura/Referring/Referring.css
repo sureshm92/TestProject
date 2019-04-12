@@ -311,3 +311,32 @@
         margin-top: 15px;
     }
 }
+
+.THIS .ssi-site-name{
+    color: #000000;
+    font-size: 15px;
+    font-weight: bold;
+}
+.THIS .ssi-pi-name {
+    color: #999999;
+    font-size: 13px;
+}
+.THIS .ssi-site-type {
+    color: #999999;
+    font-size: 14px;
+}
+.THIS .ssi-site-distance{
+    color: #999999;
+    font-size: 14px;
+}
+.THIS .ssi-address{
+    color: #333333;
+    font-size: 13px;
+}
+
+@media all and (min-width: 768px){
+    .THIS .ssi-site-distance,
+    .THIS .ssi-site-type{
+        text-align: right;
+    }
+}

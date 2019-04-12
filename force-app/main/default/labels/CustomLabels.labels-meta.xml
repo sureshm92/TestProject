@@ -52,7 +52,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Admin</shortDescription>
-        <value>IQVI Admin</value>
+        <value>IQVIA Admin</value>
     </labels>
     <labels>
         <fullName>BTN_Accept</fullName>

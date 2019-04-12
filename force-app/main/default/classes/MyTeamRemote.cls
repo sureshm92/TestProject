@@ -182,7 +182,7 @@ public without sharing class MyTeamRemote {
                 delegateContacts = delegatesToProcess;
             }
             else {
-                delegateContacts = PatientDelegateService.getDelegateContacts();
+                delegateContacts = PatientDelegateService.getInstance().getDelegates();
             }
 
             for (Contact patientDelegate : delegateContacts) {
@@ -349,7 +349,7 @@ public without sharing class MyTeamRemote {
             }
 
             if (dw.delegateContact.userCommunytyType__c == null) {
-                PatientDelegateService.createPatientDelegate(dw.delegateContact);
+                PatientDelegateService.getInstance().createPatientDelegate(dw.delegateContact);
                 if(!isNewContact)sendEmailNotification(dw.delegateContact);
             } else {
                 AuraHelper.throwException(new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign));
@@ -363,7 +363,7 @@ public without sharing class MyTeamRemote {
     @AuraEnabled
     public static String getPatientDelegateByContactId(String id) {
         Patient_Delegate__c foundDelegate;
-        for (Patient_Delegate__c delegate : PatientDelegateService.getPatientDelegates())
+        for (Patient_Delegate__c delegate : PatientDelegateService.getInstance().getPDelegates())
             if (delegate.Contact__c.equals(id))
                 foundDelegate = delegate;
 
@@ -377,7 +377,7 @@ public without sharing class MyTeamRemote {
     public static void editPatientDelegateDetail(String delegate) {
         try{
             Contact editedDelegate =  (Contact) JSON.deserialize(delegate, Contact.class);
-            if(PatientDelegateService.getDelegatedContactIds().contains(editedDelegate.Id)) {
+            if(PatientDelegateService.getInstance().getDelegatedContactIds().contains(editedDelegate.Id)) {
                 update editedDelegate;
             }
             else {
@@ -393,7 +393,7 @@ public without sharing class MyTeamRemote {
     public static void removePatientDelegate(String delegate) {
         try{
             Contact delegateContact = (Contact) JSON.deserialize(delegate, Contact.class);
-            PatientDelegateService.resetDelegate(delegateContact);
+            PatientDelegateService.getInstance().resetDelegate(delegateContact);
         }catch (Exception e) {
             AuraHelper.throwException(e);
         }

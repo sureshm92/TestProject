@@ -48,7 +48,7 @@ public without sharing class TaskService {
         if(!ParticipantService.getParticipantState().isDelegate){
             ownerFilter = ' OwnerId = \'' + UserInfo.getUserId() + '\'';
         } else {
-            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getDelegatePatientUserId() + '\'';
+            ownerFilter = ' OwnerId = \'' + PatientDelegateService.getInstance().getParticipantUserId() + '\'';
         }
         if(filter == null) {
             filter = ownerFilter;

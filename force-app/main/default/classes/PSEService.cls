@@ -64,6 +64,31 @@ public without sharing class PSEService {
             'Motivational_Message_Id__c'
     };
     
+    private static PSEService instance;
+    
+    public static PSEService getInstance(){
+        if(instance == null) instance = new PSEService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (PSEService) Test.createStub(PSEService.class, stubProvider);
+    }
+    
+    public List<Participant_Study_Enrollment__c> getPSEListCommon(String userMode, String filter){
+        return getPSECommon(userMode, filter);
+    }
+    
+    public List<Participant_Study_Enrollment__c> getPSEListWithCustomFields(String userMode, List<String> customFields, String filter){
+        return getPSECustomFields(userMode, customFields, filter);
+    }
+    
+    public List<Participant_Study_Enrollment__c> getPSEListForCurrentParticipant(){
+        return getPSEListCommon(CommunityService.USER_MODE_PARTICIPANT, null);
+    }
+    
+    //Old Static logic: ------------------------------------------------------------------------------------------------
+    
     public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){
         return getPSECustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
     }
@@ -75,7 +100,7 @@ public without sharing class PSEService {
                 ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
         if(filter != null) query += ' ' + filter;
         System.debug('EXECUTE QUERY: ' + query);
-        List<Participant_Study_Enrollment__c> pseList = Database.query(query);
+        List<Participant_Study_Enrollment__c> pseList = DatabaseService.getInstance().query(query);
         TranslateHelper.translate(pseList);
         return pseList;
     }
@@ -84,28 +109,29 @@ public without sharing class PSEService {
         return getPSECommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
     
+    @TestVisible
     private static String getUserModeFilter(String userMode){
         String delegatesFilter = '';
         if (userMode == CommunityService.USER_MODE_PI) {
             List<Id> delegatedSSIds = DelegateService.getDelegatedStudySiteIds();
             if(delegatedSSIds.size() > 0) delegatesFilter = ' OR Study_Site__c IN (\'' + String.join(delegatedSSIds, '\',\'') + '\')' ;
             return '( ' +
-                    '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                    '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\' ' +
                     delegatesFilter +
                     ') ';
         } else if(userMode == CommunityService.USER_MODE_HCP) {
             List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
             if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
             return '(' +
-                    '   HCP__r.HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
+                    '   HCP__r.HCP_Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\'' +
                     delegatesFilter +
                     ') ';
         } else{
-            if(PatientDelegateService.isDelegate){
-                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            if(PatientDelegateService.getInstance().isDelegate()){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
             }
             return '( ' +
-                    '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                    '   Participant__r.Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\' ' +
                     delegatesFilter +
                     ')';
         }
