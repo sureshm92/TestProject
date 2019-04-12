@@ -101,7 +101,6 @@ public without sharing class StudyListViewController {
 
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialHCPEnrollmentMap.keySet());
-        Map<Id, Boolean> termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
         //prepare list of studies:
         List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {

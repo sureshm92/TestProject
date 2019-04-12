@@ -15,9 +15,9 @@
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
 
-            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                <div class="slvi-top-container-hcp slvi-section">
-                    <!-- Name: -->
+        <aura:if isTrue="{!v.userMode == 'HCP'}">
+            <div class="slvi-top-container-hcp slvi-section">
+                <!-- Name: -->
                 <div class="slvi-name-section-hcp">
                     <div class="slds-grid slds-wrap">
                         <div class="slds-col slds-medium-size_10-of-12 slds-size_1-of-1 study-name">
@@ -64,10 +64,10 @@
 
                 </div>
             </div>
-            </aura:if>
+        </aura:if>
 
-            <aura:if isTrue="{!v.userMode != 'HCP'}">
-                <div class="slvi-top-container slvi-section">
+        <aura:if isTrue="{!v.userMode != 'HCP'}">
+            <div class="slvi-top-container slvi-section">
                 <div class="slvi-name-section">
                     <div class="study-name">
                         <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
@@ -75,9 +75,8 @@
                     </div>
 
 
-
                     <!-- Status: -->
-                        <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
+                    <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
                             {!v.currentStudy.trialRecruitmentStatusLabel}
                         </div>
                 </div>
@@ -92,9 +91,9 @@
                         </c:RRLink>
                     </div>
                 </div>
-                </div>
+            </div>
 
-            </aura:if>
+        </aura:if>
 
         <!-- PI statistics: -->
         <c:StudyTotalPassed userMode="{!v.userMode}" statistics="{!v.currentStudy.statistics}" class="slvi-section"/>
@@ -152,7 +151,9 @@
                                 <div style="float: left;">
                                     <c:RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/>
                                 </div>
-                                <div>Nearest site: <aura:unescapedHtml value="{!v.currentStudy.distance}"/></div>
+                                <div>Nearest site:
+                                    <aura:unescapedHtml value="{!v.currentStudy.distance}"/>
+                                </div>
                             </aura:if>
                         </div>
                     </div>
@@ -169,9 +170,12 @@
                                 slds-order_1 slds-medium-order_4 slds-m-vertical_x-small">
                         <div class="slvi-status-item">
                             <div style="float: left;">
-                                <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}" iconName="{!v.currentStudy.trial.statusIcon}"/>
+                                <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}"
+                                          iconName="{!v.currentStudy.trial.statusIcon}"/>
                             </div>
-                            <div>{!v.currentStudy.trial.Override_Recruitment_Status__c}</div>
+                            <div class="slvi-status">
+                                {!v.currentStudy.trialRecruitmentStatusLabel}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -192,7 +196,9 @@
                                     <div class="site-sub-header site-distance">
                                         {!siteWrapper.siteType + 'Site'}
                                     </div>
-                                    <div class="site-sub-header slds-m-topxx-small site-distance"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
+                                    <div class="site-sub-header slds-m-topxx-small site-distance">
+                                        <aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
@@ -215,23 +221,24 @@
                                     <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                                         <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
-                                                <div class="slds-col slds-size_1-of-2">
-                                                    <aura:if isTrue="{!siteWrapper.hasPatients}">
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <aura:if isTrue="{!siteWrapper.hasPatients}">
 
-                                                        <button data-site-id="{!siteWrapper.site.Id}"
-                                                                class="apollo-btn primary slvi-site-btn"
-                                                                style="background-color: white; color: #297DFD; box-shadow: none;"
-                                                                onclick="{!c.doMyPatients}">
-                                                            {!$Label.c.BTN_My_Patients}
-                                                        </button>
-                                                    </aura:if>
-                                                </div>
+                                                    <button data-site-id="{!siteWrapper.site.Id}"
+                                                            class="apollo-btn primary slvi-site-btn"
+                                                            style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                            onclick="{!c.doMyPatients}">
+                                                        {!$Label.c.BTN_My_Patients}
+                                                    </button>
+                                                </aura:if>
+                                            </div>
                                             <div class="slds-col slds-size_1-of-2">
                                                 <button data-hcpe-id="{!siteWrapper.hcpe.Id}"
-                                                        class="apollo-btn primary slvi-site-btn" onclick="{!c.doReferPatient}"
+                                                        class="apollo-btn primary slvi-site-btn"
+                                                        onclick="{!c.doReferPatient}"
                                                         disabled="{!siteWrapper.actions.refer.disabled}"
                                                         title="{!siteWrapper.actions.refer.disableReason}">
-                                                        {!$Label.c.BTN_Refer_a_Patient}
+                                                    {!$Label.c.BTN_Refer_a_Patient}
                                                 </button>
                                             </div>
                                         </aura:if>
@@ -246,7 +253,7 @@
                                                     {!siteWrapper.hcpe.Status__c}
                                                 </button>
                                             </div>
-                                    </aura:if>
+                                        </aura:if>
                                     </div>
                                 </div>
                             </div>
@@ -254,12 +261,15 @@
                     </aura:iteration>
 
                     <div class="slds-p-around--medium">
-                        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center" style="min-height: 100%;">
+                        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
+                             style="min-height: 100%;">
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
                                 <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
                             </div>
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
-                                <button class="apollo-btn primary slvi-search-site-btn" onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study</button>
+                                <button class="apollo-btn primary slvi-search-site-btn"
+                                        onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -71,6 +71,22 @@ public without sharing class StudyTrialService {
         public PaginationData paginationData;
     }
 
+    private static List<LabelValueItem> studyEnrollmentStatuses = null;
+    public static List<LabelValueItem> getStudyEnrollmentStatuses {
+        get {
+            if (studyEnrollmentStatuses == null) {
+                List<LabelValueItem> enrollmentStatuses = new List<LabelValueItem>();
+                Schema.DescribeFieldResult statusDescribe = Clinical_Trial_Profile__c.Override_Recruitment_Status__c.getDescribe();
+                for (Schema.PicklistEntry currPicklistEntry : statusDescribe.getPicklistValues()) {
+                    enrollmentStatuses.add(new LabelValueItem(currPicklistEntry.getLabel(), currPicklistEntry.getValue()));
+                }
+
+                studyEnrollmentStatuses = enrollmentStatuses;
+            }
+            return studyEnrollmentStatuses;
+        }
+    }
+
     public static StudyFilterData getStudyFilterData() {
         StudyFilterData filterData = new StudyFilterData();
 
@@ -88,13 +104,8 @@ public without sharing class StudyTrialService {
         }
         filterData.therapeuticAreas = taOptions;
 
-        filterData.enrollmentStatus = 'Actively Enrolling';
-        filterData.enrollmentStatuses = new List<LabelValueItem>{
-                new LabelValueItem('Actively Enrolling', 'Actively Enrolling'),
-                new LabelValueItem('On Hold', 'On Hold'),
-                new LabelValueItem('Enrollment Closed', 'Enrollment Closed'),
-                new LabelValueItem('No Longer Enrolling', 'No_Longer_Enrolling')
-        };
+        filterData.enrollmentStatuses = getStudyEnrollmentStatuses;
+        filterData.enrollmentStatus = getStudyEnrollmentStatuses[0].value;
 
         return filterData;
     }
@@ -125,6 +136,7 @@ public without sharing class StudyTrialService {
             studies = searchStudiesGlobal(filterData, sortData, paginationData);
         } else {
             studies = getStudies(filterData, sortData, paginationData);
+            System.debug('studies12: ' + JSON.serializePretty(studies));
         }
 
         SearchResults sr = new SearchResults();
@@ -295,8 +307,9 @@ public without sharing class StudyTrialService {
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
         siteFilter.sortType = 'Distance-virtual-last';
+        siteFilter.onlyAcceptedSites = false;
         List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
-        System.debug('strudy Sites:' + studySites);
+
         Map<Id, List<StudySiteService.StudySiteDistanceWrapper>> trialStudyMap = new Map<Id, List<StudySiteService.StudySiteDistanceWrapper>>();
         for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studySites) {
             if (!trialStudyMap.containsKey(siteWrapper.site.Clinical_Trial_Profile__c)) {
