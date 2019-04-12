@@ -21,7 +21,8 @@ public without sharing class AccountSettingsController {
                     initData.participant = [
                             SELECT Id, First_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
-                                    Mailing_Country_Code__c, Mailing_State_Code__c
+                                    Mailing_Country_Code__c, Mailing_State_Code__c,
+                                    Gender__c, Date_of_Birth__c, Initials__c
                             FROM Participant__c
                             WHERE Contact__c = :initData.myContact.Id
                     ];
@@ -46,6 +47,16 @@ public without sharing class AccountSettingsController {
             return JSON.serialize(initData);
         } catch (Exception e) {
             System.debug(e);
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
+    public static void updateParticipant(String participantJSON) {
+        try {
+            Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            upsert participant;
+        }  catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
@@ -104,10 +115,13 @@ public without sharing class AccountSettingsController {
 
     private static Contact fillParticipantContact(Contact pContact) {
         List<Participant__c> pList = [
-                SELECT First_Name__c
-                        , Last_Name__c
-                FROM Participant__c
-                WHERE Contact__c = :pContact.Id
+                SELECT  First_Name__c,
+                        Last_Name__c,
+                        Initials__c,
+                        Gender__c,
+                        Date_of_Birth__c
+                FROM    Participant__c
+                WHERE   Contact__c = :pContact.Id
         ];
         if (!pList.isEmpty()) {
             pContact.FirstName = pList[0].First_Name__c;

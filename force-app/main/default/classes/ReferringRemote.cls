@@ -14,6 +14,7 @@ public without sharing class ReferringRemote {
         public List<AccountWrapper> markers;
         public Map<String, StudyActions.Action> actions;
         public List<LabelValueItem> countries;
+        public List<LabelValueItem> genders;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
     }
 
@@ -76,6 +77,7 @@ public without sharing class ReferringRemote {
 //            aw.clinic = site;
 //            initData.studies.add(aw);
             initData.countries = CountryStateUtil.getCountries();
+            initData.genders = getGenders();
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             return JSON.serialize(initData);
         }catch (Exception e){
@@ -167,6 +169,12 @@ public without sharing class ReferringRemote {
             User.CountryCode,
             User.StateCode
     );
-    
+
+    private static List<LabelValueItem> getGenders(){
+        List<LabelValueItem> genders = new List<LabelValueItem>();
+        genders.add(new LabelValueItem(Label.Gender_Male, Label.Gender_Male));
+        genders.add(new LabelValueItem(Label.Gender_Female, Label.Gender_Female));
+        return genders;
+    }
     
 }
