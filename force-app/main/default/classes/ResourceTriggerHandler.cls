@@ -8,12 +8,14 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         ArticleService articleService = (ArticleService) ClassFactory.newInstance(ArticleService.class);
         articleService.addDefaultImage(newList);
         articleService.calculateExpirationDate(newList);
+        articleService.validateUpdatedDate(newList);
     }
 
     public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
         ArticleService articleService = (ArticleService) ClassFactory.newInstance(ArticleService.class);
         articleService.addDefaultImage(newList);
         articleService.calculateExpirationDate(newList, (Map<Id, Resource__c>) oldMap);
+        articleService.validateUpdatedDate(newList);
     }
 
     public override void afterInsert(List<SObject> newList) {

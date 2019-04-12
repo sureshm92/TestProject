@@ -9,12 +9,12 @@
 			let resourceType = component.get("v.resourceType");
 
 			communityService.executeAction(component, 'getResources', {
-				resourceType: component.get('v.resourceType'),
-				resourceMode: component.get('v.resourceMode')
+				resourceType: resourceType,
+				resourceMode: resourceMode
 			}, function (returnValue) {
 				if(!returnValue.errorMessage) {
 					returnValue = helper.trimLongText(returnValue);
-					component.set("v.resources", returnValue.wrappers);
+					component.set("v.resourceWrappers", returnValue.wrappers);
 					component.set("v.errorMessage", "");
 				} else {
 					component.set("v.errorMessage", returnValue.errorMessage);
