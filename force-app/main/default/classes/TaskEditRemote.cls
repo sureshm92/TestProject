@@ -13,7 +13,7 @@ public without sharing class TaskEditRemote {
         
         public TaskEditDataWrapper(){
             task = new Task();
-            List<Contact> delegates = PatientDelegateService.getDelegateContacts();
+            List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
             taskTypeList = getTaskTypeList();
             isReferral = ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.REFERRAL;
@@ -34,7 +34,7 @@ public without sharing class TaskEditRemote {
         try{
             Boolean isDelegate = ParticipantService.getParticipantState().isDelegate;
             if(isDelegate){
-                paramTask.OwnerId = PatientDelegateService.getDelegatePatientUserId();
+                paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
             } else{
                 paramTask.OwnerId = UserInfo.getUserId();
             }
@@ -75,7 +75,7 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        return PatientDelegateService.participant.Contact__r.Participant_Opt_In_Status_Emails__c;
+        return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
     private static List<String> getTaskTypeList(){

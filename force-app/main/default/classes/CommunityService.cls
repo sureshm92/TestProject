@@ -26,7 +26,6 @@ public without sharing class CommunityService {
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
-    public static final String USER_MODE_DELEGATE = 'Delegate';
 
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
@@ -36,7 +35,24 @@ public without sharing class CommunityService {
 
     //hold contact instance:
     private static Contact userContact;
-
+    
+    private static CommunityService instance;
+    
+    public static CommunityService getInstance(){
+        if(instance == null) instance = new CommunityService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (CommunityService) Test.createStub(CommunityService.class, stubProvider);
+    }
+    
+    public Id getCurrentContactId(){
+        return CommunityService.getUserContact().Id;
+    }
+    
+    //Old static logic: ------------------------------------------------------------------------------------------------
+    
     public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
