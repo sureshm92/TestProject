@@ -52,6 +52,30 @@ public with sharing class Test_ArticleService {
         System.assertEquals(Date.today(), test.Posting_Date__c);
         System.assertEquals(Date.today().addMonths(12), test.Expiration_Date__c);
     }
+    @IsTest
+    public static void validateDateTestUpdateDateEqPostingDate() {
+        Resource__c test = getResource(Date.today(), Date.today().addDays(-12), false);
+        test.Updated_Date__c = Date.today();
+        insert test;
+        test = getSelectResource(test.Id);
+        System.assertEquals(null, test.Updated_Date__c);
+        test.Updated_Date__c = Date.today().addDays(2);
+        update test;
+        System.assertEquals(Date.today().addDays(2), test.Updated_Date__c);
+    }
+
+    @IsTest
+    public static void validateDateUpdateDateNotEqPostingDate() {
+        Resource__c test = getResource(Date.today(), Date.today().addDays(-12), false);
+        test.Updated_Date__c = Date.today().addDays(2);
+        insert test;
+        test = getSelectResource(test.Id);
+        System.assertEquals(Date.today().addDays(2), test.Updated_Date__c);
+        test.Updated_Date__c = null;
+        update test;
+        test = getSelectResource(test.Id);
+        System.assertEquals(null, test.Updated_Date__c);
+    }
 
     @IsTest
     public static void testDefaultLogoHealthDay() {
@@ -159,7 +183,11 @@ public with sharing class Test_ArticleService {
 
     }
 
-    private static Resource__c getResource(Date publishDate, Date expDate, String imagePath, String x3PartySource) {
+    private static Resource__c getResource(Date publishDate
+            , Date expDate
+            , String imagePath
+            , String x3PartySource
+            , Boolean iscreate) {
         Resource__c res = new Resource__c(
                 Name = 'Res-Tes',
                 Posting_Date__c = publishDate,
@@ -170,19 +198,24 @@ public with sharing class Test_ArticleService {
                 X3rd_Party_Source__c = x3PartySource
 
         );
-        insert res;
+        if (iscreate) {
+            insert res;
+        }
         return res;
     }
     private static Resource__c getResource(Date publishDate, Date expDate) {
-        return getResource(publishDate, expDate, null, null);
+        return getResource(publishDate, expDate, null, null, true);
+    }
+    private static Resource__c getResource(Date publishDate, Date expDate, Boolean isCreate) {
+        return getResource(publishDate, expDate, null, null, isCreate);
     }
 
     private static Resource__c getResource() {
-        return getResource(null, null, null, null);
+        return getResource(null, null, null, null, true);
     }
 
     private static Resource__c getResource(String imagePath, String x3rdPartySource) {
-        return getResource(null, null, imagePath, x3rdPartySource);
+        return getResource(null, null, imagePath, x3rdPartySource, true);
     }
 
     private static void updateResource(Resource__c resource, Date publishDate, Date expDate) {
@@ -202,7 +235,8 @@ public with sharing class Test_ArticleService {
                         Posting_Date__c,
                         Expiration_Date__c,
                         Image__c,
-                        X3rd_Party_Source__c
+                        X3rd_Party_Source__c,
+                        Updated_Date__c
                 FROM Resource__c
                 WHERE Id = :idRes
         ];
