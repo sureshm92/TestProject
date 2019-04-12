@@ -25,14 +25,16 @@ public without sharing class TaskEditRemote {
     @AuraEnabled
     public static TaskEditDataWrapper getTaskEditData(Id taskId){
         TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
-        if(taskId != null) wrapper.task = TaskService.getInstance().getTask(taskId);
+        if(taskId != null) {
+            wrapper.task = TaskService.getInstance().getTask(taskId);
+        }
         return wrapper;
     }
 
     @AuraEnabled
     public static String upsertTask(Task paramTask) {
         try{
-            Boolean isDelegate = ParticipantService.getParticipantState().isDelegate;
+            Boolean isDelegate = ParticipantService.getInstance().getState().isDelegate;
             if(isDelegate){
                 paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
             } else{
@@ -41,11 +43,13 @@ public without sharing class TaskEditRemote {
             if (paramTask.Visible_For__c == null) {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }
-            if(paramTask.Task_Type__c == 'Medication' && paramTask.Task_Type__c == 'Visit'){
-                paramTask.WhatId = ParticipantService.getParticipantState().pse.Id;
+            if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
+                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
             }
+            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
+            System.debug(e.getLineNumber());
             AuraHelper.throwException(e);
         }
         return 'Success';

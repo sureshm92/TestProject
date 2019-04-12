@@ -25,7 +25,10 @@ private class  Test_TaskEditRemote {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
             if(stubbedMethodName == 'getState'){
-                return new ParticipantService.ParticipantState();
+                Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c();
+                ParticipantService.ParticipantState state = new ParticipantService.ParticipantState();
+                state.pse = pse;
+                return state;
             }
             return null;
         }
@@ -42,12 +45,32 @@ private class  Test_TaskEditRemote {
         }
     }
 
+    public class TaskServiceMock implements System.StubProvider {
+
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'getTask') {
+                return new Task();
+            }
+            return null;
+        }
+    }
+
     @IsTest
     static void getInitTaskEditDataWrapper() {
         PatientDelegateService.setMock(new PatientDelegateServiceMock());
         ParticipantService.setMock(new ParticipantServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
+        TaskService.setMock(new TaskServiceMock());
+        Task task = new Task();
+        task.Subject = 'test';
+        task.Task_Type__c = 'Medication';
+        insert task;
         TaskEditRemote.TaskEditDataWrapper wrapper = new TaskEditRemote.TaskEditDataWrapper();
+        TaskEditRemote.getTaskEditData(task.Id);
+        TaskEditRemote.upsertTask(task);
+        TaskEditRemote.markAsCompleted(task);
+        TaskEditRemote.deleteTask(task);
     }
 
 }

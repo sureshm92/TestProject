@@ -293,11 +293,10 @@
                                                              required="true" onblur="{!c.doCheckfields}"/>
                                         </div>
                                         <div class="rr-form-element">
-                                            <lightning:input type="text" label="{!$Label.c.PG_AS_F_Last_name}" value="{!v.participant.Last_Name__c}"
-                                                             required="true" onblur="{!c.doCheckfields}"/>
+                                            <lightning:input type="text" label="{!$Label.c.PG_AS_F_Middle_name}" value="{!v.participant.Middle_Name__c}"/>
                                         </div>
                                         <div class="rr-form-element">
-                                            <lightning:input type="text" label="{!$Label.c.PG_AS_F_Initials}" value="{!v.participant.Initials__c}"
+                                            <lightning:input type="text" label="{!$Label.c.PG_AS_F_Last_name}" value="{!v.participant.Last_Name__c}"
                                                              required="true" onblur="{!c.doCheckfields}"/>
                                         </div>
                                         <div class="slds-grid slds-gutters slds-wrap rr-form-element">
