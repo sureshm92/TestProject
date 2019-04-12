@@ -161,7 +161,6 @@ public with sharing class Test_ArticleService {
 
     private static Resource__c getResource(Date publishDate, Date expDate, String imagePath, String x3PartySource) {
         Resource__c res = new Resource__c(
-                Name = 'Res-Tes',
                 Posting_Date__c = publishDate,
                 Expiration_Date__c = expDate,
                 Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
