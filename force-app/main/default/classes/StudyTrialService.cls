@@ -148,7 +148,7 @@ public without sharing class StudyTrialService {
         Location userLocation = DistanceHelper.getUserLocation();
 
         String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
-        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'Actively Enrolling\') ';
+        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'Actively Enrolling\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\') ';
 
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY Clinical_Trial_Profile__r.CreatedDate DESC ';
@@ -306,7 +306,7 @@ public without sharing class StudyTrialService {
 
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData, paginationData);
-        paginationData.setRecordsCount(trials.size());
+
 
         // prepare list of studies:
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
@@ -376,16 +376,8 @@ public without sharing class StudyTrialService {
         }
         List<Clinical_Trial_Profile__c> trials = Database.query(trialQuery);
 
-        List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
-        Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
-        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, trials.size());
-        for (Integer i = leftRecord; i < rightRecord; i++) {
-            trialsOnPage.add(trials[i]);
-        }
-
-
         List<Clinical_Trial_Profile__c> records = new List<Clinical_Trial_Profile__c>();
-        for (Clinical_Trial_Profile__c currTrial : trialsOnPage) {
+        for (Clinical_Trial_Profile__c currTrial : trials) {
 
             Boolean isMatchTerm = true;
             if (String.isNotBlank(filterData.searchText)) {
@@ -417,8 +409,14 @@ public without sharing class StudyTrialService {
                 records.add(currTrial);
             }
         }
-
-        return records;
+        paginationData.setRecordsCount(records.size());
+        List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
+        Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
+        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, trials.size());
+        for (Integer i = leftRecord; i < rightRecord; i++) {
+            trialsOnPage.add(records[i]);
+        }
+        return trialsOnPage;
     }
 
     public static List<Clinical_Trial_Profile__c> getFullTrials(Set<Id> trialsId) {

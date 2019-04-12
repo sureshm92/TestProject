@@ -37,6 +37,7 @@
             debugger;
             let pagination = cmp.get('v.paginationData');
             pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            pagination.currentPageCount = result.paginationData.currentPageCount;
             pagination.currentPage = result.paginationData.currentPage;
             cmp.set('v.paginationData', pagination);
 

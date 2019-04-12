@@ -240,14 +240,17 @@
                                     <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                                         <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
-                                            <div class="slds-col slds-size_1-of-2">
-                                                <button data-site-id="{!siteWrapper.site.Id}"
-                                                        class="apollo-btn primary slvi-site-btn"
-                                                        style="background-color: white; color: #297DFD; box-shadow: none;"
-                                                        onclick="{!c.doMyPatients}">
-                                                    {!$Label.c.BTN_My_Patients}
-                                                </button>
-                                            </div>
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <aura:if isTrue="{!siteWrapper.hasPatients}">
+
+                                                        <button data-site-id="{!siteWrapper.site.Id}"
+                                                                class="apollo-btn primary slvi-site-btn"
+                                                                style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                                onclick="{!c.doMyPatients}">
+                                                            {!$Label.c.BTN_My_Patients}
+                                                        </button>
+                                                    </aura:if>
+                                                </div>
                                             <div class="slds-col slds-size_1-of-2">
                                                 <button data-hcpe-id="{!siteWrapper.hcpe.Id}"
                                                         class="apollo-btn primary slvi-site-btn" onclick="{!c.doReferPatient}"

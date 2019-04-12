@@ -66,6 +66,7 @@
                                sortType="{!v.sortData.sortType}"
                                sortVariants="{!v.sortData.sortVariants}"
                                allRecordsCount="{!v.paginationData.allRecordsCount}"
+                               currentPageCount="{!v.paginationData.currentPageCount}"
                                itemTitle="studies">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"

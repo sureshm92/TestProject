@@ -248,10 +248,12 @@ public without sharing class StudySiteService {
         public HCP_Enrollment__c hcpe;
         public Map<String, StudyActions.Action> actions;
         public String sortType;
+        public Boolean hasPatients;
 
-        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType){
+        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, Boolean hasPatients){
             this.site = site;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+            this.hasPatients = hasPatients;
             this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
             if(sortType != null && sortType != ''){
                 this.sortType = sortType;
@@ -312,8 +314,11 @@ public without sharing class StudySiteService {
         List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
+        Set<Id> siteIds = new Set<Id>();
+        Set<Id> siteWithPatientsIds = new Set<Id>();
         for(Study_Site__c site : siteList){
             quueriedTrials.add(site.Clinical_Trial_Profile__c);
+            siteIds.add(site.Id);
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
@@ -321,9 +326,18 @@ public without sharing class StudySiteService {
         for(HCP_Enrollment__c hcpe: enrollments){
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
+        for(Participant_Enrollment__c pe : [
+                SELECT Id, Study_Site__c
+                FROM Participant_Enrollment__c
+                WHERE Study_Site__c IN :siteIds
+                AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
+                :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+                :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)]){
+            siteWithPatientsIds.add(pe.Study_Site__c);
+        }
         for(Study_Site__c site : siteList){
             if(site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType );
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id) );
                 result.add(siteWrapper);
             }
         }
