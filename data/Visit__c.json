@@ -1,0 +1,44 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef1"
+            },
+            "Name": "Visit 1 Physical",
+            "Timeplane__c": "Week 1",
+            "Icons__c": "Questions;Physical_examination;Urine_test",
+            "Visit_Plan__c": "@vsp"
+        },
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef2"
+            },
+            "Name": "Clinical Visit 1",
+            "Timeplane__c": "Week 3",
+            "Icons__c": "Questions;Physical_examination;Urine_test;Receive_study_medication;No_food_or_drink",
+            "Visit_Plan__c": "@vsp"
+        },
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef3"
+            },
+            "Name": "Visit 2 Lab Visit",
+            "Timeplane__c": "Week 2",
+            "Icons__c": "Blood_tests;Urine_test",
+            "Visit_Plan__c": "@vsp"
+        },
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef4"
+            },
+            "Name": "Clinical Visit 2",
+            "Timeplane__c": "Week 4",
+            "Icons__c": "Questions;Physical_examination;Receive_study_medication",
+            "Visit_Plan__c": "@vsp"
+        }
+    ]
+}

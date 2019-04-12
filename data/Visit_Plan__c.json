@@ -1,0 +1,12 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Visit_Plan__c",
+                "referenceId": "vsp"
+            },
+            "Name": "Plan",
+            "Clinical_Trial_Profile__c": "@ctp1"
+        }
+    ]
+}

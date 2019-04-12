@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Icons__c</fullName>
+    <externalId>false</externalId>
+    <label>Icons</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Questions</fullName>
+                <default>true</default>
+                <label>Questions about your health and medications</label>
+            </value>
+            <value>
+                <fullName>Electrocardiogram</fullName>
+                <default>false</default>
+                <label>Electrocardiogram (ECG)</label>
+            </value>
+            <value>
+                <fullName>Vital_signs_weight_and_height</fullName>
+                <default>false</default>
+                <label>Vital signs, weight and height</label>
+            </value>
+            <value>
+                <fullName>Blood_tests</fullName>
+                <default>false</default>
+                <label>Blood tests</label>
+            </value>
+            <value>
+                <fullName>Urine_test</fullName>
+                <default>false</default>
+                <label>Urine test</label>
+            </value>
+            <value>
+                <fullName>Pregnancy_test</fullName>
+                <default>false</default>
+                <label>Pregnancy test</label>
+            </value>
+            <value>
+                <fullName>Receive_study_medication</fullName>
+                <default>false</default>
+                <label>Receive study medication</label>
+            </value>
+            <value>
+                <fullName>Return_study_medication</fullName>
+                <default>false</default>
+                <label>Return study medication</label>
+            </value>
+            <value>
+                <fullName>No_food_or_drink</fullName>
+                <default>false</default>
+                <label>No food or drink except water for 10 hours prior to visit</label>
+            </value>
+            <value>
+                <fullName>Physical_examination</fullName>
+                <default>false</default>
+                <label>Physical examination</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -62,6 +62,9 @@
 
     setTabActions: function (component) {
         var tabs = component.get('v.studyDetail.tabs');
+        if(!tabs) {
+            return;
+        }
         var currTab = component.get('v.currentTab');
         for(var tab of tabs) {
             if(tab.id === currTab) {

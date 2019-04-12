@@ -2,6 +2,13 @@
  * Created by Igor Malyuta on 08.04.2019.
  */
 ({
+    doInit : function(component, event, helper) {
+        communityService.executeAction(component, 'getVisitsPreview', null, function(response) {
+            component.set('v.visits', JSON.parse(response));
+            component.find('spinner').hide();
+        });
+    },
+
     onBookTravel : function (component, event, helper) {
         component.find('popup').show();
     },
