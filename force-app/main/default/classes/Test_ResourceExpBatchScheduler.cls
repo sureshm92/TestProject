@@ -20,7 +20,6 @@ public with sharing class Test_ResourceExpBatchScheduler {
         Date publish = expDate.addYears(-1);
         for (Integer i = 0; i < 10; i++) {
             Resource__c res = new Resource__c(
-                    Name = 'Res '+ i,
                     Expiration_Date__c = expDate,
                     Posting_Date__c = publish,
                     Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
