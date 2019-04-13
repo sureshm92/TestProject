@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class PSEStatusHistoryTriggerHandler {
+public without sharing class PSEStatusHistoryTriggerHandler {
     
     // Handlers: -------------------------------------------------------------------------------------------------------
     

@@ -75,37 +75,37 @@ public without sharing class PSEService {
     }
     
     public List<Participant_Study_Enrollment__c> getPSEListCommon(String userMode, String filter){
-        return getPSECommon(userMode, filter);
+        return getPSEListWithCustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
     }
     
     public List<Participant_Study_Enrollment__c> getPSEListWithCustomFields(String userMode, List<String> customFields, String filter){
-        return getPSECustomFields(userMode, customFields, filter);
+        String defaultFilter = 'Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
+        if(filter != null) defaultFilter += ' ' + filter;
+        List<Participant_Study_Enrollment__c> pseList = DatabaseService.query(
+                customFields,
+                Participant_Study_Enrollment__c.getSObjectType(),
+                defaultFilter
+        );
+        TranslateHelper.translate(pseList);
+        return pseList;
     }
     
     public List<Participant_Study_Enrollment__c> getPSEListForCurrentParticipant(){
         return getPSEListCommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
     
-    //Old Static logic: ------------------------------------------------------------------------------------------------
+    //Static facade: ------------------------------------------------------------------------------------------------
     
     public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){
-        return getPSECustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
+        return getInstance().getPSEListCommon(userMode, filter);
     }
     
     public static List<Participant_Study_Enrollment__c> getPSECustomFields(String userMode, List<String> customFields, String filter){
-        String query =
-                'SELECT ' + String.join(customFields, ',') +
-                ' FROM Participant_Study_Enrollment__c ' +
-                ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
-        if(filter != null) query += ' ' + filter;
-        System.debug('EXECUTE QUERY: ' + query);
-        List<Participant_Study_Enrollment__c> pseList = DatabaseService.getInstance().query(query);
-        TranslateHelper.translate(pseList);
-        return pseList;
+        return getInstance().getPSEListWithCustomFields(userMode, customFields, filter);
     }
     
     public static List<Participant_Study_Enrollment__c> getPSEListForParticipant(){
-        return getPSECommon(CommunityService.USER_MODE_PARTICIPANT, null);
+        return getInstance().getPSEListForCurrentParticipant();
     }
     
     @TestVisible

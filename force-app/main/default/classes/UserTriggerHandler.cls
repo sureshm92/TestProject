@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class UserTriggerHandler {
+public without sharing class UserTriggerHandler {
     
     // Handlers: -------------------------------------------------------------------------------------------------------
     

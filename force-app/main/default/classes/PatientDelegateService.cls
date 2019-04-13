@@ -6,9 +6,9 @@ public class PatientDelegateService {
     
     public class PatientDelegateServiceException extends Exception {}
     
-    public List<Contact> delegates = new List<Contact>();
-    public Boolean isDelegate;
-    public Participant__c participant;
+    private List<Contact> delegates = new List<Contact>();
+    private Boolean isDelegate;
+    private Participant__c participant;
     
     private static PatientDelegateService instance;
     
@@ -22,31 +22,33 @@ public class PatientDelegateService {
     }
     
     public PatientDelegateService(){
-        List<Patient_Delegate__c> participantsPDList = [
-                SELECT
-                        Id,
-                        Participant__r.Contact__c,
-                        Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Participant__r.First_Name__c,
-                        Participant__r.Last_Name__c,
-                        Contact__c
-                FROM Patient_Delegate__c
-                WHERE Contact__c = :CommunityService.getUserContact().Id
-        ];
+        List<Patient_Delegate__c> participantsPDList = DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Participant__r.Contact__c',
+                        'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Participant__r.First_Name__c',
+                        'Participant__r.Last_Name__c',
+                        'Contact__c'
+                },
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
+        );
         isDelegate = participantsPDList.size() > 0;
         if (isDelegate) {
             participant = participantsPDList[0].Participant__r;
         } else {
-            List<Participant__c> participants = [
-                    SELECT
-                            Id,
-                            First_Name__c,
-                            Last_Name__c,
-                            Contact__c,
-                            Contact__r.Participant_Opt_In_Status_Emails__c
-                    FROM Participant__c
-                    WHERE Contact__c = :CommunityService.getUserContact().Id
-            ];
+            List<Participant__c> participants = DatabaseService.query(
+                    new List<String>{
+                            'Id',
+                            'First_Name__c',
+                            'Last_Name__c',
+                            'Contact__c',
+                            'Contact__r.Participant_Opt_In_Status_Emails__c'
+                    },
+                    Participant__c.getSObjectType(),
+                    DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
+            );
             if(participants.size() > 0) participant = participants[0];
         }
         if(participant != null){
@@ -68,50 +70,46 @@ public class PatientDelegateService {
     }
     
     public Id getParticipantUserId(){
-        List<User> user = [
-                SELECT Id
-                FROM User
-                WHERE ContactId =: participant.Contact__c
-                LIMIT 1
-        ];
-        if (user.isEmpty()) {
+        List<User> users = DatabaseService.query(
+                'SELECT Id FROM User WHERE ' + DatabaseService.fieldEqual('ContactId', participant.Contact__c) + ' LIMIT 1'
+        );
+        if (users.isEmpty()) {
             throw new PatientDelegateServiceException('No user found for participant: '
                     + participant.First_Name__c + ' ' + participant.Last_Name__c);
         }
-        return user[0].Id;
+        return users[0].Id;
     }
     
     public List<Patient_Delegate__c> getPDelegates(){
-        return getPDelegates(CommunityService.getUserContact().Id);
+        return getPDelegates(CommunityService.getInstance().getCurrentContactId());
     }
     
     public List<Patient_Delegate__c> getPDelegates(Id participantContactId){
-        return [
-                SELECT
-                        Id,
-                        Participant__c,
-                        Participant__r.Contact__c,
-                        Participant__r.Contact__r.Name,
-                        Contact__c,
-                        Contact__r.Name,
-                        Contact__r.FirstName,
-                        Contact__r.LastName,
-                        Contact__r.Email,
-                        Contact__r.Participant_Opt_In_Status_Emails__c,
-                        Contact__r.HCP_Opt_In_Patient_Status_Emails__c,
-                        Contact__r.HCP_Opt_In_Study_Emails__c,
-                        Contact__r.HCP_Opt_In_Referral_Status_Emails__c
-                FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c = :participantContactId
-        ];
+        return DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Participant__c',
+                        'Participant__r.Contact__c',
+                        'Participant__r.Contact__r.Name',
+                        'Contact__c',
+                        'Contact__r.Name',
+                        'Contact__r.FirstName',
+                        'Contact__r.LastName',
+                        'Contact__r.Email',
+                        'Contact__r.Participant_Opt_In_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
+                        'Contact__r.HCP_Opt_In_Study_Emails__c',
+                        'Contact__r.HCP_Opt_In_Referral_Status_Emails__c'
+                },
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
+        );
     }
     
     public List<Id> getDelegatedUsersIds() {
-        Map<Id, User> usersMap = new Map<Id, User>([
-                SELECT Id
-                FROM User
-                WHERE ContactId IN: delegates
-        ]);
+        Map<Id, SObject> usersMap = new Map<Id, SObject>(
+                DatabaseService.query('SELECT Id FROM User WHERE ' + DatabaseService.fieldIn('ContactId', delegates))
+        );
         return new List<Id>(usersMap.keySet());
     }
     

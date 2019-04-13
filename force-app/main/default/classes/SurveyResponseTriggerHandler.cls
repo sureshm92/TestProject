@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class SurveyResponseTriggerHandler {
+public without sharing class SurveyResponseTriggerHandler {
     
     public static final String SURVEY_RESPONSE_STATUS_COMPLETED = 'Completed';
     public static final String SURVEY_RESPONSE_STATUS_PAUSED = 'Paused';

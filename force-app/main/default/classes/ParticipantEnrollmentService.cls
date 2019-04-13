@@ -26,8 +26,30 @@ public without sharing class ParticipantEnrollmentService {
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
     public static final String NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED = 'Had Discussion, Not Interested';
-
-
+    
+    private static ParticipantEnrollmentService instance;
+    
+    public static ParticipantEnrollmentService getInstance(){
+        if(instance == null) instance = new ParticipantEnrollmentService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (ParticipantEnrollmentService) Test.createStub(ParticipantEnrollmentService.class, stubProvider);
+    }
+    
+    public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter){
+        String defaultFilter = 'Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
+        if(filter != null) defaultFilter += ' ' + filter;
+        List<Participant_Enrollment__c> peList = DatabaseService.query(
+                customFields,
+                Participant_Enrollment__c.getSObjectType(),
+                defaultFilter
+        );
+        TranslateHelper.translate(peList);
+        return peList;
+    }
+    
     public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){
         //find all participant enrollments for this patientId, clinic and trial
         List<Participant_Enrollment__c> participantEnrollments = [
@@ -242,14 +264,7 @@ public without sharing class ParticipantEnrollmentService {
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
-        String query = 'SELECT ' + String.join(customFields, ',') +
-                ' FROM Participant_Enrollment__c ' +
-                ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
-        if(filter != null) query += ' ' + filter;
-        System.debug('EXECUTE QUERY: ' + query);
-        List<Participant_Enrollment__c> peList = Database.query(query);
-        TranslateHelper.translate(peList);
-        return peList;
+        return getInstance().getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter);
     }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter){

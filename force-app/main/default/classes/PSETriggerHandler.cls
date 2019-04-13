@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class PSETriggerHandler {
+public without sharing class PSETriggerHandler {
     
     // Handlers: -------------------------------------------------------------------------------------------------------
     
