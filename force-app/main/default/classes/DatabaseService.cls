@@ -23,7 +23,7 @@ public class DatabaseService {
     public List<SObject> queryImpl(List<String> fields, SObjectType objectType, String filter){
         String queryString = 'SELECT ' + String.join(fields, ',') + ' FROM ' + objectType;
         if(filter != null) queryString += ' WHERE ' + filter;
-        return query(queryString);
+        return queryImpl(queryString);
     }
     
     // Static facade: --------------------------------------------------------------------------------------------------

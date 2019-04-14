@@ -39,7 +39,7 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter){
-        String defaultFilter = 'Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
+        String defaultFilter = ' Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
         if(filter != null) defaultFilter += ' ' + filter;
         List<Participant_Enrollment__c> peList = DatabaseService.query(
                 customFields,

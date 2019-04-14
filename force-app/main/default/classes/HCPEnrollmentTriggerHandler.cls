@@ -28,29 +28,18 @@ public without sharing class HCPEnrollmentTriggerHandler {
     public class CreateHCPUserOrSendNotificationHandler extends TriggerHandler{
         
         public override void afterInsert(List<SObject> newList) {
-            sendNotification(newList);
+            createHCPUserOrSendNotification(newList, null);
         }
         
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendNotificationOnUpdate(newList, (Map<Id, HCP_Enrollment__c>)oldMap);
+            createHCPUserOrSendNotification(newList, (Map<Id, HCP_Enrollment__c>)oldMap);
         }
     }
     
-    public class PrepopulateUserModeHandler extends TriggerHandler{
+    public class SwitchContactUserModeHandler extends TriggerHandler{
         
         public override void afterInsert(List<SObject> newList) {
-            prepopulateUserMode(newList);
-        }
-        
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            prepopulateUserModeOnUpdate(newList, (Map<Id, HCP_Enrollment__c>)oldMap);
-        }
-    }
-    
-    public class SwitchUserModeHandler extends TriggerHandler{
-        
-        public override void afterInsert(List<SObject> newList) {
-            switchUserMode(newList);
+            switchContactUserMode(newList);
         }
     }
     
@@ -84,86 +73,43 @@ public without sharing class HCPEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void sendNotification(List<HCP_Enrollment__c> newList) {
-        //prepare community users map:
-        Set<Id> contactIds = new Set<Id>();
-        List<HCP_Enrollment__c> processedHCPEList = new List<HCP_Enrollment__c>();
-        for (HCP_Enrollment__c enrol : newList) {
-            if (enrol.HCP_Contact__c != null && enrol.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT) {
-                contactIds.add(enrol.HCP_Contact__c);
-                processedHCPEList.add(enrol);
-            }
-        }
-        if (contactIds.isEmpty()) return;
-        Map<Id, User> communityUsersMap = new Map<Id, User>();
-        for (User usr : CommunityService.getCommunityUsersByContactIds(contactIds)) communityUsersMap.put(usr.ContactId, usr);
-        
-        //prepare lists:
-        Set<Id> contactIdsForCreateUser = new Set<Id>();
-        Map<Id, String> hcpeMapForSend = new Map<Id, String>();
-        for (HCP_Enrollment__c hcpe : processedHCPEList) {
-            if (communityUsersMap.containsKey(hcpe.HCP_Contact__c)) {
-                hcpeMapForSend.put(hcpe.Id, hcpe.HCP_Contact__c);
-            } else {
-                contactIdsForCreateUser.add(hcpe.HCP_Contact__c);
-            }
-        }
-
-        //process lists:
-        if (!contactIdsForCreateUser.isEmpty()) CommunityService.createPortalUsers(contactIdsForCreateUser);
-        if (!hcpeMapForSend.isEmpty()) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP, hcpeMapForSend);
-    }
-
-    @TestVisible
-    private static void sendNotificationOnUpdate(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
-        List<HCP_Enrollment__c> enrolmentsToSendNotification = new List<HCP_Enrollment__c>();
-        for (HCP_Enrollment__c enrollment: newList) {
-            if (oldMap.get(enrollment.Id).HCP_Contact__c != enrollment.HCP_Contact__c
-                    || (enrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT
-                    && oldMap.get(enrollment.Id).Status__c != enrollment.Status__c)
-                    ) {
-                enrolmentsToSendNotification.add(enrollment);
-            }
-        }
-        sendNotification(enrolmentsToSendNotification);
-    }
-
-    @TestVisible
-    private static void prepopulateUserMode(List<HCP_Enrollment__c> newList) {
-        Set<Id> hcpEContactIds = new Set<Id>();
-        for (HCP_Enrollment__c enrol : newList) {
-            if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
-        }
-        if (hcpEContactIds.isEmpty()) return;
-        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
-
-        for (Contact hcpContact : CommunityService.getContactsByUserContactIds(hcpEContactIds)) {
-            String userType = hcpContact.userCommunytyType__c;
-            String userMode = hcpContact.userCommunityMode__c;
-            if (userMode == null || userType == null || !userType.contains(CommunityService.USER_MODE_HCP)) {
-                if (userMode == null) hcpContact.userCommunityMode__c = CommunityService.USER_MODE_HCP;
-                if (userType == null || !userType.contains(CommunityService.USER_MODE_HCP)) {
-                    if (userType == null) {
-                        hcpContact.userCommunytyType__c = CommunityService.USER_MODE_HCP;
-                    } else {
-                        hcpContact.userCommunytyType__c = userType + ';' + CommunityService.USER_MODE_HCP;
-                    }
+    private static void createHCPUserOrSendNotification(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
+        Set<Id> hcpContactIds = new Set<Id>();
+        for(HCP_Enrollment__c hcpe : newList) if(hcpe.HCP_Contact__c != null) hcpContactIds.add(hcpe.HCP_Contact__c);
+        Set<Id> contactIdsWithCreatedUser = new Set<Id>();
+        for(User user : CommunityService.getCommunityUsersByContactIds(hcpContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
+        Set<Id> contactIdsForCreateUsers = new Set<Id>();
+        Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
+        for(HCP_Enrollment__c hcpe : newList){
+            if(hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
+                    ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))){
+                if(contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)){
+                    contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                }else{
+                    contactIdsForCreateUsers.add(hcpe.HCP_Contact__c);
                 }
-                if (!contactsToUpdate.containsKey(hcpContact.Id)) contactsToUpdate.put(hcpContact.Id, hcpContact);
             }
         }
-        update contactsToUpdate.values();
+        if (contactIdsForCreateUsers.size() > 0) CommunityService.createPortalUsers(contactIdsForCreateUsers);
+        if (contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP, contactsForSendNotificationMap);
     }
-
+    
     @TestVisible
-    private static void prepopulateUserModeOnUpdate(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
-        List<HCP_Enrollment__c> enrollmentsToPopulate = new List<HCP_Enrollment__c>();
-        for (HCP_Enrollment__c enrollment: newList) {
-            if (oldMap.get(enrollment.Id).HCP_Contact__c != enrollment.HCP_Contact__c) {
-                enrollmentsToPopulate.add(enrollment);
+    private static void switchContactUserMode(List<HCP_Enrollment__c> newList) {
+        Set<Id> hcpEContactIds = new Set<Id>();
+        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        if (hcpEContactIds.isEmpty()) return;
+        List<Contact> contactsForUpdate = new List<Contact>();
+        for (Contact piContact : CommunityService.getContactsByUserContactIds(hcpEContactIds)) {
+            piContact.userCommunityMode__c = CommunityService.USER_MODE_HCP;
+            if (piContact.userCommunytyType__c == null) {
+                piContact.userCommunytyType__c = CommunityService.USER_MODE_HCP;
+            } else if(!piContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)){
+                piContact.userCommunytyType__c += ';' + CommunityService.USER_MODE_HCP;
             }
+            contactsForUpdate.add(piContact);
         }
-        prepopulateUserMode(enrollmentsToPopulate);
+        update contactsForUpdate;
     }
 
     @TestVisible
@@ -186,16 +132,4 @@ public without sharing class HCPEnrollmentTriggerHandler {
         delete [SELECT Id FROM Status_History__c WHERE HCP_Enrollment__c IN: oldList];
     }
     
-    @TestVisible
-    private static void switchUserMode(List<HCP_Enrollment__c> newList){
-        List<Contact> contacts = new List<Contact>();
-        for(HCP_Enrollment__c hcpe : [SELECT Id, HCP_Contact__c FROM HCP_Enrollment__c WHERE Id IN: newList]){
-            contacts.add(new Contact(
-                    Id = hcpe.HCP_Contact__c,
-                    userCommunityMode__c = CommunityService.USER_MODE_HCP
-            ));
-        }
-        update contacts;
-
-    }
 }
