@@ -11,37 +11,32 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Questions</fullName>
-                <default>true</default>
+                <fullName>icon-questionnaires</fullName>
+                <default>false</default>
                 <label>Questions about your health and medications</label>
             </value>
             <value>
-                <fullName>Electrocardiogram</fullName>
+                <fullName>icon-ecg</fullName>
                 <default>false</default>
                 <label>Electrocardiogram (ECG)</label>
             </value>
             <value>
-                <fullName>Vital_signs_weight_and_height</fullName>
+                <fullName>icon-vital-signs</fullName>
                 <default>false</default>
                 <label>Vital signs, weight and height</label>
             </value>
             <value>
-                <fullName>Blood_tests</fullName>
+                <fullName>icon-blood-test</fullName>
                 <default>false</default>
-                <label>Blood tests</label>
+                <label>Blood and urine tests</label>
             </value>
             <value>
-                <fullName>Urine_test</fullName>
-                <default>false</default>
-                <label>Urine test</label>
-            </value>
-            <value>
-                <fullName>Pregnancy_test</fullName>
+                <fullName>icon-pregnancy</fullName>
                 <default>false</default>
                 <label>Pregnancy test</label>
             </value>
             <value>
-                <fullName>Receive_study_medication</fullName>
+                <fullName>icon-pill</fullName>
                 <default>false</default>
                 <label>Receive study medication</label>
             </value>
@@ -51,14 +46,49 @@
                 <label>Return study medication</label>
             </value>
             <value>
-                <fullName>No_food_or_drink</fullName>
+                <fullName>icon-dining</fullName>
                 <default>false</default>
                 <label>No food or drink except water for 10 hours prior to visit</label>
             </value>
             <value>
-                <fullName>Physical_examination</fullName>
+                <fullName>icon-brief-ph-ex</fullName>
                 <default>false</default>
-                <label>Physical examination</label>
+                <label>Brief physical examination</label>
+            </value>
+            <value>
+                <fullName>icon-follow-up-per</fullName>
+                <default>false</default>
+                <label>Follow Up Period</label>
+            </value>
+            <value>
+                <fullName>icon-joint</fullName>
+                <default>false</default>
+                <label>Joint Assessment</label>
+            </value>
+            <value>
+                <fullName>icon-lung-test</fullName>
+                <default>false</default>
+                <label>Lung function test</label>
+            </value>
+            <value>
+                <fullName>icon-lung-check</fullName>
+                <default>false</default>
+                <label>Lung health check</label>
+            </value>
+            <value>
+                <fullName>icon-treatment-period</fullName>
+                <default>false</default>
+                <label>Treatment Period</label>
+            </value>
+            <value>
+                <fullName>icon-x-rays</fullName>
+                <default>false</default>
+                <label>X Rays</label>
+            </value>
+            <value>
+                <fullName>icon-questions</fullName>
+                <default>false</default>
+                <label>Questions</label>
             </value>
         </valueSetDefinition>
     </valueSet>

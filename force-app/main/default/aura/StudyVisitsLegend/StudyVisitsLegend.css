@@ -1,0 +1,25 @@
+/**
+ * Created by Igor Malyuta on 14.04.2019.
+ */
+.THIS .title{
+    margin: 9px 16px 23px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.THIS .inner-panel{
+    display: flex;
+    flex-direction: column;
+}
+
+.THIS .cells {
+    display: inline-flex;
+    margin-left: 24px;
+    margin-bottom: 35px;
+}
+
+.THIS .cells .label {
+    margin-left:22px;
+    margin-right: 23px;
+    font-weight: bold;
+}

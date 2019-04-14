@@ -35,6 +35,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AlertTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AlertsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -160,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DatabaseProxy</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -611,6 +619,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SurveyResponseTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TaskEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -675,6 +687,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -723,6 +739,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -736,6 +756,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UserService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3490,11 +3514,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>User.Survey_Result__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Plan__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

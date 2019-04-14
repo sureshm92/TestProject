@@ -9,6 +9,24 @@
     },
 
     {
+        "sobject": "Visit_Plan__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Visit_Plan__c.json"
+        ]
+    },
+
+    {
+        "sobject": "Visit__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Visit__c.json"
+        ]
+    },
+
+    {
         "sobject": "Clinical_Trial_Profile__c",
         "saveRefs": true,
         "resolveRefs": true,
@@ -68,24 +86,6 @@
         "resolveRefs": true,
         "files": [
             "Participant_Enrollments.json"
-        ]
-    },
-
-    {
-        "sobject": "Visit_Plan__c",
-        "saveRefs": true,
-        "resolveRefs": true,
-        "files": [
-            "Visit_Plan__c.json"
-        ]
-    },
-
-    {
-        "sobject": "Visit__c",
-        "saveRefs": true,
-        "resolveRefs": true,
-        "files": [
-            "Visit__c.json"
         ]
     }
 ]

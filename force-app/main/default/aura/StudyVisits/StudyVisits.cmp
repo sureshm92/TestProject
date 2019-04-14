@@ -1,18 +1,23 @@
-<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel">
+<!--
+ - Created by Igor Malyuta on 12.04.2019.
+ -->
+
+<aura:component description="StudyVisits" controller="ParticipantVisitsRemote">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
+    <!--attributes-->
     <aura:attribute name="visits" type="List"/>
+    <aura:attribute name="paginationData" type="Object"/>
 
-    <div class="sv-panel rr-white-panel">
+    <div>
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
-        <div class="sv-header">
-            <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
-            <button class="apollo-btn primary sv-btn" onclick="{!c.onTravel}">
-                {!$Label.c.Home_Page_StudyVisit_Btn}
-            </button>
+        <div class="tt-title">
+            {!$Label.c.Home_Page_StudyVisit_Title}
+            <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>
         </div>
-        <div class="sv-body">
+
+        <div class="rr-white-panel">
             <aura:if isTrue="{!!empty(v.visits)}">
                 <c:RRTable>
                     <tr>
@@ -28,11 +33,14 @@
                         </tr>
                     </aura:iteration>
                 </c:RRTable>
+
+                <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                      currentPage="{!v.paginationData.currentPage}"
+                                      allRecordsCount="{!v.paginationData.allRecordsCount}"/>
             </aura:if>
         </div>
-        <div class="sv-footer">
-            <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>
-        </div>
+
+        <c:StudyVisitsLegend/>
     </div>
 
     <c:Popup aura:id="popup" title=""
@@ -42,4 +50,5 @@
             <button class="apollo-btn primary" onclick="{!c.onClickOk}">{!$Label.c.BTN_OK}</button>
         </aura:set>
     </c:Popup>
+
 </aura:component>

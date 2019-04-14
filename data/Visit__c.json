@@ -7,7 +7,7 @@
             },
             "Name": "Visit 1 Physical",
             "Timeplane__c": "Week 1",
-            "Icons__c": "Questions;Physical_examination;Urine_test",
+            "Icons__c": "icon-questionnaires;icon-blood-test;icon-brief-ph-ex",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -17,7 +17,7 @@
             },
             "Name": "Clinical Visit 1",
             "Timeplane__c": "Week 3",
-            "Icons__c": "Questions;Physical_examination;Urine_test;Receive_study_medication;No_food_or_drink",
+            "Icons__c": "icon-questionnaires;icon-blood-test;icon-pill;icon-dining;icon-brief-ph-ex",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -27,7 +27,7 @@
             },
             "Name": "Visit 2 Lab Visit",
             "Timeplane__c": "Week 2",
-            "Icons__c": "Blood_tests;Urine_test",
+            "Icons__c": "icon-blood-test",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -37,7 +37,7 @@
             },
             "Name": "Clinical Visit 2",
             "Timeplane__c": "Week 4",
-            "Icons__c": "Questions;Physical_examination;Receive_study_medication",
+            "Icons__c": "icon-questionnaires;icon-pill;icon-brief-ph-ex",
             "Visit_Plan__c": "@vsp"
         }
     ]

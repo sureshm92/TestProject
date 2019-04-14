@@ -6508,6 +6508,34 @@ is a placehilder to show you what it would look like.</value>
         <value>Set Reminder</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Legend_Brief_Physical_Examination</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>A check of your overall health. This will include a check of your overall appearance, skin, eyes, ears, nose, throat, head, neck, outer limbs, muscles and joints, chest and lungs, heart, abdomen, your current state of mind, and your ability to move and use your senses (sight, hearing, taste, smell, and touch).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked about your general health and any past illnesses, medications that you have taken or are taking, what operations you have had, and any allergies you have.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Receive_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive enough study medication to last until your next visit. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Popup_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Popup text</shortDescription>
+        <value>This service may not be available everywhere.  Check with your study team for any questions.</value>
+    </labels>
+    <labels>
         <fullName>TST_Complete_Your_Question</fullName>
         <language>en_US</language>
         <protected>false</protected>

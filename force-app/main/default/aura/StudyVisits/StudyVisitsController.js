@@ -1,10 +1,13 @@
 /**
- * Created by Igor Malyuta on 08.04.2019.
+ * Created by Igor Malyuta on 12.04.2019.
  */
 ({
     doInit : function(component, event, helper) {
-        communityService.executeAction(component, 'getVisitsPreview', null, function(response) {
-            component.set('v.visits', JSON.parse(response));
+        communityService.executeAction(component, 'getParticipantVisits', null, function(response) {
+            var initData = JSON.parse(response);
+            component.set('v.visits', initData.visits);
+            component.set('v.paginationData', initData.paginationData);
+
             component.find('spinner').hide();
         });
     },

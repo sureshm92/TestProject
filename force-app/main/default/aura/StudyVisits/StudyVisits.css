@@ -1,0 +1,17 @@
+/**
+ * Created by Igor Malyuta on 12.04.2019.
+ */
+.THIS td{
+    border-bottom: 1px solid #eaeaea;
+}
+
+.THIS .tt-title{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    margin-bottom: 23px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

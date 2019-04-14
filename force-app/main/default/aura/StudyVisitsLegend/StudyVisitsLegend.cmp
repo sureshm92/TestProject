@@ -1,0 +1,25 @@
+<!--
+ - Created by Igor Malyuta on 13.04.2019.
+ -->
+
+<aura:component description="StudyVisitsLegend" controller="ParticipantVisitsRemote">
+
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="legends" type="List"/>
+
+    <div class="rr-white-panel">
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+        <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
+        <div class="inner-panel slds-scrollable_y" style="height:260px;">
+            <aura:iteration items="{!v.legends}" var="legend">
+                <div class="cells">
+                    <c:RRIcon iconName="{!legend.iconId}"/>
+                    <p class="label">{!legend.iconLabel}</p>
+                    {!legend.iconLegend}
+                </div>
+            </aura:iteration>
+        </div>
+    </div>
+
+</aura:component>
