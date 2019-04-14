@@ -55,6 +55,7 @@ public without sharing class StudyTrialService {
         public List<StudyTotalPassed> statistics = new List<StudyTotalPassed>();
         public String trialRecruitmentStatusLabel;
         public Boolean hasHCPEnrollments;
+        public Boolean hasActiveHCPEnrollments;
         public String distance;
         public String therapeuticArea;
     }
@@ -309,13 +310,16 @@ public without sharing class StudyTrialService {
         siteFilter.sortType = 'Distance-virtual-last';
         siteFilter.onlyAcceptedSites = false;
         List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
-
+        Set<Id> trialsWithActiveEntollments = new Set<Id>();
         Map<Id, List<StudySiteService.StudySiteDistanceWrapper>> trialStudyMap = new Map<Id, List<StudySiteService.StudySiteDistanceWrapper>>();
         for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studySites) {
             if (!trialStudyMap.containsKey(siteWrapper.site.Clinical_Trial_Profile__c)) {
                 trialStudyMap.put(siteWrapper.site.Clinical_Trial_Profile__c, new List<StudySiteService.StudySiteDistanceWrapper>());
             }
             trialStudyMap.get(siteWrapper.site.Clinical_Trial_Profile__c).add(siteWrapper);
+            if(siteWrapper.hasActiveHCPE){
+                trialsWithActiveEntollments.add(siteWrapper.site.Clinical_Trial_Profile__c);
+            }
         }
 
         // get trials with fields and TC:
@@ -332,6 +336,7 @@ public without sharing class StudyTrialService {
             studyDetailItem.site = studyDetailItem.sites[0];
             studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
             studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
+            studyDetailItem.hasActiveHCPEnrollments = trialsWithActiveEntollments.contains(trial.Id);
 
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {

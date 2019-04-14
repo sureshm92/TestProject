@@ -122,7 +122,7 @@
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2
                                 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
                         <div>
-                            <div class="{!v.searchItem ? 'slds-hide' : ''}">
+                            <div class="{!or(v.searchItem, !v.currentStudy.hasActiveHCPEnrollments)? 'slds-hide' : ''}">
                                 <a href="javascript:void(0);"
                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
                                    onclick="{!c.toggleStudySiteListView}">
@@ -147,7 +147,7 @@
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
                                 slds-order_3 slds-medium-order_2 slds-m-vertical_x-small">
                         <div class="slvi-status-item">
-                            <aura:if isTrue="{!v.currentStudy.distance != null}">
+                            <aura:if isTrue="{!and(v.currentStudy.distance != null, v.currentStudy.hasActiveHCPEnrollments)}">
                                 <div style="float: left;">
                                     <c:RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/>
                                 </div>
@@ -184,7 +184,8 @@
                 <div class="slds-p-horizontal_medium slds-p-bottom_small">
 
                     <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
-                        <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
+                        <aura:if isTrue="{!siteWrapper.hasActiveHCPE}">
+                            <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
                             <div class="slds-grid slds-wrap">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
                                     <div class="clinic-name">
@@ -258,6 +259,7 @@
                                 </div>
                             </div>
                         </div>
+                        </aura:if>
                     </aura:iteration>
 
                     <div class="slds-p-around--medium">

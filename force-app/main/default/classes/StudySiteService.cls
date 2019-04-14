@@ -249,6 +249,7 @@ public without sharing class StudySiteService {
         public Map<String, StudyActions.Action> actions;
         public String sortType;
         public Boolean hasPatients;
+        public Boolean hasActiveHCPE;
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, Boolean hasPatients) {
             this.site = site;
@@ -268,6 +269,7 @@ public without sharing class StudySiteService {
             } else {
                 this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
             }
+            this.hasActiveHCPE = hcpe != null && hcpe.Status__c != HCPEnrollmentService.HCP_S_INVITATION_SENT;
         }
         public Integer compareTo(Object compareTo) {
             StudySiteDistanceWrapper compareToWrapper = (StudySiteDistanceWrapper) compareTo;
