@@ -15,7 +15,8 @@ public with sharing class SearchConditionsOfInterestRemote {
                 'SELECT Id, ' +
                         'Name ' +
                         'FROM Therapeutic_Area__c ' +
-                        'WHERE Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ' +
+                        'WHERE RecordType.DeveloperName = \'' + ConditionOfInterestRemote.COI + '\' ' +
+                        'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ' +
                         'LIMIT 5';
         System.debug(tAQuery);
         List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
