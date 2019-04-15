@@ -100,7 +100,8 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.MailingPostalCode',
             'Principal_Investigator__r.MailingAddress',
             'Principal_Investigator__r.Phone',
-            'Principal_Investigator__r.Email'
+            'Principal_Investigator__r.Email',
+            'Principal_Investigator__r.Salutation'
     };
 
 
