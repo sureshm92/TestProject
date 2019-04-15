@@ -11,12 +11,16 @@ public with sharing class SearchConditionsOfInterestRemote {
             List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
             CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
             String participantId = cService.getParticipantId();
+            String whereClause = '';
+            if (!String.isBlank(nameTA)) {
+                whereClause = 'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ';
+            }
             String tAQuery =
                     'SELECT Id, ' +
                             'Name ' +
                             'FROM Therapeutic_Area__c ' +
                             'WHERE RecordType.DeveloperName = \'' + ConditionOfInterestRemote.COI + '\' ' +
-                            'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ' +
+                            whereClause +
                             'LIMIT 5';
             System.debug(tAQuery);
             List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);

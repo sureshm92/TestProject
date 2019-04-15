@@ -4,6 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         component.set('v.conditionsOfInterestTemp', component.get('v.conditionsOfInterest'));
+        helper.valueChange(component, event, helper);
     },
 
     show: function (component) {
