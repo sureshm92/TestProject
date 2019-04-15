@@ -1,6 +1,10 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
+.THIS.sv-body{
+    padding-bottom: 50px;
+}
+
 .THIS td{
     border-bottom: 1px solid #eaeaea;
 }
@@ -14,4 +18,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.THIS .pagination{
+    margin-bottom: 15px;
 }

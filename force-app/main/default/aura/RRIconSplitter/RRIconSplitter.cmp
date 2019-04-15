@@ -11,7 +11,7 @@
 
     <div class="icon-items">
         <aura:iteration items="{!v.icons}" var="icon">
-            <c:RRIcon iconName="{!icon}"/>
+            <c:RRIcon iconName="{!icon}" class="icon-item"/>
         </aura:iteration>
     </div>
 

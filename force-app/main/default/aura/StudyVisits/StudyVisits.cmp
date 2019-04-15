@@ -10,7 +10,7 @@
     <aura:attribute name="visits" type="List"/>
     <aura:attribute name="paginationData" type="Object"/>
 
-    <div>
+    <div class="sv-body">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <div class="tt-title">
             {!$Label.c.Home_Page_StudyVisit_Title}
@@ -21,22 +21,24 @@
             <aura:if isTrue="{!!empty(v.visits)}">
                 <c:RRTable>
                     <tr>
-                        <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th style="padding-left: 34px;">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
                         <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
                         <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
                     </tr>
                     <aura:iteration var="visit" items="{!v.visits}">
                         <tr>
-                            <td>{!visit.Name}</td>
+                            <td style="padding-left: 34px;">{!visit.Name}</td>
                             <td>{!visit.Timeplane__c}</td>
                             <td><c:RRIconSplitter value="{!visit.Icons__c}"/></td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>
+                <div class="pagination">
+                    <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                          currentPage="{!v.paginationData.currentPage}"
+                                          allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+                </div>
 
-                <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                                      currentPage="{!v.paginationData.currentPage}"
-                                      allRecordsCount="{!v.paginationData.allRecordsCount}"/>
             </aura:if>
         </div>
 

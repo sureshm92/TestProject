@@ -6,3 +6,7 @@
     justify-content: space-evenly;
     align-items: center;
 }
+
+.THIS .icon-item{
+    padding-left: 10px;
+}
