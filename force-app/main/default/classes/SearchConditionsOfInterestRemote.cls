@@ -8,25 +8,39 @@ public with sharing class SearchConditionsOfInterestRemote {
     public static List<ConditionOfInterestRemote.CAWrapper> searchConditionOfInterest(String nameTA) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
+        CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
+        String participantId = cService.getParticipantId();
 
         String tAQuery =
                 'SELECT Id, ' +
                         'Name ' +
                         'FROM Therapeutic_Area__c ' +
-                        'WHERE Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ' +
+                        'WHERE RecordType.DeveloperName = \'' + ConditionOfInterestRemote.COI + '\' ' +
+                        'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ' +
                         'LIMIT 5';
         System.debug(tAQuery);
         List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
         if (!therapeuticAreas.isEmpty()) {
             for (Therapeutic_Area__c areaPatient : therapeuticAreas) {
                 ConditionOfInterestRemote.CAWrapper caWrapper = new ConditionOfInterestRemote.CAWrapper ();
-                caWrapper.order = 0;
                 caWrapper.isSelected = false;
-                caWrapper.therArea = areaPatient;
+                caWrapper.coi = new Therapeutic_Area_Patient__c(
+                        Participant__c = participantId,
+                        Therapeutic_Area__c = areaPatient.Id,
+                        Therapeutic_Area__r = areaPatient,
+                        Condition_Of_Interest_Order__c = 100
+                );
                 caWrappers.add(caWrapper);
             }
         }
         return caWrappers;
+    }
+
+    @AuraEnabled
+    public static void deleteCOI(List<Id> coiIds) {
+        if (!coiIds.isEmpty()) {
+            Database.delete(coiIds);
+        }
     }
 
 }
