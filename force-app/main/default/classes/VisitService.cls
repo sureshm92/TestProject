@@ -25,7 +25,7 @@ public with sharing class VisitService {
                        Icons__c
                 FROM Visit__c
                 WHERE Visit_Plan__c =: pse.Clinical_Trial_Profile__r.Visit_Plan__c
-                ORDER BY Timeplane__c
+                ORDER BY Order__c
         ];
 
         return visits;

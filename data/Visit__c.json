@@ -8,6 +8,7 @@
             "Name": "Visit 1 Physical",
             "Timeplane__c": "Week 1",
             "Icons__c": "icon-questionnaires;icon-blood-test;icon-brief-ph-ex",
+            "Order__c": 1,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -18,6 +19,7 @@
             "Name": "Clinical Visit 1",
             "Timeplane__c": "Week 3",
             "Icons__c": "icon-questionnaires;icon-blood-test;icon-pill;icon-dining;icon-brief-ph-ex",
+            "Order__c": 3,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -27,7 +29,8 @@
             },
             "Name": "Visit 2 Lab Visit",
             "Timeplane__c": "Week 2",
-            "Icons__c": "icon-blood-test",
+            "Icons__c": "icon-questionnaires;icon-ecg;icon-vital-signs;icon-blood-test;icon-pregnancy;icon-pill;icon-order-descending;icon-dining",
+            "Order__c": 2,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -38,6 +41,7 @@
             "Name": "Clinical Visit 2",
             "Timeplane__c": "Week 4",
             "Icons__c": "icon-questionnaires;icon-pill;icon-brief-ph-ex",
+            "Order__c": 4,
             "Visit_Plan__c": "@vsp"
         }
     ]
