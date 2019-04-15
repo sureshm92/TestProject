@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class TranslationTriggerHandler {
+public without sharing class TranslationTriggerHandler {
     
     // Handlers: -------------------------------------------------------------------------------------------------------
     

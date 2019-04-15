@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class AlertTriggerHandler {
+public without sharing class AlertTriggerHandler {
     
     // Handlers: -------------------------------------------------------------------------------------------------------
     

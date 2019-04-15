@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class UserTriggerHandler {
+public without sharing class UserTriggerHandler {
     
     // Handlers: -------------------------------------------------------------------------------------------------------
     
@@ -86,7 +86,7 @@ public class UserTriggerHandler {
                 if(user.ContactId != null){
                     Participant__c participant = participantsByContactIdMap.get(user.ContactId);
                     if(participant != null){
-                        tasksForInsert.add(TaskService.createCompleteYourProfileTask(user.Id, participant.Id, user.ContactId));
+                        tasksForInsert.add(TaskService.getInstance().createCompleteYourProfileTask(user.Id, participant.Id, user.ContactId));
                     }
                 }
             }

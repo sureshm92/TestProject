@@ -6,7 +6,6 @@ trigger HCPEnrollmentTrigger on HCP_Enrollment__c (before insert, before update,
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class);
-    TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.PrepopulateUserModeHandler.class);
-    TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.SwitchUserModeHandler.class);
+    TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.SwitchContactUserModeHandler.class);
     TriggerHandlerExecutor.execute(HCPEnrollmentTriggerHandler.CreateStatusHistoryHandler.class);
 }

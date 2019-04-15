@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class SurveyResponseTriggerHandler {
+public without sharing class SurveyResponseTriggerHandler {
     
     public static final String SURVEY_RESPONSE_STATUS_COMPLETED = 'Completed';
     public static final String SURVEY_RESPONSE_STATUS_PAUSED = 'Paused';
@@ -44,7 +44,7 @@ public class SurveyResponseTriggerHandler {
                 WHERE WhoId IN: contactIdsForCloseTask
                 AND Task_Code__c =: TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY
         ];
-        for (Task t : tasksForComplete) TaskService.completeTask(t);
+        for (Task t : tasksForComplete) TaskService.getInstance().completeTask(t);
     
         System.debug('FOR COMPLETE SIZE: ' + tasksForComplete.size());
         update tasksForComplete;
