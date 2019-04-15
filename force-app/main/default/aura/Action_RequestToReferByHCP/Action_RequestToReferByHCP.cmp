@@ -12,6 +12,7 @@
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="study" type="Object"/>
         <aura:attribute name="studySiteId" type="Object"/>
+        <aura:attribute name="hcpeId" type="Object"/>
         <aura:attribute name="refreshSource" type="Aura.Component"/>
     </aura:method>
 

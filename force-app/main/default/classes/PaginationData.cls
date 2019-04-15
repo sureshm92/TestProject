@@ -9,6 +9,7 @@ public without sharing class PaginationData {
     public Integer currentPage;
     public Integer offset;
     public Integer endOffset;
+    public Integer currentPageCount;
     public List<LabelValueItem> pages;
     public List<LabelValueItem> recordCountVariants;
 
@@ -39,6 +40,7 @@ public without sharing class PaginationData {
         offset = (currentPage - 1) * pageRecordsCount;
         endOffset = offset + pageRecordsCount;
         if(endOffset > allRecordsCount) endOffset = allRecordsCount;
+        currentPageCount = endOffset - offset;
         System.debug('PAGE DATA:' + JSON.serialize(this));
     }
     

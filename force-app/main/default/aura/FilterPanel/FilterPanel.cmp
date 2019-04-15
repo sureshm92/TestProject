@@ -14,6 +14,7 @@
     <aura:attribute name="sortType" type="String"/>
     <aura:attribute name="sortVariants" type="List"/>
     <aura:attribute name="allRecordsCount" type="Integer"/>
+    <aura:attribute name="currentPageCount" type="Integer"/>
     <aura:attribute name="buttons" type="Aura.Component[]"/>
     <aura:attribute name="isCollapsed" type="Boolean" default="true"/>
     <aura:attribute name="showMore" type="Boolean" default="false"/>
@@ -66,7 +67,7 @@
         <div class="fp-pagination-block slds-grid slds-wrap">
             <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
                 <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 slds-order_2 slds-large-order_1 fp-page-info">
-                    <div>{!$Label.c.PG_FP_L_Showing + ' ' + if(or(v.recordsPerPage > v.allRecordsCount, v.showMore), v.allRecordsCount, v.recordsPerPage) + ' ' +
+                    <div>{!$Label.c.PG_FP_L_Showing + ' ' + if(or(v.recordsPerPage > v.allRecordsCount, v.showMore), v.allRecordsCount, v.currentPageCount) + ' ' +
                         $Label.c.PG_FP_L_of + ' ' + v.allRecordsCount + ' ' + v.itemTitle}
                     </div>
                     <aura:if isTrue="{!v.showMoreEnabled}">
