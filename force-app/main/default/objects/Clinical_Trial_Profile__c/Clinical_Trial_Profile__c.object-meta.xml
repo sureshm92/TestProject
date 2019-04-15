@@ -52,7 +52,6 @@
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
-
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
@@ -63,7 +62,6 @@
         <displayFormat>S-{00000}</displayFormat>
         <label>Clinical Trial Profile Name</label>
         <trackFeedHistory>false</trackFeedHistory>
-
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Clinical Trial Profiles</pluralLabel>

@@ -64,6 +64,15 @@ public with sharing class ArticleService {
             }
         }
     }
+    public void validateUpdatedDate(List<Resource__c> resources) {
+        for (Resource__c resource : resources) {
+            if (resource.Updated_Date__c != null)
+                if (resource.Updated_Date__c.isSameDay(resource.Posting_Date__c)) {
+                    resource.Updated_Date__c = null;
+                }
+        }
+    }
+
 
     public String getStaticUrlImage(String imageName) {
         List<StaticResource> resourceList = [
