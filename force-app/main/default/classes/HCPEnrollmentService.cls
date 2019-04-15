@@ -115,6 +115,17 @@ public without sharing class HCPEnrollmentService {
             }
     };
 
+    private static HCPEnrollmentService instance;
+
+    public static HCPEnrollmentService getInstance(){
+        if(instance == null) instance = new HCPEnrollmentService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (HCPEnrollmentService) Test.createStub(HCPEnrollmentService.class, stubProvider);
+    }
+
     public static String changeStatus(Id HCPEnrollmentId, String userMode, String newStatusType){
         return  changeStatus(HCPEnrollmentId, userMode, newStatusType, '');
     }
@@ -213,6 +224,10 @@ public without sharing class HCPEnrollmentService {
 
     public static HCP_Enrollment__c getHCPEnrollmentForHCPById(Id hcpeId){
         return getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
+    }
+
+    public HCP_Enrollment__c getHCPEnrollment(Id hcpeId, String userMode){
+        return getHCPEnrollmentById(hcpeId, userMode);
     }
 
     public static HCP_Enrollment__c getHCPEnrollmentById(Id hcpeId, String userMode){

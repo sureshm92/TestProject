@@ -7,6 +7,21 @@ public without sharing class TrialService {
     public static final String STATUS_ACTIVELY_ENROLLING = 'Actively Enrolling';
     public static final String STATUS_NO_LONGER_ENROLLING = 'No Longer Enrolling';
 
+    private static TrialService instance;
+
+    public static TrialService getInstance(){
+        if(instance == null) instance = new TrialService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (TrialService) Test.createStub(TrialService.class, stubProvider);
+    }
+
+    public Clinical_Trial_Profile__c getTrialFromId(Id trialId){
+        return getTrial(trialId);
+    }
+
     public static List<Clinical_Trial_Profile__c> getAvailableTrials(String mode){
         Set<Clinical_Trial_Profile__c> trials= new Set<Clinical_Trial_Profile__c>();
         if(mode == CommunityService.USER_MODE_PI){

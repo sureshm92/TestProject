@@ -27,6 +27,28 @@ public without sharing class ParticipantEnrollmentService {
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
     public static final String NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED = 'Had Discussion, Not Interested';
 
+    private static ParticipantEnrollmentService instance;
+
+    public static ParticipantEnrollmentService getInstance(){
+        if(instance == null) instance = new ParticipantEnrollmentService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (ParticipantEnrollmentService) Test.createStub(ParticipantEnrollmentService.class, stubProvider);
+    }
+
+    public Participant_Enrollment__c getEnrollment(Id peId, String userMode){
+        return getParticipantEnrollment(peId, userMode);
+    }
+
+    public Participant_Enrollment__c createNewParticipantEnrollment(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
+        return createParticipantEnrollment(trial, hcpEnrollment, participantId);
+    }
+
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentList(Id trialId, Id hcpEnrollmentId){
+        return getPendingParticipantEnrollments(trialId, hcpEnrollmentId);
+    }
 
     public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){
         //find all participant enrollments for this patientId, clinic and trial

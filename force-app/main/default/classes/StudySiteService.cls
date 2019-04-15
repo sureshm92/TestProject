@@ -41,6 +41,25 @@ public without sharing class StudySiteService {
 
     }
 
+    private static StudySiteService instance;
+
+    public static StudySiteService getInstance(){
+        if(instance == null) instance = new StudySiteService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
+    }
+
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+        return getStudySitesWithDistanceForHCPByTrialId(filter, paginationData, filterEmptyHCPE);
+    }
+
+    public SiteFilterData getSiteFilter(Id trialId, String mode){
+        return getSiteFilterData(trialId, mode);
+    }
+
     public static String changeStatus(Id studySiteId, String userMod, String newStatusType) {
         Study_Site__c studySite = [
                 SELECT Id, Override_PI_Referral_Status__c
