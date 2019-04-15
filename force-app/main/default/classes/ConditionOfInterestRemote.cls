@@ -7,23 +7,42 @@ public with sharing class ConditionOfInterestRemote {
 
     @AuraEnabled
     public static List<ConditionOfInterestRemote.CAWrapper> getConditionOfInterest() {
-        Participant__c participant = getParticipant();
-        List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
-        if (!participant.Therapeutic_Area_Patients__r.isEmpty()) {
-            for (Therapeutic_Area_Patient__c coi : participant.Therapeutic_Area_Patients__r) {
-                ConditionOfInterestRemote.CAWrapper caWrapper = new ConditionOfInterestRemote.CAWrapper ();
-                caWrapper.isSelected = true;
-                caWrapper.coi = coi;
-                caWrappers.add(caWrapper);
+        try {
+            Participant__c participant = getParticipant();
+            List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
+            if (!participant.Therapeutic_Area_Patients__r.isEmpty()) {
+                for (Therapeutic_Area_Patient__c coi : participant.Therapeutic_Area_Patients__r) {
+                    ConditionOfInterestRemote.CAWrapper caWrapper = new ConditionOfInterestRemote.CAWrapper ();
+                    caWrapper.isSelected = true;
+                    caWrapper.coi = coi;
+                    caWrappers.add(caWrapper);
+                }
             }
+            return caWrappers;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
         }
-        return caWrappers;
+        return null;
     }
 
     @AuraEnabled
     public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
-        upsert cois;
-        return cois;
+        try {
+            upsert cois;
+            return cois;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
+    public static void deleteCOI(List<Id> coiIds) {
+        try {
+            Database.delete(coiIds);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
     }
 
     private static Participant__c getParticipant() {
@@ -44,9 +63,9 @@ public with sharing class ConditionOfInterestRemote {
     }
 
     public class CAWrapper {
-        @auraEnabled
+        @AuraEnabled
         public Boolean isSelected;
-        @auraEnabled
+        @AuraEnabled
         public Therapeutic_Area_Patient__c coi;
     }
 

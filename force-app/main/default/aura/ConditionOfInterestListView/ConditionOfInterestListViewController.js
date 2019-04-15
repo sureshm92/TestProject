@@ -3,25 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        var action = component.get("c.getConditionOfInterest");
-        action.setCallback(this, function (response) {
-            var state = response.getState();
-            if (state === "SUCCESS") {
-                let taWrappers = response.getReturnValue();
-                component.set('v.conditionOfInterestList', taWrappers);
-            } else if (state === "ERROR") {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                            errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
-            }
+        communityService.executeAction(component, 'getConditionOfInterest', {}, function (returnValue) {
+            component.set('v.conditionOfInterestList', returnValue);
         });
-        $A.enqueueAction(action);
     },
 
     doSelect: function (component, event, helper) {
@@ -52,5 +36,40 @@
                 component.set('v.conditionOfInterestList', coiSaveWrapperList);
             });
         }
+    },
+
+    doDown: function (component, event, helper) {
+        let indexCoi = event.getSource().get('v.value');
+        let conditionOfInterestList = component.get('v.conditionOfInterestList');
+        [conditionOfInterestList[indexCoi], conditionOfInterestList[indexCoi + 1]] = [conditionOfInterestList[indexCoi + 1], conditionOfInterestList[indexCoi]];
+        component.set('v.conditionOfInterestList', conditionOfInterestList);
+        component.set('v.isSaveList', !component.get('v.isSaveList'));
+    },
+
+    doUp: function (component, event, helper) {
+        let indexCoi = event.getSource().get('v.value');
+        let conditionOfInterestList = component.get('v.conditionOfInterestList');
+        [conditionOfInterestList[indexCoi], conditionOfInterestList[indexCoi - 1]] = [conditionOfInterestList[indexCoi - 1], conditionOfInterestList[indexCoi]];
+        component.set('v.conditionOfInterestList', conditionOfInterestList);
+        component.set('v.isSaveList', !component.get('v.isSaveList'));
+    },
+
+    doDelete: function (component, event, helper) {
+        let idCOI = event.getSource().get('v.value');
+        let coiIds = [];
+        coiIds.push(idCOI);
+        let conditionOfInterestList = component.get('v.conditionOfInterestList');
+        if (coiIds) {
+            communityService.executeAction(component, 'deleteCOI', {
+                coiIds : coiIds
+            }, function () {
+                conditionOfInterestList = conditionOfInterestList.filter((el) => {
+                    return el.coi.Id !== idCOI;
+                });
+                component.set('v.conditionOfInterestList', conditionOfInterestList);
+                component.set('v.isSaveList', !component.get('v.isSaveList'));
+            });
+        }
+
     }
 })

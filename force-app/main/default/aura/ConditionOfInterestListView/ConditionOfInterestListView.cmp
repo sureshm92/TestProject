@@ -20,20 +20,25 @@
                             <div class="slds-float--right">
 
                                 <lightning:buttonIcon iconName="utility:up" variant="bare"
-                                                                                  size="small" onclick="{! c.handleClick }"
-                                                                                  alternativeText="up"
-                                                                                  class="{!arrayInd == 0 ? 'slds-hidden' : ''}"
+                                                      size="small" onclick="{!c.doUp}"
+                                                      alternativeText="up"
+                                                      value="{!arrayInd}"
+                                                      class="{!arrayInd == 0 ? 'slds-hidden' : ''}"
                                 />
 
-                                <lightning:buttonIcon iconName="utility:down" size="small"
-                                                      onclick="{! c.handleClick }" variant="bare"
+                                <lightning:buttonIcon iconName="utility:down" variant="bare"
+                                                      size="small" onclick="{!c.doDown}"
                                                       alternativeText="down"
+                                                      value="{!arrayInd}"
                                                       class="{!v.conditionOfInterestList.length == (arrayInd + 1) ? 'slds-hidden' : ''}"
                                 />
 
                                 <lightning:buttonIcon iconName="utility:close"  variant="bare"
-                                                      size="large" title="close"
-                                                      alternativeText="Delete COI"/>
+                                                      size="large" onclick="{!c.doDelete}"
+                                                      title="close"
+                                                      alternativeText="Delete COI"
+                                                      value="{!coi.coi.Id}"
+                                />
                             </div>
                         </div>
                     </div>
