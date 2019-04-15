@@ -18,8 +18,18 @@
     margin-bottom: 35px;
 }
 
-.THIS .cells .label {
+.THIS .cells .svl-icon{
+    min-width: 16px;
+}
+
+.THIS .cells .svl-label {
     margin-left:22px;
     margin-right: 23px;
     font-weight: bold;
+    min-width: 100px;
+}
+
+.THIS .cells .svl-desc{
+    min-width: 100px;
+    padding-right: 10px;
 }

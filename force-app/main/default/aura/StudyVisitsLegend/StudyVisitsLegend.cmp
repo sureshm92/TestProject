@@ -14,9 +14,9 @@
         <div class="inner-panel slds-scrollable_y" style="height:260px;">
             <aura:iteration items="{!v.legends}" var="legend">
                 <div class="cells">
-                    <c:RRIcon iconName="{!legend.iconId}"/>
-                    <p class="label">{!legend.iconLabel}</p>
-                    {!legend.iconLegend}
+                    <c:RRIcon iconName="{!legend.iconId}" class="svl-icon"/>
+                    <p class="svl-label">{!legend.iconLabel}</p>
+                    <p class="svl-desc">{!legend.iconLegend}</p>
                 </div>
             </aura:iteration>
         </div>
