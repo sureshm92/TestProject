@@ -3,15 +3,20 @@
  -->
 
 <aura:component controller="ConditionOfInterestRemote" description="ConditionOfInterestListView">
-    <aura:attribute name="ConditionOfInterestList" type="Object[]" default="name"/>
+    <aura:attribute name="conditionOfInterestList" type="Object[]"/>
+    <aura:attribute name="isSaveList" type="Boolean"/>
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.isSaveList}" action="{!c.doSaveSortCOIs}"/>
 
     <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-p-right--small">
         <div class="slds-grid slds-wrap">
-            <aura:if isTrue="{!!empty(v.ConditionOfInterestList)}">
-                <aura:iteration items="{!v.ConditionOfInterestList}" var="coi">
+            <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
+                <aura:iteration items="{!v.conditionOfInterestList}" var="coi">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                         <div class="slds-pill slds-container--fluid">
-                            <div class="slds-pill__label slds-p-left--medium">{!coi}</div>
+                            <div class="slds-pill__label slds-p-left--medium">{!coi.coi.Therapeutic_Area__r.Name}</div>
                             <div class="slds-float--right">
                                 <lightning:buttonIcon iconName="utility:down" size="small"
                                                       onclick="{! c.handleClick }" variant="bare"
@@ -42,13 +47,13 @@
         </div>
     </div>
     <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-align-bottom slds-p-top--medium slds-p-bottom--small slds-p-left--large">
-        <aura:if isTrue="{!!empty(v.ConditionOfInterestList)}">
-            <aura:if isTrue="{!lessthan(v.ConditionOfInterestList.length, 5)}">
+        <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
+            <aura:if isTrue="{!lessthan(v.conditionOfInterestList.length, 5)}">
                 <div class="slds-text-color--error">
                     Max 5 conditions - still active
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.ConditionOfInterestList.length == 5}">
+            <aura:if isTrue="{!v.conditionOfInterestList.length == 5}">
                 <div class="slds-text-color--error">
                     Still active as the validation will be done within the modal
                 </div>
@@ -57,5 +62,5 @@
 
     </div>
 
-    <c:SearchConditionsOfInterest aura:id="searchModal" therapeuticAreas="{!v.ConditionOfInterestList}"/>
+    <c:SearchConditionsOfInterest aura:id="searchModal" conditionsOfInterest="{!v.conditionOfInterestList}" isSaveList="{!v.isSaveList}"/>
 </aura:component>

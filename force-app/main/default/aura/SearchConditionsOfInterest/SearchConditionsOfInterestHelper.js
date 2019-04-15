@@ -6,7 +6,6 @@
         component.set('v.bypass', false);
         let value = event.getSource().get('v.value');
         if (value) {
-            component.set('v.displayFooter', true);
             // communityService.executeAction(component, 'searchConditionOfInterest', {
             //     nameTA : value
             // }, function (returnValue) {
@@ -17,14 +16,14 @@
             action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === "SUCCESS") {
-                    let taList = component.get('v.therapeuticAreas');
-                    let taWrappers = response.getReturnValue();
-                    taWrappers.forEach(taWrapper => {
-                        if (taList.some(ta => ta.Id === taWrapper.therArea.Id)) {
+                    let taList = component.get('v.conditionsOfInterest');
+                    let coiWrappers = response.getReturnValue();
+                    coiWrappers.forEach(taWrapper => {
+                        if (taList.some(ta => ta.coi.Therapeutic_Area__r.Id === taWrapper.coi.Therapeutic_Area__r.Id)) {
                             taWrapper.isSelected = true;
                         }
                     });
-                    component.set('v.displayedItems', taWrappers);
+                    component.set('v.displayedItems', coiWrappers);
                 } else if (state === "ERROR") {
                     var errors = response.getError();
                     if (errors) {
@@ -41,7 +40,6 @@
         } else {
             let arr = [];
             component.set('v.displayedItems', arr);
-            component.set('v.displayFooter', false);
         }
     },
 })
