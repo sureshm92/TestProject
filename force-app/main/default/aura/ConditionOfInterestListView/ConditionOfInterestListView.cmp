@@ -13,17 +13,24 @@
     <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-p-right--small">
         <div class="slds-grid slds-wrap">
             <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
-                <aura:iteration items="{!v.conditionOfInterestList}" var="coi">
+                <aura:iteration items="{!v.conditionOfInterestList}" var="coi" indexVar="arrayInd">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                         <div class="slds-pill slds-container--fluid">
                             <div class="slds-pill__label slds-p-left--medium">{!coi.coi.Therapeutic_Area__r.Name}</div>
                             <div class="slds-float--right">
+
+                                <lightning:buttonIcon iconName="utility:up" variant="bare"
+                                                                                  size="small" onclick="{! c.handleClick }"
+                                                                                  alternativeText="up"
+                                                                                  class="{!arrayInd == 0 ? 'slds-hidden' : ''}"
+                                />
+
                                 <lightning:buttonIcon iconName="utility:down" size="small"
                                                       onclick="{! c.handleClick }" variant="bare"
-                                                      alternativeText="down"/>
-                                <lightning:buttonIcon iconName="utility:up" variant="bare"
-                                                      size="small" onclick="{! c.handleClick }"
-                                                      alternativeText="up"/>
+                                                      alternativeText="down"
+                                                      class="{!v.conditionOfInterestList.length == (arrayInd + 1) ? 'slds-hidden' : ''}"
+                                />
+
                                 <lightning:buttonIcon iconName="utility:close"  variant="bare"
                                                       size="large" title="close"
                                                       alternativeText="Delete COI"/>

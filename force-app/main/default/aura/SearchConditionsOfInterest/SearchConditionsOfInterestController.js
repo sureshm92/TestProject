@@ -54,19 +54,11 @@
         let deleteCOI = component.get('v.conditionsOfInterest');
         let conditionsOfInterestTemp = component.get('v.conditionsOfInterestTemp');
         let deleteCoiId = [];
-
-        // conditionsOfInterestTemp.forEach(coiWrapper => {
-        //     if (conditionsOfInterest.every(coiItem => coiItem.coi.Therapeutic_Area__r.Id !== coiWrapper.coi.Therapeutic_Area__r.Id)) {
-        //         conditionsOfInterest.push(coiWrapper);
-        //     }
-        // });
-
         console.log(JSON.stringify(conditionsOfInterestTemp));
         conditionsOfInterestTemp.sort((a, b) => {
             return a.coi.Condition_Of_Interest_Order__c - b.coi.Condition_Of_Interest_Order__c;
         });
         console.log(JSON.stringify(conditionsOfInterestTemp));
-
         for( let i=deleteCOI.length - 1; i>=0; i--){
             for( let j=0; j<conditionsOfInterestTemp.length; j++){
                 if(deleteCOI[i] && (deleteCOI[i].coi.Id === conditionsOfInterestTemp[j].coi.Id)){
@@ -85,9 +77,7 @@
             }, function (returnValue) {
             });
         }
-
         console.log('DELETE COI' + JSON.stringify(deleteCoiId));
-
         component.set('v.conditionsOfInterest', conditionsOfInterestTemp);
         component.find('searchModal').hide();
         let arr = [];
