@@ -298,8 +298,11 @@ public without sharing class StudySiteService {
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType){
             this.site = site;
-            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
-            this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            if(site != null) {
+                this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+                this.siteType = site.Study_Site_Type__c;
+                this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            }
             if(sortType != null && sortType != ''){
                 this.sortType = sortType;
             }
@@ -307,7 +310,6 @@ public without sharing class StudySiteService {
                 this.sortType = 'Distance';
             }
 
-            this.siteType = site.Study_Site_Type__c;
             this.hcpe = hcpe;
             if (hcpe!=null) {
                 this.actions = new StudyActionsHCP(hcpe).actions;

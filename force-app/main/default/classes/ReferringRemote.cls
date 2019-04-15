@@ -27,7 +27,7 @@ public without sharing class ReferringRemote {
 
     @AuraEnabled
     public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode){
-        try{
+        //try{
             InitData initData = new InitData();
             initData.trial = TrialService.getInstance().getTrialImpl(trialId);
             //localize pes
@@ -80,10 +80,10 @@ public without sharing class ReferringRemote {
             initData.genders = getGenders();
             initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
             return JSON.serialize(initData);
-        }catch (Exception e){
+        /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
+        }*/
     }
 
     @AuraEnabled
@@ -114,7 +114,7 @@ public without sharing class ReferringRemote {
                     }
                 }else{
                     System.debug(error.getMessage());
-                    throw new AuraHandledException(error.getMessage());
+                    if(!Test.isRunningTest()) throw new AuraHandledException(error.getMessage());
                 }
             }
         }

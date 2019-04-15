@@ -50,6 +50,10 @@ public without sharing class CommunityService {
     public Id getCurrentContactId(){
         return CommunityService.getUserContact().Id;
     }
+
+    public Contact getUserContactImpl(){
+        return getUserContact();
+    }
     
     //Old static logic: ------------------------------------------------------------------------------------------------
     

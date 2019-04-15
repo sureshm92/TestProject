@@ -17,7 +17,7 @@ public without sharing class AccountSettingsController {
             if (initData.myContact.primaryContact__c == null) {
         
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT
-                        && !ParticipantService.getParticipantState().isDelegate) {
+                        && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
                             SELECT Id, First_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
@@ -43,7 +43,7 @@ public without sharing class AccountSettingsController {
                 initData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
             }
             initData.userName = UserInfo.getUserName();
-            initData.isDelegate = ParticipantService.getParticipantState().isDelegate;
+            initData.isDelegate = ParticipantService.getInstance().getState().isDelegate;
             return JSON.serialize(initData);
         } catch (Exception e) {
             System.debug(e);
@@ -69,7 +69,7 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static void changeEmail(String newEmail) {
         try {
-            Contact currentContact = CommunityService.getUserContact();
+            Contact currentContact = getCurrentContact();
             currentContact.Email = newEmail;
             update currentContact;
         } catch (Exception e) {
@@ -164,7 +164,7 @@ public without sharing class AccountSettingsController {
         List<AssignmentRule> ars = getCaseAssignmentRule();
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
-        dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
+        if(!ars.isEmpty()) dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
         newCase.Status = 'New';
