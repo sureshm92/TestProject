@@ -6,7 +6,7 @@
         component.set('v.userMode', userMode);
 
         if (userMode === 'HCP') {
-            window.addEventListener('resize', $A.getCallback(function(){
+            window.addEventListener('resize', $A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
                 // helper.doUpdateStudyDescription(component);
             }));
@@ -50,7 +50,11 @@
     },
 
     doUpdateRecords: function (cmp, event, helper) {
-        helper.searchForRecords(cmp, helper);
+        helper.searchForRecords(cmp, helper, false);
+    },
+
+    doUpdateRecordsWithFirstPage: function (cmp, event, helper) {
+        helper.searchForRecords(cmp, helper, true);
     },
 
     showNoThanksDialog: function (component, event, helper) {
@@ -61,7 +65,7 @@
 
     switchToSearchResume: function (cmp, event, helper) {
         cmp.set("v.isSearchResume", true);
-        cmp.set("v.filterData.searchText","");
-        helper.searchForRecords(cmp,helper);
+        cmp.set("v.searchResumeChanged", true);
+        helper.searchForRecords(cmp, helper);
     }
 });

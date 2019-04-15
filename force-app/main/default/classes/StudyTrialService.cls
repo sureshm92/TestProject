@@ -69,6 +69,7 @@ public without sharing class StudyTrialService {
 
     public class SearchResults {
         public List<StudyDetailItem> records;
+        public List<LabelValueItem> therapeuticAreas;
         public PaginationData paginationData;
     }
 
@@ -88,25 +89,17 @@ public without sharing class StudyTrialService {
         }
     }
 
+    public static List<LabelValueItem> therapeuticAreaFilterOptions;
+    public static LabelValueItem allTherapeuticArea = new LabelValueItem('All Therapeutic Areas', 'ALL');
+
     public static StudyFilterData getStudyFilterData() {
         StudyFilterData filterData = new StudyFilterData();
 
-        String therapeuticArea = 'All Therapeutic Areas';
-        filterData.therapeuticArea = 'ALL';
-        List<LabelValueItem> taOptions = new List<LabelValueItem>();
-        taOptions.add(new LabelValueItem(therapeuticArea, 'ALL'));
-        for (AggregateResult ar : [
-                SELECT Name taName
-                FROM Therapeutic_Area__c
-                GROUP BY Name
-        ]) {
-            String taName = (String) ar.get('taName');
-            taOptions.add(new LabelValueItem(taName, taName));
-        }
-        filterData.therapeuticAreas = taOptions;
-
         filterData.enrollmentStatuses = getStudyEnrollmentStatuses;
         filterData.enrollmentStatus = getStudyEnrollmentStatuses[0].value;
+
+        filterData.therapeuticAreas = therapeuticAreaFilterOptions;
+        filterData.therapeuticArea = allTherapeuticArea.value;
 
         return filterData;
     }
@@ -137,12 +130,12 @@ public without sharing class StudyTrialService {
             studies = searchStudiesGlobal(filterData, sortData, paginationData);
         } else {
             studies = getStudies(filterData, sortData, paginationData);
-            System.debug('studies12: ' + JSON.serializePretty(studies));
         }
 
         SearchResults sr = new SearchResults();
         sr.records = studies;
         sr.paginationData = paginationData;
+        sr.therapeuticAreas = therapeuticAreaFilterOptions;
 
         return JSON.serialize(sr);
     }
@@ -156,6 +149,17 @@ public without sharing class StudyTrialService {
         }
 
         return res;
+    }
+
+    private static List<Clinical_Trial_Profile__c> extractTrialsFromSites(List<Study_Site__c> sites) {
+        List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
+        for (Study_Site__c currStudySite : sites) {
+            if (currStudySite.Clinical_Trial_Profile__r != null) {
+                trials.add(currStudySite.Clinical_Trial_Profile__r);
+            }
+        }
+
+        return trials;
     }
 
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
@@ -174,8 +178,9 @@ public without sharing class StudyTrialService {
             }
         }
 
-        System.debug('query: ' + query);
+        System.debug('query searchStudiesGlobal: ' + query);
         List<Study_Site__c> allStudySites = Database.query(query);
+        setTherapeuticAreaFilterOptions(extractTrialsFromSites(allStudySites));
 
         // search and filters
         // TODO: need optimize
@@ -386,6 +391,21 @@ public without sharing class StudyTrialService {
         ];
     }
 
+    public static void setTherapeuticAreaFilterOptions(List<Clinical_Trial_Profile__c> trials) {
+        Set<String> options = new Set<String>();
+        for (Clinical_Trial_Profile__c currTrial : trials) {
+            if (currTrial.Therapeutic_Area__r != null && currTrial.Therapeutic_Area__r.Name != null) {
+                options.add(currTrial.Therapeutic_Area__r.Name);
+            }
+        }
+
+        therapeuticAreaFilterOptions = new List<LabelValueItem>();
+        therapeuticAreaFilterOptions.add(allTherapeuticArea);
+        for (String currOption : options) {
+            therapeuticAreaFilterOptions.add(new LabelValueItem(currOption, currOption));
+        }
+    }
+
     public static List<Clinical_Trial_Profile__c> searchTrials(Set<Id> trialsId, StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         String trialQuery = 'SELECT ' + String.join(TRIAL_FIELDS, ', ') + ' FROM Clinical_Trial_Profile__c WHERE (Id IN :trialsId) ';
         if (sortData.sortType == 'Distance ASC') {
@@ -394,6 +414,7 @@ public without sharing class StudyTrialService {
             trialQuery += ' ORDER BY ' + sortData.sortType;
         }
         List<Clinical_Trial_Profile__c> trials = Database.query(trialQuery);
+        setTherapeuticAreaFilterOptions(trials);
 
         List<Clinical_Trial_Profile__c> records = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c currTrial : trials) {

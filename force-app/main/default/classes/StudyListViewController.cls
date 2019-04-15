@@ -77,14 +77,17 @@ public without sharing class StudyListViewController {
                     new LabelValueItem('10', '10')
             };
 
-            //filters data:
-            initData.filterData = StudyTrialService.getStudyFilterData();
-
             //sort data:
             initData.sortData = StudyTrialService.getStudySortDataForHCP();
 
+            //filters data:
+            initData.filterData = StudyTrialService.getStudyFilterData();
+
             //records for current filter, sort and pagination:
             initData.currentPageList = StudyTrialService.getStudies(initData.filterData, initData.sortData, initData.paginationData);
+
+            // refresh filter data with TA options list
+            initData.filterData = StudyTrialService.getStudyFilterData();
 
             return JSON.serialize(initData);
         } catch (Exception e) {
