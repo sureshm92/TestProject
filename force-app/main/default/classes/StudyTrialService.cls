@@ -43,7 +43,7 @@ public without sharing class StudyTrialService {
         public List<LabelValueItem> sortVariants;
     }
 
-    public class StudyDetailItem {
+    public class StudyDetailItem implements Comparable{
         public Clinical_Trial_Profile__c trial;
         public List<StudyActions.Action> studyActions;
         public String studyStatus;
@@ -58,6 +58,23 @@ public without sharing class StudyTrialService {
         public Boolean hasActiveHCPEnrollments;
         public String distance;
         public String therapeuticArea;
+
+        public Integer compareTo(Object compareTo) {
+            StudyDetailItem compareItem = (StudyDetailItem)compareTo;
+            if(this.sites.isEmpty()){
+                if(compareItem.sites.isEmpty()){
+                    return 0;
+                }
+                else
+                    return 1;
+            }
+            else if(compareItem.sites.isEmpty()){
+                return -1;
+            }
+            else{
+                return (Integer)(this.sites[0].distance - compareItem.sites[0].distance);
+            }
+        }
     }
 
     public class EnrollmentWrapper {
@@ -328,7 +345,7 @@ public without sharing class StudyTrialService {
         }
 
         // get trials with fields and TC:
-        List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData, paginationData);
+        List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData);
 
 
         // prepare list of studies:
@@ -368,7 +385,19 @@ public without sharing class StudyTrialService {
             pageRecords.add(studyDetailItem);
         }
 
-        return pageRecords;
+        if(sortData.sortType == 'Distance ASC'){
+            pageRecords.sort();
+        }
+        paginationData.setRecordsCount(pageRecords.size());
+        List<StudyTrialService.StudyDetailItem> trialsOnPage = new List<StudyTrialService.StudyDetailItem>();
+        Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
+        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, pageRecords.size());
+        for (Integer i = leftRecord; i < rightRecord; i++) {
+            trialsOnPage.add(pageRecords[i]);
+        }
+
+
+        return trialsOnPage;
     }
 
     public static List<Clinical_Trial_Profile__c> getTrials(Set<Id> trialsId) {
@@ -406,7 +435,7 @@ public without sharing class StudyTrialService {
         }
     }
 
-    public static List<Clinical_Trial_Profile__c> searchTrials(Set<Id> trialsId, StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
+    public static List<Clinical_Trial_Profile__c> searchTrials(Set<Id> trialsId, StudyFilterData filterData, StudySortData sortData) {
         String trialQuery = 'SELECT ' + String.join(TRIAL_FIELDS, ', ') + ' FROM Clinical_Trial_Profile__c WHERE (Id IN :trialsId) ';
         if (sortData.sortType == 'Distance ASC') {
             trialQuery += ' ORDER BY Study_Code_Name__c ASC ';
@@ -449,14 +478,14 @@ public without sharing class StudyTrialService {
                 records.add(currTrial);
             }
         }
-        paginationData.setRecordsCount(records.size());
-        List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
-        Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
-        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, records.size());
-        for (Integer i = leftRecord; i < rightRecord; i++) {
-            trialsOnPage.add(records[i]);
-        }
-        return trialsOnPage;
+//        paginationData.setRecordsCount(records.size());
+//        List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
+//        Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
+//        Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, records.size());
+//        for (Integer i = leftRecord; i < rightRecord; i++) {
+//            trialsOnPage.add(records[i]);
+//        }
+        return records;
     }
 
     public static List<Clinical_Trial_Profile__c> getFullTrials(Set<Id> trialsId) {
