@@ -12,6 +12,10 @@
         let spinner = cmp.find('recordsSpinner');
         spinner.show();
         let filter = cmp.get('v.filterData');
+        if (cmp.get("v.searchResumeChanged") === true) {
+            filter.searchText = '';
+            filter.therapeuticArea = 'ALL';
+        }
         let searchText = filter.searchText;
 
         let paginationData = cmp.get('v.paginationData');
