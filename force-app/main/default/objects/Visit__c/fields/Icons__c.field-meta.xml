@@ -41,7 +41,7 @@
                 <label>Receive study medication</label>
             </value>
             <value>
-                <fullName>Return_study_medication</fullName>
+                <fullName>icon-order-descending</fullName>
                 <default>false</default>
                 <label>Return study medication</label>
             </value>

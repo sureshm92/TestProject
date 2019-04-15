@@ -51,14 +51,14 @@
                         </aura:if>
                     </c:rrButtonTubSet>
                 </div>
-                <div class="h-header-picklist rr-small-up-hide">
-                    <lightning:select label="" value="{!v.currentTab}">
-                        <option value="help">{!$Label.c.PG_HLP_H_Application_Help}</option>
-                        <option value="feedback">{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}</option>
-                        <option value="problem">{!$Label.c.PG_HLP_H_Report_a_Problem}</option>
+                <div class="rr-small-up-hide">
+                    <lightning:select label="label" value="{!v.currentTab}" variant="label-hidden">
+                        <option value="help" label="{!$Label.c.PG_HLP_H_Application_Help}"/>
+                        <option value="feedback" label="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"/>
+                        <option value="problem" label="{!$Label.c.PG_HLP_H_Report_a_Problem}"/>
                         <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <option value="req-data">{!$Label.c.PG_HLP_Req_Data}</option>
-                            <option value="study-h">{!$Label.c.PG_HLP_Study_H}</option>
+                            <option value="req-data" label="{!$Label.c.PG_HLP_Req_Data}"/>
+                            <option value="study-h" label="{!$Label.c.PG_HLP_Study_H}"/>
                         </aura:if>
                     </lightning:select>
                 </div>

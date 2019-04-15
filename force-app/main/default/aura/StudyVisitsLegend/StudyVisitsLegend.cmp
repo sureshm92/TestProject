@@ -12,13 +12,15 @@
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
         <div class="inner-panel slds-scrollable_y" style="height:260px;">
-            <aura:iteration items="{!v.legends}" var="legend">
-                <div class="cells">
-                    <c:RRIcon iconName="{!legend.iconId}" class="svl-icon"/>
-                    <p class="svl-label">{!legend.iconLabel}</p>
-                    <p class="svl-desc">{!legend.iconLegend}</p>
-                </div>
-            </aura:iteration>
+            <table class="svl-table">
+                <aura:iteration items="{!v.legends}" var="legend">
+                    <tr>
+                        <td class="svl-icon"><c:RRIcon iconName="{!legend.iconId}"/></td>
+                        <td class="svl-label">{!legend.iconLabel}</td>
+                        <td class="svl-desc">{!legend.iconLegend}</td>
+                    </tr>
+                </aura:iteration>
+            </table>
         </div>
     </div>
 

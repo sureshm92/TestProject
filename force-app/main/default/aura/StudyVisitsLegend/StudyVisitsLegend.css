@@ -10,26 +10,36 @@
 .THIS .inner-panel{
     display: flex;
     flex-direction: column;
+    padding-left: 23px;
 }
 
-.THIS .cells {
-    display: inline-flex;
-    margin-left: 24px;
-    margin-bottom: 35px;
+.THIS .svl-table tr{
+    vertical-align: top;
 }
 
-.THIS .cells .svl-icon{
-    min-width: 16px;
+.THIS .svl-table td{
+    border-bottom: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-.THIS .cells .svl-label {
-    margin-left:22px;
-    margin-right: 23px;
+.THIS .svl-icon{
+    display: flex;
+    height: 32px;
+    width: 32px;
+    justify-content: center;
+}
+
+.THIS .svl-label {
+    padding-left:22px;
     font-weight: bold;
-    min-width: 100px;
+    min-width: 120px;
+    max-width: 120px;
 }
 
-.THIS .cells .svl-desc{
+.THIS .svl-desc{
     min-width: 100px;
+    width: 930px;
+    padding-left: 15px;
     padding-right: 10px;
 }
