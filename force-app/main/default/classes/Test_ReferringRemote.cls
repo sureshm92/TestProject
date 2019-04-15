@@ -9,7 +9,7 @@ private class Test_ReferringRemote {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
-            if(stubbedMethodName == 'getTrialFromId'){
+            if(stubbedMethodName == 'getTrialImpl'){
                 return new Clinical_Trial_Profile__c();
             }
             return null;
@@ -20,7 +20,7 @@ private class Test_ReferringRemote {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
-            if(stubbedMethodName == 'getHCPEnrollment'){
+            if(stubbedMethodName == 'getHCPEnrollmentByIdImpl'){
                 return new HCP_Enrollment__c();
             }
             return null;
@@ -31,11 +31,11 @@ private class Test_ReferringRemote {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
-            if(stubbedMethodName == 'getEnrollment'){
+            if(stubbedMethodName == 'getParticipantEnrollmentImpl'){
                 return new Participant_Enrollment__c();
-            } else if(stubbedMethodName == 'createNewParticipantEnrollment'){
+            } else if(stubbedMethodName == 'createParticipantEnrollmentImpl'){
                 return new Participant_Enrollment__c();
-            } else if(stubbedMethodName == 'getPendingParticipantEnrollmentList'){
+            } else if(stubbedMethodName == 'getPendingParticipantEnrollmentsImpl'){
                 return new List<Participant_Enrollment__c>();
             }
             return null;
@@ -46,9 +46,9 @@ private class Test_ReferringRemote {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
-            if(stubbedMethodName == 'getSiteFilter'){
+            if(stubbedMethodName == 'getSiteFilterDataImpl'){
                 return new StudySiteService.SiteFilterData();
-            } else if(stubbedMethodName == 'getStudySitesWithDistanceByTrialId'){
+            } else if(stubbedMethodName == 'getStudySitesWithDistanceForHCPByTrialIdImpl'){
                 return new List<StudySiteService.StudySiteDistanceWrapper>();
             }
             return null;

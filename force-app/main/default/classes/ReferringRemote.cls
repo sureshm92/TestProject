@@ -29,29 +29,29 @@ public without sharing class ReferringRemote {
     public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode){
         try{
             InitData initData = new InitData();
-            initData.trial = TrialService.getInstance().getTrialFromId(trialId);
+            initData.trial = TrialService.getInstance().getTrialImpl(trialId);
             //localize pes
             if(initData.trial.Link_to_Pre_screening__c != null){
                 initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(initData.trial.Link_to_Pre_screening__c);
             }
             if(hcpeId != null){
-                initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollment(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
+                initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
             }
             //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
 
             //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
             if(peId != null) {
-                initData.participantEnrollment = ParticipantEnrollmentService.getInstance().getEnrollment(peId, userMode);
+                initData.participantEnrollment = ParticipantEnrollmentService.getInstance().getParticipantEnrollmentImpl(peId, userMode);
             }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
-                initData.participantEnrollment = ParticipantEnrollmentService.getInstance().createNewParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
+                initData.participantEnrollment = ParticipantEnrollmentService.getInstance().createParticipantEnrollmentImpl(initData.trial, initData.hcpEnrollment, null);
             }
             if(initData.trial.Link_to_Medical_Record_Review__c != null) {
-                initData.pendingPEnrollments = ParticipantEnrollmentService.getInstance().getPendingParticipantEnrollmentList(trialId, null);
+                initData.pendingPEnrollments = ParticipantEnrollmentService.getInstance().getPendingParticipantEnrollmentsImpl(trialId, null);
             }
-            StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilter(trialId, 'HCP');
+            StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
 
             StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
-            List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceByTrialId(siteFilter, null, true);
+            List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true);
             initData.markers = new List<ReferringRemote.AccountWrapper>();
             initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
             for(StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp){
@@ -89,7 +89,7 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static void saveParticipant(Id trialId, Id hcpeId, String pEnrollmentJSON, String participantJSON){
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
-        HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollment(hcpeId, CommunityService.USER_MODE_HCP);
+        HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
         participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI;
         if(participantEnrollment.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PENDING){

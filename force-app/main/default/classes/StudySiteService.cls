@@ -52,12 +52,58 @@ public without sharing class StudySiteService {
         instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
     }
 
-    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
-        return getStudySitesWithDistanceForHCPByTrialId(filter, paginationData, filterEmptyHCPE);
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
+        List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
+        Set<Id> quueriedTrials = new Set<Id>();
+        for(Study_Site__c site : siteList){
+            quueriedTrials.add(site.Clinical_Trial_Profile__c);
+        }
+        System.debug('queried Trials' + quueriedTrials);
+        Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        for(HCP_Enrollment__c hcpe: enrollments){
+            hcpeMap.put(hcpe.Study_Site__c, hcpe);
+        }
+        for(Study_Site__c site : siteList){
+            if(site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType );
+                result.add(siteWrapper);
+            }
+        }
+
+        if(paginationData != null){
+            paginationData.setRecordsCount(result.size());
+            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
+            for(Integer i = paginationData.offset; i < paginationData.endOffset; i++){
+                pageList.add(result[i]);
+            }
+            result = pageList;
+        }
+        result.sort();
+        return result;
     }
 
-    public SiteFilterData getSiteFilter(Id trialId, String mode){
-        return getSiteFilterData(trialId, mode);
+    public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode){
+        Id userContactId = CommunityService.getUserContact().Id;
+
+        SiteFilterData siteFilterData = new SiteFilterData();
+        siteFilterData.mode = mode;
+        siteFilterData.trialId = trialId;
+        siteFilterData.siteTypes = new List<LabelValueItem>();
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
+        Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
+        for (PicklistEntry ple : siteTypesfield.getPicklistValues()){
+            siteFilterData.siteTypes.add(new LabelValueItem(ple.label,ple.value));
+        }
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
+        siteFilterData.distanceRanges = new List<LabelValueItem>();
+        siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
+        siteFilterData.therapeuticAreas = new List<LabelValueItem>();
+        siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
+        return siteFilterData;
     }
 
     public static String changeStatus(Id studySiteId, String userMod, String newStatusType) {
@@ -239,25 +285,7 @@ public without sharing class StudySiteService {
     }
 
     public static SiteFilterData getSiteFilterData(Id trialId, String mode){
-        Id userContactId = CommunityService.getUserContact().Id;
-
-        SiteFilterData siteFilterData = new SiteFilterData();
-        siteFilterData.mode = mode;
-        siteFilterData.trialId = trialId;
-        siteFilterData.siteTypes = new List<LabelValueItem>();
-        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
-        Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
-        for (PicklistEntry ple : siteTypesfield.getPicklistValues()){
-            siteFilterData.siteTypes.add(new LabelValueItem(ple.label,ple.value));
-        }
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
-        siteFilterData.distanceRanges = new List<LabelValueItem>();
-        siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
-        siteFilterData.therapeuticAreas = new List<LabelValueItem>();
-        siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
-        return siteFilterData;
+        return StudySiteService.getInstance().getSiteFilterDataImpl(trialId, mode);
     }
     public class StudySiteDistanceWrapper implements Comparable{
         public Study_Site__c site;
@@ -328,35 +356,7 @@ public without sharing class StudySiteService {
     }
 
     public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId( SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
-        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
-        List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
-        Set<Id> quueriedTrials = new Set<Id>();
-        for(Study_Site__c site : siteList){
-            quueriedTrials.add(site.Clinical_Trial_Profile__c);
-        }
-        System.debug('queried Trials' + quueriedTrials);
-        Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
-        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
-        for(HCP_Enrollment__c hcpe: enrollments){
-            hcpeMap.put(hcpe.Study_Site__c, hcpe);
-        }
-        for(Study_Site__c site : siteList){
-            if(site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType );
-                result.add(siteWrapper);
-            }
-        }
-
-        if(paginationData != null){
-            paginationData.setRecordsCount(result.size());
-            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
-            for(Integer i = paginationData.offset; i < paginationData.endOffset; i++){
-                pageList.add(result[i]);
-            }
-            result = pageList;
-        }
-            result.sort();
-        return result;
+        return StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(filter, paginationData, filterEmptyHCPE);
     }
     public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
         String filterString = '';

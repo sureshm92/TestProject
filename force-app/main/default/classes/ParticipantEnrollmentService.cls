@@ -38,16 +38,39 @@ public without sharing class ParticipantEnrollmentService {
         instance = (ParticipantEnrollmentService) Test.createStub(ParticipantEnrollmentService.class, stubProvider);
     }
 
-    public Participant_Enrollment__c getEnrollment(Id peId, String userMode){
-        return getParticipantEnrollment(peId, userMode);
+    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode){
+        List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'');
+        if(peList.size() > 0) return peList[0];
+        return null;
     }
 
-    public Participant_Enrollment__c createNewParticipantEnrollment(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
-        return createParticipantEnrollment(trial, hcpEnrollment, participantId);
+    public Participant_Enrollment__c createParticipantEnrollmentImpl(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
+        String mrrStatus = MRR_STATUS_NOT_REQUIRED;
+        if(trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
+
+        String pesStatus = PES_STATUS_NOT_REQUIRED;
+        if(trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
+
+
+        Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                HCP__c = hcpEnrollment.Id,
+                HCP__r = hcpEnrollment,
+                Pre_screening_Status__c = pesStatus,
+                Medical_Record_Review_Status__c = mrrStatus,
+                PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c,
+                Study_Site__c = hcpEnrollment.Study_Site__c,
+                Patient_ID__c = participantId,
+                Referral_Source__c = 'HCP'
+        );
+        //insert participantEnrollment;
+        return participantEnrollment;
     }
 
-    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentList(Id trialId, Id hcpEnrollmentId){
-        return getPendingParticipantEnrollments(trialId, hcpEnrollmentId);
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId){
+        return getPEnrolmentsCommon(
+                CommunityService.USER_MODE_HCP,
+                ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
+        );
     }
 
     public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){
@@ -76,16 +99,11 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode){
-        List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'');
-        if(peList.size() > 0) return peList[0];
-        return null;
+        return ParticipantEnrollmentService.getInstance().getParticipantEnrollmentImpl(peId, userMode);
     }
     
     public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId){
-        return getPEnrolmentsCommon(
-                CommunityService.USER_MODE_HCP,
-                ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
-        );
+        return ParticipantEnrollmentService.getInstance().getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId);
     }
 
     public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId){
@@ -320,25 +338,7 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static Participant_Enrollment__c createParticipantEnrollment(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
-        String mrrStatus = MRR_STATUS_NOT_REQUIRED;
-        if(trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
-
-        String pesStatus = PES_STATUS_NOT_REQUIRED;
-        if(trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
-
-
-        Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                HCP__r = hcpEnrollment,
-                Pre_screening_Status__c = pesStatus,
-                Medical_Record_Review_Status__c = mrrStatus,
-                PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c,
-                Study_Site__c = hcpEnrollment.Study_Site__c,
-                Patient_ID__c = participantId,
-                Referral_Source__c = 'HCP'
-        );
-        //insert participantEnrollment;
-        return participantEnrollment;
+        return ParticipantEnrollmentService.getInstance().createParticipantEnrollmentImpl(trial, hcpEnrollment, participantId);
     }
 
     //contains selected filter values
