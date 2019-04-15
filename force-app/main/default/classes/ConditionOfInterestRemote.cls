@@ -4,11 +4,11 @@
 
 public with sharing class ConditionOfInterestRemote {
     public static final String COI = 'Condition_of_Interests';
+
     @AuraEnabled
     public static List<ConditionOfInterestRemote.CAWrapper> getConditionOfInterest() {
         Participant__c participant = getParticipant();
         List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
-
         if (!participant.Therapeutic_Area_Patients__r.isEmpty()) {
             for (Therapeutic_Area_Patient__c coi : participant.Therapeutic_Area_Patients__r) {
                 ConditionOfInterestRemote.CAWrapper caWrapper = new ConditionOfInterestRemote.CAWrapper ();
@@ -22,7 +22,7 @@ public with sharing class ConditionOfInterestRemote {
 
     @AuraEnabled
     public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
-         upsert cois;
+        upsert cois;
         return cois;
     }
 
@@ -42,7 +42,6 @@ public with sharing class ConditionOfInterestRemote {
                         'WHERE Id = \'' + participantId + '\'';
         return ((List<Participant__c>) databaseProxy.query(participantQuery))[0];
     }
-
 
     public class CAWrapper {
         @auraEnabled
