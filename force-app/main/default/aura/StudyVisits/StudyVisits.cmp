@@ -8,7 +8,7 @@
 
     <!--attributes-->
     <aura:attribute name="visits" type="List"/>
-    <aura:attribute name="paginationData" type="Object"/>
+    <aura:attribute name="currentVisits" type="List"/>
 
     <div class="sv-body">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
@@ -17,30 +17,29 @@
             <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>
         </div>
 
-        <div class="rr-white-panel">
+        <ui:scrollerWrapper class="rr-white-panel">
             <aura:if isTrue="{!!empty(v.visits)}">
                 <c:RRTable>
                     <tr>
-                        <th style="padding-left: 34px;">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
                         <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                        <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                        <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
                     </tr>
-                    <aura:iteration var="visit" items="{!v.visits}">
+                    <aura:iteration var="visit" items="{!v.currentVisits}">
                         <tr>
-                            <td style="padding-left: 34px;">{!visit.Name}</td>
-                            <td>{!visit.Timeplane__c}</td>
-                            <td><c:RRIconSplitter value="{!visit.Icons__c}"/></td>
+                            <td class="sv-t-name">{!visit.Name}</td>
+                            <td class="sv-t-time">{!visit.Timeplane__c}</td>
+                            <td class="sv-t-icons">
+                                <c:RRIconSplitter value="{!visit.Icons__c}"/>
+                            </td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>
                 <div class="pagination">
-                    <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                                          currentPage="{!v.paginationData.currentPage}"
-                                          allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+                    <c:rrPagination allObjects="{!v.visits}" currentObjects="{!v.currentVisits}" entriesOnPage="4"/>
                 </div>
-
             </aura:if>
-        </div>
+        </ui:scrollerWrapper>
 
         <c:StudyVisitsLegend/>
     </div>

@@ -24,7 +24,7 @@
                         <tr>
                             <td>{!visit.Name}</td>
                             <td>{!visit.Timeplane__c}</td>
-                            <td><c:RRIconSplitter value="{!visit.Icons__c}"/></td>
+                            <td><c:RRIconSplitter value="{!visit.Icons__c}" hideMoreThan3="true"/></td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>

@@ -4,10 +4,7 @@
 ({
     doInit : function(component, event, helper) {
         communityService.executeAction(component, 'getParticipantVisits', null, function(response) {
-            var initData = JSON.parse(response);
-            component.set('v.visits', initData.visits);
-            component.set('v.paginationData', initData.paginationData);
-
+            component.set('v.visits', JSON.parse(response));
             component.find('spinner').hide();
         });
     },

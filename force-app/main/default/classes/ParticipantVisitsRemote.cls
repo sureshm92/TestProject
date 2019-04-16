@@ -35,17 +35,7 @@ public with sharing class ParticipantVisitsRemote {
     @AuraEnabled
     public static String getParticipantVisits() {
         try{
-            List<Visit__c> visits = VisitService.getInstance().getAllVisits();
-
-            PaginationData paginationData = new PaginationData();
-            paginationData.pageRecordsCount = 4;
-            paginationData.setRecordsCount(visits.size());
-
-            InitData initData = new InitData();
-            initData.visits = visits;
-            initData.paginationData = paginationData;
-
-            return JSON.serialize(initData);
+            return JSON.serialize(VisitService.getInstance().getAllVisits());
         }catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
@@ -68,11 +58,6 @@ public with sharing class ParticipantVisitsRemote {
         }catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
-    }
-
-    class InitData {
-        public List<Visit__c> visits;
-        public PaginationData paginationData;
     }
 
     class Legend {

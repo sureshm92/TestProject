@@ -5,10 +5,6 @@
     padding-bottom: 50px;
 }
 
-.THIS td{
-    border-bottom: 1px solid #eaeaea;
-}
-
 .THIS .tt-title{
     font-size: 20px;
     font-weight: 500;
@@ -19,7 +15,25 @@
     align-items: center;
     justify-content: space-between;
 }
+.THIS td{
+    border-bottom: 1px solid #eaeaea;
+    min-height: 45px;
+}
+
+.THIS .sv-t-name{
+    padding-left: 34px;
+    width: 30%;
+}
+
+.THIS .sv-t-time{
+    width: 30%;
+}
+
+.THIS .sv-t-icons{
+    width: 40%;
+}
 
 .THIS .pagination{
+    margin-top: 20px;
     margin-bottom: 15px;
 }

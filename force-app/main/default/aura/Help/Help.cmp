@@ -43,12 +43,13 @@
                                               currentTab="{!v.currentTab}"/>
                         <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"
                                               currentTab="{!v.currentTab}"/>
-                        <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"
-                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"
-                                                  currentTab="{!v.currentTab}"/>
-                        </aura:if>
+                        <!--Hide until the next release-->
+<!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
+<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"-->
+<!--                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>-->
+<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"-->
+<!--                                                  currentTab="{!v.currentTab}"/>-->
+<!--                        </aura:if>-->
                     </c:rrButtonTubSet>
                 </div>
                 <div class="rr-small-up-hide">
@@ -56,10 +57,11 @@
                         <option value="help" label="{!$Label.c.PG_HLP_H_Application_Help}"/>
                         <option value="feedback" label="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"/>
                         <option value="problem" label="{!$Label.c.PG_HLP_H_Report_a_Problem}"/>
-                        <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <option value="req-data" label="{!$Label.c.PG_HLP_Req_Data}"/>
-                            <option value="study-h" label="{!$Label.c.PG_HLP_Study_H}"/>
-                        </aura:if>
+                        <!--Hide until the next release-->
+<!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
+<!--                            <option value="req-data" label="{!$Label.c.PG_HLP_Req_Data}"/>-->
+<!--                            <option value="study-h" label="{!$Label.c.PG_HLP_Study_H}"/>-->
+<!--                        </aura:if>-->
                     </lightning:select>
                 </div>
             </aura:if>
