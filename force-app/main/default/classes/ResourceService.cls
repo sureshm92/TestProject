@@ -337,6 +337,11 @@ public with sharing class ResourceService {
                     } else {
                         bodyFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
                     }
+                } else if ('Byline__c'.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                    valueField = resource.get('Author_s_Name__c');
+                    if (valueField != null) {
+                        bodyFieldWrappers.add(new ResourceFieldWrapper('Author_s_Name__c', valueField, fieldApi.CSS_Class_Name__c));
+                    }
                 }
             }
         }
