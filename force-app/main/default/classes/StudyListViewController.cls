@@ -6,7 +6,7 @@ public without sharing class StudyListViewController {
 
     class StudiesGroup {
         String name;
-        List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
+        List<StudyDetailItem> studies = new List<StudyDetailItem>();
 
         StudiesGroup(String name) {
             this.name = name;
@@ -14,7 +14,7 @@ public without sharing class StudyListViewController {
     }
 
     class InitData {
-        List<StudyTrialService.StudyDetailItem> trialsNoLongerRecruiting = new List<StudyTrialService.StudyDetailItem>();
+        List<StudyDetailItem> trialsNoLongerRecruiting = new List<StudyDetailItem>();
         List<StudiesGroup> currentlyRecruitingTrials = new List<StudiesGroup>();
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
@@ -26,14 +26,14 @@ public without sharing class StudyListViewController {
         public StudyTrialService.StudySortData sortData;
         public StudyTrialService.StudyFilterData filterData;
         public PaginationData paginationData;
-        public List<StudyTrialService.StudyDetailItem> currentPageList;
+        public List<StudyDetailItem> currentPageList;
     }
 
     @AuraEnabled
     public static String getStudyTrialList(String userMode) {
         try {
             InitData initData = new InitData();
-            List<StudyTrialService.StudyDetailItem> studies;
+            List<StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
                 studies = getStudiesForHCP();
                 groupTrials(initData, studies, userMode);
@@ -89,7 +89,7 @@ public without sharing class StudyListViewController {
         }
     }
 
-    public static List<StudyTrialService.StudyDetailItem> getStudiesForHCP() {
+    public static List<StudyDetailItem> getStudiesForHCP() {
         // prepare map trialId -> HCPEnrollment:
         Map<Id, HCP_Enrollment__c> trialHCPEnrollmentMap = new Map<Id, HCP_Enrollment__c>();
         for (HCP_Enrollment__c enrollment : HCPEnrollmentService.getHCPEnrollmentsForHCP()) {
@@ -99,10 +99,10 @@ public without sharing class StudyListViewController {
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialHCPEnrollmentMap.keySet());
         //prepare list of studies:
-        List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
+        List<StudyDetailItem> studies = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
             HCP_Enrollment__c hcpe = trialHCPEnrollmentMap.get(trial.Id);
-            StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
+            StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.hcpe = hcpe;
             studyDetailItem.trial = trial;
             studyDetailItem.studyStatus = hcpe.Status__c;
@@ -113,7 +113,7 @@ public without sharing class StudyListViewController {
         return studies;
     }
 
-    public static List<StudyTrialService.StudyDetailItem> getStudiesForPI() {
+    public static List<StudyDetailItem> getStudiesForPI() {
         // prepare map trialId -> StudySite
         Map<Id, Study_Site__c> trialStudySiteMap = new Map<Id, Study_Site__c>();
         for (Study_Site__c studySite : StudySiteService.getStudySitesForPI()) {
@@ -124,10 +124,10 @@ public without sharing class StudyListViewController {
         Map<Id, Boolean> termsAcceptedMap;
         termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
         // prepare result list:
-        List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
+        List<StudyDetailItem> studies = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
             Study_Site__c ss = trialStudySiteMap.get(trial.Id);
-            StudyTrialService.StudyDetailItem studyDetailItem = new StudyTrialService.StudyDetailItem();
+            StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
             studyDetailItem.studyStatus = ss.Override_PI_Referral_Status__c;
             studyDetailItem.ss = ss;
@@ -139,7 +139,7 @@ public without sharing class StudyListViewController {
         return studies;
     }
 
-    public static void groupTrials(InitData initData, List<StudyTrialService.StudyDetailItem> allStudies, String userMode) {
+    public static void groupTrials(InitData initData, List<StudyDetailItem> allStudies, String userMode) {
         StudiesGroup activated = new StudiesGroup(userMode == CommunityService.USER_MODE_PI ? Label.SGT_Accepted_and_active : Label.SGT_Activated);
         StudiesGroup pendingStudySiteAction = new StudiesGroup(Label.SGT_Pending_Study_Site_s_Action);
         StudiesGroup onHold = new StudiesGroup(Label.SGT_On_hold);
@@ -147,7 +147,7 @@ public without sharing class StudyListViewController {
         StudiesGroup declined = new StudiesGroup(Label.SGT_Declined_Acceptance);
         StudiesGroup declinedOther = new StudiesGroup(Label.SGT_Declined_by_Others);
         StudiesGroup deactivated = new StudiesGroup(Label.SGT_Deactivated);
-        for (StudyTrialService.StudyDetailItem item : allStudies) {
+        for (StudyDetailItem item : allStudies) {
             TranslateHelper.translate(item.trial);
             if (item.trial.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
                 initData.trialsNoLongerRecruiting.add(item);
@@ -177,11 +177,11 @@ public without sharing class StudyListViewController {
     }
 
 
-    public static void loadStatistics(List<StudyTrialService.StudyDetailItem> studies) {
+    public static void loadStatistics(List<StudyDetailItem> studies) {
         Map<Id, Integer> referredCountMap = ParticipantEnrollmentService.getReferredByTrial();
         String allReviewedFilter = ' AND Participant_Status__c IN (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES_WITH_REFERRING), '\',\'') + '\') ';
         Map<Id, Integer> allCountMap = ParticipantEnrollmentService.getPECountMapByTrialsForPI(allReviewedFilter);
-        for (StudyTrialService.StudyDetailItem item : studies) {
+        for (StudyDetailItem item : studies) {
             item.statistics.add(new StudyTotalPassed('all',
                     allCountMap.get(item.trial.Id),
                     referredCountMap.get(item.trial.Id)

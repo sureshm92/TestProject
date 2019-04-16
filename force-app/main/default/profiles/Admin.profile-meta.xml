@@ -571,6 +571,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudyDetailItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyDetailViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>

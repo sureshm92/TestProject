@@ -257,6 +257,7 @@ public without sharing class StudySiteService {
         public String sortType;
         public Boolean hasPatients;
         public Boolean hasActiveHCPE;
+        public Datetime hcpCreatedDate;
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, Boolean hasPatients) {
             this.site = site;
@@ -273,6 +274,7 @@ public without sharing class StudySiteService {
             this.hcpe = hcpe;
             if (hcpe != null) {
                 this.actions = new StudyActionsHCP(hcpe).actions;
+                this.hcpCreatedDate = hcpe.CreatedDate;
             } else {
                 this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
             }
