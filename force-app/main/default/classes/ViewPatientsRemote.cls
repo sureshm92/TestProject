@@ -76,6 +76,10 @@ public without sharing class ViewPatientsRemote {
                             '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')';
                 }
             }
+            else if(mode == CommunityService.USER_MODE_HCP){
+                filterCopy.additionalFilter += ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
+            }
+
             //records for current filter and pagination
             initData.currentPageList = convertToPEWrapperList(
                     ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData),
@@ -113,12 +117,18 @@ public without sharing class ViewPatientsRemote {
                 filter.referringClinic = null;*/
                 if(piBtnFilter.equalsIgnoreCase('Pending')){
                     filter.additionalFilter += ' AND Participant_Status__c IN ' +
-                            '(\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[0].states.values(), '\',\'') + '\')';
+                            '(\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[0].states.values(), '\',\'') + '\')'
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
                 }else{
                     filter.additionalFilter += ' AND Participant_Status__c IN ' +
-                            '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')';
+                            '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')'
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
                 }
             }
+            else if(userMode == CommunityService.USER_MODE_HCP){
+                filter.additionalFilter += ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
+            }
+            System.debug('additionalFilter' + filter.additionalFilter);
             SearchResult result = new SearchResult();
             result.peList = convertToPEWrapperList(
                     ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination),
