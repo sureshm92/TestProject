@@ -138,7 +138,7 @@
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
-                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Study Site to search for sites.</span>
+                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Sites For This Study to search for sites.</span>
                                     </div>
                                 </aura:if>
                             </aura:if>
