@@ -66,10 +66,12 @@ public with sharing class ArticleService {
     }
     public void validateUpdatedDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
-            if (resource.Updated_Date__c != null)
+            if (resource.Updated_Date__c != null && resource.Posting_Date__c != null) {
                 if (resource.Updated_Date__c.isSameDay(resource.Posting_Date__c)) {
                     resource.Updated_Date__c = null;
                 }
+            }
+
         }
     }
 
@@ -101,6 +103,9 @@ public with sharing class ArticleService {
             }
         } else if (resource.Posting_Date__c == null) {
             resource.Posting_Date__c = resource.Expiration_Date__c.addMonths(-12);
+        } else if (resource.Posting_Date__c > resource.Expiration_Date__c) {
+            resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
+
         }
     }
 

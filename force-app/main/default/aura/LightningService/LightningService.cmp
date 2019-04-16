@@ -1,0 +1,7 @@
+<!--
+ - Created by AlexKetch on 4/16/2019.
+ -->
+
+<aura:component description="LightningService" extensible="true">
+    {!v.body}
+</aura:component>
