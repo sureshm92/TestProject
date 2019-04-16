@@ -224,9 +224,9 @@ public class StudyActionsHCP extends StudyActions{
         }
 
         //Find study sites:
-        if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c) && !isTCAcceptanceRequired){
-            studyListViewItemActions.add(actions.get(ACT_FIND_STUDY_SITES));
-        }
+//        if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c) && !isTCAcceptanceRequired){
+//            studyListViewItemActions.add(actions.get(ACT_FIND_STUDY_SITES));
+//        }
 
         //No thanks:
 //        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
