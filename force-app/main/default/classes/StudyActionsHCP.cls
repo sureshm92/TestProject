@@ -229,9 +229,9 @@ public class StudyActionsHCP extends StudyActions{
         }
 
         //No thanks:
-        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
-            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
-        }
+//        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
+//            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
+//        }
 
         //Share
         if(hcpEnrollment!= null && shareStatuses.contains(hcpEnrollment.Status__c)) {
