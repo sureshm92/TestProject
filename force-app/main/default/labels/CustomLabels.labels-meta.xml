@@ -2780,6 +2780,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Site name</value>
     </labels>
     <labels>
+        <fullName>PE_Site_SiteZIPCode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Site SiteZIPCode</shortDescription>
+        <value>Site Zip Code</value>
+    </labels>
+    <labels>
         <fullName>PE_State</fullName>
         <language>en_US</language>
         <protected>false</protected>
