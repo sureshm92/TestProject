@@ -50,9 +50,9 @@ public without sharing class TaskService {
         return instance;
     }
     
-    private TaskService(){
+    /*private TaskService(){
         //lock Task Service Constructor outside
-    }
+    }*/
     
     public static void setMock(StubProvider mock){
         instance = (TaskService) Test.createStub(TaskService.class, mock);
@@ -72,7 +72,7 @@ public without sharing class TaskService {
         }
         String query = 'SELECT ' + String.join(DEFAULT_FIELDS, ',') + ' FROM Task WHERE ' + filter;
         System.debug(query);
-        List<Task> tasks = Database.query(query);
+        List<Task> tasks = (List<Task>) DatabaseService.getInstance().query(query);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return tasks;
     }

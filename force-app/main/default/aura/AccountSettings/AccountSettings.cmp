@@ -10,6 +10,11 @@
     <aura:attribute name="currentEmail" type="String" access="private"/>
     <aura:attribute name="privacyFormText" type="String" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="genders" type="String[]" default="Male,Female"/>
+    <aura:attribute name="birthdateDisabled" type="Boolean"/>
+    <aura:attribute name="genderDisabled" type="Boolean"/>
+    <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="initialsDisabled" type="Boolean"/>
     <!--=============================================================================================================-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--=============================================================================================================-->
@@ -24,7 +29,7 @@
                 <div class="as-title">{!$Label.c.PG_AS_H_Email}</div>
                 <div class="as-email rr-form-element">
                     <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                        <div class="rr-form-element All fields are required.All fields are required.slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label">{!$Label.c.PG_AS_F_Username}</div>
                             <c:rrInput valueString="{!v.initData.userName}" placeholder="{!$Label.c.PG_AS_F_Username}"
                                        disabled="{!true}"/>
@@ -208,7 +213,9 @@
             </div>
 
             <div class="rr-white-panel" style="padding: 30px">
-                <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
+                <div class="as-title">
+                    {!$Label.c.PG_AS_H_Contact_Information}
+                </div>
                 <div class="as-sub-title">
                     {!$Label.c.PG_AS_T1_Contact_Info + ' '}
                     <c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>
@@ -292,6 +299,23 @@
                                     v.initData.myContact.Phone,v.initData.participant.Phone__c)}"
                                        disabled="true"/>
                         </div>
+                        <aura:if isTrue="{!!v.isDelegate}">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Initials}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Initials__c}"
+                                           disabled="{!v.initialsDisabled}"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
+                                <c:rrInput type="date" valueString="{!v.initData.participant.Date_of_Birth__c}"
+                                           disabled="{!v.birthdateDisabled}" maxValue="{!v.todayDate}"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Gender__c}"
+                                           disabled="{!v.genderDisabled}" values="{!v.genders}" type="picklist"/>
+                            </div>
+                        </aura:if>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PE_State}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
@@ -309,6 +333,9 @@
                             <c:rrInput valueString="{!if(v.isDelegate,
                                 v.initData.myContact.MailingPostalCode,v.initData.participant.Mailing_Zip_Postal_Code__c)}"
                                        disabled="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1  slds-medium-size_4-of-12">
+                            <button class="apollo-btn primary as-submit-button" onclick="{!c.doUpdateParticipant}">{!$Label.c.Update_Participant}</button>
                         </div>
                     </aura:if>
                 </div>

@@ -3,36 +3,38 @@
  */
 
 public without sharing class TaskEditRemote {
-    
+
     public class TaskEditDataWrapper {
         @AuraEnabled public Task task {get;set;}
         @AuraEnabled public List<String> taskTypeList {get;set;}
         @AuraEnabled public Boolean isReferral {get;set;}
         @AuraEnabled public String errorMessage {get;set;}
         @AuraEnabled public Boolean reminderEnabled {get;set;}
-        
+
         public TaskEditDataWrapper(){
             task = new Task();
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
             taskTypeList = getTaskTypeList();
-            isReferral = ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.REFERRAL;
+            isReferral = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.REFERRAL;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
         }
     }
-    
+
     @AuraEnabled
     public static TaskEditDataWrapper getTaskEditData(Id taskId){
         TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
-        if(taskId != null) wrapper.task = TaskService.getInstance().getTask(taskId);
+        if(taskId != null) {
+            wrapper.task = TaskService.getInstance().getTask(taskId);
+        }
         return wrapper;
     }
-    
+
     @AuraEnabled
     public static String upsertTask(Task paramTask) {
         try{
-            Boolean isDelegate = ParticipantService.getParticipantState().isDelegate;
+            Boolean isDelegate = ParticipantService.getInstance().getState().isDelegate;
             if(isDelegate){
                 paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
             } else{
@@ -41,11 +43,13 @@ public without sharing class TaskEditRemote {
             if (paramTask.Visible_For__c == null) {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }
-            if(paramTask.Task_Type__c == 'Medication' && paramTask.Task_Type__c == 'Visit'){
-                paramTask.WhatId = ParticipantService.getParticipantState().pse.Id;
+            if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
+                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
             }
+            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
+            System.debug(e.getLineNumber());
             AuraHelper.throwException(e);
         }
         return 'Success';
@@ -117,12 +121,14 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean emailEnabledForCurrentContact(){
-        Contact currentContact = [
+        List<Contact> currentContact = [
                 SELECT  Participant_Opt_In_Status_Emails__c
                 FROM    Contact
-                WHERE   Id = :CommunityService.getUserContact().Id
+                WHERE   Id = :CommunityService.getInstance().getCurrentContactId()
         ];
-        return currentContact.Participant_Opt_In_Status_Emails__c;
+        if(!currentContact.isEmpty())
+            return currentContact[0].Participant_Opt_In_Status_Emails__c;
+        return false;
     }
 
 }

@@ -41,6 +41,7 @@ public class TasksRemote {
             createOriginatorsList(participantTasks.openTasksWrapper);
             return participantTasks;
         }catch (Exception e){
+            System.debug(e.getMessage());
             AuraHelper.throwException(e);
         }
         return null;
@@ -71,7 +72,7 @@ public class TasksRemote {
     private static void createOriginatorsList(List<OpenTask> tasks) {
         Id participantId;
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
-        if(ParticipantService.getParticipantState().isDelegate){
+        if(ParticipantService.getInstance().getState().isDelegate){
             participantId = PatientDelegateService.getInstance().getParticipantUserId();
         } else {
             participantId = UserInfo.getUserId();

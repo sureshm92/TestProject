@@ -32,7 +32,7 @@ public class PatientDelegateRemote {
     @AuraEnabled
     public static String isDelegate() {
         try{
-            return ParticipantService.getParticipantState().isDelegate ? 'TRUE' : 'FALSE';
+            return ParticipantService.getInstance().getState().isDelegate ? 'TRUE' : 'FALSE';
         }catch (Exception e){
             AuraHelper.throwException(e);
             return null;
