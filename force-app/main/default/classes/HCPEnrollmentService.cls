@@ -115,6 +115,17 @@ public without sharing class HCPEnrollmentService {
             }
     };
 
+    private static HCPEnrollmentService instance;
+
+    public static HCPEnrollmentService getInstance(){
+        if(instance == null) instance = new HCPEnrollmentService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (HCPEnrollmentService) Test.createStub(HCPEnrollmentService.class, stubProvider);
+    }
+
     public static String changeStatus(Id HCPEnrollmentId, String userMode, String newStatusType){
         return  changeStatus(HCPEnrollmentId, userMode, newStatusType, '');
     }
@@ -215,7 +226,7 @@ public without sharing class HCPEnrollmentService {
         return getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
     }
 
-    public static HCP_Enrollment__c getHCPEnrollmentById(Id hcpeId, String userMode){
+    public HCP_Enrollment__c getHCPEnrollmentByIdImpl(Id hcpeId, String userMode){
         List<HCP_Enrollment__c> hcpeList = getHCPEnrollmentsCommon(
                 userMode,
                 ' AND Id =\'' + hcpeId + '\'',
@@ -223,6 +234,10 @@ public without sharing class HCPEnrollmentService {
         );
         if(hcpeList.size() == 0) throw new CommunityServiceException('Data not found');
         return hcpeList[0];
+    }
+
+    public static HCP_Enrollment__c getHCPEnrollmentById(Id hcpeId, String userMode){
+        return HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, userMode);
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForPI(){

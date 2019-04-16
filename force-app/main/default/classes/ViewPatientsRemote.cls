@@ -17,11 +17,11 @@ public without sharing class ViewPatientsRemote {
     }
 
     public class PEWrapper{
-        public Participant_Enrollment__c pe;
+        public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
 
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions){
-            this.pe = pe;
+            this.pItem = new ParticipantItem(pe);
             this.actions = actions;
         }
     }

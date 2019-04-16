@@ -1,0 +1,39 @@
+/**
+ * Created by Igor Malyuta on 12.04.2019.
+ */
+.THIS.sv-body{
+    padding-bottom: 50px;
+}
+
+.THIS .tt-title{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    margin-bottom: 23px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.THIS td{
+    border-bottom: 1px solid #eaeaea;
+    min-height: 45px;
+}
+
+.THIS .sv-t-name{
+    padding-left: 34px;
+    width: 30%;
+}
+
+.THIS .sv-t-time{
+    width: 30%;
+}
+
+.THIS .sv-t-icons{
+    width: 40%;
+}
+
+.THIS .pagination{
+    margin-top: 20px;
+    margin-bottom: 15px;
+}

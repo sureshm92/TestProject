@@ -18,8 +18,8 @@ public without sharing class StudyListViewController {
         List<StudiesGroup> currentlyRecruitingTrials = new List<StudiesGroup>();
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-        List<Participant_Enrollment__c> peListNoLongerRecr = new List<Participant_Enrollment__c>();
+        List<ParticipantItem> peList = new List<ParticipantItem>();
+        List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
     }
 
     class HCPInitData {
@@ -45,9 +45,9 @@ public without sharing class StudyListViewController {
                 Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 for (Participant_Enrollment__c pe : peList) {
                     if (pe.Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
-                        initData.peListNoLongerRecr.add(pe);
+                        initData.peListNoLongerRecr.add(new ParticipantItem(pe));
                     } else {
-                        initData.peList.add(pe);
+                        initData.peList.add(new ParticipantItem(pe));
                     }
                 }
             }

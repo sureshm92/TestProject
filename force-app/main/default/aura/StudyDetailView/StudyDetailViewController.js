@@ -18,7 +18,6 @@
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
-            helper.setTabInitialized(component);
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
                 userMode: communityService.getUserMode()
@@ -28,6 +27,8 @@
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                 component.set('v.isInitialized', true);
+                helper.setTabInitialized(component);
+                helper.setTabActions(component);
                 spinner.hide();
                 helper.mailSendMessage(component);
             });
@@ -61,16 +62,17 @@
                 break;
             case 'facebook':
                 window.
-                    open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
+                    open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text', '_blank');
                 break;
             case 'twitter':
-                window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
+                window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com', '_blank');
                 break;
             case 'linkedin':
-                window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
+                window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com', '_blank');
                 break;
             case 'viewTermsAndConditions':
-                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
+                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret="
+                    + communityService.createRetString());
                 break;
             case 'findStudySites':
                 communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
@@ -108,6 +110,7 @@
     doTabChanged: function(component, event, helper){
         helper.setBrowserHistory(component);
         helper.setTabInitialized(component);
+        helper.setTabActions(component);
     }
 
 })
