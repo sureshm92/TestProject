@@ -346,8 +346,6 @@ public without sharing class StudyTrialService {
         }
 
         if (sortData.sortType != null) {
-            System.debug('sortData.sortType: ' + sortData.sortType);
-            System.debug('records: ' + JSON.serializePretty(pageRecords));
             StudyDetailItem.sortType = sortData.sortType;
             pageRecords.sort();
         }

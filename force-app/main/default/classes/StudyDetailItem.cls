@@ -36,11 +36,13 @@ public class StudyDetailItem implements Comparable {
                 return (Integer) (this.sites[0].distance - compareItem.sites[0].distance);
             }
         }
-        if (sortType == '') {
-            if (this.maxHCPCreatedDate > compareItem.maxHCPCreatedDate) {
+        if (sortType == 'CreatedDate DESC') {
+            if (compareItem.maxHCPCreatedDate > this.maxHCPCreatedDate || this.maxHCPCreatedDate == null) {
+                return 1;
+            } else if (this.maxHCPCreatedDate > compareItem.maxHCPCreatedDate || compareItem.maxHCPCreatedDate == null) {
                 return -1;
             } else {
-                return 1;
+                return 0;
             }
         }
 
