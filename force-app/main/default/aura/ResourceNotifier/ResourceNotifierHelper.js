@@ -32,7 +32,9 @@
     },
     toggleToast: function (component, event, helper) {
         let cmp = component.find('toast');
-        cmp.destroy();
+        if(cmp){
+            cmp.destroy();
+        }
     },
 
     onSetupdatedDate: function (component, event, helper) {
@@ -72,8 +74,6 @@
             let resource = component.get("v.resourceRecord");
             if (!resource.Updated_Date__c) {
                 helper.togglePopUp(component, event, helper);
-            } else {
-                helper.toggleToast(component, event, helper);
             }
         } else if (eventParams.changeType === "REMOVED") {
             // record is deleted

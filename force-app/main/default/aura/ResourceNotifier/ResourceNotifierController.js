@@ -7,8 +7,8 @@
     },
 
     closePopUp :function (component,event,helper) {
-        helper.togglePopUp(component,event,helper);
-        helper.toggleToast(component,event,helper);
+        let cmp = component.find('modalDialog');
+        $A.util.toggleClass(cmp, 'slds-hide');
     },
 
     setupdatedDate :function (component,event,helper) {
