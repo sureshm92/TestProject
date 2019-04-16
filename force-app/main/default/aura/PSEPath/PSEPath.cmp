@@ -18,7 +18,7 @@
             <div class="path-section">
                 <c:RRPath2 pathItems="{!v.pathItems}"/>
             </div>
-            <div class="{!'collapse-section ' + if(v.detailCollapsed, '', ' opened')}">
+            <div class="{!'collapse-section ' + if(v.isCollapsed, '', ' opened')}">
             <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.isCollapsed}">
                 <c:PSEStatusHistory aura:id="statusHistory" pseId="{!v.pseId}"/>
             </c:RRCollapse>

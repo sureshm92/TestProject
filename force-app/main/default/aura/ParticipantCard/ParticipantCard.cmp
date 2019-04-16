@@ -22,13 +22,6 @@
                            singlePatientView="{!v.singlePatientView}"
                            parent="{!parent}"/>
         <aura:set attribute="else">
-            <c:ViewPatientItem pe="{!v.participantItem.pe}"
-                               actions="{!v.actions}"
-                               peStatusesPathList="{!v.participantItem.peStatusesPathList}"
-                               peStatusStateMap="{!v.participantItem.peStatusStateMap}"
-                               changeStatusBtnList="{!v.changeStatusBtnList}"
-                               singlePatientView="{!v.singlePatientView}"
-                               parent="{!parent}"/>
             <c:PSECard pe="{!v.participantItem.pe}" pse="{!v.participantItem.pse}" steps="{!v.participantItem.psePathSteps}" userMode="{!v.userMode}"/>
         </aura:set>
     </aura:if>
