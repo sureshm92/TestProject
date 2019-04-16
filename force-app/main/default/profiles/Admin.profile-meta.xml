@@ -35,6 +35,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AlertTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AlertsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -160,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DatabaseProxy</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -419,6 +427,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -607,6 +619,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SurveyResponseTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TaskEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -667,7 +683,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -719,6 +751,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -732,6 +768,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UserService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2352,6 +2392,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Study_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

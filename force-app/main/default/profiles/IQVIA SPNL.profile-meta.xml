@@ -35,6 +35,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AlertTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AlertsRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -64,6 +68,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>BatchProcess</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -156,6 +164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DatabaseProxy</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -415,6 +427,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -599,11 +615,11 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SudyTrialService</apexClass>
+        <apexClass>SummaryContainer</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SummaryContainer</apexClass>
+        <apexClass>SurveyResponseTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -651,6 +667,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_CommunityFacadeRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -663,7 +683,23 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_DatabaseService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PSEService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -715,6 +751,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -728,6 +768,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UserService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UserTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1374,6 +1418,16 @@
         <editable>true</editable>
         <field>Contact.Provider_ID__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRCookiesAllowedCookie__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRLanguageAllowedCookie__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2341,6 +2395,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Study_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Participant_Surname__c</field>
         <readable>true</readable>
@@ -2949,6 +3008,11 @@
         <editable>true</editable>
         <field>Resource__c.X3rd_Party_Source__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.article_external_link__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

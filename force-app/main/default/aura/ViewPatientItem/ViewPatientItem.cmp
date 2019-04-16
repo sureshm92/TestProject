@@ -33,7 +33,7 @@
         </aura:if>
         <aura:if isTrue="{!!empty(v.pe)}">
             <aura:if isTrue="{!v.pe.Participant__c}">
-                <aura:if isTrue="{!v.singlePatientView}">
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
                     <div class="vpi-title link" onclick="{!c.doGoToStudyWorkspace}">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
                     <aura:set attribute="else">
                         <div class="vpi-title link" onclick="{!c.doGoToProfile}">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</div>
@@ -107,6 +107,11 @@
                     </aura:if>
 
                     <div class="vpi-field">
+                        <div class="label">{!$Label.c.PE_Referral_Id}</div>
+                        <div class="value">{!v.pe.Name}</div>
+                    </div>
+
+                    <div class="vpi-field">
                         <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
                         <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
                     </div>
@@ -142,7 +147,6 @@
 <!--                            </div>-->
 <!--                        </aura:if>-->
                     </aura:if>
-
                 </div>
             </div>
             <aura:if isTrue="{!v.showPath}">
@@ -177,10 +181,6 @@
                     </div>
                     <div class="{!'collapse-section ' + if(v.detailCollapsed, '', ' opened')}">
                         <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.detailCollapsed}">
-                            <div class="vpi-field">
-                                <div class="label">{!$Label.c.PE_Referral_Id}</div>
-                                <div class="value">{!v.pe.Name}</div>
-                            </div>
                             <c:PatientStatusPathDetail aura:id="statusDetail" pathItems="{!v.pathItems}" peId="{!v.pe.Id}"/>
                         </c:RRCollapse>
                     </div>

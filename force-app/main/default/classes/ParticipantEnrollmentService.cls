@@ -47,7 +47,19 @@ public without sharing class ParticipantEnrollmentService {
                 defaultFilter
         );
         TranslateHelper.translate(peList);
+        setPSELookups(userMode, peList);
         return peList;
+    }
+    
+    private void setPSELookups(String userMode, List<Participant_Enrollment__c> peList){
+        List<Participant_Study_Enrollment__c> pseList = PSEService.getPSECommon(userMode, ' AND ' +
+                DatabaseService.fieldIn('Participant_Enrollment__c', peList));
+        Map<Id, Participant_Study_Enrollment__c> pseByPeIdMap = new Map<Id, Participant_Study_Enrollment__c>();
+        for(Participant_Study_Enrollment__c pse : pseList) if(pse.Participant_Enrollment__c != null) pseByPeIdMap.put(pse.Participant_Enrollment__c, pse);
+        for(Participant_Enrollment__c pe : peList){
+            Participant_Study_Enrollment__c pse = pseByPeIdMap.get(pe.Id);
+            pe.Participant_Study_Enrollment__r = pse;
+        }
     }
     
     public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){

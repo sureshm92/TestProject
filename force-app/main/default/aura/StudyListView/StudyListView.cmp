@@ -132,35 +132,6 @@
             </div>
         </aura:if>
 
-        <aura:if isTrue="{!v.userMode == 'Participant'}">
-            <aura:if isTrue="{! v.currentTab == 'recruiting'}">
-                <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
-                <aura:if isTrue="{! !empty(v.currentlyRecruitingTrials)}">
-                    <div style="height: 30px"></div>
-                    <aura:iteration items="{!v.currentlyRecruitingTrials}" var="pe">
-                        <c:ViewPatientItem pe="{!pe}"
-                                           peStatusesPathList="{!v.peStatusesPathList}"
-                                           peStatusStateMap="{!v.peStatusStateMap}"
-                                           changeStatusBtnList="{!v.changeStatusBtnList}"
-                                           singlePatientView="true"/>
-                    </aura:iteration>
-                </aura:if>
-            </aura:if>
-            <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
-                <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
-                <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                    <div style="height: 30px"></div>
-                    <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="pe">
-                        <c:ViewPatientItem pe="{!pe}"
-                                           peStatusesPathList="{!v.peStatusesPathList}"
-                                           peStatusStateMap="{!v.peStatusStateMap}"
-                                           changeStatusBtnList="{!v.changeStatusBtnList}"
-                                           singlePatientView="true"/>
-                    </aura:iteration>
-                </aura:if>
-            </aura:if>
-        </aura:if>
-
         <!-- Reimbusment dialog -->
         <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
 

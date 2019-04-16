@@ -1,0 +1,36 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ParticipantCard">
+
+    <!-- attributes: -->
+    <aura:attribute name="participantItem" type="ParticipantItem"/>
+    <aura:attribute name="actions" type="List"/>
+    <aura:attribute name="singlePatientView" type="Boolean" default="false"/>
+    <aura:attribute name="changeStatusBtnList" type="List" />
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="userMode" type="String"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!empty(v.participantItem.pse)}">
+        <c:ViewPatientItem pe="{!v.participantItem.pe}"
+                           actions="{!v.actions}"
+                           peStatusesPathList="{!v.participantItem.peStatusesPathList}"
+                           peStatusStateMap="{!v.participantItem.peStatusStateMap}"
+                           changeStatusBtnList="{!v.changeStatusBtnList}"
+                           singlePatientView="{!v.singlePatientView}"
+                           parent="{!parent}"/>
+        <aura:set attribute="else">
+            <c:ViewPatientItem pe="{!v.participantItem.pe}"
+                               actions="{!v.actions}"
+                               peStatusesPathList="{!v.participantItem.peStatusesPathList}"
+                               peStatusStateMap="{!v.participantItem.peStatusStateMap}"
+                               changeStatusBtnList="{!v.changeStatusBtnList}"
+                               singlePatientView="{!v.singlePatientView}"
+                               parent="{!parent}"/>
+            <c:PSECard pe="{!v.participantItem.pe}" pse="{!v.participantItem.pse}" steps="{!v.participantItem.psePathSteps}" userMode="{!v.userMode}"/>
+        </aura:set>
+    </aura:if>
+
+</aura:component>
