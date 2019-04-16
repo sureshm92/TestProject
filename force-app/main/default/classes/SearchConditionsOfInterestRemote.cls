@@ -5,39 +5,14 @@
 public with sharing class SearchConditionsOfInterestRemote {
 
     @AuraEnabled
-    public static List<ConditionOfInterestRemote.CAWrapper> searchConditionOfInterest(String nameTA) {
+    public static List<TherapeuticAreaService.CAWrapper> searchConditionOfInterest(String nameTA) {
         try {
-            DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-            List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
-            CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-            String participantId = cService.getParticipantId();
-            String whereClause = '';
-            if (!String.isBlank(nameTA)) {
-                whereClause = 'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ';
-            }
-            String tAQuery =
-                    'SELECT Id, ' +
-                            'Name ' +
-                            'FROM Therapeutic_Area__c ' +
-                            'WHERE RecordType.DeveloperName = \'' + ConditionOfInterestRemote.COI + '\' ' +
-                            whereClause +
-                            'LIMIT 5';
-            System.debug(tAQuery);
-            List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
+            TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+            List<Therapeutic_Area__c> therapeuticAreas = taService.getTherapeuticAreas(nameTA);
             if (!therapeuticAreas.isEmpty()) {
-                for (Therapeutic_Area__c areaPatient : therapeuticAreas) {
-                    ConditionOfInterestRemote.CAWrapper caWrapper = new ConditionOfInterestRemote.CAWrapper ();
-                    caWrapper.isSelected = false;
-                    caWrapper.coi = new Therapeutic_Area_Patient__c(
-                            Participant__c = participantId,
-                            Therapeutic_Area__c = areaPatient.Id,
-                            Therapeutic_Area__r = areaPatient,
-                            Condition_Of_Interest_Order__c = 100
-                    );
-                    caWrappers.add(caWrapper);
-                }
+                List<TherapeuticAreaService.CAWrapper> caWrappers = taService.getCOIWrappers(therapeuticAreas);
+                return caWrappers;
             }
-            return caWrappers;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -52,4 +27,6 @@ public with sharing class SearchConditionsOfInterestRemote {
             AuraHelper.throwException(e);
         }
     }
+
+
 }
