@@ -3546,11 +3546,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Visit_Plan__c.Clinical_Trial_Profile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Visit__c.Icons__c</field>
         <readable>true</readable>
     </fieldPermissions>
