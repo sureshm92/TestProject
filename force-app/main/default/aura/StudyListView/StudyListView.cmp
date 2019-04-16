@@ -29,7 +29,8 @@
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
 
-    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecordsWithFirstPage}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}"
+                  action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
     <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
@@ -74,14 +75,20 @@
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder="Enrollment Status"
                                 class="{!v.isSearchResume ? 'slds-hide' : ''}"/>
-                    <c:rrSelect value="{!v.filterData.therapeuticArea}" options="{!v.filterData.therapeuticAreas}"
-                                placeholder="All Therapeutic Areas"/>
+                    <c:rrSelect value="{!v.filterData.therapeuticArea}"
+                                options="{!v.filterData.therapeuticAreas}"
+                                placeholder="Therapeutic area"/>
+                    <c:rrSelect value="{!v.filterData.distance}"
+                                options="{!v.filterData.distances}"
+                                placeholder="Distance"
+                                class="{! !v.isSearchResume ? 'slds-hide' : ''}"/>
                 </c:FilterPanel>
             </div>
 
             <div class="slv-items-panel">
                 <div class="{!(v.isSearchResume ? 'slds-hide' : '') + ' rr-simple-white-panel'}">
-                    <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center" style="height: 100%;">
+                    <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
+                         style="height: 100%;">
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-left slv-header-item">
                             <span class="header-white-panel">Don't see a study that you could refer your patients to?</span>
                         </div>

@@ -69,13 +69,7 @@ public without sharing class StudyListViewController {
             HCPInitData initData = new HCPInitData();
 
             //pagination:
-            initData.paginationData = new PaginationData();
-            initData.paginationData.pageRecordsCount = 5;
-            initData.paginationData.recordCountVariants = new List<LabelValueItem>{
-                    new LabelValueItem('3', '3'),
-                    new LabelValueItem('5', '5'),
-                    new LabelValueItem('10', '10')
-            };
+            initData.paginationData = StudyTrialService.getPaginationData();
 
             //sort data:
             initData.sortData = StudyTrialService.getStudySortDataForHCP();
