@@ -4,7 +4,7 @@
 ({
     doExec : function (component, event, helper) {
         var params = event.getParam('arguments');
-        component.set('v.title', params.title);
+        component.set('v.text', params.title);
         component.set('v.leftBtnName',  params.leftBtnName);
         component.set('v.rightBtnName', params.rightBtnName);
         component.set('v.callback', params.callback);

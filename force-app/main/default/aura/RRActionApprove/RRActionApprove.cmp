@@ -6,13 +6,13 @@
 
     <!-- attributes: -->
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="text" type="String"/>
     <aura:attribute name="leftBtnName" type="String" default="{!$Label.c.BTN_Yes}"/>
     <aura:attribute name="rightBtnName" type="String" default="{!$Label.c.BTN_No}"/>
     <aura:attribute name="callback" type="Object" access="private"/>
 
     <aura:method name="execute" action="{!c.doExec}">
-        <aura:attribute name="title" type="String"/>
+        <aura:attribute name="text" type="String"/>
         <aura:attribute name="leftBtnName" type="String"/>
         <aura:attribute name="rightBtnName" type="String"/>
         <aura:attribute name="callback" type="Function"/>
