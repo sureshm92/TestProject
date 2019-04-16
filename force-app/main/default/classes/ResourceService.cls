@@ -10,7 +10,9 @@ public with sharing class ResourceService {
     public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
-    private static final String EXPIRATION_DATE = 'Expiration_Date__c';
+    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
+    private static final String BYLINE_API_NAME = 'Byline__c';
+    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
     public static String DEFAULT_LANGUAGE = 'en_US';
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
@@ -326,7 +328,7 @@ public with sharing class ResourceService {
                 this.isShareable = true;
             }
             for (Resource_Field_Api__mdt fieldApi : resourceFieldApis) {
-                if (EXPIRATION_DATE.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                if (EXPIRATION_DATE_API_NAME.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
                     cutList = true;
                     continue;
                 }
@@ -336,6 +338,11 @@ public with sharing class ResourceService {
                         headerFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
                     } else {
                         bodyFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
+                    }
+                } else if (BYLINE_API_NAME.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                    valueField = resource.get(AUTHOR_S_NAME_API_NAME);
+                    if (valueField != null) {
+                        bodyFieldWrappers.add(new ResourceFieldWrapper(AUTHOR_S_NAME_API_NAME, valueField, fieldApi.CSS_Class_Name__c));
                     }
                 }
             }
