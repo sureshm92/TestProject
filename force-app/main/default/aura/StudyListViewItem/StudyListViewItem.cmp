@@ -138,7 +138,7 @@
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
-                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Study Site to search for sites.</span>
+                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Sites For This Study to search for sites.</span>
                                     </div>
                                 </aura:if>
                             </aura:if>
@@ -195,7 +195,7 @@
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                     <div class="site-sub-header site-distance">
-                                        {!siteWrapper.siteType + 'Site'}
+                                        {!siteWrapper.siteType + ' Site'}
                                     </div>
                                     <div class="site-sub-header slds-m-topxx-small site-distance">
                                         <aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/>
@@ -205,7 +205,7 @@
                             <div class="slds-grid slds-wrap slds-m-top--x-small">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                     <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.MailingStreet}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!(siteWrapper.site.Principal_Investigator__r.MailingCity + ',' + siteWrapper.site.Principal_Investigator__r.MailingState + ',' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}</div>
                                 </div>
                                 <div class="slds-col slds-show_medium slds-size_1-of-12">
                                     <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>

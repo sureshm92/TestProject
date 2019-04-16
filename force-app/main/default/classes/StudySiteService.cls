@@ -237,6 +237,12 @@ public without sharing class StudySiteService {
 //        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
         siteFilterData.distanceRanges = new List<LabelValueItem>();
         siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
+        siteFilterData.distanceRanges.add(new LabelValueItem('5   ' + DistanceHelper.getUnitsOfMeasurementLabel(), '5'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('15  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '15'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('30  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '30'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('60  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '60'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('150 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '150'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('300 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '300'));
         siteFilterData.therapeuticAreas = new List<LabelValueItem>();
         siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
         return siteFilterData;
@@ -337,6 +343,16 @@ public without sharing class StudySiteService {
                 StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id));
                 result.add(siteWrapper);
             }
+        }
+        if(filter.distanceRange != null && filter.distanceRange != ''){
+            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
+            for(StudySiteDistanceWrapper siteWrapper : result){
+                Double maxDistance = Double.valueOf(filter.distanceRange);
+                if(siteWrapper.distance <= maxDistance){
+                    pageList.add(siteWrapper);
+                }
+            }
+            result = pageList;
         }
 
         if (paginationData != null) {

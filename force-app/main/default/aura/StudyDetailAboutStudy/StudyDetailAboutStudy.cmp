@@ -122,7 +122,7 @@
                                         <div class="address">
                                             <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
                                             <div class="address-3">{!accountWithEnrollments.addrCity}</div>
-                                            <aura:if isTrue="{!and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled)}">
+                                            <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
                                                 <div style="margin-top: 10px">
                                                     <button class="apollo-btn tertiary"
                                                             id="{!accountWithEnrollments.studySiteId}"
@@ -135,7 +135,7 @@
                                         </div>
                                     </div>
                                 </aura:iteration>
-                                <aura:if isTrue="{!and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled)}">
+                                <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
                                     <div class="study-sites-footer">
                                         <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
                                         &nbsp;
