@@ -3,8 +3,8 @@
 }
 
 .THIS.resource-container {
-    max-width: 650px;
-    margin: 0 auto auto;
+    max-width: 1000px;
+    margin: auto;
 }
 
 .THIS .bitmap {
@@ -142,7 +142,7 @@
     height: 100%;
 }
 
-.THIS .hide-image {
+.THIS .display-none {
     display: none;
 }
 

@@ -1,0 +1,28 @@
+<apex:page id="RRPDFViewer" controller="RRPDFViewerController" showHeader="false" sideBar="false">
+
+    <embed width="100%" style="height: 100vh;" name="plugin" id="plugin" src="" type="application/pdf"/>
+    <apex:outputPanel rendered="{!executeJS}">
+        <script>
+            let fileName = "{!fileName}";
+            let pdfBlobDataInBase64StringFormat = "{!pdfBlobDataInBase64StringFormat}";
+
+            let byteCharacters = atob(pdfBlobDataInBase64StringFormat);
+            let byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            let ieEDGE = navigator.userAgent.match(/Edge/g);
+            let ie = navigator.userAgent.match(/.NET/g);
+            let oldIE = navigator.userAgent.match(/MSIE/g);
+            let bytes = new Uint8Array(byteNumbers); //use this if data is raw bytes else directly pass resData
+            let blob = new window.Blob([bytes], {type : 'application/pdf'});
+            if (ie || oldIE || ieEDGE) {
+                window.navigator.msSaveBlob(blob, fileName);
+            } else {
+                let fileURL = URL.createObjectURL(blob);
+                let plugin = document.getElementById("plugin");
+                plugin.src = fileURL;
+            }
+        </script>
+    </apex:outputPanel>
+</apex:page>

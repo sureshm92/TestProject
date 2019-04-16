@@ -5,20 +5,25 @@
 <aura:component description="ResourcesDetailItem" controller="ResourceRemote">
 
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
+    <aura:attribute name="StudyDocumentRecordTypeName" type="String" default="Study_Document"
+                    description="constant variable" access="private"/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
 
     <div class="resource-container">
+
         <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == 'Article'}">
-            <div class="{!or(v.resourceWrapper.resource.Image__c == null, v.resourceWrapper.resource.Image__c == '') ? 'hide-image' : 'bitmap'}">
+            <div class="{!or(v.resourceWrapper.resource.Image__c == null, v.resourceWrapper.resource.Image__c == '') ? 'display-none' : 'bitmap'}">
                 <img src="{!v.resourceWrapper.resource.Image__c}" alt="{!$Label.c.Resources_Image_Unavailable}"/>
             </div>
             <aura:set attribute="else">
                 <div class="ah-video-iframe">
                     <iframe class="my_iframe"
                             frameborder="0"
-                            src="{!v.resourceWrapper.resource.Video__c}">
+                            src="{!and(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName, v.resourceWrapper.resource.Video__c == null) ?
+                            ('/apex/RRPDFViewer?resourceId=' + v.resourceWrapper.resource.Id)
+                            : v.resourceWrapper.resource.Video__c}">
                     </iframe>
                 </div>
             </aura:set>
@@ -33,10 +38,12 @@
                 </aura:iteration>
             </aura:if>
             <div class="resource-expiration-date">
-                Expires:
-                <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>
+                {!(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? $Label.c.Resources_Version_Date + ': ' : $Label.c.Resources_Expires + ': ')}
+                <ui:outputDate value="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ?
+                v.resourceWrapper.resource.Version_Date__c
+                : v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>
             </div>
-            <div class="resource-description-footer">
+            <div class="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? 'display-none' : 'resource-description-footer'}">
                 <div class="resources-icon icon-like" onclick="{!c.doLike}">
                     <aura:if isTrue="{!v.resourceWrapper.isVoted}">
                         <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>

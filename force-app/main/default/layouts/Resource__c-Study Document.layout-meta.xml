@@ -20,8 +20,8 @@
                 <field>Description__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Content_Type__c</field>
+                <behavior>Edit</behavior>
+                <field>Video__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
