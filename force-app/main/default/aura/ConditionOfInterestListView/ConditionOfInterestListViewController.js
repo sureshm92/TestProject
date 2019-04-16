@@ -3,25 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        var action = component.get("c.getConditionOfInterest");
-        action.setCallback(this, function (response) {
-            var state = response.getState();
-            if (state === "SUCCESS") {
-                let taWrappers = response.getReturnValue();
-                component.set('v.conditionOfInterestList', taWrappers);
-            } else if (state === "ERROR") {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                            errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
-            }
+        communityService.executeAction(component, 'getConditionOfInterest', {}, function (returnValue) {
+            component.set('v.conditionOfInterestList', returnValue);
         });
-        $A.enqueueAction(action);
     },
 
     doSelect: function (component, event, helper) {
@@ -29,28 +13,35 @@
     },
 
     doSaveSortCOIs: function (component, event, helper) {
-        let coiWrapperList = component.get('v.conditionOfInterestList');
-        let coiList = [];
-        for (let i = 0; i < coiWrapperList.length; i++) {
-            let coi = coiWrapperList[i].coi;
-            coi.Condition_Of_Interest_Order__c = i + 1;
-            coiList.push(coi);
-        }
-        console.log('before update COI ' + JSON.stringify(coiList));
-        if (coiList) {
-            communityService.executeAction(component, 'upsertListCoi', {
-                cois : coiList
-            }, function (returnValue) {
-                let coiSaveWrapperList = [];
-                returnValue.forEach(e => {
-                    let coiSave = {};
-                    coiSave.isSelected = true;
-                    coiSave.coi = e;
-                    coiSaveWrapperList.push(coiSave);
+        helper.saveCOIs(component);
+    },
+
+    doDown: function (component, event, helper) {
+        let indexCoi = event.getSource().get('v.value');
+        helper.swapElement(component, indexCoi, (indexCoi + 1));
+    },
+
+    doUp: function (component, event, helper) {
+        let indexCoi = event.getSource().get('v.value');
+        helper.swapElement(component, indexCoi, (indexCoi - 1));
+    },
+
+    doDelete: function (component, event, helper) {
+        let idCOI = event.getSource().get('v.value');
+        let coiIds = [];
+        coiIds.push(idCOI);
+        let conditionOfInterestList = component.get('v.conditionOfInterestList');
+        if (coiIds) {
+            communityService.executeAction(component, 'deleteCOI', {
+                coiIds : coiIds
+            }, function () {
+                conditionOfInterestList = conditionOfInterestList.filter((el) => {
+                    return el.coi.Id !== idCOI;
                 });
-                console.log('after update COI ' + JSON.stringify(coiSaveWrapperList));
-                component.set('v.conditionOfInterestList', coiSaveWrapperList);
+                component.set('v.conditionOfInterestList', conditionOfInterestList);
+                component.set('v.isSaveList', !component.get('v.isSaveList'));
             });
         }
+
     }
 })
