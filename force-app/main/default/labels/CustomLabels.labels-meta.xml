@@ -6512,21 +6512,21 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>A number of blood and urine samples  will be taken during the study. These samples will be used to check your  health and to see how your body responds to and processes the study medication.  In the optional genetic research sub-study, blood samples will be used to see how genes affect the way the study medication works.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Brief_Physical_Examination</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>A check of your overall health. This will include a check of your overall appearance, skin, eyes, ears, nose, throat, head, neck, outer limbs, muscles and joints, chest and lungs, heart, abdomen, your current state of mind, and your ability to move and use your senses (sight, hearing, taste, smell, and touch).</value>
+        <value>These are checks of your general health and will include an examination of your skin, lungs, heart and blood vessels, and abdomen. Your height and weight will also be measured.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_ECG</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>The study doctor will perform  a procedure during which sticky pads  are placed on your chest, arms, and  legs. The pads are connected by wires  to a machine that checks the rhythm  and activity of your heart.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Follow_Up_Period</fullName>
@@ -6540,21 +6540,21 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>A doctor (not your usual study doctor) will examine your joints and count how many are swollen and/or tender, by pressing  on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>This test will be performed to measure the amount of air you have in your lungs and how well you can move that air by forcibly blowing into a spirometer (lung function machine).</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Lung_Health_Check</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>The study doctor will check the health  of your lungs and any coughing by listening to the sound of your breathing with a stethoscope. They will also ask  you about any breathlessness and measure the amount of oxygen in  your blood.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_No_Food_Or_Drink</fullName>
@@ -6568,21 +6568,21 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>If you are a woman who is able to get pregnant, you will have a pregnancy urine test at regular intervals during the study.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Questions</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>You will be asked about your general health and any past illnesses, medications that you have taken or are taking, what operations you have had, and any allergies you have.</value>
+        <value>You will be asked some questions about your health in general, your sleep, your pain and energy level, and how RA is affecting your daily life. There are also optional participant questionnaires, where you can provide feedback about your experience in the study.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Questions2</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>You will speak to a member of the study team who will ask you questions about your health, any medications you have taken, and how you are feeling. This will happen every 1 to 4 weeks and may be done by phone or at the study center.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Receive_Medication</fullName>
@@ -6610,14 +6610,14 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>Your blood pressure, heart rate, breathing rate, and body temperature, will be measured.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_X_Rays</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest (to check the health of your lungs) and hands and feet (to check the health of your joints).</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Popup_Text</fullName>

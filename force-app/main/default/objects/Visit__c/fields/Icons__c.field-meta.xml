@@ -9,46 +9,11 @@
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>icon-questionnaires</fullName>
-                <default>false</default>
-                <label>Questions about your health and medications</label>
-            </value>
-            <value>
-                <fullName>icon-ecg</fullName>
-                <default>false</default>
-                <label>Electrocardiogram (ECG)</label>
-            </value>
-            <value>
-                <fullName>icon-vital-signs</fullName>
-                <default>false</default>
-                <label>Vital signs, weight and height</label>
-            </value>
+            <sorted>true</sorted>
             <value>
                 <fullName>icon-blood-test</fullName>
                 <default>false</default>
                 <label>Blood and urine tests</label>
-            </value>
-            <value>
-                <fullName>icon-pregnancy</fullName>
-                <default>false</default>
-                <label>Pregnancy test</label>
-            </value>
-            <value>
-                <fullName>icon-pill</fullName>
-                <default>false</default>
-                <label>Receive study medication</label>
-            </value>
-            <value>
-                <fullName>icon-order-descending</fullName>
-                <default>false</default>
-                <label>Return study medication</label>
-            </value>
-            <value>
-                <fullName>icon-dining</fullName>
-                <default>false</default>
-                <label>No food or drink except water for 10 hours prior to visit</label>
             </value>
             <value>
                 <fullName>icon-brief-ph-ex</fullName>
@@ -56,14 +21,19 @@
                 <label>Brief physical examination</label>
             </value>
             <value>
-                <fullName>icon-follow-up-per</fullName>
+                <fullName>icon-x-rays</fullName>
                 <default>false</default>
-                <label>Follow Up Period</label>
+                <label>Chest, hand, and feet X-rays</label>
+            </value>
+            <value>
+                <fullName>icon-ecg</fullName>
+                <default>false</default>
+                <label>Electrocardiogram (ECG)</label>
             </value>
             <value>
                 <fullName>icon-joint</fullName>
                 <default>false</default>
-                <label>Joint Assessment</label>
+                <label>Joint assessment</label>
             </value>
             <value>
                 <fullName>icon-lung-test</fullName>
@@ -76,19 +46,24 @@
                 <label>Lung health check</label>
             </value>
             <value>
-                <fullName>icon-treatment-period</fullName>
+                <fullName>icon-pregnancy</fullName>
                 <default>false</default>
-                <label>Treatment Period</label>
+                <label>Pregnancy test</label>
             </value>
             <value>
-                <fullName>icon-x-rays</fullName>
+                <fullName>icon-questionnaires</fullName>
                 <default>false</default>
-                <label>X Rays</label>
+                <label>Questionnaires</label>
             </value>
             <value>
                 <fullName>icon-questions</fullName>
                 <default>false</default>
                 <label>Questions</label>
+            </value>
+            <value>
+                <fullName>icon-vital-signs</fullName>
+                <default>false</default>
+                <label>Vital signs</label>
             </value>
         </valueSetDefinition>
     </valueSet>
