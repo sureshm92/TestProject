@@ -19,7 +19,6 @@
 }
 
 
-
 .THIS .slvi-name-section,
 .THIS .slvi-objective-section {
     display: flex;
@@ -73,13 +72,13 @@
     line-height: 16px;
 }
 
-.THIS .slvi-top-container .sponsor-name {
+.THIS .sponsor-name {
     height: 20px;
     color: #999999;
+    font-family: "Proxima Nova";
+    margin-bottom: 5px;
     font-size: 12px;
     line-height: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .THIS .slvi-top-container .study-options {
@@ -223,7 +222,7 @@
     color: #297DFD;
 }
 
-.THIS .slvi-status-item{
+.THIS .slvi-status-item {
     /*text-align: right; */
     font-size: 14px;
     color: #666666;
@@ -243,21 +242,27 @@
     }
 
 }
-.THIS .slvi-status-icon{
+
+.THIS .slvi-status-icon {
     height: 20px;
 }
-.THIS .green-icon{
-    fill:#55C200;
+
+.THIS .green-icon {
+    fill: #55C200;
 }
-.THIS .orange-icon{
-    fill:#FF9301;
+
+.THIS .orange-icon {
+    fill: #FF9301;
 }
-.THIS .red-icon{
-    fill:#E20000;
+
+.THIS .red-icon {
+    fill: #E20000;
 }
-.THIS .blue-icon{
-    fill:#005587;
+
+.THIS .blue-icon {
+    fill: #005587;
 }
+
 @media all and (min-width: 768px) {
     .THIS .slvi-padded-panel-left {
         padding-left: 9rem;
@@ -269,25 +274,31 @@
         padding-right: 9rem;
     }
 }
+
 @media all and (max-width: 767px) {
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
+
     .THIS .site-distance {
         margin-top: .5rem;
     }
-    .THIS .rri-icon svg{
+
+    .THIS .rri-icon svg {
         height: 16px;
         width: 13px;
     }
-    .THIS .rri-icon span{
-        margin: .125rem!important;
+
+    .THIS .rri-icon span {
+        margin: .125rem !important;
     }
 }
+
 @media all and (min-width: 768px) {
     .THIS .site-distance {
         text-align: right;
     }
+
     .THIS .slvi-top-container-hcp {
         height: 100px;
     }
@@ -296,7 +307,8 @@
 .THIS .slvi-search-site-btn {
     width: 100%;
 }
-.THIS .slvi-site-btn{
+
+.THIS .slvi-site-btn {
     width: 100%;
 }
 
