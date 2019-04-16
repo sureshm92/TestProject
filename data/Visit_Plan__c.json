@@ -1,0 +1,11 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Visit_Plan__c",
+                "referenceId": "vsp"
+            },
+            "Name": "Test Visit Plan"
+        }
+    ]
+}
