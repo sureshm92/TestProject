@@ -6878,4 +6878,11 @@ is a placehilder to show you what it would look like.</value>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
     </labels>
+    <labels>
+        <fullName>update_resource_content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update resource content</shortDescription>
+        <value>Do you want to mark  resource content as updated?</value>
+    </labels>
 </CustomLabels>

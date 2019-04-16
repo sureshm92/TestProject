@@ -3,6 +3,8 @@
  */
 ({
     doInit: function (component, event, helper) {
+        component.set('v.conditionsOfInterestTemp', component.get('v.conditionsOfInterest'));
+        helper.valueChange(component, event, helper);
     },
 
     show: function (component) {
@@ -27,19 +29,19 @@
         }
     },
 
-    handleChange: function (component, event) {
-        let taWrapper = event.getSource().get('v.value');
-        let taList = component.get('v.therapeuticAreas');
-        if (event.getParam('checked')) {
-            if (taList.length < 5) {
-                taList.push(taWrapper.therArea);
-            } else {
-                event.getSource().set('v.checked', false);
-            }
-        } else {
-            taList = taList.filter(e => e.Id !== taWrapper.therArea.Id);
-        }
-        component.set('v.therapeuticAreas', taList);
+    handleChange: function (component, event, helper) {
+        helper.changeCheckBox(component, event);
     },
+
+    doCancel: function (component, event, helper) {
+        component.find('searchModal').hide();
+        let arr = [];
+        component.set('v.displayedItems', arr);
+        component.find('searchInput').set('v.value', '');
+    },
+
+    doSave: function (component, event, helper) {
+        helper.saveElemet(component);
+    }
 
 })
