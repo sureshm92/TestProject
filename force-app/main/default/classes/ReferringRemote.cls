@@ -41,12 +41,12 @@ public without sharing class ReferringRemote {
 
             //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
             if(peId != null) {
-                initData.participantEnrollment = ParticipantEnrollmentService.getInstance().getParticipantEnrollmentImpl(peId, userMode);
+                initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
             }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
-                initData.participantEnrollment = ParticipantEnrollmentService.getInstance().createParticipantEnrollmentImpl(initData.trial, initData.hcpEnrollment, null);
+                initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
             }
             if(initData.trial.Link_to_Medical_Record_Review__c != null) {
-                initData.pendingPEnrollments = ParticipantEnrollmentService.getInstance().getPendingParticipantEnrollmentsImpl(trialId, null);
+                initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null);
             }
             StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
 

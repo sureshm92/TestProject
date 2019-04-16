@@ -72,7 +72,7 @@ public class TasksRemote {
     private static void createOriginatorsList(List<OpenTask> tasks) {
         Id participantId;
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
-        if(ParticipantService.getInstance().getState().isDelegate){
+        if(ParticipantService.getParticipantState().isDelegate){
             participantId = PatientDelegateService.getInstance().getParticipantUserId();
         } else {
             participantId = UserInfo.getUserId();

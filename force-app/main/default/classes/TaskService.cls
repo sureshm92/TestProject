@@ -72,7 +72,7 @@ public without sharing class TaskService {
         }
         String query = 'SELECT ' + String.join(DEFAULT_FIELDS, ',') + ' FROM Task WHERE ' + filter;
         System.debug(query);
-        List<Task> tasks = (List<Task>) DatabaseService.getInstance().query(query);
+        List<Task> tasks = (List<Task>) DatabaseService.query(query);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return tasks;
     }
