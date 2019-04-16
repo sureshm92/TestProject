@@ -18,6 +18,10 @@ public without sharing class TrialService {
             for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
                 if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
             }
+        }else {
+            List<Participant_Enrollment__c> participantEnrollments =
+                    ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+            trials.add(participantEnrollments.get(0).Study_Site__r.Clinical_Trial_Profile__r);
         }
         return new List<Clinical_Trial_Profile__c>(trials);
     }

@@ -139,6 +139,13 @@ Click OK to begin!</value>
         <value>Complete</value>
     </labels>
     <labels>
+        <fullName>BTN_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6093,6 +6100,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Poput_ICF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Poput_ICF</shortDescription>
+        <value>Please confirm that your patient has signs ICF consent</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>

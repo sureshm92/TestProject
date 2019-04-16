@@ -20,6 +20,8 @@
     hide: function(component, event, helper) {
         component.set("v.showModal", false);
         component.set('v.closeButtonClicked', !component.get('v.closeButtonClicked'));
+        var closeCallback = component.get('v.closeCallback');
+        if(closeCallback) closeCallback();
     },
 
     clickedPrimary: function(component, event, helper) {
