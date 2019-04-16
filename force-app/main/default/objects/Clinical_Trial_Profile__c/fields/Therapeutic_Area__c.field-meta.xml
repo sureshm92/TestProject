@@ -4,6 +4,16 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Therapeutic Area</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>COI not allowed for this field.</errorMessage>
+        <filterItems>
+            <field>Therapeutic_Area__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Therapeutic Area</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
     <relationshipLabel>Clinical Trial Profiles</relationshipLabel>
     <relationshipName>Clinical_Trial_Profiles</relationshipName>
