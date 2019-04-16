@@ -103,10 +103,7 @@ public with sharing class ArticleService {
             }
         } else if (resource.Posting_Date__c == null) {
             resource.Posting_Date__c = resource.Expiration_Date__c.addMonths(-12);
-        } else if (resource.Posting_Date__c > resource.Expiration_Date__c) {
-            resource.Expiration_Date__c = resource.Posting_Date__c.addMonths(12);
-
-        }
+        } 
     }
 
     private void calculateExpirationDate(Resource__c newResource, Resource__c oldResource) {
