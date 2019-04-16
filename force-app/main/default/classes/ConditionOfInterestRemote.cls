@@ -6,10 +6,10 @@ public with sharing class ConditionOfInterestRemote {
 
     @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
+        List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
         try {
             TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
             Participant__c participant = taService.getParticipant();
-            List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
             if (!participant.Therapeutic_Area_Patients__r.isEmpty()) {
                 for (Therapeutic_Area_Patient__c coi : participant.Therapeutic_Area_Patients__r) {
                     TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
@@ -18,11 +18,10 @@ public with sharing class ConditionOfInterestRemote {
                     caWrappers.add(caWrapper);
                 }
             }
-            return caWrappers;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
-        return null;
+        return caWrappers;
     }
 
     @AuraEnabled

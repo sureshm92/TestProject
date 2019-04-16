@@ -6,17 +6,17 @@ public with sharing class SearchConditionsOfInterestRemote {
 
     @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> searchConditionOfInterest(String nameTA) {
+        List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
         try {
             TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
             List<Therapeutic_Area__c> therapeuticAreas = taService.getTherapeuticAreas(nameTA);
             if (!therapeuticAreas.isEmpty()) {
-                List<TherapeuticAreaService.CAWrapper> caWrappers = taService.getCOIWrappers(therapeuticAreas);
-                return caWrappers;
+                caWrappers = taService.getCOIWrappers(therapeuticAreas);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
-        return null;
+        return caWrappers;
     }
 
     @AuraEnabled
