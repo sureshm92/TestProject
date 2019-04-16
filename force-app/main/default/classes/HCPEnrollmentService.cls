@@ -154,6 +154,7 @@ public without sharing class HCPEnrollmentService {
             'HCP_Contact__r.Name',
             'HCP_Contact__r.AccountId',
             'HCP_Contact__r.Account.Name',
+            'HCP_Contact__r.Salutation',
             'HCP_Name__c',
             'Study_Site__r.Id',
             'Study_Site__r.Name',
