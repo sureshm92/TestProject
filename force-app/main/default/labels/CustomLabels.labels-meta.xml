@@ -7108,6 +7108,8 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>update resource content</shortDescription>
         <value>Do you want to mark  resource content as updated?</value>
+    </labels>
+    <labels>
         <fullName>Update_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
