@@ -4,29 +4,20 @@
 
 ({
     doInit: function (component, event, helper) {
-        helper.valueChange(component, event, helper);
+
     },
 
-    show: function (component) {
+    show: function (component, event, helper) {
+        helper.doSearch(component, event, helper);
         component.find('searchModal').show();
     },
 
-    hide: function(component, event, helper) {
+    hide: function (component, event, helper) {
         component.find('searchModal').hide();
     },
 
     bulkSearch: function (component, event, helper) {
-        var bypass = component.get('v.bypass');
-        if (bypass) {
-            return;
-        } else {
-            component.set('v.bypass', true);
-            window.setTimeout(
-                $A.getCallback(function () {
-                    helper.valueChange(component, event, helper);
-                }), 200
-            );
-        }
+        helper.doSearch(component, event, helper);
     },
 
     handleChange: function (component, event, helper) {
@@ -35,7 +26,12 @@
 
     doClose: function (component, event, helper) {
         component.find('searchModal').hide();
-        component.set('v.displayedRefNetworks', []);
         component.find('searchInput').set('v.value', '');
+
+        communityService.executeAction(component, 'getReferralNetworkRecords', {
+            sObjectType: component.get("v.sObjectType")
+        }, function (returnValue) {
+            component.set('v.currChosenRefNetworks', returnValue);
+        });
     }
 });

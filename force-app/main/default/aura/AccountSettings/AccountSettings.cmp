@@ -210,7 +210,17 @@
                                 Select Referral Networks.
                             </div>
                             <div class="slds-grid slds-wrap slds-p-top--medium">
-                                <c:SubscribeToReferralNetwork />
+                                <c:SubscribeToReferralNetwork sObjectType="Referral_Network__c" />
+                            </div>
+                        </div>
+
+                        <div class="as-email-preference">
+                            <div class="as-title ">Subscribe to Referral Networks</div>
+                            <div class="as-sub-title">
+                                Select Referral Networks.
+                            </div>
+                            <div class="slds-grid slds-wrap slds-p-top--medium">
+                                <c:SubscribeToReferralNetwork sObjectType="Therapeutic_Area__c" />
                             </div>
                         </div>
                     </aura:if>

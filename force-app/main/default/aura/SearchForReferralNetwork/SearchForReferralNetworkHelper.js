@@ -3,31 +3,26 @@
  */
 
 ({
-    valueChange: function (component, event, helper) {
+    doSearch: function (component, event, helper) {
         component.set('v.bypass', false);
         let value = event.getSource().get('v.value');
         if (!value) {
             value = null;
         }
         communityService.executeAction(component, 'searchForReferralNetworks', {
-            term: value
+            term: value,
+            sObjectType: component.get("v.sObjectType")
         }, function (returnValue) {
-            let currChosenNetworks = component.get('v.currChosenRefNetworks');
-            let foundNetworks = returnValue;
-            foundNetworks.forEach(currNetwork => {
-                if (currChosenNetworks.some(coiEl => coiEl.Id === currNetwork.Id)) {
-                    currNetwork.isSelected = true;
-                }
-            });
-            component.set('v.displayedRefNetworks', foundNetworks);
+            component.set('v.displayedRefNetworks', returnValue);
         });
     },
 
-    saveReferralNetworks: function (component) {
-
-    },
-
     changeCheckBox: function (component, event) {
+        let currElement = event.getSource().get('v.value');
 
+        communityService.executeAction(component, 'saveReferralNetworks', {
+            referralNetworkJSON: JSON.stringify(currElement)
+        }, function (returnValue) {
+        });
     }
 });

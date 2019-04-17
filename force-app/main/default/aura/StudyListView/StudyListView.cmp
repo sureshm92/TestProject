@@ -73,14 +73,14 @@
                                itemTitle="studies">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"
-                                placeholder="Enrollment Status"
+                                placeholder=""
                                 class="{!v.isSearchResume ? 'slds-hide' : ''}"/>
                     <c:rrSelect value="{!v.filterData.therapeuticArea}"
                                 options="{!v.filterData.therapeuticAreas}"
-                                placeholder="All therapeutic areas"/>
+                                placeholder=""/>
                     <c:rrSelect value="{!v.filterData.distance}"
                                 options="{!v.filterData.distances}"
-                                placeholder="All Distances"
+                                placeholder=""
                                 class="{! !v.isSearchResume ? 'slds-hide' : ''}"/>
                 </c:FilterPanel>
             </div>

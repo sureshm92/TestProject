@@ -3,8 +3,9 @@
  -->
 
 <aura:component controller="SubscribeToReferralNetworkRemote" description="SubscribeToReferralNetwork">
+    <aura:attribute name="sObjectType" type="String" access="public" required="true"/>
+
     <aura:attribute name="records" type="Object[]"/>
-    <aura:attribute name="isSaveList" type="Boolean"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-p-right--small">
@@ -19,8 +20,7 @@
                                                       size="large" onclick="{!c.doDelete}"
                                                       title="close"
                                                       alternativeText="Delete Record"
-                                                      value="{!record.Id}"
-                                />
+                                                      value="{!record.Id}"/>
                             </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                 <aura:set attribute="else">
                     <div class="slds-pill slds-container--fluid">
                         <div class="slds-pill__label slds-p-left--medium slds-color__text_gray-5">
-                            No networks selected
+                            No Referral Networks selected
                         </div>
                     </div>
                 </aura:set>
@@ -37,11 +37,12 @@
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                 <button class="apollo-btn primary slds-float--left slds-m-top--medium slds-p-bottom--medium"
                         onclick="{!c.doSelect}">
-                    Select Networks
+                    Select Referral Networks
                 </button>
             </div>
         </div>
     </div>
 
-    <c:SearchForReferralNetwork aura:id="searchModal" currChosenRefNetworks="{!v.records}"/>
+    <c:SearchForReferralNetwork aura:id="searchModal" sObjectType="{!v.sObjectType}"
+                                currChosenRefNetworks="{!v.records}"/>
 </aura:component>

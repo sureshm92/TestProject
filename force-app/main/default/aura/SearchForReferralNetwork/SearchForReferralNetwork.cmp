@@ -4,27 +4,31 @@
 
 <aura:component description="SearchForReferralNetwork" controller="SubscribeToReferralNetworkRemote">
     <aura:attribute name="currChosenRefNetworks" type="List" default="[]" access="public"/>
+    <aura:attribute name="sObjectType" type="String" access="public" required="true"/>
+
     <aura:method name="show" action="{!c.show}" access="public"/>
     <aura:method name="hide" action="{!c.hide}" access="public"/>
 
     <aura:attribute name="displayedRefNetworks" type="List" default="[]" access="private"/>
-    <aura:attribute name="bypass" type="Boolean" default="false" access="private"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <c:Popup aura:id="searchModal" title="Select Your Conditions of Interest" size="medium" showClose="false"
              primaryButtonLabel="Save" variant="slds-float--right">
 
-        <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
-                         variant="label-hidden" placeholder="Search for Referral Networks"/>
+        <div>
+            <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
+                             variant="label-hidden" placeholder="Search for Referral Networks"/>
+        </div>
 
-        <div class="slds-m-top--medium">
+        <div class="slds-m-top--medium" style="height: 200px !important; overflow-y: scroll;">
             <table aria-multiselectable="true"
                    class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
                    role="treegrid">
                 <tbody>
                 <aura:iteration items="{!v.displayedRefNetworks}" var="refNetwork">
-                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
+                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4"
+                        class="slds-hint-parent"
                         tabindex="0">
                         <td class="slds-text-align_right" role="gridcell" style="width: 3.25rem;">
                             <div class="slds-checkbox">
@@ -43,7 +47,6 @@
 
         <aura:set attribute="footerButtons">
             <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doClose}">{!$Label.c.BTN_Close}</button>
-            <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
         </aura:set>
     </c:Popup>
 </aura:component>

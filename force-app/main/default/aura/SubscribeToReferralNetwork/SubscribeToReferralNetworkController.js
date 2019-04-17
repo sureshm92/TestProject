@@ -4,7 +4,9 @@
 
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getReferralNetworkRecords', {}, function (returnValue) {
+        communityService.executeAction(component, 'getReferralNetworkRecords', {
+            sObjectType: component.get("v.sObjectType")
+        }, function (returnValue) {
             component.set('v.records', returnValue);
         });
     },
@@ -23,10 +25,9 @@
                 recordIds: recordIds
             }, function () {
                 records = records.filter((el) => {
-                    return el.coi.Id !== recordId;
+                    return el.Id !== recordId;
                 });
                 component.set('v.records', records);
-                component.set('v.isSaveList', !component.get('v.isSaveList'));
             });
         }
     }

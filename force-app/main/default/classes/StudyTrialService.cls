@@ -188,8 +188,6 @@ public without sharing class StudyTrialService {
             trialIdToStudySites.get(currStudySite.Clinical_Trial_Profile__r.Id).add(currStudySite);
         }
 
-        setTherapeuticAreaFilterOptions(trials);
-
         Map<Id, Double> trialIdToDistance = new Map<Id, Double>();
         for (Id currTrialId : trialIdToStudySites.keySet()) {
             Double minDistance;
@@ -240,6 +238,8 @@ public without sharing class StudyTrialService {
                 filteredTrials.add(currTrial);
             }
         }
+
+        setTherapeuticAreaFilterOptions(filteredTrials);
 
         List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
         Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
@@ -412,7 +412,6 @@ public without sharing class StudyTrialService {
     public static List<Clinical_Trial_Profile__c> searchTrials(Set<Id> trialsId, StudyFilterData filterData, StudySortData sortData) {
         String trialQuery = 'SELECT ' + String.join(TRIAL_FIELDS, ', ') + ' FROM Clinical_Trial_Profile__c WHERE (Id IN :trialsId) ';
         List<Clinical_Trial_Profile__c> trials = Database.query(trialQuery);
-        setTherapeuticAreaFilterOptions(trials);
 
         List<Clinical_Trial_Profile__c> records = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c currTrial : trials) {
@@ -447,6 +446,7 @@ public without sharing class StudyTrialService {
                 records.add(currTrial);
             }
         }
+        setTherapeuticAreaFilterOptions(records);
 
         return records;
     }
