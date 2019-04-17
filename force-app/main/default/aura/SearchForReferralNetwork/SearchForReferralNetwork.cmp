@@ -18,26 +18,29 @@
         <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
                          variant="label-hidden" placeholder="Search for Referral Networks"/>
 
-        <table aria-multiselectable="true"
-               class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
-               role="treegrid">
-            <tbody>
-            <aura:iteration items="{!v.displayedRefNetworks}" var="refNetwork">
-                <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
-                    tabindex="0">
-                    <td class="slds-text-align_right" role="gridcell" style="width: 3.25rem;">
-                        <div class="slds-checkbox">
-                            <lightning:input label="" type="checkbox" checked="{!refNetwork.isSelected}"
-                                             value="{!refNetwork}" onchange="{!c.handleChange}"/>
-                        </div>
-                    </td>
-                    <th class="slds-tree__item" data-label="Referral Network Name" scope="row">
-                        <div class="slds-truncate">{!refNetwork.Name}</div>
-                    </th>
-                </tr>
-            </aura:iteration>
-            </tbody>
-        </table>
+        <div class="slds-m-top--medium">
+            <table aria-multiselectable="true"
+                   class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
+                   role="treegrid">
+                <tbody>
+                <aura:iteration items="{!v.displayedRefNetworks}" var="refNetwork">
+                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
+                        tabindex="0">
+                        <td class="slds-text-align_right" role="gridcell" style="width: 3.25rem;">
+                            <div class="slds-checkbox">
+                                <lightning:input label="" type="checkbox" checked="{!refNetwork.isSelected}"
+                                                 value="{!refNetwork}" onchange="{!c.handleChange}"/>
+                            </div>
+                        </td>
+                        <th class="slds-tree__item" data-label="Referral Network Name" scope="row">
+                            <div class="slds-truncate">{!refNetwork.Name}</div>
+                        </th>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+
         <aura:set attribute="footerButtons">
             <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doClose}">{!$Label.c.BTN_Close}</button>
             <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
