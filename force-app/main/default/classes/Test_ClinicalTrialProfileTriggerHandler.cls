@@ -155,8 +155,8 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         for (Resource__c r : res) {
             System.assert(r.Title__c != 'testStudy');
         }
-        List<Res_study__c> resStudeis = [SELECT Id,Name,Clinical_Trial_Profile__c,Resource__c FROM Res_study__c];
-        System.assertEquals(5,resStudies.size());
+        List<Res_study__c> resStudeis2 = [SELECT Id,Name,Clinical_Trial_Profile__c,Resource__c FROM Res_study__c];
+        System.assertEquals(3,resStudeis2.size());
 
 
     }
@@ -225,7 +225,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         List<Resource__c> res = [SELECT Id,Name,Title__c FROM Resource__c];
         System.assertEquals(4, res.size());
         List<Res_study__c> resStudeis = [SELECT Id,Name,Clinical_Trial_Profile__c,Resource__c FROM Res_study__c];
-        System.assertEquals(5,resStudies.size());
+        System.assertEquals(5,resStudeis.size());
 
 
     }
