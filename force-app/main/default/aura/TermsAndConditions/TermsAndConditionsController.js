@@ -28,10 +28,11 @@
                     component.find('mainSpinner').hide();
                 });
             }else{
-                var ctpId = communityService.getUrlParameter('id');
-                component.set('v.ctpId', ctpId);
+                if(!component.get('v.ctpId')) {
+                    component.set('v.ctpId', communityService.getUrlParameter('id'));
+                }
                 communityService.executeAction(component, 'getTrialTcData', {
-                    ctpId: ctpId
+                    ctpId: component.get('v.ctpId')
                 }, function (returnValue) {
                     component.set("v.tcData", JSON.parse(returnValue));
                 }, null, function () {

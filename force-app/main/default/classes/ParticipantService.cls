@@ -13,6 +13,8 @@ public class ParticipantService {
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant__c participant;
+        @AuraEnabled public String participantName;
+        @AuraEnabled public Boolean showTerms;
 
         public ParticipantState(){
             value = ParticipantStates.PROSPECT;
@@ -39,6 +41,8 @@ public class ParticipantService {
             participantState.pe = peList[0];
             participantState.participant = participantState.pe.Participant__r;
             participantState.isDelegate = participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
+            participantState.participantName = getParticipantName();
+
             if(participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
             }
@@ -48,6 +52,7 @@ public class ParticipantService {
                 participantState.value = ParticipantStates.REFERRAL;
             }else if(participantState.pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS){
                 participantState.value = ParticipantStates.PARTICIPANT;
+                participantState.showTerms = showTerms();
                 List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListForParticipant();
                 if(pseList.size() > 0) {
                     participantState.pse = pseList[0];
@@ -59,7 +64,24 @@ public class ParticipantService {
             }
         }
     }
-    
+
+    private Boolean showTerms() {
+        return participantState.ctp.Terms_And_Conditions_ID__c != null
+                && !TermsAndConditions.isTCAccepted(participantState.ctp.Terms_And_Conditions_ID__c);
+    }
+
+    private String getParticipantName() {
+        String fullName;
+        if(participantState.isDelegate) {
+            fullName = (String) CommunityService.getUserContact().get('Name');
+        }
+        else {
+            fullName = participantState.pe.Participant__r.Full_Name__c;
+        }
+
+        return Label.PG_Home_Welcome_Message.replace('##UserName', fullName);
+    }
+
     public ParticipantState getState(){
         return participantState;
     }
