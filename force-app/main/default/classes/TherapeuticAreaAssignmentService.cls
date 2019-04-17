@@ -121,7 +121,13 @@ public with sharing class TherapeuticAreaAssignmentService {
         List<Therapeutic_Area_Assignment__c> tAAs = new List<Therapeutic_Area_Assignment__c>();
         Set<String> tANames = tAService.getTANamesOnResource(resource);
         for (String singleTAName : tANames) {
-            tAAs.add(new Therapeutic_Area_Assignment__c(Therapeutic_Area__c = tAsByNames.get(singleTAName).Id, Resource__c = resource.Id));
+            if (tAsByNames.get(singleTAName) != null) {
+                if(tAsByNames.get(singleTAName).Therapeutic_Area__c != null) {
+                    tAAs.add(new Therapeutic_Area_Assignment__c(Therapeutic_Area__c = tAsByNames.get(singleTAName).Therapeutic_Area__c, Resource__c = resource.Id));
+                } else {
+                    tAAs.add(new Therapeutic_Area_Assignment__c(Therapeutic_Area__c = tAsByNames.get(singleTAName).Id, Resource__c = resource.Id));
+                }
+            }
         }
         return tAAs;
     }

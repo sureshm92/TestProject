@@ -12,7 +12,6 @@ public with sharing class ArticleService {
                 this.calculateExpirationDate(resource);
             }
         }
-
     }
 
     public void calculateExpirationDate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
@@ -31,7 +30,7 @@ public with sharing class ArticleService {
         for (Resource__c singleResource : resources) {
             tANames.addAll(tAService.getTANamesOnResource(singleResource));
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
         tAAService.createTAAsForResources(therapeuticAreas, resources);
     }
 
@@ -43,7 +42,7 @@ public with sharing class ArticleService {
         for (Resource__c singleResource : newResources) {
             tANames.addAll(tAService.getTANamesOnResource(singleResource));
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
         tAAService.createDeleteTAAs(newResources, oldResourcesByIds, therapeuticAreas);
     }
 
