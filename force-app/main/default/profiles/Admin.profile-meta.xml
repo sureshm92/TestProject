@@ -427,6 +427,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -655,6 +659,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_AccountSettingsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -711,6 +719,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ReferringRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceExpBatchScheduler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -724,6 +736,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Task</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskEditRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2405,6 +2425,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Study_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Participant_Surname__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2655,6 +2680,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Date_of_Birth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2676,6 +2706,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Initials__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2736,6 +2776,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Mailing_Zip_Postal_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Middle_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3645,14 +3690,14 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Article</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource__c-Article</layout>
         <recordType>Resource__c.Article</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Study Document</layout>
         <recordType>Resource__c.Study_Document</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Resource__c-Video</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
@@ -3687,6 +3732,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area_Assignment__c-Therapeutic Area Assignment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>
@@ -4168,6 +4216,16 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Video</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>

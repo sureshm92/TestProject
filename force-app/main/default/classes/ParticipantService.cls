@@ -86,6 +86,13 @@ public class ParticipantService {
         return participantState;
     }
     
+    public List<ParticipantItem> createParticipantItems(List<Participant_Enrollment__c> peList){
+        List<ParticipantItem> items = new List<ParticipantItem>();
+        for(Participant_Enrollment__c pe : peList) items.add(new ParticipantItem(pe));
+        return items;
+    }
+    
+    
     // Static facade: --------------------------------------------------------------------------------------------------
     
     public static ParticipantState getParticipantState(){

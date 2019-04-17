@@ -1966,6 +1966,20 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>A Google map is not available for this study site location.</value>
     </labels>
     <labels>
+        <fullName>Gender_Female</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Gender Female</shortDescription>
+        <value>Female</value>
+    </labels>
+    <labels>
+        <fullName>Gender_Male</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Gender Male</shortDescription>
+        <value>Male</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2780,6 +2794,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Site name</value>
     </labels>
     <labels>
+        <fullName>PE_Site_SiteZIPCode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Site SiteZIPCode</shortDescription>
+        <value>Site Zip Code</value>
+    </labels>
+    <labels>
         <fullName>PE_State</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3120,6 +3141,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Update My Password</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Email_address</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3132,6 +3160,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS F First name</shortDescription>
         <value>First name</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Gender</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Gender</shortDescription>
+        <value>Gender</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Initials</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Initials</shortDescription>
+        <value>Initials</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Address_Line</fullName>
@@ -3195,6 +3237,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS F Last name</shortDescription>
         <value>Last name</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Middle_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Middle name</shortDescription>
+        <value>Middle name</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_New_password</fullName>
@@ -5277,7 +5326,14 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient agrees to share her/his details with the study doctors and IQVIA so they can be contacted.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
+        <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_New_Patient</fullName>
@@ -7010,5 +7066,12 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>Update_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update Participant</shortDescription>
+        <value>Update Participant</value>
     </labels>
 </CustomLabels>

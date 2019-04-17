@@ -41,6 +41,7 @@ public class TasksRemote {
             createOriginatorsList(participantTasks.openTasksWrapper);
             return participantTasks;
         }catch (Exception e){
+            System.debug(e.getMessage());
             AuraHelper.throwException(e);
         }
         return null;

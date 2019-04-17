@@ -46,7 +46,12 @@
                                         In Progress
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
-                                        <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                        <aura:if isTrue="{!taskWrapper.openTask.ActivityDate}">
+                                            <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!!taskWrapper.openTask.ActivityDate}">
+                                            {!$Label.c.None}
+                                        </aura:if>
                                     </aura:if>
                                 </td>
                                 <td>

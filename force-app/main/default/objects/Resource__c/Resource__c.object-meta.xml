@@ -56,10 +56,10 @@
     <externalSharingModel>ReadWrite</externalSharingModel>
     <label>Resource</label>
     <nameField>
-        <encryptionScheme>None</encryptionScheme>
+        <displayFormat>R-{000000}</displayFormat>
         <label>Resources Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Resources</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>

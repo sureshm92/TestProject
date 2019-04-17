@@ -95,6 +95,18 @@ public without sharing class PSEService {
         return getPSEListCommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
     
+    public List<LabelValueItem> getPSEPathSteps(){
+        List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
+        for(String status : PSEService.PSE_STATUS_GROUP_ALL) {
+            translatedStatuses.add(new LabelValueItem(
+                    TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status),
+                    status
+            ));
+        }
+        return translatedStatuses;
+    }
+    
+    
     //Static facade: ------------------------------------------------------------------------------------------------
     
     public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){
@@ -121,9 +133,9 @@ public without sharing class PSEService {
                     ') ';
         } else if(userMode == CommunityService.USER_MODE_HCP) {
             List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
-            if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
+            if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR Participant_Enrollment__r.HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
             return '(' +
-                    '   HCP__r.HCP_Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\'' +
+                    '   Participant_Enrollment__r.HCP__r.HCP_Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\'' +
                     delegatesFilter +
                     ') ';
         } else{

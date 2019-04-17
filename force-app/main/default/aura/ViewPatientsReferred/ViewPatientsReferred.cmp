@@ -62,7 +62,9 @@
                            recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                            sortType="{!v.peFilter.sortType}"
                            sortVariants="{!v.peFilterData.sortVariants}"
-                           allRecordsCount="{!v.paginationData.allRecordsCount}">
+                           allRecordsCount="{!v.paginationData.allRecordsCount}"
+                           currentPageCount="{!v.paginationData.currentPageCount}">
+
                 <aura:if isTrue="{!v.studyFilterEnabled}">
                     <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>
                 </aura:if>
@@ -89,11 +91,12 @@
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:iteration items="{!v.pageList}" var="item">
-                    <c:ViewPatientItem pe="{!item.pe}"
+                    <c:ParticipantCard participantItem="{!item.pItem}"
                                        actions="{!item.actions}"
-                                       peStatusesPathList="{!v.peStatusesPathList}"
-                                       peStatusStateMap="{!v.peStatusStateMap}"
-                                       changeStatusBtnList="{!v.changeStatusBtnList}" parent="{!this}"/>
+                                       singlePatientView="false"
+                                       changeStatusBtnList="{!v.changeStatusBtnList}"
+                                       parent="{!this}"
+                                       userMode="{!v.userMode}"/>
                 </aura:iteration>
             </div>
 
