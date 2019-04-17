@@ -55,6 +55,10 @@
         <label>Details</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Video__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Subtitle__c</field>
             </layoutItems>
@@ -213,7 +217,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h0E000001GeeJ</masterLabel>
+        <masterLabel>00h9E000000mjXY</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

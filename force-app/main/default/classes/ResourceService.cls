@@ -110,7 +110,13 @@ public with sharing class ResourceService {
         if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
         }
-        List<Resource__c> resources = this.getSortedResources(participant, resourceType);
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        if (participantState.ctp == null) {
+            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
+        }
+        List<Resource__c> resources = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType) ?
+                this.getStudyDocuments(participantState)
+                : this.getSortedResources(participant, resourceType);
         if (resources.isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
         }
