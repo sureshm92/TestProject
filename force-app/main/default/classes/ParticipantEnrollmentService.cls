@@ -243,6 +243,7 @@ public without sharing class ParticipantEnrollmentService {
     private static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
             'HCP__c',
+            'Informed_Consent__c',
             'Name',
             'Patient_ID__c',
             'PI_Contact__r.Name',

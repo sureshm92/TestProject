@@ -28,6 +28,7 @@
         <aura:if isTrue="{!v.isInitialized}">
             <!-- change PE status action by PI: -->
             <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
+            <c:RRActionApprove aura:id="actionApprove" parent="{!this}"/>
             
             <!-- top bar -->
             <div class="{!'rr-top-bar ' + if(v.multiMode, ' multi-mode', '')}" id="stickyBar" aura:id="stickyBar">

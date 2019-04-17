@@ -6,18 +6,47 @@ public without sharing class TrialService {
     
     public static final String STATUS_ACTIVELY_ENROLLING = 'Actively Enrolling';
     public static final String STATUS_NO_LONGER_ENROLLING = 'No Longer Enrolling';
-
+    
     private static TrialService instance;
-
+    
     public static TrialService getInstance(){
         if(instance == null) instance = new TrialService();
         return instance;
     }
-
+    
     public static void setMock(StubProvider stubProvider){
         instance = (TrialService) Test.createStub(TrialService.class, stubProvider);
     }
-
+    
+    public List<Clinical_Trial_Profile__c> getAvailableTrialsImpl(String mode){
+        Set<Clinical_Trial_Profile__c> trials= new Set<Clinical_Trial_Profile__c>();
+        if(mode == CommunityService.USER_MODE_PI){
+            List<Study_Site__c> studySites = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
+            for(Study_Site__c ss : studySites) trials.add(ss.Clinical_Trial_Profile__r);
+        }else if(mode == CommunityService.USER_MODE_HCP){
+            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, null, false);
+            System.debug('hcpCommon' + hcpEnrollments);
+            for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
+                if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
+            }
+        }else if(mode == CommunityService.USER_MODE_PARTICIPANT) {
+            List<Participant_Enrollment__c> participantEnrollments =
+                    ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+            trials.add(participantEnrollments.get(0).Study_Site__r.Clinical_Trial_Profile__r);
+        }
+        return new List<Clinical_Trial_Profile__c>(trials);
+    }
+    
+    public List<Clinical_Trial_Profile__c> getOwnTrialsImpl(String userMode){
+        List<Clinical_Trial_Profile__c> ownTrials = new List<Clinical_Trial_Profile__c>();
+        for(Clinical_Trial_Profile__c trial : getAvailableTrials(userMode)){
+            if(DelegateService.getStudyAccessLevel(trial.Id, userMode) == DelegateService.OWNER_LEVEL){
+                ownTrials.add(trial);
+            }
+        }
+        return ownTrials;
+    }
+    
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId){
         List<Clinical_Trial_Profile__c> trials = [
                 SELECT Id, Orientation_Required__c,
@@ -52,43 +81,30 @@ public without sharing class TrialService {
         TranslateHelper.translate(trials[0]);
         return trials[0];
     }
-
-    public static List<Clinical_Trial_Profile__c> getAvailableTrials(String mode){
-        Set<Clinical_Trial_Profile__c> trials= new Set<Clinical_Trial_Profile__c>();
-        if(mode == CommunityService.USER_MODE_PI){
-            List<Study_Site__c> studySites = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
-            for(Study_Site__c ss : studySites) trials.add(ss.Clinical_Trial_Profile__r);
-        }else if(mode == CommunityService.USER_MODE_HCP){
-            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, null, false);
-            System.debug('hcpCommon' + hcpEnrollments);
-            for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
-                if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
-            }
-        }
-        return new List<Clinical_Trial_Profile__c>(trials);
+    
+    public List<Id> getAvailableTrialIdsImpl(String userMode){
+        return SObjectHelper.toIdsList(getAvailableTrials(userMode));
+    }
+    
+    
+    // Static facade: --------------------------------------------------------------------------------------------------
+    
+    public static List<Clinical_Trial_Profile__c> getAvailableTrials(String userMode){
+        return getInstance().getAvailableTrialsImpl(userMode);
     }
     
     public static List<Clinical_Trial_Profile__c> getOwnTrials(String userMode){
-        List<Clinical_Trial_Profile__c> ownTrials = new List<Clinical_Trial_Profile__c>();
-        for(Clinical_Trial_Profile__c trial : getAvailableTrials(userMode)){
-            if(DelegateService.getStudyAccessLevel(trial.Id, userMode) == DelegateService.OWNER_LEVEL){
-                ownTrials.add(trial);
-            }
-        }
-        return ownTrials;
+        return getInstance().getOwnTrialsImpl(userMode);
     }
-
-    public static List<Id> getAvailableTrialIds(String mode){
-        List<Clinical_Trial_Profile__c> trials = getAvailableTrials(mode);
-        List<Id> trialIds = new List<Id>();
-        for(Clinical_Trial_Profile__c trial : trials) trialIds.add(trial.Id);
-        return trialIds;
+    
+    public static List<Id> getAvailableTrialIds(String userMode){
+        return getInstance().getAvailableTrialIdsImpl(userMode);
     }
-
+    
     public static Clinical_Trial_Profile__c getTrial(Id trialId){
-        return TrialService.getInstance().getTrialImpl(trialId);
+        return getInstance().getTrialImpl(trialId);
     }
-
+    
     public static Boolean isTrialAvailable(Id trialId, String userMode){
         return getAvailableTrialIds(userMode).contains(trialId);
     }
