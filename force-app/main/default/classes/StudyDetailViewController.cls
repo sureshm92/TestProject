@@ -111,7 +111,7 @@ public without sharing class StudyDetailViewController {
                 trialDetail.actions = studyActions.actions;
 
                 Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
-                for(Participant_Enrollment__c pe : participantEnrollments)
+                for (Participant_Enrollment__c pe : participantEnrollments)
                     idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
 
                 List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
@@ -165,7 +165,7 @@ public without sharing class StudyDetailViewController {
 
     public static List<StudyTab> getStudyTabs(String userMode) {
         List<StudyTab> tabs = new List<StudyTab>();
-        if(userMode == CommunityService.USER_MODE_HCP){
+        if (userMode == CommunityService.USER_MODE_HCP) {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
@@ -191,7 +191,7 @@ public without sharing class StudyDetailViewController {
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
             ));
-        }else if(userMode == CommunityService.USER_MODE_PI){
+        } else if (userMode == CommunityService.USER_MODE_PI) {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
@@ -212,33 +212,60 @@ public without sharing class StudyDetailViewController {
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
             ));
-        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
+        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
-            if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+
+            if (stateValue == ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        'Tasks'
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        'Resources'
+                ));
+
+            } else if (stateValue == ParticipantService.ParticipantStates.REFERRAL) {
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
                         TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
                 ));
                 tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        'Tasks'
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        'Resources'
+                ));
+
+            } else if (stateValue == ParticipantService.ParticipantStates.PARTICIPANT)  {
+                tabs.add(new StudyTab(
+                        'tab-about-the-study',
+                        'about-the-study',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+                ));
+
+                tabs.add(new StudyTab(
                         'tab-referred-patient',
                         'referred-patient',
                         'Visits'
                 ));
-            }
-        
-            tabs.add(new StudyTab(
-                    'tab-tasks',
-                    'task',
-                    'Tasks'
-            ));
-            tabs.add(new StudyTab(
-                    'tab-resources',
-                    'resources',
-                    'Resources'
-            ));
-        
-            if(stateValue != ParticipantService.ParticipantStates.ALUMNI) {//I didn't find a better solution.
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        'Tasks'
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        'Resources'
+                ));
                 tabs.add(new StudyTab(
                         'tab-lab-results',
                         'reports',
@@ -246,7 +273,7 @@ public without sharing class StudyDetailViewController {
                 ));
             }
         }
-        
+
         return tabs;
     }
 
