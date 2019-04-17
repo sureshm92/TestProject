@@ -139,6 +139,13 @@ Click OK to begin!</value>
         <value>Complete</value>
     </labels>
     <labels>
+        <fullName>BTN_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -480,6 +487,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN View</shortDescription>
         <value>View</value>
+    </labels>
+    <labels>
+        <fullName>BTN_View_Download_Consent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download Consent</shortDescription>
+        <value>Download Consent</value>
     </labels>
     <labels>
         <fullName>BTN_View_all</fullName>
@@ -1952,6 +1966,20 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>A Google map is not available for this study site location.</value>
     </labels>
     <labels>
+        <fullName>Gender_Female</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Gender Female</shortDescription>
+        <value>Female</value>
+    </labels>
+    <labels>
+        <fullName>Gender_Male</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Gender Male</shortDescription>
+        <value>Male</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2766,6 +2794,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Site name</value>
     </labels>
     <labels>
+        <fullName>PE_Site_SiteZIPCode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Site SiteZIPCode</shortDescription>
+        <value>Site Zip Code</value>
+    </labels>
+    <labels>
         <fullName>PE_State</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3106,6 +3141,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Update My Password</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Email_address</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3118,6 +3160,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS F First name</shortDescription>
         <value>First name</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Gender</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Gender</shortDescription>
+        <value>Gender</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Initials</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Initials</shortDescription>
+        <value>Initials</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Address_Line</fullName>
@@ -3181,6 +3237,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS F Last name</shortDescription>
         <value>Last name</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Middle_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Middle name</shortDescription>
+        <value>Middle name</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_New_password</fullName>
@@ -5263,7 +5326,14 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient agrees to share her/his details with the study doctors and IQVIA so they can be contacted.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
+        <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_New_Patient</fullName>
@@ -5913,6 +5983,13 @@ is a placehilder to show you what it would look like.</value>
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>PG_SW_Tab_Lab_Results</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lab Results tab</shortDescription>
+        <value>Lab Results</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_Tab_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5948,11 +6025,32 @@ is a placehilder to show you what it would look like.</value>
         <value>Reports</value>
     </labels>
     <labels>
+        <fullName>PG_SW_Tab_Resources</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Resources tab</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_Tab_Study_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW Tab Study Sites</shortDescription>
         <value>Study Sites</value>
+    </labels>
+    <labels>
+        <fullName>PG_SW_Tab_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tasks tab</shortDescription>
+        <value>Tasks</value>
+    </labels>
+    <labels>
+        <fullName>PG_SW_Tab_Visits</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Visits tab</shortDescription>
+        <value>Visits</value>
     </labels>
     <labels>
         <fullName>PG_SW_Title</fullName>
@@ -6058,6 +6156,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Poput_ICF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Poput_ICF</shortDescription>
+        <value>Please confirm that your patient has signs ICF consent</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
@@ -6508,6 +6613,125 @@ is a placehilder to show you what it would look like.</value>
         <value>Set Reminder</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Legend_Blood</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>A number of blood and urine samples  will be taken during the study. These samples will be used to check your  health and to see how your body responds to and processes the study medication.  In the optional genetic research sub-study, blood samples will be used to see how genes affect the way the study medication works.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Brief_Physical_Examination</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>These are checks of your general health and will include an examination of your skin, lungs, heart and blood vessels, and abdomen. Your height and weight will also be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_ECG</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform  a procedure during which sticky pads  are placed on your chest, arms, and  legs. The pads are connected by wires  to a machine that checks the rhythm  and activity of your heart.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Follow_Up_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Joint_Assessment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>A doctor (not your usual study doctor) will examine your joints and count how many are swollen and/or tender, by pressing  on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>This test will be performed to measure the amount of air you have in your lungs and how well you can move that air by forcibly blowing into a spirometer (lung function machine).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Lung_Health_Check</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will check the health  of your lungs and any coughing by listening to the sound of your breathing with a stethoscope. They will also ask  you about any breathlessness and measure the amount of oxygen in  your blood.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_No_Food_Or_Drink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Pregnancy_Test</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>If you are a woman who is able to get pregnant, you will have a pregnancy urine test at regular intervals during the study.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked some questions about your health in general, your sleep, your pain and energy level, and how RA is affecting your daily life. There are also optional participant questionnaires, where you can provide feedback about your experience in the study.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will speak to a member of the study team who will ask you questions about your health, any medications you have taken, and how you are feeling. This will happen every 1 to 4 weeks and may be done by phone or at the study center.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Receive_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive enough study medication to last until your next visit. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Return_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Treatment_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Vital_Signs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Your blood pressure, heart rate, breathing rate, and body temperature, will be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest (to check the health of your lungs) and hands and feet (to check the health of your joints).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Popup_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Popup text</shortDescription>
+        <value>This service may not be available everywhere.  Check with your study team for any questions.</value>
+    </labels>
+    <labels>
         <fullName>TST_Complete_Your_Question</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6884,5 +7108,10 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>update resource content</shortDescription>
         <value>Do you want to mark  resource content as updated?</value>
+        <fullName>Update_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update Participant</shortDescription>
+        <value>Update Participant</value>
     </labels>
 </CustomLabels>

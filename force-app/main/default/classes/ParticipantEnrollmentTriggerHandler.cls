@@ -5,19 +5,64 @@
 
 public without sharing class ParticipantEnrollmentTriggerHandler {
     
-    private Map<Id, Participant_Enrollment__c> oldMap;
-    private Map<Id, Participant_Enrollment__c> newMap;
-    private List<Participant_Enrollment__c> oldList;
-    private List<Participant_Enrollment__c> newList;
+    // Handlers: -------------------------------------------------------------------------------------------------------
+    
+    public class PrepareAdditionalFieldsHandler extends TriggerHandler{
+        
+        public override void beforeInsert(List<SObject> newList) {
+            new ParticipantEnrollmentTriggerHandler(newList).prepareAdditionalFields(newList, null);
+        }
+        
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+    }
+    
+    public class CreateUsersOrSendNotificationsHandler extends TriggerHandler{
+        
+        public override void afterInsert(List<SObject> newList) {
+            new ParticipantEnrollmentTriggerHandler(newList).createUsersOrSendNotifications(newList, null);
+        }
+        
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+    }
+    
+    public class SendCalloutOnEligibilityPassedHandler extends TriggerHandler{
+        
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendCalloutOnEligibilityPassed(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+    }
+    
+    public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler{
+    
+        public override void beforeInsert(List<SObject> newList) {
+            setChangedDate(newList);
+        }
+        
+        public override void beforeUpdate(List<SObject> newList,  Map<Id, SObject> oldMap) {
+            resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+        
+        public override void afterInsert(List<SObject> newList) {
+            createHistoryRecords(newList, null);
+        }
+        
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createHistoryRecords(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+    }
+    
+    // Logic: ----------------------------------------------------------------------------------------------------------
+    
     
     private Map<Id, Study_Site__c> ssMap;
     private Map<Id, HCP_Enrollment__c> hcpeMap;
     private Map<Id, Participant__c> participantMap;
     
-    public ParticipantEnrollmentTriggerHandler(){
-        oldList = (List<Participant_Enrollment__c>)Trigger.old;
-        newList= (List<Participant_Enrollment__c>)Trigger.new;
-    
+    public ParticipantEnrollmentTriggerHandler(List<Participant_Enrollment__c> newList){
         List<Id> ssIds = new List<Id>();
         List<Id> hcpeIds = new List<Id>();
         List<Id> participantIds = new List<Id>();
@@ -46,25 +91,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 FROM Participant__c
                 WHERE Id IN: participantIds
         ]);
-    
-        if(Trigger.isUpdate){
-            oldMap = new Map<Id, Participant_Enrollment__c>(oldList);
-            newMap = new Map<Id, Participant_Enrollment__c>(newList);
-        }
     }
     
-    public void handle(){
-        if(Trigger.isUpdate || Trigger.isInsert){
-            if(Trigger.isBefore){
-                prepareAdditionalFields();
-            }
-            if(Trigger.isAfter){
-                createUsersOrSendNotifications();
-            }
-        }
-    }
-    
-    private void prepareAdditionalFields(){
+    @TestVisible
+    private void prepareAdditionalFields(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
         for(Participant_Enrollment__c pe : newList){
             String nctNumber;
             String participantName;
@@ -93,14 +123,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
             //populate referred date
             if(pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI){
-                if(Trigger.isInsert || (Trigger.isUpdate && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)){
+                if(oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)){
                     pe.Referred_Date__c = Date.today();
                 }
             }
         }
     }
     
-    private void createUsersOrSendNotifications() {
+    @TestVisible
+    private void createUsersOrSendNotifications(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Map<Id, Id> toCreateUser = new Map<Id, Id>();
         Map<Id, String> notificationMap = new Map<Id, String>();
         Map<Id, String> notificationMapEmptyHCP = new Map<Id, String>();
@@ -172,12 +203,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Id = participant.Contact__c,
                         userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
                 ));
-                /*alertsForInsert.add(new Alert__c(
-                        Record_ID__c = newPE.Id,
-                        Contact__c = participant.Contact__c,
-                        Alert_Code__c = 'Welcome_to_the_Study'
-                ));*/
-
             }
         }
     
@@ -186,6 +211,63 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if(notificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT1_NEW, notificationMap);
         if(notificationMapEmptyHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT2_NEW, notificationMapEmptyHCP);
         update contactsForChangeMode;
+    }
+    
+    @TestVisible
+    private static void sendCalloutOnEligibilityPassed(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        String acceptedStatus = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
+        for(Participant_Enrollment__c pe : newList){
+            if(oldMap == null && pe.Participant_Status__c == acceptedStatus &&
+                    oldMap.get(pe.Id).Participant_Status__c != acceptedStatus){
+                IntegrationService.sendPEToStudyHubAsync(pe.Id);
+            }
+        }
+
+    }
+    
+    @TestVisible
+    private static void setChangedDate(List<Participant_Enrollment__c> newList){
+        for(Participant_Enrollment__c pe : newList){
+            pe.Medical_Record_Review_Completed_Date__c =  Datetime.now();
+            if(pe.Participant_Status__c != null && pe.Participant_Status_Last_Changed_Date__c == null){
+                pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
+            }
+        }
+    }
+    
+    @TestVisible
+    private static void resetNotesAndSetChangeDate(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        for(Participant_Enrollment__c pe : newList){
+            if(pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
+                    pe.Participant_Status_Last_Changed_Date__c != oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c ||
+                    pe.Last_Status_Changed_Notes__c != oldMap.get(pe.Id).Last_Status_Changed_Notes__c){
+                if(pe.Participant_Status_Last_Changed_Date__c == oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c)
+                    if(pe.Last_Status_Changed_Notes__c == oldMap.get(pe.Id).Last_Status_Changed_Notes__c)
+                        pe.Last_Status_Changed_Notes__c = null;
+                pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
+            }
+        }
+    }
+    
+    @TestVisible
+    private static void createHistoryRecords(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        List<Participant_Enrollment_Status_History__c> pesHistoryList = new List<Participant_Enrollment_Status_History__c>();
+        for(Participant_Enrollment__c pe : newList){
+            if ((oldMap == null && pe.Participant_Status__c != null) ||
+                    (oldMap != null && (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
+                            pe.Participant_Status_Last_Changed_Date__c != oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c ||
+                            pe.Last_Status_Changed_Notes__c != oldMap.get(pe.Id).Last_Status_Changed_Notes__c)
+                    )){
+                pesHistoryList.add(new Participant_Enrollment_Status_History__c(
+                        Notes__c = pe.Last_Status_Changed_Notes__c,
+                        Date__c = Datetime.now(),
+                        ParticipantEnrollment__c = pe.Id,
+                        NewStatus__c = pe.Participant_Status__c,
+                        Reason__c = pe.Non_Enrollment_Reason__c
+                ));
+            }
+        }
+        insert pesHistoryList;
     }
     
 }

@@ -2,9 +2,9 @@
  * Created by Leonid Bartenev
  */
 
-trigger ParticipantTrigger on Participant__c (before insert, before update, after insert, after update) {
-    ParticipantTriggerHandler.prepareCityStateFieldsBeforeInsertOrUpdate();
-    ParticipantTriggerHandler.createContactsForParticipantsBeforeInsert();
-    ParticipantTriggerHandler.updatePEAndContactLastNameAfterInsert();
-    ParticipantTriggerHandler.changeUserEmailOnParticipantEmailChange();
+trigger ParticipantTrigger on Participant__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
 }

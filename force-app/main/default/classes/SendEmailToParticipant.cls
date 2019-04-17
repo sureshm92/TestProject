@@ -52,7 +52,7 @@ public class SendEmailToParticipant {
             );
             addMessagesForDelegates(
                     emailMessages,
-                    PatientDelegateService.getDelegatedContactIds(pse.Participant__r.Contact__c),
+                    PatientDelegateService.getInstance().getDelegatedContactIds(pse.Participant__r.Contact__c),
                     PATIENT_DELEGATE_EMAIL_TEMPLATES_MAP.get(task.Task_Type__c),
                     task.WhatId
             );
@@ -74,7 +74,7 @@ public class SendEmailToParticipant {
             );
             addMessagesForDelegates(
                     emailMessages,
-                    PatientDelegateService.getDelegatedContactIds(user.ContactId),
+                    PatientDelegateService.getInstance().getDelegatedContactIds(user.ContactId),
                     EMAIL_TEMPLATE_NO_TYPE_TASK,
                     task.Id
             );

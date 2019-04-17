@@ -10,7 +10,7 @@ public class PatientDelegateRemote {
             List<Participant__c> contacts = [
                     SELECT First_Name__c
                     FROM Participant__c
-                    WHERE Id =: PatientDelegateService.participant.Id];
+                    WHERE Id =: PatientDelegateService.getInstance().getParticipant().Id];
     
             return contacts.get(0).First_Name__c;
         }catch (Exception e){
@@ -23,7 +23,7 @@ public class PatientDelegateRemote {
     public static void withdrawDelegate(String delegate) {
         try{
             Contact contactToWithdraw = (Contact) JSON.deserialize(delegate, Contact.class);
-            PatientDelegateService.resetDelegate(contactToWithdraw);
+            PatientDelegateService.getInstance().resetDelegate(contactToWithdraw);
         }catch (Exception e){
         
         }
@@ -32,7 +32,7 @@ public class PatientDelegateRemote {
     @AuraEnabled
     public static String isDelegate() {
         try{
-            return ParticipantService.getParticipantState().isDelegate ? 'TRUE' : 'FALSE';
+            return ParticipantService.getInstance().getState().isDelegate ? 'TRUE' : 'FALSE';
         }catch (Exception e){
             AuraHelper.throwException(e);
             return null;

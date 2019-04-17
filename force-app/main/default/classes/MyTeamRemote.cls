@@ -34,21 +34,23 @@ public without sharing class MyTeamRemote {
             List<Contact> delegateContacts = new List<Contact>();
             List<Contact> contactsToProcess = new List<Contact>();
 
-            if (contactEmail != '')  //NewTeamMember.js.doSearchContact()
+            if(contactEmail != '') {//NewTeamMember.js.doSearchContact()
                 delegateContacts = [
                         SELECT Id, FirstName, LastName, Name, Email
                         FROM Contact
                         WHERE Email = :contactEmail
                 ];
+            }
 
-            if (delegateContacts.isEmpty())  //NewTeamMember.js.doInit()
-                contactsToProcess.add(new Contact(FirstName = '', LastName = '', Email = contactEmail)); else {
-                for (Contact c : delegateContacts)
-                    if (c.Id == CommunityService.getUserContact().Id)
-                        contactsToProcess.add(c);
+            if(delegateContacts.isEmpty()) {//NewTeamMember.js.doInit()
+                contactsToProcess.add(new Contact(FirstName = '', LastName = '', Email = contactEmail));
+            }
+            else {
+                for (Contact c : delegateContacts) {
+                    if(c.Id == CommunityService.getUserContact().Id) contactsToProcess.add(c);
+                }
 
-                if (contactsToProcess.isEmpty())
-                    contactsToProcess.add(delegateContacts[0]);
+                if(contactsToProcess.isEmpty()) contactsToProcess.add(delegateContacts[0]);
 
                 Id contactId = delegateContacts[0].Id;
                 List<Participant__c> participants = [
@@ -71,7 +73,6 @@ public without sharing class MyTeamRemote {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
-
     }
 
     private static List<DelegateWrapper> getDelegates(String userMode, Boolean excludeCurrentUser, List<Contact> delegatesToProcess) {
@@ -182,7 +183,7 @@ public without sharing class MyTeamRemote {
                 delegateContacts = delegatesToProcess;
             }
             else {
-                delegateContacts = PatientDelegateService.getDelegateContacts();
+                delegateContacts = PatientDelegateService.getInstance().getDelegates();
             }
 
             for (Contact patientDelegate : delegateContacts) {
@@ -333,13 +334,12 @@ public without sharing class MyTeamRemote {
         SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE, toSendNotificationMap);
     }
 
-
     @AuraEnabled
     public static void savePatientDelegate(String delegate) {
         DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(delegate, DelegateWrapper.class);
         try {
             Boolean isNewContact = dw.delegateContact.Id == null;
-            if (isNewContact) {
+            if(isNewContact) {
                 createDelegate(dw, CommunityService.USER_MODE_PARTICIPANT);
             }else {
                 Set<Id> contactId = new Set<Id>{dw.delegateContact.Id};
@@ -349,7 +349,7 @@ public without sharing class MyTeamRemote {
             }
 
             if (dw.delegateContact.userCommunytyType__c == null) {
-                PatientDelegateService.createPatientDelegate(dw.delegateContact);
+                PatientDelegateService.getInstance().createPatientDelegate(dw.delegateContact);
                 if(!isNewContact)sendEmailNotification(dw.delegateContact);
             } else {
                 AuraHelper.throwException(new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign));
@@ -363,9 +363,9 @@ public without sharing class MyTeamRemote {
     @AuraEnabled
     public static String getPatientDelegateByContactId(String id) {
         Patient_Delegate__c foundDelegate;
-        for (Patient_Delegate__c delegate : PatientDelegateService.getPatientDelegates())
-            if (delegate.Contact__c.equals(id))
-                foundDelegate = delegate;
+        for(Patient_Delegate__c delegate : PatientDelegateService.getInstance().getPDelegates()) {
+            if(delegate.Contact__c.equals(id)) foundDelegate = delegate;
+        }
 
         if(foundDelegate == null)
             AuraHelper.throwException(new PatientDelegateService.PatientDelegateServiceException('Incorrect id!'));
@@ -377,7 +377,7 @@ public without sharing class MyTeamRemote {
     public static void editPatientDelegateDetail(String delegate) {
         try{
             Contact editedDelegate =  (Contact) JSON.deserialize(delegate, Contact.class);
-            if(PatientDelegateService.getDelegatedContactIds().contains(editedDelegate.Id)) {
+            if(PatientDelegateService.getInstance().getDelegatedContactIds().contains(editedDelegate.Id)) {
                 update editedDelegate;
             }
             else {
@@ -393,7 +393,7 @@ public without sharing class MyTeamRemote {
     public static void removePatientDelegate(String delegate) {
         try{
             Contact delegateContact = (Contact) JSON.deserialize(delegate, Contact.class);
-            PatientDelegateService.resetDelegate(delegateContact);
+            PatientDelegateService.getInstance().resetDelegate(delegateContact);
         }catch (Exception e) {
             AuraHelper.throwException(e);
         }

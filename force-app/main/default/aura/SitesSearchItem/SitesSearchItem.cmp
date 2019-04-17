@@ -46,12 +46,12 @@
                 </aura:if>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
-                <aura:if isTrue="{!v.studySiteWrapper.hcpe == null}">
+                <aura:if isTrue="{!!v.studySiteWrapper.hasActiveHCPE}">
                     <button class="apollo-btn tertiary btn-request-to-refer"
                             onclick="{!c.requestToRefer}"
                             disabled="{!v.studySiteWrapper.actions.requestToRefer.disabled}"
                             title="{!v.studySiteWrapper.actions.requestToRefer.disableReason}">
-                        {!$Label.c.BTN_Request_to_refer}
+                            {!$Label.c.BTN_Request_to_refer}
                     </button>
                     <aura:set attribute="else">
                         <button data-hcpe-Id="{!v.studySiteWrapper.hcpe.Id}"

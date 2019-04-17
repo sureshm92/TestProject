@@ -45,7 +45,11 @@ global without sharing class TermsAndConditions {
 
     public static Map<Id, Boolean> getTrialsAcceptanceMap(List<Clinical_Trial_Profile__c> trials){
         List<Id> tcIds = new List<Id>();
-        for(Clinical_Trial_Profile__c trial : trials) if(trial.Terms_And_Conditions_ID__c != null) tcIds.add(trial.Terms_And_Conditions_ID__c);
+        for(Clinical_Trial_Profile__c trial : trials) {
+            if(trial.Terms_And_Conditions_ID__c != null) {
+                tcIds.add(trial.Terms_And_Conditions_ID__c);
+            }
+        }
         List<Terms_And_Conditions_Acceptance__c> tcAcceptances = [
                 SELECT Id, Terms_And_Conditions__c
                 FROM Terms_And_Conditions_Acceptance__c
