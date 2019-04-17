@@ -20,7 +20,7 @@
     <aura:attribute name="primaryButtonClicked" type="Boolean" default="false" description="if primary(Ok) button clicked, this value will change"/>
     <aura:attribute name="secondaryButtonClicked" type="Boolean" default="false" description="if secondary(cancel) button clicked, this value will change"/>
     <aura:attribute name="closeButtonClicked" type="Boolean" default="false" description="if close button or Esc button clicked, this value will change"/>
-
+    <aura:attribute name="closeCallback" type="Object"/>
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}"/>

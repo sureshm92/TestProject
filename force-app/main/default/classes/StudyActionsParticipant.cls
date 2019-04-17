@@ -27,7 +27,7 @@ public class StudyActionsParticipant extends StudyActions {
                     false
             ));
         }
-        if(participantStateValue != ParticipantService.ParticipantStates.REFERRAL && study.Terms_And_Conditions_ID__c != null) {
+        if(participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT && study.Terms_And_Conditions_ID__c != null) {
             studyDetailActions.add(new Action(
                     'viewTermsAndConditions',
                     TranslateHelper.getLabelValue('BTN_View_terms_and_conditions'),

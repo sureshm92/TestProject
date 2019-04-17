@@ -139,6 +139,13 @@ Click OK to begin!</value>
         <value>Complete</value>
     </labels>
     <labels>
+        <fullName>BTN_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2787,6 +2794,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Site name</value>
     </labels>
     <labels>
+        <fullName>PE_Site_SiteZIPCode</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Site SiteZIPCode</shortDescription>
+        <value>Site Zip Code</value>
+    </labels>
+    <labels>
         <fullName>PE_State</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3223,6 +3237,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS F Last name</shortDescription>
         <value>Last name</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Middle_name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS F Middle name</shortDescription>
+        <value>Middle name</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_New_password</fullName>
@@ -5305,7 +5326,14 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient agrees to share her/his details with the study doctors and IQVIA so they can be contacted.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
+        <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_New_Patient</fullName>
@@ -6128,6 +6156,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Poput_ICF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Poput_ICF</shortDescription>
+        <value>Please confirm that your patient has signs ICF consent</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>

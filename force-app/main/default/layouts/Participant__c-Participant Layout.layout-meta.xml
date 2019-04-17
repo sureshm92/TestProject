@@ -55,6 +55,10 @@
                 <behavior>Edit</behavior>
                 <field>Date_of_Birth__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Middle_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
