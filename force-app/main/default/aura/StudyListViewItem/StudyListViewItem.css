@@ -232,18 +232,9 @@
 }
 
 @media (max-width: 768px) {
-    .THIS .slvi-buttons {
-        flex-direction: column;
-    }
-
-    .THIS .slvi-buttons .btn-wrapper {
-        flex: 0;
-    }
-
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #F2F2F2;
     }
-
 }
 
 .THIS .slvi-status-icon {
