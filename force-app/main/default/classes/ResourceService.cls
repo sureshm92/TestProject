@@ -17,6 +17,8 @@ public with sharing class ResourceService {
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
     public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
+    @TestVisible
+    private static final String STADY_DOCUMENT_RECORD_TYPE = 'Study_Document';
 
     public ResourceWrapperContainer getResources(String resourceType) {
 
@@ -65,6 +67,41 @@ public with sharing class ResourceService {
             return new ResourceWrapperContainer(Label.Resources_No_Study_Documents);
         }
         return new ResourceWrapperContainer(this.getResourceWrappers(resources));
+    }
+
+    public void deleterelatedTostudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
+        Set<Id> resourcesForDelete = new Set<Id>();
+        List<Res_study__c> relatedResStudies = [
+                SELECT Resource__r.Name,
+                        Resource__r.Title__c
+                FROM Res_study__c
+                WHERE (Clinical_Trial_Profile__c
+                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :STADY_DOCUMENT_RECORD_TYPE
+        ];
+        if (!relatedResStudies.isEmpty()) {
+            for (Res_study__c r : relatedResStudies) {
+                System.debug('Title__c>>'+r.Resource__r.Title__c);
+                resourcesForDelete.add(r.Resource__c);
+            }
+        }
+
+        List<Res_study__c> NotCompletedProfiles = [
+                SELECT Resource__r.Name,
+                        Resource__r.Title__c
+                FROM Res_study__c
+                WHERE (Clinical_Trial_Profile__c NOT IN:trialProfiles)AND Resource__c IN:resourcesForDelete
+        ];
+        if (!NotCompletedProfiles.isEmpty()) {
+            for (Res_study__c r : NotCompletedProfiles) {
+                System.debug('r.Resource__r.Title__c>>'+r.Resource__r.Title__c);
+                resourcesForDelete.remove(r.Resource__c);
+            }
+        }
+        System.debug('resourcesForDelete'+resourcesForDelete);
+        if (!resourcesForDelete.isEmpty()) {
+            Database.delete(new List<Id>(resourcesForDelete));
+        }
+
     }
 
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
