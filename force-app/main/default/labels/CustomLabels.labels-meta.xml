@@ -598,7 +598,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://hpsdevv3-iqviaconnect.cs67.force.com</value>
+        <value>https://sandbox-force-drive-124-dev-ed-16a11dea04d.cs90.force.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
