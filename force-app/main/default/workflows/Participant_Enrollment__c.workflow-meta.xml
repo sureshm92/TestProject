@@ -9,7 +9,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/RP2_Patient_Accepted</template>
     </alerts>
     <alerts>
