@@ -77,10 +77,10 @@
                                 class="{!v.isSearchResume ? 'slds-hide' : ''}"/>
                     <c:rrSelect value="{!v.filterData.therapeuticArea}"
                                 options="{!v.filterData.therapeuticAreas}"
-                                placeholder="Therapeutic area"/>
+                                placeholder="All therapeutic areas"/>
                     <c:rrSelect value="{!v.filterData.distance}"
                                 options="{!v.filterData.distances}"
-                                placeholder="Distance"
+                                placeholder="All Distances"
                                 class="{! !v.isSearchResume ? 'slds-hide' : ''}"/>
                 </c:FilterPanel>
             </div>

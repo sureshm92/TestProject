@@ -75,7 +75,7 @@ public without sharing class StudyTrialService {
     }
 
     public static List<LabelValueItem> therapeuticAreaFilterOptions;
-    public static LabelValueItem allTherapeuticArea = new LabelValueItem('Therapeutic area', 'ALL');
+    public static LabelValueItem allTherapeuticArea = new LabelValueItem('All therapeutic areas', 'ALL');
 
     public static StudyFilterData getStudyFilterData() {
         StudyFilterData filterData = new StudyFilterData();
@@ -87,7 +87,7 @@ public without sharing class StudyTrialService {
         filterData.therapeuticArea = allTherapeuticArea.value;
 
         filterData.distances = new List<LabelValueItem>{
-                new LabelValueItem('Distance', 'ALL'),
+                new LabelValueItem('All Distances', 'ALL'),
                 new LabelValueItem('5', '5'),
                 new LabelValueItem('15', '15'),
                 new LabelValueItem('30', '30'),
