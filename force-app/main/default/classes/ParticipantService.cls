@@ -50,6 +50,7 @@ public class ParticipantService {
                 participantState.value = ParticipantStates.ALUMNI;
             }else if(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)){
                 participantState.value = ParticipantStates.REFERRAL;
+                participantState.showTerms = showTerms();
             }else if(participantState.pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS){
                 participantState.value = ParticipantStates.PARTICIPANT;
                 participantState.showTerms = showTerms();

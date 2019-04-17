@@ -344,11 +344,12 @@ public without sharing class MyTeamRemote {
             }else {
                 Set<Id> contactId = new Set<Id>{dw.delegateContact.Id};
                 if(CommunityService.getCommunityUsersByContactIds(contactId).isEmpty()) {
+                    /////Conditions
                     CommunityService.createPortalUsers(contactId);
                 }
             }
 
-            if (dw.delegateContact.userCommunytyType__c == null) {
+            if (dw.delegateContact.userCommunytyType__c == null) {////Only Participant have commType
                 PatientDelegateService.getInstance().createPatientDelegate(dw.delegateContact);
                 if(!isNewContact)sendEmailNotification(dw.delegateContact);
             } else {
