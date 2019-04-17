@@ -50,6 +50,7 @@
             <c:FilterPanel recordsPerPage="{!v.paginationData.pageRecordsCount}"
                            recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                            allRecordsCount="{!v.paginationData.allRecordsCount}"
+                           currentPageCount="{!v.paginationData.currentPageCount}"
                            itemTitle="{!$Label.c.PG_SFS_L_sites}">
                 <c:rrSelect value="{!v.siteFilter.distanceRange}" options="{!v.siteFilterData.distanceRanges}"
                             placeholder="{!$Label.c.PG_SFS_L_Distance_from_you}" useSentenceFont="false"/>

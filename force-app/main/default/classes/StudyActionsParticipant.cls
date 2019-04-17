@@ -1,5 +1,6 @@
-public class StudyActionsParticipant /*extends StudyActions*/ {
-   /* public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
+public class StudyActionsParticipant extends StudyActions {
+
+    public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
         this(
                 participantEnrollment.Clinical_Trial_Profile__r,
                 participantEnrollment.Study_Site__r,
@@ -15,80 +16,66 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
                 CommunityService.USER_MODE_PARTICIPANT
         );
 
-        studyDetailActions.add(new Action(
-                'downloadConsent',
-                'Download Consent',
-                'icon-import',
-                false
-        ));
-        studyDetailActions.add(new Action(
-                ACT_SHARE,
-                LABEL_SHARE,
-                'share',
-                false
-        ));
-        studyDetailActions.add(new Action(
-                'backHome',
-                'Back to Home',
-                'icon-home',
-                false
-        ));
-    }*/
+        actions = new Map<String, Action>();
 
-    public List <StudyActions.Action> studyDetailActions ;
-    public Map<String, StudyActions.Action> actions;
+        ParticipantService.ParticipantStates participantStateValue = ParticipantService.getParticipantState().value;
+        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
+            studyDetailActions.add(new Action(
+                    'downloadConsent',
+                    TranslateHelper.getLabelValue('BTN_View_Download_Consent'),
+                    'icon-import',
+                    false
+            ));
+        }
+        if(participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT && study.Terms_And_Conditions_ID__c != null) {
+            studyDetailActions.add(new Action(
+                    'viewTermsAndConditions',
+                    TranslateHelper.getLabelValue('BTN_View_terms_and_conditions'),
+                    'paper-many',
+                    false
+            ));
+        }
 
-
-    public StudyActionsParticipant() {
-        this.actions  = new Map<String, StudyActions.Action>();
-        if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
-            actions.put('facebook', new StudyActions.Action(
+        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
+            actions.put('facebook', new Action(
                     'facebook',
                     '',
                     'icon-facebook',
                     false
             )) ;
-            actions.put('twitter', new StudyActions.Action(
+            actions.put('twitter', new Action(
                     'twitter',
                     '',
                     'icon-twitter',
                     false
             )) ;
-            actions.put('linkedin', new StudyActions.Action(
+            actions.put('linkedin', new Action(
                     'linkedin',
                     '',
                     'icon-linkedin',
                     false
             ));
-            actions.put('envelope', new StudyActions.Action(
-                    StudyActions.ACT_SHARE,
+            actions.put('envelope', new Action(
+                    ACT_SHARE,
                     '',
                     'icon-envelope',
                     false
             ));
-        }
 
-        this.studyDetailActions = new List<StudyActions.Action>();
-        if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
-            studyDetailActions.add(new StudyActions.Action(
-                    'viewTermsAndConditions',
-                    'Terms and Conditions',
-                    'paper-many',
-                    false
-            ));
-            studyDetailActions.add(new StudyActions.Action(
+            studyDetailActions.add(new Action(
                     'shares',
-                    StudyActions.LABEL_SHARE,
+                    LABEL_SHARE,
                     'share',
                     false
             ));
         }
 
-        studyDetailActions.add(new StudyActions.Action(
+        studyDetailActions.add(new Action(
                 'backHome',
-                'Back to Home',
+                TranslateHelper.getLabelValue('Link_Back_To_Home'),
                 'icon-home-brand-new',
                 false
         ));
     }
+
 }

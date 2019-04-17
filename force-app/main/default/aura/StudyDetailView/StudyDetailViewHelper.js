@@ -2,8 +2,8 @@
  * Created by Leonid Bartenev
  */
 ({
-    setTabInitialized: function (component, currentTab) {
-        switch (component.get('v.currentTab')){
+    setTabInitialized: function (component) {
+        switch (component.get('v.currentTab')) {
             case 'tab-referred-clinics':
                 component.set('v.isReferringClinicsTabInitialized', true);
                 break;
@@ -26,15 +26,15 @@
     },
 
     setBrowserHistory: function (component) {
-        if(!component.get('v.isInitialized')) return;
+        if (!component.get('v.isInitialized')) return;
         var params = [];
         var currentTab = component.get('v.currentTab');
-        if(component.get('v.studyDetail.trial.Id')) params.push('id=' + component.get('v.studyDetail.trial.Id'));
-        if(component.get('v.currentTab')) params.push('tab=' + component.get('v.currentTab'));
-        if(component.get('v.taskMode') && currentTab === 'tab-tasks') params.push('taskmode=' + component.get('v.taskMode'));
-        if(component.get('v.resourceMode') && currentTab === 'tab-resources') params.push('resourcemode=' + component.get('v.resourceMode'));
+        if (component.get('v.studyDetail.trial.Id')) params.push('id=' + component.get('v.studyDetail.trial.Id'));
+        if (component.get('v.currentTab')) params.push('tab=' + component.get('v.currentTab'));
+        if (component.get('v.taskMode') && currentTab === 'tab-tasks') params.push('taskmode=' + component.get('v.taskMode'));
+        if (component.get('v.resourceMode') && currentTab === 'tab-resources') params.push('resourcemode=' + component.get('v.resourceMode'));
         var paramsStr = '';
-        if(params.length > 0) paramsStr = params.join('&');
+        if (params.length > 0) paramsStr = params.join('&');
         history.pushState(null, '',
             communityService.getCommunityURLPathPrefix() + '/study-workspace?' + paramsStr);
 
@@ -59,5 +59,22 @@
             component.set('v.shareMessage', messageShare);
         }
     },
+
+    setTabActions: function (component) {
+        var tabs = component.get('v.studyDetail.tabs');
+        if(!tabs) {
+            return;
+        }
+        var currTab = component.get('v.currentTab');
+        for(var tab of tabs) {
+            if(tab.id === currTab) {
+                component.set('v.currentActions', tab.studyActions);
+                if (tab.id === 'tab-about-the-study') {
+                    component.set('v.shareButtons', component.get('v.studyDetail.shareActions'));
+                }
+                break;
+            }
+        }
+    }
 
 })

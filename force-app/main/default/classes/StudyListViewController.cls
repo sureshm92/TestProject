@@ -18,8 +18,8 @@ public without sharing class StudyListViewController {
         List<StudiesGroup> currentlyRecruitingTrials = new List<StudiesGroup>();
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-        List<Participant_Enrollment__c> peListNoLongerRecr = new List<Participant_Enrollment__c>();
+        List<ParticipantItem> peList = new List<ParticipantItem>();
+        List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
     }
 
     class HCPInitData {
@@ -45,9 +45,9 @@ public without sharing class StudyListViewController {
                 Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 for (Participant_Enrollment__c pe : peList) {
                     if (pe.Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
-                        initData.peListNoLongerRecr.add(pe);
+                        initData.peListNoLongerRecr.add(new ParticipantItem(pe));
                     } else {
-                        initData.peList.add(pe);
+                        initData.peList.add(new ParticipantItem(pe));
                     }
                 }
             }
@@ -77,14 +77,17 @@ public without sharing class StudyListViewController {
                     new LabelValueItem('10', '10')
             };
 
-            //filters data:
-            initData.filterData = StudyTrialService.getStudyFilterData();
-
             //sort data:
             initData.sortData = StudyTrialService.getStudySortDataForHCP();
 
+            //filters data:
+            initData.filterData = StudyTrialService.getStudyFilterData();
+
             //records for current filter, sort and pagination:
             initData.currentPageList = StudyTrialService.getStudies(initData.filterData, initData.sortData, initData.paginationData);
+
+            // refresh filter data with TA options list
+            initData.filterData = StudyTrialService.getStudyFilterData();
 
             return JSON.serialize(initData);
         } catch (Exception e) {
@@ -101,7 +104,6 @@ public without sharing class StudyListViewController {
 
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialHCPEnrollmentMap.keySet());
-        Map<Id, Boolean> termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
         //prepare list of studies:
         List<StudyTrialService.StudyDetailItem> studies = new List<StudyTrialService.StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {

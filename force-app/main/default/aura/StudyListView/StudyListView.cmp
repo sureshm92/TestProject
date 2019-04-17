@@ -19,6 +19,7 @@
     <aura:attribute name="currentTrialId" type="String"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isSearchResume" type="Boolean" default="false"/>
+    <aura:attribute name="searchResumeChanged" type="Boolean" default="false" access="private"/>
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
 
@@ -28,9 +29,10 @@
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
 
-    <aura:handler name="change" value="{!v.paginationData}" action="{!c.doUpdateRecords}"/>
-    <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecords}"/>
-    <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecordsWithFirstPage}"/>
+    <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
+    <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
 
     <!-- Handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -66,13 +68,14 @@
                                sortType="{!v.sortData.sortType}"
                                sortVariants="{!v.sortData.sortVariants}"
                                allRecordsCount="{!v.paginationData.allRecordsCount}"
+                               currentPageCount="{!v.paginationData.currentPageCount}"
                                itemTitle="studies">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder="Enrollment Status"
                                 class="{!v.isSearchResume ? 'slds-hide' : ''}"/>
                     <c:rrSelect value="{!v.filterData.therapeuticArea}" options="{!v.filterData.therapeuticAreas}"
-                                placeholder="Therapeutic Area"/>
+                                placeholder="All Therapeutic Areas"/>
                 </c:FilterPanel>
             </div>
 
@@ -130,35 +133,6 @@
                     </aura:if>
                 </aura:if>
             </div>
-        </aura:if>
-
-        <aura:if isTrue="{!v.userMode == 'Participant'}">
-            <aura:if isTrue="{! v.currentTab == 'recruiting'}">
-                <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
-                <aura:if isTrue="{! !empty(v.currentlyRecruitingTrials)}">
-                    <div style="height: 30px"></div>
-                    <aura:iteration items="{!v.currentlyRecruitingTrials}" var="pe">
-                        <c:ViewPatientItem pe="{!pe}"
-                                           peStatusesPathList="{!v.peStatusesPathList}"
-                                           peStatusStateMap="{!v.peStatusStateMap}"
-                                           changeStatusBtnList="{!v.changeStatusBtnList}"
-                                           singlePatientView="true"/>
-                    </aura:iteration>
-                </aura:if>
-            </aura:if>
-            <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
-                <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
-                <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                    <div style="height: 30px"></div>
-                    <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="pe">
-                        <c:ViewPatientItem pe="{!pe}"
-                                           peStatusesPathList="{!v.peStatusesPathList}"
-                                           peStatusStateMap="{!v.peStatusStateMap}"
-                                           changeStatusBtnList="{!v.changeStatusBtnList}"
-                                           singlePatientView="true"/>
-                    </aura:iteration>
-                </aura:if>
-            </aura:if>
         </aura:if>
 
         <!-- Reimbusment dialog -->
