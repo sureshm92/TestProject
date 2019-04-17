@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 50px;
 }
 
 .THIS .resource-description-footer {
@@ -106,8 +107,9 @@
 .THIS .resource-title {
     color: #666666;
     font-family: "Proxima Nova";
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 17px;
+    margin-top: 17px;
+    font-weight: bold;
 }
 
 .THIS .resource-description-short {
@@ -129,7 +131,6 @@
 .THIS .ah-video-iframe {
     position: relative;
     padding-bottom: 56.25%;
-    padding-top: 30px;
     height: 0;
     overflow: hidden;
 }
@@ -150,13 +151,13 @@
     color: #999999;
     font-family: "Proxima Nova";
     font-size: 12px;
-    margin-bottom: 12px;
 }
 
 .THIS .byline-author {
     color: #333333;
     font-family: "Proxima Nova";
     font-size: 12px;
+    margin-bottom: 12px;
 }
 
 

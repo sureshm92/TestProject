@@ -2,7 +2,7 @@
  * Created by Yehor Dobrovolskyi
  */
 public with sharing class TherapeuticAreaService {
-    public static final String COI = 'Condition_of_Interests';
+    public static final String CONDITION_OF_INTERESTS_RECORD_TYPE_NAME = 'Condition_of_Interests';
 
     public Set<String> getTANamesOnResource(Resource__c resource) {
         Set<String> tANames = new Set<String>();
@@ -74,7 +74,7 @@ public with sharing class TherapeuticAreaService {
                 'SELECT Id, ' +
                         'Name ' +
                         'FROM Therapeutic_Area__c ' +
-                        'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI + '\' ' +
+                        'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.CONDITION_OF_INTERESTS_RECORD_TYPE_NAME + '\' ' +
                         whereClause +
                         'LIMIT 5';
 
@@ -91,7 +91,7 @@ public with sharing class TherapeuticAreaService {
                         '(SELECT Id, Therapeutic_Area__c, Therapeutic_Area__r.Name, Therapeutic_Area__r.RecordType.DeveloperName, IsRelatedToStudy__c, Condition_Of_Interest_Order__c ' +
                         'FROM Therapeutic_Area_Patients__r ' +
                         'WHERE Condition_Of_Interest_Order__c > 0 ' +
-                        'AND Therapeutic_Area__r.RecordType.DeveloperName = \'' + TherapeuticAreaService.COI + '\' ' +
+                        'AND Therapeutic_Area__r.RecordType.DeveloperName = \'' + TherapeuticAreaService.CONDITION_OF_INTERESTS_RECORD_TYPE_NAME + '\' ' +
                         'ORDER BY Condition_Of_Interest_Order__c) ' +
                         'FROM Participant__c ' +
                         'WHERE Id = \'' + participantId + '\'';

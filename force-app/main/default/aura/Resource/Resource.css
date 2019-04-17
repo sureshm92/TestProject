@@ -35,3 +35,15 @@
 	line-height: 26px;
 	text-align: center;
 }
+
+@media (max-width: 1140px) {
+	.THIS.resource-card {
+		min-width: 450px;
+	}
+}
+
+@media (max-width: 1020px) {
+	.THIS.resource-card {
+		min-width: auto;
+	}
+}
