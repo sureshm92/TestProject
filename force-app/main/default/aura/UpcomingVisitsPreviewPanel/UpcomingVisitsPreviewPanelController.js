@@ -2,7 +2,14 @@
  * Created by Igor Malyuta on 08.04.2019.
  */
 ({
-    onBookTravel : function (component, event, helper) {
+    doInit : function(component, event, helper) {
+        communityService.executeAction(component, 'getVisitsPreview', null, function(response) {
+            component.set('v.visits', JSON.parse(response));
+            component.find('spinner').hide();
+        });
+    },
+
+    onTravel : function (component, event, helper) {
         component.find('popup').show();
     },
 

@@ -8,12 +8,8 @@
             'getInitData',
             null,
             function (returnValue) {
-                var initData = JSON.parse(returnValue);
-                component.set('v.peStatusesPathList', initData.peStatusesPathList);
-                component.set('v.peStatusStateMap', initData.peStatusStateMap);
-                component.set('v.pe', initData.participantState.pe);
-                component.set('v.pse', initData.participantState.pse);
-                component.set('v.psePath', initData.psePath);
+                var participantItem = JSON.parse(returnValue);
+                component.set('v.participantItem', participantItem);
             }, null, function () {
                 component.find('spinner').hide();
             });

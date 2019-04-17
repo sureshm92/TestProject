@@ -157,7 +157,6 @@ public abstract class StudyActions {
 
         isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && !isStudyTCAccepted;
 
-
         //init common reasons:
         studyNoLongerEnrollingReason = new DisableReason(
                 study.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING,

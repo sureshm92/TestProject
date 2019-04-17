@@ -9,7 +9,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/RP2_Patient_Accepted</template>
     </alerts>
     <alerts>
@@ -21,7 +21,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/RP4_Patient_Declined</template>
     </alerts>
     <alerts>
@@ -33,7 +33,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/RP3_Patient_On_Hold</template>
     </alerts>
     <alerts>
@@ -45,7 +45,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/RP10_Patient_Status_Changed</template>
     </alerts>
     <alerts>
@@ -57,7 +57,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/PI5_New_Referrals_Accepted_Need_Contact</template>
     </alerts>
     <alerts>
@@ -69,7 +69,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/PI4_New_Patient_Referral_Pending</template>
     </alerts>
     <alerts>
@@ -81,7 +81,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/PI2_New_Patient_Referral</template>
     </alerts>
     <alerts>
@@ -93,7 +93,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient9_Referral_Status_Update</template>
     </alerts>
     <alerts>
@@ -105,7 +105,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient13_PI_declined_referral</template>
     </alerts>
     <alerts>
@@ -117,7 +117,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient7_Clinical_Study_Referral_On_Hold</template>
     </alerts>
     <alerts>
@@ -129,7 +129,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient4_VT_HCP_New_C_S_Referral</template>
     </alerts>
     <alerts>
@@ -141,7 +141,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient14_VT_PI_declined_referral</template>
     </alerts>
     <alerts>
@@ -153,7 +153,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient8_VT_CRS_on_hold</template>
     </alerts>
     <alerts>
@@ -165,7 +165,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient_Welcome_to_the_Study</template>
     </alerts>
     <alerts>
@@ -177,7 +177,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>CurrentUser</senderType>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Referral_Hub_Emails/Patient3_VT_ePR_New_C_S_Referral</template>
     </alerts>
     <fieldUpdates>

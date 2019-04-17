@@ -1,46 +1,42 @@
-<!--
- - Created by Leonid Bartenev
- -->
+<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel">
 
-<aura:component description="StudyVisitsPreviewPanel">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="visits" type="List"/>
+
     <div class="sv-panel rr-white-panel">
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <div class="sv-header">
             <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
-            <button class="apollo-btn primary sv-btn" onclick="{!c.onBookTravel}">
+            <button class="apollo-btn primary sv-btn" onclick="{!c.onTravel}">
                 {!$Label.c.Home_Page_StudyVisit_Btn}
             </button>
         </div>
         <div class="sv-body">
-            <c:RRTable>
-                <tr>
-                    <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                    <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                    <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
-                </tr>
-                <tr>
-                    <td><a href="">Visit 1 Physical</a></td>
-                    <td>Week 1</td>
-                    <td>some icons</td>
-                </tr>
-                <tr>
-                    <td><a href="">Visit 2 Lab Visit</a></td>
-                    <td>Week 2</td>
-                    <td>some icons</td>
-                </tr>
-                <tr>
-                    <td><a href="">Visit 3 Assessment</a></td>
-                    <td>Week 3</td>
-                    <td>some icons</td>
-                </tr>
-            </c:RRTable>
+            <aura:if isTrue="{!!empty(v.visits)}">
+                <c:RRTable>
+                    <tr>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                    </tr>
+                    <aura:iteration var="visit" items="{!v.visits}">
+                        <tr>
+                            <td>{!visit.Name}</td>
+                            <td>{!visit.Timeplane__c}</td>
+                            <td><c:RRIconSplitter value="{!visit.Icons__c}" hideMoreThan3="true"/></td>
+                        </tr>
+                    </aura:iteration>
+                </c:RRTable>
+            </aura:if>
         </div>
         <div class="sv-footer">
-            <c:RRLink page="study-workspace?tab=tab-referred-patient" label="See All"/>
+            <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>
         </div>
     </div>
 
     <c:Popup aura:id="popup" title=""
-             headerText="This service may not be available everywhere.  Check with your study team for any questions."
+             headerText="{!$Label.c.StudyVisit_Popup_Text}"
              showClose="false" size="small">
         <aura:set attribute="footerButtons">
             <button class="apollo-btn primary" onclick="{!c.onClickOk}">{!$Label.c.BTN_OK}</button>

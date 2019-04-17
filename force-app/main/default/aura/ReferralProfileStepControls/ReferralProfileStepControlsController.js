@@ -13,9 +13,18 @@
         if (statusReason.length > 1) {
             reason = statusReason[1];
         }
+
         var notes = step.notes;
         var changePEStatusByPIAction = rootComponent.find('changePEStatusByPIAction');
-        changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
+        if(status === 'Enrollment Success' && pe.Informed_Consent__c !== 'true') {
+            rootComponent.find('actionApprove').execute(function () {
+                changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
+            }, function () {
+                rootComponent.find('mainSpinner').hide();
+            });
+        }else {
+            changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
+        }
     },
 
     onStatusChange: function (component, event, helper) {

@@ -47,7 +47,7 @@
                                     <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
                                 </c:RRNavigationPath>
                                 <div class="rr-width-limiter">
-                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.jpg'}"/>
                                 </div>
                             </aura:if>
                         </div>

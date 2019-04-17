@@ -34,7 +34,7 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="h-header-tabset">
+                <div class="h-header-tabset rr-small-down-hide">
                     <c:rrButtonTubSet>
                         <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help"
                                               currentTab="{!v.currentTab}"/>
@@ -43,13 +43,26 @@
                                               currentTab="{!v.currentTab}"/>
                         <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"
                                               currentTab="{!v.currentTab}"/>
-                        <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"
-                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"
-                                                  currentTab="{!v.currentTab}"/>
-                        </aura:if>
+                        <!--Hide until the next release-->
+<!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
+<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"-->
+<!--                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>-->
+<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"-->
+<!--                                                  currentTab="{!v.currentTab}"/>-->
+<!--                        </aura:if>-->
                     </c:rrButtonTubSet>
+                </div>
+                <div class="rr-small-up-hide">
+                    <lightning:select label="label" value="{!v.currentTab}" variant="label-hidden">
+                        <option value="help" label="{!$Label.c.PG_HLP_H_Application_Help}"/>
+                        <option value="feedback" label="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"/>
+                        <option value="problem" label="{!$Label.c.PG_HLP_H_Report_a_Problem}"/>
+                        <!--Hide until the next release-->
+<!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
+<!--                            <option value="req-data" label="{!$Label.c.PG_HLP_Req_Data}"/>-->
+<!--                            <option value="study-h" label="{!$Label.c.PG_HLP_Study_H}"/>-->
+<!--                        </aura:if>-->
+                    </lightning:select>
                 </div>
             </aura:if>
         </div>
@@ -62,9 +75,11 @@
             <div class="req-data-panel rr-white-panel">
                 <p class="req-data-title">{!$Label.c.PG_HLP_Req_Data}</p>
                 <p class="req-data-inf-text">{!$Label.c.PG_HLP_Req_Data_Title}</p>
-                <lightning:textArea value="{!v.description}" name="description" label=""
-                                    variant="label-hidden"
-                                    placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
+                <div class="panel-text">
+                    <lightning:textArea value="{!v.description}" name="description" label=""
+                                        variant="label-hidden"
+                                        placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
+                </div>
                 <div class="slds-text-align--right">
                     <button class="apollo-btn primary req-data-button" tabindex="1" onclick="{!c.onSubmitQuestion}">
                         {!$Label.c.Button_Submit_Your_Question}
