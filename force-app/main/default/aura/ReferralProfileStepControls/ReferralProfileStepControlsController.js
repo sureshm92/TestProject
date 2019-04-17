@@ -17,10 +17,7 @@
         var notes = step.notes;
         var changePEStatusByPIAction = rootComponent.find('changePEStatusByPIAction');
         if(status === 'Enrollment Success' && pe.Informed_Consent__c !== 'true') {
-            var text = $A.get('$Label.c.Poput_ICF');
-            var leftBtnName = $A.get('$Label.c.BTN_Confirm');
-            var rightBtnName = $A.get('$Label.c.BTN_Cancel');
-            rootComponent.find('actionApprove').execute(text, leftBtnName, rightBtnName, function () {
+            rootComponent.find('actionApprove').execute(function () {
                 changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
             }, function () {
                 rootComponent.find('mainSpinner').hide();
