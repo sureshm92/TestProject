@@ -1,6 +1,6 @@
 public with sharing class TherapeuticAreaTriggerHandler extends TriggerHandler {
 
-    public override void afterUpdate(List<SObject> newList, Map<Id, >) {
+    public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
 
         List<Therapeutic_Area__c> tAsToProcess = new List<Therapeutic_Area__c>();
         for(Therapeutic_Area__c singleTA : (List<Therapeutic_Area__c>) newList) {
@@ -15,7 +15,7 @@ public with sharing class TherapeuticAreaTriggerHandler extends TriggerHandler {
         {
             TherapeuticAreaService service = new TherapeuticAreaService();
             Map<String, Therapeutic_Area__c> tAsByNames = service.getTAsByNamesMap(tAsToProcess);
-            List<Therapeutic_Area_Assignment__c> assignments = [SELECT Id, Therapeutic_Area__r.Therapeutic_Area__r FROM Therapeutic_Area_Assignment__c WHERE Therapeutic_Area__c IN :tAsByNames.keySet()];
+            List<Therapeutic_Area_Assignment__c> assignments = [SELECT Id, Therapeutic_Area__r.Therapeutic_Area__c FROM Therapeutic_Area_Assignment__c WHERE Therapeutic_Area__c IN :tAsByNames.keySet()];
             if(assignments != null) {
                 for(Therapeutic_Area_Assignment__c singleAssignment : assignments) {
                     singleAssignment.Therapeutic_Area__c = singleAssignment.Therapeutic_Area__r.Therapeutic_Area__c;
