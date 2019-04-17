@@ -20,7 +20,7 @@
                            peStatusStateMap="{!v.participantItem.peStatusStateMap}"
                            changeStatusBtnList="{!v.changeStatusBtnList}"
                            singlePatientView="{!v.singlePatientView}"
-                           parent="{!parent}"/>
+                           parent="{!v.parent}"/>
         <aura:set attribute="else">
             <c:PSECard pe="{!v.participantItem.pe}" pse="{!v.participantItem.pse}" steps="{!v.participantItem.psePathSteps}" userMode="{!v.userMode}"/>
         </aura:set>
