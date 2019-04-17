@@ -287,6 +287,12 @@ public without sharing class StudyDetailViewController {
                         TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
                         backHomeAction
                 ));
+                tabs.add(new StudyTab(
+                        'tab-lab-results',
+                        'reports',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Lab_Results'),
+                        backHomeAction
+                ));
             } else {
                 tabs.add(new StudyTab(
                         'tab-tasks',
