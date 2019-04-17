@@ -4,9 +4,6 @@
 ({
     doExec : function (component, event, helper) {
         var params = event.getParam('arguments');
-        component.set('v.text', params.title);
-        component.set('v.leftBtnName',  params.leftBtnName);
-        component.set('v.rightBtnName', params.rightBtnName);
         component.set('v.callback', params.callback);
 
         var popup = component.find('popup');
@@ -22,6 +19,6 @@
     },
 
     doCancel : function (component) {
-        component.find('popup').hide();
+        component.find('popup').cancel();
     }
 })
