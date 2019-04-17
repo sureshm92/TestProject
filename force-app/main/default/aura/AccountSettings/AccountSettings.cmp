@@ -203,6 +203,18 @@
                         </c:RRCollapse>
                     </div>
 
+                    <aura:if isTrue="{!v.userMode == 'HCP'}">
+                        <div class="as-email-preference">
+                            <div class="as-title ">Subscribe to Referral Networks</div>
+                            <div class="as-sub-title">
+                                Select Referral Networks.
+                            </div>
+                            <div class="slds-grid slds-wrap slds-p-top--medium">
+                                <c:SubscribeToReferralNetwork />
+                            </div>
+                        </div>
+                    </aura:if>
+
                     <div style="height: 15px"></div>
                 </div>
             </div>
