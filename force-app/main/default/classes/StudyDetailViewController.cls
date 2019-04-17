@@ -111,7 +111,7 @@ public without sharing class StudyDetailViewController {
                 trialDetail.actions = studyActions.actions;
 
                 Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
-                for (Participant_Enrollment__c pe : participantEnrollments)
+                for(Participant_Enrollment__c pe : participantEnrollments)
                     idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
 
                 List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
@@ -165,12 +165,12 @@ public without sharing class StudyDetailViewController {
 
     public static List<StudyTab> getStudyTabs(String userMode) {
         List<StudyTab> tabs = new List<StudyTab>();
-        if (userMode == CommunityService.USER_MODE_HCP) {
-            tabs.add(new StudyTab(
-                    'tab-about-the-study',
-                    'about-the-study',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
-            ));
+        tabs.add(new StudyTab(
+                'tab-about-the-study',
+                'about-the-study',
+                TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
+        ));
+        if(userMode == CommunityService.USER_MODE_HCP){
             tabs.add(new StudyTab(
                     'tab-referred-patients',
                     'referred-patient',
@@ -191,12 +191,7 @@ public without sharing class StudyDetailViewController {
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports')
             ));
-        } else if (userMode == CommunityService.USER_MODE_PI) {
-            tabs.add(new StudyTab(
-                    'tab-about-the-study',
-                    'about-the-study',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study')
-            ));
+        }else if(userMode == CommunityService.USER_MODE_PI){
             tabs.add(new StudyTab(
                     'tab-referrals',
                     'referrals',
