@@ -22,10 +22,10 @@
             </div>
             <aura:set attribute="else">
                 <lightning:layout horizontalAlign="center" class="width-limiter">
-                    <lightning:layoutItem flexibility="auto" size="6">
+                    <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" flexibility="auto" size="12">
                         <c:Resource resourceType="Video" resourceMode="{!v.resourceMode}"/>
                     </lightning:layoutItem>
-                    <lightning:layoutItem flexibility="auto" size="6" class="resource-right">
+                    <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" flexibility="auto" size="12" class="resource-right">
                         <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}"/>
                     </lightning:layoutItem>
                 </lightning:layout>
