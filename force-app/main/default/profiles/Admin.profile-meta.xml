@@ -99,6 +99,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunitiesLandingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -671,6 +675,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_CommunityFacadeRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1166,6 +1174,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2799,16 +2812,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Res_study__c.Clinical_Trial_Profile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Res_study__c.Resource__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>true</readable>
@@ -3669,21 +3672,7 @@
         <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Therapeutic_Area_Assignment__c-Therapeutic Area Assignment Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
-        <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
-        <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Tracking_Information__c-Tracking Information Layout</layout>
