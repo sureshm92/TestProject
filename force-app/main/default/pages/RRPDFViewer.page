@@ -1,4 +1,4 @@
-<apex:page id="RRPDFViewer" controller="RRPDFViewerController" showHeader="false" sideBar="false">
+<apex:page id="RRPDFViewer" controller="RRPDFViewerController" showHeader="false" sideBar="false" action="{!initData}">
 
     <embed width="100%" style="height: 100vh;" name="plugin" id="plugin" src="" type="application/pdf"/>
     <apex:outputPanel rendered="{!executeJS}">
