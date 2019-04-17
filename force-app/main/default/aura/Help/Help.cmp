@@ -77,7 +77,7 @@
                 <p class="req-data-title">{!$Label.c.PG_HLP_Req_Data}</p>
                 <p class="req-data-inf-text">{!$Label.c.PG_HLP_Req_Data_Title}</p>
                 <div class="panel-text">
-                    <lightning:textArea value="{!v.description}" name="description" label=""
+                    <lightning:textArea aura:id="textArea" value="{!v.description}" name="description" label=""
                                         variant="label-hidden"
                                         placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
                 </div>
