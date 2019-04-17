@@ -19,7 +19,7 @@ public class DistanceHelper {
             init();
         }
 
-        return (unitsOfMeasurement=='mi'?Label.UOM_Miles:Label.UOM_Kilometers);
+        return (unitsOfMeasurement == 'mi' ? Label.UOM_Miles : Label.UOM_Kilometers);
     }
     public static Location getUserLocation() {
         if (userLocation == null) {
@@ -29,6 +29,9 @@ public class DistanceHelper {
     }
 
     public static String roundDouble(Double rawDouble) {
+        if (rawDouble == null) {
+            return null;
+        }
         return ((rawDouble * 10).round() / 10.0).format();
     }
 

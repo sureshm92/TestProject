@@ -33,6 +33,8 @@ public without sharing class OnboardingSlideTourRemote {
     
     @AuraEnabled
     public static String getSlides(String userMode, String formFactor, Boolean multimode){
+        System.debug('getSlides: userMode = ' + userMode);
+
         try{
             Map<String, String> tourNamesMap = getTourNamesMap();
             String tourName = tourNamesMap.get(userMode);
