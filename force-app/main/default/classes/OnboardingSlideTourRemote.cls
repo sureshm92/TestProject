@@ -3,13 +3,13 @@
  */
 
 public without sharing class OnboardingSlideTourRemote {
-    
+
     public class SlideData{
         public String title;
         public String subTitle;
         public String body;
         public String imageURL;
-        
+
         public SlideData(Onboarding_Slide__mdt slide, StaticResource staticResource){
             title = slide.Title__c;
             subTitle = slide.Sub_Title__c;
@@ -17,26 +17,25 @@ public without sharing class OnboardingSlideTourRemote {
             if(staticResource != null) imageURL = '/resource/' + staticResource.SystemModStamp.getTime() + '/' + staticResource.Name;
         }
     }
-    
+
     public class InitData{
         public Map<String, String> systemTourNames;
         public Map<String, Boolean> showOnLogin;
         public Boolean isNewSession;
     }
-    
+
     public class Tour{
         public Boolean showOnStartup;
         public Boolean isNewSession;
         public String title;
         public List<SlideData> slides;
     }
-    
+
     @AuraEnabled
     public static String getSlides(String userMode, String formFactor, Boolean multimode){
-        System.debug('getSlides: userMode = ' + userMode);
-
         try{
             Map<String, String> tourNamesMap = getTourNamesMap();
+
             String tourName = tourNamesMap.get(userMode);
             List<Onboarding_Tour_Slides__mdt> tourList = [
                     SELECT Id, Order__c,
@@ -50,7 +49,7 @@ public without sharing class OnboardingSlideTourRemote {
                     AND (Onboarding_Slide__r.Multimode_Only__c = FALSE OR Onboarding_Slide__r.Multimode_Only__c =: multimode)
                     ORDER BY Order__c
             ];
-            
+
             List<String> staticResourceNames = new List<String>();
             for(Onboarding_Tour_Slides__mdt tourItem : tourList) {
                 if(formFactor == 'PHONE'){
@@ -66,7 +65,7 @@ public without sharing class OnboardingSlideTourRemote {
             ];
             Map<String, StaticResource> staticResourceMap = new Map<String, StaticResource>();
             for(StaticResource sr : staticResources) staticResourceMap.put(sr.Name, sr);
-            
+
             List<SlideData> outputSlides = new List<SlideData>();
             for(Onboarding_Tour_Slides__mdt tourItem : tourList){
                 String resourceName = tourItem.Onboarding_Slide__r.Static_Resource__c;
@@ -81,7 +80,7 @@ public without sharing class OnboardingSlideTourRemote {
                         staticResourceMap.get(resourceName)
                 ));
             }
-    
+
             Tour tour = new Tour();
             if(tourList.size() > 0) {
                 TranslateHelper.prepareLabelFields(tourList[0].Onboarding_Tour__r, new Set<String>{
@@ -92,13 +91,13 @@ public without sharing class OnboardingSlideTourRemote {
             tour.slides = outputSlides;
             tour.showOnStartup = showOnStartup(userMode);
             tour.isNewSession = isNewSession();
-    
+
             return JSON.serializePretty(tour);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     @AuraEnabled
     public static void switchShowOnLogin(String userMode, Boolean showOnLogin){
         try{
@@ -116,7 +115,7 @@ public without sharing class OnboardingSlideTourRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     private static Map<String, String> getTourNamesMap(){
         Boolean isParticipant = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant().size() > 0;
         List<Study_Site__c> piSSListWithDelegates = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
@@ -133,19 +132,19 @@ public without sharing class OnboardingSlideTourRemote {
         }else if(isPIDelegate){
             piTourName = 'PI_Delegate';
         }
-        String hcpTourName;
-        if(isHCP){
-            hcpTourName = 'HCP';
-        }else if(isHCPDelegate){
+
+        String hcpTourName = 'HCP';
+        if(isHCPDelegate){
             hcpTourName = 'HCP_Delegate';
         }
+
         return new Map<String, String>{
                 CommunityService.USER_MODE_PARTICIPANT => 'Participant',
                 CommunityService.USER_MODE_PI => piTourName,
                 CommunityService.USER_MODE_HCP => hcpTourName
         };
     }
-    
+
     private static Boolean showOnStartup(String userMode){
         Contact userContact = CommunityService.getUserContact();
         List<String> showOnLoginList = new List<String>();
@@ -154,7 +153,7 @@ public without sharing class OnboardingSlideTourRemote {
         }
         return showOnLoginList.contains(userMode);
     }
-    
+
     private static Boolean isNewSession(){
         Contact userContact = CommunityService.getUserContact();
         Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
