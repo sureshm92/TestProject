@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    doInit: function(component, event, hepler){
+    updatePathSteps: function (component) {
         var pathItems = [];
         var currentIndex = 100;
         var steps = component.get('v.steps');
@@ -28,7 +28,7 @@
             }
             pathItems.push(item);
         }
-        component.set('v.psePath', pathItems);
-    }
+        component.set('v.pathItems', pathItems);
 
+    }
 })

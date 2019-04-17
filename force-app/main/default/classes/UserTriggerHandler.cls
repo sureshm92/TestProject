@@ -26,7 +26,7 @@ public without sharing class UserTriggerHandler {
     
     public class CreateCompleteYourProfileTaskHandler extends TriggerHandler{
         
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        public override void afterInsert(List<SObject> newList) {
             createCompleteYourProfileTask(newList);
         }
     }

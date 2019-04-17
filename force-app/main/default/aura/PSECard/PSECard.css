@@ -1,42 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .psec-title-link{
-    font-size: 17px;
-    color: #3294fe;
-    font-weight: 600;
-}
 
-.THIS .sponsor-name {
-    height: 20px;
-    color: #999999;
-    font-size: 12px;
-    line-height: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.THIS .objective-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.THIS .objective-section .objective-text {
-    height: 16px;
-    color: #333333;
-    font-size: 13px;
-    line-height: 16px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.THIS .objective-section .objective-link {
-    white-space: nowrap;
-    margin-left: 10px;
-    flex-shrink: 0;
-}
 
 .THIS .vpi-path-panel{
     background-color: #F8F9FB;
@@ -48,61 +13,12 @@
     background-color: white;
 }
 
-.THIS .vpi-fields{
-    padding: 8px 0 13px 0;
-    position: relative;
-    left: -12px; /* remove first border and padding */
-}
-
-.THIS .vpi-clip-item-borders{
-    overflow: hidden;
-}
-
-.THIS .vpi-field{
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0 10px;
-    border-left: 2px solid #CCCCCC;
-    margin: 5px 0;
-}
-
-
-.THIS .vpi-value-length-max{
-    max-width: 200px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #297DFD;
-    font-size: 13px;
-    line-height: 16px;
-}
-
-.THIS .vpi-field > .label{
-    color: #7F888D;
-    font-size: 10px;
-    font-weight: bold;
-    line-height: 12px;
-    text-transform: uppercase;
-}
-
-.THIS .vpi-field > .value{
-    color: #000000;
-    font-size: 14px;
-    line-height: 18px;
-    height: 18px;
-    font-weight: 600;
-}
-
 .THIS .vpi-status-btns button{
     margin-top: 15px;
     width: 100%;
     min-width: auto;
 }
 
-.THIS .vpi-title{
-    font-size: 17px;
-    font-weight: 600;
-}
 
 @media all and (min-width: 1024px) {
     .THIS .vri-state-label{
