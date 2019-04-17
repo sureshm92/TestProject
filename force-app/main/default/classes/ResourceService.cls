@@ -10,11 +10,15 @@ public with sharing class ResourceService {
     public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
-    private static final String EXPIRATION_DATE = 'Expiration_Date__c';
+    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
+    private static final String BYLINE_API_NAME = 'Byline__c';
+    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
     public static String DEFAULT_LANGUAGE = 'en_US';
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
     public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
+    @TestVisible
+    private static final String STADY_DOCUMENT_RECORD_TYPE = 'Study_Document';
 
     public ResourceWrapperContainer getResources(String resourceType) {
 
@@ -65,13 +69,54 @@ public with sharing class ResourceService {
         return new ResourceWrapperContainer(this.getResourceWrappers(resources));
     }
 
+    public void deleterelatedTostudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
+        Set<Id> resourcesForDelete = new Set<Id>();
+        List<Res_study__c> relatedResStudies = [
+                SELECT Resource__r.Name,
+                        Resource__r.Title__c
+                FROM Res_study__c
+                WHERE (Clinical_Trial_Profile__c
+                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :STADY_DOCUMENT_RECORD_TYPE
+        ];
+        if (!relatedResStudies.isEmpty()) {
+            for (Res_study__c r : relatedResStudies) {
+                System.debug('Title__c>>'+r.Resource__r.Title__c);
+                resourcesForDelete.add(r.Resource__c);
+            }
+        }
+
+        List<Res_study__c> NotCompletedProfiles = [
+                SELECT Resource__r.Name,
+                        Resource__r.Title__c
+                FROM Res_study__c
+                WHERE (Clinical_Trial_Profile__c NOT IN:trialProfiles)AND Resource__c IN:resourcesForDelete
+        ];
+        if (!NotCompletedProfiles.isEmpty()) {
+            for (Res_study__c r : NotCompletedProfiles) {
+                System.debug('r.Resource__r.Title__c>>'+r.Resource__r.Title__c);
+                resourcesForDelete.remove(r.Resource__c);
+            }
+        }
+        System.debug('resourcesForDelete'+resourcesForDelete);
+        if (!resourcesForDelete.isEmpty()) {
+            Database.delete(new List<Id>(resourcesForDelete));
+        }
+
+    }
+
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
 
         Participant__c participant = this.getParticipant(resourceType);
         if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
         }
-        List<Resource__c> resources = this.getSortedResources(participant, resourceType);
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        if (participantState.ctp == null) {
+            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
+        }
+        List<Resource__c> resources = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType) ?
+                this.getStudyDocuments(participantState)
+                : this.getSortedResources(participant, resourceType);
         if (resources.isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
         }
@@ -321,12 +366,12 @@ public with sharing class ResourceService {
             } else {
                 resourceFieldApis = getResourceFieldApis(null, resource.RecordType.DeveloperName);
             }
-            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.URL_Part__c)) {
+            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.article_external_link__c)) {
                 shareMessage = this.getShareMessage();
                 this.isShareable = true;
             }
             for (Resource_Field_Api__mdt fieldApi : resourceFieldApis) {
-                if (EXPIRATION_DATE.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                if (EXPIRATION_DATE_API_NAME.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
                     cutList = true;
                     continue;
                 }
@@ -336,6 +381,11 @@ public with sharing class ResourceService {
                         headerFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
                     } else {
                         bodyFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
+                    }
+                } else if (BYLINE_API_NAME.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                    valueField = resource.get(AUTHOR_S_NAME_API_NAME);
+                    if (valueField != null) {
+                        bodyFieldWrappers.add(new ResourceFieldWrapper(AUTHOR_S_NAME_API_NAME, valueField, fieldApi.CSS_Class_Name__c));
                     }
                 }
             }

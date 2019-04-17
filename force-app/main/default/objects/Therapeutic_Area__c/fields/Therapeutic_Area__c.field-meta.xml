@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Therapeutic_Area__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Therapeutic Area</label>
+    <referenceTo>Therapeutic_Area__c</referenceTo>
+    <relationshipLabel>Therapeutic Areas</relationshipLabel>
+    <relationshipName>Therapeutic_Areas</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

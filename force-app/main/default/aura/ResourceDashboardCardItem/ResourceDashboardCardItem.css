@@ -90,3 +90,17 @@
 .THIS .resource-pointer {
     cursor: pointer;
 }
+@media (max-width: 1024px) {
+    .THIS.resource-container {
+        float: left;
+        width: 100%;
+        margin-left: 4%;
+    }
+    .THIS .resource-image-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 215px;
+    }
+}

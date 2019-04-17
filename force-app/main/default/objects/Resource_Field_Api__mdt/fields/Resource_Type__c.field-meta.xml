@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>Video</label>
             </value>
+            <value>
+                <fullName>Study_Document</fullName>
+                <default>false</default>
+                <label>Study_Document</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
