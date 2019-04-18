@@ -75,4 +75,59 @@ public class ReferralNetworkService {
 
         update toUpdateContacts;
     }
+
+    public static void sendEmails(List<Study_Site__c> newSites, Map<Id, Study_Site__c> oldSites) {
+        // fetch new study sites with referral networks
+        Map<Id, List<Id>> networkIdToStudySiteList = new Map<Id, List<Id>>();
+        for (Study_Site__c currStudySite : newSites) {
+            if (currStudySite.ReferralNetworkId__c != null && (oldSites == null || oldSites.get(currStudySite.Id).ReferralNetworkId__c == null)) {
+                if (!networkIdToStudySiteList.containsKey(currStudySite.ReferralNetworkId__c)) {
+                    networkIdToStudySiteList.put(currStudySite.ReferralNetworkId__c, new List<Id>());
+                }
+                networkIdToStudySiteList.get(currStudySite.ReferralNetworkId__c).add(currStudySite.Id);
+            }
+        }
+
+        if (!networkIdToStudySiteList.isEmpty()) {
+
+            // fetch subscribed contacts
+            List<Referral_Network__c> referralNetworks = [
+                    SELECT Id, Name
+                    FROM Referral_Network__c
+                    WHERE Id IN :networkIdToStudySiteList.keySet()
+            ];
+
+            Map<String, Id> networkNamesMap = new Map<String, Id>();
+            for (Referral_Network__c currReferralNetwork : [
+                    SELECT Id, Name
+                    FROM Referral_Network__c
+                    WHERE Id IN :networkIdToStudySiteList.keySet()
+            ]) {
+                networkNamesMap.put(currReferralNetwork.Name, currReferralNetwork.Id);
+            }
+
+            String networkNamesString = String.join(new List<String>(networkNamesMap.keySet()), ';');
+
+            Map<Id, Set<Id>> contactIdToStudySiteIds = new Map<Id, Set<Id>>();
+            for (Contact currContact : [
+                    SELECT Id, SitesInterested__c
+                    FROM Contact
+                    WHERE (SitesInterested__c != NULL)
+                    AND (SitesInterested__c INCLUDES (:networkNamesString))
+            ]) {
+                contactIdToStudySiteIds.put(currContact.Id, new Set<Id>());
+                for (String networkName : currContact.SitesInterested__c.split(';')) {
+                    if (networkNamesMap.containsKey(networkName)) {
+                        Id networkId = networkNamesMap.get(networkName);
+                        List<Id> studySiteIds = networkIdToStudySiteList.get(networkId);
+                        contactIdToStudySiteIds.get(currContact.Id).addAll(studySiteIds);
+                    }
+                }
+            }
+
+            System.debug('contactIdToStudySiteIds: ' + JSON.serializePretty(contactIdToStudySiteIds));
+
+            SendEmailTemplate.sendEmailNotification('RP11_Referral_Network_SS_Added', contactIdToStudySiteIds);
+        }
+    }
 }
