@@ -92,6 +92,8 @@
     font-family: "Proxima Nova";
     line-height: 16px;
     margin-top: 5%;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .THIS .resource-body {
