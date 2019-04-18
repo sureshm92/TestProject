@@ -507,6 +507,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SearchConditionsOfInterestRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SelectStateModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -596,10 +600,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyTrialService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>SudyTrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1384,6 +1384,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRCookiesAllowedCookie__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRLanguageAllowedCookie__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Specialty__c</field>
         <readable>true</readable>
@@ -1826,6 +1836,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Lead.HCP_Referral_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Lead.Invited_by_PI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3165,6 +3180,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Site__c.Primary_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Site__c.Primary_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3619,9 +3639,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Therapeutic_Area_Assignment__c-Therapeutic Area Assignment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>
