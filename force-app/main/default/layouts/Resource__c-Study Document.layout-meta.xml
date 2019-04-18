@@ -9,10 +9,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>ArticleID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
                 <field>Title__c</field>
             </layoutItems>
             <layoutItems>
@@ -33,15 +29,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Content_Class__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Country__c</field>
+                <field>Content_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Remove_sharing__c</field>
+                <field>Country__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -70,7 +62,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9E000000mjXX</masterLabel>
+        <masterLabel>00h9E000000qQ4K</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
