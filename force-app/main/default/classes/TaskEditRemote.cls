@@ -46,16 +46,9 @@ public without sharing class TaskEditRemote {
             if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
                 paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
             }
-            if(paramTask.Reminder_Date__c != null){
-                Datetime tmpDate = paramTask.Reminder_Date__c;
-                if(tmpDate.hourGMT() == 0){
-                    tmpDate.addHours(12);
-                }
-                paramTask.Reminder_Date__c = null;
-                upsert paramTask;
-                paramTask.Reminder_Date__c = tmpDate;
+            if(paramTask.Id != null){
+                changeReminderDate(paramTask);
             }
-            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
             System.debug(e.getLineNumber());
@@ -138,6 +131,25 @@ public without sharing class TaskEditRemote {
         if(!currentContact.isEmpty())
             return currentContact[0].Participant_Opt_In_Status_Emails__c;
         return false;
+    }
+
+    private static void changeReminderDate(Task paramTask){
+        Task oldTask = [
+                SELECT
+                        Id,
+                        Reminder_Date__c
+                FROM    Task
+                WHERE   Id = :paramTask.Id
+        ];
+        if(paramTask.Reminder_Date__c != null && oldTask.Reminder_Date__c != paramTask.Reminder_Date__c){
+            Datetime tmpDate = paramTask.Reminder_Date__c;
+            if(tmpDate.hourGMT() == 0){
+                tmpDate.addHours(12);
+            }
+            paramTask.Reminder_Date__c = null;
+            upsert paramTask;
+            paramTask.Reminder_Date__c = tmpDate;
+        }
     }
 
 }
