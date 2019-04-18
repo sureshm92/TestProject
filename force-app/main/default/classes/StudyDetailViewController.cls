@@ -284,7 +284,7 @@ public without sharing class StudyDetailViewController {
                 tabs.add(new StudyTab(
                         'tab-resources',
                         'resources',
-                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
                         backHomeAction
                 ));
                 tabs.add(new StudyTab(
