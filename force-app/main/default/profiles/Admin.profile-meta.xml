@@ -3004,7 +3004,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>
