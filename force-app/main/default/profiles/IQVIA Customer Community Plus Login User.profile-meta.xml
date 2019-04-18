@@ -159,6 +159,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContentDocumentLinkService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CountryStateUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -451,6 +459,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantVisitsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Path</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -675,6 +687,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_AccountSettingsController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -735,6 +751,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ReferringRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceExpBatchScheduler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -759,6 +779,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TaskEditRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TherapeuticAreaAssignmentService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -772,6 +800,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TherapeuticAreaService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -808,6 +840,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
@@ -2692,14 +2728,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Date_of_Birth__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Date_of_Birth__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Day_of_Birth__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3487,6 +3523,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Therapeutic_Area_Assignment__c.Third_Party_COI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Therapeutic_Area_Patient__c.Condition_Of_Interest_Order__c</field>
         <readable>false</readable>
@@ -3764,6 +3805,10 @@
     <layoutAssignments>
         <layout>Therapeutic_Area__c-Condition of Interests</layout>
         <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area__c-Condition of Interests</layout>
+        <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
@@ -4168,6 +4213,11 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>

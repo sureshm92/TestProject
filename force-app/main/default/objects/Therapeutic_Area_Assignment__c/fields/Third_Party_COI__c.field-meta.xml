@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Third_Party_COI__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Third Party COI</label>
+    <referenceTo>Therapeutic_Area__c</referenceTo>
+    <relationshipLabel>Therapeutic Area Assignments (Third Party COI)</relationshipLabel>
+    <relationshipName>Therapeutic_Area_Assignments2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

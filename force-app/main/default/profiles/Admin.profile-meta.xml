@@ -107,6 +107,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CollectionUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunitiesLandingController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -156,6 +160,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ContactTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentLinkService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentLinkTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -792,6 +804,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TherapeuticAreaService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2722,6 +2738,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Day_of_Birth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3497,6 +3518,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Therapeutic_Area_Assignment__c.Third_Party_COI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Therapeutic_Area_Patient__c.Condition_Of_Interest_Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3776,6 +3802,10 @@
     <layoutAssignments>
         <layout>Therapeutic_Area__c-Condition of Interests</layout>
         <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area__c-Condition of Interests</layout>
+        <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
@@ -4275,6 +4305,11 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>

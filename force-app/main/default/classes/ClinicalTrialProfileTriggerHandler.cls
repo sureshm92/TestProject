@@ -19,6 +19,6 @@ public with sharing class ClinicalTrialProfileTriggerHandler extends TriggerHand
         }
         //todo Complete tests
         ResourceService resService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
-        resService.deleterelatedTostudyDocuments(completedTrials);
+        resService.deleteRelatedToStudyDocuments(completedTrials);
     }
 }
