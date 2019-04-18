@@ -46,6 +46,15 @@ public without sharing class TaskEditRemote {
             if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
                 paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
             }
+            if(paramTask.Reminder_Date__c != null){
+                Datetime tmpDate = paramTask.Reminder_Date__c;
+                if(tmpDate.hourGMT() == 0){
+                    tmpDate.addHours(12);
+                }
+                paramTask.Reminder_Date__c = null;
+                upsert paramTask;
+                paramTask.Reminder_Date__c = tmpDate;
+            }
             System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
