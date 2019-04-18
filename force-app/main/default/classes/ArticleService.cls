@@ -52,7 +52,6 @@ public with sharing class ArticleService {
                 if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
                         && !ResourceService.X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(resource.X3rd_Party_Source__c) &&
                         !String.isBlank(resource.X3rd_Party_Source__c)) {
-                    System.debug(resource.X3rd_Party_Source__c);
                     if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_HEALTH_DAY)) {
                         resource.Image__c = getStaticUrlImage(HEALTH_DAY_NAME_LOGO);
                     }
