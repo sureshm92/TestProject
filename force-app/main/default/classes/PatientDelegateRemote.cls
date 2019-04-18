@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 25.03.2019.
  */
 
-public class PatientDelegateRemote {
+public without sharing class PatientDelegateRemote {
 
     @AuraEnabled
     public static String getYourPatientFirstName() {
@@ -20,12 +20,11 @@ public class PatientDelegateRemote {
     }
 
     @AuraEnabled
-    public static void withdrawDelegate(String delegate) {
+    public static void withdrawDelegate(String contactId) {
         try{
-            Contact contactToWithdraw = (Contact) JSON.deserialize(delegate, Contact.class);
-            PatientDelegateService.getInstance().resetDelegate(contactToWithdraw);
+            PatientDelegateService.getInstance().resetDelegate(contactId);
         }catch (Exception e){
-        
+            AuraHelper.throwException(e);
         }
     }
 
@@ -34,8 +33,7 @@ public class PatientDelegateRemote {
         try{
             return ParticipantService.getInstance().getState().isDelegate ? 'TRUE' : 'FALSE';
         }catch (Exception e){
-            AuraHelper.throwException(e);
-            return null;
+            return (String) AuraHelper.throwException(e);
         }
     }
 

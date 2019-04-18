@@ -7,12 +7,10 @@
 
         if (!communityService.isInitialized()) return;
         component.set('v.userMode', communityService.getUserMode());
-        communityService.executeAction(component, 'getPatientDelegateByContactId', {
+        communityService.executeAction(component, 'getDelegateByContactId', {
             id : communityService.getUrlParameter('id')
         }, function (returnValue) {
-            var patientDelegate = JSON.parse(returnValue);
-            component.set('v.delegate', patientDelegate.Contact__r);
-            component.set('v.currentUserContactId', patientDelegate.Participant__c);
+            component.set('v.delegate', JSON.parse(returnValue));
 
             if (!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
