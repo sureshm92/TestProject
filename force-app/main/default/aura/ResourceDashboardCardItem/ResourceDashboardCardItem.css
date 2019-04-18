@@ -4,7 +4,6 @@
 }
 
 .THIS .resource-title {
-    height: 20px;
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 14px;
@@ -14,8 +13,8 @@
 
 .THIS .resource-image-container {
     display: block;
-    height: 123px;
-    width: 215px;
+    max-height: 123px;
+    max-width: 215px;
     margin: 0 auto 5px 0;
     cursor: pointer;
     overflow: hidden;
@@ -24,20 +23,14 @@
 .THIS .resource-image-container > img {
     display: block;
     position: relative;
-    top: 50%;
-    left: 50%;
-    min-height: 100%;
-    min-width: 100%;
-    transform: translate(-50%, -50%);
 }
 
 .THIS .resource-description {
     display: block;
-    height: 100%;
+    min-height: 100%;
 }
 
 .THIS .resource-description-title {
-    height: 30px;
     color: #666666;
     font-family: "Proxima Nova";
     font-size: 13px;
@@ -47,30 +40,26 @@
 }
 
 .THIS .resource-description-text {
-    height: 28px;
     color: #999999;
     font-family: "Proxima Nova";
     font-size: 12px;
-    line-height: 14px;
     margin: 0 0 2px 7px;
 }
 
 .THIS .resource-more-links {
-    height: 106px;
-    width: 247px;
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 14px;
     font-weight: 600;
-    line-height: 30px;
 }
 
 .THIS .resource-more-single-link {
-    height: 21px;
     color: #297DFD;
     font-family: "Proxima Nova";
-    line-height: 21px;
-    margin: 0 auto 10px 7px;
+    margin: 0 auto 5px 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .THIS .resource-main {
@@ -102,5 +91,9 @@
         align-items: center;
         justify-content: center;
         max-width: 215px;
+    }
+    .THIS .resource-main {
+        height: auto;
+        min-height: 200px;
     }
 }

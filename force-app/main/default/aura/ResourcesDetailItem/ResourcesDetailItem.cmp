@@ -74,6 +74,7 @@
                                 linkedInIconClass="resources-icon-like"
                                 linkToShare="{!v.resourceWrapper.resource.article_external_link__c}"
                                 mailSendMessage="{!v.resourceWrapper.shareMessage}"
+                                whatId="{!v.resourceWrapper.resource.Id}"
                         />
                     </div>
                 </aura:if>

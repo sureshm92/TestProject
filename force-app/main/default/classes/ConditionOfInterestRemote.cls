@@ -27,12 +27,13 @@ public with sharing class ConditionOfInterestRemote {
     @AuraEnabled
     public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
         try {
-            upsert cois;
-            return cois;
+            if (!cois.isEmpty()) {
+                upsert cois;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
-        return null;
+        return cois;
     }
 
     @AuraEnabled

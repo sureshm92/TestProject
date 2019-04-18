@@ -994,6 +994,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My visits</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action View Resource</shortDescription>
+        <value>View Resource</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_Trial_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1353,6 +1360,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
 ##StudyName</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Share_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Share Resource</shortDescription>
+        <value>Someone requested that we share a link with you for the following resource: ##ResourceName</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1624,6 +1638,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Header Share</shortDescription>
         <value>An IQVIA™ Referral Hub user shared this with you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Share_PH</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Share PH</shortDescription>
+        <value>An IQVIA™ Participant Hub user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -1904,6 +1925,13 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
         <value>IQVIA™ Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_PH</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Title PH</shortDescription>
+        <value>IQVIA™ Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_VT</fullName>
