@@ -258,12 +258,19 @@
     max-width: 136px;
     margin: 10px 0;
 }
+
+.THIS .actions-buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .THIS .button-share-icon {
     visibility: hidden;
-    display:block;
-    position:absolute;
-    margin-left: 65px;
-    margin-top: 73px;
+    display: flex;
+    position: fixed;
+    margin-left: -54px;
+    margin-top: 20px;
     transition: all ease 0.3s;
 
 }

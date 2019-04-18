@@ -1,7 +1,6 @@
 ({
     doInit: function (component, event, helper) {
         var isPortalTC = component.get('v.isPortalTC');
-        var action;
         var titleCode = component.get('v.titleCode');
         if(titleCode === 'PrivacyPolicy'){
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'))

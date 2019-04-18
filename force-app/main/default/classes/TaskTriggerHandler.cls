@@ -4,54 +4,91 @@
 
 public without sharing class TaskTriggerHandler {
     
-    public static void checkTaskFieldsBeforeInsert(){
-        if(Trigger.isBefore && (Trigger.isUpdate || Trigger.isInsert)){
-            Map<String, Task_Catalog__mdt> cardsMap = getCardsMap((List<Task>)Trigger.new);
-            List<Task> checkedTasks = new List<Task>();
-            for (Task task : (List<Task>)Trigger.new) {
-                if (task.Task_Code__c == null) continue;
-                Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
-                if (card == null) {
-                    task.Task_Code__c.addError('Task Catalog Card: ' + task.Task_Code__c + ' not found in catalog');
-                    continue;
-                }
-                if (card.Source_Object_Type__c == null && card.Parameters__c != null) {
-                    task.addError('Source Object Type can not be null in Task Catalog: ' + card.DeveloperName);
-                    continue;
-                }
-                SObjectType sourceObjectType = Schema.getGlobalDescribe().get(card.Source_Object_Type__c);
-                if(sourceObjectType == null && card.Parameters__c != null) {
-                    task.addError('Wrong Source Object Type in Task Catalog ' + card.DeveloperName + ': ' + card.Source_Object_Type__c);
-                    continue;
-                }
-                System.debug('SOBJTYPE: ' + sourceObjectType);
-                String errorsInParameters = CatalogParametersHelper.getErrorInParameters(sourceObjectType, card.Parameters__c);
-                if(errorsInParameters != null) {
-                    task.addError('Task Catalog: ' + card.DeveloperName + '; Parameters error: ' + errorsInParameters);
-                    continue;
-                }
+    // Handlers: -------------------------------------------------------------------------------------------------------
+    
+    public class CheckTaskFieldsWithTaskCodeHandler extends TriggerHandler{
         
-                if(task.WhatId == null && card.Parameters__c != null) {
-                    task.WhatId.addError('What Id can not be null');
-                    continue;
-                }
-                Id recId;
-                if(task.WhatId != null){
-                    try{
-                        recId = task.WhatId;
-                        if(recId.getSobjectType() != sourceObjectType) {
-                            task.WhatId.addError('Wrong Related To SObject Type');
-                            continue;
-                        }
-                    }catch (Exception e){
-                        task.WhatId.addError('Wrong WhatId: ' + task.WhatId);
+        public override void beforeInsert(List<SObject> newList) {
+            checkTaskFields(newList);
+        }
+        
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            checkTaskFields(newList);
+        }
+    }
+    
+    public class SendImmediateEmailsForTaskCodeHandler extends TriggerHandler{
+        
+        public override void afterInsert(List<SObject> newList) {
+            processSendImmediateEmails(newList);
+        }
+    }
+    
+    
+    // Logic: ----------------------------------------------------------------------------------------------------------
+    
+    @TestVisible
+    private static void checkTaskFields(List<Task> newList){
+        Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(newList);
+        List<Task> checkedTasks = new List<Task>();
+        for (Task task : newList) {
+            if (task.Task_Code__c == null) continue;
+            Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
+            if (card == null) {
+                task.Task_Code__c.addError('Task Catalog Card: ' + task.Task_Code__c + ' not found in catalog');
+                continue;
+            }
+            if (card.Source_Object_Type__c == null && card.Parameters__c != null) {
+                task.addError('Source Object Type can not be null in Task Catalog: ' + card.DeveloperName);
+                continue;
+            }
+            SObjectType sourceObjectType = Schema.getGlobalDescribe().get(card.Source_Object_Type__c);
+            if(sourceObjectType == null && card.Parameters__c != null) {
+                task.addError('Wrong Source Object Type in Task Catalog ' + card.DeveloperName + ': ' + card.Source_Object_Type__c);
+                continue;
+            }
+            System.debug('SOBJTYPE: ' + sourceObjectType);
+            String errorsInParameters = CatalogParametersHelper.getErrorInParameters(sourceObjectType, card.Parameters__c);
+            if(errorsInParameters != null) {
+                task.addError('Task Catalog: ' + card.DeveloperName + '; Parameters error: ' + errorsInParameters);
+                continue;
+            }
+        
+            if(task.WhatId == null && card.Parameters__c != null) {
+                task.WhatId.addError('What Id can not be null');
+                continue;
+            }
+            Id recId;
+            if(task.WhatId != null){
+                try{
+                    recId = task.WhatId;
+                    if(recId.getSobjectType() != sourceObjectType) {
+                        task.WhatId.addError('Wrong Related To SObject Type');
                         continue;
                     }
+                }catch (Exception e){
+                    task.WhatId.addError('Wrong WhatId: ' + task.WhatId);
+                    continue;
                 }
-                task.Action_URL__c = card.Action_Link__c;
-                checkedTasks.add(task);
+            }
+            task.Action_URL__c = card.Action_Link__c;
+            checkedTasks.add(task);
+        }
+    }
+    
+    @TestVisible
+    private static void processSendImmediateEmails(List<Task> tasks){
+        Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        for (Task task : tasks){
+            if(task.Task_Code__c != null){
+                Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
+                if(card != null && card.Immediate_Email_Template__c != null){
+                    emailMessages.add(SendEmailTemplate.createEmail(card.Immediate_Email_Template__c, task.OwnerId, task.Id));
+                }
             }
         }
+        if(emailMessages.size() > 0) SendEmailTemplate.sendEmailMessages(emailMessages);
     }
     
     public static void processDefaultFieldValues(List<Task> tasks){
@@ -104,23 +141,8 @@ public without sharing class TaskTriggerHandler {
         }
     }
     
-    public static void processSendImmediateEmails(List<Task> tasks){
-        if(Trigger.isAfter && Trigger.isInsert){
-            Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
-            List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-            for (Task task : tasks){
-                if(task.Task_Code__c != null){
-                    Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
-                    if(card != null && card.Immediate_Email_Template__c != null){
-                        emailMessages.add(SendEmailTemplate.createEmail(card.Immediate_Email_Template__c, task.OwnerId, task.Id));
-                    }
-                }
-            }
-            if(emailMessages.size() > 0) SendEmailTemplate.sendEmailMessages(emailMessages);
-        }
-    }
-    
-    public static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks){
+    @TestVisible
+    private static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks){
         Set<String> catalogCodes = new Set<String>();
         for (Task task : tasks) if (task.Task_Code__c != null) catalogCodes.add(task.Task_Code__c);
         List<Task_Catalog__mdt> cards = [

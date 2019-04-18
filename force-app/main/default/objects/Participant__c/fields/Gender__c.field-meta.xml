@@ -3,10 +3,11 @@
     <fullName>Gender__c</fullName>
     <externalId>false</externalId>
     <label>Gender</label>
-    <length>40</length>
+    <length>10</length>
+    <maskChar>asterisk</maskChar>
+    <maskType>all</maskType>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>EncryptedText</type>
 </CustomField>

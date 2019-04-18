@@ -1,0 +1,27 @@
+<!--
+ - Created by Igor Malyuta on 16.04.2019.
+ -->
+
+<aura:component description="RRActionApprove">
+
+    <!-- attributes: -->
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="dialogTitle" type="String"/>
+    <aura:attribute name="approveBtnName" type="String" default="{!$Label.c.BTN_Yes}"/>
+    <aura:attribute name="cancelBtnName" type="String" default="{!$Label.c.BTN_No}"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+
+    <aura:method name="execute" action="{!c.doExec}">
+        <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="cancelCallback" type="Function"/>
+    </aura:method>
+
+    <c:Popup aura:id="popup" title="{!v.dialogTitle}" size="small">
+        {!v.message}
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary" onclick="{!c.doSuccess}">{!v.approveBtnName}</button>
+            <button class="apollo-btn tertiary" onclick="{!c.doCancel}">{!v.cancelBtnName}</button>
+        </aura:set>
+    </c:Popup>
+
+</aura:component>

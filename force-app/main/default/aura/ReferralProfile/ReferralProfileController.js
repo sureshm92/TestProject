@@ -25,7 +25,6 @@
             userMode: communityService.getUserMode()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            debugger;
             component.set('v.statusSteps', initData.steps);
             component.set('v.enrollment', initData.enrollment);
             component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
@@ -45,7 +44,6 @@
             newScreeningId: component.get('v.enrollment.Screening_ID__c')
         }, function (returnValue) {
             var enrollment = JSON.parse(returnValue);
-            debugger;
             component.set('v.enrollment.Screening_ID__c', enrollment.Screening_ID__c || '');
             component.set('v.currentScreeningId', enrollment.Screening_ID__c || '');
         }, null, function () {

@@ -67,6 +67,7 @@
                                    sortType="{!v.peFilter.sortType}"
                                    sortVariants="{!v.peFilterData.sortVariants}"
                                    allRecordsCount="{!v.paginationData.allRecordsCount}"
+                                   currentPageCount="{!v.paginationData.currentPageCount}"
                                    showMoreEnabled="true"
                                    showMore="{!v.showMore}" >
                         <aura:if isTrue="{!v.studyFilterEnabled}">

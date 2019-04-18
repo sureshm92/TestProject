@@ -7,10 +7,9 @@
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
-        if (userMode === 'Participant' || userMode === 'Delegate')
-            component.set('v.isStaff', false);
-        else if (userMode === 'PI' || userMode === 'HCP')
-            component.set('v.isStaff', true);
+
+        if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);
+        else component.set('v.isStaff', false);
 
         component.set('v.changedLevels', []);
         component.set('v.changedLevelsAll', []);

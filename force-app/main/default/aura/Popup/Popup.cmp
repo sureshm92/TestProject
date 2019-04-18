@@ -20,7 +20,7 @@
     <aura:attribute name="primaryButtonClicked" type="Boolean" default="false" description="if primary(Ok) button clicked, this value will change"/>
     <aura:attribute name="secondaryButtonClicked" type="Boolean" default="false" description="if secondary(cancel) button clicked, this value will change"/>
     <aura:attribute name="closeButtonClicked" type="Boolean" default="false" description="if close button or Esc button clicked, this value will change"/>
-
+    <aura:attribute name="closeCallback" type="Object"/>
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}"/>
@@ -28,13 +28,14 @@
     <!-- methods: -->
     <aura:method name="show" action="{!c.show}"/>
     <aura:method name="hide" action="{!c.hide}"/>
+    <aura:method name="cancel" action="{!c.doCancel}"/>
     <aura:method name="showSpinner" action="{!c.showSpinner}"/>
     <aura:method name="hideSpinner" action="{!c.hideSpinner}"/>
 
     <div>
         <div id="p-modal" class="{!if(v.showModal, 'transition-show', '')}">
             <div class="{! 'p-container ' + v.size}">
-                <lightning:button onclick="{!c.hide}" name="Close" class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
+                <lightning:button onclick="{!c.doCancel}" name="Close" class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
                     <c:RRIcon iconName="icon-close" class="close-icon"/>
                 </lightning:button>
                 <!-- title: -->

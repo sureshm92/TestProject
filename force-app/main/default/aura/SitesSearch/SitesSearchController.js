@@ -49,6 +49,7 @@
             component.set('v.mapMarkers',result.mapMarkers);
             var pagination = component.get('v.paginationData');
             pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            pagination.currentPageCount = result.paginationData.currentPageCount;
             pagination.currentPage = result.paginationData.currentPage;
             component.set('v.paginationData', pagination);
             component.set('v.skipUpdate', false);
