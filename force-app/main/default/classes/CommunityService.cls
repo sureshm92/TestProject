@@ -5,6 +5,7 @@ public without sharing class CommunityService {
 
     public static String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
+    public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
@@ -245,4 +246,32 @@ public without sharing class CommunityService {
         return null;
     }
 
+    public static Boolean isUserInCommunity(Id contactId) {
+        return ![SELECT Id
+                    FROM User
+                    WHERE ContactId =: contactId
+                        AND Profile.Name =: COMMUNITY_PROFILE_NAME
+        ].isEmpty();
+    }
+
+    public static void setUserToCommunity(User user) {
+        user.IsActive = true;
+        user.ProfileId = COMMUNITY_USER_PROFILE_ID;
+
+        Database.DMLOptions dlo = new Database.DMLOptions();
+        dlo.emailHeader.triggerUserEmail = true;
+        dlo.emailHeader.triggerAutoResponseEmail = true;
+        user.setOptions(dlo);
+
+        update user;
+    }
+
+    public static void setUserToCommunity(Id contactId) {
+        User user = [
+                SELECT Id
+                FROM User
+                WHERE ContactId = :contactId
+        ];
+        setUserToCommunity(user);
+    }
 }

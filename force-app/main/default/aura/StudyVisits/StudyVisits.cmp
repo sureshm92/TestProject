@@ -39,6 +39,7 @@
                     <c:rrPagination allObjects="{!v.visits}" currentObjects="{!v.currentVisits}" entriesOnPage="4"/>
                 </div>
             </aura:if>
+            <c:EmptyListStub targetList="{!v.visits}" iconName="none"/>
         </ui:scrollerWrapper>
 
         <c:StudyVisitsLegend/>

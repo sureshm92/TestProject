@@ -5,7 +5,7 @@
     doInit : function (component, event, helper) {
         var infoText = $A.get('$Label.c.PG_PST_L_Delegates_Designed_Text');
 
-        communityService.executeAction(component, 'getYourPatientFirstName', {},
+        communityService.executeAction(component, 'getYourPatientFirstName', null,
             function (returnValue) {
                 infoText = infoText.replace('##PatientFirstName', returnValue);
                 infoText = infoText.replace('##PatientFirstName', returnValue);
@@ -13,15 +13,13 @@
             });
     },
 
-    onclickWithdraw : function (component, event, helper) {
+    onClickWithdraw : function (component, event, helper) {
         var messageText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Himself');
         var contact = component.get('v.contact');
         var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
-        actionRemoveDelegate.set('v.messageText', messageText);
-
-        actionRemoveDelegate.execute(contact, function () {
+        actionRemoveDelegate.execute(messageText, function(){
             communityService.executeAction(component, 'withdrawDelegate', {
-                delegate : JSON.stringify(component.get('v.contact'))
+                contactId : contact.Id
             }, function () {
                 communityService.showSuccessToast(null, $A.get('$Label.c.PG_PST_L_Delegates_You_Withdraw_Succ'));
             });
