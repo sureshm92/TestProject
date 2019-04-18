@@ -11,11 +11,10 @@
             id : communityService.getUrlParameter('id')
         }, function (returnValue) {
             component.set('v.delegate', JSON.parse(returnValue));
-
             if (!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
             component.find('mainSpinner').hide();
-        })
+        });
     },
 
     doSaveChanges: function (component, event, helper) {
