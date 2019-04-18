@@ -100,7 +100,7 @@ public without sharing class StudyDetailViewController {
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 List<Participant_Enrollment__c> participantEnrollments =
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                if(participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
+                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
@@ -161,7 +161,7 @@ public without sharing class StudyDetailViewController {
 
     public static List<StudyTab> getStudyTabs(String userMode, List<StudyActions.Action> studyActions) {
         List<StudyTab> tabs = new List<StudyTab>();
-        if(userMode == CommunityService.USER_MODE_HCP){
+        if (userMode == CommunityService.USER_MODE_HCP) {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
@@ -191,7 +191,7 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
                     studyActions
             ));
-        }else if(userMode == CommunityService.USER_MODE_PI){
+        } else if (userMode == CommunityService.USER_MODE_PI) {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
@@ -216,7 +216,7 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
                     studyActions
             ));
-        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
+        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<StudyActions.Action> backHomeAction = new List<StudyActions.Action>();
             backHomeAction.add(new StudyActions.Action(
                     'backHome',
@@ -226,7 +226,42 @@ public without sharing class StudyDetailViewController {
             ));
 
             ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
-            if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+
+            if (stateValue == ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Visits'),
+                        backHomeAction
+                ));
+
+            } else if (stateValue == ParticipantService.ParticipantStates.REFERRAL) {
+                tabs.add(new StudyTab(
+                        'tab-about-the-study',
+                        'about-the-study',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
+                        studyActions
+                ));
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Visits'),
+                        backHomeAction
+                ));
+
+            } else if (stateValue == ParticipantService.ParticipantStates.PARTICIPANT) {
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
@@ -240,31 +275,41 @@ public without sharing class StudyDetailViewController {
                         TranslateHelper.getLabelValue('PG_SW_Tab_Visits'),
                         backHomeAction
                 ));
-            }
-        
-            tabs.add(new StudyTab(
-                    'tab-tasks',
-                    'task',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
-                    backHomeAction
-            ));
-            tabs.add(new StudyTab(
-                    'tab-resources',
-                    'resources',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
-                    backHomeAction
-            ));
-        
-            if(stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
                 tabs.add(new StudyTab(
                         'tab-lab-results',
                         'reports',
                         TranslateHelper.getLabelValue('PG_SW_Tab_Lab_Results'),
                         backHomeAction
                 ));
+            } else {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
+                        backHomeAction
+                ));
             }
+
         }
-        
+
         return tabs;
     }
 

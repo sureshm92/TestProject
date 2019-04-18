@@ -6305,6 +6305,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Video and Articles</value>
     </labels>
     <labels>
+        <fullName>Resources_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources_Article</shortDescription>
+        <value>Article</value>
+    </labels>
+    <labels>
         <fullName>Resources_Content_Has_Been_Updated</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6317,6 +6324,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Resources Expiration Date Disclaimer</shortDescription>
         <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Expires</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Expires</shortDescription>
+        <value>Expires</value>
     </labels>
     <labels>
         <fullName>Resources_Featured_Article</fullName>
@@ -6417,6 +6431,13 @@ is a placehilder to show you what it would look like.</value>
         <value>See All</value>
     </labels>
     <labels>
+        <fullName>Resources_Study_Document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Study Document</shortDescription>
+        <value>Study Document</value>
+    </labels>
+    <labels>
         <fullName>Resources_Study_Document_Table_Col_Summary</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6436,6 +6457,20 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Resources Study Document Table Col Version Date</shortDescription>
         <value>Version Date</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Version_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Version Date</shortDescription>
+        <value>Version Date</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Video</shortDescription>
+        <value>Video</value>
     </labels>
     <labels>
         <fullName>Resources_social</fullName>
@@ -7087,6 +7122,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>update_resource_content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update resource content</shortDescription>
+        <value>Do you want to mark  resource content as updated?</value>
     </labels>
     <labels>
         <fullName>Update_Participant</fullName>

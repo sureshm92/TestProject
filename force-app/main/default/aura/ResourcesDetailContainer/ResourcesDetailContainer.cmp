@@ -9,9 +9,9 @@
 
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="resourceType" type="String" default="Article"/>
-    <!--<aura:attribute name="resourceType" type="String" default="Video"/>-->
     <aura:attribute name="backStudy" type="String"/>
     <aura:attribute name="smallTitle" type="String" default="&nbsp;"/>
+    <aura:attribute name="bigTitle" type="String" default="&nbsp;"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
@@ -20,7 +20,7 @@
         <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
                     backPage="{!v.backStudy}"
                     smallTitle="{!v.smallTitle}"
-                    bigTitle="{!v.resourceType}"/>
+                    bigTitle="{!v.bigTitle}"/>
         <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
 
         <aura:if isTrue="{!v.errorMessage}">

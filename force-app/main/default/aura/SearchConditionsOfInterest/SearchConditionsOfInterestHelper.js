@@ -5,43 +5,68 @@
     valueChange: function (component, event, helper) {
         component.set('v.bypass', false);
         let value = event.getSource().get('v.value');
-        if (value) {
-            component.set('v.displayFooter', true);
-            // communityService.executeAction(component, 'searchConditionOfInterest', {
-            //     nameTA : value
-            // }, function (returnValue) {
-            //     component.set('v.therapeuticAreas', returnValue);
-            // })
-            var action = component.get("c.searchConditionOfInterest");
-            action.setParams({nameTA: value});
-            action.setCallback(this, function (response) {
-                var state = response.getState();
-                if (state === "SUCCESS") {
-                    let taList = component.get('v.therapeuticAreas');
-                    let taWrappers = response.getReturnValue();
-                    taWrappers.forEach(taWrapper => {
-                        if (taList.some(ta => ta.Id === taWrapper.therArea.Id)) {
-                            taWrapper.isSelected = true;
-                        }
-                    });
-                    component.set('v.displayedItems', taWrappers);
-                } else if (state === "ERROR") {
-                    var errors = response.getError();
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log("Error message: " +
-                                errors[0].message);
-                        }
-                    } else {
-                        console.log("Unknown error");
-                    }
+        if (!value) {
+            value = null;
+        }
+        communityService.executeAction(component, 'searchConditionOfInterest', {
+            nameTA: value
+        }, function (returnValue) {
+            let coiList = component.get('v.conditionsOfInterest');
+            let coiWrappers = returnValue;
+            coiWrappers.forEach(coiWrapper => {
+                if (coiList.some(coiEl => coiEl.coi.Therapeutic_Area__r.Id === coiWrapper.coi.Therapeutic_Area__r.Id)) {
+                    coiWrapper.isSelected = true;
                 }
             });
-            $A.enqueueAction(action);
-        } else {
-            let arr = [];
-            component.set('v.displayedItems', arr);
-            component.set('v.displayFooter', false);
-        }
+            component.set('v.displayedItems', coiWrappers);
+        });
     },
+
+    saveElemet: function (component) {
+        let deleteCOI = component.get('v.conditionsOfInterest');
+        let conditionsOfInterestTemp = component.get('v.conditionsOfInterestTemp');
+        let deleteCoiId = [];
+        conditionsOfInterestTemp.sort((a, b) => {
+            return a.coi.Condition_Of_Interest_Order__c - b.coi.Condition_Of_Interest_Order__c;
+        });
+        for( let i=deleteCOI.length - 1; i>=0; i--){
+            for( let j=0; j<conditionsOfInterestTemp.length; j++){
+                if(deleteCOI[i] && (deleteCOI[i].coi.Id === conditionsOfInterestTemp[j].coi.Id)){
+                    deleteCOI.splice(i, 1);
+                }
+            }
+        }
+        if (deleteCOI) {
+            deleteCoiId = deleteCOI.map((e) => {
+                return e.coi.Id;
+            });
+        }
+        if (deleteCoiId) {
+            communityService.executeAction(component, 'deleteCOI', {
+                coiIds : deleteCoiId
+            }, function (returnValue) {
+            });
+        }
+        component.set('v.conditionsOfInterest', conditionsOfInterestTemp);
+        component.find('searchModal').hide();
+        let arr = [];
+        component.set('v.displayedItems', arr);
+        component.find('searchInput').set('v.value', '');
+        component.set('v.isSaveList', !component.get('v.isSaveList'));
+    },
+
+    changeCheckBox: function (component, event) {
+        let taWrapper = event.getSource().get('v.value');
+        let taList = component.get('v.conditionsOfInterestTemp');
+        if (event.getParam('checked')) {
+            if (taList.length < 5) {
+                taList.push(taWrapper);
+            } else {
+                event.getSource().set('v.checked', false);
+            }
+        } else {
+            taList = taList.filter(e => e.coi.Therapeutic_Area__r.Id !== taWrapper.coi.Therapeutic_Area__r.Id);
+        }
+        component.set('v.conditionsOfInterestTemp', taList);
+    }
 })
