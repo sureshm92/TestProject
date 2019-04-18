@@ -94,7 +94,7 @@ public without sharing class SubscribeToReferralNetworkRemote {
             if (term == null) {
                 term = '';
             }
-            String searchTerm = '%' + String.escapeSingleQuotes(term) + '%';
+            String searchTerm = '%' + String.escapeSingleQuotes(term.trim()) + '%';
 
             List<SObject> foundRecords = new List<SObject>();
             if (currType == Referral_Network__c.getSObjectType()) {
