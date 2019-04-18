@@ -6,9 +6,6 @@ public with sharing class VisitService {
 
     private static VisitService instance;
 
-    private VisitService() {
-    }
-
     public static VisitService getInstance() {
         if (instance == null) instance = new VisitService();
         return instance;
