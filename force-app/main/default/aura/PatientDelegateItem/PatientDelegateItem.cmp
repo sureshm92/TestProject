@@ -1,28 +1,22 @@
 <!--
  - Created by Igor Malyuta on 22.03.2019.
  -->
-<aura:component controller="MyTeamRemote" description="PatientDelegateItem">
+<aura:component controller="PatientDelegateRemote" description="PatientDelegateItem">
 
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"/>
 
     <!-- attributes: -->
-    <aura:attribute name="delegate" type="Object" required="true"/>
-    <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
-
-    <!-- methods: -->
-    <aura:method name="removeClick" action="{!c.doRemove}" access="public"/>
+    <aura:attribute name="contact" type="Object" required="true"/>
+    <aura:attribute name="parentComponent" type="Aura.Component"/>
 
     <!-- component body:-->
     <div class="rr-white-panel mti-container">
-        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mti-name">
-            {!if(v.delegate.delegateContact.FirstName == null,
-                    '',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+            {!if(v.contact.FirstName == null, '', v.contact.FirstName) + ' ' + v.contact.LastName}
         </div>
         <div class="mti-email">
-            {!v.delegate.delegateContact.Email}
+            {!v.contact.Email}
         </div>
         <div class="mti-button-container">
             <button class="apollo-btn tertiary" onclick="{!c.doEdit}"

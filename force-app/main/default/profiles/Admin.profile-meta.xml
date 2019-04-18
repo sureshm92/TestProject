@@ -523,6 +523,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SearchConditionsOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SelectStateModalController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -648,6 +652,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TermsAndConditionsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TermsAndConditionsTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3732,9 +3740,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Terms_And_Conditions__c-Terms And Conditions Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Therapeutic_Area_Assignment__c-Therapeutic Area Assignment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>

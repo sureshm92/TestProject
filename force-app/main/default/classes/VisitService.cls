@@ -6,10 +6,11 @@ public with sharing class VisitService {
 
     private static VisitService instance;
 
-    private VisitService(){}
+    private VisitService() {
+    }
 
     public static VisitService getInstance() {
-        if(instance == null) instance = new VisitService();
+        if (instance == null) instance = new VisitService();
         return instance;
     }
 
@@ -17,26 +18,21 @@ public with sharing class VisitService {
         instance = (VisitService) Test.createStub(VisitService.class, mock);
     }
 
-    public List<Visit__c> getAllVisits() {
-        Participant_Study_Enrollment__c pse = ParticipantService.getParticipantState().pse;
-        List<Visit__c> visits = [
-                SELECT Name,
-                       Timeplane__c,
-                       Icons__c
-                FROM Visit__c
-                WHERE Visit_Plan__c =: pse.Clinical_Trial_Profile__r.Visit_Plan__c
-                ORDER BY Order__c
-        ];
+    public List<Visit__c> getVisits(String filter) {
+        List<String> fields = new List<String>{
+                'Name',
+                'Timeplane__c',
+                'Icons__c'
+        };
+        String visitPlan = ParticipantService.getParticipantState().pse.Clinical_Trial_Profile__r.Visit_Plan__c;
 
-        return visits;
+        String fullFilter = 'Visit_Plan__c = \'' + visitPlan + '\' ORDER BY Order__c';
+        if (filter != null) fullFilter += filter;
+
+        return DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter);
     }
 
     public List<Visit__c> getPreviewVisits() {
-        List<Visit__c> prevVisits = new List<Visit__c>();
-
-        List<Visit__c> allVisits = getAllVisits();
-        for(Integer i = 0; i < 3; i++) prevVisits.add(allVisits.get(i));
-
-        return prevVisits;
+        return getVisits(' LIMIT 3');
     }
 }
