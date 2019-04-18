@@ -1,30 +1,34 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_RP5}"
-                         recipientType="User"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_RP11}"
+                         recipientType="Contact"
                          relatedToType="Study_Site__c"
                          language="{!relatedTo.Principal_Investigator__r.Language__c}">
 
      <messaging:htmlEmailBody >
         <c:EmailTemplate userType="HCP"
+                         recipientId="{!recipient.Id}"
+                         recipientName="{!recipient.Name}"
                          sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_RP5}"
+                         header="{!$Label.Email_Header_RP11}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_RP5}"
+                         body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
                          signature="{!$Label.Email_Signature}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
-                              buttonURL="{!$Label.CommunityURL}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Action_View_New_Study_Site}"
+                              buttonURL="{!$Label.CommunityURL + '/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="HCP"
+                             recipientId="{!recipient.Id}"
+                             recipientName="{!recipient.Name}"
                              sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_RP5}"
+                             header="{!$Label.Email_Header_RP11}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_RP5}"
+                             body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
                              signature="{!$Label.Email_Signature}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+            <c:EmailActionBtnText buttonLabel="{!$Label.Action_View_New_Study_Site}"
                                   buttonURL="{!$Label.CommunityURL}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
