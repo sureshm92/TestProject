@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 23.03.2019.
  -->
 
-<aura:component controller="MyTeamRemote" implements="forceCommunity:availableForAllPageTypes"
+<aura:component controller="PatientDelegateRemote" implements="forceCommunity:availableForAllPageTypes"
                 description="EditDelegate">
 
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"

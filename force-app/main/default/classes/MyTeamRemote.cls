@@ -363,37 +363,6 @@ public without sharing class MyTeamRemote {
         }
     }
 
-    @AuraEnabled
-    public static String getDelegateByContactId(String id) {
-        try{
-            return JSON.serialize(PatientDelegateService.getInstance().getDelegateContact(id));
-        }catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static void editPatientDelegateDetail(String delegate) {
-        try {
-            Contact editedDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
-            List<Contact> contactsWithSameEmail = [
-                    SELECT Id
-                    FROM Contact
-                    WHERE Email = :editedDelegate.Email AND Id !=: editedDelegate.Id
-            ];
-            if(!contactsWithSameEmail.isEmpty()) {
-                throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_Email_Not_Uniq);
-            }
-            if (PatientDelegateService.getInstance().getDelegatedContactIds().contains(editedDelegate.Id)) {
-                update editedDelegate;
-            } else {
-                throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_Not_Patient_Delegate);
-            }
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-    }
-
     private static void createDelegate(DelegateWrapper delegate, String userMode) {
         Contact delegateContact = new Contact();
         delegateContact.FirstName = delegate.delegateContact.FirstName;
