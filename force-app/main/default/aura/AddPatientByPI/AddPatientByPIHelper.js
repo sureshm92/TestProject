@@ -21,7 +21,7 @@
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe)
         }, function () {
-            communityService.showSuccessToast('','Participant successfully added');
+            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
         }, null, function () {
             component.find('spinner').hide();

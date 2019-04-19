@@ -426,6 +426,13 @@ Click OK to begin!</value>
         <value>Save Task Reminder</value>
     </labels>
     <labels>
+        <fullName>BTN_Save_and_Exit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Save and Exit</shortDescription>
+        <value>Save and Exit</value>
+    </labels>
+    <labels>
         <fullName>BTN_Select_as_Preferred_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -438,6 +445,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN Send</shortDescription>
         <value>Send</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Send_and_Add_Another</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Send and Add Another</shortDescription>
+        <value>Send and Add Another</value>
     </labels>
     <labels>
         <fullName>BTN_Send_site_request</fullName>
@@ -2176,6 +2190,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>MP Motivation Message 9</value>
     </labels>
     <labels>
+        <fullName>MRN_Internal_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MRN Internal Id</shortDescription>
+        <value>MRN/Internal ID</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Dashboard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3093,6 +3114,62 @@ If you are prompted with a window indicating that the file format and extension 
         <protected>false</protected>
         <shortDescription>PG AH T User manual with further details</shortDescription>
         <value>User manual with further details</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Phone Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Referred_By</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Referred By</shortDescription>
+        <value>Referred By</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Screening_Subject_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Screening Subject Id</shortDescription>
+        <value>Screening/Subject ID</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_H_Contact_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Contact Information</shortDescription>
+        <value>Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_H_Patient_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Patient Details</shortDescription>
+        <value>Patient Details</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_H_Referral_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Referral Information</shortDescription>
+        <value>Referral Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_T_Indicate_Add_Fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Indicate Add Fields</shortDescription>
+        <value>indicates additional fields</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_T_Indicate_Req_Fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Indicate Req Fields</shortDescription>
+        <value>indicates a required fields</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
