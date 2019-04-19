@@ -77,7 +77,9 @@ public without sharing class ViewPatientsRemote {
                 }
             }
             else if(mode == CommunityService.USER_MODE_HCP){
-                filterCopy.additionalFilter += ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
+                filterCopy.additionalFilter += ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\'';
             }
 
             //records for current filter and pagination
@@ -118,15 +120,21 @@ public without sharing class ViewPatientsRemote {
                 if(piBtnFilter.equalsIgnoreCase('Pending')){
                     filter.additionalFilter += ' AND Participant_Status__c IN ' +
                             '(\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[0].states.values(), '\',\'') + '\')'
-                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
                 }else{
                     filter.additionalFilter += ' AND Participant_Status__c IN ' +
                             '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')'
-                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
                 }
             }
             else if(userMode == CommunityService.USER_MODE_HCP){
-                filter.additionalFilter += ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\'';
+                filter.additionalFilter += + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
             }
             System.debug('additionalFilter' + filter.additionalFilter);
             SearchResult result = new SearchResult();

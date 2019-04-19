@@ -326,6 +326,11 @@ public without sharing class StudyTrialService {
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
+                if(!studyDetailItem.hasActiveHCPEnrollments){
+                    StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
+                    currActions.add(openStudySite);
+                }
+
                 availableActions.addAll(currActions);
             }
 
