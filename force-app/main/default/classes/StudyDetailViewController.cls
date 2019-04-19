@@ -76,11 +76,19 @@ public without sharing class StudyDetailViewController {
                 }
             } else if (userMode == CommunityService.USER_MODE_HCP) {
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
-                if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
-                trialDetail.hcpe = hcpEnrollment;
-                StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
-                trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
-                trialDetail.tabs = getStudyTabs(userMode, studyActions.studyDetailActions);
+                //if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
+                if(hcpEnrollment != null){
+                    trialDetail.hcpe = hcpEnrollment;
+                    StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
+                    trialDetail.studyActions = studyActions.studyDetailActions;
+                    trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
+                    trialDetail.actions = studyActions.actions;
+                }
+                else{
+
+                    trialDetail.tabs = new List<StudyDetailViewController.StudyTab>();
+                }
+
                 //init study site accounts:
                 Set<Id> accIds = new Set<Id>();
                 List<Study_Site__c> hcpStudySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
@@ -93,7 +101,7 @@ public without sharing class StudyDetailViewController {
                 };
                 for (Study_Site__c ss : hcpStudySites) {
                     String hcpStatus;
-                    if (hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
+                    if (hcpEnrollment != null && hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
                     trialDetail.accountEnrollmentsList.add(createClinicWrapper(ss.Name, accountsMap.get(ss.Site__c), hcpStatus, ss.Id));
                 }
                 trialDetail.accountEnrollmentsList.sort();
