@@ -87,15 +87,15 @@ public without sharing class StudyTrialService {
         filterData.therapeuticArea = allTherapeuticArea.value;
 
         filterData.distances = new List<LabelValueItem>{
-                new LabelValueItem('All Distances', 'ALL'),
-                new LabelValueItem('5', '5'),
-                new LabelValueItem('15', '15'),
-                new LabelValueItem('30', '30'),
-                new LabelValueItem('60', '60'),
-                new LabelValueItem('150', '150'),
-                new LabelValueItem('300', '300')
+                new LabelValueItem(Label.PG_SFS_L_Any_distance, null),
+                new LabelValueItem('5   ' + DistanceHelper.getUnitsOfMeasurementLabel(), '5'),
+                new LabelValueItem('15  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '15'),
+                new LabelValueItem('30  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '30'),
+                new LabelValueItem('60  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '60'),
+                new LabelValueItem('150 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '150'),
+                new LabelValueItem('300 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '300')
         };
-        filterData.distance = 'ALL';
+        filterData.distance = null;
 
         return filterData;
     }
@@ -209,7 +209,7 @@ public without sharing class StudyTrialService {
         }
 
         // search and filters
-        Double currMaxDistance = filterData.distance != 'ALL' ? Double.valueOf(filterData.distance) : null;
+        Double currMaxDistance = String.isNotBlank(filterData.distance) ? Double.valueOf(filterData.distance) : null;
         List<Clinical_Trial_Profile__c> filteredTrials = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c currTrial : trials) {
             Boolean isMatchTerm = true;
@@ -230,7 +230,7 @@ public without sharing class StudyTrialService {
             }
 
             Double distance = trialIdToDistance.get(currTrial.Id);
-            if (distance != null && currMaxDistance != null && distance > currMaxDistance) {
+            if (distance > currMaxDistance) {
                 isMatchDistance = false;
             }
 
@@ -261,7 +261,9 @@ public without sharing class StudyTrialService {
             };
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studyDetailItem.hasHCPEnrollments = trialIdToEnrollments.get(trial.Id) != null && trialIdToEnrollments.get(trial.Id).size() > 0;
-            studyDetailItem.distance = DistanceHelper.roundDouble(trialIdToDistance.get(trial.Id)) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            if (trialIdToDistance.get(trial.Id) != null) {
+                studyDetailItem.distance = DistanceHelper.roundDouble(trialIdToDistance.get(trial.Id)) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            }
             studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
             pageRecords.add(studyDetailItem);
         }

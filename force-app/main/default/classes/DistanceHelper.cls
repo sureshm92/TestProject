@@ -29,9 +29,6 @@ public class DistanceHelper {
     }
 
     public static String roundDouble(Double rawDouble) {
-        if (rawDouble == null) {
-            return null;
-        }
         return ((rawDouble * 10).round() / 10.0).format();
     }
 
