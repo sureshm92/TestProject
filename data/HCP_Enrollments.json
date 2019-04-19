@@ -8,6 +8,78 @@
             "HCP_Contact__c": "@contact3",
             "Study_Site__c": "@ss1",
             "Status__c": "Invitation Sent"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe2"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss2",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe3"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss3",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe4"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss4",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe5"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss5",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe6"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss6",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe7"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss7",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe8"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss8",
+            "Status__c": "Activated"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "hcpe9"
+            },
+            "HCP_Contact__c": "@contact3",
+            "Study_Site__c": "@ss9",
+            "Status__c": "Activated"
         }
     ]
 }

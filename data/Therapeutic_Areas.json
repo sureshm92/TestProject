@@ -5,7 +5,42 @@
                 "type": "Therapeutic_Area__c",
                 "referenceId": "ta1"
             },
-            "Name": "Test Area"
+            "Name": "Cancer"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta2"
+            },
+            "Name": "Arthrosis"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta3"
+            },
+            "Name": "Cardiology"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta4"
+            },
+            "Name": "Dermatology"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta5"
+            },
+            "Name": "Endocrinology"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "ta6"
+            },
+            "Name": "Gastroenterology"
         }
     ]
 }
