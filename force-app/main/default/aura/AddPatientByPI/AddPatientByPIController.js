@@ -11,7 +11,7 @@
             component.set('v.ctp', formData.ctp);
             component.set('v.ss', formData.ss);
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
-            component.set('v.today', todayDate);
+            component.set('v.todayDate', todayDate);
             component.set('v.formData', formData);
             helper.initData(component);
             component.set('v.initialized', true);
