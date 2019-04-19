@@ -43,14 +43,20 @@
             paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
             applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false
         }, function (returnValue) {
+
             if(component.get('v.peFilter').searchText !== searchText) return;
             component.set("v.skipUpdate", true);
             var result = JSON.parse(returnValue);
+            debugger;
             component.set('v.currentPageList', result.currentPageList);
             var pagination = component.get('v.paginationData');
             pagination.allRecordsCount = result.paginationData.allRecordsCount;
             if(!showMore){
                 pagination.currentPage = result.paginationData.currentPage;
+                pagination.currentPageCount = result.paginationData.currentPageCount;
+            }
+            else{
+                pagination.currentPageCount = result.paginationData.allRecordsCount;
             }
             component.set('v.paginationData', pagination);
             component.set("v.skipUpdate", false);

@@ -4820,7 +4820,7 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR L Back to Study Workspace</shortDescription>
-        <value>Back to Study Workspace</value>
+        <value>Back to My Studies</value>
     </labels>
     <labels>
         <fullName>PG_MRR_L_Pending</fullName>
