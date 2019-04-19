@@ -24,10 +24,6 @@
                 <field>Middle_Name__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Initials__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Condition_of_Interest_s__c</field>
             </layoutItems>
@@ -65,10 +61,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Middle_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Phone_Type__c</field>
             </layoutItems>
         </layoutColumns>
@@ -87,10 +79,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Contact__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Date_of_Birth__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
