@@ -209,6 +209,20 @@ public class StudyActionsPI extends StudyActions{
                 'secondary'
         ));
         
+        actions.put(ACT_ADD_PATIENT, new Action(
+                ACT_ADD_PATIENT,
+                LABEL_ADD_PATIENT,
+                'icon-user-add',
+                new List<DisableReason>{
+                        level2AndLowReason,
+                        hcpLockedByAdmin,
+                        studySiteOnHoldReason,
+                        studySiteNotAcceptedReason,
+                        studyNoLongerEnrollingReason,
+                        tcAcceptanceRequiredReason
+                }
+        ));
+        
         //init study item actions list
         if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             studyListViewItemActions.add(actions.get(ACT_MANAGE_REFERRALS));
@@ -225,8 +239,9 @@ public class StudyActionsPI extends StudyActions{
         if(studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT){
             studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
         }
+        if(!actions.get(ACT_ADD_PATIENT).disabled) studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
         
-        //prepare bottom bar actions:
+            //prepare bottom bar actions:
         if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             if(isTCAcceptanceRequired){
                 studyDetailBottomBarActions.add(actions.get(ACT_VIEW_TC));
@@ -241,9 +256,9 @@ public class StudyActionsPI extends StudyActions{
         
         //prepare study detail actions list:
         if(study.Terms_And_Conditions_ID__c != null) studyDetailActions.add(actions.get(ACT_VIEW_TC));
+        studyDetailActions.add(actions.get(ACT_ADD_PATIENT));
     
-    
-      
+        
     }
 
 }

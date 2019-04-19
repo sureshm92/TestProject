@@ -17,9 +17,11 @@
             initData.password.new = '';
             initData.password.reNew = '';
             component.set("v.initData", initData);
-            component.set("v.birthdateDisabled", initData.participant.Date_of_Birth__c);
-            component.set("v.genderDisabled", initData.participant.Gender__c);
-            component.set("v.initialsDisabled", initData.participant.Initials__c);
+            if(initData.participant){
+                component.set("v.birthdateDisabled", initData.participant.Date_of_Birth__c);
+                component.set("v.genderDisabled", initData.participant.Gender__c);
+                component.set("v.initialsDisabled", initData.participant.Initials__c);
+            }
             component.set("v.currentEmail", initData.myContact.Email);
             component.set('v.isDelegate', initData.isDelegate);
             component.set('v.isInitialized', true);

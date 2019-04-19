@@ -41,9 +41,8 @@ public without sharing class MotivationalMessagesRemote {
                 return TranslateHelper.getLabelValue(messageForShow.Custom_Label_Name__c);
             }
         }catch (Exception e){
-            AuraHelper.throwException(e);
+            (String)AuraHelper.throwException(e);
         }
-        return null;
     }
 
 }

@@ -53,6 +53,7 @@
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <aura:if isTrue="{!v.state != 'ALUMNI'}">
                             <c:RRNavigationPath>
+                                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
                                 <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
                             </c:RRNavigationPath>
                             <aura:if isTrue="{!!empty(v.studyDetail.trial.Profile_Picture__c)}">
@@ -66,6 +67,7 @@
                         </aura:if>
                         <aura:if isTrue="{!v.state == 'ALUMNI'}">
                             <c:RRNavigationPath>
+                                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
                                 <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
                             </c:RRNavigationPath>
                             <div class="rr-width-limiter">

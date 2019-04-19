@@ -65,7 +65,7 @@ public without sharing class StudyDetailViewController {
                 trialDetail.isSSAccepted = StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySites[0].Override_PI_Referral_Status__c);
                 StudyActions studyActions = new StudyActionsPI(studySites[0]);
                 trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
-                trialDetail.tabs = getStudyTabs(CommunityService.USER_MODE_PI, studyActions.studyDetailActions);
+                trialDetail.tabs = getStudyTabs(CommunityService.USER_MODE_PI, studyActions);
                 //prepare account list
                 List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getEnrollmentsForPIByStudySiteId(studySites[0].Id);
                 Set<Id> accountIds = new Set<Id>();
@@ -80,7 +80,7 @@ public without sharing class StudyDetailViewController {
                 trialDetail.hcpe = hcpEnrollment;
                 StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
                 trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
-                trialDetail.tabs = getStudyTabs(userMode, studyActions.studyDetailActions);
+                trialDetail.tabs = getStudyTabs(userMode, studyActions);
                 //init study site accounts:
                 Set<Id> accIds = new Set<Id>();
                 List<Study_Site__c> hcpStudySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
@@ -105,7 +105,7 @@ public without sharing class StudyDetailViewController {
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
                 trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
-                trialDetail.tabs = getStudyTabs(userMode, studyActions.studyDetailActions);
+                trialDetail.tabs = getStudyTabs(userMode, studyActions);
                 Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
                 idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
 
@@ -159,71 +159,67 @@ public without sharing class StudyDetailViewController {
         return wrapper;
     }
 
-    public static List<StudyTab> getStudyTabs(String userMode, List<StudyActions.Action> studyActions) {
+    public static List<StudyTab> getStudyTabs(String userMode, StudyActions studyActionsContainer) {
+        List<StudyActions.Action> defaultActions = studyActionsContainer.studyDetailActions;
         List<StudyTab> tabs = new List<StudyTab>();
         if(userMode == CommunityService.USER_MODE_HCP){
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
                     TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
-                    studyActions
+                    defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-referred-patients',
                     'referred-patient',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Referred_Patients'),
-                    studyActions
+                    defaultActions
             ));
-//            tabs.add(new StudyTab(
-//                    'tab-medical-record-review-log',
-//                    'chart-review-sent',
-//                    TranslateHelper.getLabelValue('PG_SW_Tab_Medical_Record_Review_Log')
-//            ));
+            /*tabs.add(new StudyTab(
+                    'tab-medical-record-review-log',
+                    'chart-review-sent',
+                    TranslateHelper.getLabelValue('PG_SW_Tab_Medical_Record_Review_Log')
+            ));*/
             tabs.add(new StudyTab(
                     'tab-referred-study-sites',
                     'referred-clinic',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Study_Sites'),
-                    studyActions
+                    defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-reports',
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
-                    studyActions
+                    defaultActions
             ));
         }else if(userMode == CommunityService.USER_MODE_PI){
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
                     TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
-                    studyActions
+                    defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-referrals',
                     'referrals',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Referrals'),
-                    studyActions
+                    defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-referred-clinics',
                     'referred-clinic',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Referring_Clinics'),
-                    studyActions
+                    defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-reports',
                     'reports',
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
-                    studyActions
+                    defaultActions
             ));
         } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
             List<StudyActions.Action> backHomeAction = new List<StudyActions.Action>();
-            backHomeAction.add(new StudyActions.Action(
-                    'backHome',
-                    TranslateHelper.getLabelValue('Link_Back_To_Home'),
-                    'icon-home-brand-new',
-                    false
-            ));
+            backHomeAction.add(studyActionsContainer.actions.get(StudyActions.ACT_HOME));
 
             ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
             if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
@@ -231,7 +227,7 @@ public without sharing class StudyDetailViewController {
                         'tab-about-the-study',
                         'about-the-study',
                         TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
-                        studyActions
+                        defaultActions
                 ));
 
                 tabs.add(new StudyTab(

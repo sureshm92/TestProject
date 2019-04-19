@@ -3,13 +3,11 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(communityService.isInitialized()) {
-            if (!helper.itemsMap) helper.initItemsMap();
-        }
     },
 
     doChangeItemsList: function (component, event, helper) {
         try {
+            if (!helper.itemsMap) helper.initItemsMap();
             var userMode = component.get('v.mode');
             var menuItems = helper.itemsMap[userMode];
             component.set('v.menuItems', menuItems);

@@ -3,6 +3,7 @@
  */
 
 public class ParticipantService {
+    public class ParticipantServiceException extends Exception{}
     
     public enum ParticipantStates {ALUMNI, PROSPECT, REFERRAL, PARTICIPANT}
     
@@ -70,11 +71,63 @@ public class ParticipantService {
         return items;
     }
     
+    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe){
+        Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
+        if (!saveResult.isSuccess()) {
+            System.debug('PARTICIPANT INSERT ERROR');
+            for (Database.Error error : saveResult.getErrors()) {
+                if (error instanceof Database.DuplicateError) {
+                    Database.DuplicateError duplicateError = (Database.DuplicateError) error;
+                    Datacloud.DuplicateResult duplicateResult = duplicateError.getDuplicateResult();
+                    List<SObject> duplicateRecords = new List<SObject>();
+                    Datacloud.MatchResult[] matchResults = duplicateResult.getMatchResults();
+                    Datacloud.MatchResult matchResult = matchResults[0];
+                    Datacloud.MatchRecord[] matchRecords = matchResult.getMatchRecords();
+                    for (Datacloud.MatchRecord matchRecord : matchRecords) {
+                        participant = (Participant__c) matchRecord.getRecord();
+                        System.debug('FOUND PART DUPLICATE: ' + participant);
+                        break;
+                    }
+                }else{
+                    System.debug(error.getMessage());
+                    throw new ParticipantServiceException(error.getMessage());
+                }
+            }
+        }
+        
+        if(participant.Id != null){
+            pe.Participant__c = participant.Id;
+            try{
+                upsert pe;
+            }catch (Exception e){
+                String errorMsg = e.getMessage();
+                if(errorMsg.contains('DUPLICATE')) {
+                    errorMsg = Label.Error_Message_Participant_Duplicate;
+                }
+                System.debug('ERROR: ' + errorMsg);
+                throw new ParticipantServiceException(errorMsg);
+            }
+        }else{
+            throw new ParticipantServiceException(Label.Error_Message_Can_Not_Create_Participant);
+        }
+    }
     
     // Static facade: --------------------------------------------------------------------------------------------------
     
     public static ParticipantState getParticipantState(){
         return getInstance().getState();
     }
+    
+    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe){
+        getInstance().createParticipantAndUpdatePEImpl(participant, pe);
+    }
+    
+    public static List<LabelValueItem> getGenderLVList(){
+        List<LabelValueItem> genders = new List<LabelValueItem>();
+        genders.add(new LabelValueItem(Label.Gender_Male, 'Male'));
+        genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
+        return genders;
+    }
+
 
 }
