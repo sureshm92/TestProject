@@ -29,9 +29,11 @@ public with sharing class ArticleService {
         Set<String> tANames = new Set<String>();
         List<Resource__c> resourcesToProcess = new List<Resource__c>();
         for (Resource__c singleResource : resources) {
-            if(ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
-                tANames.addAll(tAService.getTANamesOnResource(singleResource));
-                resourcesToProcess.add(singleResource);
+            if (String.isNotBlank(singleResource.Content_Class__c)) {
+                if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
+                    tANames.addAll(tAService.getTANamesOnResource(singleResource));
+                    resourcesToProcess.add(singleResource);
+                }
             }
         }
         if (!tANames.isEmpty()) {
@@ -47,9 +49,11 @@ public with sharing class ArticleService {
         Set<String> tANames = new Set<String>();
         List<Resource__c> resourcesToProcess = new List<Resource__c>();
         for (Resource__c singleResource : newResources) {
-            if(ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
-                tANames.addAll(tAService.getTANamesOnResource(singleResource));
-                resourcesToProcess.add(singleResource);
+            if (String.isNotBlank(singleResource.Content_Class__c)) {
+                if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
+                    tANames.addAll(tAService.getTANamesOnResource(singleResource));
+                    resourcesToProcess.add(singleResource);
+                }
             }
         }
         if (!tANames.isEmpty()) {
