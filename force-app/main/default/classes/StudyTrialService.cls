@@ -75,7 +75,6 @@ public without sharing class StudyTrialService {
     }
 
     public static List<LabelValueItem> therapeuticAreaFilterOptions;
-    public static LabelValueItem allTherapeuticArea = new LabelValueItem('All therapeutic areas', 'ALL');
 
     public static StudyFilterData getStudyFilterData() {
         StudyFilterData filterData = new StudyFilterData();
@@ -84,7 +83,7 @@ public without sharing class StudyTrialService {
         filterData.enrollmentStatus = getStudyEnrollmentStatuses[0].value;
 
         filterData.therapeuticAreas = therapeuticAreaFilterOptions;
-        filterData.therapeuticArea = allTherapeuticArea.value;
+        filterData.therapeuticArea = null;
 
         filterData.distances = new List<LabelValueItem>{
                 new LabelValueItem(Label.PG_SFS_L_Any_distance, null),
@@ -175,7 +174,6 @@ public without sharing class StudyTrialService {
             }
         }
 
-        System.debug('query searchStudiesGlobal: ' + query);
         List<Study_Site__c> allStudySites = Database.query(query);
 
         Map<Id, List<Study_Site__c>> trialIdToStudySites = new Map<Id, List<Study_Site__c>>();
@@ -193,13 +191,11 @@ public without sharing class StudyTrialService {
             Double minDistance;
             for (Study_Site__c currStudySite : trialIdToStudySites.get(currTrialId)) {
                 Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Site__r);
-                if (currDistance != 0) {
+                if (currDistance != null) {
                     if (minDistance == null) {
                         minDistance = currDistance;
-                    } else {
-                        if (minDistance > currDistance) {
-                            minDistance = currDistance;
-                        }
+                    } else if (minDistance > currDistance) {
+                        minDistance = currDistance;
                     }
                 }
             }
@@ -225,12 +221,13 @@ public without sharing class StudyTrialService {
                     }
                 }
             }
-            if (currTrial.Therapeutic_Area__r.Name != filterData.therapeuticArea && filterData.therapeuticArea != allTherapeuticArea.value) {
+
+            if (String.isNotBlank(filterData.therapeuticArea) && currTrial.Therapeutic_Area__r.Name != filterData.therapeuticArea) {
                 isMatchTherapeuticAreaFilter = false;
             }
 
             Double distance = trialIdToDistance.get(currTrial.Id);
-            if (distance > currMaxDistance) {
+            if (currMaxDistance != null && (distance == null || distance > currMaxDistance)) {
                 isMatchDistance = false;
             }
 
@@ -326,7 +323,7 @@ public without sharing class StudyTrialService {
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
-                if(!studyDetailItem.hasActiveHCPEnrollments){
+                if (!studyDetailItem.hasActiveHCPEnrollments) {
                     StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
                     currActions.add(openStudySite);
                 }
@@ -410,7 +407,7 @@ public without sharing class StudyTrialService {
         }
 
         therapeuticAreaFilterOptions = new List<LabelValueItem>();
-        therapeuticAreaFilterOptions.add(allTherapeuticArea);
+        therapeuticAreaFilterOptions.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
         for (String currOption : options) {
             therapeuticAreaFilterOptions.add(new LabelValueItem(currOption, currOption));
         }
@@ -445,7 +442,7 @@ public without sharing class StudyTrialService {
             }
 
             Boolean isMatchTherapeuticAreaFilter = true;
-            if (currTrial.Therapeutic_Area__r.Name != filterData.therapeuticArea && filterData.therapeuticArea != allTherapeuticArea.value) {
+            if (String.isNotBlank(filterData.therapeuticArea) && currTrial.Therapeutic_Area__r.Name != filterData.therapeuticArea) {
                 isMatchTherapeuticAreaFilter = false;
             }
 

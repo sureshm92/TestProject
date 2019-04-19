@@ -75,13 +75,13 @@
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder=""
                                 class="{!v.isSearchResume ? 'slds-hide' : ''}"/>
-                    <c:rrSelect value="{!v.filterData.therapeuticArea}"
-                                options="{!v.filterData.therapeuticAreas}"
-                                placeholder=""/>
                     <c:rrSelect value="{!v.filterData.distance}"
                                 options="{!v.filterData.distances}"
                                 placeholder=""
                                 class="{! !v.isSearchResume ? 'slds-hide' : ''}"/>
+                    <c:rrSelect value="{!v.filterData.therapeuticArea}"
+                                options="{!v.filterData.therapeuticAreas}"
+                                placeholder=""/>
                 </c:FilterPanel>
             </div>
 

@@ -34,7 +34,7 @@ public class DistanceHelper {
 
     public static Double calculateDistanceTo(Account site) {
         if (site == null || site.BillingLatitude == null || site.BillingLongitude == null || getUserLocation() == null) {
-            return 0;
+            return null;
         }
         Location siteLocation = Location.newInstance(site.BillingLatitude, site.BillingLongitude);
         return getUserLocation().getDistance(siteLocation, getUnitsOfMeasurement());

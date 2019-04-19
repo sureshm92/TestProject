@@ -261,9 +261,14 @@ public without sharing class StudySiteService {
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, Boolean hasPatients) {
             this.site = site;
-            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
             this.hasPatients = hasPatients;
-            this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+            if (this.distance != null) {
+                this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            } else {
+                this.formatedDistance = null;
+            }
+
             if (sortType != null && sortType != '') {
                 this.sortType = sortType;
             } else {
@@ -290,6 +295,10 @@ public without sharing class StudySiteService {
                         return -1;
                     } else if (compareToWrapper.siteType == 'Virtual') {
                         return 1;
+                    } else if (this.distance == null) {
+                        return 1;
+                    } else if (compareToWrapper.distance == null) {
+                        return -1;
                     } else {
                         return (Integer) (this.distance - compareToWrapper.distance);
                     }
@@ -300,6 +309,10 @@ public without sharing class StudySiteService {
                     } else if (this.siteType == 'Virtual') {
                         return 1;
                     } else if (compareToWrapper.siteType == 'Virtual') {
+                        return -1;
+                    } else if (this.distance == null) {
+                        return 1;
+                    } else if (compareToWrapper.distance == null) {
                         return -1;
                     } else {
                         return (Integer) (this.distance - compareToWrapper.distance);
@@ -346,11 +359,11 @@ public without sharing class StudySiteService {
                 result.add(siteWrapper);
             }
         }
-        if(filter.distanceRange != null && filter.distanceRange != ''){
+        if (filter.distanceRange != null && filter.distanceRange != '') {
             List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
-            for(StudySiteDistanceWrapper siteWrapper : result){
+            for (StudySiteDistanceWrapper siteWrapper : result) {
                 Double maxDistance = Double.valueOf(filter.distanceRange);
-                if(siteWrapper.distance <= maxDistance){
+                if (siteWrapper.distance != null && siteWrapper.distance <= maxDistance) {
                     pageList.add(siteWrapper);
                 }
             }
