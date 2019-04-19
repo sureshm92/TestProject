@@ -1996,6 +1996,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Invited_by_PI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3352,6 +3357,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Prescreen__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Primary_Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
