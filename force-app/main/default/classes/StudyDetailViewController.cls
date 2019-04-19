@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 public without sharing class StudyDetailViewController {
-
+    
     public class TrialDetail {
         public Clinical_Trial_Profile__c trial;
         public List<ClinicWrapper> accountEnrollmentsList;
@@ -10,10 +10,13 @@ public without sharing class StudyDetailViewController {
         public Boolean isSSAccepted;
         public Study_Site__c studySite; //for PI mode
         public HCP_Enrollment__c hcpe; //for HCP mode
+        public List<StudyActions.Action> studyActions;
+        public List<StudyActions.Action> studyBottomBarActions;
+        public Map<String, StudyActions.Action> actions;
         public List<StudyTab> tabs;
         public List<StudyActions.Action> shareActions;
     }
-
+    
     public class ClinicWrapper implements Comparable {
         public Account clinic;  //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap
         public String name;
@@ -22,8 +25,8 @@ public without sharing class StudyDetailViewController {
         public String hcpStatus;
         public String hcpStatusLabel;
         public String studySiteId;
-
-
+        
+        
         public Integer compareTo(Object compareTo) {
             ClinicWrapper compareToCW = (ClinicWrapper) compareTo;
             if (this.hcpStatus != null && compareToCW.hcpStatus == null) return -1;
@@ -31,13 +34,13 @@ public without sharing class StudyDetailViewController {
             return 0;
         }
     }
-
+    
     public class StudyTab {
         public String id;
         public String iconName;
         public String title;
         public List<StudyActions.Action> studyActions;
-
+        
         public StudyTab(String id, String iconName, String title, List<StudyActions.Action> studyActions) {
             this.id = id;
             this.iconName = iconName;
@@ -45,7 +48,7 @@ public without sharing class StudyDetailViewController {
             this.studyActions = studyActions;
         }
     }
-
+    
     @AuraEnabled
     public static String getTrialDetail(String trialId, String userMode) {
         try {
@@ -57,14 +60,15 @@ public without sharing class StudyDetailViewController {
             trialDetail.trial = TrialService.getTrial(trialId);
             trialDetail.accountEnrollmentsList = new List<ClinicWrapper>();
             trialDetail.isTCAccepted = TermsAndConditions.isTCAccepted(trialDetail.trial.Terms_And_Conditions_ID__c);
-
+            
             if (userMode == CommunityService.USER_MODE_PI) {
                 List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
                 if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
                 trialDetail.studySite = studySites[0];
                 trialDetail.isSSAccepted = StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySites[0].Override_PI_Referral_Status__c);
                 StudyActions studyActions = new StudyActionsPI(studySites[0]);
-                trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
+                trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
+                trialDetail.actions = studyActions.actions;
                 trialDetail.tabs = getStudyTabs(CommunityService.USER_MODE_PI, studyActions);
                 //prepare account list
                 List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getEnrollmentsForPIByStudySiteId(studySites[0].Id);
@@ -76,11 +80,19 @@ public without sharing class StudyDetailViewController {
                 }
             } else if (userMode == CommunityService.USER_MODE_HCP) {
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
-                if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
-                trialDetail.hcpe = hcpEnrollment;
-                StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
-                trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
-                trialDetail.tabs = getStudyTabs(userMode, studyActions);
+                //if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
+                if(hcpEnrollment != null){
+                    trialDetail.hcpe = hcpEnrollment;
+                    StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
+                    trialDetail.studyActions = studyActions.studyDetailActions;
+                    trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
+                    trialDetail.actions = studyActions.actions;
+                }
+                else{
+                    
+                    trialDetail.tabs = new List<StudyDetailViewController.StudyTab>();
+                }
+                
                 //init study site accounts:
                 Set<Id> accIds = new Set<Id>();
                 List<Study_Site__c> hcpStudySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
@@ -93,22 +105,23 @@ public without sharing class StudyDetailViewController {
                 };
                 for (Study_Site__c ss : hcpStudySites) {
                     String hcpStatus;
-                    if (hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
+                    if (hcpEnrollment != null && hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
                     trialDetail.accountEnrollmentsList.add(createClinicWrapper(ss.Name, accountsMap.get(ss.Site__c), hcpStatus, ss.Id));
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 List<Participant_Enrollment__c> participantEnrollments =
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                if(participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
+                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
-                trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
+                trialDetail.studyActions = studyActions.studyDetailActions;
+                trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
                 trialDetail.tabs = getStudyTabs(userMode, studyActions);
                 Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
                 idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
-
+                
                 List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
                 for (Integer i = 0; i < accounts.size(); i++) {
                     Account acc = accounts.get(i);
@@ -117,13 +130,12 @@ public without sharing class StudyDetailViewController {
                     );
                 }
             }
-
             return JSON.serialize(trialDetail);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     private static List<Account> getAccounts(Set<Id> accIds) {
         return [
                 SELECT Id,
@@ -142,7 +154,7 @@ public without sharing class StudyDetailViewController {
                 WHERE Id IN :accIds
         ];
     }
-
+    
     private static ClinicWrapper createClinicWrapper(String name, Account acc, String hcpStatus, Id studySiteId) {
         ClinicWrapper wrapper = new ClinicWrapper();
         wrapper.clinic = acc;
@@ -158,7 +170,7 @@ public without sharing class StudyDetailViewController {
         wrapper.hcpStatusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpStatus);
         return wrapper;
     }
-
+    
     public static List<StudyTab> getStudyTabs(String userMode, StudyActions studyActionsContainer) {
         List<StudyActions.Action> defaultActions = studyActionsContainer.studyDetailActions;
         List<StudyTab> tabs = new List<StudyTab>();
@@ -220,7 +232,6 @@ public without sharing class StudyDetailViewController {
         } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
             List<StudyActions.Action> backHomeAction = new List<StudyActions.Action>();
             backHomeAction.add(studyActionsContainer.actions.get(StudyActions.ACT_HOME));
-
             ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
             if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
                 tabs.add(new StudyTab(
@@ -229,7 +240,6 @@ public without sharing class StudyDetailViewController {
                         TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
                         defaultActions
                 ));
-
                 tabs.add(new StudyTab(
                         'tab-visits',
                         'referred-patient',
@@ -237,7 +247,6 @@ public without sharing class StudyDetailViewController {
                         backHomeAction
                 ));
             }
-        
             tabs.add(new StudyTab(
                     'tab-tasks',
                     'task',
@@ -250,7 +259,6 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
                     backHomeAction
             ));
-        
             if(stateValue != ParticipantService.ParticipantStates.ALUMNI) {
                 tabs.add(new StudyTab(
                         'tab-lab-results',
