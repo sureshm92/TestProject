@@ -39,7 +39,7 @@ public without sharing class PatientDelegateRemote {
             if(!contactsWithSameEmail.isEmpty()) {
                 throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_Email_Not_Uniq);
             }
-            if (PatientDelegateService.getInstance().getDelegatedContactIds().contains(editedDelegate.Id)) {
+            if (PatientDelegateService.getInstance().getDelegateContact(editedDelegate.Id) != null) {
                 update editedDelegate;
             } else {
                 throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_Not_Patient_Delegate);
