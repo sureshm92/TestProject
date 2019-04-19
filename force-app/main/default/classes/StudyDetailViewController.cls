@@ -10,6 +10,9 @@ public without sharing class StudyDetailViewController {
         public Boolean isSSAccepted;
         public Study_Site__c studySite; //for PI mode
         public HCP_Enrollment__c hcpe; //for HCP mode
+        public List<StudyActions.Action> studyActions;
+        public List<StudyActions.Action> studyBottomBarActions;
+        public Map<String, StudyActions.Action> actions;
         public List<StudyTab> tabs;
         public List<StudyActions.Action> shareActions;
     }
