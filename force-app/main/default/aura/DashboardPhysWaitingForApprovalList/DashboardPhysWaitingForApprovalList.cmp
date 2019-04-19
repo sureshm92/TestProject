@@ -20,7 +20,7 @@
                     {!item.action.label}
                 </button>
             </div>
-            <c:RRLink label="{!$Label.c.PG_DBPI_Dr + ' ' + item.data.HCP_Contact__r.Name}" page=""/> {!$Label.c.PG_DBPI_at} {!item.data.HCP_Contact__r.Account.Name}<br/>
+            <c:RRLink label="{!item.data.HCP_Contact__r.Salutation + ' ' + item.data.HCP_Contact__r.Name}" page=""/> {!$Label.c.PG_DBPI_at} {!item.data.HCP_Contact__r.Account.Name}<br/>
             for <c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
             <div class="rr-small-up-hide btn-block">
                 <button class="apollo-btn tertiary green"

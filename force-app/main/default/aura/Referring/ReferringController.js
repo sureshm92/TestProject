@@ -59,7 +59,7 @@
                 component.set('v.currentState', 'Select Source')
             }
             if(!initData.trial.Link_to_Pre_screening__c){
-                component.set('v.steps', [$A.get("$Label.c.PG_Ref_Step_Discussion"), $A.get("$Label.c.PG_Ref_Step_Contact_Info")]);
+                component.set('v.steps', [$A.get("$Label.c.PG_Ref_Step_Discussion"),$A.get("$Label.c.PG_Ref_Step_Site_Selection"), $A.get("$Label.c.PG_Ref_Step_Contact_Info")]);
             }
             if(!initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c){
                 component.set('v.currentState', 'Search PE');
@@ -96,14 +96,12 @@
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
         window.scrollTo(0, 0);
-        if(trial.Link_to_Pre_screening__c){
-            if(!hcpeId){
-                component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
-            }
-            else{
+        if(!hcpeId){
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
+        }
+        else if(trial.Link_to_Pre_screening__c){
                 helper.addEventListener(component, helper);
                 component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
-            }
         }else{
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Contact_Info"));
         }
@@ -112,11 +110,17 @@
 
     doSelectSite: function (component, event, helper) {
         debugger;
+        var trial = component.get('v.trial');
         var hcpeId = event.target.dataset.hcpeId;
         component.set('v.hcpeId',hcpeId);
-        component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
-        component.find('mainSpinner').show();
-        helper.addEventListener(component, helper);
+        if(trial.Link_to_Pre_screening__c){
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
+            component.find('mainSpinner').show();
+            helper.addEventListener(component, helper);
+        }
+        else {
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Contact_Info"));
+        }
         window.scrollTo(0, 0);
 
     },

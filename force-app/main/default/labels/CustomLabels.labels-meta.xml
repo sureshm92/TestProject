@@ -3719,7 +3719,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DRL L referred by Dr.</shortDescription>
-        <value>referred by Dr.</value>
+        <value>referred by</value>
     </labels>
     <labels>
         <fullName>PG_DRL_L_referred_from</fullName>
@@ -7151,6 +7151,34 @@ is a placehilder to show you what it would look like.</value>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
     </labels>
+    <labels>
+        <fullName>Email_Header_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header RP11</shortDescription>
+        <value>New Study Site has been added to your interested Referral Network!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject RP11</shortDescription>
+        <value>New Study Site has been added to Referral Network</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body RP11</shortDescription>
+        <value>Check out new Study Site that has been added to your interested Referral Network</value>
+    </labels>
+    <labels>
+        <fullName>Action_View_New_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action View New Study Site</shortDescription>
+        <value>View New Study Site</value>
+	</labels>
     <labels>
         <fullName>update_resource_content</fullName>
         <language>en_US</language>

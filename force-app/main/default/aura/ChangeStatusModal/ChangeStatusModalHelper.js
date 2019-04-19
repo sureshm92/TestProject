@@ -31,7 +31,8 @@
         communityService.showToast("success", "success", message);
     },
     getDoctorName: function (HCPEnrollment) {
-        var drName = $A.get("$Label.c.PG_DBPI_Dr") + ' ', drFirstName = '', drLastName = '';
+        var drName = '', drFirstName = '', drLastName = '';
+        if (HCPEnrollment.HCP_Contact__r && HCPEnrollment.HCP_Contact__r.Salutation) drName = HCPEnrollment.HCP_Contact__r.Salutation;
         if (HCPEnrollment.HCP_Contact__r && HCPEnrollment.HCP_Contact__r.FirstName) drFirstName = HCPEnrollment.HCP_Contact__r.FirstName;
         if (HCPEnrollment.HCP_Contact__r && HCPEnrollment.HCP_Contact__r.LastName) drLastName = HCPEnrollment.HCP_Contact__r.LastName;
 

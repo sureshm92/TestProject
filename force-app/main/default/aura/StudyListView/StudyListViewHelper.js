@@ -14,7 +14,7 @@
         let filter = cmp.get('v.filterData');
         if (cmp.get("v.searchResumeChanged") === true) {
             filter.searchText = '';
-            filter.therapeuticArea = 'ALL';
+            filter.therapeuticArea = null;
         }
         let searchText = filter.searchText;
 
@@ -63,17 +63,18 @@
         })
     },
     prepareIcons: function (currentPageList) {
+        debugger;
         var iconMap = {
             'Actively Enrolling': 'success',
-            'On hold': 'icon-pause-circle',
-            'Enrollment closed': 'icon-close-circle',
-            'No longer enrolling': 'icon-close-circle'
+            'On Hold': 'icon-pause-circle',
+            'Enrollment Closed': 'icon-close-circle',
+            'No Longer Enrolling': 'icon-close-circle'
         };
         var styleMap = {
             'Actively Enrolling': 'green-icon',
-            'On hold': 'orange-icon',
-            'Enrollment closed': 'orange-icon',
-            'No longer enrolling': 'red-icon'
+            'On Hold': 'orange-icon',
+            'Enrollment Closed': 'orange-icon',
+            'No Longer Enrolling': 'red-icon'
         };
         for (var i = 0; i < currentPageList.length; i++) {
             currentPageList[i].trial.statusIcon = iconMap[currentPageList[i].trial.Override_Recruitment_Status__c];
