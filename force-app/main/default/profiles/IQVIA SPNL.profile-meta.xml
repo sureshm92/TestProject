@@ -107,6 +107,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CollectionUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunitiesLandingController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -175,6 +179,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DataHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DatabaseProxy</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -192,6 +200,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DeploymentContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -472,6 +484,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PostInstallDX</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2909,6 +2925,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Post_Install__mdt.HandlerName__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3105,7 +3126,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.article_external_link__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3538,6 +3559,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Therapeutic_Area__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Tracking_Information__c.Current_Other_Outcome_Measures__c</field>
         <readable>true</readable>
@@ -3731,6 +3757,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Patient_Delegate__c-Caregiver Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Post_Install__mdt-Post Install Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>

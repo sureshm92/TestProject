@@ -37,6 +37,7 @@
 
     onSubmitQuestion : function (component, event, helper) {
         //show popup and do nothing
+        component.find('textArea').set('v.value', '');
         component.find('req-modal').show();
     },
 

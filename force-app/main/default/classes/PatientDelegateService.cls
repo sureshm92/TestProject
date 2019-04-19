@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class PatientDelegateService {
+public without sharing class PatientDelegateService {
     
     public class PatientDelegateServiceException extends Exception {}
     
@@ -59,6 +59,16 @@ public class PatientDelegateService {
     
     public List<Contact> getDelegates(){
         return delegates;
+    }
+
+    public Contact getDelegateContact(Id contactId) {
+        Contact delegate;
+        for(Contact con : getDelegates()) {
+            if(con.Id == contactId) delegate = con;
+        }
+        if(delegate == null) throw new PatientDelegateServiceException('Wrong id');
+
+        return delegate;
     }
     
     public Participant__c getParticipant(){
@@ -126,8 +136,7 @@ public class PatientDelegateService {
     public List<Id> getDelegatedContactIds(Id participantContactId) {
         return SObjectHelper.toIdsList(getDelegateContacts(participantContactId));
     }
-    
-    
+
     public void createPatientDelegate(Contact newDelegate) {
         if (getDelegatedContactIds().contains(newDelegate.Id)) {
             throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
@@ -140,7 +149,6 @@ public class PatientDelegateService {
         
         if (participant.size() == 0) throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
 
-
         Patient_Delegate__c delegate = new Patient_Delegate__c(
                 Contact__c = newDelegate.Id,
                 Participant__c = participant.get(0).Id
@@ -148,19 +156,20 @@ public class PatientDelegateService {
         insert delegate;
     }
     
-    public void resetDelegate(Contact delegate) {
-        delegate.userCommunityMode__c = null;
-        delegate.userCommunytyType__c = null;
-        delegate.UserCommunityIsDelegate__c = false;
-        update delegate;
-        
+    public void resetDelegate(Id contactId) {
+        Contact delegateContact = new Contact(
+                Id = contactId,
+                userCommunityMode__c = null,
+                userCommunytyType__c = null
+        );
+        update delegateContact;
+
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT Id
                 FROM Patient_Delegate__c
-                WHERE Contact__c = :delegate.Id
+                WHERE Contact__c =: contactId
         ];
-        delete patientDelegate.get(0);
+        delete patientDelegate;
     }
-    
 }
 

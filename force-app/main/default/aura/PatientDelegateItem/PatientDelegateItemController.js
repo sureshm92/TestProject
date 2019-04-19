@@ -3,19 +3,25 @@
  */
 ({
     doEdit : function (component, event, helper) {
-        var delegateId = component.get('v.delegate').delegateContact.Id;
-        communityService.navigateToPage('edit-delegate' + '?id=' + delegateId);
+        var Id = component.get('v.contact').Id;
+        communityService.navigateToPage('edit-delegate' + '?id=' + Id);
     },
 
     doRemove : function (component, event, helper) {
-        var delegateWrapper = component.get('v.delegate');
-        var messText =
-            $A.get('$Label.c.PG_PST_L_Delegates_Remove_Mess_P1') + ' ' + delegateWrapper.delegateContact.Name
-            + ' ' + $A.get('$Label.c.PG_PST_L_Delegates_Remove_Mess_P2');
+        var parent = component.get('v.parentComponent');
+        parent.find('mainSpinner').show();
+
+        var contact = component.get('v.contact');
+        var messText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Mess').replace('##Name', contact.Name);
 
         var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
-        actionRemoveDelegate.execute(delegateWrapper.delegateContact, messText, function () {
-            component.get('v.parentComponent').refresh();
+        actionRemoveDelegate.execute(messText, function () {
+            communityService.executeAction(component, 'withdrawDelegate', {
+                'contactId': contact.Id
+            }, function () {
+                parent.find('mainSpinner').hide();
+                parent.refresh();
+            });
         });
     }
 })

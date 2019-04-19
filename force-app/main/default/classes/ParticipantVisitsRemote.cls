@@ -30,7 +30,7 @@ public with sharing class ParticipantVisitsRemote {
     @AuraEnabled
     public static String getParticipantVisits() {
         try{
-            return JSON.serialize(VisitService.getInstance().getAllVisits());
+            return JSON.serialize(VisitService.getInstance().getVisits(null));
         }catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }

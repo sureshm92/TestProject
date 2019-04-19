@@ -95,6 +95,7 @@ public with sharing class ResourceService {
                 resourcesForDelete.remove(r.Resource__c);
             }
         }
+        delete relatedResStudies;
         if (!resourcesForDelete.isEmpty()) {
             Database.delete(new List<Id>(resourcesForDelete));
         }

@@ -23,7 +23,11 @@ public without sharing class SendEmailTemplate {
     }
     
     public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr) {
-        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: CommunityService.COMMUNITY_ET_SHARE_STUDY LIMIT 1].Id;
+        String eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_STUDY;
+        if (whatId.getSobjectType() == Resource__c.getSObjectType()) {
+            eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_RESOURCE;
+        }
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:eTemplateDeveloperName LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplateId);
@@ -156,6 +160,7 @@ public without sharing class SendEmailTemplate {
     }
     
     public static void sendEmailMessages(List<Messaging.SingleEmailMessage> emailMessages){
+        System.debug(emailMessages);
         for(Messaging.SendEmailResult result : Messaging.sendEmail(emailMessages, false)){
             if (result.success) {
                 System.debug('The email was sent successfully.');

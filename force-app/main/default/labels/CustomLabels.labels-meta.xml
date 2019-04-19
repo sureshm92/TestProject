@@ -598,7 +598,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://hpsdevv3-iqviaconnect.cs67.force.com</value>
+        <value>https://sandbox-force-drive-124-dev-ed-16a11dea04d.cs90.force.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -994,6 +994,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My visits</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action View Resource</shortDescription>
+        <value>View Resource</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_Trial_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1353,6 +1360,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
 ##StudyName</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Share_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Share Resource</shortDescription>
+        <value>Someone requested that we share a link with you for the following resource: ##ResourceName</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1624,6 +1638,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Header Share</shortDescription>
         <value>An IQVIA™ Referral Hub user shared this with you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Share_PH</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Share PH</shortDescription>
+        <value>An IQVIA™ Participant Hub user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -1904,6 +1925,13 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
         <value>IQVIA™ Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_PH</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Title PH</shortDescription>
+        <value>IQVIA™ Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_VT</fullName>
@@ -5070,11 +5098,25 @@ is a placehilder to show you what it would look like.</value>
         <value>Edit Delegate</value>
     </labels>
     <labels>
+        <fullName>PG_PST_L_Delegates_Email_Not_Uniq</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG PST L Delegates Email Not Uniq</shortDescription>
+        <value>Email should be unique!</value>
+    </labels>
+    <labels>
         <fullName>PG_PST_L_Delegates_My_Measur</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>My measurements</shortDescription>
         <value>See my measurements</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Not_Patient_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG PST L Delegates Not Patient Delegate</shortDescription>
+        <value>This contact is not a patient delegate.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Permitted_Actions</fullName>
@@ -5103,6 +5145,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Remove Himself</shortDescription>
         <value>You are about to remove yourself from the Delegate list. If you choose to continue your account will be deactivated. You cannot undo this action.  Do you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>PG_PST_L_Delegates_Remove_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Delegates Remove Mess</shortDescription>
+        <value>You are about to remove ##Name from your account. You cannot undo this action. Do you want to proceed?</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Remove_Mess_P1</fullName>
