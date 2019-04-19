@@ -216,10 +216,36 @@
                             </div>
                         </c:RRCollapse>
                     </div>
-
                     <div style="height: 15px"></div>
                 </div>
             </div>
+
+            <!-- Referral Network settings -->
+            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
+                    <div class="as-email-preference">
+                        <div class="as-title">Referral Networks</div>
+                        <div class="as-sub-title">
+                            Subscribe to Referral Networks. You will receive weekly emails keeping you updated on sites
+                            or topics that you are interested in.
+                        </div>
+
+                        <div class="as-sub-title slds-m-top--medium">
+                            Site Based
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top--small">
+                            <c:SubscribeToReferralNetwork sObjectType="Referral_Network__c"/>
+                        </div>
+
+                        <div class="as-sub-title slds-m-top--x-large">
+                            Topic Based
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top--small">
+                            <c:SubscribeToReferralNetwork sObjectType="Therapeutic_Area__c"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
 
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">

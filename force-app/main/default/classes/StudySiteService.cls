@@ -297,9 +297,33 @@ public without sharing class StudySiteService {
         public List<LabelValueItem> sortVariants = SortOrder.STUDY_SITE_SORT_TYPES;
     
     }
-    
-    public static SiteFilterData getSiteFilterData(Id trialId, String mode){
-        return StudySiteService.getInstance().getSiteFilterDataImpl(trialId, mode);
+
+    public static SiteFilterData getSiteFilterData(Id trialId, String mode) {
+        Id userContactId = CommunityService.getUserContact().Id;
+
+        SiteFilterData siteFilterData = new SiteFilterData();
+        siteFilterData.mode = mode;
+        siteFilterData.trialId = trialId;
+        siteFilterData.siteTypes = new List<LabelValueItem>();
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
+        Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
+        for (PicklistEntry ple : siteTypesfield.getPicklistValues()) {
+            siteFilterData.siteTypes.add(new LabelValueItem(ple.label, ple.value));
+        }
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
+        siteFilterData.distanceRanges = new List<LabelValueItem>();
+        siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
+        siteFilterData.distanceRanges.add(new LabelValueItem('5   ' + DistanceHelper.getUnitsOfMeasurementLabel(), '5'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('15  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '15'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('30  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '30'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('60  ' + DistanceHelper.getUnitsOfMeasurementLabel(), '60'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('150 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '150'));
+        siteFilterData.distanceRanges.add(new LabelValueItem('300 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '300'));
+        siteFilterData.therapeuticAreas = new List<LabelValueItem>();
+        siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
+        return siteFilterData;
     }
     public class StudySiteDistanceWrapper implements Comparable {
         public Study_Site__c site;
@@ -311,12 +335,18 @@ public without sharing class StudySiteService {
         public String sortType;
         public Boolean hasPatients;
         public Boolean hasActiveHCPE;
-        
+        public Datetime hcpCreatedDate;
+
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, Boolean hasPatients) {
             this.site = site;
-            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
             this.hasPatients = hasPatients;
-            this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+            if (this.distance != null) {
+                this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            } else {
+                this.formatedDistance = null;
+            }
+
             if (sortType != null && sortType != '') {
                 this.sortType = sortType;
             } else {
@@ -327,6 +357,7 @@ public without sharing class StudySiteService {
             this.hcpe = hcpe;
             if (hcpe != null) {
                 this.actions = new StudyActionsHCP(hcpe).actions;
+                this.hcpCreatedDate = hcpe.CreatedDate;
             } else {
                 this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
             }
@@ -342,6 +373,10 @@ public without sharing class StudySiteService {
                         return -1;
                     } else if (compareToWrapper.siteType == 'Virtual') {
                         return 1;
+                    } else if (this.distance == null) {
+                        return 1;
+                    } else if (compareToWrapper.distance == null) {
+                        return -1;
                     } else {
                         return (Integer) (this.distance - compareToWrapper.distance);
                     }
@@ -352,6 +387,10 @@ public without sharing class StudySiteService {
                     } else if (this.siteType == 'Virtual') {
                         return 1;
                     } else if (compareToWrapper.siteType == 'Virtual') {
+                        return -1;
+                    } else if (this.distance == null) {
+                        return 1;
+                    } else if (compareToWrapper.distance == null) {
                         return -1;
                     } else {
                         return (Integer) (this.distance - compareToWrapper.distance);
@@ -365,9 +404,60 @@ public without sharing class StudySiteService {
         }
     
     }
-    
-    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId( SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
-        return StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(filter, paginationData, filterEmptyHCPE);
+
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
+        List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
+        Set<Id> quueriedTrials = new Set<Id>();
+        Set<Id> siteIds = new Set<Id>();
+        Set<Id> siteWithPatientsIds = new Set<Id>();
+        for (Study_Site__c site : siteList) {
+            quueriedTrials.add(site.Clinical_Trial_Profile__c);
+            siteIds.add(site.Id);
+        }
+        System.debug('queried Trials' + quueriedTrials);
+        Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        for (HCP_Enrollment__c hcpe : enrollments) {
+            hcpeMap.put(hcpe.Study_Site__c, hcpe);
+        }
+        for (Participant_Enrollment__c pe : [
+                SELECT Id, Study_Site__c
+                FROM Participant_Enrollment__c
+                WHERE Study_Site__c IN :siteIds
+                AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
+                        :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+                        :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)
+        ]) {
+            siteWithPatientsIds.add(pe.Study_Site__c);
+        }
+        for (Study_Site__c site : siteList) {
+            if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id));
+                result.add(siteWrapper);
+            }
+        }
+        if (filter.distanceRange != null && filter.distanceRange != '') {
+            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
+            for (StudySiteDistanceWrapper siteWrapper : result) {
+                Double maxDistance = Double.valueOf(filter.distanceRange);
+                if (siteWrapper.distance != null && siteWrapper.distance <= maxDistance) {
+                    pageList.add(siteWrapper);
+                }
+            }
+            result = pageList;
+        }
+
+        if (paginationData != null) {
+            paginationData.setRecordsCount(result.size());
+            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
+            for (Integer i = paginationData.offset; i < paginationData.endOffset; i++) {
+                pageList.add(result[i]);
+            }
+            result = pageList;
+        }
+        result.sort();
+        return result;
     }
     
     public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){

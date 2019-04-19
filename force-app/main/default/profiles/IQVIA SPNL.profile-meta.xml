@@ -631,6 +631,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudyDetailItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyDetailViewController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -659,7 +663,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SudyTrialService</apexClass>
+        <apexClass>SubscribeToReferralNetworkRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -3681,6 +3685,12 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact_Referral_Network__c-Contact Referral Network Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact_Therapeutic_Area__c-Contact Therapeutic Area Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3760,6 +3770,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Post_Install__mdt-Post Install Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Referral_Network__c-Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
@@ -4156,6 +4169,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Patient_Delegate__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Referral_Network__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
