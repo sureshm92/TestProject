@@ -77,8 +77,6 @@ public class StudyActionsHCP extends StudyActions{
                         tcAcceptanceRequiredReason,
                         hcpOnHoldReason,
                         studySiteOnHoldReason,
-                        hcpNotActiveReason,
-                        studySiteNotAcceptedReason,
                         studyNoLongerEnrollingReason
                 }
         ));
@@ -249,13 +247,15 @@ public class StudyActionsHCP extends StudyActions{
         //prepare study item actions list:
         //MRR, Referring
         if(hcpEnrollment!= null && HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c)){
-            if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
+//            if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
             studyListViewItemActions.add(actions.get(ACT_MY_PATIENTS));
-            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
-            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
-                studyListViewItemActions.add(actions.get(ACT_REFER));
-            }
+//            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
+//            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
+//                studyListViewItemActions.add(actions.get(ACT_REFER));
+//            }
         }
+
+        studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
 
         //Accept TC
         List<String> tcStatuses = new List<String>{
@@ -272,14 +272,14 @@ public class StudyActionsHCP extends StudyActions{
         }
 
         //Find study sites:
-        if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c) && !isTCAcceptanceRequired){
-            studyListViewItemActions.add(actions.get(ACT_FIND_STUDY_SITES));
-        }
+//        if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c) && !isTCAcceptanceRequired){
+//            studyListViewItemActions.add(actions.get(ACT_FIND_STUDY_SITES));
+//        }
 
         //No thanks:
-        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
-            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
-        }
+//        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
+//            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
+//        }
 
         //Share
         if(hcpEnrollment!= null && shareStatuses.contains(hcpEnrollment.Status__c)) {

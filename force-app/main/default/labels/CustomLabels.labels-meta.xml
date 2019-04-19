@@ -994,6 +994,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>View My visits</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action View Resource</shortDescription>
+        <value>View Resource</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_Trial_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1353,6 +1360,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
 ##StudyName</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Share_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Share Resource</shortDescription>
+        <value>Someone requested that we share a link with you for the following resource: ##ResourceName</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1624,6 +1638,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Header Share</shortDescription>
         <value>An IQVIA™ Referral Hub user shared this with you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Share_PH</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Share PH</shortDescription>
+        <value>An IQVIA™ Participant Hub user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -1904,6 +1925,13 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
         <value>IQVIA™ Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Email_Title_PH</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Title PH</shortDescription>
+        <value>IQVIA™ Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_VT</fullName>
@@ -3712,7 +3740,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DRL L referred by Dr.</shortDescription>
-        <value>referred by Dr.</value>
+        <value>referred by</value>
     </labels>
     <labels>
         <fullName>PG_DRL_L_referred_from</fullName>
@@ -6333,6 +6361,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Video and Articles</value>
     </labels>
     <labels>
+        <fullName>Resources_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources_Article</shortDescription>
+        <value>Article</value>
+    </labels>
+    <labels>
         <fullName>Resources_Content_Has_Been_Updated</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6345,6 +6380,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Resources Expiration Date Disclaimer</shortDescription>
         <value>Videos and Articles are available for viewing until their expiration date, after which they will no longer be accessible.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Expires</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Expires</shortDescription>
+        <value>Expires</value>
     </labels>
     <labels>
         <fullName>Resources_Featured_Article</fullName>
@@ -6445,6 +6487,13 @@ is a placehilder to show you what it would look like.</value>
         <value>See All</value>
     </labels>
     <labels>
+        <fullName>Resources_Study_Document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Study Document</shortDescription>
+        <value>Study Document</value>
+    </labels>
+    <labels>
         <fullName>Resources_Study_Document_Table_Col_Summary</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6464,6 +6513,20 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Resources Study Document Table Col Version Date</shortDescription>
         <value>Version Date</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Version_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Version Date</shortDescription>
+        <value>Version Date</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Video</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Video</shortDescription>
+        <value>Video</value>
     </labels>
     <labels>
         <fullName>Resources_social</fullName>
@@ -7115,6 +7178,41 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>URL Interactive Advertising Bureau</shortDescription>
         <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header RP11</shortDescription>
+        <value>New Study Site has been added to your interested Referral Network!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject RP11</shortDescription>
+        <value>New Study Site has been added to Referral Network</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body RP11</shortDescription>
+        <value>Check out new Study Site that has been added to your interested Referral Network</value>
+    </labels>
+    <labels>
+        <fullName>Action_View_New_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action View New Study Site</shortDescription>
+        <value>View New Study Site</value>
+	</labels>
+    <labels>
+        <fullName>update_resource_content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update resource content</shortDescription>
+        <value>Do you want to mark  resource content as updated?</value>
     </labels>
     <labels>
         <fullName>Update_Participant</fullName>

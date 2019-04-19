@@ -10,6 +10,9 @@ public without sharing class StudyDetailViewController {
         public Boolean isSSAccepted;
         public Study_Site__c studySite; //for PI mode
         public HCP_Enrollment__c hcpe; //for HCP mode
+        public List<StudyActions.Action> studyActions;
+        public List<StudyActions.Action> studyBottomBarActions;
+        public Map<String, StudyActions.Action> actions;
         public List<StudyTab> tabs;
         public List<StudyActions.Action> shareActions;
     }
@@ -76,11 +79,19 @@ public without sharing class StudyDetailViewController {
                 }
             } else if (userMode == CommunityService.USER_MODE_HCP) {
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
-                if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
-                trialDetail.hcpe = hcpEnrollment;
-                StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
-                trialDetail.shareActions = new List<StudyActions.Action>(studyActions.actions.values());
-                trialDetail.tabs = getStudyTabs(userMode, studyActions);
+                //if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
+                if(hcpEnrollment != null){
+                    trialDetail.hcpe = hcpEnrollment;
+                    StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
+                    trialDetail.studyActions = studyActions.studyDetailActions;
+                    trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
+                    trialDetail.actions = studyActions.actions;
+                }
+                else{
+
+                    trialDetail.tabs = new List<StudyDetailViewController.StudyTab>();
+                }
+
                 //init study site accounts:
                 Set<Id> accIds = new Set<Id>();
                 List<Study_Site__c> hcpStudySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
@@ -93,14 +104,14 @@ public without sharing class StudyDetailViewController {
                 };
                 for (Study_Site__c ss : hcpStudySites) {
                     String hcpStatus;
-                    if (hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
+                    if (hcpEnrollment != null && hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
                     trialDetail.accountEnrollmentsList.add(createClinicWrapper(ss.Name, accountsMap.get(ss.Site__c), hcpStatus, ss.Id));
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 List<Participant_Enrollment__c> participantEnrollments =
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-                if(participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
+                if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
@@ -162,7 +173,7 @@ public without sharing class StudyDetailViewController {
     public static List<StudyTab> getStudyTabs(String userMode, StudyActions studyActionsContainer) {
         List<StudyActions.Action> defaultActions = studyActionsContainer.studyDetailActions;
         List<StudyTab> tabs = new List<StudyTab>();
-        if(userMode == CommunityService.USER_MODE_HCP){
+        if (userMode == CommunityService.USER_MODE_HCP) {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
@@ -192,7 +203,7 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
                     defaultActions
             ));
-        }else if(userMode == CommunityService.USER_MODE_PI){
+        } else if (userMode == CommunityService.USER_MODE_PI) {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
@@ -217,12 +228,47 @@ public without sharing class StudyDetailViewController {
                     TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
                     defaultActions
             ));
-        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
+        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<StudyActions.Action> backHomeAction = new List<StudyActions.Action>();
             backHomeAction.add(studyActionsContainer.actions.get(StudyActions.ACT_HOME));
 
             ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
-            if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+
+            if (stateValue == ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
+                        backHomeAction
+                ));
+
+            } else if (stateValue == ParticipantService.ParticipantStates.REFERRAL) {
+                tabs.add(new StudyTab(
+                        'tab-about-the-study',
+                        'about-the-study',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
+                        studyActions
+                ));
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
+                        backHomeAction
+                ));
+
+            } else if (stateValue == ParticipantService.ParticipantStates.PARTICIPANT) {
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
@@ -236,31 +282,41 @@ public without sharing class StudyDetailViewController {
                         TranslateHelper.getLabelValue('PG_SW_Tab_Visits'),
                         backHomeAction
                 ));
-            }
-        
-            tabs.add(new StudyTab(
-                    'tab-tasks',
-                    'task',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
-                    backHomeAction
-            ));
-            tabs.add(new StudyTab(
-                    'tab-resources',
-                    'resources',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
-                    backHomeAction
-            ));
-        
-            if(stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
+                        backHomeAction
+                ));
                 tabs.add(new StudyTab(
                         'tab-lab-results',
                         'reports',
                         TranslateHelper.getLabelValue('PG_SW_Tab_Lab_Results'),
                         backHomeAction
                 ));
+            } else {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
+                        backHomeAction
+                ));
             }
+
         }
-        
+
         return tabs;
     }
 

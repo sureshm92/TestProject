@@ -5,28 +5,28 @@
 public with sharing class SearchConditionsOfInterestRemote {
 
     @AuraEnabled
-    public static List<ConditionOfInterestRemote.CAWrapper> searchConditionOfInterest(String nameTA) {
-        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        List<ConditionOfInterestRemote.CAWrapper> caWrappers = new List<ConditionOfInterestRemote.CAWrapper>();
-
-        String tAQuery =
-                'SELECT Id, ' +
-                        'Name ' +
-                        'FROM Therapeutic_Area__c ' +
-                        'WHERE Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ' +
-                        'LIMIT 5';
-        System.debug(tAQuery);
-        List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
-        if (!therapeuticAreas.isEmpty()) {
-            for (Therapeutic_Area__c areaPatient : therapeuticAreas) {
-                ConditionOfInterestRemote.CAWrapper caWrapper = new ConditionOfInterestRemote.CAWrapper ();
-                caWrapper.order = 0;
-                caWrapper.isSelected = false;
-                caWrapper.therArea = areaPatient;
-                caWrappers.add(caWrapper);
+    public static List<TherapeuticAreaService.CAWrapper> searchConditionOfInterest(String nameTA) {
+        List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
+        try {
+            TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+            List<Therapeutic_Area__c> therapeuticAreas = taService.getTherapeuticAreas(nameTA);
+            if (!therapeuticAreas.isEmpty()) {
+                caWrappers = taService.getCOIWrappers(therapeuticAreas);
             }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
         }
         return caWrappers;
     }
+
+    @AuraEnabled
+    public static void deleteCOI(List<Id> coiIds) {
+        try {
+            Database.delete(coiIds);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
 
 }

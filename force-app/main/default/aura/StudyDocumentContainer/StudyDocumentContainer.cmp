@@ -30,19 +30,21 @@
                     <tr class="study-document-row-data">
                         <td class="study-document-icon">
                             <div class="resource-pointer"
-                                 data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
-                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
-                                <c:RRIcon iconName="icon-file-pdf"/>
+                                 data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
+                                 data-id="{!resourceWrapper.resource.Id}" onclick="{!c.navigateToPage}">
+                                <c:RRIcon iconName="icon-pdf" class="resources-icon-pdf"/>
                             </div>
                         </td>
                         <td class="study-document-column-data study-document-title-data">
-                            <a data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
-                               data-id="{!v.resourceWrappers[0].resource.Id}"
+                            <a data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
+                               data-id="{!resourceWrapper.resource.Id}"
                                onclick="{!c.navigateToPage}">
                                 {!resourceWrapper.resource.Title__c}
                             </a>
                         </td>
-                        <td class="study-document-summary study-document-column-data">{!resourceWrapper.resource.Description__c}</td>
+                        <td class="study-document-summary study-document-column-data">
+                            {!resourceWrapper.resource.Description__c}
+                        </td>
                         <td class="study-document-version-date study-document-column-data">
                             <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}" format="DD-MMM-YYYY"/>
                         </td>

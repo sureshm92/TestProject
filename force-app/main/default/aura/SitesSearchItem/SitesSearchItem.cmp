@@ -28,7 +28,7 @@
                 <div class="ssi-site-type">
                         {!v.studySiteWrapper.siteType + ' Site'}
                 </div>
-                <aura:if isTrue="{!v.studySiteWrapper.siteType!='Virtual'}">
+                <aura:if isTrue="{!and(v.studySiteWrapper.siteType!='Virtual', v.studySiteWrapper.formatedDistance != null)}">
                     <div class="ssi-site-distance">
                             <aura:unescapedHtml value="{!v.studySiteWrapper.formatedDistance}"/>
                     </div>
