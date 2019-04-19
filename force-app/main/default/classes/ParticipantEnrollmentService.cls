@@ -306,15 +306,19 @@ public without sharing class ParticipantEnrollmentService {
 
 
         Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                HCP__r = hcpEnrollment,
                 Pre_screening_Status__c = pesStatus,
                 Medical_Record_Review_Status__c = mrrStatus,
-                PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c,
-                Study_Site__c = hcpEnrollment.Study_Site__c,
                 Patient_ID__c = participantId,
                 Referral_Source__c = 'HCP'
         );
+
+        if(hcpEnrollment!=null){
+            participantEnrollment.HCP__c = hcpEnrollment.Id;
+            participantEnrollment.HCP__r = hcpEnrollment;
+            participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+            participantEnrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+        }
+
         //insert participantEnrollment;
         return participantEnrollment;
     }

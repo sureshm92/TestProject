@@ -20,6 +20,7 @@ public class StudyDetailItem implements Comparable {
     public String distance;
     public String therapeuticArea;
     public Datetime maxHCPCreatedDate;
+    public Boolean hasPatients;
 
     public Integer compareTo(Object compareTo) {
         StudyDetailItem compareItem = (StudyDetailItem) compareTo;

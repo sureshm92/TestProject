@@ -11,6 +11,7 @@ public without sharing class ReferringRemote {
         public Participant_Enrollment__c participantEnrollment;
         public List<Participant_Enrollment__c> pendingPEnrollments;
         public List<StudySiteService.StudySiteDistanceWrapper> studies;
+        public List<StudySiteService.StudySiteDistanceWrapper> studiesPending;
         public List<AccountWrapper> markers;
         public Map<String, StudyActions.Action> actions;
         public List<LabelValueItem> countries;
@@ -53,9 +54,16 @@ public without sharing class ReferringRemote {
             List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
             initData.markers = new List<ReferringRemote.AccountWrapper>();
             initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
+            initData.studiesPending = new List<StudySiteService.StudySiteDistanceWrapper>();
             for(StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp){
-                if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c)){
-                    initData.studies.add(siteWrapper);
+                if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c) ||
+                        HCPEnrollmentService.STATUS_GROUP_PENDING.contains(siteWrapper.hcpe.Status__c)){
+                    if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c)){
+                        initData.studies.add(siteWrapper);
+                    }
+                    else {
+                        initData.studiesPending.add(siteWrapper);
+                    }
                     AccountWrapper aw = new AccountWrapper();
                     aw.clinic = siteWrapper.site.Site__r;
                     aw.name = siteWrapper.site.Name;
@@ -120,6 +128,7 @@ public without sharing class ReferringRemote {
             participantEnrollment.Participant__c = participant.Id;
             participantEnrollment.HCP__c = hcpeId;
             participantEnrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+            participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
             participantEnrollment.Referral_Completed_by__c = CommunityService.getUserContact().Id;
             if(participantEnrollment.Participant_Name__c == null) participantEnrollment.Participant_Name__c = participant.First_Name__c;
             if(participantEnrollment.Participant_Surname__c == null) participantEnrollment.Participant_Surname__c = participant.Last_Name__c;
