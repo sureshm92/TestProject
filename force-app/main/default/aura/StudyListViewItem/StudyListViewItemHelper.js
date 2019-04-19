@@ -3,8 +3,8 @@
  */
 ({
     onEmailClick: function (component) {
-        let hcpe = component.get('v.currentStudy').hcpe;
-        component.find('emailModal').show(hcpe);
+        let currentStudy = component.get('v.currentStudy');
+        component.find('emailModal').show(currentStudy.trial.Id);
     },
 
     onFacebookClick: function (component, url, text) {

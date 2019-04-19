@@ -286,5 +286,5 @@
         </aura:if>
     </div>
 
-    <c:ShareModal aura:id="emailModal" parent="{!v.parent}"/>
+    <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
 </aura:component>

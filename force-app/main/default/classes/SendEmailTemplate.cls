@@ -46,8 +46,11 @@ public without sharing class SendEmailTemplate {
         return contactsOptedOutEmailMap;
     }
 
-    public static void sendShareEmail(Id whatId, Id fromId, String emailAddr) {
-        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :CommunityService.COMMUNITY_ET_SHARE_STUDY LIMIT 1].Id;
+    public static void sendShareEmail(Id whatId, Id fromId, String emailAddr, String templateName) {
+        if (templateName == null) {
+            templateName = CommunityService.COMMUNITY_ET_SHARE_STUDY;
+        }
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplateId);
