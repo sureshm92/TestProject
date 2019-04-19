@@ -21,7 +21,8 @@
                         {!v.studySiteWrapper.site.Name}
                 </div>
                 <div class="ssi-pi-name">
-                        {!v.studySiteWrapper.site.Principal_Investigator__r.Salutation + ' ' + v.studySiteWrapper.site.Principal_Investigator__r.Name}
+                        {!empty(v.studySiteWrapper.site.Primary_Contact__c)?v.studySiteWrapper.site.Principal_Investigator__r.Salutation + ' ' + v.studySiteWrapper.site.Principal_Investigator__r.Name:
+                                v.studySiteWrapper.site.Primary_Contact__r.Salutation + ' ' + v.studySiteWrapper.site.Primary_Contact__r.Name}
                 </div>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
@@ -37,11 +38,19 @@
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
                 <aura:if isTrue="{!v.studySiteWrapper.siteType!='Virtual'}">
                     <div class="ssi-address">
-                    {!v.studySiteWrapper.site.Site__r.BillingStreet}
+                    {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingStreet:
+                            empty(v.studySiteWrapper.site.Primary_Contact__c)?v.studySiteWrapper.site.Principal_Investigator__r.MailingStreet:
+                                    v.studySiteWrapper.site.Primary_Contact__r.MailingStreet}
                         <br/>
-                            {!v.studySiteWrapper.site.Site__r.BillingCity},
-                            {!v.studySiteWrapper.site.Site__r.BillingStateCode},
-                            {!v.studySiteWrapper.site.Site__r.BillingPostalCode}
+                            {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingCity:
+                                    empty(v.studySiteWrapper.site.Primary_Contact__c)?v.studySiteWrapper.site.Principal_Investigator__r.MailingCity:
+                                            v.studySiteWrapper.site.Primary_Contact__r.MailingCity},
+                            {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingStateCode:
+                                    empty(v.studySiteWrapper.site.Primary_Contact__c)?v.studySiteWrapper.site.Principal_Investigator__r.MailingStateCode:
+                                            v.studySiteWrapper.site.Primary_Contact__r.MailingStateCode},
+                            {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingPostalCode:
+                                    empty(v.studySiteWrapper.site.Primary_Contact__c)?v.studySiteWrapper.site.Principal_Investigator__r.MailingPostalCode:
+                                            v.studySiteWrapper.site.Primary_Contact__r.MailingPostalCode}
                     </div>
                 </aura:if>
             </div>

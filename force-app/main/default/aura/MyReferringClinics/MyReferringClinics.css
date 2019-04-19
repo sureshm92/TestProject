@@ -8,3 +8,37 @@
 .THIS.mrc-container .mrc-header {
     display: flex;
 }
+
+.THIS .mrc-invite-btn-container{
+    text-align: right;
+}
+@media all and (max-width: 767px) {
+    .THIS .mrc-invite-btn-container{
+        width:100%;
+    }
+}
+
+.THIS .rr-form-element{
+    margin-bottom: 15px;
+}
+
+.THIS .rr-form-element .label{
+    text-align: left;
+}
+
+.THIS .rr-form-element .radio-group{
+    text-align: left;
+}
+
+.THIS .rr-form-element .radio-group .slds-form-element__label{
+    font-size: 16px!important;
+    color: #444444!important;
+    /*text-overflow: ellipsis;*/
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+}
+
+
+.THIS .p-content{
+    max-height: 72vh!important;
+}

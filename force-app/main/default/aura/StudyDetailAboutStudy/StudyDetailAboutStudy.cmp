@@ -10,6 +10,8 @@
     <aura:attribute name="parent" type="Aura.Component"/>
 
     <!-- actions: -->
+
+    <aura:handler name="change" value="{!v.studyDetail.primaryContact}" action="{!c.doChangePrimaryContact}"/>
     <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
     <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
     <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
@@ -152,7 +154,8 @@
 
                 <!-- right info section -->
                 <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
-                    <div class="sdas-main-info">
+                    <div class="sdas-main-info" style="position: relative;">
+                        <c:RRSpinner aura:id="mainSpinner" size="medium"/>
                         <div class="title">{!$Label.c.PG_SW_F_Study_Name}</div>
                         <div class="text">{!v.studyDetail.trial.Study_Code_Name__c}</div>
 
@@ -194,6 +197,11 @@
                         <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrolled_End_Date__c)}">
                             <div class="title">{!$Label.c.PG_SW_F_Enrollment_End_Date}</div>
                             <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/></div>
+                        </aura:if>
+                        <aura:if isTrue="{!and(!v.studyDetail.isDelegate, v.userMode == 'PI')}">
+                            <div class="sdas-full-separator"></div>
+                            <div class="title">Primary Contact</div>
+                            <c:rrSelect class="primary-contact-select" value="{!v.studyDetail.primaryContact}" options="{!v.studyDetail.primaryContactOptions}"/>
                         </aura:if>
                     </div>
                 </div>

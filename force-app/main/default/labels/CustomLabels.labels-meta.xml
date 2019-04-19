@@ -223,6 +223,13 @@ Click OK to begin!</value>
         <value>Ignore</value>
     </labels>
     <labels>
+        <fullName>BTN_Invite</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Invite</shortDescription>
+        <value>Invite</value>
+    </labels>
+    <labels>
         <fullName>BTN_Learn_More</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4424,6 +4431,20 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Summaries</value>
     </labels>
     <labels>
+        <fullName>PG_MRC_BTN_Invite_Referring_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC BTN Invite Referring Provider</shortDescription>
+        <value>Invite Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_L_Invite_Referring_Provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC L Invite Referring Provider</shortDescription>
+        <value>Invite Referring Provider</value>
+    </labels>
+    <labels>
         <fullName>PG_MRC_L_Providers_activated</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4471,6 +4492,48 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG MRC L Referring providers overall</shortDescription>
         <value>Referring providers overall</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Clinic_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Clinic Name</shortDescription>
+        <value>Practice/Clinic Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_First_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Invite_to_Studies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Invite to Studies</shortDescription>
+        <value>Invite to Studies (optional)</value>
+    </labels>
+    <labels>
+    <fullName>PG_MRC_RF_Last_Name</fullName>
+    <language>en_US</language>
+    <protected>false</protected>
+    <shortDescription>PG MRC RP Last Name</shortDescription>
+    <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Not_all_Req_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
+        <value>Not all required fields are entered</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Phone</shortDescription>
+        <value>Phone</value>
     </labels>
     <labels>
         <fullName>PG_MRRLI_MSG_Added_on</fullName>
@@ -6863,6 +6926,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>TST Invalid email address!</shortDescription>
         <value>Invalid email address!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Request_to_invite_a_referring_provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Request to invite a referring provider</shortDescription>
+        <value>Request to invite a referring provider has been successfully submitted</value>
     </labels>
     <labels>
         <fullName>TST_Screenshot_size_limit_2MB_exceeded</fullName>
