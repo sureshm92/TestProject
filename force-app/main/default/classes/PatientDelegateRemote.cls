@@ -10,12 +10,11 @@ public without sharing class PatientDelegateRemote {
             List<Participant__c> contacts = [
                     SELECT First_Name__c
                     FROM Participant__c
-                    WHERE Id =: PatientDelegateService.getInstance().getParticipant().Id];
-    
+                    WHERE Id =: PatientDelegateService.getInstance().getParticipant().Id
+            ];
             return contacts.get(0).First_Name__c;
         }catch (Exception e){
-            AuraHelper.throwException(e);
-            return null;
+            return (String) AuraHelper.throwException(e);
         }
     }
 
@@ -60,16 +59,12 @@ public without sharing class PatientDelegateRemote {
     }
 
     @AuraEnabled
-    public static String isDelegate() {
+    public static String getLogOutUrl() {
         try{
-            return ParticipantService.getInstance().getState().isDelegate ? 'TRUE' : 'FALSE';
-        }catch (Exception e){
+            return Site.getBaseUrl();
+        }catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
-    }
 
-    @AuraEnabled
-    public static String getLogOutUrl() {
-        return Site.getBaseUrl();
     }
 }

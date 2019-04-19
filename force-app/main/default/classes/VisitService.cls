@@ -21,7 +21,7 @@ public with sharing class VisitService {
                 'Timeplane__c',
                 'Icons__c'
         };
-        String visitPlan = ParticipantService.getParticipantState().pse.Clinical_Trial_Profile__r.Visit_Plan__c;
+        String visitPlan = ParticipantService.getInstance().getState().pse.Clinical_Trial_Profile__r.Visit_Plan__c;
 
         String fullFilter = 'Visit_Plan__c = \'' + visitPlan + '\' ORDER BY Order__c';
         if (filter != null) fullFilter += filter;

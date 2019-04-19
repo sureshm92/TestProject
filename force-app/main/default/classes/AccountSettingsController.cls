@@ -43,7 +43,7 @@ public without sharing class AccountSettingsController {
                 initData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
             }
             initData.userName = UserInfo.getUserName();
-            initData.isDelegate = ParticipantService.getInstance().getState().isDelegate;
+            initData.isDelegate = PatientDelegateService.getInstance().isDelegate();
             return JSON.serialize(initData);
         } catch (Exception e) {
             System.debug(e);
@@ -59,11 +59,6 @@ public without sharing class AccountSettingsController {
         }  catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
-    }
-
-    @AuraEnabled
-    public static String isDelegate() {
-        return PatientDelegateRemote.isDelegate();
     }
 
     @AuraEnabled
