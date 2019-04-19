@@ -5,7 +5,6 @@
     <externalId>false</externalId>
     <label>Therapeutic Area</label>
     <referenceTo>Therapeutic_Area__c</referenceTo>
-    <relationshipLabel>Therapeutic Areas</relationshipLabel>
     <relationshipName>Therapeutic_Areas</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
