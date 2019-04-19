@@ -605,7 +605,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Complete By Date</shortDescription>
-        <value>Complete By Date</value>
+        <value>Complete By</value>
     </labels>
     <labels>
         <fullName>Cookies_Info_Text</fullName>

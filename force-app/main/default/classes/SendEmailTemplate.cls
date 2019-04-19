@@ -90,7 +90,7 @@ public without sharing class SendEmailTemplate {
         newEmail.setSaveAsActivity(false);
         newEmail.setOrgWideEmailAddressId(ORGWIDE_EMAIL_ADDRESS_Id);
         //newEmail.setToAddresses(new List<String>{toAddress});
-        newEmail.setWhatId(whatId);
+        //newEmail.setWhatId(whatId);
         if(ccDelegates && userMode == CommunityService.USER_MODE_PI){
             List<String> delegateAddresses = new List<String>();
             for(Site_Staff__c delegate : [
