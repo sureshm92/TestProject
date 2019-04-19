@@ -1,0 +1,1604 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef1"
+            },
+            "Name": "Ragweed pollen allergy",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef2"
+            },
+            "Name": "Ramsay Hunt syndrome",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef3"
+            },
+            "Name": "Rare Diseases",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef4"
+            },
+            "Name": "Reaction to severe stress, unspecified",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef5"
+            },
+            "Name": "Reactive arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef6"
+            },
+            "Name": "Referred pain",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef7"
+            },
+            "Name": "Regurgitation",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef8"
+            },
+            "Name": "Relapsing-remitting mutliple sclerosis (RRMS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef9"
+            },
+            "Name": "REM sleep behavior disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef10"
+            },
+            "Name": "Restless leg syndrome (RLS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef11"
+            },
+            "Name": "Retinal migraine",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef12"
+            },
+            "Name": "Reverse sleep",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef13"
+            },
+            "Name": "Rheumatoid arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef14"
+            },
+            "Name": "Rheumatoid Arthritis (RA)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef15"
+            },
+            "Name": "Rhinophyma",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef16"
+            },
+            "Name": "Right-sided heart failure",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef17"
+            },
+            "Name": "Schizoaffective Disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef18"
+            },
+            "Name": "Schizophrenia",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef19"
+            },
+            "Name": "Schizophreniform Disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef20"
+            },
+            "Name": "Seasonal affective disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef21"
+            },
+            "Name": "Seasonal flu",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef22"
+            },
+            "Name": "Secondary hypertension",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef23"
+            },
+            "Name": "Secondary Osteoarthritis (OA)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef24"
+            },
+            "Name": "Secondary restless leg syndrone",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef25"
+            },
+            "Name": "Secondary-progressive multiple sclerosis (SPMS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef26"
+            },
+            "Name": "see also Breast and Ovarian Cancer and Family Health History",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef27"
+            },
+            "Name": "see also National Breast and Cervical Cancer Early Detection Program (NBCCEDP)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef28"
+            },
+            "Name": "see also Psittacosis [Chlamydia psittaci Infection]",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef29"
+            },
+            "Name": "Seizure disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef30"
+            },
+            "Name": "Seizures",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef31"
+            },
+            "Name": "Senile osteoporosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef32"
+            },
+            "Name": "Septic arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef33"
+            },
+            "Name": "Septic arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef34"
+            },
+            "Name": "Seronegative rheumatoid arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef35"
+            },
+            "Name": "Seropositive rheumatoid arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef36"
+            },
+            "Name": "Sex headaches",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef37"
+            },
+            "Name": "Shift work disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef38"
+            },
+            "Name": "Shingles",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef39"
+            },
+            "Name": "Shortness of breath",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef40"
+            },
+            "Name": "Sinus headaches",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef41"
+            },
+            "Name": "Skin Cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef42"
+            },
+            "Name": "Sleep apnea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef43"
+            },
+            "Name": "Sleep paralysis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef44"
+            },
+            "Name": "Small cell prostate cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef45"
+            },
+            "Name": "Somnambulism (Sleep walking)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef46"
+            },
+            "Name": "Spinal headaches",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef47"
+            },
+            "Name": "Squamous cell cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef48"
+            },
+            "Name": "Stenosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef49"
+            },
+            "Name": "Substance use disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef50"
+            },
+            "Name": "Substance-Induced Psychotic Disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef51"
+            },
+            "Name": "Surgery",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef52"
+            },
+            "Name": "Systolic heart failure",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef53"
+            },
+            "Name": "Tension headache",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef54"
+            },
+            "Name": "Thumb arthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef55"
+            },
+            "Name": "Thunderclap headaches",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef56"
+            },
+            "Name": "Thyroid cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef57"
+            },
+            "Name": "Thyroid nodules",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef58"
+            },
+            "Name": "Tobacco dependence",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef59"
+            },
+            "Name": "Toxic hepatitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef60"
+            },
+            "Name": "Transient Ischemic Attack (TIA)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef61"
+            },
+            "Name": "Transitional cell (or urothelial) cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef62"
+            },
+            "Name": "Trepopnea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef63"
+            },
+            "Name": "Type 1 diabetes",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef64"
+            },
+            "Name": "Type 1 diabetes in children",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef65"
+            },
+            "Name": "Type 2 diabetes",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef66"
+            },
+            "Name": "Type 2 diabetes in children",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef67"
+            },
+            "Name": "Type I osteoporosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef68"
+            },
+            "Name": "Type II osteoporosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef69"
+            },
+            "Name": "Ulcerative colitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef70"
+            },
+            "Name": "Ulcerative colitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef71"
+            },
+            "Name": "Ulcerative Colitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef72"
+            },
+            "Name": "Ulcerative proctitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef73"
+            },
+            "Name": "Unspecified post-traumatic stress disorder (PTSD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef74"
+            },
+            "Name": "Unspecified post-traumatic stress disorder (PTSD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef75"
+            },
+            "Name": "Urinary incontinence",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef76"
+            },
+            "Name": "Vascular parkinsonism (VP)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef77"
+            },
+            "Name": "Weight Loss",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef78"
+            },
+            "Name": "Cardiology/Vascular Diseases",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef79"
+            },
+            "Name": "Obstetrics/Gynecology (Women's Health)",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef80"
+            },
+            "Name": "Neurology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef81"
+            },
+            "Name": "Gastroenterology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef82"
+            },
+            "Name": "Urology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef83"
+            },
+            "Name": "Dermatology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef84"
+            },
+            "Name": "Infections and Infectious Diseases",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef85"
+            },
+            "Name": "Endocrinology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef86"
+            },
+            "Name": "Pulmonary/Respiratory Diseases",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef87"
+            },
+            "Name": "Psychiatry/Psychology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef88"
+            },
+            "Name": "Nephrology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef89"
+            },
+            "Name": "Hepatology (Liver, Pancreatic, Gall Bladder)",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef90"
+            },
+            "Name": "Hematology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef91"
+            },
+            "Name": "Ophthalmology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef92"
+            },
+            "Name": "Immunology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef93"
+            },
+            "Name": "Oncology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef94"
+            },
+            "Name": "Rheumatology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef95"
+            },
+            "Name": "Pediatrics/Neonatology",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef96"
+            },
+            "Name": "Sleep",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef97"
+            },
+            "Name": "Respiratory Diseases",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef98"
+            },
+            "Name": "Orthopedics/Orthopedic Surgery",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef99"
+            },
+            "Name": "Internal Medicine",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef100"
+            },
+            "Name": "Nutrition and Weight Loss",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef101"
+            },
+            "Name": "Musculoskeletal",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef102"
+            },
+            "Name": "Healthy Volunteers",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef103"
+            },
+            "Name": "Genetic Disease",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef104"
+            },
+            "Name": "Trauma (Emergency, Injury, Surgery)",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef105"
+            },
+            "Name": "Other",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef106"
+            },
+            "Name": "Podiatry",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef107"
+            },
+            "Name": "Test Area",
+            "type__c": "TA"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef108"
+            },
+            "Name": "Flat warts",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef109"
+            },
+            "Name": "Flu",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef110"
+            },
+            "Name": "Follicular thyroid cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef111"
+            },
+            "Name": "Frontal lobe seizures",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef112"
+            },
+            "Name": "Gastric ulcers",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef113"
+            },
+            "Name": "Gastroesophageal reflux disease (GERD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef114"
+            },
+            "Name": "Migraine",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef115"
+            },
+            "Name": "Migraine",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef116"
+            },
+            "Name": "Migraine with aura",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef117"
+            },
+            "Name": "Migraine without Aura",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef118"
+            },
+            "Name": "Migraine without headaches",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef119"
+            },
+            "Name": "Military tuberculosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef120"
+            },
+            "Name": "Multiple sclerosis (MS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef121"
+            },
+            "Name": "Multiple system atrophy (MSA)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef122"
+            },
+            "Name": "Menopause",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef123"
+            },
+            "Name": "Muscle pain",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef124"
+            },
+            "Name": "Muscle spasm",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef125"
+            },
+            "Name": "Pink eye",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef126"
+            },
+            "Name": "Plantar warts",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef127"
+            },
+            "Name": "Plaque psoriasis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef128"
+            },
+            "Name": "Platypnea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef129"
+            },
+            "Name": "Pigmentary glaucoma",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef130"
+            },
+            "Name": "Polycystic Ovary Disease",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef131"
+            },
+            "Name": "Post Menopausal",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef132"
+            },
+            "Name": "Genital Candidiasis (VVC) [Vulvovaginal Candidiasis]",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef133"
+            },
+            "Name": "Genital herpes",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef134"
+            },
+            "Name": "Genital Herpes [Herpes Simplex Virus Infection]",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef135"
+            },
+            "Name": "Genital Herpes [Herpes Simplex Virus Infection]",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef136"
+            },
+            "Name": "Genital warts",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef137"
+            },
+            "Name": "Genital Warts   see Human Papillomavirus Infection",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef138"
+            },
+            "Name": "Genital Warts   see Human Papillomavirus Infection",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef139"
+            },
+            "Name": "Glaucoma",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef140"
+            },
+            "Name": "Glaucoma in children",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef141"
+            },
+            "Name": "Goiter",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef142"
+            },
+            "Name": "Inflammatory bowel disease (IBD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef143"
+            },
+            "Name": "Inflammatory bowel disease (IBD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef144"
+            },
+            "Name": "Insomnia",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef145"
+            },
+            "Name": "Insulin-resistant polycystic ovarian syndrome (Type I PCOS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef146"
+            },
+            "Name": "Interstitial cystitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef147"
+            },
+            "Name": "Myocarditis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef148"
+            },
+            "Name": "Narcolepsy Type 1",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef149"
+            },
+            "Name": "Narcolepsy Type 2",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef150"
+            },
+            "Name": "Natural menopause",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef151"
+            },
+            "Name": "Nerve pain",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef152"
+            },
+            "Name": "Nicotine dependence",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef153"
+            },
+            "Name": "Nicotine dependence",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef154"
+            },
+            "Name": "Night terrors",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef155"
+            },
+            "Name": "Nightmares",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef156"
+            },
+            "Name": "Nocturnal sleep-related eating disorder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef157"
+            },
+            "Name": "Non-24-hour sleep-wake disorder (Non-24)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef158"
+            },
+            "Name": "Nonalcoholic fatty liver disease",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef159"
+            },
+            "Name": "Nonalcoholic Steatohepatitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef160"
+            },
+            "Name": "Non-Hodgkin's lymphoma",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef161"
+            },
+            "Name": "Non-insulin Resistant polycystic ovarian syndrome (Type II PCOS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef162"
+            },
+            "Name": "Non-traditional polycystic ovarian syndrome I",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef163"
+            },
+            "Name": "Non-traditionalpolycystic ovarian syndrome II",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef164"
+            },
+            "Name": "Normal-tension glaucoma",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef165"
+            },
+            "Name": "Oak pollen allergy",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef166"
+            },
+            "Name": "Obesity",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef167"
+            },
+            "Name": "Obstructive sleep apnea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef168"
+            },
+            "Name": "Ocular rosacea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef169"
+            },
+            "Name": "Onset insomnia",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef170"
+            },
+            "Name": "Open-angle glaucoma",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef171"
+            },
+            "Name": "Orthopnea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef172"
+            },
+            "Name": "Parkinson",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef173"
+            },
+            "Name": "Parkinson's Disease",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef174"
+            },
+            "Name": "Osteoarthritis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef175"
+            },
+            "Name": "Osteoarthritis (OA)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef176"
+            },
+            "Name": "Osteoporosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef177"
+            },
+            "Name": "Other",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef178"
+            },
+            "Name": "Other reactions to severe stress",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef179"
+            },
+            "Name": "Overactive bladder",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef180"
+            },
+            "Name": "Overweight (not obese)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef181"
+            },
+            "Name": "Pain",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef182"
+            },
+            "Name": "Pancolitis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef183"
+            },
+            "Name": "Pandemic flu",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef184"
+            },
+            "Name": "Papillary thyroid cancer",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef185"
+            },
+            "Name": "Papulopustular (or acne) rosacea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef186"
+            },
+            "Name": "Paraphrenia",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef187"
+            },
+            "Name": "Paroxysmal nocturnal dyspnea",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef188"
+            },
+            "Name": "Progressive supranuclear palsy (PSP)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef189"
+            },
+            "Name": "Postmenopausal osteoporosis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef190"
+            },
+            "Name": "Post-traumatic stress disorder (PTSD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef191"
+            },
+            "Name": "Post-traumatic stress disorder (PTSD)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef192"
+            },
+            "Name": "Premature menopause",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef193"
+            },
+            "Name": "Primary (essential) hypertension",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef194"
+            },
+            "Name": "Primary aldosteronism",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef195"
+            },
+            "Name": "Primary Osteoarthritis (OA)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef196"
+            },
+            "Name": "Primary restless leg syndrome",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef197"
+            },
+            "Name": "Primary-progressive mutliple sclerosis (PPMS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef198"
+            },
+            "Name": "Proctosigmoiditis",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef199"
+            },
+            "Name": "Progressive-relapsing mutliple sclerosis (PRMS)",
+            "type__c": "COI"
+        },
+        {
+            "attributes": {
+                "type": "Therapeutic_Area__c",
+                "referenceId": "Therapeutic_Area__cRef200"
+            },
+            "Name": "Prolapse",
+            "type__c": "COI"
+        }
+    ]
+}
