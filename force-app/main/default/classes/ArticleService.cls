@@ -27,11 +27,17 @@ public with sharing class ArticleService {
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
         Set<String> tANames = new Set<String>();
+        List<Resource__c> resourcesToProcess = new List<Resource__c>();
         for (Resource__c singleResource : resources) {
-            tANames.addAll(tAService.getTANamesOnResource(singleResource));
+            if(ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
+                tANames.addAll(tAService.getTANamesOnResource(singleResource));
+                resourcesToProcess.add(singleResource);
+            }
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
-        tAAService.createTAAsForResources(therapeuticAreas, resources);
+        if (!tANames.isEmpty()) {
+            List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
+            tAAService.createTAAsForResources(therapeuticAreas, resourcesToProcess);
+        }
     }
 
     public void assignTherapeuticAreas(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
@@ -39,11 +45,17 @@ public with sharing class ArticleService {
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
         Set<String> tANames = new Set<String>();
+        List<Resource__c> resourcesToProcess = new List<Resource__c>();
         for (Resource__c singleResource : newResources) {
-            tANames.addAll(tAService.getTANamesOnResource(singleResource));
+            if(ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
+                tANames.addAll(tAService.getTANamesOnResource(singleResource));
+                resourcesToProcess.add(singleResource);
+            }
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
-        tAAService.createDeleteTAAs(newResources, oldResourcesByIds, therapeuticAreas);
+        if (!tANames.isEmpty()) {
+            List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
+            tAAService.createDeleteTAAs(resourcesToProcess, oldResourcesByIds, therapeuticAreas);
+        }
     }
 
     public void addDefaultImage(List<Resource__c> resources) {
