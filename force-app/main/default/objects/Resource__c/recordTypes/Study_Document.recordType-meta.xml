@@ -3,4 +3,15 @@
     <fullName>Study_Document</fullName>
     <active>true</active>
     <label>Study Document</label>
+    <picklistValues>
+        <picklist>Content_Type__c</picklist>
+        <values>
+            <fullName>Document</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>

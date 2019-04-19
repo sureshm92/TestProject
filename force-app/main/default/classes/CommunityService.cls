@@ -5,6 +5,7 @@ public without sharing class CommunityService {
 
     public static String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
+    public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
@@ -15,6 +16,7 @@ public without sharing class CommunityService {
     public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
     public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
+    public static String COMMUNITY_ET_SHARE_RESOURCE = 'Share_Resources'; //email template
 
     // org wide email address
     public static String COMMUNITY_ORG_WIDE_ADDRESS_NAME = 'IQVIA Referral Hub';
@@ -26,7 +28,6 @@ public without sharing class CommunityService {
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';
     public static final String USER_MODE_PARTICIPANT = 'Participant';
-    public static final String USER_MODE_DELEGATE = 'Delegate';
 
     //Exception messages
     public static String ERROR_MISSING_STUDY = 'Unexpected error occurred. Contact administrator.';
@@ -36,7 +37,28 @@ public without sharing class CommunityService {
 
     //hold contact instance:
     private static Contact userContact;
+    
+    private static CommunityService instance;
+    
+    public static CommunityService getInstance(){
+        if(instance == null) instance = new CommunityService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (CommunityService) Test.createStub(CommunityService.class, stubProvider);
+    }
+    
+    public Id getCurrentContactId(){
+        return CommunityService.getUserContact().Id;
+    }
 
+    public Contact getUserContactImpl(){
+        return getUserContact();
+    }
+    
+    //Old static logic: ------------------------------------------------------------------------------------------------
+    
     public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
@@ -225,4 +247,32 @@ public without sharing class CommunityService {
         return null;
     }
 
+    public static Boolean isUserInCommunity(Id contactId) {
+        return ![SELECT Id
+                    FROM User
+                    WHERE ContactId =: contactId
+                        AND Profile.Name =: COMMUNITY_PROFILE_NAME
+        ].isEmpty();
+    }
+
+    public static void setUserToCommunity(User user) {
+        user.IsActive = true;
+        user.ProfileId = COMMUNITY_USER_PROFILE_ID;
+
+        Database.DMLOptions dlo = new Database.DMLOptions();
+        dlo.emailHeader.triggerUserEmail = true;
+        dlo.emailHeader.triggerAutoResponseEmail = true;
+        user.setOptions(dlo);
+
+        update user;
+    }
+
+    public static void setUserToCommunity(Id contactId) {
+        User user = [
+                SELECT Id
+                FROM User
+                WHERE ContactId = :contactId
+        ];
+        setUserToCommunity(user);
+    }
 }

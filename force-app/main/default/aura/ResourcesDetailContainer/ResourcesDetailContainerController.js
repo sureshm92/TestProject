@@ -21,8 +21,12 @@
             if(spinner){ spinner.hide(); }
         });
 
-        if (resourceType) {
-            component.set("v.resourceType", resourceType);
+        if (resourceType === 'Article') {
+            component.set("v.bigTitle", $A.get("{!$Label.c.Resources_Article}"));
+        } else if(resourceType === 'Video') {
+            component.set("v.bigTitle", $A.get("{!$Label.c.Resources_Video}"));
+        } else if(resourceType === 'Study_Document') {
+            component.set("v.bigTitle", $A.get("{!$Label.c.Resources_Study_Document}"));
         }
         if(retString){
             let retPage = communityService.getRetPage(retString);

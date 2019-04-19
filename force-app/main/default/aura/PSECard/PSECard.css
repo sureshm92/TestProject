@@ -1,39 +1,44 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .psec-title-link{
-    font-size: 17px;
-    color: #3294fe;
-    font-weight: 600;
+
+
+.THIS .vpi-path-panel{
+    background-color: #F8F9FB;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
 }
 
-.THIS .sponsor-name {
-    height: 20px;
-    color: #999999;
-    font-size: 12px;
-    line-height: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.THIS .objective-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.THIS .vpi-path-panel .collapse-section.opened{
+    background-color: white;
 }
 
-.THIS .objective-section .objective-text {
-    height: 16px;
-    color: #333333;
-    font-size: 13px;
-    line-height: 16px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+.THIS .vpi-status-btns button{
+    margin-top: 15px;
+    width: 100%;
+    min-width: auto;
 }
 
-.THIS .objective-section .objective-link {
-    white-space: nowrap;
-    margin-left: 10px;
-    flex-shrink: 0;
+
+@media all and (min-width: 1024px) {
+    .THIS .vri-state-label{
+        display: block;
+    }
+    .THIS .width-basis{
+        flex-basis: 0;
+    }
+
+    .THIS .state-ico-wrapper{
+        width: 28px;
+        height: 28px;
+        top: -15px;
+        left: -14px;
+    }
+
+    .THIS .state-ico-wrapper .rr-icon-default{
+        width: 24px;
+        height: 24px;
+        padding: 1px;
+    }
+
 }

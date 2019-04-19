@@ -46,14 +46,14 @@
 }
 .THIS .ah-button{
     width: 100%;
-    min-width: 0px;
+    min-width: 0;
 }
 .THIS .ah-toggle-container{
     position: relative;
 }
 .THIS .ah-toggle{
     position: absolute;
-    right: 0px;
+    right: 0;
 }
 
 .THIS .ah-video-iframe{
@@ -87,7 +87,6 @@
         padding-right: 5px;
     }
     .THIS .ah-video-iframe{
-
         width: 360px;
     }
 }

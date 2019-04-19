@@ -46,11 +46,19 @@ public without sharing class SendEmailTemplate {
         return contactsOptedOutEmailMap;
     }
 
-    public static void sendShareEmail(Id whatId, Id fromId, String emailAddr, String templateName) {
-        if (templateName == null) {
-            templateName = CommunityService.COMMUNITY_ET_SHARE_STUDY;
+    
+    public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr, String templateName) {
+        String eTemplateDeveloperName;
+        if (templateName != null) {
+            eTemplateDeveloperName = templateName;
+        } else {
+            eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_STUDY;
+            if (whatId.getSobjectType() == Resource__c.getSObjectType()) {
+                eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_RESOURCE;
+            }
         }
-        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1].Id;
+
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:eTemplateDeveloperName LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplateId);
@@ -183,9 +191,9 @@ public without sharing class SendEmailTemplate {
         }
         return orgwideEmailAddresses[0];
     }
-
-    public static void sendEmailMessages(List<Messaging.SingleEmailMessage> emailMessages) {
-        for (Messaging.SendEmailResult result : Messaging.sendEmail(emailMessages, false)) {
+    
+    public static void sendEmailMessages(List<Messaging.SingleEmailMessage> emailMessages){
+        for(Messaging.SendEmailResult result : Messaging.sendEmail(emailMessages, false)){
             if (result.success) {
                 System.debug('The email was sent successfully.');
             } else {

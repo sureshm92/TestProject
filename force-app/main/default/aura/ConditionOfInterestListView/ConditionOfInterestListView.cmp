@@ -3,16 +3,76 @@
  -->
 
 <aura:component controller="ConditionOfInterestRemote" description="ConditionOfInterestListView">
-    <aura:attribute name="ConditionOfInterestList" type="Object[]"/>
-    <lightning:card footer="Card Footer" title="Hello">
-        <aura:set attribute="actions">
-            <lightning:button label="New"/>
-        </aura:set>
-        <aura:iteration items="{!v.ConditionOfInterestList}" var="CA">
-            {!CA}
-        </aura:iteration>
-        <aura:set attribute="footer">
-            <lightning:button label="New"/>
-        </aura:set>
-    </lightning:card>
+    <aura:attribute name="conditionOfInterestList" type="Object[]"/>
+    <aura:attribute name="isSaveList" type="Boolean"/>
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.isSaveList}" action="{!c.doSaveSortCOIs}"/>
+
+    <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-p-right--small">
+        <div class="slds-grid slds-wrap">
+            <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
+                <aura:iteration items="{!v.conditionOfInterestList}" var="coi" indexVar="arrayInd">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                        <div class="slds-pill slds-container--fluid">
+                            <div class="slds-pill__label slds-p-left--medium">{!coi.coi.Therapeutic_Area__r.Name}</div>
+                            <div class="slds-float--right">
+
+                                <lightning:buttonIcon iconName="utility:up" variant="bare"
+                                                      size="small" onclick="{!c.doUp}"
+                                                      alternativeText="up"
+                                                      value="{!arrayInd}"
+                                                      class="{!arrayInd == 0 ? 'slds-hidden' : ''}"
+                                />
+
+                                <lightning:buttonIcon iconName="utility:down" variant="bare"
+                                                      size="small" onclick="{!c.doDown}"
+                                                      alternativeText="down"
+                                                      value="{!arrayInd}"
+                                                      class="{!v.conditionOfInterestList.length == (arrayInd + 1) ? 'slds-hidden' : ''}"
+                                />
+
+                                <lightning:buttonIcon iconName="utility:close"  variant="bare"
+                                                      size="large" onclick="{!c.doDelete}"
+                                                      title="close"
+                                                      alternativeText="Delete COI"
+                                                      value="{!coi.coi.Id}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </aura:iteration>
+                <aura:set attribute="else">
+                    <div class="slds-pill slds-container--fluid">
+                        <div class="slds-pill__label slds-p-left--medium slds-color__text_gray-5">No conditions selected</div>
+                    </div>
+                </aura:set>
+            </aura:if>
+
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                <button class="apollo-btn primary slds-float--right slds-m-top--medium slds-p-bottom--medium" id="0"
+                        onclick="{!c.doSelect}">
+                    Select Conditions
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-align-bottom slds-p-top--medium slds-p-bottom--small slds-p-left--large">
+        <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
+            <aura:if isTrue="{!lessthan(v.conditionOfInterestList.length, 5)}">
+                <div class="slds-text-color--error">
+                    Max 5 conditions - still active
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.conditionOfInterestList.length == 5}">
+                <div class="slds-text-color--error">
+                    Still active as the validation will be done within the modal
+                </div>
+            </aura:if>
+        </aura:if>
+
+    </div>
+
+    <c:SearchConditionsOfInterest aura:id="searchModal" conditionsOfInterest="{!v.conditionOfInterestList}" isSaveList="{!v.isSaveList}"/>
 </aura:component>

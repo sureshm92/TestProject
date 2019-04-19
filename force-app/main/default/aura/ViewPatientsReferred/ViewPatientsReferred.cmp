@@ -91,11 +91,12 @@
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:iteration items="{!v.pageList}" var="item">
-                    <c:ViewPatientItem pe="{!item.pe}"
+                    <c:ParticipantCard participantItem="{!item.pItem}"
                                        actions="{!item.actions}"
-                                       peStatusesPathList="{!v.peStatusesPathList}"
-                                       peStatusStateMap="{!v.peStatusStateMap}"
-                                       changeStatusBtnList="{!v.changeStatusBtnList}" parent="{!this}"/>
+                                       singlePatientView="false"
+                                       changeStatusBtnList="{!v.changeStatusBtnList}"
+                                       parent="{!this}"
+                                       userMode="{!v.userMode}"/>
                 </aura:iteration>
             </div>
 

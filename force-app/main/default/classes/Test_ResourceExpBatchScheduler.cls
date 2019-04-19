@@ -8,11 +8,12 @@ public with sharing class Test_ResourceExpBatchScheduler {
     static List<Resource__c> resources;
     static Map<Id, Resource__c> resourceMap;
     static List<Id> resIds;
-    static String query = 'SELECT ' +
+    static  String query = 'SELECT ' +
             'Id,' +
-            'Expiration_Date__c ' +
+            'Expiration_Date__c, ' +
+            'Content_Class__c ' +
             'FROM Resource__c ' +
-            'WHERE Expiration_Date__c <= today';
+            'WHERE Expiration_Date__c <= today  AND Remove_sharing__c = false';
 
     static void init() {
         resources = new List<Resource__c>();
@@ -20,7 +21,6 @@ public with sharing class Test_ResourceExpBatchScheduler {
         Date publish = expDate.addYears(-1);
         for (Integer i = 0; i < 10; i++) {
             Resource__c res = new Resource__c(
-                    Name = 'Res '+ i,
                     Expiration_Date__c = expDate,
                     Posting_Date__c = publish,
                     Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
