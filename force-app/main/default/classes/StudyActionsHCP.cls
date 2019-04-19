@@ -77,8 +77,6 @@ public class StudyActionsHCP extends StudyActions{
                         tcAcceptanceRequiredReason,
                         hcpOnHoldReason,
                         studySiteOnHoldReason,
-                        hcpNotActiveReason,
-                        studySiteNotAcceptedReason,
                         studyNoLongerEnrollingReason
                 }
         ));
@@ -203,11 +201,13 @@ public class StudyActionsHCP extends StudyActions{
         if(hcpEnrollment!= null && HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c)){
 //            if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
             studyListViewItemActions.add(actions.get(ACT_MY_PATIENTS));
-            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
-            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
-                studyListViewItemActions.add(actions.get(ACT_REFER));
-            }
+//            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
+//            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
+//                studyListViewItemActions.add(actions.get(ACT_REFER));
+//            }
         }
+
+        studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
 
         //Accept TC
         List<String> tcStatuses = new List<String>{
