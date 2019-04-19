@@ -69,7 +69,8 @@ public with sharing class ResourceService {
         return new ResourceWrapperContainer(this.getResourceWrappers(resources));
     }
 
-    public void deleterelatedTostudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
+    public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
+
         Set<Id> resourcesForDelete = new Set<Id>();
         List<Res_study__c> relatedResStudies = [
                 SELECT Resource__r.Name,
@@ -80,11 +81,9 @@ public with sharing class ResourceService {
         ];
         if (!relatedResStudies.isEmpty()) {
             for (Res_study__c r : relatedResStudies) {
-                System.debug('Title__c>>'+r.Resource__r.Title__c);
                 resourcesForDelete.add(r.Resource__c);
             }
         }
-
         List<Res_study__c> NotCompletedProfiles = [
                 SELECT Resource__r.Name,
                         Resource__r.Title__c
@@ -93,15 +92,12 @@ public with sharing class ResourceService {
         ];
         if (!NotCompletedProfiles.isEmpty()) {
             for (Res_study__c r : NotCompletedProfiles) {
-                System.debug('r.Resource__r.Title__c>>'+r.Resource__r.Title__c);
                 resourcesForDelete.remove(r.Resource__c);
             }
         }
-        System.debug('resourcesForDelete'+resourcesForDelete);
         if (!resourcesForDelete.isEmpty()) {
             Database.delete(new List<Id>(resourcesForDelete));
         }
-
     }
 
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
@@ -258,7 +254,7 @@ public with sharing class ResourceService {
         List<Resource__c> resources = new List<Resource__c>();
         String studyTherapeuticAreaId;
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
-        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : participant.Therapeutic_Area_Patients__r) {
+        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
             if (therapeuticAreaPatient.IsRelatedToStudy__c) {
                 studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
             }

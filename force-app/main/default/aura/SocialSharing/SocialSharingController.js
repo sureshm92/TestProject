@@ -2,8 +2,12 @@
  * Created by AlexKetch on 4/2/2019.
  */
 ({
+    doInit: function(component, event, helper) {
+
+    },
+
     onEmailClick: function (component, event, helper) {
-        component.find('emailModal').show();
+        component.find('emailModal').show(component.get('v.whatId'), null);
     },
 
     onFacebookClick: function (component, event, helper) {

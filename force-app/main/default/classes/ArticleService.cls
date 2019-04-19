@@ -12,7 +12,6 @@ public with sharing class ArticleService {
                 this.calculateExpirationDate(resource);
             }
         }
-
     }
 
     public void calculateExpirationDate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
@@ -31,7 +30,7 @@ public with sharing class ArticleService {
         for (Resource__c singleResource : resources) {
             tANames.addAll(tAService.getTANamesOnResource(singleResource));
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
         tAAService.createTAAsForResources(therapeuticAreas, resources);
     }
 
@@ -43,7 +42,7 @@ public with sharing class ArticleService {
         for (Resource__c singleResource : newResources) {
             tANames.addAll(tAService.getTANamesOnResource(singleResource));
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getTAsByNames(tANames, true);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
         tAAService.createDeleteTAAs(newResources, oldResourcesByIds, therapeuticAreas);
     }
 
@@ -53,17 +52,17 @@ public with sharing class ArticleService {
                 if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
                         && !ResourceService.X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(resource.X3rd_Party_Source__c) &&
                         !String.isBlank(resource.X3rd_Party_Source__c)) {
-                    System.debug(resource.X3rd_Party_Source__c);
                     if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_HEALTH_DAY)) {
-                        resource.Image__c = getStaticUrlImage(HEALTH_DAY_NAME_LOGO);
+                        resource.Image__c = this.getStaticUrlImage(HEALTH_DAY_NAME_LOGO);
                     }
                     if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_IQVIA)) {
-                        resource.Image__c = getStaticUrlImage(IQVIA_NAME_LOGO);
+                        resource.Image__c = this.getStaticUrlImage(IQVIA_NAME_LOGO);
                     }
                 }
             }
         }
     }
+
     public void validateUpdatedDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (resource.Updated_Date__c != null && resource.Posting_Date__c != null) {
@@ -75,8 +74,31 @@ public with sharing class ArticleService {
         }
     }
 
+    public void updateRemoveSharing(List<Resource__c> resources) {
+        for (Resource__c resource : resources) {
+            if (resource.Expiration_Date__c != null) {
+                this.addSharing(resource);
+            }
+        }
+    }
 
-    public String getStaticUrlImage(String imageName) {
+    public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
+        for (Resource__c resource : resources) {
+            if (resource.Expiration_Date__c != null) {
+                if (!resource.Expiration_Date__c.isSameDay(oldResMap.get(resource.Id).Expiration_Date__c)) {
+                    this.addSharing(resource);
+                }
+            }
+        }
+    }
+
+    private void addSharing(Resource__c resource) {
+        if (resource.Expiration_Date__c > Date.today() && resource.Remove_sharing__c) {
+            resource.Remove_sharing__c = false;
+        }
+    }
+
+    private String getStaticUrlImage(String imageName) {
         List<StaticResource> resourceList = [
                 SELECT Name,
                         NamespacePrefix,
@@ -103,13 +125,13 @@ public with sharing class ArticleService {
             }
         } else if (resource.Posting_Date__c == null) {
             resource.Posting_Date__c = resource.Expiration_Date__c.addMonths(-12);
-        } 
+        }
     }
 
     private void calculateExpirationDate(Resource__c newResource, Resource__c oldResource) {
         if (newResource.Posting_Date__c != oldResource.Posting_Date__c
                 || newResource.Expiration_Date__c != oldResource.Expiration_Date__c) {
-            calculateExpirationDate(newResource);
+            this.calculateExpirationDate(newResource);
         }
     }
 }
