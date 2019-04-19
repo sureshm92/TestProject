@@ -3130,6 +3130,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>Referral Information</value>
     </labels>
     <labels>
+        <fullName>PG_AP_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP Success Message</shortDescription>
+        <value>Patient successfully added</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_T_Indicate_Add_Fields</fullName>
         <language>en_US</language>
         <protected>true</protected>
