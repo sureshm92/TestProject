@@ -160,6 +160,7 @@ public without sharing class SendEmailTemplate {
     }
     
     public static void sendEmailMessages(List<Messaging.SingleEmailMessage> emailMessages){
+        System.debug(emailMessages);
         for(Messaging.SendEmailResult result : Messaging.sendEmail(emailMessages, false)){
             if (result.success) {
                 System.debug('The email was sent successfully.');

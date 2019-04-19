@@ -104,7 +104,7 @@
                                         Ignored
                                     </aura:if>
                                     <aura:if isTrue="{!task.Status == 'Completed'}">
-                                        <ui:outputDate value="{!task.Completed_Date__c}"/>
+                                        <ui:outputDate value="{!task.Reminder_Date__c}"/>
                                     </aura:if>
                                 </td>
                             </tr>

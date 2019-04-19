@@ -2,23 +2,21 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="Action_RemoveDelegate" controller="MyTeamRemote">
+<aura:component description="Action_RemoveDelegate">
 
     <!-- attributes:-->
-    <aura:attribute name="delegateContact" type="String"/>
     <aura:attribute name="callback" type="Object"/>
     <aura:attribute name="messageText" type="String"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
-        <aura:attribute name="delegateContact" type="String"/>
         <aura:attribute name="messageText" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
     <!-- component body:-->
-    <c:Popup aura:id="deleteDelegateDialog" title="{!$Label.c.PG_PST_L_Delegates_Remove_Delegate}" size="small" showClose="false">
-        <c:RRSpinner aura:id="spinner" />
+    <c:Popup aura:id="deleteDelegateDialog" title="{!$Label.c.PG_PST_L_Delegates_Remove_Delegate}" size="small">
+        <c:RRSpinner aura:id="spinner"/>
         {!v.messageText}
         <aura:set attribute="footerButtons">
             <button class="apollo-btn primary" onclick="{!c.doYes}">{!$Label.c.BTN_Yes}</button>
