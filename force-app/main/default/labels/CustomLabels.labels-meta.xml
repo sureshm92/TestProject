@@ -1931,6 +1931,20 @@ Please review the referrals and accept, decline, or place on hold each referral.
 To review the referrals, log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
     <labels>
+        <fullName>Error_Message_Can_Not_Create_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Message Can Not Create Participant</shortDescription>
+        <value>Can not create participant</value>
+    </labels>
+    <labels>
+        <fullName>Error_Message_Participant_Duplicate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Message Participant Duplicate</shortDescription>
+        <value>This patient has already been referred to this study. A patient can only be referred to one trial at a time</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3419,6 +3433,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS T Privacy Rights</shortDescription>
         <value>For questions about your personal data or privacy rights, please contact us using the form below.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Add_Patient_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Add Patient Header</shortDescription>
+        <value>Add Patient</value>
     </labels>
     <labels>
         <fullName>PG_BLS_Header</fullName>
@@ -6123,6 +6144,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Terms and Conditions accepted:</value>
     </labels>
     <labels>
+        <fullName>PG_TOP_Bar_Back_To_My_Referrals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG TOP Bar Back To My Referrals</shortDescription>
+        <value>Back to My Referrals</value>
+    </labels>
+    <labels>
         <fullName>PG_Task_Tab_No_Tasks</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6981,7 +7009,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Task Subject Complete Your Profile</shortDescription>
-        <value>Please complete your profile under Account Settings</value>
+        <value>Please, complete your profile under Account Settings</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>

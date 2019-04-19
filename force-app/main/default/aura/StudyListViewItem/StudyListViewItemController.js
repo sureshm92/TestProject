@@ -46,6 +46,9 @@
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
+            case 'addPatient':
+                communityService.navigateToPage('add-patient?id=' + trialId);
+                break;
         }
     },
 

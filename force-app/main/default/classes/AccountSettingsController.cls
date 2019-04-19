@@ -249,6 +249,7 @@ public without sharing class AccountSettingsController {
         public Participant__c participant;
         public String userName;
      	public Boolean isDelegate;
+        public String message;
         @AuraEnabled
         public List<CookieSettings> cookieSettings;
     }

@@ -26,6 +26,10 @@ public class DatabaseService {
         return queryImpl(queryString);
     }
     
+    public Database.SaveResult insertSObjImpl(SObject sObj, Boolean allOrNothing){
+        return Database.insert(sObj, allOrNothing);
+    }
+    
     // Static facade: --------------------------------------------------------------------------------------------------
     
     public static List<SObject> query(String query) {
@@ -36,6 +40,9 @@ public class DatabaseService {
         return getInstance().queryImpl(fields, objectType, filter);
     }
     
+    public static Database.SaveResult insertSObj(SObject sObj, Boolean allOrNothing){
+        return getInstance().insertSObjImpl(sObj, allOrNothing);
+    }
     public static String listToString(List<SObject> sObjects){
         Map<Id, SObject> sObjectMap = new Map<Id, SObject>(sObjects);
         List<Id> idsList = new List<Id>(sObjectMap.keySet());
