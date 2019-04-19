@@ -47,19 +47,18 @@
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
-    <!--enableLicensing>false</enableLicensing-->
     <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Therapeutic Area</label>
+    <label>TA / COI / 3rd Party COI</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
-        <label>Therapeutic Area Name</label>
+        <label>Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Therapeutic Areas</pluralLabel>
+    <pluralLabel>TA / COI / 3rd Party COI</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

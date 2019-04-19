@@ -100,13 +100,16 @@
         component.find('mainSpinner').show();
         if (component.get('v.userMode') === 'Participant') {
             communityService.executeAction(component, 'savePatientDelegate', {
-                delegate: JSON.stringify(delegate)
-            }, function (returnValue) {
+                delegate: JSON.stringify(delegate.delegateContact)
+            }, function () {
                 communityService.showToast(
                     'Success', 'success', $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') + ' ' +
                     delegate.delegateContact.Name + '.');
                 component.refresh();
             }, function () {
+                component.find('emailInput').set('v.value', '');
+                component.find('firstNameInput').set('v.value', '');
+                component.find('lastNameInput').set('v.value', '');
                 component.find('mainSpinner').hide();
             });
         } else

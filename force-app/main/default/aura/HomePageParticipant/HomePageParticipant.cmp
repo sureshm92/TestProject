@@ -5,56 +5,51 @@
 <aura:component description="HomePageParticipant" controller="HomePageParticipantRemote">
 
     <!-- attributes: -->
-    <aura:attribute name="welcomeMessage" type="String"/>
-    <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="pse" type="Object"/>
-    <aura:attribute name="state" type="String" description="ALUMNI, PROSPECT, REFERRAL, PARTICIPANT"/>
+    <aura:attribute name="participantState" type="Object"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
+
     <div>
         <div style="margin-bottom: 8px">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div class="hp-welcome-msg">{!v.welcomeMessage}</div>
+        <div class="hp-welcome-msg">{!v.participantState.participantName}</div>
 
-        <aura:if isTrue="{!!empty(v.pe)}">
+        <aura:if isTrue="{!!empty(v.participantState.pe)}">
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
                         <div class="slds-col">
-                            <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                            <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                                 <aura:if
-                                        isTrue="{!!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                        isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
                                     <div class="rr-white-panel hp-logo-panel">
-                                        <img src="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
+                                        <img src="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
                                     </div>
                                 </aura:if>
                                 <aura:if
-                                        isTrue="{!empty(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                        isTrue="{!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
                                     <div class="rr-white-panel hp-logo-panel logo-text">
-                                        {!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                        {!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
                                     </div>
                                 </aura:if>
                             </aura:if>
-                            <aura:if isTrue="{!v.state == 'ALUMNI'}">
-                                <c:RRNavigationPath>
-                                    <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
-                                </c:RRNavigationPath>
+                            <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                                 <div class="rr-width-limiter">
-                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.jpg'}"/>
+                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
                                 </div>
                             </aura:if>
                         </div>
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <aura:if isTrue="{!and(v.state != 'ALUMNI', !empty(v.pse))}">
+                        <aura:if isTrue="{!and(v.participantState.value != 'ALUMNI', !empty(v.participantState.pse))}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
                             </div>
@@ -62,7 +57,7 @@
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
-                    <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                    <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
                         <!--Hidden until the next release-->
 <!--                        <c:RRPanel>-->

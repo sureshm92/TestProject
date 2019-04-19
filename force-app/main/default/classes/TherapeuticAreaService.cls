@@ -35,13 +35,14 @@ public with sharing class TherapeuticAreaService {
 
     public List<Therapeutic_Area__c> getThirdPartyCOIsByNames(Set<String> tANames, Boolean createIfNotExist) {
 
-        List<Therapeutic_Area__c> therapeuticAreas = [
-                SELECT Id,
-                        Therapeutic_Area__c,
-                        Name
-                FROM Therapeutic_Area__c
-                WHERE RecordType.DeveloperName = :TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME AND Name IN :tANames
-        ];
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String tAsQuery = 'SELECT Id, ' +
+                        'Therapeutic_Area__c, ' +
+                        'Name ' +
+                'FROM Therapeutic_Area__c ' +
+                'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME +
+                '\' AND Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tANames), ', ') + ')';
+        List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAsQuery);
         if(!createIfNotExist) {
             return therapeuticAreas;
         }

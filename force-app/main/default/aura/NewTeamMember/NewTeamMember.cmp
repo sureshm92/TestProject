@@ -83,21 +83,24 @@
                                 <div class="slds-grid slds-wrap slds-gutters">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <div class="rr-form-element">
-                                            <lightning:input label="{!$Label.c.PG_AS_F_Email_address}"
+                                            <lightning:input aura:id="emailInput"
+                                                             label="{!$Label.c.PG_AS_F_Email_address}"
                                                              value="{!v.delegate.delegateContact.Email}"
                                                              onblur="{!c.doSearchContact}"/>
                                         </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <div class="rr-form-element">
-                                            <lightning:input label="{!$Label.c.PG_AS_F_First_name}"
+                                            <lightning:input aura:id="firstNameInput"
+                                                             label="{!$Label.c.PG_AS_F_First_name}"
                                                              disabled="{!v.delegate.delegateContact.Id!=undefined}"
                                                              value="{!v.delegate.delegateContact.FirstName}"/>
                                         </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                                         <div class="rr-form-element">
-                                            <lightning:input label="{!$Label.c.PG_AS_F_Last_name}"
+                                            <lightning:input aura:id="lastNameInput"
+                                                             label="{!$Label.c.PG_AS_F_Last_name}"
                                                              disabled="{!v.delegate.delegateContact.Id!=undefined}"
                                                              value="{!v.delegate.delegateContact.LastName}"/>
                                         </div>

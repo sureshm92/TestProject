@@ -55,7 +55,7 @@
                                               options="{!v.delegateOptions}"
                                               saveInProgress="{!v.saveInProgress}"/>
                                 <aura:set attribute="else">
-                                    <c:PatientDelegateItem delegate="{!delegate}" parentComponent="{!this}"/>
+                                    <c:PatientDelegateItem contact="{!delegate.delegateContact}" parentComponent="{!this}"/>
                                 </aura:set>
                             </aura:if>
                         </aura:iteration>
