@@ -28,6 +28,10 @@ sfdx force:data:tree:import -p data/import-plan.json
 
 echo "import completed"
 
+sfdx force:apex:execute -f DxPostInstall.apex -u scratch
+
+echo "apex second execution completed"
+
 git checkout -- force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
 
 sfdx force:user:password:generate -u scratch 
