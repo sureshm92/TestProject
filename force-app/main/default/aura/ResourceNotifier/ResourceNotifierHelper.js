@@ -32,7 +32,7 @@
     },
     toggleToast: function (component, event, helper) {
         let cmp = component.find('toast');
-        if(cmp){
+        if (cmp) {
             cmp.destroy();
         }
     },
@@ -70,11 +70,13 @@
             console.log('loaded', JSON.stringify(loaded));
 
         } else if (eventParams.changeType === "CHANGED") {
-            console.log('changed');
             let resource = component.get("v.resourceRecord");
-            if (!resource.Updated_Date__c) {
-                helper.togglePopUp(component, event, helper);
+            if (resource.RecordType.Name == 'Article' || resource.RecordType.Name == 'Video') {
+                if ((!resource.Updated_Date__c)) {
+                    helper.togglePopUp(component, event, helper);
+                }
             }
+
         } else if (eventParams.changeType === "REMOVED") {
             // record is deleted
             console.log('removed');
