@@ -53,6 +53,7 @@
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <aura:if isTrue="{!v.state != 'ALUMNI'}">
                             <c:RRNavigationPath>
+                                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
                                 <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
                             </c:RRNavigationPath>
                             <aura:if isTrue="{!!empty(v.studyDetail.trial.Profile_Picture__c)}">
@@ -66,6 +67,7 @@
                         </aura:if>
                         <aura:if isTrue="{!v.state == 'ALUMNI'}">
                             <c:RRNavigationPath>
+                                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
                                 <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
                             </c:RRNavigationPath>
                             <div class="rr-width-limiter">
@@ -84,7 +86,8 @@
 
                 <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                     <c:RRAnchor aura:id="tabsTarget"/>
-                    <div class="tabs">
+                    <aura:if isTrue="{!!empty(v.studyDetail.tabs)}">
+                        <div class="tabs">
                         <div class="rr-width-limiter">
                             <c:RRTabSet>
                                 <!-- tabs: -->
@@ -125,6 +128,7 @@
                             </c:RRTabSet>
                         </div>
                     </div>
+                    </aura:if>
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-about-the-study', '', ' collapsed')}">
                         <button class="apollo-btn text" data-anchor="aboutAnchor"
                                 onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_About_The_Study}</button>

@@ -1,0 +1,52 @@
+<!--
+ - Created by RAMukhamadeev on 2019-04-17.
+ -->
+
+<aura:component description="SearchForReferralNetwork" controller="SubscribeToReferralNetworkRemote">
+    <aura:attribute name="currChosenRefNetworks" type="List" default="[]" access="public"/>
+    <aura:attribute name="sObjectType" type="String" access="public" required="true"/>
+
+    <aura:method name="show" action="{!c.show}" access="public"/>
+    <aura:method name="hide" action="{!c.hide}" access="public"/>
+
+    <aura:attribute name="displayedRefNetworks" type="List" default="[]" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <c:Popup aura:id="searchModal" title="Select Your Referral Networks" size="medium" showClose="false"
+             primaryButtonLabel="Save" variant="slds-float--right" showFooter="false">
+
+        <div>
+            <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
+                             variant="label-hidden" placeholder="Search for Referral Networks"/>
+        </div>
+
+        <div class="slds-m-top--medium" style="height: 220px; overflow-y: scroll;">
+            <table aria-multiselectable="true"
+                   class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
+                   role="treegrid">
+                <tbody>
+                <aura:iteration items="{!v.displayedRefNetworks}" var="refNetwork">
+                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4"
+                        class="slds-hint-parent"
+                        tabindex="0">
+                        <td class="slds-text-align_right" role="gridcell" style="width: 3.25rem;">
+                            <div class="slds-checkbox">
+                                <lightning:input label="" type="checkbox" checked="{!refNetwork.isSelected}"
+                                                 value="{!refNetwork}" onchange="{!c.handleChange}"/>
+                            </div>
+                        </td>
+                        <th class="slds-tree__item" data-label="Referral Network Name" scope="row">
+                            <div class="slds-truncate">{!refNetwork.Name}</div>
+                        </th>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="slds-m-top--medium">
+            <button class="apollo-btn tertiary" id="close-btn" onclick="{!c.doClose}">{!$Label.c.BTN_Close}</button>
+        </div>
+    </c:Popup>
+</aura:component>

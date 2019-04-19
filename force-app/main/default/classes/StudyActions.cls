@@ -55,6 +55,9 @@ public abstract class StudyActions {
     public static final String ACT_VIEW_TC = 'viewTermsAndConditions';
     public static final String ACT_NO_THANKS = 'noThanks';
     public static final String ACT_DELEGATE = 'delegate';
+    public static final String ACT_ADD_PATIENT = 'addPatient';
+    public static final String ACT_DOWNLOAD_CONSENT = 'downloadConsent';
+    public static final String ACT_HOME = 'backHome';
 
     public static final String ACT_MEDICAL_RECORD_REVIEW = 'medicalRecordReview';
     public static final String ACT_EXCLUDE_FROM_REFERRING = 'excludeFromReferring';
@@ -63,6 +66,10 @@ public abstract class StudyActions {
     public static final String ACT_REFER = 'refer';
     public static final String ACT_REQUEST_TO_REFER = 'requestToRefer';
     public static final String ACT_SHARE = 'share';
+    public static final String ACT_SHARE_EMAIL = 'shareEmail';
+    public static final String ACT_SHARE_FACEBOOK = 'shareFacebook';
+    public static final String ACT_SHARE_LINKEDIN = 'shareLinkedin';
+    public static final String ACT_SHARE_TWITTER = 'shareTwitter';
     public static final String ACT_FIND_STUDY_SITES = 'findStudySites';
     public static final String ACT_SEND_SITE_REQUEST = 'sendSiteRequest';
     public static final String ACT_MY_PATIENTS = 'myPatients';
@@ -83,6 +90,9 @@ public abstract class StudyActions {
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
     public static final String LABEL_DELEGATE = Label.BTN_Delegate;
+    public static final String LABEL_ADD_PATIENT = Label.BTN_Add_Patient;
+    public static final String LABEL_DOWNLOAD_CONSENT = Label.BTN_View_Download_Consent;
+    public static final String LABEL_HOME = Label.Link_Back_To_Home;
 
     public static final String LABEL_MEDICAL_RECORD_REVIEW = Label.BTN_MRR;
     public static final String LABEL_PRE_ELIGIBILITY_SCREENING = 'Pre-eligibility Screening';
@@ -155,7 +165,7 @@ public abstract class StudyActions {
         isStudyTCAccepted = isTCAccepted(study.Id);
         studyAccessLevel = DelegateService.getStudyAccessLevel(study.Id, userMode);
 
-        isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && !isStudyTCAccepted;
+        isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && isStudyTCAccepted!= null && !isStudyTCAccepted;
 
         //init common reasons:
         studyNoLongerEnrollingReason = new DisableReason(

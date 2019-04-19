@@ -216,10 +216,36 @@
                             </div>
                         </c:RRCollapse>
                     </div>
-
                     <div style="height: 15px"></div>
                 </div>
             </div>
+
+            <!-- Referral Network settings -->
+            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
+                    <div class="as-email-preference">
+                        <div class="as-title">Referral Networks</div>
+                        <div class="as-sub-title">
+                            Subscribe to Referral Networks. You will receive weekly emails keeping you updated on sites
+                            or topics that you are interested in.
+                        </div>
+
+                        <div class="as-sub-title slds-m-top--medium">
+                            Site Based
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top--small">
+                            <c:SubscribeToReferralNetwork sObjectType="Referral_Network__c"/>
+                        </div>
+
+                        <div class="as-sub-title slds-m-top--x-large">
+                            Topic Based
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top--small">
+                            <c:SubscribeToReferralNetwork sObjectType="Therapeutic_Area__c"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
 
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">
@@ -294,54 +320,54 @@
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_First_name}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.FirstName,v.initData.participant.First_Name__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Last_name}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.LastName,v.initData.participant.Last_Name__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.Phone,v.initData.participant.Phone__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <aura:if isTrue="{!!v.isDelegate}">
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                 <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Initials}</div>
                                 <c:rrInput valueString="{!v.initData.participant.Initials__c}"
-                                           disabled="{!v.initialsDisabled}"/>
+                                           />
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                 <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
                                 <c:rrInput type="date" valueString="{!v.initData.participant.Date_of_Birth__c}"
-                                           disabled="{!v.birthdateDisabled}" maxValue="{!v.todayDate}"/>
+                                           maxValue="{!v.todayDate}"/>
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                 <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
                                 <c:rrInput valueString="{!v.initData.participant.Gender__c}"
-                                           disabled="{!v.genderDisabled}" values="{!v.genders}" type="picklist"/>
+                                           values="{!v.genders}" type="picklist"/>
                             </div>
                         </aura:if>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PE_State}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.MailingState,v.initData.participant.Mailing_State__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PE_Country}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                 v.initData.myContact.MailingCountry,v.initData.participant.Mailing_Country__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                 v.initData.myContact.MailingPostalCode,v.initData.participant.Mailing_Zip_Postal_Code__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="slds-col slds-size_1-of-1  slds-medium-size_4-of-12">
                             <button class="apollo-btn primary as-submit-button" onclick="{!c.doUpdateParticipant}">{!$Label.c.Update_Participant}</button>

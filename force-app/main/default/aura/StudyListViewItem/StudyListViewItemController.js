@@ -46,6 +46,9 @@
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
+            case 'addPatient':
+                communityService.navigateToPage('add-patient?id=' + trialId);
+                break;
         }
     },
 
@@ -85,16 +88,17 @@
 
     onShareClick : function (component, event, helper) {
         let url = component.get('v.currentStudy').trial.Share_URL__c;
+        let text = 'A clinical study of interest';
         let id = event.currentTarget.dataset.id;
         switch (id) {
             case 'email':
                 helper.onEmailClick(component);
                 break;
             case 'facebook':
-                helper.onFacebookClick(component, url);
+                helper.onFacebookClick(component, url, text);
                 break;
             case 'twitter':
-                helper.onTwitterClick(component, url);
+                helper.onTwitterClick(component, url, text);
                 break;
             case 'linkedin':
                 helper.onLinkedInClick(component, url);

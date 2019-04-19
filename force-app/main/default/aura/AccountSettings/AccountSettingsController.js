@@ -103,7 +103,7 @@
             rrCookieAllowed: initData.myContact.RRCookiesAllowedCookie__c,
             rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
         }, function () {
-            //do nothing
+            location.reload();
         });
     },
 

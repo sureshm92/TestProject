@@ -77,8 +77,6 @@ public class StudyActionsHCP extends StudyActions{
                         tcAcceptanceRequiredReason,
                         hcpOnHoldReason,
                         studySiteOnHoldReason,
-                        hcpNotActiveReason,
-                        studySiteNotAcceptedReason,
                         studyNoLongerEnrollingReason
                 }
         ));
@@ -111,7 +109,7 @@ public class StudyActionsHCP extends StudyActions{
                 HCPEnrollmentService.HCP_S_DEACTIVATED_A,
                 HCPEnrollmentService.HCP_S_DECLINED_ACCEPTANCE
         };
-
+    
         actions.put(ACT_SHARE, new Action(
                 ACT_SHARE,
                 LABEL_SHARE,
@@ -123,7 +121,55 @@ public class StudyActionsHCP extends StudyActions{
                         )
                 }
         ));
-
+    
+        actions.put(ACT_SHARE_EMAIL, new Action(
+                ACT_SHARE_EMAIL,
+                LABEL_SHARE,
+                'icon-envelope',
+                new List<DisableReason>{
+                        new DisableReason(
+                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
+                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
+                        )
+                }
+        ));
+    
+        actions.put(ACT_SHARE_FACEBOOK, new Action(
+                ACT_SHARE_FACEBOOK,
+                LABEL_SHARE,
+                'icon-facebook',
+                new List<DisableReason>{
+                        new DisableReason(
+                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
+                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
+                        )
+                }
+        ));
+    
+        actions.put(ACT_SHARE_LINKEDIN, new Action(
+                ACT_SHARE_LINKEDIN,
+                LABEL_SHARE,
+                'icon-linkedin',
+                new List<DisableReason>{
+                        new DisableReason(
+                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
+                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
+                        )
+                }
+        ));
+    
+        actions.put(ACT_SHARE_TWITTER, new Action(
+                ACT_SHARE_TWITTER,
+                LABEL_SHARE,
+                'icon-twitter',
+                new List<DisableReason>{
+                        new DisableReason(
+                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
+                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
+                        )
+                }
+        ));
+    
         List<String> findStudySiteStatuses = new List<String>{
                 HCPEnrollmentService.HCP_S_INVITATION_SENT,
                 HCPEnrollmentService.HCP_S_DECLINED_ACCEPTANCE,
@@ -201,13 +247,15 @@ public class StudyActionsHCP extends StudyActions{
         //prepare study item actions list:
         //MRR, Referring
         if(hcpEnrollment!= null && HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c)){
-            if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
+//            if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
             studyListViewItemActions.add(actions.get(ACT_MY_PATIENTS));
-            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
-            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
-                studyListViewItemActions.add(actions.get(ACT_REFER));
-            }
+//            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
+//            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
+//                studyListViewItemActions.add(actions.get(ACT_REFER));
+//            }
         }
+
+        studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
 
         //Accept TC
         List<String> tcStatuses = new List<String>{
@@ -224,14 +272,14 @@ public class StudyActionsHCP extends StudyActions{
         }
 
         //Find study sites:
-        if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c) && !isTCAcceptanceRequired){
-            studyListViewItemActions.add(actions.get(ACT_FIND_STUDY_SITES));
-        }
+//        if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c) && !isTCAcceptanceRequired){
+//            studyListViewItemActions.add(actions.get(ACT_FIND_STUDY_SITES));
+//        }
 
         //No thanks:
-        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
-            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
-        }
+//        if(hcpEnrollment!= null && hcpEnrollment.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT){
+//            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
+//        }
 
         //Share
         if(hcpEnrollment!= null && shareStatuses.contains(hcpEnrollment.Status__c)) {
@@ -247,7 +295,10 @@ public class StudyActionsHCP extends StudyActions{
             studyDetailActions.add(actions.get(ACT_REFER));
         }
         if(study.Terms_And_Conditions_ID__c != null) studyDetailActions.add(actions.get(ACT_VIEW_TC));
-        studyDetailActions.add(actions.get(ACT_SHARE));
+        studyDetailActions.add(actions.get(ACT_SHARE_EMAIL));
+        studyDetailActions.add(actions.get(ACT_SHARE_FACEBOOK));
+        studyDetailActions.add(actions.get(ACT_SHARE_TWITTER));
+        studyDetailActions.add(actions.get(ACT_SHARE_LINKEDIN));
 
         //prepare bottom bar actions:
         if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c)){
