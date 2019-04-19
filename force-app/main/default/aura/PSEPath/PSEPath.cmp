@@ -5,11 +5,14 @@
 <aura:component description="PSEPath">
 
     <!-- attributes: -->
-    <aura:attribute name="pathItems" type="List"/>
-    <aura:attribute name="isCollapsed" type="Boolean" default="true"/>
-    <aura:attribute name="pseId" type="String"/>
+    <aura:attribute name="steps" type="List"/>
+    <aura:attribute name="pathItems" type="List" access="private"/>
+    <aura:attribute name="isCollapsed" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="pse" type="Object"/>
 
     <!-- handler: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!pse.Status__c}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.isCollapsed}" action="{!c.doProcessCollapse}"/>
 
     <!-- component body: -->
@@ -18,9 +21,9 @@
             <div class="path-section">
                 <c:RRPath2 pathItems="{!v.pathItems}"/>
             </div>
-            <div class="{!'collapse-section ' + if(v.detailCollapsed, '', ' opened')}">
+            <div class="{!'collapse-section ' + if(v.isCollapsed, '', ' opened')}">
             <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.isCollapsed}">
-                <c:PSEStatusHistory aura:id="statusHistory" pseId="{!v.pseId}"/>
+                <c:PSEStatusHistory aura:id="statusHistory" pseId="{!v.pse.Id}"/>
             </c:RRCollapse>
         </div>
         </div>

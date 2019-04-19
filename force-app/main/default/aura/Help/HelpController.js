@@ -2,7 +2,8 @@
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         var tabId = communityService.getUrlParameter("tab");
-        if(tabId && (tabId === "feedback" || tabId === "problem" || tabId === "help"))  component.set("v.currentTab", tabId);
+        if(!tabId) tabId = 'help';
+        component.set("v.currentTab", tabId);
         component.set('v.userMode', communityService.getUserMode());
         component.set("v.isInitialized", true);
 
@@ -36,6 +37,7 @@
 
     onSubmitQuestion : function (component, event, helper) {
         //show popup and do nothing
+        component.find('textArea').set('v.value', '');
         component.find('req-modal').show();
     },
 

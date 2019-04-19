@@ -42,6 +42,7 @@ public without sharing class PSEService {
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Baseline_Survey_URL__c',
+            'Clinical_Trial_Profile__r.Visit_Plan__c',
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -63,48 +64,86 @@ public without sharing class PSEService {
             'Motivational_Message_Id__c'
     };
     
-    public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){
-        return getPSECustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
+    private static PSEService instance;
+    
+    public static PSEService getInstance(){
+        if(instance == null) instance = new PSEService();
+        return instance;
     }
     
-    public static List<Participant_Study_Enrollment__c> getPSECustomFields(String userMode, List<String> customFields, String filter){
-        String query =
-                'SELECT ' + String.join(customFields, ',') +
-                ' FROM Participant_Study_Enrollment__c ' +
-                ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
-        if(filter != null) query += ' ' + filter;
-        System.debug('EXECUTE QUERY: ' + query);
-        List<Participant_Study_Enrollment__c> pseList = Database.query(query);
+    public static void setMock(StubProvider stubProvider){
+        instance = (PSEService) Test.createStub(PSEService.class, stubProvider);
+    }
+    
+    public List<Participant_Study_Enrollment__c> getPSEListCommon(String userMode, String filter){
+        return getPSEListWithCustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
+    }
+    
+    public List<Participant_Study_Enrollment__c> getPSEListWithCustomFields(String userMode, List<String> customFields, String filter){
+        String defaultFilter = 'Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
+        if(filter != null) defaultFilter += ' ' + filter;
+        List<Participant_Study_Enrollment__c> pseList = DatabaseService.query(
+                customFields,
+                Participant_Study_Enrollment__c.getSObjectType(),
+                defaultFilter
+        );
         TranslateHelper.translate(pseList);
         return pseList;
     }
     
-    public static List<Participant_Study_Enrollment__c> getPSEListForParticipant(){
-        return getPSECommon(CommunityService.USER_MODE_PARTICIPANT, null);
+    public List<Participant_Study_Enrollment__c> getPSEListForCurrentParticipant(){
+        return getPSEListCommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
     
+    public List<LabelValueItem> getPSEPathSteps(){
+        List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
+        for(String status : PSEService.PSE_STATUS_GROUP_ALL) {
+            translatedStatuses.add(new LabelValueItem(
+                    TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status),
+                    status
+            ));
+        }
+        return translatedStatuses;
+    }
+    
+    
+    //Static facade: ------------------------------------------------------------------------------------------------
+    
+    public static List<Participant_Study_Enrollment__c> getPSECommon(String userMode, String filter){
+        return getInstance().getPSEListCommon(userMode, filter);
+    }
+    
+    public static List<Participant_Study_Enrollment__c> getPSECustomFields(String userMode, List<String> customFields, String filter){
+        return getInstance().getPSEListWithCustomFields(userMode, customFields, filter);
+    }
+    
+    public static List<Participant_Study_Enrollment__c> getPSEListForParticipant(){
+        return getInstance().getPSEListForCurrentParticipant();
+    }
+    
+    @TestVisible
     private static String getUserModeFilter(String userMode){
         String delegatesFilter = '';
         if (userMode == CommunityService.USER_MODE_PI) {
             List<Id> delegatedSSIds = DelegateService.getDelegatedStudySiteIds();
             if(delegatedSSIds.size() > 0) delegatesFilter = ' OR Study_Site__c IN (\'' + String.join(delegatedSSIds, '\',\'') + '\')' ;
             return '( ' +
-                    '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                    '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\' ' +
                     delegatesFilter +
                     ') ';
         } else if(userMode == CommunityService.USER_MODE_HCP) {
             List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
-            if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
+            if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR Participant_Enrollment__r.HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
             return '(' +
-                    '   HCP__r.HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
+                    '   Participant_Enrollment__r.HCP__r.HCP_Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\'' +
                     delegatesFilter +
                     ') ';
         } else{
-            if(PatientDelegateService.isDelegate){
-                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            if(PatientDelegateService.getInstance().isDelegate()){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
             }
             return '( ' +
-                    '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                    '   Participant__r.Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() + '\' ' +
                     delegatesFilter +
                     ')';
         }

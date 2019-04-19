@@ -1,138 +1,92 @@
-/* Created by D.Yasinskyi on 14.03.2018 */
+/**
+ * Created by D.Yasinskyi on 14.03.2018
+ * refactored by Leonid Bartenev
+ */
+
 public without sharing class StudySiteTriggerHandler {
     
-    public static void onBeforeDelete(Map<Id, Study_Site__c> oldStudySites) {
-        //delete status history
-        deleteStatusHistory(oldStudySites);
-    }
-    public static void onAfterInsert(List<Study_Site__c> studySites) {
-        //prepopulate contacts for PI procces
-        prepopulateUserMode(studySites);
-        //send notification to PI user [new StudySite] or create ne User(if not exist)
-        sendNotification(studySites);
+    // Handlers: -------------------------------------------------------------------------------------------------------
+    
+    public class DeleteStatusHistoryOnDeleteHandler extends TriggerHandler{
         
-        //switch userMode:
-        List<Contact> contacts = new List<Contact>();
-        for(Study_Site__c ss : [SELECT Id, Principal_Investigator__c FROM Study_Site__c WHERE Id IN: studySites]){
-            contacts.add(new Contact(
-                    Id = ss.Principal_Investigator__c,
-                    userCommunityMode__c = CommunityService.USER_MODE_PI
-            ));
+        public override void beforeDelete(List<SObject> oldList) {
+            deleteStatusHistory(oldList);
         }
-        update contacts;
-    }
-    public static void onAfterUpdate(Map<Id, Study_Site__c> newStudySites, Map<Id, Study_Site__c> oldStudySites) {
-        //prepopulate contacts for PI procces
-        prepopulateUserModeOnUpdate(newStudySites, oldStudySites);
-        //send notification to PI user [new StudySite] or create ne User(if not exist)
-        sendNotificationOnUpdate(newStudySites, oldStudySites);
-        //treck status history
-        createStatusHistory(newStudySites, oldStudySites);
     }
     
-    private static void sendNotification(List<Study_Site__c> studySites) {
-        Set<Id> contactIds = new Set<Id>();
-        List<Study_Site__c> processedStudySites = new List<Study_Site__c>();
-        for (Study_Site__c studySite : studySites) {
-            if (studySite.Principal_Investigator__c != null && studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
-                contactIds.add(studySite.Principal_Investigator__c);
-                processedStudySites.add(studySite);
-            }
-        }
-        if (contactIds.isEmpty()) return;
+    public class CreatePIOrSendNotificationHandler extends TriggerHandler{
         
-        Map<Id, User> communityUsers = new Map<Id, User>();
-        for (User usr : CommunityService.getCommunityUsersByContactIds(contactIds)) communityUsers.put(usr.ContactId, usr);
-        
-        Set<Id> toCreateUser = new Set<Id>();
-        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
-        
-        for (Study_Site__c ss : processedStudySites) {
-            if (communityUsers.containsKey(ss.Principal_Investigator__c)) {
-                toSendNotificationMap.put(ss.Id, ss.Principal_Investigator__c);
-            } else {
-                toCreateUser.add(ss.Principal_Investigator__c);
-            }
+        public override void afterInsert(List<SObject> newList) {
+            createPIUserOrSendNotification(newList, null);
         }
         
-        if (!toCreateUser.isEmpty()) CommunityService.createPortalUsers(toCreateUser);
-        if (!toSendNotificationMap.isEmpty()) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_PI, toSendNotificationMap);
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createPIUserOrSendNotification(newList, (Map<Id, Study_Site__c>)oldMap);
+        }
     }
     
-    private static void sendNotificationOnUpdate(Map<Id, Study_Site__c> newStudySites, Map<Id, Study_Site__c> oldStudySites) {
+    public class SwitchContactUserModeHandler extends TriggerHandler{
         
-        List<Study_Site__c> studySitesToSendNotification = new List<Study_Site__c>();
-        
-        for (Study_Site__c studySite : newStudySites.values()) {
-            
-            if ((oldStudySites.get(studySite.Id).Principal_Investigator__c != studySite.Principal_Investigator__c)
-                    || (oldStudySites.get(studySite.Id).Override_PI_Referral_Status__c != studySite.Override_PI_Referral_Status__c)
-                    ) {
-                studySitesToSendNotification.add(studySite);
-            }
+        public override void afterInsert(List<SObject> newList) {
+            switchContactUserMode(newList);
         }
-        sendNotification(studySitesToSendNotification);
+        
     }
     
-    private static void prepopulateUserModeOnUpdate(Map<Id, Study_Site__c> newStudySites, Map<Id, Study_Site__c> oldStudySites) {
-        
-        List<Study_Site__c> studySitesToPopulate = new List<Study_Site__c>();
-        for (Study_Site__c studySite : newStudySites.values()) {
-            if (oldStudySites.get(studySite.Id).Principal_Investigator__c != studySite.Principal_Investigator__c) {
-                studySitesToPopulate.add(studySite);
-            }
+    public class CreateStatusHistoryHandler extends TriggerHandler{
+    
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createStatusHistory(newList, (Map<Id, Study_Site__c>)oldMap);
         }
-        prepopulateUserMode(studySitesToPopulate);
     }
     
-    private static void prepopulateUserMode(List<Study_Site__c> studySites) {
-        
-        Set<Id> studySiteContactIds = new Set<Id>();
-        
-        for (Study_Site__c studySite : studySites) {
-            if (studySite.Principal_Investigator__c != null) {
-                studySiteContactIds.add(studySite.Principal_Investigator__c);
-            }
-        }
-        if (studySiteContactIds.isEmpty()) return;
-        
-        Map<Id, Contact> contactsToUpdate = new Map<Id, Contact>();
-        
-        for (Contact studySiteContact : CommunityService.getContactsByUserContactIds(studySiteContactIds)) {
-            
-            String userType = studySiteContact.userCommunytyType__c;
-            String userMode = studySiteContact.userCommunityMode__c;
-            
-            if (userMode == null || userType == null || !userType.contains(CommunityService.USER_MODE_PI)) {
-                
-                if (userMode == null) {
-                    studySiteContact.userCommunityMode__c = CommunityService.USER_MODE_PI;
-                }
-                if (userType == null || !userType.contains(CommunityService.USER_MODE_PI)) {
-                    
-                    if (userType == null) {
-                        studySiteContact.userCommunytyType__c = CommunityService.USER_MODE_PI;
-                    } else {
-                        studySiteContact.userCommunytyType__c = userType + ';' + CommunityService.USER_MODE_PI;
-                    }
-                }
-                if (!contactsToUpdate.containsKey(studySiteContact.Id)) {
-                    contactsToUpdate.put(studySiteContact.Id, studySiteContact);
+    // Logic: ----------------------------------------------------------------------------------------------------------
+    
+    @TestVisible
+    private static void createPIUserOrSendNotification(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap) {
+        Set<Id> piContactIds = new Set<Id>();
+        for (Study_Site__c ss : newList) if(ss.Principal_Investigator__c != null) piContactIds.add(ss.Principal_Investigator__c);
+        Set<Id> contactIdsWithCreatedUser = new Set<Id>();
+        for (User user : CommunityService.getCommunityUsersByContactIds(piContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
+        Set<Id> contactIdsForCreateUsers = new Set<Id>();
+        Map<Id, String> contactsForSendNotificationMap = new Map<Id, String>();
+        for(Study_Site__c ss : newList){
+            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT && ss.Principal_Investigator__c != null &&
+                    (oldMap == null || (oldMap != null && ss.Override_PI_Referral_Status__c != oldMap.get(ss.Id).Override_PI_Referral_Status__c))){
+                if(contactIdsWithCreatedUser.contains(ss.Principal_Investigator__c)){
+                    contactsForSendNotificationMap.put(ss.Id, ss.Principal_Investigator__c);
+                }else{
+                    contactIdsForCreateUsers.add(ss.Principal_Investigator__c);
                 }
             }
         }
-        
-        update contactsToUpdate.values();
+        if(contactIdsForCreateUsers.size() > 0) CommunityService.createPortalUsers(contactIdsForCreateUsers);
+        if(contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_PI, contactsForSendNotificationMap);
     }
     
-    private static void createStatusHistory(Map<Id, Study_Site__c> newStudySites, Map<Id, Study_Site__c> oldStudySites) {
-        
+    @TestVisible
+    private static void switchContactUserMode(List<Study_Site__c> studySites) {
+        Set<Id> piContactIds = new Set<Id>();
+        for (Study_Site__c ss : studySites) if (ss.Principal_Investigator__c != null) piContactIds.add(ss.Principal_Investigator__c);
+        if (piContactIds.isEmpty()) return;
+        List<Contact> contactsForUpdate = new List<Contact>();
+        for (Contact piContact : CommunityService.getContactsByUserContactIds(piContactIds)) {
+            piContact.userCommunityMode__c = CommunityService.USER_MODE_PI;
+            if (piContact.userCommunytyType__c == null) {
+                piContact.userCommunytyType__c = CommunityService.USER_MODE_PI;
+            } else if(!piContact.userCommunytyType__c.contains(CommunityService.USER_MODE_PI)){
+                piContact.userCommunytyType__c += ';' + CommunityService.USER_MODE_PI;
+            }
+            contactsForUpdate.add(piContact);
+        }
+        update contactsForUpdate;
+    }
+    
+    @TestVisible
+    private static void createStatusHistory(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap) {
         List<Status_History__c> historyList = new List<Status_History__c>();
-        
-        for (Study_Site__c studySite : newStudySites.values()) {
-            
-            if (oldStudySites.get(studySite.Id).Override_PI_Referral_Status__c != studySite.Override_PI_Referral_Status__c) {
-                
+        for (Study_Site__c studySite : newList) {
+            if (oldMap.get(studySite.Id).Override_PI_Referral_Status__c != studySite.Override_PI_Referral_Status__c) {
                 historyList.add(new Status_History__c(
                         Date__c = Datetime.now(),
                         StudySite__c = studySite.Id,
@@ -140,11 +94,11 @@ public without sharing class StudySiteTriggerHandler {
                 ));
             }
         }
-        
         insert historyList;
     }
     
-    private static void deleteStatusHistory(Map<Id, Study_Site__c> oldStudySites) {
-        delete [SELECT Id FROM Status_History__c WHERE StudySite__c IN :oldStudySites.keySet()];
+    @TestVisible
+    private static void deleteStatusHistory(List<Study_Site__c> oldList) {
+        delete [SELECT Id FROM Status_History__c WHERE StudySite__c IN: oldList];
     }
 }

@@ -14,7 +14,7 @@
         let filter = cmp.get('v.filterData');
         if (cmp.get("v.searchResumeChanged") === true) {
             filter.searchText = '';
-            filter.therapeuticArea = 'ALL';
+            filter.therapeuticArea = null;
         }
         let searchText = filter.searchText;
 

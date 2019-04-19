@@ -41,6 +41,84 @@ public without sharing class StudySiteService {
 
     }
 
+    private static StudySiteService instance;
+
+    public static StudySiteService getInstance(){
+        if(instance == null) instance = new StudySiteService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
+    }
+
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
+        List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
+        Set<Id> quueriedTrials = new Set<Id>();
+        Set<Id> siteIds = new Set<Id>();
+        Set<Id> siteWithPatientsIds = new Set<Id>();
+        for (Study_Site__c site : siteList) {
+            quueriedTrials.add(site.Clinical_Trial_Profile__c);
+            siteIds.add(site.Id);
+        }
+        System.debug('queried Trials' + quueriedTrials);
+        Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        for (HCP_Enrollment__c hcpe : enrollments) {
+            hcpeMap.put(hcpe.Study_Site__c, hcpe);
+        }
+        for (Participant_Enrollment__c pe : [
+                SELECT Id, Study_Site__c
+                FROM Participant_Enrollment__c
+                WHERE Study_Site__c IN :siteIds
+                AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
+                        :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+                        :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)
+        ]) {
+            siteWithPatientsIds.add(pe.Study_Site__c);
+        }
+        for (Study_Site__c site : siteList) {
+            if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id));
+                result.add(siteWrapper);
+            }
+        }
+
+        if (paginationData != null) {
+            paginationData.setRecordsCount(result.size());
+            List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
+            for (Integer i = paginationData.offset; i < paginationData.endOffset; i++) {
+                pageList.add(result[i]);
+            }
+            result = pageList;
+        }
+        result.sort();
+        return result;
+    }
+
+    public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode){
+        Id userContactId = CommunityService.getUserContact().Id;
+
+        SiteFilterData siteFilterData = new SiteFilterData();
+        siteFilterData.mode = mode;
+        siteFilterData.trialId = trialId;
+        siteFilterData.siteTypes = new List<LabelValueItem>();
+        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
+        Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
+        for (PicklistEntry ple : siteTypesfield.getPicklistValues()){
+            siteFilterData.siteTypes.add(new LabelValueItem(ple.label,ple.value));
+        }
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
+//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
+        siteFilterData.distanceRanges = new List<LabelValueItem>();
+        siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
+        siteFilterData.therapeuticAreas = new List<LabelValueItem>();
+        siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
+        return siteFilterData;
+    }
+
     public static String changeStatus(Id studySiteId, String userMod, String newStatusType) {
         Study_Site__c studySite = [
                 SELECT Id, Override_PI_Referral_Status__c
@@ -261,7 +339,12 @@ public without sharing class StudySiteService {
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
             this.site = site;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
-            this.formatedDistance = ((distance * 10).round() / 10.0).format() + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            if (this.distance != null) {
+                this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+            } else {
+                this.formatedDistance = null;
+            }
+
             if (sortType != null && sortType != '') {
                 this.sortType = sortType;
             } else {
@@ -288,6 +371,10 @@ public without sharing class StudySiteService {
                         return -1;
                     } else if (compareToWrapper.siteType == 'Virtual') {
                         return 1;
+                    } else if (this.distance == null) {
+                        return 1;
+                    } else if (compareToWrapper.distance == null) {
+                        return -1;
                     } else {
                         return (Integer) (this.distance - compareToWrapper.distance);
                     }
@@ -298,6 +385,10 @@ public without sharing class StudySiteService {
                     } else if (this.siteType == 'Virtual') {
                         return 1;
                     } else if (compareToWrapper.siteType == 'Virtual') {
+                        return -1;
+                    } else if (this.distance == null) {
+                        return 1;
+                    } else if (compareToWrapper.distance == null) {
                         return -1;
                     } else {
                         return (Integer) (this.distance - compareToWrapper.distance);
@@ -333,11 +424,11 @@ public without sharing class StudySiteService {
                 result.add(siteWrapper);
             }
         }
-        if(filter.distanceRange != null && filter.distanceRange != ''){
+        if (filter.distanceRange != null && filter.distanceRange != '') {
             List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
-            for(StudySiteDistanceWrapper siteWrapper : result){
+            for (StudySiteDistanceWrapper siteWrapper : result) {
                 Double maxDistance = Double.valueOf(filter.distanceRange);
-                if(siteWrapper.distance <= maxDistance){
+                if (siteWrapper.distance != null && siteWrapper.distance <= maxDistance) {
                     pageList.add(siteWrapper);
                 }
             }
@@ -355,7 +446,8 @@ public without sharing class StudySiteService {
         result.sort();
         return result;
     }
-    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
+
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
         String filterString = '';
         if (filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())) {
             filterString = 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\' ';

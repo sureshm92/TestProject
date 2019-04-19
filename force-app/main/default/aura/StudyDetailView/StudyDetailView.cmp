@@ -2,7 +2,8 @@
  - Created by D.Yasinskyi on 21.02.2018.
  -->
 
-<aura:component controller="StudyDetailViewController" implements="forceCommunity:availableForAllPageTypes" description="StudyDetailView">
+<aura:component controller="StudyDetailViewController" implements="forceCommunity:availableForAllPageTypes"
+                description="StudyDetailView">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"/>
 
@@ -11,6 +12,8 @@
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
     <aura:attribute name="state" type="String" description="ALUMNI, PROSPECT, REFERRAL, PARTICIPANT"/>
     <aura:attribute name="currentTab" type="String" default="tab-about-the-study"/>
+    <aura:attribute name="currentActions" type="List"/>
+    <aura:attribute name="shareButtons" type="List"/>
     <aura:attribute name="multiMode" type="Boolean"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
 
@@ -66,7 +69,7 @@
                                 <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
                             </c:RRNavigationPath>
                             <div class="rr-width-limiter">
-                                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+                                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.jpg'}"/>
                             </div>
                         </aura:if>
                     </aura:if>
@@ -84,81 +87,89 @@
                     <aura:if isTrue="{!!empty(v.studyDetail.tabs)}">
                         <div class="tabs">
                         <div class="rr-width-limiter">
-                            <c:RRTabSet >
+                            <c:RRTabSet>
                                 <!-- tabs: -->
                                 <aura:set attribute="floatPositionLeft">
                                     <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
-                                        <c:RRTabSetItem tabId="{!tab.id}" currentTab="{!v.currentTab}" iconName="{!tab.iconName}" title="{!tab.title}" studyId="{!v.studyDetail.trial.Id}"/>
+                                        <c:RRTabSetItem tabId="{!tab.id}" currentTab="{!v.currentTab}"
+                                                        iconName="{!tab.iconName}" title="{!tab.title}"
+                                                        studyId="{!v.studyDetail.trial.Id}"/>
                                     </aura:iteration>
                                 </aura:set>
                                 <!-- action buttons: -->
                                 <aura:set attribute="floatPositionRight">
-                                    <aura:iteration items="{!v.studyDetail.studyActions}" var="action">
-                                        <button class="{!'apollo-btn text ico-in-top small-font sdv-btn' +
-                                                        (or(and(v.userMode != 'Participant', v.userMode != 'Delegate'),
-                                                            or(action.id == 'backHome',
-                                                                and(v.currentTab == 'tab-about-the-study',
-                                                                    or(action.id == 'viewTermsAndConditions', v.studyDetail.trial.Share_URL__c != ''))))
-                                                                ? '' : ' hidden-button')}"
-                                                disabled="{!action.disabled}" id="{!action.id}" onclick="{!c.doAction}" title="{!action.disableReason}">
-                                            <c:RRIcon iconName="{!action.iconName}"/>
-                                            {!action.label}
-                                        </button>
-                                        <aura:if isTrue="{!and(v.userMode == 'Participant', action.id == 'shares')}">
-                                            <div class="button-share-icon">
-                                                  <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.facebook.disabled}" id="{!v.studyDetail.actions.facebook.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.facebook.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.facebook.iconName}"/>
-                                                  </button>
-                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.twitter.disabled}" id="{!v.studyDetail.actions.twitter.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.twitter.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.twitter.iconName}"/>
-                                                  </button>
-                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.linkedin.disabled}" id="{!v.studyDetail.actions.linkedin.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.linkedin.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.linkedin.iconName}"/>
-                                                  </button>
-                                                <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                          disabled="{!v.studyDetail.actions.envelope.disabled}" id="{!v.studyDetail.actions.envelope.id}" onclick="{!c.doAction}" title="{!v.studyDetail.actions.envelope.disableReason}">
-                                                      <c:RRIcon iconName="{!v.studyDetail.actions.envelope.iconName}"/>
-                                                  </button>
+                                    <div class="actions-buttons">
+                                        <aura:iteration items="{!v.currentActions}" var="action">
+                                            <div style="position: relative;">
+                                                <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
+                                                        disabled="{!action.disabled}" id="{!action.id}"
+                                                        onclick="{!c.doAction}" title="{!action.disableReason}">
+                                                    <c:RRIcon iconName="{!action.iconName}"/>
+                                                    {!action.label}
+                                                </button>
+                                                <aura:if isTrue="{!action.id == 'shares'}">
+                                                    <div class="button-share-icon">
+                                                        <aura:iteration items="{!v.shareButtons}" var="shBt">
+                                                            <button class="apollo-btn text ico-in-top small-font sdv-btn"
+                                                                    disabled="{!shBt.disabled}" id="{!shBt.id}"
+                                                                    onclick="{!c.doAction}"
+                                                                    title="{!shBt.disableReason}">
+                                                                <c:RRIcon iconName="{!shBt.iconName}"/>
+                                                            </button>
+                                                        </aura:iteration>
+                                                    </div>
+                                                </aura:if>
                                             </div>
-                                        </aura:if>
-                                    </aura:iteration>
+                                        </aura:iteration>
+                                    </div>
                                 </aura:set>
                             </c:RRTabSet>
                         </div>
                     </div>
                     </aura:if>
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-about-the-study', '', ' collapsed')}">
-                        <button class="apollo-btn text" data-anchor="aboutAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_About_The_Study}</button>
-                        <button class="apollo-btn text" data-anchor="inclusionExclusionAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</button>
+                        <button class="apollo-btn text" data-anchor="aboutAnchor"
+                                onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_About_The_Study}</button>
+                        <button class="apollo-btn text" data-anchor="inclusionExclusionAnchor"
+                                onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</button>
                         <!-- HCP -->
                         <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'Participant')}">
-                            <button class="apollo-btn text" data-anchor="studySitesAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>
+                            <button class="apollo-btn text" data-anchor="studySitesAnchor"
+                                    onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>
                         </aura:if>
                         <!-- PI -->
                         <aura:if isTrue="{!v.userMode == 'PI'}">
-                            <button class="apollo-btn text" data-anchor="referringClinicsAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
+                            <button class="apollo-btn text" data-anchor="referringClinicsAnchor"
+                                    onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
                         </aura:if>
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-tasks', '', ' collapsed')}">
-                        <button id="changeTaskMode" data-task-mode="Open" value="Pending" class="{!'apollo-btn text ' + if(v.taskMode == 'Open', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Task_Tab_Open_Tasks}</button>
-                        <button id="changeTaskMode" data-task-mode="Completed" value="Pending" class="{!'apollo-btn text ' + if(v.taskMode == 'Completed', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Task_Tab_Completed_Tasks}</button>
+                        <button id="changeTaskMode" data-task-mode="Open" value="Pending"
+                                class="{!'apollo-btn text ' + if(v.taskMode == 'Open', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Task_Tab_Open_Tasks}</button>
+                        <button id="changeTaskMode" data-task-mode="Completed" value="Pending"
+                                class="{!'apollo-btn text ' + if(v.taskMode == 'Completed', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Task_Tab_Completed_Tasks}</button>
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}">
                         <aura:if isTrue="{!v.state != 'ALUMNI'}">
-                            <button id="changeResourceMode" data-resource-mode="Documents" class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
+                            <button id="changeResourceMode" data-resource-mode="Documents"
+                                    class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
+                                    onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
                         </aura:if>
-                        <button id="changeResourceMode" data-resource-mode="Default" class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
-                        <button id="changeResourceMode" data-resource-mode="Favorite" class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}" onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
+                        <button id="changeResourceMode" data-resource-mode="Default"
+                                class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
+                        <button id="changeResourceMode" data-resource-mode="Favorite"
+                                class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
                     </div>
 
                 </div>
                 <!-- Stub visible only when sticky bar fixed-->
-                <div >
+                <div>
                     <div class="height-stub" style="height: 62px"></div>
                     <aura:if isTrue="{!v.currentTab == 'tab-about-the-study'}">
                         <div class="height-stub" style="height: 40px"></div>
@@ -167,43 +178,15 @@
             </div>
 
             <div id="sd-selected-tab-container" style="position: relative">
-                <div class="rr-width-limiter side-padding rr-min-body-height" >
-                    <!--aura:if isTrue="{!v.currentTab == 'tab-about-the-study'}">
-                        <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}" parent="{!this}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-referred-clinics'}">
-                        <c:MyReferringClinics />
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-referred-study-sites'}">
-                        <c:MyStudySites />
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-referred-patients'}">
-                        <c:ViewPatients trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-medical-record-review-log'}">
-                        <c:MedicalRecordReviewLog />
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-referrals'}">
-                        <c:ViewPatients trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-reports'}">
-                        <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
-                    </aura:if-->
-
-
+                <div class="rr-width-limiter side-padding rr-min-body-height">
                     <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
-                        <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}" parent="{!this}"/>
+                        <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
+                                                 parent="{!this}"/>
                     </div>
 
                     <aura:if isTrue="{!v.isReferringClinicsTabInitialized}">
                         <div class="{!if(v.currentTab == 'tab-referred-clinics', 'visible-tab', 'invisible-tab')}">
-                            <c:MyReferringClinics />
+                            <c:MyReferringClinics/>
                         </div>
                     </aura:if>
 
@@ -219,11 +202,11 @@
                         </div>
                     </aura:if>
 
-<!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
-<!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
-<!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
-<!--                        </div>-->
-<!--                    </aura:if>-->
+                    <!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
+                    <!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
+                    <!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
+                    <!--                        </div>-->
+                    <!--                    </aura:if>-->
 
                     <aura:if isTrue="{!v.isReferralsTabInitialized}">
                         <div class="{!if(v.currentTab == 'tab-referrals', 'visible-tab', 'invisible-tab')}">
@@ -235,8 +218,8 @@
                         <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
                     </aura:if>
 
-                    <aura:if isTrue="{!v.currentTab == 'tab-referred-patient'}">
-                        {!v.currentTab}
+                    <aura:if isTrue="{!v.currentTab == 'tab-visits'}">
+                        <c:StudyVisits/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
@@ -250,7 +233,6 @@
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
                         {!v.currentTab}
                     </aura:if>
-
                 </div>
             </div>
 

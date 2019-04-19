@@ -100,7 +100,6 @@
 
 .THIS .req-data-panel {
     margin-top: 43px;
-    width: 1142px;
     height: 363px;
 }
 
@@ -119,19 +118,20 @@
     line-height: 21px;
 }
 
-.THIS .req-data-panel textarea {
-    margin: 32px 13px 19px 17px;
-    border: 0.5px solid #999999;
-    border-radius: 4px;
+.THIS .panel-text{
+    padding: 10px;
+}
+
+.THIS .panel-text textarea{
+    /*border: 0.5px solid #999999;*/
+    /*border-radius: 4px;*/
     height: 169px;
-    width: 1112px;
 }
 
 .THIS .req-data-button {
     margin-right: 13px;
     margin-bottom: 24px;
     height: 40px;
-    width: 254px;
     border-radius: 4px;
 }
 
@@ -142,7 +142,8 @@
 
     .THIS.h-container .h-body .slds-file-selector.slds-file-selector_files,
     .THIS.h-container .h-body .slds-file-selector__dropzone,
-    .THIS.h-container .h-body .slds-form-element__control.slds-grow {
+    .THIS.h-container .h-body .slds-form-element__control.slds-grow,
+    .THIS.h-container .req-data-panel {
         /*width: auto;*/
     }
 

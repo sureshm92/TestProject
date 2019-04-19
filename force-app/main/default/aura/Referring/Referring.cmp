@@ -23,6 +23,8 @@
     <aura:attribute name="agreeShare" type="Boolean" default="false"/>
     <aura:attribute name="agreePolicy" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object" access="private"/>
+    <aura:attribute name="genders" type="List"/>
+    <aura:attribute name="todayDate" type="Date"/>
 
     <aura:attribute name="showMRRButton" type="Boolean"/>
 
@@ -336,8 +338,26 @@
                                                              required="true" onblur="{!c.doCheckfields}"/>
                                         </div>
                                         <div class="rr-form-element">
+                                            <lightning:input type="text" label="{!$Label.c.PG_AS_F_Middle_name}" value="{!v.participant.Middle_Name__c}"/>
+                                        </div>
+                                        <div class="rr-form-element">
                                             <lightning:input type="text" label="{!$Label.c.PG_AS_F_Last_name}" value="{!v.participant.Last_Name__c}"
                                                              required="true" onblur="{!c.doCheckfields}"/>
+                                        </div>
+                                        <div class="slds-grid slds-gutters slds-wrap rr-form-element">
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size_8-of-12">
+                                                <div class="label">
+                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
+                                                </div>
+                                                <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}" onblur="{!c.doCheckfields}"/>
+                                            </div>
+                                            <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size_4-of-12">
+                                                <div class="label">
+                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}
+                                                </div>
+                                                <c:rrSelect options="{!v.genders}" value="{!v.participant.Gender__c}" useSentenceFont="false"/>
+                                            </div>
                                         </div>
                                         <div class="rr-form-element">
                                             <lightning:input aura:id="emailField" type="text" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.participant.Email__c}"

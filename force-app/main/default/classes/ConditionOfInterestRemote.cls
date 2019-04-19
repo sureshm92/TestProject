@@ -4,14 +4,44 @@
 
 public with sharing class ConditionOfInterestRemote {
 
-
-    public class CAWrapper {
-        @auraEnabled
-        public Integer order;
-        @auraEnabled
-        public Boolean isSelected;
-        @auraEnabled
-        public Therapeutic_Area__c therArea;
+    @AuraEnabled
+    public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
+        List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
+        try {
+            TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+            Participant__c participant = taService.getParticipant();
+            if (!participant.Therapeutic_Area_Patients__r.isEmpty()) {
+                for (Therapeutic_Area_Patient__c coi : participant.Therapeutic_Area_Patients__r) {
+                    TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
+                    caWrapper.isSelected = true;
+                    caWrapper.coi = coi;
+                    caWrappers.add(caWrapper);
+                }
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return caWrappers;
     }
 
+    @AuraEnabled
+    public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
+        try {
+            if (!cois.isEmpty()) {
+                upsert cois;
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return cois;
+    }
+
+    @AuraEnabled
+    public static void deleteCOI(List<Id> coiIds) {
+        try {
+            Database.delete(coiIds);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
 }

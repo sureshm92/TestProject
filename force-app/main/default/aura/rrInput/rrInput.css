@@ -3,6 +3,11 @@
 .THIS.rri-container .lightningInput {
     width: 100%;
 }
+.THIS .slds-select {
+    font-size: 14px;
+    line-height: 22px;
+    height: 40px;
+}
 .THIS.rri-container .rri-body {
     display: flex;
 }

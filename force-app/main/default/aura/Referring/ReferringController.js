@@ -5,6 +5,8 @@
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
         debugger;
+        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        component.set('v.todayDate', todayDate);
         var trialId = communityService.getUrlParameter("id");
         var peId = communityService.getUrlParameter("peid");
         var hcpeId = communityService.getUrlParameter("hcpeid");
@@ -47,6 +49,7 @@
             component.set('v.participant', {
                 sobjectType: 'Participant__c'
             });
+            component.set('v.genders', initData.genders);
             component.set('v.counries', initData.countries);
             component.set('v.statesByCountyMap', initData.statesByCountryMap);
 
