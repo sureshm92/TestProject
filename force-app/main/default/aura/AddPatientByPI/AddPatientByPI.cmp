@@ -34,10 +34,10 @@
 
     <aura:if isTrue="{!v.initialized}">
         <div class="rr-width-limiter side-padding">
-            <div class="ap-top-info">* indicates additional fields </div>
+            <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
             <div class="rr-white-panel padding">
                 <div class="ap-section">
-                    <div class="ap-section-title">Patient Details</div>
+                    <div class="ap-section-title">{!$Label.c.PG_AP_H_Patient_Details}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="rr-form-element slds-col">
                             <div class="label">
@@ -65,14 +65,14 @@
                     </div>
                 </div>
                 <div class="ap-section">
-                    <div class="ap-section-title">Contact Information</div>
+                    <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="rr-form-element slds-col">
                             <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
                             <lightning:input type="text" value="{!v.participant.Phone__c}" required="true" onblur="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_State + 'TODO'}</div>
+                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
                             <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
@@ -90,31 +90,31 @@
                     </div>
                 </div>
                 <div class="ap-section">
-                    <div class="ap-section-title">Referral Information</div>
+                    <div class="ap-section-title">{!$Label.c.PG_AP_H_Referral_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="rr-form-element slds-col">
                             <div class="label"><abbr title="required" class="slds-required">*</abbr>Patient Status</div>
                             <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>REFERRED BY TODO</div>
+                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
                             <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label">SCREENING TODO</div>
+                            <div class="label">{!$Label.c.PG_AP_F_Screening_Subject_Id}</div>
                             <lightning:input type="text" value="{!v.pe.Screening_ID__c}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label">MRN TODO</div>
+                            <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                             <lightning:input type="text" value="{!v.pe.MRN_Id__c}"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="ap-buttons">
-                <button class="apollo-btn secondary custom-cancel" onclick="{!c.doCancel}">Cancel</button>
-                <button class="apollo-btn tertiary" disabled="{!!v.isAllRequiredCompleted}" onclick="{!c.doSaveAndNew}">Send and Add Another</button>
-                <button class="apollo-btn primary" disabled="{!!v.isAllRequiredCompleted}" onclick="{!c.doSaveAndExit}">Save and Exit</button>
+                <button class="apollo-btn secondary custom-cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+                <button class="apollo-btn tertiary" disabled="{!!v.isAllRequiredCompleted}" onclick="{!c.doSaveAndNew}">{!$Label.c.BTN_Send_and_Add_Another}</button>
+                <button class="apollo-btn primary" disabled="{!!v.isAllRequiredCompleted}" onclick="{!c.doSaveAndExit}">{!$Label.c.BTN_Save_and_Exit}</button>
             </div>
         </div>
 
