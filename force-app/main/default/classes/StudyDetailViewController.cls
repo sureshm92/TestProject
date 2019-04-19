@@ -103,6 +103,7 @@ public without sharing class StudyDetailViewController {
                     trialDetail.studyActions = studyActions.studyDetailActions;
                     trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
                     trialDetail.actions = studyActions.actions;
+                    trialDetail.tabs = getStudyTabs(CommunityService.USER_MODE_PI, studyActions);
                 }
                 else{
                     
