@@ -48,6 +48,13 @@ Click OK to begin!</value>
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>Action_View_New_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action View New Study Site</shortDescription>
+        <value>View New Study Site</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -598,7 +605,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://sandbox-force-drive-124-dev-ed-16a11dea04d.cs90.force.com</value>
+        <value>https://nosoftware-nosoftware-6207-dev-ed.cs83.my.salesforce.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -1263,6 +1270,13 @@ To see additional information, log in to the IQVIA Referral Hub, and then go to 
 Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body RP11</shortDescription>
+        <value>Check out new Study Site that has been added to your interested Referral Network</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_RP2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1554,6 +1568,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>false</protected>
         <shortDescription>Email Header RP10</shortDescription>
         <value>Your patient’s referral status has been updated</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header RP11</shortDescription>
+        <value>New Study Site has been added to your interested Referral Network!</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP2</fullName>
@@ -1848,6 +1869,13 @@ IQVIA Study Team</value>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out</shortDescription>
         <value>You are dropped out</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_RP11</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject RP11</shortDescription>
+        <value>New Study Site has been added to Referral Network</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP2</fullName>
@@ -7152,45 +7180,17 @@ is a placehilder to show you what it would look like.</value>
         <value>value_not_set</value>
     </labels>
     <labels>
-        <fullName>Email_Header_RP11</fullName>
+        <fullName>Update_Participant</fullName>
         <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header RP11</shortDescription>
-        <value>New Study Site has been added to your interested Referral Network!</value>
+        <protected>true</protected>
+        <shortDescription>Update Participant</shortDescription>
+        <value>Update Participant</value>
     </labels>
-    <labels>
-        <fullName>Email_Subject_RP11</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject RP11</shortDescription>
-        <value>New Study Site has been added to Referral Network</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP11</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP11</shortDescription>
-        <value>Check out new Study Site that has been added to your interested Referral Network</value>
-    </labels>
-    <labels>
-        <fullName>Action_View_New_Study_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Action View New Study Site</shortDescription>
-        <value>View New Study Site</value>
-	</labels>
     <labels>
         <fullName>update_resource_content</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>update resource content</shortDescription>
         <value>Do you want to mark  resource content as updated?</value>
-    </labels>
-    <labels>
-        <fullName>Update_Participant</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Update Participant</shortDescription>
-        <value>Update Participant</value>
     </labels>
 </CustomLabels>
