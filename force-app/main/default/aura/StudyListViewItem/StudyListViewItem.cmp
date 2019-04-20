@@ -229,7 +229,7 @@
                                             <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
                                                 <div class="slds-col slds-size_1-of-2">
-                                                    <aura:if isTrue="{!siteWrapper.hasPatients}">
+                                                    <aura:if isTrue="{!v.currentStudy.hasPatients}">
 
                                                         <button data-site-id="{!siteWrapper.site.Id}"
                                                                 class="apollo-btn primary slvi-site-btn"

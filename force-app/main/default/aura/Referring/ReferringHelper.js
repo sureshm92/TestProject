@@ -42,13 +42,18 @@
 
     setParticipant: function (component, pe) {
         component.set('v.countryInitialized', false);
-        component.set('v.participant', {
+        var participant = {
             sobjectType: 'Participant__c',
             First_Name__c: pe.Participant_Name__c,
             Last_Name__c: pe.Participant_Surname__c,
-            Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
-            Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
-        });
+            // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
+            // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
+        };
+        if(pe.HCP__r){
+            participant.Mailing_Country_Code__c= pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
+            participant.Mailing_State_Code__c= pe.HCP__r.HCP_Contact__r.Account.BillingStateCode;
+        }
+        component.set('v.participant', participant);
         component.set('v.countryInitialized', true);
     },
 
@@ -84,6 +89,15 @@
         if(participant.Email__c !== emailRepeat && emailRepeat){
             emailCmp.set('v.validity', {valid: false, badInput: true});
             emailRepeatCmp.set('v.validity', {valid: false, badInput: true});
+        }
+    },
+    checkSites: function(component){
+        var studySites = component.get("v.studySites");
+        if(studySites.length>0){
+            component.set('v.currentState', 'Screening');
+        }
+        else{
+            component.set('v.currentState', 'No Active Sites');
         }
     }
 

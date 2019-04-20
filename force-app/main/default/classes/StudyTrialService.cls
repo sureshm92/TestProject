@@ -306,6 +306,15 @@ public without sharing class StudyTrialService {
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData);
 
+        Set<Id> trialsWithPatients = new Set<Id>();
+        Set<Id> trialIds = new Set<Id>();
+        for(Clinical_Trial_Profile__c trial:trials){
+            trialIds.add(trial.Id);
+        }
+        for(Participant_Enrollment__c pe: [SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds]){
+            trialsWithPatients.add(pe.Clinical_Trial_Profile__c);
+        }
+
         // prepare list of studies:
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
@@ -318,7 +327,7 @@ public without sharing class StudyTrialService {
             studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
             studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
             studyDetailItem.hasActiveHCPEnrollments = trialsWithActiveEnrollments.contains(trial.Id);
-
+            studyDetailItem.hasPatients = trialsWithPatients.contains(trial.Id);
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
@@ -326,6 +335,10 @@ public without sharing class StudyTrialService {
                 if (!studyDetailItem.hasActiveHCPEnrollments) {
                     StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
                     currActions.add(openStudySite);
+                }
+                if(studyDetailItem.hasPatients){
+                    StudyActions.Action myPatients = new StudyActions.Action(StudyActions.ACT_MY_PATIENTS, StudyActions.LABEL_MY_PATIENTS, 'referrals', false);
+                    currActions.add(myPatients);
                 }
 
                 availableActions.addAll(currActions);
