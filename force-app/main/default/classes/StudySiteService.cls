@@ -80,7 +80,7 @@ public without sharing class StudySiteService {
         }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id));
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
                 result.add(siteWrapper);
             }
         }
