@@ -8,15 +8,12 @@ public without sharing class StudyDetailViewController {
         public List<ClinicWrapper> accountEnrollmentsList;
         public Boolean isTCAccepted;
         public Boolean isSSAccepted;
-        public Boolean isDelegate;
         public Study_Site__c studySite; //for PI mode
         public HCP_Enrollment__c hcpe; //for HCP mode
         public List<StudyActions.Action> studyActions;
         public List<StudyActions.Action> studyBottomBarActions;
         public Map<String, StudyActions.Action> actions;
         public List<StudyTab> tabs;
-        public List<LabelValueItem> primaryContactOptions;
-        public String primaryContact;
         public List<StudyActions.Action> shareActions;
     }
     
@@ -68,7 +65,6 @@ public without sharing class StudyDetailViewController {
                 List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
                 if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
                 trialDetail.studySite = studySites[0];
-                trialDetail.primaryContact = studySites[0].Primary_Contact__c;
                 trialDetail.isSSAccepted = StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySites[0].Override_PI_Referral_Status__c);
                 StudyActions studyActions = new StudyActionsPI(studySites[0]);
                 trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
@@ -82,18 +78,7 @@ public without sharing class StudyDetailViewController {
                 for (Account account : accounts) {
                     trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, null, null));
                 }
-                trialDetail.primaryContactOptions = new List<LabelValueItem>();
-                trialDetail.primaryContactOptions.add(new LabelValueItem('Me',null));
-                List<Site_Staff__c> delegates = [SELECT Id, Site_Contact__c, Site_Contact__r.Name FROM Site_Staff__c WHERE Study_Site__r.Clinical_Trial_Profile__c = :trialId];
-                Set<Id> contactsProcessed = new Set<Id>();
-                for(Site_Staff__c del : delegates){
-                    if(!contactsProcessed.contains(del.Site_Contact__c)){
-                        if(del.Site_Contact__c == CommunityService.getUserContact().Id)
-                            trialDetail.isDelegate = true;
-                        contactsProcessed.add(del.Site_Contact__c);
-                        trialDetail.primaryContactOptions.add(new LabelValueItem(del.Site_Contact__r.Name, del.Site_Contact__c));
-                    }
-                }
+
             } else if (userMode == CommunityService.USER_MODE_HCP) {
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
                 //if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');

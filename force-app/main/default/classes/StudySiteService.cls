@@ -179,18 +179,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.MailingAddress',
             'Principal_Investigator__r.Phone',
             'Principal_Investigator__r.Email',
-            'Principal_Investigator__r.Salutation',
-            'Primary_Contact__c',
-            'Primary_Contact__r.Name',
-            'Primary_Contact__r.Title',
-            'Primary_Contact__r.MailingStreet',
-            'Primary_Contact__r.MailingCity',
-            'Primary_Contact__r.MailingState',
-            'Primary_Contact__r.MailingPostalCode',
-            'Primary_Contact__r.MailingAddress',
-            'Primary_Contact__r.Phone',
-            'Primary_Contact__r.Email',
-            'Primary_Contact__r.Salutation'
+            'Principal_Investigator__r.Salutation'
     };
 
 

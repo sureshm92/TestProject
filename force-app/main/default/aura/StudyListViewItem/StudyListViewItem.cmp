@@ -198,8 +198,7 @@
                                             {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
                                         </div>
                                     <div class="site-sub-header slds-m-top--x-small">
-                                            {!empty(siteWrapper.site.Primary_Contact__c)?(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name):
-                                                    (siteWrapper.site.Primary_Contact__r.Title + ' ' + siteWrapper.site.Primary_Contact__r.Name)}
+                                            {!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
                                     </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
@@ -214,12 +213,10 @@
                                 <div class="slds-grid slds-wrap slds-m-top--x-small">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                     <div class="site-address">
-                                            {!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.MailingStreet:
-                                                    siteWrapper.site.Primary_Contact__r.MailingStreet}
+                                            {!siteWrapper.site.Principal_Investigator__r.MailingStreet}
                                     </div>
                                     <div class="site-address slds-m-top--xx-small">
-                                            {!empty(siteWrapper.site.Primary_Contact__c)?(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode):
-                                                    (siteWrapper.site.Primary_Contact__r.MailingCity + ' ' + siteWrapper.site.Primary_Contact__r.MailingState + ' ' + siteWrapper.site.Primary_Contact__r.MailingPostlCode)}
+                                            {!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}
                                     </div>
                                     </div>
                                     <div class="slds-col slds-show_medium slds-size_1-of-12">
@@ -229,9 +226,9 @@
                                         <div style="height: 1px; background-color: gray; "></div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                                    <div class="site-address">{!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.Name:siteWrapper.site.Primary_Contact__r.Name}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.Phone:siteWrapper.site.Primary_Contact__r.Phone}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.Email:siteWrapper.site.Primary_Contact__r.Email}</div>
+                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>
+                                    <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
                                         <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">

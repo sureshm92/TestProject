@@ -3380,11 +3380,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Study_Site__c.Primary_Contact__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Study_Site__c.Primary_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3829,9 +3824,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Post_Install__mdt-Post Install Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
@@ -4447,6 +4439,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Knowledge__kav</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
