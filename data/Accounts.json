@@ -42,6 +42,60 @@
         {
             "attributes": {
                 "type": "Account",
+                "referenceId": "clinic4"
+            },
+            "Name": "Clinic 4",
+            "BillingLatitude": 40.866594,
+            "BillingLongitude": -73.191509
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "clinic5"
+            },
+            "Name": "Clinic 5",
+            "BillingLatitude": 40.166594,
+            "BillingLongitude": -72.191509
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "clinic6"
+            },
+            "Name": "Clinic 6",
+            "BillingLatitude": 41.166594,
+            "BillingLongitude": -72.091509
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "clinic7"
+            },
+            "Name": "Clinic 7",
+            "BillingLatitude": 38.766594,
+            "BillingLongitude": -74.991509
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "clinic8"
+            },
+            "Name": "Clinic 8",
+            "BillingLatitude": 40.266594,
+            "BillingLongitude": -74.091509
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "clinic9"
+            },
+            "Name": "Clinic 9",
+            "BillingLatitude": 40.166594,
+            "BillingLongitude": -74.000509
+        },
+        {
+            "attributes": {
+                "type": "Account",
                 "referenceId": "participantAccount"
             },
             "Name": "Participant"

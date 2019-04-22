@@ -24,6 +24,9 @@ public without sharing class CommunityService {
     // case auto assignment rule
     public static String COMMUNITY_CASE_AR_NAME = 'HelpCase';
 
+    // lead queue
+    public static String INVITATION_QUEUE = 'Referring Providers Invited by PI Queue';
+
     //on Contact.userCommunityMode__c
     public static final String USER_MODE_HCP = 'HCP';
     public static final String USER_MODE_PI = 'PI';

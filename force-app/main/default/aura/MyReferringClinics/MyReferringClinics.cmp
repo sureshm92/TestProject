@@ -14,6 +14,8 @@
     <!--=============================================================================================================-->
     <aura:attribute name="summaryContainers"        type="List"                                       access="private"/>
     <aura:attribute name="filterInfo"               type="Object"                                     access="private"/>
+    <aura:attribute name="rpData"               type="Object"                                     access="private"/>
+    <aura:attribute name="studySitesForInvitation"  type="List"                                       access="private"/>
     <!--=============================================================================================================-->
     <aura:handler name="change"                     value="{!v.filterInfo.isActive}" action="{!c.showPendingPhysicans}"/>
     <!--=============================================================================================================-->
@@ -31,9 +33,65 @@
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12" style="display: flex">
                         <c:rrFilterPill number="{!v.filterInfo.value}" title="{!v.filterInfo.label}" isActive="{!v.filterInfo.isActive}"/>
                     </div>
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
                         <c:rrSummaryPill summaryContainerList="{!v.summaryContainers}"/>
                     </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 mrc-invite-btn-container">
+                        <button class="apollo-btn primary mrc-invite-btn" onclick="{!c.doShowInviteRP}">
+                            {!$Label.c.PG_MRC_BTN_Invite_Referring_Provider}
+                        </button>
+                    </div>
+                <c:Popup aura:id="invite-rp" title="{!$Label.c.PG_MRC_L_Invite_Referring_Provider}" size="medium">
+                    <div class="rr-form-element">
+                        <div class="slds-grid slds-wrap slds-grid_vertical-align-end">
+                            <div class="rr-form-element slds-col slds-size_7-of-12">
+                                <div class="label">{!$Label.c.PG_MRC_RF_First_Name}</div>
+                                <c:rrInput valueString="{!v.rpData.firstName}" />
+                            </div>
+                            <div class="slds-col slds-size_5-of-12"/>
+                            <div class="rr-form-element slds-col slds-size_7-of-12">
+                                <div class="label">{!$Label.c.PG_MRC_RF_Last_Name}</div>
+                                <c:rrInput valueString="{!v.rpData.lastName}" />
+                            </div>
+                            <div class="slds-col slds-size_5-of-12"/>
+                            <div class="rr-form-element slds-col slds-size_7-of-12">
+                                <div class="label">{!$Label.c.PG_MRC_RF_Clinic_Name}</div>
+                                <c:rrInput valueString="{!v.rpData.clinicName}" />
+                            </div>
+                            <div class="slds-col slds-size_5-of-12"/>
+                            <div class="rr-form-element slds-col slds-size_7-of-12">
+                                <div class="label">{!$Label.c.PG_MRC_RF_Phone}</div>
+                                <c:rrInput valueString="{!v.rpData.phone}" />
+                            </div>
+                            <div class="slds-col slds-size_5-of-12"/>
+                            <aura:if isTrue="{!!empty(v.studySitesForInvitation)}">
+                                <div class="rr-form-element slds-col slds-size_7-of-12">
+                                    <div class="label">{!$Label.c.PG_MRC_RF_Invite_to_Studies}</div>
+                                    <div class="radio-group">
+                                        <aura:iteration items="{!v.studySitesForInvitation}" var="site">
+                                            <lightning:input value="{!site.Id}" type="radio" name="site" label="{!site.StudyName}"
+                                                             onchange="{!c.doSelectStudy}" checked="{!site.selected}"/>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_5-of-12"/>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <aura:set attribute="footerButtons">
+                        <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
+                        <button class="apollo-btn secondary" onclick="{!c.doClearInviteAndHide}">
+                            {!$Label.c.BTN_Cancel}
+                        </button>
+                        <button class="apollo-btn primary" onclick="{!c.doInviteRP}"
+                                disabled="{!empty(v.rpData.lastName)||empty(v.rpData.firstName)||
+                                        empty(v.rpData.clinicName)||empty(v.rpData.phone)}"
+                                title="{!(empty(v.rpData.lastName)||empty(v.rpData.firstName)||
+                                        empty(v.rpData.clinicName)||empty(v.rpData.phone))?$Label.c.PG_MRC_RF_Not_all_Req_Fields:''}">
+                            {!$Label.c.BTN_Invite}
+                        </button>
+                    </aura:set>
+                </c:Popup>
                 </div>
             </aura:if>
             <div class="slds-is-relative">

@@ -153,6 +153,15 @@ public without sharing class TaskService {
         return ' Status IN (\'' + String.join(statusFilter, '\',\'') +  '\') ';
     }
     
+    public void completeCYPTaskForParticipant(){
+        List<Task> tasks = getTasksCommon('Task_Code__c =\'' +
+                TASK_CODE_COMPLETE_YOUR_PROFILE +'\' AND ' + getOpenTasksFilter());
+        if(tasks.size() > 0){
+            completeTask(tasks[0]);
+            update tasks[0];
+        }
+    }
+    
     private String getCompletedTasksFilter(){
         List<String> statusFilter = new List<String>{
                 TASK_STATUS_IGNORED,

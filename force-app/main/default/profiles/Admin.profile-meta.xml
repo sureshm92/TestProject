@@ -31,6 +31,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AddPatientByPIRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Alert</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1996,6 +2000,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Lead.Invited_by_PI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Lead.Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2396,6 +2405,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.MRN_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Medical_Record_Review_Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2582,6 +2596,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Referred_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2892,6 +2911,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Participation_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Phone_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3352,6 +3376,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Prescreen__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Primary_Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

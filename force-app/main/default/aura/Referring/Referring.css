@@ -313,11 +313,13 @@
 }
 
 .THIS .ssi-site-name{
+    text-align: left;
     color: #000000;
     font-size: 15px;
     font-weight: bold;
 }
 .THIS .ssi-pi-name {
+    text-align: left;
     color: #999999;
     font-size: 13px;
 }
@@ -334,9 +336,16 @@
     font-size: 13px;
 }
 
+.THIS .ssi-button{
+    text-align: right;
+}
+
 @media all and (min-width: 768px){
     .THIS .ssi-site-distance,
     .THIS .ssi-site-type{
         text-align: right;
     }
+}
+.THIS .sub-title{
+    font-size: 18px!important;
 }
