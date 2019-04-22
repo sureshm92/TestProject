@@ -28,6 +28,7 @@
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                 component.set('v.isInitialized', true);
+                component.set('v.shareButtons', trialDetail.shareActions);
                 helper.setTabInitialized(component);
                 helper.setTabActions(component);
                 spinner.hide();

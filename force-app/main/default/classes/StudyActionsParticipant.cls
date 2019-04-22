@@ -18,30 +18,12 @@ public class StudyActionsParticipant extends StudyActions {
 
         actions = new Map<String, Action>();
         
-        actions.put(ACT_SHARE_FACEBOOK, new Action(
-                ACT_SHARE_FACEBOOK,
+        actions.put(ACT_SHARE, new Action(
+                ACT_SHARE,
                 LABEL_SHARE,
-                'icon-facebook',
+                'icon-share',
                 false
         )) ;
-        actions.put(ACT_SHARE_TWITTER, new Action(
-                ACT_SHARE_TWITTER,
-                LABEL_SHARE,
-                'icon-twitter',
-                false
-        )) ;
-        actions.put(ACT_SHARE_LINKEDIN, new Action(
-                ACT_SHARE_LINKEDIN,
-                LABEL_SHARE,
-                'icon-linkedin',
-                false
-        ));
-        actions.put(ACT_SHARE_EMAIL, new Action(
-                ACT_SHARE_EMAIL,
-                LABEL_SHARE,
-                'icon-envelope',
-                false
-        ));
         
         actions.put(ACT_VIEW_TC, new Action(
                 ACT_VIEW_TC,
@@ -70,15 +52,13 @@ public class StudyActionsParticipant extends StudyActions {
         if(participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT && study.Terms_And_Conditions_ID__c != null) {
             studyDetailActions.add(actions.get(ACT_VIEW_TC));
         }
-
-        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
-            studyDetailActions.add(actions.get(ACT_SHARE_EMAIL));
-            studyDetailActions.add(actions.get(ACT_SHARE_FACEBOOK));
-            studyDetailActions.add(actions.get(ACT_SHARE_LINKEDIN));
-            studyDetailActions.add(actions.get(ACT_SHARE_TWITTER));
-        }
     
         studyDetailActions.add(actions.get(ACT_HOME));
+        
+        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
+            studyDetailActions.add(actions.get(ACT_SHARE));
+        }
+    
 
 
     }
