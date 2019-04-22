@@ -129,19 +129,19 @@
                                 <a href="javascript:void(0);"
                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
                                    onclick="{!c.toggleStudySiteListView}">
-                                    <span class="slds-m-right--xx-small">Associated Sites and Site Details</span>
+                                    <span class="slds-m-right--xx-small">{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span>
                                     <c:RRIcon iconName="icon-chevron-right"/>
                                 </a>
                             </div>
                             <aura:if isTrue="{!v.searchItem}">
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments}">
                                     <div>
-                                        <span class="slds-m-right--xx-small rr-blue-color">You are already associated with this study.</span>
+                                        <span class="slds-m-right--xx-small rr-blue-color">{!$Label.c.MyStudy_You_are_already_associated}</span>
                                     </div>
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
-                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Sites For This Study to search for sites.</span>
+                                        <span class="slds-m-right--xx-small">{!$Label.c.MyStudy_No_sites_associated_yet}</span>
                                     </div>
                                 </aura:if>
                             </aura:if>
@@ -272,11 +272,11 @@
                         <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
                              style="min-height: 100%;">
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
-                                <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
+                                <span class="header-white-panel" style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
                             </div>
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                 <button class="apollo-btn primary slvi-search-site-btn"
-                                        onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study
+                                        onclick="{!c.navigateToSitesSearch}">{!$Label.c.MyStudy_Find_More_Sites}
                                 </button>
                             </div>
                         </div>
