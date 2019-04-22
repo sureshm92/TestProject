@@ -26,18 +26,18 @@ public without sharing class ParticipantEnrollmentService {
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
     public static final String NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED = 'Had Discussion, Not Interested';
-    
+
     private static ParticipantEnrollmentService instance;
-    
+
     public static ParticipantEnrollmentService getInstance(){
         if(instance == null) instance = new ParticipantEnrollmentService();
         return instance;
     }
-    
+
     public static void setMock(StubProvider stubProvider){
         instance = (ParticipantEnrollmentService) Test.createStub(ParticipantEnrollmentService.class, stubProvider);
     }
-    
+
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter){
         String defaultFilter = ' Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
         if(filter != null) defaultFilter += ' ' + filter;
@@ -50,43 +50,46 @@ public without sharing class ParticipantEnrollmentService {
         setPSELookups(userMode, peList);
         return peList;
     }
-    
+
     public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode){
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'');
         if(peList.size() > 0) return peList[0];
         return null;
     }
-    
+
     public Participant_Enrollment__c createParticipantEnrollmentImpl(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
         String mrrStatus = MRR_STATUS_NOT_REQUIRED;
         if(trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
-        
+
         String pesStatus = PES_STATUS_NOT_REQUIRED;
         if(trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
-        
-        
+
+
         Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                HCP__r = hcpEnrollment,
                 Pre_screening_Status__c = pesStatus,
                 Medical_Record_Review_Status__c = mrrStatus,
-                PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c,
-                Study_Site__c = hcpEnrollment.Study_Site__c,
                 Patient_ID__c = participantId,
                 Referral_Source__c = 'HCP'
         );
+
+        if(hcpEnrollment!=null){
+            participantEnrollment.HCP__c = hcpEnrollment.Id;
+            participantEnrollment.HCP__r = hcpEnrollment;
+            participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+            participantEnrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+        }
         //insert participantEnrollment;
         return participantEnrollment;
     }
-    
+
     public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId){
         return getPEnrolmentsCommon(
                 CommunityService.USER_MODE_HCP,
                 ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
         );
     }
-    
-    
+
+
     private void setPSELookups(String userMode, List<Participant_Enrollment__c> peList){
         List<Participant_Study_Enrollment__c> pseList = PSEService.getPSECommon(userMode, ' AND ' +
                 DatabaseService.fieldIn('Participant_Enrollment__c', peList));
@@ -97,9 +100,9 @@ public without sharing class ParticipantEnrollmentService {
             pe.Participant_Study_Enrollment__r = pse;
         }
     }
-    
+
     // Static facade: --------------------------------------------------------------------------------------------------
-    
+
     public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){
         //find all participant enrollments for this patientId, clinic and trial
         List<Participant_Enrollment__c> participantEnrollments = [
