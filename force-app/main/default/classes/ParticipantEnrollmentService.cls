@@ -475,7 +475,7 @@ public without sharing class ParticipantEnrollmentService {
             }
         }
         if(!String.isEmpty(filter.dateRange)){
-            filterStr += ' AND CreatedDate ' + filter.dateRange + ' ';
+            filterStr += ' AND Referred_Date__c ' + filter.dateRange + ' ';
         }
         if(!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         System.debug('FILTER STRING: ' + filterStr);

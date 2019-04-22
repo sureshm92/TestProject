@@ -75,8 +75,6 @@ public class StudyActionsHCP extends StudyActions{
                 new List<DisableReason>{
                         level2AndLowReason,
                         tcAcceptanceRequiredReason,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
                         studyNoLongerEnrollingReason
                 }
         ));
@@ -88,8 +86,6 @@ public class StudyActionsHCP extends StudyActions{
                 new List<DisableReason>{
                         level2AndLowReason,
                         tcAcceptanceRequiredReason,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
                         hcpNotActiveReason,
                         studySiteNotAcceptedReason,
                         studyNoLongerEnrollingReason

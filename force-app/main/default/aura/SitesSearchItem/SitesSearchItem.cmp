@@ -28,14 +28,14 @@
                 <div class="ssi-site-type">
                         {!v.studySiteWrapper.siteType + ' Site'}
                 </div>
-                <aura:if isTrue="{!and(v.studySiteWrapper.siteType!='Virtual', v.studySiteWrapper.formatedDistance != null)}">
+                <aura:if isTrue="{!and(!empty(v.studySiteWrapper.formatedDistance), v.studySiteWrapper.formatedDistance != null)}">
                     <div class="ssi-site-distance">
                             <aura:unescapedHtml value="{!v.studySiteWrapper.formatedDistance}"/>
                     </div>
                 </aura:if>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
-                <aura:if isTrue="{!v.studySiteWrapper.siteType!='Virtual'}">
+                <aura:if isTrue="{!!empty(v.studySiteWrapper.formatedDistance)}">
                     <div class="ssi-address">
                     {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingStreet:
                             v.studySiteWrapper.site.Principal_Investigator__r.MailingStreet}
