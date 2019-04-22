@@ -207,6 +207,7 @@ public without sharing class StudyTrialService {
         // search and filters
         Double currMaxDistance = String.isNotBlank(filterData.distance) ? Double.valueOf(filterData.distance) : null;
         List<Clinical_Trial_Profile__c> filteredTrials = new List<Clinical_Trial_Profile__c>();
+        List<Clinical_Trial_Profile__c> filteredByDistanceTrials = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c currTrial : trials) {
             Boolean isMatchTerm = true;
             Boolean isMatchTherapeuticAreaFilter = true;
@@ -234,9 +235,12 @@ public without sharing class StudyTrialService {
             if (isMatchTerm && isMatchTherapeuticAreaFilter && isMatchDistance) {
                 filteredTrials.add(currTrial);
             }
+            if (isMatchDistance) {
+                filteredByDistanceTrials.add(currTrial);
+            }
         }
 
-        setTherapeuticAreaFilterOptions(filteredTrials);
+        setTherapeuticAreaFilterOptions(filteredByDistanceTrials, filterData.therapeuticArea);
 
         List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
         Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
@@ -308,10 +312,10 @@ public without sharing class StudyTrialService {
 
         Set<Id> trialsWithPatients = new Set<Id>();
         Set<Id> trialIds = new Set<Id>();
-        for(Clinical_Trial_Profile__c trial:trials){
+        for (Clinical_Trial_Profile__c trial : trials) {
             trialIds.add(trial.Id);
         }
-        for(Participant_Enrollment__c pe: [SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds]){
+        for (Participant_Enrollment__c pe : [SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds]) {
             trialsWithPatients.add(pe.Clinical_Trial_Profile__c);
         }
 
@@ -336,7 +340,7 @@ public without sharing class StudyTrialService {
                     StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
                     currActions.add(openStudySite);
                 }
-                if(studyDetailItem.hasPatients){
+                if (studyDetailItem.hasPatients) {
                     StudyActions.Action myPatients = new StudyActions.Action(StudyActions.ACT_MY_PATIENTS, StudyActions.LABEL_MY_PATIENTS, 'referrals', false);
                     currActions.add(myPatients);
                 }
@@ -411,17 +415,23 @@ public without sharing class StudyTrialService {
         ];
     }
 
-    public static void setTherapeuticAreaFilterOptions(List<Clinical_Trial_Profile__c> trials) {
+    public static void setTherapeuticAreaFilterOptions(List<Clinical_Trial_Profile__c> trials, String selectedOption) {
         Set<String> options = new Set<String>();
         for (Clinical_Trial_Profile__c currTrial : trials) {
             if (currTrial.Therapeutic_Area__r != null && currTrial.Therapeutic_Area__r.Name != null) {
                 options.add(currTrial.Therapeutic_Area__r.Name);
             }
         }
+        if (String.isNotBlank(selectedOption)) {
+            options.add(selectedOption);
+        }
+
+        List<String> sortedOptions = new List<String>(options);
+        sortedOptions.sort();
 
         therapeuticAreaFilterOptions = new List<LabelValueItem>();
         therapeuticAreaFilterOptions.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
-        for (String currOption : options) {
+        for (String currOption : sortedOptions) {
             therapeuticAreaFilterOptions.add(new LabelValueItem(currOption, currOption));
         }
     }
@@ -431,6 +441,7 @@ public without sharing class StudyTrialService {
         List<Clinical_Trial_Profile__c> trials = Database.query(trialQuery);
 
         List<Clinical_Trial_Profile__c> records = new List<Clinical_Trial_Profile__c>();
+        List<Clinical_Trial_Profile__c> recordsFilteredByEnrollmentStatus = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c currTrial : trials) {
 
             Boolean isMatchTerm = true;
@@ -462,8 +473,11 @@ public without sharing class StudyTrialService {
             if (isMatchTerm && isMatchEnrollmentFilter && isMatchTherapeuticAreaFilter) {
                 records.add(currTrial);
             }
+            if (isMatchEnrollmentFilter) {
+                recordsFilteredByEnrollmentStatus.add(currTrial);
+            }
         }
-        setTherapeuticAreaFilterOptions(records);
+        setTherapeuticAreaFilterOptions(recordsFilteredByEnrollmentStatus, filterData.therapeuticArea);
 
         return records;
     }
