@@ -7065,7 +7065,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
-        <value>Please, complete baseline survey</value>
+        <value>Please complete your baseline survey</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>
