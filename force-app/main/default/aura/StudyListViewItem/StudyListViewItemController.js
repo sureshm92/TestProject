@@ -84,7 +84,7 @@
     },
 
     onShareClick : function (component, event, helper) {
-        let url = component.get('v.currentStudy').trial.Share_URL__c;
+        let url = component.get('v.currentStudy').trial.Share_URL__c + 'none';
         let text = 'A clinical study of interest';
         let id = event.currentTarget.dataset.id;
         switch (id) {
