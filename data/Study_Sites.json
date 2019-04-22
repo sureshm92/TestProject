@@ -12,6 +12,110 @@
             "Override_PI_Referral_Status__c": "Invitation Sent",
             "Study_Site_Key__c": "12132123132313",
             "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss2"
+            },
+            "Name": "Test SS2",
+            "Clinical_Trial_Profile__c": "@ctp2",
+            "Site__c": "@clinic2",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132314",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss3"
+            },
+            "Name": "Test SS3",
+            "Clinical_Trial_Profile__c": "@ctp2",
+            "Site__c": "@clinic3",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132315",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss4"
+            },
+            "Name": "Test SS4",
+            "Clinical_Trial_Profile__c": "@ctp2",
+            "Site__c": "@clinic4",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132316",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss5"
+            },
+            "Name": "Test SS5",
+            "Clinical_Trial_Profile__c": "@ctp2",
+            "Site__c": "@clinic5",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132317",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss6"
+            },
+            "Name": "Test SS6",
+            "Clinical_Trial_Profile__c": "@ctp3",
+            "Site__c": "@clinic6",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132318",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss7"
+            },
+            "Name": "Test SS7",
+            "Clinical_Trial_Profile__c": "@ctp4",
+            "Site__c": "@clinic7",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132319",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss8"
+            },
+            "Name": "Test SS8",
+            "Clinical_Trial_Profile__c": "@ctp5",
+            "Site__c": "@clinic8",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132320",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "ss9"
+            },
+            "Name": "Test SS9",
+            "Clinical_Trial_Profile__c": "@ctp6",
+            "Site__c": "@clinic9",
+            "Principal_Investigator__c": "@contact3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "Study_Site_Key__c": "12132123132321",
+            "Study_Site_Phone__c": "+1(232) 222-3434"
         }
     ]
 }

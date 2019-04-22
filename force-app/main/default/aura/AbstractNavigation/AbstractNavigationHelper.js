@@ -128,6 +128,7 @@
     },
 
     updateDocumentTitle: function (component, pageName) {
+        if(!this.itemsMap) this.initItemsMap();
         var page = this.allPagesMap[pageName];
         if(page) document.title = page.label;
     }

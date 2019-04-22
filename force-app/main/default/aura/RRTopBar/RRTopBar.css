@@ -40,6 +40,7 @@
 .THIS .header .sub-title{
     color: #666666;
     font-size: 13px;
+    min-height: 20px;
 }
 
 .THIS .header .title{

@@ -13,24 +13,24 @@ public without sharing class StudySiteService {
     public final static String PI_S_DECLINED_ACCEPTANCE = 'Declined (Acceptance)';
     //oldStatus/<actionType, newStatus>
     public final static Map<String, Map<String, String>> SS_CHANGE_STATUS_MAP = new Map<String, Map<String, String>>();
-    
+
     public final static List<String> STATUS_GROUP_ACCEPTED = new List<String>{
             PI_S_ACCEPTED,
             PI_S_ACCEPTED_A
     };
-    
+
     public final static List<String> STATUS_GROUP_ON_HOLD = new List<String>{
             PI_S_ON_HOLD,
             PI_S_ON_HOLD_A
     };
-    
+
     static {
         for (Schema.PicklistEntry ple : Study_Site__c.Override_PI_Referral_Status__c.getDescribe().getPicklistValues()) {
             PI_STATUS_VALUES.add(ple.getValue());
         }
         SS_CHANGE_STATUS_MAP.put(PI_S_INVITATION_SENT, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.get(PI_S_INVITATION_SENT).put('decline', PI_S_DECLINED_ACCEPTANCE);
-        
+
         SS_CHANGE_STATUS_MAP.put(PI_S_ACCEPTED, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_ACCEPTED_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_NON_RESPONCIVE_A, new Map<String, String>());
@@ -38,20 +38,20 @@ public without sharing class StudySiteService {
         SS_CHANGE_STATUS_MAP.put(PI_S_ON_HOLD_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_DEACTIVATED_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_DECLINED_ACCEPTANCE, new Map<String, String>());
-    
+
     }
-    
+
     private static StudySiteService instance;
-    
+
     public static StudySiteService getInstance(){
         if(instance == null) instance = new StudySiteService();
         return instance;
     }
-    
+
     public static void setMock(StubProvider stubProvider){
         instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
     }
-    
+
     public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
         List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
@@ -80,11 +80,11 @@ public without sharing class StudySiteService {
         }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id));
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
                 result.add(siteWrapper);
             }
         }
-        
+
         if (paginationData != null) {
             paginationData.setRecordsCount(result.size());
             List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
@@ -96,10 +96,10 @@ public without sharing class StudySiteService {
         result.sort();
         return result;
     }
-    
+
     public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode){
         Id userContactId = CommunityService.getUserContact().Id;
-        
+
         SiteFilterData siteFilterData = new SiteFilterData();
         siteFilterData.mode = mode;
         siteFilterData.trialId = trialId;
@@ -118,18 +118,18 @@ public without sharing class StudySiteService {
         siteFilterData.therapeuticAreas.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
         return siteFilterData;
     }
-    
+
     public static String changeStatus(Id studySiteId, String userMod, String newStatusType) {
         Study_Site__c studySite = [
                 SELECT Id, Override_PI_Referral_Status__c
                 FROM Study_Site__c
                 WHERE Id = :studySiteId
         ];
-        
+
         if (studySite == null) throw new AuraHandledException('Incorrect Study site studySiteId=' + studySiteId);
         String oldStatus = studySite.Override_PI_Referral_Status__c;
         String newStatus = SS_CHANGE_STATUS_MAP.get(oldStatus).get(newStatusType);
-        
+
         if (newStatus == null) {
             throw new AuraHandledException('Invalid action! Can`t change this status to status = ' + newStatusType);
         }
@@ -137,11 +137,11 @@ public without sharing class StudySiteService {
         update studySite;
         return newStatus;
     }
-    
+
     public static List<Study_Site__c> getStudySitesForPI() {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
     }
-    
+
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
             'Name',
@@ -179,10 +179,21 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.MailingAddress',
             'Principal_Investigator__r.Phone',
             'Principal_Investigator__r.Email',
-            'Principal_Investigator__r.Salutation'
+            'Principal_Investigator__r.Salutation',
+            'Primary_Contact__c',
+            'Primary_Contact__r.Name',
+            'Primary_Contact__r.Title',
+            'Primary_Contact__r.MailingStreet',
+            'Primary_Contact__r.MailingCity',
+            'Primary_Contact__r.MailingState',
+            'Primary_Contact__r.MailingPostalCode',
+            'Primary_Contact__r.MailingAddress',
+            'Primary_Contact__r.Phone',
+            'Primary_Contact__r.Email',
+            'Primary_Contact__r.Salutation'
     };
-    
-    
+
+
     public static List<Study_Site__c> getStudySitesCommon(String filter) {
         String query = 'SELECT ' + String.join(SS_COMMON_FIELDS, ',') +
                 ' FROM Study_Site__c ';
@@ -192,13 +203,13 @@ public without sharing class StudySiteService {
         TranslateHelper.translate(ssList);
         return ssList;
     }
-    
+
     public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates) {
         String userModeFilter = getUserModeFilter(userMode, excludeDelegates);
         if (filter != null) userModeFilter += ' ' + filter;
         return getStudySitesCommon(userModeFilter);
     }
-    
+
     public static String getUserModeFilter(String userMode, Boolean excludeDelegates) {
         String filter = ' Clinical_Trial_Profile__c != NULL ' +
                 ' AND Override_PI_Referral_Status__c != NULL ';
@@ -211,11 +222,11 @@ public without sharing class StudySiteService {
                         '       OR Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
                         '   ) ';
             }
-        
+
         }
         return filter;
     }
-    
+
     public static Study_Site__c getStudySiteForHCPById(Id ssId) {
         List<Study_Site__c> studySites = getStudySitesCommon(
                 CommunityService.USER_MODE_HCP,
@@ -225,7 +236,7 @@ public without sharing class StudySiteService {
         if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
         return studySites[0];
     }
-    
+
     public static List<Study_Site__c> getStudySiteForPIByTrialId(Id trialId) {
         return getStudySitesCommon(
                 CommunityService.USER_MODE_PI,
@@ -234,7 +245,7 @@ public without sharing class StudySiteService {
                 false
         );
     }
-    
+
     public static List<Study_Site__c> getStudySitesForHCP(List<Id> trialIds) {
         List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,
@@ -245,7 +256,7 @@ public without sharing class StudySiteService {
         for (HCP_Enrollment__c he : hcpEnrollments) resList.add(he.Study_Site__r);
         return resList;
     }
-    
+
     public static List<Study_Site__c> getStudySitesForHCPByTrialId(Id trialId) {
         String query = 'SELECT ' + String.join(SS_COMMON_FIELDS, ',') +
                 ' FROM Study_Site__c WHERE Clinical_Trial_Profile__c =\'' + trialId + '\'' +
@@ -254,10 +265,10 @@ public without sharing class StudySiteService {
         return Database.query(query);
     }
     public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels) {
-        
+
         List<Study_Site__c> ssList = new List<Study_Site__c>();
         Map<Id, String> delegateLevelMap = DelegateService.getPIStudySitesAccessLevelMap();
-        
+
         for (Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false)) {
             if (!delegateLevelMap.containsKey(site.Id) || delegateLevels.contains(delegateLevelMap.get(site.Id))) {
                 ssList.add(site);
@@ -278,14 +289,14 @@ public without sharing class StudySiteService {
         public String sortType = SortOrder.STUDY_SITE_SORT_TYPES[0].value;
         public String additionalFilter;
         public Boolean onlyAcceptedSites = true;
-        
+
         public SiteFilter(SiteFilterData filterData) {
             mode = filterData.mode;
             trialId = filterData.trialId;
             trialIds = filterData.trialIds;
         }
     }
-    
+
     //contains pick list values for SiteFilter
     public class SiteFilterData {
         public String mode;
@@ -295,7 +306,7 @@ public without sharing class StudySiteService {
         public List<LabelValueItem> distanceRanges;
         public List<LabelValueItem> therapeuticAreas;
         public List<LabelValueItem> sortVariants = SortOrder.STUDY_SITE_SORT_TYPES;
-    
+
     }
 
     public static SiteFilterData getSiteFilterData(Id trialId, String mode) {
@@ -333,13 +344,11 @@ public without sharing class StudySiteService {
         public HCP_Enrollment__c hcpe;
         public Map<String, StudyActions.Action> actions;
         public String sortType;
-        public Boolean hasPatients;
         public Boolean hasActiveHCPE;
         public Datetime hcpCreatedDate;
 
-        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, Boolean hasPatients) {
+        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
             this.site = site;
-            this.hasPatients = hasPatients;
             this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
             if (this.distance != null) {
                 this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
@@ -352,7 +361,7 @@ public without sharing class StudySiteService {
             } else {
                 this.sortType = 'Distance';
             }
-            
+
             this.siteType = site.Study_Site_Type__c;
             this.hcpe = hcpe;
             if (hcpe != null) {
@@ -400,9 +409,9 @@ public without sharing class StudySiteService {
                     return 0;
                 }
             }
-        
+
         }
-    
+
     }
 
     public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
@@ -410,7 +419,6 @@ public without sharing class StudySiteService {
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         Set<Id> siteIds = new Set<Id>();
-        Set<Id> siteWithPatientsIds = new Set<Id>();
         for (Study_Site__c site : siteList) {
             quueriedTrials.add(site.Clinical_Trial_Profile__c);
             siteIds.add(site.Id);
@@ -421,19 +429,9 @@ public without sharing class StudySiteService {
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
-        for (Participant_Enrollment__c pe : [
-                SELECT Id, Study_Site__c
-                FROM Participant_Enrollment__c
-                WHERE Study_Site__c IN :siteIds
-                AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
-                        :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
-                        :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)
-        ]) {
-            siteWithPatientsIds.add(pe.Study_Site__c);
-        }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, siteWithPatientsIds.contains(site.Id));
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
                 result.add(siteWrapper);
             }
         }
@@ -459,7 +457,7 @@ public without sharing class StudySiteService {
         result.sort();
         return result;
     }
-    
+
     public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
         String filterString = '';
         if (filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())) {
@@ -475,11 +473,11 @@ public without sharing class StudySiteService {
             filterString += ' AND Override_PI_Referral_Status__c != NULL ' +
                     '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
         }
-        
+
         if (filter.siteType != null && filter.siteType != '') {
             filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
-        
+
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
     }

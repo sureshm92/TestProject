@@ -4,10 +4,10 @@
 
 ({
     searchForRecords: function (cmp, helper, fromFirstPage) {
-        console.log('in doUpdateRecords');
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
+        console.log('in doUpdateRecords');
 
         let spinner = cmp.find('recordsSpinner');
         spinner.show();
@@ -48,22 +48,18 @@
             pagination.currentPage = result.paginationData.currentPage;
             cmp.set('v.paginationData', pagination);
 
-            if (cmp.get("v.searchResumeChanged") === true) {
-                let newFilterData = filter;
-                newFilterData.therapeuticAreas = result.therapeuticAreas;
-                cmp.set('v.filterData', newFilterData);
-                cmp.set("v.searchResumeChanged", false);
-            }
+            filter.therapeuticAreas = result.therapeuticAreas;
+            cmp.set('v.filterData', filter);
 
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(cmp);
             }), 10);
             cmp.set('v.skipUpdate', false);
+            cmp.set('v.searchResumeChanged', false);
             spinner.hide();
         })
     },
     prepareIcons: function (currentPageList) {
-        debugger;
         var iconMap = {
             'Actively Enrolling': 'success',
             'On Hold': 'icon-pause-circle',
