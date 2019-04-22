@@ -55,9 +55,10 @@ public without sharing class AccountSettingsController {
     public static void updateParticipant(String participantJSON) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            TaskService.getInstance().completeCYPTaskForParticipant();
             upsert participant;
         }  catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
     }
 
