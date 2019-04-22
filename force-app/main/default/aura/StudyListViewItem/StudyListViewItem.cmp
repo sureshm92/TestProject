@@ -34,22 +34,22 @@
                                 <div class="rri-icon slds-float_right">
                                     <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
                                     </span>
                                     </a>
                                     <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
                                     </span>
                                     </a>
                                     <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
                                     </span>
                                     </a>
                                     <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
                                     </span>
                                     </a>
                                 </div>
