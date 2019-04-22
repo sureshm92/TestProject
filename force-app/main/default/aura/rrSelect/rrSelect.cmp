@@ -29,7 +29,9 @@
 
         <aura:if isTrue="{!!empty(v.label)}">
             <div class="rrs-label">
-                <aura:if isTrue="{!v.required}"><div class="rrs-error">*</div></aura:if>
+                <aura:if isTrue="{!v.required}">
+                    <div class="rrs-error">*</div>
+                </aura:if>
                 <div class="{!if(empty(v.errorMessage), '', 'rrs-error')}">{!v.label}</div>
             </div>
         </aura:if>
@@ -45,7 +47,7 @@
                 </aura:if>
 
                 <aura:iteration items="{!v.options}" var="item">
-                    <option value="{!item.value}">{!item.label}</option>
+                    <option selected="{!item.value==v.value}" value="{!item.value}">{!item.label}</option>
                 </aura:iteration>
 
                 <aura:if isTrue="{!v.otherOptionLabel != ''}">
