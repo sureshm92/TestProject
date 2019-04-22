@@ -39,13 +39,7 @@ public without sharing class LanguageSwitcherRemote {
                     LanguageLocaleKey = languageKey,
                     LocaleSidKey = localeKey
             );
-            //TODO Move this to another place:
-            List<Task> tasks = TaskService.getInstance().getTasksCommon('Task_Code__c =\'' +
-                    TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE +'\' AND ' + TaskService.getInstance().getOpenTasksFilter());
-            if(tasks.size() > 0){
-                TaskService.getInstance().completeTask(tasks[0]);
-                update tasks[0];
-            }
+            
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

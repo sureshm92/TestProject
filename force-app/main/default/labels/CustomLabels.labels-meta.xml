@@ -451,7 +451,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN Send and Add Another</shortDescription>
-        <value>Send and Add Another</value>
+        <value>Save and Add Another</value>
     </labels>
     <labels>
         <fullName>BTN_Send_site_request</fullName>
@@ -3134,7 +3134,7 @@ If you are prompted with a window indicating that the file format and extension 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP Success Message</shortDescription>
-        <value>Patient successfully added</value>
+        <value>You have successfully added a patient.</value>
     </labels>
     <labels>
         <fullName>PG_AP_T_Indicate_Add_Fields</fullName>
