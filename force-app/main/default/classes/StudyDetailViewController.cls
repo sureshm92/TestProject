@@ -8,16 +8,37 @@ public without sharing class StudyDetailViewController {
         public List<ClinicWrapper> accountEnrollmentsList;
         public Boolean isTCAccepted;
         public Boolean isSSAccepted;
-        public Boolean isDelegate;
         public Study_Site__c studySite; //for PI mode
         public HCP_Enrollment__c hcpe; //for HCP mode
-        public List<StudyActions.Action> studyActions;
         public List<StudyActions.Action> studyBottomBarActions;
         public Map<String, StudyActions.Action> actions;
         public List<StudyTab> tabs;
-        public List<LabelValueItem> primaryContactOptions;
-        public String primaryContact;
-        public List<StudyActions.Action> shareActions;
+        public List<StudyActions.Action> shareActions = new List<StudyActions.Action>{
+                new StudyActions.Action(
+                        StudyActions.ACT_SHARE_EMAIL,
+                        StudyActions.LABEL_SHARE,
+                        'icon-mailbox',
+                        false
+                ),
+                new StudyActions.Action(
+                        StudyActions.ACT_SHARE_FACEBOOK,
+                        StudyActions.LABEL_SHARE,
+                        'icon-facebook',
+                        false
+                ),
+                new StudyActions.Action(
+                        StudyActions.ACT_SHARE_LINKEDIN,
+                        StudyActions.LABEL_SHARE,
+                        'icon-linkedin',
+                        false
+                ),
+                new StudyActions.Action(
+                        StudyActions.ACT_SHARE_TWITTER,
+                        StudyActions.LABEL_SHARE,
+                        'icon-twitter',
+                        false
+                )
+        };
     }
     
     public class ClinicWrapper implements Comparable {
@@ -68,7 +89,6 @@ public without sharing class StudyDetailViewController {
                 List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
                 if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
                 trialDetail.studySite = studySites[0];
-                trialDetail.primaryContact = studySites[0].Primary_Contact__c;
                 trialDetail.isSSAccepted = StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySites[0].Override_PI_Referral_Status__c);
                 StudyActions studyActions = new StudyActionsPI(studySites[0]);
                 trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
@@ -82,31 +102,17 @@ public without sharing class StudyDetailViewController {
                 for (Account account : accounts) {
                     trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, null, null));
                 }
-                trialDetail.primaryContactOptions = new List<LabelValueItem>();
-                trialDetail.primaryContactOptions.add(new LabelValueItem('Me',null));
-                List<Site_Staff__c> delegates = [SELECT Id, Site_Contact__c, Site_Contact__r.Name FROM Site_Staff__c WHERE Study_Site__r.Clinical_Trial_Profile__c = :trialId];
-                Set<Id> contactsProcessed = new Set<Id>();
-                for(Site_Staff__c del : delegates){
-                    if(!contactsProcessed.contains(del.Site_Contact__c)){
-                        if(del.Site_Contact__c == CommunityService.getUserContact().Id)
-                            trialDetail.isDelegate = true;
-                        contactsProcessed.add(del.Site_Contact__c);
-                        trialDetail.primaryContactOptions.add(new LabelValueItem(del.Site_Contact__r.Name, del.Site_Contact__c));
-                    }
-                }
             } else if (userMode == CommunityService.USER_MODE_HCP) {
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
                 //if (hcpEnrollment == null) throw new CommunityServiceException('Data not found');
                 if(hcpEnrollment != null){
                     trialDetail.hcpe = hcpEnrollment;
                     StudyActions studyActions = new StudyActionsHCP(hcpEnrollment);
-                    trialDetail.studyActions = studyActions.studyDetailActions;
                     trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
                     trialDetail.actions = studyActions.actions;
                     trialDetail.tabs = getStudyTabs(CommunityService.USER_MODE_PI, studyActions);
                 }
                 else{
-                    
                     trialDetail.tabs = new List<StudyDetailViewController.StudyTab>();
                 }
                 
@@ -133,8 +139,6 @@ public without sharing class StudyDetailViewController {
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
-                trialDetail.studyActions = studyActions.studyDetailActions;
-                trialDetail.studyBottomBarActions = studyActions.studyDetailBottomBarActions;
                 trialDetail.tabs = getStudyTabs(userMode, studyActions);
                 Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
                 idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
@@ -195,13 +199,13 @@ public without sharing class StudyDetailViewController {
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
+                    Label.PG_SW_Tab_About_The_Study,
                     defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-referred-patients',
                     'referred-patient',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Referred_Patients'),
+                    Label.PG_SW_Tab_Referred_Patients,
                     defaultActions
             ));
             /*tabs.add(new StudyTab(
@@ -212,75 +216,128 @@ public without sharing class StudyDetailViewController {
             tabs.add(new StudyTab(
                     'tab-referred-study-sites',
                     'referred-clinic',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Study_Sites'),
+                    Label.PG_SW_Tab_Study_Sites,
                     defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-reports',
                     'reports',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
+                    Label.PG_SW_Tab_Reports,
                     defaultActions
             ));
         }else if(userMode == CommunityService.USER_MODE_PI){
             tabs.add(new StudyTab(
                     'tab-about-the-study',
                     'about-the-study',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
+                    Label.PG_SW_Tab_About_The_Study,
                     defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-referrals',
                     'referrals',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Referrals'),
+                    Label.PG_SW_Tab_Referrals,
                     defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-referred-clinics',
                     'referred-clinic',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Referring_Clinics'),
+                    Label.PG_SW_Tab_Referring_Clinics,
                     defaultActions
             ));
             tabs.add(new StudyTab(
                     'tab-reports',
                     'reports',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Reports'),
+                    Label.PG_SW_Tab_Reports,
                     defaultActions
             ));
         } else if (userMode == CommunityService.USER_MODE_PARTICIPANT){
             List<StudyActions.Action> backHomeAction = new List<StudyActions.Action>();
-            backHomeAction.add(studyActionsContainer.actions.get(StudyActions.ACT_HOME));
+            backHomeAction.add(new StudyActions.Action(
+                    StudyActions.ACT_HOME,
+                    Label.Link_Back_To_Home,
+                    'icon-home-brand-new',
+                    false
+            ));
+    
             ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
-            if (stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+    
+            if (stateValue == ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        Label.PG_SW_Tab_Tasks,
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
+                        backHomeAction
+                ));
+    
+            } else if (stateValue == ParticipantService.ParticipantStates.REFERRAL) {
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
-                        TranslateHelper.getLabelValue('PG_SW_Tab_About_The_Study'),
+                        Label.PG_SW_Tab_About_The_Study,
                         defaultActions
                 ));
                 tabs.add(new StudyTab(
-                        'tab-visits',
-                        'referred-patient',
-                        TranslateHelper.getLabelValue('PG_SW_Tab_Visits'),
+                        'tab-tasks',
+                        'task',
+                        Label.PG_SW_Tab_Tasks,
                         backHomeAction
                 ));
-            }
-            tabs.add(new StudyTab(
-                    'tab-tasks',
-                    'task',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Tasks'),
-                    backHomeAction
-            ));
-            tabs.add(new StudyTab(
-                    'tab-resources',
-                    'resources',
-                    TranslateHelper.getLabelValue('PG_SW_Tab_Resources'),
-                    backHomeAction
-            ));
-            if(stateValue != ParticipantService.ParticipantStates.ALUMNI) {
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        Label.PG_SW_Tab_Resources,
+                        backHomeAction
+                ));
+    
+            } else if (stateValue == ParticipantService.ParticipantStates.PARTICIPANT) {
+                tabs.add(new StudyTab(
+                        'tab-about-the-study',
+                        'about-the-study',
+                        Label.PG_SW_Tab_About_The_Study,
+                        defaultActions
+                ));
+        
+                tabs.add(new StudyTab(
+                        'tab-visits',
+                        'referred-patient',
+                        Label.PG_SW_Tab_Visits,
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        Label.PG_SW_Tab_Tasks,
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        Label.PG_SW_Tab_Resources,
+                        backHomeAction
+                ));
                 tabs.add(new StudyTab(
                         'tab-lab-results',
                         'reports',
-                        TranslateHelper.getLabelValue('PG_SW_Tab_Lab_Results'),
+                        Label.PG_SW_Tab_Lab_Results,
+                        backHomeAction
+                ));
+            } else {
+                tabs.add(new StudyTab(
+                        'tab-tasks',
+                        'task',
+                        Label.PG_SW_Tab_Tasks,
+                        backHomeAction
+                ));
+                tabs.add(new StudyTab(
+                        'tab-resources',
+                        'resources',
+                        Label.PG_SW_Tab_Resources,
                         backHomeAction
                 ));
             }
@@ -288,5 +345,7 @@ public without sharing class StudyDetailViewController {
         
         return tabs;
     }
+    
+    
 
 }
