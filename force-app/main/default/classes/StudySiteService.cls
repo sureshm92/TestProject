@@ -43,16 +43,16 @@ public without sharing class StudySiteService {
 
     private static StudySiteService instance;
 
-    public static StudySiteService getInstance(){
-        if(instance == null) instance = new StudySiteService();
+    public static StudySiteService getInstance() {
+        if (instance == null) instance = new StudySiteService();
         return instance;
     }
 
-    public static void setMock(StubProvider stubProvider){
+    public static void setMock(StubProvider stubProvider) {
         instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
     }
 
-    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
         List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
@@ -97,7 +97,7 @@ public without sharing class StudySiteService {
         return result;
     }
 
-    public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode){
+    public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode) {
         Id userContactId = CommunityService.getUserContact().Id;
 
         SiteFilterData siteFilterData = new SiteFilterData();
@@ -106,8 +106,8 @@ public without sharing class StudySiteService {
         siteFilterData.siteTypes = new List<LabelValueItem>();
         siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
         Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
-        for (PicklistEntry ple : siteTypesfield.getPicklistValues()){
-            siteFilterData.siteTypes.add(new LabelValueItem(ple.label,ple.value));
+        for (PicklistEntry ple : siteTypesfield.getPicklistValues()) {
+            siteFilterData.siteTypes.add(new LabelValueItem(ple.label, ple.value));
         }
 //        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
 //        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
@@ -386,8 +386,12 @@ public without sharing class StudySiteService {
                         return 1;
                     } else if (compareToWrapper.distance == null) {
                         return -1;
+                    } else if (this.distance > compareToWrapper.distance) {
+                        return 1;
+                    } else if (this.distance < compareToWrapper.distance) {
+                        return -1;
                     } else {
-                        return (Integer) (this.distance - compareToWrapper.distance);
+                        return 0;
                     }
                 }
                 when 'Distance-virtual-last' {
@@ -401,8 +405,12 @@ public without sharing class StudySiteService {
                         return 1;
                     } else if (compareToWrapper.distance == null) {
                         return -1;
+                    } else if (this.distance > compareToWrapper.distance) {
+                        return 1;
+                    } else if (this.distance < compareToWrapper.distance) {
+                        return -1;
                     } else {
-                        return (Integer) (this.distance - compareToWrapper.distance);
+                        return 0;
                     }
                 }
                 when else {
@@ -458,7 +466,7 @@ public without sharing class StudySiteService {
         return result;
     }
 
-    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
         String filterString = '';
         if (filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())) {
             filterString = 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\' ';
