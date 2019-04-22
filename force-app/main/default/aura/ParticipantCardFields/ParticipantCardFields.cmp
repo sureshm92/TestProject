@@ -78,10 +78,6 @@
                                   page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c + '&amp;tab=tab-referred-study-sites'}"/>
                     </div>
                 </div>
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referral_Id}</div>
-                    <div class="value">{!v.pe.Name}</div>
-                </div>
 
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>

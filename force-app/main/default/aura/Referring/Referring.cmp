@@ -218,7 +218,7 @@
                                             <div class="ssi-site-type">
                                                     {!ss.siteType + ' Site'}
                                             </div>
-                                            <aura:if isTrue="{!ss.siteType!='Virtual'}">
+                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
                                                     <aura:unescapedHtml value="{!ss.formatedDistance}"/>
                                                 </div>
@@ -247,7 +247,7 @@
                                             <div class="ssi-site-type">
                                                     {!ss.siteType + ' Site'}
                                             </div>
-                                            <aura:if isTrue="{!ss.siteType!='Virtual'}">
+                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
                                                     <aura:unescapedHtml value="{!ss.formatedDistance}"/>
                                                 </div>
@@ -461,7 +461,7 @@
                                                 <div class="ssi-site-type">
                                                     {!ss.siteType + ' Site'}
                                             </div>
-                                                <aura:if isTrue="{!ss.siteType!='Virtual'}">
+                                                <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                     <div class="ssi-site-distance">
                                                         <aura:unescapedHtml value="{!ss.formatedDistance}"/>
                                                     </div>
