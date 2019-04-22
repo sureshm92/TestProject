@@ -52,12 +52,13 @@ public class StudyActionsParticipant extends StudyActions {
         if(participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT && study.Terms_And_Conditions_ID__c != null) {
             studyDetailActions.add(actions.get(ACT_VIEW_TC));
         }
-
+    
+        studyDetailActions.add(actions.get(ACT_HOME));
+        
         if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
             studyDetailActions.add(actions.get(ACT_SHARE));
         }
     
-        studyDetailActions.add(actions.get(ACT_HOME));
 
 
     }
