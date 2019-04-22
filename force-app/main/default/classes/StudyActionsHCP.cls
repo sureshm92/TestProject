@@ -123,55 +123,7 @@ public class StudyActionsHCP extends StudyActions{
                         )
                 }
         ));
-    
-        actions.put(ACT_SHARE_EMAIL, new Action(
-                ACT_SHARE_EMAIL,
-                LABEL_SHARE,
-                'icon-envelope',
-                new List<DisableReason>{
-                        new DisableReason(
-                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
-                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
-                        )
-                }
-        ));
-    
-        actions.put(ACT_SHARE_FACEBOOK, new Action(
-                ACT_SHARE_FACEBOOK,
-                LABEL_SHARE,
-                'icon-facebook',
-                new List<DisableReason>{
-                        new DisableReason(
-                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
-                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
-                        )
-                }
-        ));
-    
-        actions.put(ACT_SHARE_LINKEDIN, new Action(
-                ACT_SHARE_LINKEDIN,
-                LABEL_SHARE,
-                'icon-linkedin',
-                new List<DisableReason>{
-                        new DisableReason(
-                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
-                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
-                        )
-                }
-        ));
-    
-        actions.put(ACT_SHARE_TWITTER, new Action(
-                ACT_SHARE_TWITTER,
-                LABEL_SHARE,
-                'icon-twitter',
-                new List<DisableReason>{
-                        new DisableReason(
-                                hcpEnrollment== null || !shareStatuses.contains(hcpEnrollment.Status__c),
-                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
-                        )
-                }
-        ));
-    
+        
         List<String> findStudySiteStatuses = new List<String>{
                 HCPEnrollmentService.HCP_S_INVITATION_SENT,
                 HCPEnrollmentService.HCP_S_DECLINED_ACCEPTANCE,
@@ -295,10 +247,7 @@ public class StudyActionsHCP extends StudyActions{
             studyDetailActions.add(actions.get(ACT_REFER));
         }
         if(study.Terms_And_Conditions_ID__c != null) studyDetailActions.add(actions.get(ACT_VIEW_TC));
-        studyDetailActions.add(actions.get(ACT_SHARE_EMAIL));
-        studyDetailActions.add(actions.get(ACT_SHARE_FACEBOOK));
-        studyDetailActions.add(actions.get(ACT_SHARE_TWITTER));
-        studyDetailActions.add(actions.get(ACT_SHARE_LINKEDIN));
+        studyDetailActions.add(actions.get(ACT_SHARE));
 
         //prepare bottom bar actions:
         if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c)){

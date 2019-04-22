@@ -102,23 +102,22 @@
                                     <div class="actions-buttons">
                                         <aura:iteration items="{!v.currentActions}" var="action">
                                             <div style="position: relative;">
-                                                <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
-                                                        disabled="{!action.disabled}" id="{!action.id}"
-                                                        onclick="{!c.doAction}" title="{!action.disableReason}">
-                                                    <c:RRIcon iconName="{!action.iconName}"/>
-                                                    {!action.label}
-                                                </button>
-                                                <aura:if isTrue="{!action.id == 'shares'}">
-                                                    <div class="button-share-icon">
-                                                        <aura:iteration items="{!v.shareButtons}" var="shBt">
-                                                            <button class="apollo-btn text ico-in-top small-font sdv-btn"
-                                                                    disabled="{!shBt.disabled}" id="{!shBt.id}"
-                                                                    onclick="{!c.doAction}"
-                                                                    title="{!shBt.disableReason}">
-                                                                <c:RRIcon iconName="{!shBt.iconName}"/>
-                                                            </button>
-                                                        </aura:iteration>
-                                                    </div>
+                                                <aura:if isTrue="{!action.id != 'share'}">
+                                                    <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
+                                                            disabled="{!action.disabled}" id="{!action.id}"
+                                                            onclick="{!c.doAction}" title="{!action.disableReason}">
+                                                        <c:RRIcon iconName="{!action.iconName}"/>
+                                                        {!action.label}
+                                                    </button>
+                                                </aura:if>
+                                                <aura:if isTrue="{!action.id == 'share'}">
+                                                    <aura:iteration items="{!v.shareButtons}" var="shareButton">
+                                                        <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
+                                                                disabled="{!shareButton.disabled}" id="{!shareButton.id}"
+                                                                onclick="{!c.doAction}">
+                                                            <c:RRIcon iconName="{!shareButton.iconName}"/>
+                                                        </button>
+                                                    </aura:iteration>
                                                 </aura:if>
                                             </div>
                                         </aura:iteration>
