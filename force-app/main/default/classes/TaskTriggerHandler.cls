@@ -84,7 +84,7 @@ public without sharing class TaskTriggerHandler {
             if(task.Task_Code__c != null){
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if(card != null && card.Immediate_Email_Template__c != null){
-                    emailMessages.add(SendEmailTemplate.createEmail(card.Immediate_Email_Template__c, task.OwnerId, task.Id));
+                    emailMessages.add(SendEmailTemplate.createEmail(card.Immediate_Email_Template__c, task.OwnerId, null));
                 }
             }
         }
