@@ -63,7 +63,7 @@
         <aura:if isTrue="{!v.userMode == 'HCP'}">
             <div>
                 <c:FilterPanel searchText="{!v.filterData.searchText}"
-                               searchTextPlaceHolder="{!v.isSearchResume ? 'Global Search for Study' : 'Search for Study'}"
+                               searchTextPlaceHolder="{!v.isSearchResume ? $Label.c.PG_MS_L_Global_Search_for_Study: $Label.c.PG_MS_L_Search_for_Study}"
                                recordsPerPage="{!v.paginationData.pageRecordsCount}"
                                recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                                sortType="{!v.sortData.sortType}"
@@ -90,11 +90,11 @@
                     <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
                          style="height: 100%;">
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-left slv-header-item">
-                            <span class="header-white-panel">Don't see a study that you could refer your patients to?</span>
+                            <span class="header-white-panel">{!$Label.c.PG_MS_L_Dont_see_a_study}</span>
                         </div>
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-right slv-header-item">
                             <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}">
-                                Search for More Studies
+                                {!$Label.c.PG_MS_L_Search_for_More_Studies}
                             </button>
                         </div>
                     </div>
