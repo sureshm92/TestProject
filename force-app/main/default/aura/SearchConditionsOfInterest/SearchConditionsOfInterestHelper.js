@@ -11,18 +11,21 @@
         communityService.executeAction(component, 'searchConditionOfInterest', {
             nameTA: value
         }, function (returnValue) {
-            let coiList = component.get('v.conditionsOfInterest');
+            let coiList = component.get('v.conditionsOfInterestTemp');
             let coiWrappers = returnValue;
             coiWrappers.forEach(coiWrapper => {
                 if (coiList.some(coiEl => coiEl.coi.Therapeutic_Area__r.Id === coiWrapper.coi.Therapeutic_Area__r.Id)) {
                     coiWrapper.isSelected = true;
                 }
             });
+            // coiWrappers.sort((a, b) => {
+            //     return (a.isSelected  === b.isSelected) ? 0 : a.isSelected ? -1 : 1;
+            // });
             component.set('v.displayedItems', coiWrappers);
         });
     },
 
-    saveElemet: function (component) {
+    saveElement: function (component) {
         let deleteCOI = component.get('v.conditionsOfInterest');
         let conditionsOfInterestTemp = component.get('v.conditionsOfInterestTemp');
         let deleteCoiId = [];
