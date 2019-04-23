@@ -227,7 +227,7 @@ public without sharing class  IntegrationService {
                 WHERE Id =: participantEnrollmentId
         ];
         
-        if(pe.Study_Site__r.Study_Site_Type__c!='Virtual') return null;
+        if(!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c)) return null;
         
         Address addr = new Address();
         addr.Street = pe.Participant__r.Mailing_Street__c;

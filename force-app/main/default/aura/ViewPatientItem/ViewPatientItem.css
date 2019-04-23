@@ -195,4 +195,27 @@
         padding: 1px;
     }
 
+    .THIS .vpi-refid-field {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 10px;
+        margin: 5px 0;
+    }
+
+    .THIS .vpi-refid-field > .label {
+        color: #7F888D;
+        font-size: 10px;
+        font-weight: bold;
+        line-height: 12px;
+        text-transform: uppercase;
+    }
+
+    .THIS .vpi-refid-field > .value {
+        color: #000000;
+        font-size: 14px;
+        line-height: 18px;
+        height: 18px;
+        font-weight: 600;
+    }
+
 }

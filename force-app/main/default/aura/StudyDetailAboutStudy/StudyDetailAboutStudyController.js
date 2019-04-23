@@ -41,19 +41,5 @@
                 break;
         }
     },
-    doChangePrimaryContact: function (component, event, helper) {
-        var trialId = component.get('v.studyDetail').trial.Id;
-        var primaryContactId = component.get('v.studyDetail').primaryContact;
-        var spinner = component.find('mainSpinner');
-        spinner.show();
-        communityService.executeAction(component, 'setPrimaryContactForStudy', {
-            trialId: trialId,
-            primaryContactId: primaryContactId
-        }, function (returnValue) {
-            spinner.hide();
-            communityService.showToast("success", "success", "Primary point of contact successfully updated for this study site.");
-        });
-    },
-
 
 })

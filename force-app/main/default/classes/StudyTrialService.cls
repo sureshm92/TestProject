@@ -292,7 +292,7 @@ public without sharing class StudyTrialService {
 
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
-        siteFilter.sortType = 'Distance-virtual-last';
+        siteFilter.sortType = StudySiteService.SS_SORT_TYPE_DISTANCE_VIRT_LAST;
         siteFilter.onlyAcceptedSites = false;
         List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
         Set<Id> trialsWithActiveEnrollments = new Set<Id>();
