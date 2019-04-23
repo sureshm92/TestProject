@@ -85,7 +85,7 @@ public with sharing class TherapeuticAreaService {
 
     public List<Therapeutic_Area__c> getTherapeuticAreas(String nameTA) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        Map<String, Decimal> numberOfLimitsMapBDecimalsByStrings = new Map<String, Decimal>();
+        Map<String, Decimal> numberOfLimitsMapDecimalsByStrings = new Map<String, Decimal>();
         Number_Of_Limits__mdt[] numberOfLimits = [
                 SELECT
                         Label,
@@ -94,16 +94,16 @@ public with sharing class TherapeuticAreaService {
                 WHERE Label IN (:SEARCH_COI_SOQL_COUNT_DEFAULT, :SEARCH_COI_SOQL_COUNT_MAX)
         ];
         for (Number_Of_Limits__mdt numberOfLimit: numberOfLimits) {
-            numberOfLimitsMapBDecimalsByStrings.put(numberOfLimit.Label, numberOfLimit.Count_Limit__c);
+            numberOfLimitsMapDecimalsByStrings.put(numberOfLimit.Label, numberOfLimit.Count_Limit__c);
         }
         String limitsClause = 'LIMIT 5';
         String whereClause = 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\' ';
         if (!numberOfLimits.isEmpty()) {
-            limitsClause = 'LIMIT ' + numberOfLimitsMapBDecimalsByStrings.get(SEARCH_COI_SOQL_COUNT_DEFAULT);
+            limitsClause = 'LIMIT ' + numberOfLimitsMapDecimalsByStrings.get(SEARCH_COI_SOQL_COUNT_DEFAULT);
         }
         if (!String.isBlank(nameTA)) {
             whereClause += 'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ';
-            limitsClause = 'LIMIT ' + numberOfLimitsMapBDecimalsByStrings.get(SEARCH_COI_SOQL_COUNT_MAX);
+            limitsClause = 'LIMIT ' + numberOfLimitsMapDecimalsByStrings.get(SEARCH_COI_SOQL_COUNT_MAX);
         }
         String tAQuery =
                 'SELECT Id, ' +
