@@ -1,0 +1,18 @@
+/**
+ * Created by RAMukhamadeev on 2019-04-17.
+ */
+
+.THIS {
+
+}
+.THIS.as-title {
+    color: #000000;
+    font-size: 30px;
+    line-height: 36px;
+}
+
+.THIS.as-sub-title {
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+}

@@ -66,9 +66,9 @@
                 component.set('v.trialId', filter.study)
             }
             var pagination = component.get('v.paginationData');
-            pagination.allRecordsCount = result.paginationData.allRecordsCount;
-            pagination.currentPage = result.paginationData.currentPage;
-            component.set('v.paginationData', pagination);
+            // pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            // pagination.currentPage = result.paginationData.currentPage;
+            component.set('v.paginationData', result.paginationData);
 
             component.set('v.skipUpdate', false);
             spinner.hide();

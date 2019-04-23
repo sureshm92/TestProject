@@ -4,17 +4,17 @@
 
 ({
     searchForRecords: function (cmp, helper, fromFirstPage) {
-        console.log('in doUpdateRecords');
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
+        console.log('in doUpdateRecords');
 
         let spinner = cmp.find('recordsSpinner');
         spinner.show();
         let filter = cmp.get('v.filterData');
         if (cmp.get("v.searchResumeChanged") === true) {
             filter.searchText = '';
-            filter.therapeuticArea = 'ALL';
+            filter.therapeuticArea = null;
         }
         let searchText = filter.searchText;
 
@@ -48,32 +48,29 @@
             pagination.currentPage = result.paginationData.currentPage;
             cmp.set('v.paginationData', pagination);
 
-            if (cmp.get("v.searchResumeChanged") === true) {
-                let newFilterData = filter;
-                newFilterData.therapeuticAreas = result.therapeuticAreas;
-                cmp.set('v.filterData', newFilterData);
-                cmp.set("v.searchResumeChanged", false);
-            }
+            filter.therapeuticAreas = result.therapeuticAreas;
+            cmp.set('v.filterData', filter);
 
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(cmp);
             }), 10);
             cmp.set('v.skipUpdate', false);
+            cmp.set('v.searchResumeChanged', false);
             spinner.hide();
         })
     },
     prepareIcons: function (currentPageList) {
         var iconMap = {
             'Actively Enrolling': 'success',
-            'On hold': 'icon-pause-circle',
-            'Enrollment closed': 'icon-close-circle',
-            'No longer enrolling': 'icon-close-circle'
+            'On Hold': 'icon-pause-circle',
+            'Enrollment Closed': 'icon-close-circle',
+            'No Longer Enrolling': 'icon-close-circle'
         };
         var styleMap = {
             'Actively Enrolling': 'green-icon',
-            'On hold': 'orange-icon',
-            'Enrollment closed': 'orange-icon',
-            'No longer enrolling': 'red-icon'
+            'On Hold': 'orange-icon',
+            'Enrollment Closed': 'orange-icon',
+            'No Longer Enrolling': 'red-icon'
         };
         for (var i = 0; i < currentPageList.length; i++) {
             currentPageList[i].trial.statusIcon = iconMap[currentPageList[i].trial.Override_Recruitment_Status__c];

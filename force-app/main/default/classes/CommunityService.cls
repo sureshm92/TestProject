@@ -16,12 +16,16 @@ public without sharing class CommunityService {
     public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
     public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
+    public static String COMMUNITY_ET_SHARE_RESOURCE = 'Share_Resources'; //email template
 
     // org wide email address
     public static String COMMUNITY_ORG_WIDE_ADDRESS_NAME = 'IQVIA Referral Hub';
 
     // case auto assignment rule
     public static String COMMUNITY_CASE_AR_NAME = 'HelpCase';
+
+    // lead queue
+    public static String INVITATION_QUEUE = 'Referring Providers Invited by PI Queue';
 
     //on Contact.userCommunityMode__c
     public static final String USER_MODE_HCP = 'HCP';

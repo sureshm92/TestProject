@@ -150,6 +150,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Visit_Plan__c</field>
             </layoutItems>
         </layoutColumns>
@@ -291,6 +295,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Participating_in_Rocket_Referral__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participating_in_Patient_Portal__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -473,7 +481,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1I000002zidv</masterLabel>
+        <masterLabel>00h0E0000019sEI</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

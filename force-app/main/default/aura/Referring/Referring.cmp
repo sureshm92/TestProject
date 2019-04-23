@@ -15,6 +15,7 @@
     <aura:attribute name="hcpEnrollment" type="Object"/>
     <aura:attribute name="pendingPEnrollments" type="List"/>
     <aura:attribute name="studySites" type="List"/>
+    <aura:attribute name="studySitesPending" type="List"/>
     <aura:attribute name="studySiteMarkers" type="List"/>
     <aura:attribute name="participant" type="Object"/>
     <aura:attribute name="emailRepeat" type="String"/>
@@ -58,7 +59,7 @@
     <!--<aura:if isTrue="{!!empty(v.hcpEnrollment)}">-->
     <aura:if isTrue="{!!empty(v.trial)}">
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!if(!empty(v.hcpEnrollment),v.hcpEnrollment.Study_Site__r.Name,'')}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="" smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}">
             <aura:if isTrue="{!v.currentState == 'Screening'}">
                 <div class="buttons-area">
                     <div class="rr-width-limiter buttons-block">
@@ -217,19 +218,63 @@
                                             <div class="ssi-site-type">
                                                     {!ss.siteType + ' Site'}
                                             </div>
-                                            <aura:if isTrue="{!ss.siteType!='Virtual'}">
+                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
                                                     <aura:unescapedHtml value="{!ss.formatedDistance}"/>
                                                 </div>
                                             </aura:if>
                                         </div>
-                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"/>
+
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
                                             <button data-hcpe-id="{!ss.hcpe.Id}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">
                                                 {!$Label.c.BTN_Select_as_Preferred_Site}
                                             </button>
                                         </div>
                                     </div>
                                 </aura:iteration>
+                                <aura:iteration items="{!v.studySitesPending}" var="ss">
+                                    <div class="slds-grid slds-wrap slds-p-around--medium">
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ">
+                                            <div class="ssi-site-name">
+                                                    {!ss.site.Name}
+                                            </div>
+                                            <div class="ssi-pi-name">
+                                                    {!ss.site.Principal_Investigator__r.Salutation + ' ' + ss.site.Principal_Investigator__r.Name}
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                                            <div class="ssi-site-type">
+                                                    {!ss.siteType + ' Site'}
+                                            </div>
+                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                                <div class="ssi-site-distance">
+                                                    <aura:unescapedHtml value="{!ss.formatedDistance}"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"/>
+
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
+                                            <button class="apollo-btn secondary" style="margin-top: 10px" disabled="true">
+                                                {!ss.hcpe.Status__c}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </aura:iteration>
+                                <div class="slds-grid slds-wrap slds-grid_align-center slds-p-around--medium slds-grid_vertical-align-center"
+                                     style="min-height: 100%;">
+                                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
+                                        <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
+                                    </div>
+                                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
+                                        <button class="apollo-btn primary slvi-search-site-btn"
+                                                onclick="{!c.doGoFindStudySites}">Find More Sites for This Study
+                                        </button>
+                                    </div>
+                                </div>
+
+
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
                                 <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>
@@ -384,6 +429,64 @@
                                 title="{!v.actions.refer.disableReason}"-->
 
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
+                        </button>
+                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
+                    </div>
+                </div>
+            </aura:if>
+
+
+            <aura:if isTrue="{!v.currentState == 'No Active Sites'}">
+                <div class="rr-width-limiter">
+                    <div class="big-alert" style="padding: 10px 0">
+                        <div class="message">You must be approved to refer to one or more sites before you can refer a patient.</div>
+                    </div>
+                    <div class="q-failed">
+                        <!--span>Text relating to patient who failed questionare</span-->
+
+                        <aura:if isTrue="{!!empty(v.studySitesPending)}">
+                            <div class="slds-grid slds-wrap pe-panel">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1">
+                                    <aura:iteration items="{!v.studySitesPending}" var="ss">
+                                        <div class="slds-grid slds-wrap slds-p-around--medium">
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ">
+                                                <div class="ssi-site-name">
+                                                    {!ss.site.Name}
+                                            </div>
+                                                <div class="ssi-pi-name">
+                                                    {!ss.site.Principal_Investigator__r.Salutation + ' ' + ss.site.Principal_Investigator__r.Name}
+                                            </div>
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                                                <div class="ssi-site-type">
+                                                    {!ss.siteType + ' Site'}
+                                            </div>
+                                                <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                                    <div class="ssi-site-distance">
+                                                        <aura:unescapedHtml value="{!ss.formatedDistance}"/>
+                                                    </div>
+                                                </aura:if>
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"/>
+
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
+                                                <button class="apollo-btn secondary" style="margin-top: 10px" disabled="true">
+                                                {!ss.hcpe.Status__c}
+                                            </button>
+                                            </div>
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
+                                    <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>
+                                </div>
+                            </div>
+                        </aura:if>
+
+                        <button class="apollo-btn primary"
+                                onclick="{!c.doGoFindStudySites}">
+
+                            {!$Label.c.BTN_Find_study_sites}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">{!$Label.c.PG_MRR_BTN_Back_to_My_Studies}</button>
                     </div>

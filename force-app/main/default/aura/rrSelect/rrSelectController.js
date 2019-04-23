@@ -6,6 +6,7 @@
         if(component.get('v.useSentenceFont')){
             var wordsSet = new Set(['PI', 'HCP']);
             var options = component.get('v.options');
+            if(!options) return;
             for(var i = 0; i < options.length; i++){
                 var option = options[i];
                 if(option.label){

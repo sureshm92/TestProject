@@ -136,7 +136,12 @@
         var reminderFrequencyComponent = component.find('reminderFreqId');
         var reminderDateComponent = component.find('reminderDateId');
         console.log(dueDate);
-        if(!dueDate) component.set('v.frequencyEnabled', false);
+        if(!dueDate) {
+            component.set('v.frequencyEnabled', false);
+            if(component.get('v.reminderEnabled')){
+                component.set('v.reminderDateEnabled', true);
+            }
+        }
         if (component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')) {
             component.get('v.reminderDateEnabled')
             if (dueDate) {

@@ -40,7 +40,6 @@
                 component.find('openToReceiveReferralsModal').show(trial);
                 break;
         }
-    }
-
+    },
 
 })

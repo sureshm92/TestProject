@@ -9,6 +9,7 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         articleService.addDefaultImage(newList);
         articleService.calculateExpirationDate(newList);
         articleService.validateUpdatedDate(newList);
+        articleService.updateRemoveSharing(newList);
     }
 
     public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -16,6 +17,7 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         articleService.addDefaultImage(newList);
         articleService.calculateExpirationDate(newList, (Map<Id, Resource__c>) oldMap);
         articleService.validateUpdatedDate(newList);
+        articleService.updateRemoveSharing(newList, (Map<Id, Resource__c>) oldMap);
     }
 
     public override void afterInsert(List<SObject> newList) {

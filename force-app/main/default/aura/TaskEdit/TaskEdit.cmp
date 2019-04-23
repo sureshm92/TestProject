@@ -24,6 +24,7 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
+
     <!-- top bar with buttons: -->
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
     <aura:if isTrue="{!v.initialized}">
@@ -176,9 +177,9 @@
                             </div>
                             <div class="text">
                                 <aura:unescapedHtml value="{!v.errorMessage}"/>
-                            </div>
-                            <div onclick="{!c.doInit}" class="icon-refresh">
-                                <lightning:icon iconName="action:refresh" alternativeText="Refresh"/>
+                                <div onclick="{!c.doInit}" class="icon-refresh">
+                                    <lightning:icon iconName="action:refresh" alternativeText="Refresh"/>
+                                </div>
                             </div>
                         </aura:if>
 
@@ -190,7 +191,7 @@
                 <!--Reminder Frequency-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
-                                      onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}" value="Complete By Date">
+                                      onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}" value="{!$Label.c.Complete_By_Date}">
                         <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
                             <option text="{!freq}"></option>
                         </aura:iteration>
@@ -199,7 +200,7 @@
                 <!--Reminder Date-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
-                                     value="{!v.task.Completed_Date__c}" disabled="{!!v.reminderDateEnabled}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                                     value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
                 </div>
             </div>
 

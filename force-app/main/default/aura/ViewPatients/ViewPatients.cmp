@@ -24,7 +24,7 @@
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
 
     <div class="rr-min-body-height">
-        <aura:if isTrue="{!v.isInitialized}">
+<!--        <aura:if isTrue="{!v.isInitialized}">-->
 
                 <div class="vp-navigation">
                     <aura:if isTrue="{!empty(v.parent)}">
@@ -46,6 +46,6 @@
             </aura:if>
             <c:ViewPatientsReferred showStatistics="{!v.userMode=='PI'}" studyFilterEnabled="true" trialId="{!v.trialId}" siteId="{!v.siteId}"
                                     header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}" parent="{!v.parent}"/>
-        </aura:if>
+<!--        </aura:if>-->
     </div>
 </aura:component>

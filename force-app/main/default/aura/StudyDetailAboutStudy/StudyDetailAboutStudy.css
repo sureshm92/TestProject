@@ -310,3 +310,9 @@
         width: 150px;
     }
 }
+
+.THIS .primary-contact-select{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-width: 100px;
+}

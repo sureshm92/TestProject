@@ -7,4 +7,12 @@ trigger StudySiteTrigger on Study_Site__c (before insert, before update, before 
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
+
+    // TODO: FIX FOR TRIGGER CONVENTIONS!
+    if (Trigger.isAfter && Trigger.isUpdate) {
+        ReferralNetworkService.sendEmails(Trigger.new, Trigger.oldMap);
+    }
+    if (Trigger.isAfter && Trigger.isInsert) {
+        ReferralNetworkService.sendEmails(Trigger.new, null);
+    }
 }

@@ -40,6 +40,7 @@
             component.set('v.pendingPEnrollments', initData.pendingPEnrollments);
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Discussion"));
             component.set('v.studySites', initData.studies);
+            component.set('v.studySitesPending', initData.studiesPending);
             component.set('v.studySiteMarkers', initData.markers);
             component.set('v.showMRRButton', initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c);
             component.set('v.searchResult', undefined);
@@ -54,12 +55,18 @@
 
             if(initData.participantEnrollment) {
                 helper.setParticipant(component, initData.participantEnrollment);
-                component.set('v.currentState', 'Screening');
+                if(initData.studies.length > 0){
+                    component.set('v.currentState', 'Screening');
+                }
+                else{
+                    component.set('v.currentState', 'No Active Sites');
+                }
+
             }else{
                 component.set('v.currentState', 'Select Source')
             }
             if(!initData.trial.Link_to_Pre_screening__c){
-                component.set('v.steps', [$A.get("$Label.c.PG_Ref_Step_Discussion"), $A.get("$Label.c.PG_Ref_Step_Contact_Info")]);
+                component.set('v.steps', [$A.get("$Label.c.PG_Ref_Step_Discussion"),$A.get("$Label.c.PG_Ref_Step_Site_Selection"), $A.get("$Label.c.PG_Ref_Step_Contact_Info")]);
             }
             if(!initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c){
                 component.set('v.currentState', 'Search PE');
@@ -72,8 +79,8 @@
         });
     },
 
-    doSelectNewAsCurrentSource: function (component) {
-        component.set('v.currentState', 'Screening');
+    doSelectNewAsCurrentSource: function (component, event, helper) {
+        helper.checkSites(component);
     },
 
     doStartOver: function (component) {
@@ -96,14 +103,12 @@
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
         window.scrollTo(0, 0);
-        if(trial.Link_to_Pre_screening__c){
-            if(!hcpeId){
-                component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
-            }
-            else{
+        if(!hcpeId){
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
+        }
+        else if(trial.Link_to_Pre_screening__c){
                 helper.addEventListener(component, helper);
                 component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
-            }
         }else{
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Contact_Info"));
         }
@@ -112,11 +117,17 @@
 
     doSelectSite: function (component, event, helper) {
         debugger;
+        var trial = component.get('v.trial');
         var hcpeId = event.target.dataset.hcpeId;
         component.set('v.hcpeId',hcpeId);
-        component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
-        component.find('mainSpinner').show();
-        helper.addEventListener(component, helper);
+        if(trial.Link_to_Pre_screening__c){
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
+            component.find('mainSpinner').show();
+            helper.addEventListener(component, helper);
+        }
+        else {
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Contact_Info"));
+        }
         window.scrollTo(0, 0);
 
     },
@@ -128,6 +139,10 @@
 
     doGoHome: function () {
         communityService.navigateToPage('');
+    },
+
+    doGoFindStudySites : function(component) {
+        communityService.navigateToPage('sites-search?id=' + component.get('v.trialId'));
     },
 
     doReferrAnotherPatient: function (component) {
@@ -143,7 +158,7 @@
             if(pe.Id === peId){
                 component.set('v.pEnrollment', pe);
                 helper.setParticipant(component, pe);
-                component.set('v.currentState', 'Screening');
+                helper.checkSites(component);
                 component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Discussion"));
                 window.scrollTo(0, 0);
                 return;
@@ -186,7 +201,7 @@
         if(component.get('v.mrrResult') === 'Start Pre-Screening'){
             var searchResult = component.get('v.searchResult');
             component.set('v.pEnrollment', searchResult.pe);
-            component.set('v.currentState', 'Screening');
+            helper.checkSites(component);
             component.set('v.participant', {
                 sobjectType: 'Participant__c',
                 First_Name__c: searchResult.pe.Participant_Name__c,

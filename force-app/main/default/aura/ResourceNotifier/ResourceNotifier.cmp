@@ -1,0 +1,40 @@
+<!--
+ - Created by AlexKetch on 4/16/2019.
+ -->
+
+<aura:component controller="ResourceNotifierRemote" description="ResourceNotifier"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+                extends="c:LightningService">
+    <aura:attribute name="resourceRecord" type="Object" default=""/>
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Name,RecordType.Name,Content_Class__c,Updated_Date__c"
+                      targetFields="{!v.resourceRecord}"
+                      targetError="{!v.recordLoadError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+    />
+    <div aura:Id="modalDialog" class="slds-hide">
+        <!--hide standard toast-->
+        <aura:html aura:Id="toast" tag="style">
+            .slds-notify--toast{
+                display:none!important;
+            }
+        </aura:html>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open ">
+            <div  class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.update_resource_content}</h2>
+                </header>
+               <!-- <div class="slds-modal__content slds-p-around_medium color-text-brand" id="modal-content-id-1">
+                    <p>{!$Label.c.update_resource_content}</p>
+                </div>-->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.closePopUp}">No</button>
+                    <button class="slds-button slds-button_brand" onclick="{!c.setupdatedDate}">Yes</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

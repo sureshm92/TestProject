@@ -40,7 +40,8 @@ public without sharing class TaskService {
             'WhatId',
             'Task_Type__c',
             'Visible_For__c',
-            'Action_URL__c'
+            'Action_URL__c',
+            'Reminder_Date__c'
     };
     
     private static TaskService instance;
@@ -150,6 +151,15 @@ public without sharing class TaskService {
                 TASK_STATUS_IN_PROGRESS
         };
         return ' Status IN (\'' + String.join(statusFilter, '\',\'') +  '\') ';
+    }
+    
+    public void completeCYPTaskForParticipant(){
+        List<Task> tasks = getTasksCommon('Task_Code__c =\'' +
+                TASK_CODE_COMPLETE_YOUR_PROFILE +'\' AND ' + getOpenTasksFilter());
+        if(tasks.size() > 0){
+            completeTask(tasks[0]);
+            update tasks[0];
+        }
     }
     
     private String getCompletedTasksFilter(){
