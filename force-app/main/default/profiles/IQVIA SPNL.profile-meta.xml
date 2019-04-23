@@ -2787,18 +2787,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Enrolled__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.First_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Follow_Up_Period_Started__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2888,16 +2878,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant__c.Participant_Dropped_Out__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Participation_Complete__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant__c.Phone_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2909,11 +2889,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Study_Enrollment_Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Treatment_Period_Started__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
