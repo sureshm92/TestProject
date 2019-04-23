@@ -18,9 +18,6 @@
                     coiWrapper.isSelected = true;
                 }
             });
-            // coiWrappers.sort((a, b) => {
-            //     return (a.isSelected  === b.isSelected) ? 0 : a.isSelected ? -1 : 1;
-            // });
             component.set('v.displayedItems', coiWrappers);
         });
     },
