@@ -1,0 +1,15 @@
+<!--
+ - Created by user on 23-Apr-19.
+ -->
+
+<aura:component description="ExternalParticipant">
+    <aura:attribute name="participants" type="Object[]"/>
+    <aura:attribute name="participantId" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:input label="Participant Id" value="{!v.participantId}"/>
+    <button onclick="{!c.doInit}">Search</button>
+    <aura:iteration items="{!v.participants}" var="participant">
+    </aura:iteration>
+</aura:component>
