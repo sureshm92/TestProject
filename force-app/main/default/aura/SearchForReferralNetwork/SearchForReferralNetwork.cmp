@@ -18,7 +18,7 @@
 
         <div>
             <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
-                             variant="label-hidden" placeholder="Search for Referral Networks"/>
+                             variant="label-hidden" placeholder="{!$Label.c.ReferralNetwork_Search_For}"/>
         </div>
 
         <div class="slds-m-top--medium" style="height: 220px; overflow-y: scroll;">
