@@ -6,7 +6,7 @@ public with sharing class ManualTaskLookupRemote {
 
     public static final Integer MAX_RESULTS = 5;
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchTherapeutic(String searchTerm, List<String> selectedIds) {
         // Prepare query paramters
         searchTerm += '*';
@@ -25,7 +25,7 @@ public with sharing class ManualTaskLookupRemote {
         String icon = 'custom:custom18';
 
         Therapeutic_Area__c [] studies = ((List<Therapeutic_Area__c>) searchResults[0]);
-        for (Therapeutic_Area__c area : studies) {
+        for(Therapeutic_Area__c area : studies) {
             results.add(new LookupSearchResult(
                     area.Id,
                     'Therapeutic_Area__c',
@@ -38,7 +38,7 @@ public with sharing class ManualTaskLookupRemote {
         return results;
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchSponsor(String searchTerm, List<String> selectedIds) {
         // Prepare query paramters
         searchTerm += '*';
@@ -57,19 +57,19 @@ public with sharing class ManualTaskLookupRemote {
         String accountIcon = 'standard:account';
 
         Account [] accounts = ((List<Account>) searchResults[0]);
-        for (Account account : accounts)
-            results.add(
-                    new LookupSearchResult(account.Id,
+        for(Account account : accounts) {
+            results.add(new LookupSearchResult(
+                            account.Id,
                             'Account',
                             accountIcon,
                             account.Name,
                             '')
             );
-
+        }
         return results;
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchCountries(String searchTerm, List<String> selectedIds) {
         String icon = 'custom:custom68';
 
@@ -81,7 +81,7 @@ public with sharing class ManualTaskLookupRemote {
                 //not dublicate
                 if(selectedIds.contains(item.value)) continue;
 
-                if(item.label.containsIgnoreCase(searchTerm))
+                if(item.label.containsIgnoreCase(searchTerm)){
                     results.add(new LookupSearchResult(
                             item.value,
                             'Country',
@@ -89,17 +89,17 @@ public with sharing class ManualTaskLookupRemote {
                             item.label,
                             ''
                     ));
+                }
 
                 if(results.size() >= MAX_RESULTS) break;
             }
-
             return results;
         }catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchStudy(String searchTerm, List<String> selectedIds) {
         // Prepare query paramters
         searchTerm += '*';
@@ -117,7 +117,7 @@ public with sharing class ManualTaskLookupRemote {
         List<LookupSearchResult> results = new List<LookupSearchResult>();
 
         Clinical_Trial_Profile__c [] studies = ((List<Clinical_Trial_Profile__c>) searchResults[0]);
-        for (Clinical_Trial_Profile__c study : studies) {
+        for(Clinical_Trial_Profile__c study : studies) {
             results.add(new LookupSearchResult(
                     study.Id,
                     'Clinical_Trial_Profile__c',
@@ -126,11 +126,10 @@ public with sharing class ManualTaskLookupRemote {
                     'Code name ' + study.Study_Code_Name__c)
             );
         }
-
         return results;
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchSite(String searchTerm, List<String> selectedIds) {
         // Prepare query paramters
         searchTerm += '*';
@@ -148,15 +147,15 @@ public with sharing class ManualTaskLookupRemote {
         Study_Site__c [] sites = ((List<Study_Site__c>) searchResults[0]);
 
         List<LookupSearchResult> results = new List<LookupSearchResult>();
-        for (Study_Site__c site : sites)
-            results.add(
-                    new LookupSearchResult(site.Id,
-                            'Study_Site__c',
-                            icon,
-                            site.Name,
-                            '')
+        for(Study_Site__c site : sites) {
+            results.add(new LookupSearchResult(
+                    site.Id,
+                    'Study_Site__c',
+                    icon,
+                    site.Name,
+                    '')
             );
-
+        }
         return results;
     }
 }
