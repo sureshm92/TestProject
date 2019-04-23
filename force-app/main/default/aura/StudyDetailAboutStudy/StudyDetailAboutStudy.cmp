@@ -198,11 +198,6 @@
                             <div class="title">{!$Label.c.PG_SW_F_Enrollment_End_Date}</div>
                             <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/></div>
                         </aura:if>
-                        <aura:if isTrue="{!and(!v.studyDetail.isDelegate, v.userMode == 'PI')}">
-                            <div class="sdas-full-separator"></div>
-                            <div class="title">Primary Contact</div>
-                            <c:rrSelect class="primary-contact-select" value="{!v.studyDetail.primaryContact}" options="{!v.studyDetail.primaryContactOptions}"/>
-                        </aura:if>
                     </div>
                 </div>
             </div>

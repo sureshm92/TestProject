@@ -34,22 +34,22 @@
                                 <div class="rri-icon slds-float_right">
                                     <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
                                     </span>
                                     </a>
                                     <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
                                     </span>
                                     </a>
                                     <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
                                     </span>
                                     </a>
                                     <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
                                     </span>
                                     </a>
                                 </div>
@@ -129,19 +129,19 @@
                                 <a href="javascript:void(0);"
                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
                                    onclick="{!c.toggleStudySiteListView}">
-                                    <span class="slds-m-right--xx-small">Associated Sites and Site Details</span>
+                                    <span class="slds-m-right--xx-small">{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span>
                                     <c:RRIcon iconName="icon-chevron-right"/>
                                 </a>
                             </div>
                             <aura:if isTrue="{!v.searchItem}">
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments}">
                                     <div>
-                                        <span class="slds-m-right--xx-small rr-blue-color">You are already associated with this study.</span>
+                                        <span class="slds-m-right--xx-small rr-blue-color">{!$Label.c.MyStudy_You_are_already_associated}</span>
                                     </div>
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
-                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Sites For This Study to search for sites.</span>
+                                        <span class="slds-m-right--xx-small">{!$Label.c.MyStudy_No_sites_associated_yet}</span>
                                     </div>
                                 </aura:if>
                             </aura:if>
@@ -198,8 +198,7 @@
                                             {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
                                         </div>
                                     <div class="site-sub-header slds-m-top--x-small">
-                                            {!empty(siteWrapper.site.Primary_Contact__c)?(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name):
-                                                    (siteWrapper.site.Primary_Contact__r.Title + ' ' + siteWrapper.site.Primary_Contact__r.Name)}
+                                            {!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
                                     </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
@@ -212,27 +211,25 @@
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap slds-m-top--x-small">
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12">
                                     <div class="site-address">
-                                            {!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.MailingStreet:
-                                                    siteWrapper.site.Primary_Contact__r.MailingStreet}
+                                            {!siteWrapper.site.Principal_Investigator__r.MailingStreet}
                                     </div>
                                     <div class="site-address slds-m-top--xx-small">
-                                            {!empty(siteWrapper.site.Primary_Contact__c)?(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode):
-                                                    (siteWrapper.site.Primary_Contact__r.MailingCity + ' ' + siteWrapper.site.Primary_Contact__r.MailingState + ' ' + siteWrapper.site.Primary_Contact__r.MailingPostlCode)}
+                                            {!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}
                                     </div>
                                     </div>
-                                    <div class="slds-col slds-show_medium slds-size_1-of-12">
-                                        <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>
-                                    </div>
-                                    <div class="slds-col slds-m-vertical_small slds-hide_medium slds-size_1-of-2">
-                                        <div style="height: 1px; background-color: gray; "></div>
-                                    </div>
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                                    <div class="site-address">{!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.Name:siteWrapper.site.Primary_Contact__r.Name}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.Phone:siteWrapper.site.Primary_Contact__r.Phone}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!empty(siteWrapper.site.Primary_Contact__c)?siteWrapper.site.Principal_Investigator__r.Email:siteWrapper.site.Primary_Contact__r.Email}</div>
-                                    </div>
+<!--                                    <div class="slds-col slds-show_medium slds-size_1-of-12">-->
+<!--                                        <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>-->
+<!--                                    </div>-->
+<!--                                    <div class="slds-col slds-m-vertical_small slds-hide_medium slds-size_1-of-2">-->
+<!--                                        <div style="height: 1px; background-color: gray; "></div>-->
+<!--                                    </div>-->
+<!--                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">-->
+<!--                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>-->
+<!--                                    <div class="site-address slds-m-top&#45;&#45;xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>-->
+<!--                                    <div class="site-address slds-m-top&#45;&#45;xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>-->
+<!--                                    </div>-->
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
                                         <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                                             <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
@@ -281,11 +278,11 @@
                         <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
                              style="min-height: 100%;">
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
-                                <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
+                                <span class="header-white-panel" style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
                             </div>
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                 <button class="apollo-btn primary slvi-search-site-btn"
-                                        onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study
+                                        onclick="{!c.navigateToSitesSearch}">{!$Label.c.MyStudy_Find_More_Sites}
                                 </button>
                             </div>
                         </div>

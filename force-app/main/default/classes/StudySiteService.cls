@@ -11,6 +11,8 @@ public without sharing class StudySiteService {
     public final static String PI_S_ON_HOLD_A = 'On Hold (Admin)';
     public final static String PI_S_DEACTIVATED_A = 'Deactivated (Admin)';
     public final static String PI_S_DECLINED_ACCEPTANCE = 'Declined (Acceptance)';
+
+
     //oldStatus/<actionType, newStatus>
     public final static Map<String, Map<String, String>> SS_CHANGE_STATUS_MAP = new Map<String, Map<String, String>>();
 
@@ -23,6 +25,24 @@ public without sharing class StudySiteService {
             PI_S_ON_HOLD,
             PI_S_ON_HOLD_A
     };
+
+    public final static String SS_TYPE_TRADITIONAL = 'Traditional';
+    public final static String SS_TYPE_VIRTUAL = 'Virtual';
+    public final static String SS_TYPE_HYBRID = 'Hybrid';
+
+    public final static List<String> SS_TYPE_SHOW_DISTANCE = new List<String>{
+            SS_TYPE_TRADITIONAL,
+            SS_TYPE_HYBRID
+    };
+
+    public final static List<String> SS_TYPE_VT_INTEGRATION = new List<String>{
+            SS_TYPE_VIRTUAL,
+            SS_TYPE_HYBRID
+    };
+
+    public final static String SS_SORT_TYPE_DISTANCE = 'Distance';
+    public final static String SS_SORT_TYPE_DISTANCE_VIRT_LAST = 'Distance-virtual-last';
+
 
     static {
         for (Schema.PicklistEntry ple : Study_Site__c.Override_PI_Referral_Status__c.getDescribe().getPicklistValues()) {
@@ -43,16 +63,16 @@ public without sharing class StudySiteService {
 
     private static StudySiteService instance;
 
-    public static StudySiteService getInstance(){
-        if(instance == null) instance = new StudySiteService();
+    public static StudySiteService getInstance() {
+        if (instance == null) instance = new StudySiteService();
         return instance;
     }
 
-    public static void setMock(StubProvider stubProvider){
+    public static void setMock(StubProvider stubProvider) {
         instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
     }
 
-    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
         List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
@@ -97,7 +117,7 @@ public without sharing class StudySiteService {
         return result;
     }
 
-    public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode){
+    public SiteFilterData getSiteFilterDataImpl(Id trialId, String mode) {
         Id userContactId = CommunityService.getUserContact().Id;
 
         SiteFilterData siteFilterData = new SiteFilterData();
@@ -106,12 +126,9 @@ public without sharing class StudySiteService {
         siteFilterData.siteTypes = new List<LabelValueItem>();
         siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_All_Site_Types, null));
         Schema.DescribeFieldResult siteTypesfield = Study_Site__c.Study_Site_Type__c.getDescribe();
-        for (PicklistEntry ple : siteTypesfield.getPicklistValues()){
-            siteFilterData.siteTypes.add(new LabelValueItem(ple.label,ple.value));
+        for (PicklistEntry ple : siteTypesfield.getPicklistValues()) {
+            siteFilterData.siteTypes.add(new LabelValueItem(ple.label, ple.value));
         }
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
         siteFilterData.distanceRanges = new List<LabelValueItem>();
         siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
         siteFilterData.therapeuticAreas = new List<LabelValueItem>();
@@ -179,18 +196,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.MailingAddress',
             'Principal_Investigator__r.Phone',
             'Principal_Investigator__r.Email',
-            'Principal_Investigator__r.Salutation',
-            'Primary_Contact__c',
-            'Primary_Contact__r.Name',
-            'Primary_Contact__r.Title',
-            'Primary_Contact__r.MailingStreet',
-            'Primary_Contact__r.MailingCity',
-            'Primary_Contact__r.MailingState',
-            'Primary_Contact__r.MailingPostalCode',
-            'Primary_Contact__r.MailingAddress',
-            'Primary_Contact__r.Phone',
-            'Primary_Contact__r.Email',
-            'Primary_Contact__r.Salutation'
+            'Principal_Investigator__r.Salutation'
     };
 
 
@@ -321,9 +327,6 @@ public without sharing class StudySiteService {
         for (PicklistEntry ple : siteTypesfield.getPicklistValues()) {
             siteFilterData.siteTypes.add(new LabelValueItem(ple.label, ple.value));
         }
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Virtual, 'Virtual'));
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Traditional, 'Traditional'));
-//        siteFilterData.siteTypes.add(new LabelValueItem(Label.PG_SFS_L_Hybrid, 'Hybrid'));
         siteFilterData.distanceRanges = new List<LabelValueItem>();
         siteFilterData.distanceRanges.add(new LabelValueItem(Label.PG_SFS_L_Any_distance, null));
         siteFilterData.distanceRanges.add(new LabelValueItem('5   ' + DistanceHelper.getUnitsOfMeasurementLabel(), '5'));
@@ -349,20 +352,23 @@ public without sharing class StudySiteService {
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
             this.site = site;
-            this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
-            if (this.distance != null) {
-                this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
-            } else {
-                this.formatedDistance = null;
+            this.siteType = site.Study_Site_Type__c;
+            if(SS_TYPE_SHOW_DISTANCE.contains(this.siteType)){
+
+                this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+                if (this.distance != null) {
+                    this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
+                } else {
+                    this.formatedDistance = null;
+                }
             }
 
             if (sortType != null && sortType != '') {
                 this.sortType = sortType;
             } else {
-                this.sortType = 'Distance';
+                this.sortType = SS_SORT_TYPE_DISTANCE;
             }
 
-            this.siteType = site.Study_Site_Type__c;
             this.hcpe = hcpe;
             if (hcpe != null) {
                 this.actions = new StudyActionsHCP(hcpe).actions;
@@ -374,44 +380,40 @@ public without sharing class StudySiteService {
         }
         public Integer compareTo(Object compareTo) {
             StudySiteDistanceWrapper compareToWrapper = (StudySiteDistanceWrapper) compareTo;
-            switch on sortType {
-                when 'Distance' {
-                    if (this.siteType == 'Virtual' && compareToWrapper.siteType == 'Virtual') {
-                        return 0;
-                    } else if (this.siteType == 'Virtual') {
-                        return -1;
-                    } else if (compareToWrapper.siteType == 'Virtual') {
-                        return 1;
-                    } else if (this.distance == null) {
-                        return 1;
-                    } else if (compareToWrapper.distance == null) {
-                        return -1;
-                    } else {
-                        return (Integer) (this.distance - compareToWrapper.distance);
-                    }
-                }
-                when 'Distance-virtual-last' {
-                    if (this.siteType == 'Virtual' && compareToWrapper.siteType == 'Virtual') {
-                        return 0;
-                    } else if (this.siteType == 'Virtual') {
-                        return 1;
-                    } else if (compareToWrapper.siteType == 'Virtual') {
-                        return -1;
-                    } else if (this.distance == null) {
-                        return 1;
-                    } else if (compareToWrapper.distance == null) {
-                        return -1;
-                    } else {
-                        return (Integer) (this.distance - compareToWrapper.distance);
-                    }
-                }
-                when else {
+            if (sortType == SS_SORT_TYPE_DISTANCE){
+                if (!SS_TYPE_SHOW_DISTANCE.contains(this.siteType) && !SS_TYPE_SHOW_DISTANCE.contains(compareToWrapper.siteType)) {
                     return 0;
+                } else if (!SS_TYPE_SHOW_DISTANCE.contains(this.siteType)) {
+                    return -1;
+                } else if (!SS_TYPE_SHOW_DISTANCE.contains(compareToWrapper.siteType)) {
+                    return 1;
+                } else if (this.distance == null) {
+                    return 1;
+                } else if (compareToWrapper.distance == null) {
+                    return -1;
+                } else {
+                    return (Integer) (this.distance - compareToWrapper.distance);
                 }
             }
-
+            else if(sortType == SS_SORT_TYPE_DISTANCE_VIRT_LAST) {
+                if (!SS_TYPE_SHOW_DISTANCE.contains(this.siteType) && !SS_TYPE_SHOW_DISTANCE.contains(compareToWrapper.siteType)) {
+                    return 0;
+                } else if (!SS_TYPE_SHOW_DISTANCE.contains(this.siteType)) {
+                    return 1;
+                } else if (!SS_TYPE_SHOW_DISTANCE.contains(compareToWrapper.siteType)) {
+                    return -1;
+                } else if (this.distance == null) {
+                    return 1;
+                } else if (compareToWrapper.distance == null) {
+                    return -1;
+                } else {
+                    return (Integer) (this.distance - compareToWrapper.distance);
+                }
+            }
+            else {
+                return 0;
+            }
         }
-
     }
 
     public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
@@ -458,7 +460,7 @@ public without sharing class StudySiteService {
         return result;
     }
 
-    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
         String filterString = '';
         if (filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())) {
             filterString = 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\' ';
