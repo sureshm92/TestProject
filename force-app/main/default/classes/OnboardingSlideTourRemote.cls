@@ -17,7 +17,8 @@ public without sharing class OnboardingSlideTourRemote {
             if(staticResource != null) imageURL = '/resource/' + staticResource.SystemModStamp.getTime() + '/' + staticResource.Name;
         }
     }
-    
+
+    //TODO unused?
     public class InitData{
         public Map<String, String> systemTourNames;
         public Map<String, Boolean> showOnLogin;
