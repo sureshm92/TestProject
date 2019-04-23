@@ -105,6 +105,10 @@
     margin-bottom: 16px;
 }
 
+.THIS span > p {
+    padding-bottom: 14px;
+}
+
 .THIS .resource-title {
     color: #666666;
     font-family: "Proxima Nova";
