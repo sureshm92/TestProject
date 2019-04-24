@@ -277,6 +277,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Detailed_Description__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',

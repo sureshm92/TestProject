@@ -34,11 +34,8 @@
                 </div>
                 <!--c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/logo.svg#full-logo'}" class="title-logo"/-->
                 <div class="logo-container">
-                    <aura:if isTrue="{!v.mode == 'Participant'}">
-                        <img src="{!$Resource.PH_logo + '/Logo@3x.png'}" class="title-logo" onclick="{!c.doGoHome}"/>
-                        <aura:set attribute="else">
-                            <img src="{!$Resource.rr_community_icons + '/logo_3x.png'}" class="title-logo" onclick="{!c.doGoHome}"/>
-                        </aura:set>
+                    <aura:if isTrue="{!v.isInitialized}">
+                        <img src="{!if(v.mode == 'Participant', $Resource.PH_logo + '/Patient_Portal_Logo.svg', $Resource.rr_community_icons + '/logo_3x.png')}" class="title-logo" onclick="{!c.doGoHome}"/>
                     </aura:if>
                 </div>
 

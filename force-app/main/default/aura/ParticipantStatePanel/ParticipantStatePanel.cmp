@@ -20,6 +20,4 @@
             </aura:set>
         </aura:if>
     </div>
-
-
 </aura:component>

@@ -90,7 +90,17 @@ public without sharing class PSETriggerHandler {
     private static void createCompleteBaselineSurveyTask(List<Participant_Study_Enrollment__c> newList){
         List<Task> tasks = new List<Task>();
         List<Id> participantIds = new List<Id>();
-        for(Participant_Study_Enrollment__c pse : newList) participantIds.add(pse.Participant__c);
+        List<Participant_Study_Enrollment__c> pseList = [
+                SELECT Id,
+                       Participant__c,
+                       Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c
+                FROM Participant_Study_Enrollment__c
+                WHERE Id IN:newList
+        ];
+
+        for(Participant_Study_Enrollment__c pse : pseList) {
+            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') participantIds.add(pse.Participant__c);
+        }
         List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN: participantIds];
         List<Id> contactIds = new List<Id>();
         for(Participant__c participant : participants) contactIds.add(participant.Contact__c);

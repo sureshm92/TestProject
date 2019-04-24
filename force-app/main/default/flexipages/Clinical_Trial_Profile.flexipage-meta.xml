@@ -24,30 +24,83 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Clinical_Trial_Profile__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>Study_Site_Profiles__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListComponentOverride</name>
+                <value>NONE</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+        </componentInstances>
+        <name>Facet-4f582b73-b900-470e-8b67-163576151b32</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Clinical_Trial_Profile__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>HCP_Enrollments__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListComponentOverride</name>
+                <value>NONE</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+        </componentInstances>
+        <name>Facet-969260cd-881c-4201-844f-889287951623</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-4f582b73-b900-470e-8b67-163576151b32</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Study Sites</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>active</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-969260cd-881c-4201-844f-889287951623</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Referring Providers</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <name>Facet-3b450426-369a-407b-9c0a-18315fca6275</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>tabs</name>
+                <value>Facet-3b450426-369a-407b-9c0a-18315fca6275</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tabset</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentName>StudyLogo</componentName>
         </componentInstances>
-        <!--componentInstances>
-            <componentName>StudyLogo</componentName>
-        </componentInstances-->
-        <!--componentInstances>
-            <componentInstanceProperties>
-                <name>cacheAge</name>
-                <value>1440</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>reportFilter</name>
-                <value>Participant_Enrollment__c.Study_Site__c.Clinical_Trial_Profile__c.Id</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>reportName</name>
-                <value>Enrollments</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>showRefreshButton</name>
-                <value>true</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:reportChart</componentName>
-        </componentInstances-->
         <componentInstances>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
