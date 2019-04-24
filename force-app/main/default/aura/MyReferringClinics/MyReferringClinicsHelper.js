@@ -35,5 +35,21 @@
         } else {
             component.set("v.filteredReferringClinics", component.get("v.referringClinics"));
         }
+    },
+    clearInviteFields: function (component, event, helper) {
+        var rpData = {
+            firstName: '',
+            lastName: '',
+            clinicName: '',
+            phone: '',
+            studySiteId: ''
+        };
+        component.set("v.rpData", rpData);
+        var studySitesForInvitation = component.get('v.studySitesForInvitation');
+        for(var i = 0; i< studySitesForInvitation.length; i++){
+            studySitesForInvitation[i].selected = false;
+        }
+        component.set("v.studySitesForInvitation", studySitesForInvitation);
+
     }
 })

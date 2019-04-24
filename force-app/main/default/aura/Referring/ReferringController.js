@@ -40,6 +40,7 @@
             component.set('v.pendingPEnrollments', initData.pendingPEnrollments);
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Discussion"));
             component.set('v.studySites', initData.studies);
+            component.set('v.studySitesPending', initData.studiesPending);
             component.set('v.studySiteMarkers', initData.markers);
             component.set('v.showMRRButton', initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c);
             component.set('v.searchResult', undefined);
@@ -54,7 +55,13 @@
 
             if(initData.participantEnrollment) {
                 helper.setParticipant(component, initData.participantEnrollment);
-                component.set('v.currentState', 'Screening');
+                if(initData.studies.length > 0){
+                    component.set('v.currentState', 'Screening');
+                }
+                else{
+                    component.set('v.currentState', 'No Active Sites');
+                }
+
             }else{
                 component.set('v.currentState', 'Select Source')
             }
@@ -72,8 +79,8 @@
         });
     },
 
-    doSelectNewAsCurrentSource: function (component) {
-        component.set('v.currentState', 'Screening');
+    doSelectNewAsCurrentSource: function (component, event, helper) {
+        helper.checkSites(component);
     },
 
     doStartOver: function (component) {
@@ -134,6 +141,10 @@
         communityService.navigateToPage('');
     },
 
+    doGoFindStudySites : function(component) {
+        communityService.navigateToPage('sites-search?id=' + component.get('v.trialId'));
+    },
+
     doReferrAnotherPatient: function (component) {
         var hcpeId = component.get('v.hcpeId');
         communityService.navigateToPage('referring?id=' + component.get('v.trialId')+(hcpeId?'&hcpeid='+hcpeId:''));
@@ -147,7 +158,7 @@
             if(pe.Id === peId){
                 component.set('v.pEnrollment', pe);
                 helper.setParticipant(component, pe);
-                component.set('v.currentState', 'Screening');
+                helper.checkSites(component);
                 component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Discussion"));
                 window.scrollTo(0, 0);
                 return;
@@ -190,7 +201,7 @@
         if(component.get('v.mrrResult') === 'Start Pre-Screening'){
             var searchResult = component.get('v.searchResult');
             component.set('v.pEnrollment', searchResult.pe);
-            component.set('v.currentState', 'Screening');
+            helper.checkSites(component);
             component.set('v.participant', {
                 sobjectType: 'Participant__c',
                 First_Name__c: searchResult.pe.Participant_Name__c,

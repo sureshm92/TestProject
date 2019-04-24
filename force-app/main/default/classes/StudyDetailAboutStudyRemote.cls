@@ -65,6 +65,23 @@ public without sharing class StudyDetailAboutStudyRemote {
         }
     }
 
+//    @AuraEnabled
+//    public static void setPrimaryContactForStudy(Id trialId, String primaryContactId){
+//        if(primaryContactId == '')
+//            primaryContactId = null;
+//        Savepoint sp = Database.setSavepoint();
+//        try{
+//            List<Study_Site__c> sites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+//            for(Study_Site__c site: sites){
+//                site.Primary_Contact__c = primaryContactId;
+//            }
+//            update sites;
+//        }catch (Exception e){
+//            Database.rollback(sp);
+//            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+//        }
+//    }
+
     /*private static Map<Id, HCP_Enrollment__c> setStatusHCP(Id trialId, String status){
         List<HCP_Enrollment__c> enrollments = [
                 SELECT Id, Study_Site__c

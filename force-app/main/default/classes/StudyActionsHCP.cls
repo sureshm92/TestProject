@@ -75,8 +75,6 @@ public class StudyActionsHCP extends StudyActions{
                 new List<DisableReason>{
                         level2AndLowReason,
                         tcAcceptanceRequiredReason,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
                         studyNoLongerEnrollingReason
                 }
         ));
@@ -88,8 +86,6 @@ public class StudyActionsHCP extends StudyActions{
                 new List<DisableReason>{
                         level2AndLowReason,
                         tcAcceptanceRequiredReason,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
                         hcpNotActiveReason,
                         studySiteNotAcceptedReason,
                         studyNoLongerEnrollingReason
@@ -109,7 +105,7 @@ public class StudyActionsHCP extends StudyActions{
                 HCPEnrollmentService.HCP_S_DEACTIVATED_A,
                 HCPEnrollmentService.HCP_S_DECLINED_ACCEPTANCE
         };
-
+    
         actions.put(ACT_SHARE, new Action(
                 ACT_SHARE,
                 LABEL_SHARE,
@@ -121,7 +117,7 @@ public class StudyActionsHCP extends StudyActions{
                         )
                 }
         ));
-
+        
         List<String> findStudySiteStatuses = new List<String>{
                 HCPEnrollmentService.HCP_S_INVITATION_SENT,
                 HCPEnrollmentService.HCP_S_DECLINED_ACCEPTANCE,
@@ -200,7 +196,7 @@ public class StudyActionsHCP extends StudyActions{
         //MRR, Referring
         if(hcpEnrollment!= null && HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpEnrollment.Status__c)){
 //            if(study.Link_to_Medical_Record_Review__c != null) studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
-            studyListViewItemActions.add(actions.get(ACT_MY_PATIENTS));
+            //studyListViewItemActions.add(actions.get(ACT_MY_PATIENTS));
 //            if(study.Link_to_Pre_screening__c != null) studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
 //            if(study.Link_to_Medical_Record_Review__c != null && study.Link_to_Pre_screening__c == null){
 //                studyListViewItemActions.add(actions.get(ACT_REFER));

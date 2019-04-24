@@ -10,8 +10,10 @@ public without sharing class MyReferringClinicsController {
         try {
             Set<Id> trialIds = new Set<Id>();
             List<Study_Site__c> studySites;
+            List<Study_Site__c> studySitesNotDelegate;
             if (String.isEmpty(trialId)) {
                 studySites = StudySiteService.getStudySitesForPI();
+                studySitesNotDelegate = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI,null,true);
             } else {
                 studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
             }
@@ -21,6 +23,19 @@ public without sharing class MyReferringClinicsController {
             clinicDetail = getClinicDetail(HCPEnrollmentService.getEnrollmentsForPIByTrialIds(
                     trialIds, new List<String>{HCPEnrollmentService.HCP_S_INVITATION_SENT}
             ), userMode);
+            clinicDetail.studySitesForInvitation = new List<MyReferringClinicsController.SiteWrapper>();
+            if(!studySitesNotDelegate.isEmpty()){
+                Set<Id> studyIds = new Set<Id>();
+                for(Study_Site__c site: studySitesNotDelegate){
+                    if(!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)){
+                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c,site.Id);
+                        clinicDetail.studySitesForInvitation.add(sw);
+                        studyIds.add(site.Clinical_Trial_Profile__c);
+                    }
+                }
+            }
+
+
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -36,6 +51,29 @@ public without sharing class MyReferringClinicsController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+
+    @AuraEnabled
+    public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String studySiteId){
+        try{
+            List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
+            Lead l = new Lead();
+            l.FirstName = firstName;
+            l.LastName = lastName;
+            l.Phone = phone;
+            l.Company = clinicName;
+            if(studySiteId!= null && studySiteId != '')
+                l.Study_Site__c = studySiteId;
+            l.Status = 'New';
+            l.Invited_by_PI__c = CommunityService.getUserContact().Id;
+            if(invitationQueues.size() > 0){
+                l.OwnerId = invitationQueues[0].Id;
+            }
+            insert l;
+        }catch(Exception e){
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
 
     private static MyReferringClinicsController.ClinicDetail getClinicDetail(List<HCP_Enrollment__c> enrollments, String userMode) {
         MyReferringClinicsController.ClinicDetail clinicDetail = new MyReferringClinicsController.ClinicDetail();
@@ -107,6 +145,8 @@ public without sharing class MyReferringClinicsController {
         public List<SummaryContainer> summrayContainers;
         public FilterPillInfo filterInfo;
 
+        public  List<SiteWrapper> studySitesForInvitation;
+
         public ClinicDetail() {
             referringClinics = new List<MyReferringClinicsController.ClinicWrapper>();
             summrayContainers = new List<SummaryContainer>();
@@ -124,6 +164,17 @@ public without sharing class MyReferringClinicsController {
                     this.enrollments.add(createEnrollmentWrapper(enrollment));
                 }
             }
+        }
+    }
+
+    public class SiteWrapper{
+        public String StudyName;
+        public String Id;
+        public Boolean selected;
+        public SiteWrapper(String StudyName, String Id){
+            this.StudyName = StudyName;
+            this.Id = Id;
+            this.selected = false;
         }
     }
 

@@ -15,7 +15,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
     <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
-                backPage="study-workspace"
+                backPage="{!'study-workspace?tab=tab-tasks'}"
                 smallTitle="{!v.ctp.Study_Code_Name__c}"
                 bigTitle="{!$Label.c.PG_BLS_Header}">
     </c:RRTopBar>

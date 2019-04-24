@@ -20,6 +20,7 @@ public class StudyDetailItem implements Comparable {
     public String distance;
     public String therapeuticArea;
     public Datetime maxHCPCreatedDate;
+    public Boolean hasPatients;
 
     public Integer compareTo(Object compareTo) {
         StudyDetailItem compareItem = (StudyDetailItem) compareTo;
@@ -36,8 +37,12 @@ public class StudyDetailItem implements Comparable {
                 return 1;
             } else if (compareItem.sites[0].distance == null) {
                 return -1;
+            } else if (this.sites[0].distance > compareItem.sites[0].distance) {
+                return 1;
+            } else if (this.sites[0].distance < compareItem.sites[0].distance) {
+                return -1;
             } else {
-                return (Integer) (this.sites[0].distance - compareItem.sites[0].distance);
+                return 0;
             }
         }
         if (sortType == 'CreatedDate DESC') {

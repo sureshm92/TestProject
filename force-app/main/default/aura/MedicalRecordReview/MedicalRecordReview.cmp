@@ -28,7 +28,7 @@
     <aura:if isTrue="{!!empty(v.trial)}">
 
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="{!'study-workspace?id=' + v.trialId}" smallTitle="{!if(empty(v.hcpEnrollment),'',v.hcpEnrollment.Study_Site__r.Name)}" bigTitle="{!$Label.c.DLIT_L_Medical_Record_Review}"/>
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="" smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}" bigTitle="{!$Label.c.DLIT_L_Medical_Record_Review}"/>
 
         <!-- page conent -->
         <div class="rr-body-content" style="position: relative">
