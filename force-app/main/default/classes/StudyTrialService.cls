@@ -3,6 +3,8 @@
  */
 
 public without sharing class StudyTrialService {
+    public static String ACTIVELY_ENROLLING_STATUS = 'Actively Enrolling';
+
     private static List<String> TRIAL_FIELDS = new List<String>{
             'Id',
             'Name',
@@ -162,7 +164,7 @@ public without sharing class StudyTrialService {
         Location userLocation = DistanceHelper.getUserLocation();
 
         String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
-        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'Actively Enrolling\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\') ';
+        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\') ';
 
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY CreatedDate DESC ';
@@ -253,7 +255,7 @@ public without sharing class StudyTrialService {
         Map<Id, List<HCP_Enrollment__c>> trialIdToEnrollments = getTrialIdToEnrollments();
 
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
+        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', Label.Studies_FindSitesForStudy, 'map-marker', false);
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
@@ -337,7 +339,7 @@ public without sharing class StudyTrialService {
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
                 if (!studyDetailItem.hasActiveHCPEnrollments) {
-                    StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
+                    StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', Label.Studies_FindSitesForStudy, 'map-marker', false);
                     currActions.add(openStudySite);
                 }
                 if (studyDetailItem.hasPatients) {
