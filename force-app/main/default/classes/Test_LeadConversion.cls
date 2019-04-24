@@ -102,6 +102,8 @@ private class Test_LeadConversion {
         natId.Lead__c = testLead.Id;
         natId.Name = '1234567890';
         natId.Country_Code__c = 'US';
+        natId.Country__c = 'Canada';
+        natId.Country_Code_Text__c = 'CA';
         insert natId;
 
         material = new Material_Sent__c();
