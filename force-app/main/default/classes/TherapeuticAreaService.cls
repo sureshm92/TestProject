@@ -85,7 +85,7 @@ public with sharing class TherapeuticAreaService {
 
     public List<Therapeutic_Area__c> getTherapeuticAreas(String nameTA) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        Map<String, Decimal> numberOfLimitsMapDecimalsByStrings = new Map<String, Decimal>();
+        Map<String, Integer> numberOfLimitsMapDecimalsByStrings = new Map<String, Integer>();
         Number_Of_Limits__mdt[] numberOfLimits = [
                 SELECT
                         Label,
@@ -94,7 +94,7 @@ public with sharing class TherapeuticAreaService {
                 WHERE Label IN (:SEARCH_COI_SOQL_COUNT_DEFAULT, :SEARCH_COI_SOQL_COUNT_MAX)
         ];
         for (Number_Of_Limits__mdt numberOfLimit: numberOfLimits) {
-            numberOfLimitsMapDecimalsByStrings.put(numberOfLimit.Label, numberOfLimit.Count_Limit__c);
+            numberOfLimitsMapDecimalsByStrings.put(numberOfLimit.Label, (Integer)numberOfLimit.Count_Limit__c);
         }
         String limitsClause = 'LIMIT 5';
         String whereClause = 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\' ';
