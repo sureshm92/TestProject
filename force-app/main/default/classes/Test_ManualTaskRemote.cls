@@ -86,13 +86,29 @@ private class Test_ManualTaskRemote {
     }
 
     @IsTest
-    static void remindBeforeDaysTest() {
+    static void remindDateCalcDateTest() {
+        Date activityDate = System.today().addDays(5);
+        Date remindDate = System.today().addDays(2);
+
         Test.startTest();
-        Date remainder = ManualTaskRemote.remindBeforeDays(System.today(), 5);
+        Date returnValue =
+                (Date) JSON.deserialize(ManualTaskRemote.remindDateCalc(activityDate, remindDate, true, 3), Date.class);
         Test.stopTest();
 
-        Date before = System.today().addDays(-5);
-        System.assertEquals(before, remainder);
+        System.assertEquals(activityDate.addDays(-3), returnValue);
+    }
+
+    @IsTest
+    static void remindDateCalcDayTest() {
+        Date activityDate = System.today().addDays(6);
+        Date remindDate = System.today().addDays(2);
+
+        Test.startTest();
+        Integer returnValue =
+                (Integer) JSON.deserialize(ManualTaskRemote.remindDateCalc(activityDate, remindDate, false, 3), Integer.class);
+        Test.stopTest();
+
+        System.assertEquals(4, returnValue);
     }
 
     @IsTest

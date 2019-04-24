@@ -2235,6 +2235,13 @@ IQVIA Study Team</value>
         <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
+        <fullName>Email_Title_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Title All</shortDescription>
+        <value>IQVIA™ Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Email_Title_PH</fullName>
         <language>en_US</language>
         <protected>true</protected>

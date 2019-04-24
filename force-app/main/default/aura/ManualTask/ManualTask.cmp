@@ -11,8 +11,7 @@
     <aura:attribute name="task" type="Task"/>
     <aura:attribute name="priorities" type="List"/>
     <aura:attribute name="visibility" type="List"/>
-    <aura:attribute name="showNumbersAdd" type="Boolean" default="false"/>
-    <aura:attribute name="dateRemind" type="Date"/>
+    <aura:attribute name="showNumbersAdd" type="String" default="false"/>
     <aura:attribute name="dayRemind" type="Integer"/>
     <aura:attribute name="patientStatuses" type="List"
                     default="[
@@ -53,7 +52,8 @@
                         <lightning:input type="number" value="{!v.dayRemind}" onchange="{!c.onRemindDaysChange}" min="1"/>
                     </span>
                     <aura:set attribute="else">
-                        <lightning:input type="date" label="Reminder Date" value="{!v.dateRemind}"/>
+                        <lightning:input type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
+                                         onchange="{!c.onRemindDaysChange}"/>
                     </aura:set>
                 </aura:if>
             </div>
