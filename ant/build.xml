@@ -65,9 +65,40 @@
         </sf:deploy>
     </target>
 
-    <target name="create-distributive" depends="prepare-metadata">
+    <target name="create-distributive">
         <delete dir="${dist.dir}"/>
-        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}.zip" basedir="${source.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}/part1"/>
+        <mkdir dir="${dist.dir}/part2"/>
+        <copy todir="${dist.dir}/part1">
+            <fileset dir="${source.dir}">
+                <include name="staticresources/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml">
+            <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
+        </xmltask>
+        <copy todir="${dist.dir}/part2">
+            <fileset dir="${source.dir}">
+                <exclude name="staticresources/*.*"/>
+                <exclude name="translations/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml">
+            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part1.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part1/**/*.*"/>
+            </fileset>
+        </zip>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part2.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part2/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part1"/>
+        <delete dir="${dist.dir}/part2"/>
     </target>
 
     <!-- filter metadata files before deploy: -->
