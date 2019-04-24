@@ -464,6 +464,14 @@
         <relatedList>Study_ID__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>Resource__c.NAME</fields>
+        <fields>Resource__c.CUST_RECORDTYPE</fields>
+        <fields>Resource__c.Content_Class__c</fields>
+        <fields>Resource__c.Content_Type__c</fields>
+        <fields>Resource__c.Title__c</fields>
+        <relatedList>Res_study__c.Clinical_Trial_Profile__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
@@ -481,7 +489,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h0E0000019sEI</masterLabel>
+        <masterLabel>00h4E000000gIaA</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
