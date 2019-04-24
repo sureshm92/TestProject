@@ -2,5 +2,5 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Third_Party_Condition_of_Interests</fullName>
     <active>true</active>
-    <label>Third Party Condition of Interests</label>
+    <label>SiteCore Condition</label>
 </RecordType>
