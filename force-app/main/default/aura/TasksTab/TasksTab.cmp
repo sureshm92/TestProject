@@ -63,7 +63,7 @@
                                     </aura:if>
                                 </td>
                                 <td class="ignore">
-                                    <aura:if isTrue="{!taskWrapper.originator != $Label.c.Admin}">
+                                    <aura:if isTrue="{!!taskWrapper.openTask.Action_URL__c}">
                                         <button id="{!taskWrapper.openTask.Id}" class="apollo-btn tertiary" onclick="{!c.doIgnoreTask}">{!$Label.c.BTN_Ignore}</button>
                                     </aura:if>
                                 </td>

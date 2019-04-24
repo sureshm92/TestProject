@@ -20,6 +20,7 @@
     <aura:attribute name="reminderDateEnabled" type="Boolean"/>
     <aura:attribute name="errorMessage" type="String"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="createdByAdmin" type="Boolean"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -116,7 +117,6 @@
         </aura:if>
     </c:RRTopBar>
     <div style="height: 60px"></div>
-
     <div style="min-height: 400px;" class="te-task-panel">
         <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
             <div class="te-col-header">
@@ -151,57 +151,66 @@
             <div class="te-col-header" style="margin-top: 15px;">
                 {!$Label.c.Task_Reminder_Details}
             </div>
-
-            <div class="slds-grid te-form slds-gutters slds-wrap">
-                <!--Set Reminder-->
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <aura:if isTrue="{!v.reminderEnabled}">
-                        <lightning:select aura:id="reminderOptionsId" name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" onchange="{!c.onChangeSetReminder}">
-                            <aura:iteration items="{!v.setReminderValueList}" var="rem">
-                                <option text="{!rem}"></option>
-                            </aura:iteration>
-                        </lightning:select>
-                    </aura:if>
-                    <aura:if isTrue="{!!v.reminderEnabled}">
-                        <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
-                            <option text="Disabled"></option>
-                        </lightning:select>
-                    </aura:if>
-                </div>
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <div class="icon-alert">
-                        <aura:if isTrue="{!v.errorMessage}">
-                            <div class="icon">
-                                <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                            </div>
-                            <div class="text">
-                                <aura:unescapedHtml value="{!v.errorMessage}"/>
-                            </div>
-                            <div onclick="{!c.doInit}" class="icon-refresh">
-                                <lightning:icon iconName="action:refresh" alternativeText="Refresh"/>
-                            </div>
-                        </aura:if>
-
+            <aura:if isTrue="{!v.createdByAdmin}">
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:input type="date" label="{!$Label.c.Reminder_Date}"
+                                     value="{!if(empty(v.task.Reminder_Date__c),$Label.c.None, v.task.Reminder_Date__c)}" disabled="true"/>
                     </div>
                 </div>
-            </div>
+            </aura:if>
+            <aura:if isTrue="{!!v.createdByAdmin}">
+                <div class="slds-grid te-form slds-gutters slds-wrap">
+                    <!--Set Reminder-->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <aura:if isTrue="{!v.reminderEnabled}">
+                            <lightning:select aura:id="reminderOptionsId" name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" onchange="{!c.onChangeSetReminder}">
+                                <aura:iteration items="{!v.setReminderValueList}" var="rem">
+                                    <option text="{!rem}"></option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </aura:if>
+                        <aura:if isTrue="{!!v.reminderEnabled}">
+                            <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
+                                <option text="Disabled"></option>
+                            </lightning:select>
+                        </aura:if>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <div class="icon-alert">
+                            <aura:if isTrue="{!v.errorMessage}">
+                                <div class="icon">
+                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                </div>
+                                <div class="text">
+                                    <aura:unescapedHtml value="{!v.errorMessage}"/>
+                                </div>
+                                <div onclick="{!c.doInit}" class="icon-refresh">
+                                    <lightning:icon iconName="action:refresh" alternativeText="Refresh"/>
+                                </div>
+                            </aura:if>
 
-            <div class="slds-grid te-form slds-gutters slds-wrap">
-                <!--Reminder Frequency-->
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
-                                      onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}" value="{!$Label.c.Complete_By_Date}">
-                        <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
-                            <option text="{!freq}"></option>
-                        </aura:iteration>
-                    </lightning:select>
+                        </div>
+                    </div>
                 </div>
-                <!--Reminder Date-->
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
-                                     value="{!v.task.Completed_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.todayDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+
+                <div class="slds-grid te-form slds-gutters slds-wrap">
+                    <!--Reminder Frequency-->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
+                                          onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}" value="{!$Label.c.Complete_By_Date}">
+                            <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
+                                <option text="{!freq}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    <!--Reminder Date-->
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
+                                         value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.todayDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                    </div>
                 </div>
-            </div>
+            </aura:if>
 
         </div>
     </div>

@@ -4,6 +4,7 @@
 
 public with sharing class ExternalParticipantsService {
 
+
     public static List<ExternalParticipant> getParticipants(String countryCode, String patientId){
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -23,33 +24,51 @@ public with sharing class ExternalParticipantsService {
         }
     }
 
-    public static String upsertParticipants(String participantJSON, String method){
+    public static String upsertParticipants(String participantJSON, String participantId){
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setEndpoint('callout:External_Patients_Database');
-        request.setMethod(method);
+        if(getParticipants('USA', participantId).isEmpty()){
+            request.setMethod('PUT');
+        } else {
+            request.setMethod('POST');
+        }
+        request.setHeader('Content-Type', 'application/json');
         request.setBody(participantJSON);
         HttpResponse response = http.send(request);
         return response.getStatus();
     }
 
+    public static String formatDate(String dateString){
+        List<String> mountNames = new List<String>{
+          'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUT', 'SEP', 'OCT', 'NOV', 'DEC'
+        };
+        Date newDate = Date.valueOf(dateString);
+        String dayString = '' + newDate.day();
+        if(dayString.length() == 1){
+            dayString = '0' + dayString;
+        }
+        return dayString + '-' + mountNames[newDate.month() - 1] +
+                 '-' + newDate.year();
+    }
+
     public class ExternalParticipant{
-        public String patientId;
-        public String firstName;
-        public String lastName;
-        public String initials;
-        public Date dob;
-        public String subjectId;
-        public String gender;
-        public String addressLine1;
-        public String addressLine2;
-        public String city;
-        public String state;
-        public String zipcode;
-        public String country;
-        public String countryCode;
-        public String email;
-        public String phone;
-        public String mobile;
+        @AuraEnabled public String patientId;
+        @AuraEnabled public String firstName;
+        @AuraEnabled public String lastName;
+        @AuraEnabled public String initials;
+        @AuraEnabled public String dob;
+        @AuraEnabled public String subjectId;
+        @AuraEnabled public String gender;
+        @AuraEnabled public String addressLine1;
+        @AuraEnabled public String addressLine2;
+        @AuraEnabled public String city;
+        @AuraEnabled public String state;
+        @AuraEnabled public String zipcode;
+        @AuraEnabled public String country;
+        @AuraEnabled public String countryCode;
+        @AuraEnabled public String email;
+        @AuraEnabled public String phone;
+        @AuraEnabled public String mobile;
     }
 }

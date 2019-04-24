@@ -10,6 +10,7 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Boolean isReferral {get;set;}
         @AuraEnabled public String errorMessage {get;set;}
         @AuraEnabled public Boolean reminderEnabled {get;set;}
+        @AuraEnabled public Boolean createdByAdmin {get;set;}
 
         public TaskEditDataWrapper(){
             task = new Task();
@@ -19,6 +20,7 @@ public without sharing class TaskEditRemote {
             isReferral = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.REFERRAL;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            createdByAdmin = false;
         }
     }
 
@@ -27,6 +29,7 @@ public without sharing class TaskEditRemote {
         TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
         if(taskId != null) {
             wrapper.task = TaskService.getInstance().getTask(taskId);
+            wrapper.createdByAdmin = createdByAdmin(wrapper.task);
         }
         return wrapper;
     }
@@ -45,6 +48,9 @@ public without sharing class TaskEditRemote {
             }
             if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
                 paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
+            }
+            if(paramTask.Id != null){
+                changeReminderDate(paramTask);
             }
             System.debug(paramTask);
             upsert paramTask;
@@ -129,6 +135,36 @@ public without sharing class TaskEditRemote {
         if(!currentContact.isEmpty())
             return currentContact[0].Participant_Opt_In_Status_Emails__c;
         return false;
+    }
+
+    private static Boolean createdByAdmin(Task task){
+        Id participantId;
+        Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
+        if(ParticipantService.getInstance().getState().isDelegate){
+            participantId = PatientDelegateService.getInstance().getParticipantUserId();
+        } else {
+            participantId = UserInfo.getUserId();
+        }
+        return (task.CreatedById != participantId && !delegateIds.contains(task.CreatedById));
+    }
+
+    private static void changeReminderDate(Task paramTask){
+        Task oldTask = [
+                SELECT
+                        Id,
+                        Reminder_Date__c
+                FROM    Task
+                WHERE   Id = :paramTask.Id
+        ];
+        if(paramTask.Reminder_Date__c != null && oldTask.Reminder_Date__c != paramTask.Reminder_Date__c){
+            Datetime tmpDate = paramTask.Reminder_Date__c;
+            if(tmpDate.hourGMT() == 0){
+                tmpDate.addHours(12);
+            }
+            paramTask.Reminder_Date__c = null;
+            upsert paramTask;
+            paramTask.Reminder_Date__c = tmpDate;
+        }
     }
 
 }

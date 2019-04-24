@@ -6764,7 +6764,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Task Reminder Details</shortDescription>
-        <value>Task Reminder Details (Optional)</value>
+        <value>Task Reminder Details</value>
     </labels>
     <labels>
         <fullName>Task_Reminders_Missing</fullName>
