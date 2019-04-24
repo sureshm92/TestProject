@@ -16,6 +16,9 @@
         </classpath>
     </taskdef>
 
+    <tstamp>
+        <format property="nowDT" pattern="yyyy-MM-dd__HH-mm"  locale="en,US" />
+    </tstamp>
     <!-- targets: -->
 
     <target name="deploy-int" depends="prepare-metadata">
@@ -60,6 +63,11 @@
                    pollwaitmillis="${sf.maxPollWaitTimeMs}"
                    rollbackOnError="true" checkonly="true">
         </sf:deploy>
+    </target>
+
+    <target name="create-distributive" depends="prepare-metadata">
+        <delete dir="${dist.dir}"/>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}.zip" basedir="${source.dir}"/>
     </target>
 
     <!-- filter metadata files before deploy: -->
