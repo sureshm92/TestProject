@@ -28,7 +28,7 @@
                 <aura:set attribute="else">
                     <div class="slds-pill slds-container--fluid">
                         <div class="slds-pill__label slds-p-left--medium slds-color__text_gray-5">
-                            No Referral Networks selected
+                            {!$Label.c.ReferralNetwork_NoRNSelected}
                         </div>
                     </div>
                 </aura:set>
@@ -37,7 +37,7 @@
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                 <button class="apollo-btn primary slds-float--left slds-m-top--medium slds-p-bottom--medium"
                         onclick="{!c.doSelect}">
-                    Select Referral Networks
+                    {!$Label.c.ReferralNetwork_SelectReferralNetwork}
                 </button>
             </div>
         </div>
