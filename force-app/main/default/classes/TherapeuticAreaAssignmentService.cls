@@ -1,6 +1,6 @@
-/*
-Created by Dmytro Pokutnii
-*/
+/**
+ * Created by Dmytro Pokutnii
+ */
 public with sharing class TherapeuticAreaAssignmentService {
 
     public void createTAAsForResources(List<Therapeutic_Area__c> therapeuticAreas, List<Resource__c> resources) {
@@ -105,8 +105,10 @@ public with sharing class TherapeuticAreaAssignmentService {
         Set<String> tANamesToDelete = new Set<String>();
         Set<Id> resourceIds = new Set<Id>();
         for (TAAWrapper singleWrapper : wrappers) {
-            tANamesToDelete.addAll(singleWrapper.tANamesToDelete);
-            resourceIds.add(singleWrapper.resourceId);
+            if(singleWrapper.tANamesToDelete != null) {
+                tANamesToDelete.addAll(singleWrapper.tANamesToDelete);
+                resourceIds.add(singleWrapper.resourceId);
+            }
         }
         if(tANamesToDelete.isEmpty()) {
             return new List<Therapeutic_Area_Assignment__c>();
