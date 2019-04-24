@@ -538,6 +538,13 @@ Click OK to begin!</value>
         <value>View terms and conditions</value>
     </labels>
     <labels>
+        <fullName>BTN_View_terms_and_conditions_participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN View terms and conditions participant</shortDescription>
+        <value>Terms and Conditions</value>
+    </labels>
+    <labels>
         <fullName>BTN_Watch</fullName>
         <language>en_US</language>
         <protected>false</protected>
