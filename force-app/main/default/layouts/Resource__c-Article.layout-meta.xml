@@ -21,6 +21,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Content_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Updated_Date__c</field>
             </layoutItems>
             <layoutItems>
@@ -30,6 +34,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Expiration_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Therapeutic_Areas__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -192,15 +200,16 @@
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Resource_Version__c.Resource__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
+        <fields>Therapeutic_Area__c.NAME</fields>
+        <fields>Therapeutic_Area__c.CUST_RECORDTYPE</fields>
+        <fields>Therapeutic_Area__c.Type__c</fields>
         <relatedList>Therapeutic_Area_Assignment__c.Resource__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
+        <fields>Clinical_Trial_Profile__c.NAME</fields>
+        <fields>Clinical_Trial_Profile__c.Status__c</fields>
+        <fields>Clinical_Trial_Profile__c.Study_Type__c</fields>
+        <fields>Clinical_Trial_Profile__c.Study_Title__c</fields>
         <relatedList>Res_study__c.Resource__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -209,7 +218,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9E000000qQ3A</masterLabel>
+        <masterLabel>00h4E000000gIai</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
