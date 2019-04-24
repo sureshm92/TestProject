@@ -547,25 +547,9 @@
         {
             "attributes": {
                 "type": "Therapeutic_Area__c",
-                "referenceId": "Therapeutic_Area__cRef69"
-            },
-            "Name": "Ulcerative colitis",
-            "type__c": "COI"
-        },
-        {
-            "attributes": {
-                "type": "Therapeutic_Area__c",
                 "referenceId": "Therapeutic_Area__cRef70"
             },
             "Name": "Ulcerative colitis",
-            "type__c": "COI"
-        },
-        {
-            "attributes": {
-                "type": "Therapeutic_Area__c",
-                "referenceId": "Therapeutic_Area__cRef71"
-            },
-            "Name": "Ulcerative Colitis",
             "type__c": "COI"
         },
         {
@@ -835,14 +819,6 @@
         {
             "attributes": {
                 "type": "Therapeutic_Area__c",
-                "referenceId": "Therapeutic_Area__cRef105"
-            },
-            "Name": "Other",
-            "type__c": "TA"
-        },
-        {
-            "attributes": {
-                "type": "Therapeutic_Area__c",
                 "referenceId": "Therapeutic_Area__cRef106"
             },
             "Name": "Podiatry",
@@ -908,14 +884,6 @@
             "attributes": {
                 "type": "Therapeutic_Area__c",
                 "referenceId": "Therapeutic_Area__cRef114"
-            },
-            "Name": "Migraine",
-            "type__c": "COI"
-        },
-        {
-            "attributes": {
-                "type": "Therapeutic_Area__c",
-                "referenceId": "Therapeutic_Area__cRef115"
             },
             "Name": "Migraine",
             "type__c": "COI"
@@ -1212,14 +1180,6 @@
             "attributes": {
                 "type": "Therapeutic_Area__c",
                 "referenceId": "Therapeutic_Area__cRef152"
-            },
-            "Name": "Nicotine dependence",
-            "type__c": "COI"
-        },
-        {
-            "attributes": {
-                "type": "Therapeutic_Area__c",
-                "referenceId": "Therapeutic_Area__cRef153"
             },
             "Name": "Nicotine dependence",
             "type__c": "COI"

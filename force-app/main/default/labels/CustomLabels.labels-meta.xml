@@ -7705,4 +7705,60 @@ is a placehilder to show you what it would look like.</value>
         <shortDescription>x-apm-brtm-bt-pv Description</shortDescription>
         <value>Used to maintain browser version</value>
     </labels>
+    <labels>
+        <fullName>ReferralNetwork_Search_For</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReferralNetwork_Search_For</shortDescription>
+        <value>Search for Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>ReferralNetwork_SelectReferralNetwork</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReferralNetwork_SelectReferralNetwork</shortDescription>
+        <value>Select Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>ReferralNetwork_NoRNSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReferralNetwork_NoRNSelected</shortDescription>
+        <value>No Referral Networks selected</value>
+    </labels>
+    <labels>
+        <fullName>Studies_GlobalSearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_GlobalSearchPlaceholder</shortDescription>
+        <value>Global Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchPlaceholder</shortDescription>
+        <value>Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchForMoreLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchForMoreLabel</shortDescription>
+        <value>Don't see a study that you could refer your patients to?</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchForMoreButtonLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchForMoreButtonLabel</shortDescription>
+        <value>Search for More Studies</value>
+    </labels>
+    <labels>
+        <fullName>Studies_FindSitesForStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_FindSitesForStudy</shortDescription>
+        <value>Find Sites For This Study</value>
+    </labels>
 </CustomLabels>
