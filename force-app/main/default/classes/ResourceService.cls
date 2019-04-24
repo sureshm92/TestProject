@@ -117,7 +117,7 @@ public with sharing class ResourceService {
         if (resources.isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
         }
-        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(resources);
+        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(new List<Resource__c>(new Set<Resource__c>(resources)));
         if (resourceMap.get(resourceId) != null) {
             return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
                     new ResourceDetailWrapper(resourceMap.get(resourceId))
