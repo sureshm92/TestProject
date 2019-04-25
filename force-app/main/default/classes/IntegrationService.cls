@@ -221,7 +221,6 @@ public without sharing class  IntegrationService {
                         Referral_ID__c,
                         Referred_Date__c,
                         Study_Site__r.Protocol_ID__c,
-                        Study_Site__r.Is_Virtual_Study_Site__c,
                         Study_Site__r.Study_Site_Type__c
                 FROM Participant_Enrollment__c
                 WHERE Id =: participantEnrollmentId
