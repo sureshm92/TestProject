@@ -287,6 +287,11 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Participant__c.Full_Name__c</fields>
+        <relatedList>Patient_Delegate__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <relatedList>Alert__c.Contact__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
@@ -296,7 +301,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h4E000000izeg</masterLabel>
+        <masterLabel>00h9E000000qvJW</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
