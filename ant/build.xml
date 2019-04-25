@@ -19,9 +19,10 @@
     <tstamp>
         <format property="nowDT" pattern="yyyy-MM-dd__HH-mm"  locale="en,US" />
     </tstamp>
+
     <!-- targets: -->
 
-    <target name="deploy-int" depends="prepare-metadata">
+    <target name="deploy-int" depends="prepare-metadata, skip-community">
         <sf:deploy username="${sf.int.username}"
                    password="${sf.int.password}"
                    serverurl="${sf.serverurl}"
@@ -43,7 +44,7 @@
         </sf:deploy>
     </target>
 
-    <target name="deploy-inf" depends="prepare-metadata">
+    <target name="deploy-inf" depends="prepare-metadata, skip-community">
         <sf:deploy username="${sf.inf.username}"
                    password="${sf.inf.password}"
                    serverurl="${sf.serverurl}"
@@ -65,7 +66,7 @@
         </sf:deploy>
     </target>
 
-    <target name="create-distributive">
+    <target name="create-distributive" depends="prepare-metadata">
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/part1"/>
@@ -124,13 +125,22 @@
         <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object">
             <remove path="/:CustomObject/:recordTypes[:fullName[text()='MASTER']]"/>
         </xmltask>
+        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels">
+            <remove path="/:CustomLabels/:labels[:fullName[text()='CommunityURL']]"/>
+        </xmltask>
+
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
             <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
             <!-- temporary remove SiteDotCom file from deployment -->
-            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
         </xmltask>
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
+    </target>
+
+    <target name="skip-community">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
+            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
+        </xmltask>
     </target>
 
     <target name="retrieve-site-dot-com">
