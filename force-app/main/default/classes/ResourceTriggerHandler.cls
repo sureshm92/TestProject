@@ -19,6 +19,7 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         articleService.calculateExpirationDate(newList, (Map<Id, Resource__c>) oldMap);
         articleService.validateUpdatedDate(newList);
         articleService.updateRemoveSharing(newList, (Map<Id, Resource__c>) oldMap);
+        articleService.assignRecordTypeFor3dParty(newList);
     }
 
     public override void afterInsert(List<SObject> newList) {
