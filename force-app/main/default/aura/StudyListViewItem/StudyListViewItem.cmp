@@ -211,7 +211,7 @@
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap slds-m-top--x-small">
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                                     <div class="site-address">
                                             {!siteWrapper.site.Principal_Investigator__r.MailingStreet}
                                     </div>
