@@ -55,10 +55,10 @@
                                     </aura:if>
                                 </td>
                                 <td>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c != null}">
-                                        <ui:outputDate value="{!taskWrapper.openTask.Completed_Date__c}"/>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c != null}">
+                                        <ui:outputDate value="{!taskWrapper.openTask.Reminder_Date__c}"/>
                                     </aura:if>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c == null}">
+                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c == null}">
                                         {!$Label.c.None}
                                     </aura:if>
                                 </td>
