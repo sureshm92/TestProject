@@ -95,6 +95,18 @@ public with sharing class ArticleService {
             }
         }
     }
+    public void assignRecordTypeFor3dParty(List<Resource__c> resources) {
+
+        for (Resource__c resource : resources) {
+            if (resource.Content_Class__c == '3rd Party') {
+                Id therddpartyRectypeId = SchemaUtil.getRecordTypeIdByName(
+                        resource.Content_Type__c,
+                        Resource__c.getSObjectType()
+                );
+                resource.RecordTypeId = therddpartyRectypeId;
+            }
+        }
+    }
 
     public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resources) {

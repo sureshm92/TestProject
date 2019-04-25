@@ -10,6 +10,7 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         articleService.calculateExpirationDate(newList);
         articleService.validateUpdatedDate(newList);
         articleService.updateRemoveSharing(newList);
+        articleService.assignRecordTypeFor3dParty(newList);
     }
 
     public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
