@@ -14,7 +14,7 @@
     </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
     <relationshipLabel>CTC&#39;S</relationshipLabel>
-    <relationshipName>CTC_S</relationshipName>
+    <relationshipName>CTC_COIs</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>

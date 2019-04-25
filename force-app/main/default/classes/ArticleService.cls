@@ -56,10 +56,8 @@ public with sharing class ArticleService {
                 }
             }
         }
-        if (!tANames.isEmpty()) {
-            List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
-            tAAService.createDeleteTAAs(resourcesToProcess, oldResourcesByIds, therapeuticAreas);
-        }
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
+        tAAService.createDeleteTAAs(resourcesToProcess, oldResourcesByIds, therapeuticAreas);
     }
 
     public void addDefaultImage(List<Resource__c> resources) {

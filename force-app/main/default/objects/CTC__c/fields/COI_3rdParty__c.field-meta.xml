@@ -15,7 +15,7 @@
     </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
     <relationshipLabel>CTC&#39;S (COI 3rdParty)</relationshipLabel>
-    <relationshipName>CTC_S1</relationshipName>
+    <relationshipName>CTC_Third_Party_COIs</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

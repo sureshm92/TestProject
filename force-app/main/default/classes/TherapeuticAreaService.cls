@@ -10,8 +10,8 @@ public with sharing class TherapeuticAreaService {
 
     public Set<String> getTANamesOnResource(Resource__c resource) {
         Set<String> tANames = new Set<String>();
-        if(!String.isBlank(resource.Therapeutic_Areas__c)) {
-            for(String singleTAName : resource.Therapeutic_Areas__c.split(';')) {
+        if (!String.isBlank(resource.Therapeutic_Areas__c)) {
+            for (String singleTAName : resource.Therapeutic_Areas__c.split(';')) {
                 tANames.add(singleTAName.trim());
             }
         }
@@ -39,19 +39,19 @@ public with sharing class TherapeuticAreaService {
 
     public List<Therapeutic_Area__c> getThirdPartyCOIsByNames(Set<String> tANames, Boolean createIfNotExist) {
 
-        if(tANames == null || tANames.isEmpty()) {
+        if (tANames == null || tANames.isEmpty()) {
             return new List<Therapeutic_Area__c>();
         }
 
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String tAsQuery = 'SELECT Id, ' +
-                'Therapeutic_Area__c, ' +
-                'Name ' +
+                'Name, ' +
+                '(SELECT Id, COI__c FROM CTC_Third_Party_COIs__r) ' +
                 'FROM Therapeutic_Area__c ' +
                 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME +
                 '\' AND Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tANames), ', ') + ')';
         List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAsQuery);
-        if(!createIfNotExist) {
+        if (!createIfNotExist) {
             return therapeuticAreas;
         }
         Set<String> existingTANames = new Set<String>();
