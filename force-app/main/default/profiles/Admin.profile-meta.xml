@@ -83,6 +83,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CTCTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CatalogParametersHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3884,7 +3888,7 @@
         <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Therapeutic_Area__c-Condition of Interests</layout>
+        <layout>Therapeutic_Area__c-SiteCore Condition of Interests</layout>
         <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>

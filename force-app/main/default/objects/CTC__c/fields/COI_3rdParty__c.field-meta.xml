@@ -3,7 +3,7 @@
     <fullName>COI_3rdParty__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>COI 3rdParty</label>
+    <label>SiteCore COI</label>
     <lookupFilter>
         <active>true</active>
         <filterItems>
@@ -14,7 +14,7 @@
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
-    <relationshipLabel>CTC&#39;S (COI 3rdParty)</relationshipLabel>
+    <relationshipLabel>CTC&#39;S (SiteCore COIs)</relationshipLabel>
     <relationshipName>CTC_Third_Party_COIs</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
