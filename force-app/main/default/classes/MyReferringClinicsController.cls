@@ -24,7 +24,7 @@ public without sharing class MyReferringClinicsController {
                     trialIds, new List<String>{HCPEnrollmentService.HCP_S_INVITATION_SENT}
             ), userMode);
             clinicDetail.studySitesForInvitation = new List<MyReferringClinicsController.SiteWrapper>();
-            if(!studySitesNotDelegate.isEmpty()){
+            if(studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()){
                 Set<Id> studyIds = new Set<Id>();
                 for(Study_Site__c site: studySitesNotDelegate){
                     if(!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)){
@@ -61,6 +61,7 @@ public without sharing class MyReferringClinicsController {
             l.LastName = lastName;
             l.Phone = phone;
             l.Company = clinicName;
+            l.Language__c = UserInfo.getLanguage();
             if(studySiteId!= null && studySiteId != '')
                 l.Study_Site__c = studySiteId;
             l.Status = 'New';

@@ -258,13 +258,6 @@ Click OK to begin!</value>
         <value>Log In</value>
     </labels>
     <labels>
-        <fullName>BTN_MRR</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN MRR</shortDescription>
-        <value>Medical record review</value>
-    </labels>
-    <labels>
         <fullName>BTN_Manage_referrals</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -363,6 +356,13 @@ Click OK to begin!</value>
         <value>Patient no longer interested</value>
     </labels>
     <labels>
+        <fullName>BTN_PES</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN PES</shortDescription>
+        <value>Pre-eligibility Screening</value>
+    </labels>
+    <labels>
         <fullName>BTN_Previous</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -396,6 +396,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>BTN Refer a Patient</shortDescription>
         <value>Refer a Patient</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Refer_to_this_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Refer to this Site</shortDescription>
+        <value>Refer to this Site</value>
     </labels>
     <labels>
         <fullName>BTN_Refer_to_this_study</fullName>
@@ -447,13 +454,6 @@ Click OK to begin!</value>
         <value>Save and Exit</value>
     </labels>
     <labels>
-        <fullName>BTN_Select_as_Preferred_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Select as Preferred Site</shortDescription>
-        <value>Select as Preferred Site</value>
-    </labels>
-    <labels>
         <fullName>BTN_Send</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -482,18 +482,18 @@ Click OK to begin!</value>
         <value>Share</value>
     </labels>
     <labels>
-        <fullName>BTN_Start_Medical_Record_Review</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Start Medical Record Review</shortDescription>
-        <value>Start Medical Record Review</value>
-    </labels>
-    <labels>
         <fullName>BTN_Stat_Over</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Stat Over</shortDescription>
         <value>Start Over</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Start_Pre_eligibility_Screening</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Start Pre-eligibility Screening</shortDescription>
+        <value>Start Pre-eligibility Screening</value>
     </labels>
     <labels>
         <fullName>BTN_Undo_exclude</fullName>
@@ -4833,15 +4833,15 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <fullName>PG_MRR_BTN_Complete_another_Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG MRR BTN Complete another Medical Record Review</shortDescription>
-        <value>Complete another Medical Record Review</value>
+        <shortDescription>PG MRR BTN Complete another Pre-eligibility Screening</shortDescription>
+        <value>Complete another Pre-eligibility Screening</value>
     </labels>
     <labels>
         <fullName>PG_MRR_BTN_Complete_another_Medical_Record_Review_for_this_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG MRR BTN Complete another Medical Record Review for this Study</shortDescription>
-        <value>Complete another Medical Record Review for this Study</value>
+        <shortDescription>PG MRR BTN Complete another Pre-eligibility Screening for this Study</shortDescription>
+        <value>Complete another Pre-eligibility Screening for this Study</value>
     </labels>
     <labels>
         <fullName>PG_MRR_BTN_Refer_Patient_to_This_Study</fullName>
@@ -4868,8 +4868,8 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <fullName>PG_MRR_L_Please_complete_medical_record_review_for</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG MRR L Please complete medical record review for:</shortDescription>
-        <value>Please complete medical record review for:</value>
+        <shortDescription>PG MRR L Please complete pre-eligibility screening for:</shortDescription>
+        <value>Please complete pre-eligibility screening for:</value>
     </labels>
     <labels>
         <fullName>PG_MRR_Note_Remember</fullName>
@@ -5633,8 +5633,8 @@ is a placehilder to show you what it would look like.</value>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Please complete Medical Record Review first</shortDescription>
-        <value>Please complete Medical Record Review first</value>
+        <shortDescription>PG Ref L Please complete Pre-eligibility Screening first</shortDescription>
+        <value>Please complete Pre-eligibility Screening first</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_enter_your_patient_s_details_into_the_form_so_that_a_study_site</fullName>
@@ -5689,8 +5689,8 @@ is a placehilder to show you what it would look like.</value>
         <fullName>PG_Ref_L_Select_from_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Select from Medical Record Review Log</shortDescription>
-        <value>Select from Medical Record Review Log</value>
+        <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
+        <value>Select from Pre-eligibility Screening Log</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud</fullName>
@@ -6071,21 +6071,21 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE ST MRR Fail</shortDescription>
-        <value>A medical record review has already been completed for this patient and this patient did not pass.</value>
+        <value>A pre-eligibility screening has already been completed for this patient and this patient did not pass.</value>
     </labels>
     <labels>
         <fullName>PG_SPE_ST_MRR_Success_PES_Fail</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE ST MRR Success PES Fail</shortDescription>
-        <value>A medical record review has already been completed for this patient and this patient did not pass referral</value>
+        <value>A pre-eligibility screening has already been completed for this patient and this patient did not pass referral</value>
     </labels>
     <labels>
         <fullName>PG_SPE_ST_Other</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE ST Other</shortDescription>
-        <value>You can&#39;t complete a medical record review for this Patient ID for this study since it has already been completed by a different HCP in your hospital.</value>
+        <value>You can&#39;t complete a pre-eligibility screening for this Patient ID for this study since it has already been completed by a different HCP in your hospital.</value>
     </labels>
     <labels>
         <fullName>PG_SPE_ST_PES_Fail</fullName>

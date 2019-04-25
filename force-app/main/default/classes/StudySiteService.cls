@@ -350,6 +350,9 @@ public without sharing class StudySiteService {
         public Boolean hasActiveHCPE;
         public Datetime hcpCreatedDate;
 
+        public StudySiteDistanceWrapper() {
+        }
+
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
             this.site = site;
             this.siteType = site.Study_Site_Type__c;

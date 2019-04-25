@@ -349,3 +349,11 @@
 .THIS .sub-title{
     font-size: 18px!important;
 }
+.THIS .ssi-address{
+    color: #333333;
+    font-size: 13px;
+    text-align: left;
+}
+.THIS .slvi-search-site-btn{
+    width: 100%;
+}

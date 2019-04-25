@@ -28,9 +28,9 @@
     <aura:if isTrue="{!!empty(v.trial)}">
 
         <!-- top page bar -->
-        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="" smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}" bigTitle="{!$Label.c.DLIT_L_Medical_Record_Review}"/>
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}" backPage="" smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}" bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}"/>
 
-        <!-- page conent -->
+        <!-- page content -->
         <div class="rr-body-content" style="position: relative">
             <div class="rr-width-limiter side-padding">
                 <aura:if isTrue="{!v.mrrResult == 'Pending'}">
