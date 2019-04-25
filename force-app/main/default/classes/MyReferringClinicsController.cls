@@ -61,6 +61,7 @@ public without sharing class MyReferringClinicsController {
             l.LastName = lastName;
             l.Phone = phone;
             l.Company = clinicName;
+            l.Language__c = UserInfo.getLanguage();
             if(studySiteId!= null && studySiteId != '')
                 l.Study_Site__c = studySiteId;
             l.Status = 'New';
