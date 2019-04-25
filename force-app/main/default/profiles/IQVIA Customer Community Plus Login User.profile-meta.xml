@@ -83,6 +83,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CTCTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CatalogParametersHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -108,6 +112,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CodeExecutor</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -515,6 +523,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ReferralNetworkService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ReferralProfileRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -611,6 +623,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StubFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyActions</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -704,6 +720,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TermsAndConditionsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TermsAndConditionsTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -944,6 +964,11 @@
         <editable>false</editable>
         <field>Book__c.Price__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTC__c.COI_3rdParty__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1542,7 +1567,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.SitesInterested__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Specialty__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.TopicsInterested__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2807,16 +2842,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.Gender__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Initials__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant__c.IsCountry_NOT_Eligible_for_Emails__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2879,11 +2904,6 @@
         <editable>true</editable>
         <field>Participant__c.Middle_Name__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Middle_Name__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3118,11 +3138,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.URL_Part__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Resource__c.URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3394,6 +3409,11 @@
         <editable>false</editable>
         <field>Study_Site__c.Recruitment_Status__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.ReferralNetworkId__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3697,6 +3717,9 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CTC__c-CTC Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CTE__c-CTE Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3860,7 +3883,7 @@
         <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Therapeutic_Area__c-Condition of Interests</layout>
+        <layout>Therapeutic_Area__c-SiteCore Condition of Interests</layout>
         <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>

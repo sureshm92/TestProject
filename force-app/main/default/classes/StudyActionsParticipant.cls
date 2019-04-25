@@ -27,7 +27,7 @@ public class StudyActionsParticipant extends StudyActions {
         
         actions.put(ACT_VIEW_TC, new Action(
                 ACT_VIEW_TC,
-                LABEL_VIEW_TC,
+                LABEL_VIEW_TC_Participant,
                 'paper-many',
                 false
         ));
@@ -47,8 +47,7 @@ public class StudyActionsParticipant extends StudyActions {
         ));
 
         ParticipantService.ParticipantStates participantStateValue = ParticipantService.getParticipantState().value;
-        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) studyDetailActions.add(actions.get(ACT_DOWNLOAD_CONSENT));
-        
+
         if(participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT && study.Terms_And_Conditions_ID__c != null) {
             studyDetailActions.add(actions.get(ACT_VIEW_TC));
         }

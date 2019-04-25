@@ -21,6 +21,10 @@ public with sharing class ClassFactory {
 		stubTypesByClassNames.put(fullNameOfClass, instanceOfStub);
 	}
 
+	public static void putStubTypeByClassName(Type classType, Object instanceOfStub) {
+		stubTypesByClassNames.put(classType.getName(), instanceOfStub);
+	}
+
 	private static Object getPrimitive(Type typeOfPrimitive) {
 
 		if (typeOfPrimitive.getName() == 'Boolean') return false;
