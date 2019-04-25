@@ -61,9 +61,7 @@ private class Test_LeadConversion {
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Study_Site_Number__c = '1234567',
                 Site__c = studySiteAccount.Id,
-                Is_Virtual_Study_Site__c = true,
                 Study_Site_Type__c = 'Virtual'
-
         );
         insert studySite;
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;

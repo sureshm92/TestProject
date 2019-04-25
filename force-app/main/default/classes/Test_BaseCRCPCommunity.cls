@@ -142,7 +142,7 @@ private class Test_BaseCRCPCommunity {
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = studySiteAccount.Id,
-                Is_Virtual_Study_Site__c = false,
+                Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false
         );
         insert studySite;
@@ -255,7 +255,7 @@ private class Test_BaseCRCPCommunity {
                 Clinical_Trial_Profile__c = testStudy.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED,
                 Site__c = studySiteAccount.Id,
-                Is_Virtual_Study_Site__c = false,
+                Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false,
                 ReferralNetworkId__c = referralNetwork.Id
         );
@@ -722,7 +722,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void integrationStudyHubTest() {
         init();
-        studySite.Is_Virtual_Study_Site__c = true;
+        studySite.Study_Site_Type__c = 'Virtual';
         update studySite;
         Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
         Test.startTest();
@@ -736,7 +736,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void integrationServiceNowTest() {
         init();
-        studySite.Is_Virtual_Study_Site__c = true;
+        studySite.Study_Site_Type__c = 'Virtual';
         update studySite;
         Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
         Test.startTest();
