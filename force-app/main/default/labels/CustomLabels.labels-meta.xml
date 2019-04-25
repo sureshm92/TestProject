@@ -885,7 +885,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://nosoftware-nosoftware-6207-dev-ed.cs83.my.salesforce.com</value>
+        <value>https://sandbox-efficiency-java-8354-dev-ed-16a4a1ca59a.cs69.force.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -1341,7 +1341,7 @@ You will then be able to manage patient referrals to the study from any IQVIA so
 
 You will be contacted by the study team regarding next steps in the enrollment process. 
 
-To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Referral Hub.</value>
+To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
@@ -1359,7 +1359,7 @@ To track your clinical research study status and to learn more about future clin
 
 You will be contacted by the study team regarding the next steps in the enrollment process. 
 
-To track where you are in the clinical research study referral process and learn more about future clinical research opportunities, please join the IQVIA Referral Hub.</value>
+To track where you are in the clinical research study referral process and learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -1431,7 +1431,7 @@ To accept this request, log in to the IQVIA Referral Hub and navigate to “My R
  
 You will be contacted by the Principal Investigator’s site, ##StudySiteName , regarding the next steps in the enrollment process.
    
-To track your clinical research study status and to see additional information about the study, log in to the Referral Hub, and then go to &quot;My Studies.&quot;</value>
+To track your clinical research study status and to see additional information about the study, log in to the Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -1440,7 +1440,7 @@ To track your clinical research study status and to see additional information a
         <shortDescription>Email Body RP10</shortDescription>
         <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle. 
 
-To see the referral status of your patient, log in to Referral Hub, and then go to &quot;My Patients.&quot;</value>
+To see the referral status of your patient, log in to Patient Portal, and then go to &quot;My Patients.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient13</fullName>
@@ -1483,11 +1483,11 @@ If you would like to be contacted about future clinical research opportunities, 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
-        <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Referral Hub. 
+        <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
  
 You will be contacted by the study team regarding the next steps in the enrollment process for this study.
  
-To see additional information about this study, please log in to the IQVIA Referral Hub, and then go to “My Studies.”</value>
+To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -1518,7 +1518,7 @@ If you are not contacted about this opportunity within 3 business days, please c
         <shortDescription>Email Body Patient7</shortDescription>
         <value>Your referral has been placed on hold for the clinical research study: ##StudyName.  
 
-To see additional information, log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
+To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient8</fullName>
@@ -1538,7 +1538,7 @@ The study recruitment team can be reached at ##SitePhoneNumber with any question
         <shortDescription>Email Body Patient9</shortDescription>
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
-To see additional information, log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
+To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -1984,7 +1984,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
 
 Sincerely,
 
-The IQVIA Referral Hub Support Team</value>
+The IQVIA Referral Hub and Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -2026,6 +2026,17 @@ To keep your account secure, please don&#39;t forward this email to anyone.</val
 Sincerely,
 
 The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient</shortDescription>
+        <value>Thank you for your interest in participating in the IQVIA Patient Portal.
+
+Sincerely,
+
+The IQVIA Referral Hub and Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -2246,7 +2257,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Title PH</shortDescription>
-        <value>IQVIA™ Participant Portal</value>
+        <value>IQVIA™ Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Title_VT</fullName>

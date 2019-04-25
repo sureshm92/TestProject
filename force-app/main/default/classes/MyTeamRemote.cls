@@ -348,6 +348,7 @@ public without sharing class MyTeamRemote {
                 contactDelegate.AccountId = user.Contact.AccountId;
                 contactDelegate.Language__c = UserInfo.getLanguage();
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                contactDelegate.UserCommunityIsDelegate__c = true;
                 insert contactDelegate;
                 insert CommunityService.createUser(contactDelegate, null, null, null);
             } else {

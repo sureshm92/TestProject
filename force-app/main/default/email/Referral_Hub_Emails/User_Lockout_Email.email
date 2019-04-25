@@ -6,7 +6,7 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate sourceId="{!recipient.Id}"
                          header="{!$Label.Email_Header_Thank_You_For_Your_Interest}"
-                         title="{!$Label.Email_Title}"
+                         title="{!$Label.Email_Title_All}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_User_Lockout}"
                          signature="{!$Label.Email_Signature}"/>
@@ -15,7 +15,7 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText sourceId="{!recipient.Id}"
                              header="{!$Label.Email_Header_Thank_You_For_Your_Interest}"
-                             title="{!$Label.Email_Title}"
+                             title="{!$Label.Email_Title_All}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_User_Lockout}"
                              signature="{!$Label.Email_Signature}"/>

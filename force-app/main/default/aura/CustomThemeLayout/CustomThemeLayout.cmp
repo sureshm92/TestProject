@@ -35,7 +35,7 @@
                 <!--c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/logo.svg#full-logo'}" class="title-logo"/-->
                 <div class="logo-container">
                     <aura:if isTrue="{!v.isInitialized}">
-                        <img src="{!if(v.mode == 'Participant', $Resource.PH_logo + '/Patient_Portal_Logo.svg', $Resource.rr_community_icons + '/logo_3x.png')}" class="title-logo" onclick="{!c.doGoHome}"/>
+                        <img src="{!if(v.mode == 'Participant', $Resource.PH_logo + '/Patient_Portal_Logo.svg', $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}" class="title-logo" onclick="{!c.doGoHome}"/>
                     </aura:if>
                 </div>
 

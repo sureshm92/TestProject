@@ -19,6 +19,7 @@ sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 ```
 - after import go to updates@cp.clinicalresearch.com mail box and approve this email. Ask about how to get access to this mailbox
 
+- then turn on email send "Allow All Profiles to Use this From Address"
 then open setup:
 
 ```sh

@@ -4,18 +4,28 @@
 
 
 global without sharing class EmailTemplateController {
-    
-    public static final String LABEL_HEADER = 'Email_Header';
+
     public static final String LABEL_EMAIL_USER_GREETING = 'Email_User_Greeting';
-    public static final String LABEL_BODY = 'Email_Body';
-    public static final String LABEL_EMAIL_SIGNATURE = 'Email_Signature';
+
     public static final String LABEL_TITLE = 'Email_Title';
-    
-    public static final String TEMPLATE_ID_INITIAL_PARTICIPANT = 'Initial_Patient';
-    public static final String TEMPLATE_ID_INITIAL_DELEGATE = 'Initial_Delegate';
-    public static final String TEMPLATE_ID_INITIAL_PI = 'Initial_PI';
-    public static final String TEMPLATE_ID_INITIAL_HCP = 'Initial_HCP';
-    
+    public static final String LABEL_TITLE_PH = 'Email_Title_PH';
+    public static final String LABEL_TITLE_ALL = 'Email_Title_ALL';
+
+    public static final String LABEL_HEADER_INITIAL_PARTICIPANT = 'Email_Header_Initial_Patient';
+    public static final String LABEL_HEADER_INITIAL_PATIENT_DELEGATE = 'Email_Header_Initial_Patient_Delegate';
+    public static final String LABEL_HEADER_INITIAL_DELEGATE= 'Email_Header_Initial_Delegate';
+    public static final String LABEL_HEADER_INITIAL_PI = 'Email_Header_Initial_PI';
+    public static final String LABEL_HEADER_INITIAL_HCP = 'Email_Header_Initial_HCP';
+
+    public static final String LABEL_BODY_INITIAL_PARTICIPANT = 'Email_Body_Initial_Patient';
+    public static final String LABEL_BODY_INITIAL_PATIENT_DELEGATE = 'Email_Body_Initial_Patient_Delegate';
+    public static final String LABEL_BODY_INITIAL_DELEGATE = 'Email_Body_Initial_Delegate';
+    public static final String LABEL_BODY_INITIAL_PI = 'Email_Body_Initial_PI';
+    public static final String LABEL_BODY_INITIAL_HCP = 'Email_Body_Initial_HCP';
+
+    public static final String LABEL_SIGNATURE_PATIENT =  'Email_Signature_Patient';
+    public static final String LABEL_SIGNATURE = 'Email_Signature';
+
     public static final String PARAM_PREFIX = '##';
     
     global String userCommunityType {get; set;}
@@ -48,7 +58,10 @@ global without sharing class EmailTemplateController {
     }
     
     global String titleValue {
-        get;
+        get{
+            setDefaultValues();
+            return titleValue;
+        }
         set;
     }
     
@@ -116,6 +129,7 @@ global without sharing class EmailTemplateController {
     }
     
     private String prepareLineBreaks(String source){
+        if(source == null) return null;
         if(replaceLineBreaksOnHTMLBreaks) return  source.replaceAll('\n', '<br/>');
         return source;
     }
@@ -126,32 +140,50 @@ global without sharing class EmailTemplateController {
                 && bodyParamValue == null){
             String bodyLabel;
             String headerLabel;
+            String titleLabel;
+            String signatureLabel;
             if(getDataProvider().isDelegate){
                 if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
-                    bodyLabel = 'Email_Body_Initial_Patient_Delegate';
-                    headerLabel = 'Email_Header_Initial_Patient_Delegate';
+                    bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
+                    headerLabel = LABEL_HEADER_INITIAL_PATIENT_DELEGATE;
+                    titleLabel = LABEL_TITLE_ALL;
+                    signatureLabel = LABEL_SIGNATURE_PATIENT;
                 }else{
-                    bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_DELEGATE;
-                    headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_DELEGATE;
+                    bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
+                    headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
+                    titleLabel = LABEL_TITLE_ALL;
+                    signatureLabel = LABEL_SIGNATURE;
                 }
             } else if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
-                bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_PARTICIPANT;
-                headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_PARTICIPANT;
+                bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT;
+                headerLabel = LABEL_HEADER_INITIAL_PARTICIPANT;
+                titleLabel = LABEL_TITLE_ALL;
+                signatureLabel = LABEL_SIGNATURE_PATIENT;
             }else if(getDataProvider().userMode == CommunityService.USER_MODE_PI){
-                bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_PI;
-                headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_PI;
+                bodyLabel = LABEL_BODY_INITIAL_PI;
+                headerLabel = LABEL_HEADER_INITIAL_PI;
+                titleLabel = LABEL_TITLE_ALL;
+                signatureLabel = LABEL_SIGNATURE;
             }else if(getDataProvider().userMode == CommunityService.USER_MODE_HCP){
-                bodyLabel = LABEL_BODY + '_' + TEMPLATE_ID_INITIAL_HCP;
-                headerLabel = LABEL_HEADER + '_' + TEMPLATE_ID_INITIAL_HCP;
+                bodyLabel = LABEL_BODY_INITIAL_HCP;
+                headerLabel = LABEL_HEADER_INITIAL_HCP;
+                titleLabel = LABEL_TITLE_ALL;
+                signatureLabel = LABEL_SIGNATURE;
             }
             if(bodyLabel != null){
-                if(bodyLabel.contains(TEMPLATE_ID_INITIAL_PARTICIPANT) && getDataProvider().parameters.get('HCP') == null){
+                if(bodyLabel.contains(LABEL_BODY_INITIAL_PARTICIPANT) && getDataProvider().parameters.get('HCP') == null){
                     //bodyLabel += '_virtual';
                 }
                 bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             }
             if(headerLabel != null){
                 headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
+            }
+            if(titleLabel != null) {
+                titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
+            }
+            if(signatureLabel != null) {
+                signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
             }
         }
     }
