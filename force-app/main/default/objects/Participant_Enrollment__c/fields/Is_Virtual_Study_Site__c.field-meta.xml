@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Is_Virtual_Study_Site__c</fullName>
     <externalId>false</externalId>
-    <formula>ISPICKVAL(Study_Site__r.Study_Site_Type__c,&#39;Virtual&#39;)</formula>
+    <formula>ISPICKVAL(Study_Site__r.Study_Site_Type__c,&#39;Virtual&#39;)|| ISPICKVAL(Study_Site__r.Study_Site_Type__c,&#39;Hybrid&#39;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Is Virtual Study Site</label>
     <trackHistory>false</trackHistory>

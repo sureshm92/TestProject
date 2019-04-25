@@ -61,9 +61,7 @@ private class Test_LeadConversion {
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Study_Site_Number__c = '1234567',
                 Site__c = studySiteAccount.Id,
-                Is_Virtual_Study_Site__c = true,
                 Study_Site_Type__c = 'Virtual'
-
         );
         insert studySite;
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
@@ -102,6 +100,8 @@ private class Test_LeadConversion {
         natId.Lead__c = testLead.Id;
         natId.Name = '1234567890';
         natId.Country_Code__c = 'US';
+        natId.Country__c = 'Canada';
+        natId.Country_Code_Text__c = 'CA';
         insert natId;
 
         material = new Material_Sent__c();

@@ -22,6 +22,7 @@ public without sharing class StudyListViewController {
         List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
     }
 
+    @TestVisible
     class HCPInitData {
         public StudyTrialService.StudySortData sortData;
         public StudyTrialService.StudyFilterData filterData;

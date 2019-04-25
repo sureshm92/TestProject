@@ -21,6 +21,7 @@ public without sharing class StudyTrialService {
             'Sponsor_Pays_for_Referral_Activity__c',
             'Override_Inclusion_Criteria__c',
             'Override_Description__c',
+            'Brief_Summary__c',
             'Therapeutic_Area__r.Name'
     };
 
@@ -29,7 +30,7 @@ public without sharing class StudyTrialService {
             'Study_Code_Name__c',
             'Study_Sponsor__c',
             'Override_Inclusion_Criteria__c',
-            'Override_Description__c'
+            'Brief_Summary__c'
     };
 
     public class StudyFilterData {
@@ -403,6 +404,7 @@ public without sharing class StudyTrialService {
                         , Name
                         , Study_Sponsor__c
                         , Detailed_Description__c
+                        , Brief_Summary__c
                         , Override_Recruitment_Status__c
                         , Terms_And_Conditions_ID__c
                         , Link_to_Medical_Record_Review__c
