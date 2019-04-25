@@ -52,7 +52,9 @@ public class ParticipantService {
                 participantState.showTerms = showTerms();
                 if(participantState.ctp.Participating_in_Patient_Portal__c == 'Yes') participantState.isPremium = true;
             }
-            if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c)){
+            if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c)
+                    && participantState.isPremium)
+            {
                 participantState.value = ParticipantStates.ALUMNI;
             }else if(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)){
                 participantState.value = ParticipantStates.REFERRAL;
