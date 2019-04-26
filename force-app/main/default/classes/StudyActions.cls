@@ -88,6 +88,7 @@ public abstract class StudyActions {
 
     //action labels:
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;
+    public static final String LABEL_VIEW_TC_Participant = Label.BTN_View_terms_and_conditions_participant;
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
     public static final String LABEL_DELEGATE = Label.BTN_Delegate;
     public static final String LABEL_ADD_PATIENT = Label.BTN_Add_Patient;

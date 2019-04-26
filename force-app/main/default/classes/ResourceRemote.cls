@@ -42,7 +42,7 @@ public with sharing class ResourceRemote {
     }
 
     @AuraEnabled
-    public static String getTrialId(String userMode) {
+    public static String getTrialId() {
 
         try {
             String trialId;

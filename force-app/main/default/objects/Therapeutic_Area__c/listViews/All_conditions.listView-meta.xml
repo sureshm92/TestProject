@@ -3,5 +3,11 @@
     <fullName>All_conditions</fullName>
     <columns>NAME</columns>
     <filterScope>Mine</filterScope>
-    <label>All conditions</label>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Therapeutic_Area__c.Third_Party_Condition_of_Interests</value>
+    </filters>
+    <label>All Conditions</label>
+    <language>en_US</language>
 </ListView>

@@ -27,11 +27,6 @@
                 <label>3rd Party</label>
             </value>
             <value>
-                <fullName>Study Document</fullName>
-                <default>false</default>
-                <label>Study Document</label>
-            </value>
-            <value>
                 <fullName>Training</fullName>
                 <default>false</default>
                 <label>Training</label>

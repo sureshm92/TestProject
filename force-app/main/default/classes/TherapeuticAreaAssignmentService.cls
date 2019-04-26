@@ -37,35 +37,10 @@ public with sharing class TherapeuticAreaAssignmentService {
         delete assignmentsToDelete;
     }
 
-    public void reparentTAAs(List<Therapeutic_Area__c> newList, Map<Id, Therapeutic_Area__c> oldMap) {
-
-        List<Therapeutic_Area__c> tAsToReparentThirdPartyCOIToCOI = new List<Therapeutic_Area__c>();
-        List<Therapeutic_Area__c> tAsToReparentCOIToCOI = new List<Therapeutic_Area__c>();
-        List<Therapeutic_Area__c> tAsToReparentCOIToThirdPartyCOI = new List<Therapeutic_Area__c>();
-        List<Therapeutic_Area_Assignment__c> assignmentsToUpdate = new List<Therapeutic_Area_Assignment__c>();
-
-        for (Therapeutic_Area__c singleTA : newList) {
-            if (singleTA.RecordTypeId == SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME, Therapeutic_Area__c.getSObjectType()) &&
-                    singleTA.Therapeutic_Area__c != oldMap.get(singleTA.Id).Therapeutic_Area__c) {
-                if (String.isBlank(singleTA.Therapeutic_Area__c)) {
-                    tAsToReparentCOIToThirdPartyCOI.add(singleTA);
-                } else if (String.isBlank(oldMap.get(singleTA.Id).Therapeutic_Area__c)) {
-                    tAsToReparentThirdPartyCOIToCOI.add(singleTA);
-                } else {
-                    tAsToReparentCOIToCOI.add(singleTA);
-                }
-            }
-        }
-        assignmentsToUpdate.addAll(new TAAsMapperThirdPartyCOIToCOI(tAsToReparentThirdPartyCOIToCOI).run().getResultList());
-        assignmentsToUpdate.addAll(new TAAsMapperCOIToThirdPartyCOI(tAsToReparentCOIToThirdPartyCOI).run().getResultList());
-        assignmentsToUpdate.addAll(new TAAsMapperCOIToCOI(tAsToReparentCOIToCOI).run().getResultList());
-        update assignmentsToUpdate;
-    }
-
     private void deleteTAAsByWrappers(List<TAAWrapper> wrappers) {
 
         List<Therapeutic_Area_Assignment__c> tAAs = this.getTAAsByTAAWrappers(wrappers);
-        if(tAAs == null || tAAs.isEmpty()) {
+        if (tAAs == null || tAAs.isEmpty()) {
             return;
         }
         Map<Id, List<Therapeutic_Area_Assignment__c>> tAAsByResourceId = this.getTAAsByResourceIdMap(tAAs);
@@ -80,7 +55,7 @@ public with sharing class TherapeuticAreaAssignmentService {
 
         List<Therapeutic_Area_Assignment__c> tAAsToCreate = new List<Therapeutic_Area_Assignment__c>();
         for (TAAWrapper singleWrapper : wrappers) {
-            if(singleWrapper.tANamesToCreate != null && !singleWrapper.tANamesToCreate.isEmpty()) {
+            if (singleWrapper.tANamesToCreate != null && !singleWrapper.tANamesToCreate.isEmpty()) {
                 tAAsToCreate.addAll(this.createTAAsForResource(singleWrapper.tANamesToCreate, tAsByNames, singleWrapper.resourceId));
             }
         }
@@ -105,12 +80,12 @@ public with sharing class TherapeuticAreaAssignmentService {
         Set<String> tANamesToDelete = new Set<String>();
         Set<Id> resourceIds = new Set<Id>();
         for (TAAWrapper singleWrapper : wrappers) {
-            if(singleWrapper.tANamesToDelete != null) {
+            if (singleWrapper.tANamesToDelete != null) {
                 tANamesToDelete.addAll(singleWrapper.tANamesToDelete);
                 resourceIds.add(singleWrapper.resourceId);
             }
         }
-        if(tANamesToDelete.isEmpty()) {
+        if (tANamesToDelete.isEmpty()) {
             return new List<Therapeutic_Area_Assignment__c>();
         }
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
@@ -168,13 +143,16 @@ public with sharing class TherapeuticAreaAssignmentService {
 
         List<Therapeutic_Area_Assignment__c> tAAs = new List<Therapeutic_Area_Assignment__c>();
         for (String singleTAName : tAsNames) {
-            if (tAsByNames.get(singleTAName) != null) {
-                if (tAsByNames.get(singleTAName).Therapeutic_Area__c != null) {
-                    tAAs.add(new Therapeutic_Area_Assignment__c(
-                            Therapeutic_Area__c = tAsByNames.get(singleTAName).Therapeutic_Area__c,
-                            Resource__c = resourceId,
-                            Third_Party_COI__c = tAsByNames.get(singleTAName).Id
-                    ));
+            Therapeutic_Area__c singleTA = tAsByNames.get(singleTAName);
+            if (singleTA != null) {
+                if (!singleTA.CTC_COIs__r.isEmpty()) {
+                    for (CTC__c singleJunction : singleTA.CTC_COIs__r) {
+                        tAAs.add(new Therapeutic_Area_Assignment__c(
+                                Therapeutic_Area__c = singleJunction.COI__c,
+                                Resource__c = resourceId,
+                                Third_Party_COI__c = singleJunction.COI_3rdParty__c
+                        ));
+                    }
                 } else {
                     tAAs.add(new Therapeutic_Area_Assignment__c(Therapeutic_Area__c = tAsByNames.get(singleTAName).Id, Resource__c = resourceId));
                 }
@@ -193,83 +171,6 @@ public with sharing class TherapeuticAreaAssignmentService {
             this.resourceId = resourceId;
             this.tANamesToCreate = tANamesToCreate;
             this.tANamesToDelete = tANamesToDelete;
-        }
-    }
-
-    public virtual class TAAsMapper {
-
-        private List<Therapeutic_Area__c> tAs;
-        private List<Therapeutic_Area_Assignment__c> assignmentsToUpdate;
-        protected String fieldToFilter = Therapeutic_Area_Assignment__c.Third_Party_COI__c.getDescribe().getName();
-
-        public TAAsMapper(List<Therapeutic_Area__c> therapeuticAreas) {
-            this.tAs = therapeuticAreas;
-            this.assignmentsToUpdate = new List<Therapeutic_Area_Assignment__c>();
-        }
-
-        public TAAsMapper run() {
-
-            if (!this.tAs.isEmpty()) {
-                Map<Id, Therapeutic_Area__c> tAsByIds = new Map<Id, Therapeutic_Area__c>(this.tAs);
-                DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-                String tAAsQuery = 'SELECT Id, ' +
-                        'Third_Party_COI__c, ' +
-                        'Therapeutic_Area__r.Therapeutic_Area__c ' +
-                        'FROM Therapeutic_Area_Assignment__c ' +
-                        'WHERE ' + this.fieldToFilter + ' IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tAsByIds.keySet()), ', ') + ') ';
-                List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) databaseProxy.query(tAAsQuery);
-                for (Therapeutic_Area_Assignment__c singleTAA : assignments) {
-                    this.assignmentsToUpdate.add(this.getUpdatedTAA(singleTAA, tAsByIds));
-                }
-            }
-            return this;
-        }
-
-        public List<Therapeutic_Area_Assignment__c> getResultList() {
-            return assignmentsToUpdate;
-        }
-
-        protected virtual Therapeutic_Area_Assignment__c getUpdatedTAA(Therapeutic_Area_Assignment__c assignment, Map<Id, Therapeutic_Area__c> tAsByIds) {
-            return null;
-        }
-    }
-
-    public class TAAsMapperCOIToCOI extends TAAsMapper {
-
-        public TAAsMapperCOIToCOI(List<Therapeutic_Area__c> therapeuticAreas) {
-            super(therapeuticAreas);
-        }
-
-        protected override Therapeutic_Area_Assignment__c getUpdatedTAA(Therapeutic_Area_Assignment__c assignment, Map<Id, Therapeutic_Area__c> tAsByIds) {
-            assignment.Therapeutic_Area__c = tAsByIds.get(assignment.Third_Party_COI__c).Therapeutic_Area__c;
-            return assignment;
-        }
-    }
-
-    public class TAAsMapperThirdPartyCOIToCOI extends TAAsMapper {
-
-        public TAAsMapperThirdPartyCOIToCOI(List<Therapeutic_Area__c> therapeuticAreas) {
-            super(therapeuticAreas);
-            this.fieldToFilter = Therapeutic_Area_Assignment__c.Therapeutic_Area__c.getDescribe().getName();
-        }
-
-        protected override Therapeutic_Area_Assignment__c getUpdatedTAA(Therapeutic_Area_Assignment__c assignment, Map<Id, Therapeutic_Area__c> tAsByIds) {
-            assignment.Third_Party_COI__c = assignment.Therapeutic_Area__c;
-            assignment.Therapeutic_Area__c = assignment.Therapeutic_Area__r.Therapeutic_Area__c;
-            return assignment;
-        }
-    }
-
-    public class TAAsMapperCOIToThirdPartyCOI extends TAAsMapper {
-
-        public TAAsMapperCOIToThirdPartyCOI(List<Therapeutic_Area__c> therapeuticAreas) {
-            super(therapeuticAreas);
-        }
-
-        protected override Therapeutic_Area_Assignment__c getUpdatedTAA(Therapeutic_Area_Assignment__c assignment, Map<Id, Therapeutic_Area__c> tAsByIds) {
-            assignment.Therapeutic_Area__c = assignment.Third_Party_COI__c;
-            assignment.Third_Party_COI__c = null;
-            return assignment;
         }
     }
 }
