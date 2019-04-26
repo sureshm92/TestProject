@@ -30,24 +30,35 @@ public with sharing class CTCService {
 
         List<Therapeutic_Area_Assignment__c> tAAsToDelete = new List<Therapeutic_Area_Assignment__c>();
         List<Therapeutic_Area_Assignment__c> tAAsToCreate = new List<Therapeutic_Area_Assignment__c>();
+        Map<Id, Set<Id>> resourcesIdsListByThirdPartyCOIsIds = new Map<Id, Set<Id>>();
 
+        for (Id singleThirdPartyCOIId : thirdPartyCOIsByIds.keySet()) {
+            if (thirdPartyCOIsByIds.get(singleThirdPartyCOIId).CTC_Third_Party_COIs__r.isEmpty()) {
+                resourcesIdsListByThirdPartyCOIsIds.put(singleThirdPartyCOIId, new Set<Id>());
+            }
+        }
         for (Therapeutic_Area_Assignment__c singleTAA : assignments) {
+            if (resourcesIdsListByThirdPartyCOIsIds.get(singleTAA.Third_Party_COI__c) != null) {
+                resourcesIdsListByThirdPartyCOIsIds.get(singleTAA.Third_Party_COI__c).add(singleTAA.Resource__c);
+            }
             for (CTC__c singleCTC : (List<CTC__c>) oldList) {
                 if (singleTAA.Therapeutic_Area__c == singleCTC.COI__c &&
                         singleTAA.Third_Party_COI__c == singleCTC.COI_3rdParty__c) {
-                    if (thirdPartyCOIsByIds.get(singleCTC.COI_3rdParty__c) != null &&
-                            thirdPartyCOIsByIds.get(singleCTC.COI_3rdParty__c).CTC_Third_Party_COIs__r.isEmpty()) {
-                        tAAsToCreate.add(tAAService.getTAAWithFilledFields(singleTAA.Third_Party_COI__c, singleTAA.Resource__c, singleTAA.Third_Party_COI__c));
-                    }
                     tAAsToDelete.add(singleTAA);
                 }
+            }
+        }
+        for (Id singleThirdPartyCOIId : resourcesIdsListByThirdPartyCOIsIds.keySet()) {
+            for (Id resourceId : resourcesIdsListByThirdPartyCOIsIds.get(singleThirdPartyCOIId)) {
+                Therapeutic_Area_Assignment__c tAAToCreate = tAAService.getTAAWithFilledFields(singleThirdPartyCOIId, resourceId, singleThirdPartyCOIId);
+                tAAsToCreate.add(tAAToCreate);
             }
         }
         insert tAAsToCreate;
         delete tAAsToDelete;
     }
 
-    public void createDeleteTAAs(List<CTC__c> newList) {
+    public void createUpdateTAAs(List<CTC__c> newList) {
 
         TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
         Map<Id, List<CTC__c>> cTCByThirdPartyCOIsIds = this.getCTCByThirdPartyCOIsIds(newList);

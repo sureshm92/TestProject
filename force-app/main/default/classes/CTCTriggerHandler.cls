@@ -15,6 +15,6 @@ public with sharing class CTCTriggerHandler extends TriggerHandler {
     public override void afterInsert(List<SObject> newList) {
 
         CTCService ctcService = (CTCService) ClassFactory.newInstance(CTCService.class);
-        ctcService.createDeleteTAAs(newList);
+        ctcService.createUpdateTAAs(newList);
     }
 }
