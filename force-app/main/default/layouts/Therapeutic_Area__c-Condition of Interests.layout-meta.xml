@@ -59,7 +59,7 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>CTC__c.COI_3rdParty__c</relatedList>
+        <relatedList>CTC__c.COI__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

@@ -101,8 +101,8 @@
                                 <!-- action buttons: -->
                                 <aura:set attribute="floatPositionRight">
                                     <div class="actions-buttons">
+                                        <div style="position: relative; display: inherit">
                                         <aura:iteration items="{!v.currentActions}" var="action">
-                                            <div style="position: relative;">
                                                 <aura:if isTrue="{!action.id != 'share'}">
                                                     <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
                                                             disabled="{!action.disabled}" id="{!action.id}"
@@ -121,8 +121,8 @@
                                                     </div>
                                                     <div class="share-btn-label">{!action.label}</div>
                                                 </aura:if>
-                                            </div>
                                         </aura:iteration>
+                                        </div>
                                     </div>
                                 </aura:set>
                             </c:RRTabSet>

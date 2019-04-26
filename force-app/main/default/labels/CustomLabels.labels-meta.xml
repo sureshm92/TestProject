@@ -881,6 +881,13 @@ Click OK to begin!</value>
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>Can_Not_Edit_Mapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Can Not Edit Mapping</shortDescription>
+        <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2237,6 +2244,13 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Share By RP</shortDescription>
         <value>A clinical research study that may interest you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Share_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Share Resource</shortDescription>
+        <value>Interesting content was shared with you!</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>

@@ -32,9 +32,18 @@ public with sharing class TherapeuticAreaAssignmentService {
         List<Therapeutic_Area_Assignment__c> assignmentsToDelete = [
                 SELECT Id
                 FROM Therapeutic_Area_Assignment__c
-                WHERE Therapeutic_Area__c IN :tAsByIds.keySet() OR Third_Party_COI__c IN :tAsByIds.keySet()
+                WHERE Third_Party_COI__c IN :tAsByIds.keySet()
         ];
         delete assignmentsToDelete;
+    }
+
+    public Therapeutic_Area_Assignment__c getTAAWithFilledFields(Id COIId, Id resourceId, Id thirdPartyCOIId) {
+
+        return new Therapeutic_Area_Assignment__c(
+                Therapeutic_Area__c = COIId,
+                Resource__c = resourceId,
+                Third_Party_COI__c = thirdPartyCOIId
+        );
     }
 
     private void deleteTAAsByWrappers(List<TAAWrapper> wrappers) {
@@ -96,7 +105,7 @@ public with sharing class TherapeuticAreaAssignmentService {
                         Therapeutic_Area__r.Name,
                         Third_Party_COI__r.Name
                 FROM Therapeutic_Area_Assignment__c
-                WHERE Resource__c IN :resourceIds AND (Therapeutic_Area__c IN :tAsByIds.keySet() OR Third_Party_COI__c IN :tAsByIds.keySet())
+                WHERE Resource__c IN :resourceIds AND (Third_Party_COI__c IN :tAsByIds.keySet())
         ];
         return tAAs;
     }
@@ -133,7 +142,6 @@ public with sharing class TherapeuticAreaAssignmentService {
     }
 
     private List<Therapeutic_Area_Assignment__c> createTAAsForResource(Map<String, Therapeutic_Area__c> tAsByNames, Resource__c resource) {
-
         TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
         Set<String> tANames = tAService.getTANamesOnResource(resource);
         return this.createTAAsForResource(tANames, tAsByNames, resource.Id);
@@ -145,16 +153,12 @@ public with sharing class TherapeuticAreaAssignmentService {
         for (String singleTAName : tAsNames) {
             Therapeutic_Area__c singleTA = tAsByNames.get(singleTAName);
             if (singleTA != null) {
-                if (!singleTA.CTC_COIs__r.isEmpty()) {
-                    for (CTC__c singleJunction : singleTA.CTC_COIs__r) {
-                        tAAs.add(new Therapeutic_Area_Assignment__c(
-                                Therapeutic_Area__c = singleJunction.COI__c,
-                                Resource__c = resourceId,
-                                Third_Party_COI__c = singleJunction.COI_3rdParty__c
-                        ));
+                if (!singleTA.CTC_Third_Party_COIs__r.isEmpty()) {
+                    for (CTC__c singleJunction : singleTA.CTC_Third_Party_COIs__r) {
+                        tAAs.add(this.getTAAWithFilledFields(singleJunction.COI__c, resourceId, singleTA.Id));
                     }
                 } else {
-                    tAAs.add(new Therapeutic_Area_Assignment__c(Therapeutic_Area__c = tAsByNames.get(singleTAName).Id, Resource__c = resourceId));
+                    tAAs.add(this.getTAAWithFilledFields(singleTA.Id, resourceId, singleTA.Id));
                 }
             }
         }
