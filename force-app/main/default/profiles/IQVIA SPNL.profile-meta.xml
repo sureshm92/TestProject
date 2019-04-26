@@ -247,6 +247,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ExternalParticipantRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ExternalParticipantsService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>FieldDescribeUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -3731,6 +3739,13 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact-IQVIA Contact Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-IQVIA Contact Layout</layout>
+        <recordType>Contact.MASTER</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact_Referral_Network__c-Contact Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3816,9 +3831,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Patient_Delegate__c-Caregiver Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Post_Install__mdt-Post Install Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>

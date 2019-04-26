@@ -17,25 +17,25 @@ public without sharing class StudyDetailViewController {
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_EMAIL,
                         StudyActions.LABEL_SHARE,
-                        'icon-mailbox',
+                        'icon-mail',
                         false
                 ),
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_FACEBOOK,
                         StudyActions.LABEL_SHARE,
-                        'icon-facebook',
+                        'facebook',
                         false
                 ),
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_LINKEDIN,
                         StudyActions.LABEL_SHARE,
-                        'icon-linkedin',
+                        'linked-in',
                         false
                 ),
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_TWITTER,
                         StudyActions.LABEL_SHARE,
-                        'icon-twitter',
+                        'twitter',
                         false
                 )
         };
@@ -258,10 +258,10 @@ public without sharing class StudyDetailViewController {
                     'icon-home-brand-new',
                     false
             ));
-    
-            ParticipantService.ParticipantStates stateValue = ParticipantService.getParticipantState().value;
-    
-            if (stateValue == ParticipantService.ParticipantStates.ALUMNI) {
+
+            ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+
+            if (participantState.value == ParticipantService.ParticipantStates.ALUMNI) {
                 tabs.add(new StudyTab(
                         'tab-tasks',
                         'task',
@@ -275,7 +275,7 @@ public without sharing class StudyDetailViewController {
                         backHomeAction
                 ));
     
-            } else if (stateValue == ParticipantService.ParticipantStates.REFERRAL) {
+            } else if (participantState.value == ParticipantService.ParticipantStates.REFERRAL) {
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
@@ -295,20 +295,23 @@ public without sharing class StudyDetailViewController {
                         backHomeAction
                 ));
     
-            } else if (stateValue == ParticipantService.ParticipantStates.PARTICIPANT) {
+            } else if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
                         Label.PG_SW_Tab_About_The_Study,
                         defaultActions
                 ));
-        
-                tabs.add(new StudyTab(
-                        'tab-visits',
-                        'referred-patient',
-                        Label.PG_SW_Tab_Visits,
-                        backHomeAction
-                ));
+
+                if(participantState.isPremium){
+                    tabs.add(new StudyTab(
+                            'tab-visits',
+                            'referred-patient',
+                            Label.PG_SW_Tab_Visits,
+                            backHomeAction
+                    ));
+                }
+
                 tabs.add(new StudyTab(
                         'tab-tasks',
                         'task',

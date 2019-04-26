@@ -13,7 +13,7 @@
     <aura:attribute name="userMode" type="String"/>
 
     <!-- component body: -->
-    <aura:if isTrue="{!empty(v.participantItem.pse)}">
+    <aura:if isTrue="{!or(empty(v.participantItem.pse), not(v.participantItem.showPSESteps))}">
         <c:ViewPatientItem pe="{!v.participantItem.pe}"
                            actions="{!v.actions}"
                            peStatusesPathList="{!v.participantItem.peStatusesPathList}"

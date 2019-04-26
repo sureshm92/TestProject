@@ -8,7 +8,7 @@
                          parametersProvider="Email_Template_Parameters_From_PE"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient2}"
-                         title="{!$Label.Email_Title}"
+                         title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Patient15}"
                          signature="{!$Label.Email_Signature_New}">
@@ -23,7 +23,7 @@
                              parametersProvider="Email_Template_Parameters_From_PE"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient2}"
-                             title="{!$Label.Email_Title}"
+                             title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Patient15}"
                              signature="{!$Label.Email_Signature_New}">

@@ -59,6 +59,7 @@ public class Test_PatientDelegateService {
         PatientDelegateService.getInstance().getDelegatedUsersIds();
         PatientDelegateService.getInstance().getDelegatedContactIds();
         PatientDelegateService.getInstance().getPDelegates();
+        PatientDelegateService.getInstance().getDelegateContact(TestDataFactory.getFakeId(Contact.getSObjectType()));
         PatientDelegateService.getInstance().getDelegateContacts(TestDataFactory.getFakeId(Participant__c.getSObjectType()));
         PatientDelegateService.getInstance().getDelegatedContactIds(TestDataFactory.getFakeId(Participant__c.getSObjectType()));
         PatientDelegateService.getInstance().getPDelegates(TestDataFactory.getFakeId(Participant__c.getSObjectType()));

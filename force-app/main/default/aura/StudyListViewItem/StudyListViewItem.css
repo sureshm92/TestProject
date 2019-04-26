@@ -31,6 +31,11 @@
     /*white-space: nowrap;*/
     overflow: hidden;
 }
+.THIS .study-name-pi {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 .THIS .study-name a {
     text-decoration: none;

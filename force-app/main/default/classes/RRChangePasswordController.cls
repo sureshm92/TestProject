@@ -50,6 +50,8 @@ public without sharing class RRChangePasswordController {
                         Contact.MailingAddress,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
+                        Contact.userCommunityMode__c,
+                        Contact.UserCommunityIsDelegate__c,
                         LanguageLocaleKey,
                         LocaleSidKey
                 FROM User WHERE Id =: userId
@@ -77,7 +79,7 @@ public without sharing class RRChangePasswordController {
             tcId = portalTC.Id;
         }
         
-        isParticipant = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant().size() > 0;
+        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
         if(isParticipant) {
             participant = [
                     SELECT Id, Name, First_Name__c, Last_Name__c, Phone__c,

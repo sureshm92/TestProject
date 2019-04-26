@@ -192,7 +192,7 @@ private class Test_BaseCRCPCommunity {
                 Mailing_State_Code__c = 'AL'
         );
         insert participant;
-        participant = [SELECT Id, Name FROM Participant__c WHERE Id = :participant.Id];
+        participant = [SELECT Id, Name FROM Participant__c WHERE Id =: participant.Id];
         passedMrrPE = new Participant_Enrollment__c(
                 HCP__c = hcpEnrollment.Id,
                 Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
@@ -454,6 +454,11 @@ private class Test_BaseCRCPCommunity {
         controller.getDelegateLevelsHCP();
         controller.getResultUserMode();
         controller.getParameters();
+
+        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
+        String url = emailActionBtnController.communityURL;
+        url = emailActionBtnController.communityURL;
+
         Test.stopTest();
     }
 

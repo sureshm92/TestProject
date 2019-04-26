@@ -5,9 +5,7 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate sourceId="{!recipient.Id}"
-                         title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting}"
-                         signature="{!$Label.Email_Signature}">
+                         greeting="{!$Label.Email_User_Greeting}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplate>
@@ -15,9 +13,7 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText sourceId="{!recipient.Id}"
-                             title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting}"
-                             signature="{!$Label.Email_Signature}">
+                             greeting="{!$Label.Email_User_Greeting}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                                   buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplateText>

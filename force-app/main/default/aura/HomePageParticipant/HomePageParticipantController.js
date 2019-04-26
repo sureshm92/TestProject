@@ -6,10 +6,10 @@
         communityService.executeAction(component, 'getInitData', null,
             function (returnValue) {
                 var ps = JSON.parse(returnValue);
-                if(ps.showTerms) {
+                if (ps.showTerms) {
                     communityService.navigateToPage("trial-terms-and-conditions?id=" + ps.pe.Study_Site__r.Clinical_Trial_Profile__c
                         + "&ret=" + communityService.createRetString());
-                }else {
+                } else {
                     component.set('v.participantState', ps);
                     component.find('spinner').hide();
                 }

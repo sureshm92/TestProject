@@ -3,20 +3,21 @@
  -->
 
 <aura:component controller="RRIconTableController" description="RRIconTable" implements="forceCommunity:availableForAllPageTypes">
-    <aura:attribute name="iconNames"                type="String[]"/>
-    <aura:attribute name="iconsURL"                 type="String" default="{!$Resource.rr_community_icons + '/icons.svg'}" access="private"/>
-    <!--=========================FILTER-PILL==AND==SUMMARY-PILL======================================================-->
-    <aura:attribute name="summaryContainers"        type="List"                                       access="private"/>
-    <aura:attribute name="filterInfo"               type="Object"                                     access="private"/>
-    <aura:handler name="change"                   value="{!v.filterInfo.isActive}" action="{!c.toggleFilter}"/>
-    <!--=========================BUTTONS==TABS=======================================================================-->
-    <aura:attribute name="currentTab"               type="String" default="tab-1"/>
-    <!--=============================================================================================================-->
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="iconNames" type="String[]"/>
+    <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + '/icons.svg'}" access="private"/><aura:attribute name="summaryContainers" type="List" access="private"/>
+    <aura:attribute name="filterInfo" type="Object" access="private"/>
+    <aura:attribute name="currentTab" type="String" default="tab-1"/>
     <aura:attribute name="chartData" type="List"/>
     <aura:attribute name="chartData2" type="List"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.filterInfo.isActive}" action="{!c.toggleFilter}"/>
 
+    <!-- component body: -->
     <div class="rr-body-content">
         <div class="rr-width-limiter side-padding">
             <div>

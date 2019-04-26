@@ -188,7 +188,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     toCreateUser.put(participant.Contact__c, hcpContact);
                     alertsForInsert.add(new Alert__c(
                             Contact__c = participant.Contact__c,
-                            Alert_Code__c = 'Welcome_To_The_PH'
+                            Alert_Code__c = 'Welcome_To_The_PH',
+                            Record_ID__c = participant.Id
                     ));
 
                 }else{
