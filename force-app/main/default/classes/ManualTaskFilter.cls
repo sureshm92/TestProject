@@ -9,7 +9,7 @@ public with sharing class ManualTaskFilter {
     private static final String ENROLLED_QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
                     'FROM Participant_Study_Enrollment__c ' +
-                    'WHERE Status__c = \'Enrolled\'';
+                    'WHERE ';
 
     private static final String REFERRED_QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
@@ -54,7 +54,7 @@ public with sharing class ManualTaskFilter {
         Set<Participant__c> participants = new Set<Participant__c>();
 
         if (statuses.contains('Enrolled')) {
-            String query = ENROLLED_QUERY + getFiltersQuery();
+            String query = ENROLLED_QUERY + fieldJoin('Status__c', PSEService.PSE_STATUS_GROUP_IN_PROGRESS) + getFiltersQuery();
             System.debug('Enrolled query is: ' + query);
 
             List<Participant_Study_Enrollment__c> participantStudyEnrollment =
