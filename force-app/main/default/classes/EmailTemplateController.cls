@@ -25,6 +25,7 @@ global without sharing class EmailTemplateController {
 
     public static final String LABEL_SIGNATURE_PATIENT =  'Email_Signature_Patient';
     public static final String LABEL_SIGNATURE = 'Email_Signature';
+    public static final String LABEL_SIGNATURE_NEW = 'Email_Signature_New';
 
     public static final String PARAM_PREFIX = '##';
     
@@ -147,7 +148,7 @@ global without sharing class EmailTemplateController {
                     bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
                     headerLabel = LABEL_HEADER_INITIAL_PATIENT_DELEGATE;
                     titleLabel = LABEL_TITLE_ALL;
-                    signatureLabel = LABEL_SIGNATURE_PATIENT;
+                    signatureLabel = LABEL_SIGNATURE_NEW;
                 }else{
                     bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
                     headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
