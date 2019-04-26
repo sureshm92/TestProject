@@ -273,18 +273,18 @@ public without sharing class ParametersDataProvider {
             };
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters = new Map<String, String>{
-                    'ParticipantName' => getFullContactName(cnt),
                     'ParticipantLanguage' => cnt.Language__c
             };
-            if(!isDelegate) {
-                initParamsFromPE(contactId);
-            }else{
+            if(isDelegate) {
+                parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
+                parameters.put('FullName', getFullContactName(cnt));
                 parameters.put('Username', getCommunityUserName(contactId));
+            }else{
+                initParamsFromPE(contactId);
             }
         }
     }
-    
-    
+
     private void initParamsFromUser(Id userId){
         User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         initParamsFromContact(user.ContactId);
@@ -292,7 +292,13 @@ public without sharing class ParametersDataProvider {
     
     public String getUserName(){
         if(recipientName != null) return recipientName;
-        String userNameParam = userMode + 'Name';
+        String userNameParam;
+        if(isDelegate) {
+            userNameParam = 'FullName';
+        }
+        else{
+            userNameParam = userMode + 'Name';
+        }
         return parameters.get(userNameParam);
     }
 
