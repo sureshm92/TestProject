@@ -10,6 +10,7 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Boolean isReferral {get;set;}
         @AuraEnabled public String errorMessage {get;set;}
         @AuraEnabled public Boolean reminderEnabled {get;set;}
+        @AuraEnabled public Boolean createdByAdmin {get;set;}
 
         public TaskEditDataWrapper(){
             task = new Task();
@@ -19,6 +20,7 @@ public without sharing class TaskEditRemote {
             isReferral = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.REFERRAL;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            createdByAdmin = false;
         }
     }
 
@@ -27,6 +29,7 @@ public without sharing class TaskEditRemote {
         TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
         if(taskId != null) {
             wrapper.task = TaskService.getInstance().getTask(taskId);
+            wrapper.createdByAdmin = createdByAdmin(wrapper.task);
         }
         return wrapper;
     }
@@ -49,6 +52,7 @@ public without sharing class TaskEditRemote {
             if(paramTask.Id != null){
                 changeReminderDate(paramTask);
             }
+            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
             System.debug(e.getLineNumber());
@@ -131,6 +135,17 @@ public without sharing class TaskEditRemote {
         if(!currentContact.isEmpty())
             return currentContact[0].Participant_Opt_In_Status_Emails__c;
         return false;
+    }
+
+    private static Boolean createdByAdmin(Task task){
+        Id participantId;
+        Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
+        if(ParticipantService.getInstance().getState().isDelegate){
+            participantId = PatientDelegateService.getInstance().getParticipantUserId();
+        } else {
+            participantId = UserInfo.getUserId();
+        }
+        return (task.CreatedById != participantId && !delegateIds.contains(task.CreatedById));
     }
 
     private static void changeReminderDate(Task paramTask){
