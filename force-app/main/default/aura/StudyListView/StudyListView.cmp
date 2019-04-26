@@ -87,7 +87,8 @@
                                 class="{! !v.isSearchResume ? 'slds-hide' : ''}"/>
                     <c:rrSelect value="{!v.filterData.therapeuticArea}"
                                 options="{!v.filterData.therapeuticAreas}"
-                                placeholder=""/>
+                                placeholder=""
+                                setValueAsSelected="true"/>
                 </c:FilterPanel>
             </div>
 
