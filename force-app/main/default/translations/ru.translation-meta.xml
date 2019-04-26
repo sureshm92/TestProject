@@ -133,6 +133,10 @@
         <name>BTN_Log_In</name>
     </customLabels>
     <customLabels>
+        <label>Анкеты</label>
+        <name>BTN_MRR</name>
+    </customLabels>
+    <customLabels>
         <label>Управление рекомендациями</label>
         <name>BTN_Manage_referrals</name>
     </customLabels>
@@ -225,6 +229,10 @@
         <name>BTN_Save_Task_Reminder</name>
     </customLabels>
     <customLabels>
+        <label>Выбрать в качестве предпочтительного пункта</label>
+        <name>BTN_Select_as_Preferred_Site</name>
+    </customLabels>
+    <customLabels>
         <label>Послать</label>
         <name>BTN_Send</name>
     </customLabels>
@@ -235,6 +243,10 @@
     <customLabels>
         <label>Поделиться</label>
         <name>BTN_Share</name>
+    </customLabels>
+    <customLabels>
+        <label>Заплонить анкету</label>
+        <name>BTN_Start_Medical_Record_Review</name>
     </customLabels>
     <customLabels>
         <label>Начать с Начала</label>
