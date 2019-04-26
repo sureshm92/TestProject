@@ -18,6 +18,7 @@
     <aura:attribute name="iconColor" type="String" default="#999999"/>
     <aura:attribute name="id" type="String"/>
     <aura:attribute name="class" type="String"/>
+    <aura:attribute name="setValueAsSelected" type="Boolean" default="false"/>
     <aura:attribute name="useSentenceFont" type="Boolean" default="true"/>
 
     <!-- handlers: -->
@@ -46,9 +47,17 @@
                     <option value="{!null}" style="display: none;">{!v.placeholder}</option>
                 </aura:if>
 
-                <aura:iteration items="{!v.options}" var="item">
-                    <option selected="{!item.value==v.value}" value="{!item.value}">{!item.label}</option>
-                </aura:iteration>
+                <aura:if isTrue="{!v.setValueAsSelected == true}">
+                    <aura:iteration items="{!v.options}" var="item">
+                        <option selected="{!item.value==v.value}" value="{!item.value}">{!item.label}</option>
+                    </aura:iteration>
+                </aura:if>
+                <aura:if isTrue="{!v.setValueAsSelected == false}">
+                    <aura:iteration items="{!v.options}" var="item">
+                        <option value="{!item.value}">{!item.label}</option>
+                    </aura:iteration>
+                </aura:if>
+
 
                 <aura:if isTrue="{!v.otherOptionLabel != ''}">
                     <option value="{!v.otherOptionValue}">{!v.otherOptionLabel}</option>
