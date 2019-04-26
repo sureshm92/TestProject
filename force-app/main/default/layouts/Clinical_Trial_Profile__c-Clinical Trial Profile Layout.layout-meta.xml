@@ -229,6 +229,10 @@
                 <field>Link_to_Pre_screening__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Baseline_Survey_URL__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Share_URL__c</field>
             </layoutItems>
@@ -263,15 +267,15 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Start_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Trial_Complete__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Status__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -290,12 +294,12 @@
                 <behavior>Edit</behavior>
                 <field>Enrollment_Target__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Enrollment_Actual__c</field>
             </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Enrollment_Start_Date__c</field>
@@ -306,6 +310,80 @@
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Reimbursements</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Currency_for_Below_Amounts__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Orientation__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HCP_Contacted_Potential_Participant__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Prescreen__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Chart_Review__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Referral__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Sponsor_Pays_for_Referral_Activity__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Referral Limits</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Referral_Limit__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Max_Referral_CAP_Per_Study__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Max_Prescreen_Log_CAP_per_Study__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Prescreen_to_Referral_Ratio_CAP_per_HCP__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Max_Prescreen_Log_CAP_per_PI__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Max_Referral_CAP_Per_PI__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -386,10 +464,6 @@
                 <field>ClinicalTrials_gov_URL__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Baseline_Survey_URL__c</field>
-            </layoutItems>
-            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
         </layoutColumns>
@@ -426,80 +500,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Verification_Date__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <style>TwoColumnsLeftToRight</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
-        <label>Reimbursements</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Currency_for_Below_Amounts__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Orientation__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>HCP_Contacted_Potential_Participant__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Prescreen__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Chart_Review__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Referral__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Sponsor_Pays_for_Referral_Activity__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <style>TwoColumnsLeftToRight</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
-        <label>Referral Limits</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Referral_Limit__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Max_Referral_CAP_Per_Study__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Max_Prescreen_Log_CAP_per_Study__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Prescreen_to_Referral_Ratio_CAP_per_HCP__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Max_Prescreen_Log_CAP_per_PI__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Max_Referral_CAP_Per_PI__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

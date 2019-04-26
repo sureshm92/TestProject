@@ -3,9 +3,7 @@ public without sharing class SendEmailTemplate {
     public static final String EMAIL_TEMPLATE_PATIENT1_NEW = 'Patient1_New_Study';
     public static final String EMAIL_TEMPLATE_PATIENT2_NEW = 'Patient2_New_Study';
 
-    public class SendEmailTemplateException extends Exception {
-    }
-    public static final Id ORGWIDE_EMAIL_ADDRESS_ID = getOrgwideEmailAddress().Id;
+    public class SendEmailTemplateException extends Exception {}
 
     public static void sendEmailNotification(String templateName, Map<Id, String> whatIdMap) {
         //prepare emails list:
@@ -78,14 +76,15 @@ public without sharing class SendEmailTemplate {
             Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
             emailToSend.setToAddresses(email.getToAddresses());
             emailToSend.setPlainTextBody(email.getPlainTextBody());
-            emailToSend.setHTMLBody(email.getHTMLBody());
+            emailToSend.setHtmlBody(email.getHtmlBody());
             emailToSend.setPlainTextBody(email.getPlainTextBody());
             emailToSend.setSubject(email.getSubject());
-            emailToSend.setOrgWideEmailAddressId(ORGWIDE_EMAIL_ADDRESS_Id);
+            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailId(fromId));
             msgListToBeSend.add(emailToSend);
         }
         Messaging.sendEmail(msgListToBeSend);
     }
+
     @InvocableMethod(Label='Send Emails')
     public static void sendEmailNotificationWithDelegates(List<emailNotification> variables) {
         //prepare emails list:
@@ -124,7 +123,8 @@ public without sharing class SendEmailTemplate {
         newEmail.setTemplateId(emailTemplateId);
         newEmail.setTargetObjectId(contactId);
         newEmail.setSaveAsActivity(false);
-        newEmail.setOrgWideEmailAddressId(ORGWIDE_EMAIL_ADDRESS_Id);
+        newEmail.setOrgWideEmailAddressId(getOrgWideEmailId(contactId));
+
         //newEmail.setToAddresses(new List<String>{toAddress});
         newEmail.setWhatId(whatId);
         if (ccDelegates && userMode == CommunityService.USER_MODE_PI) {
@@ -172,11 +172,11 @@ public without sharing class SendEmailTemplate {
         return templates[0].Id;
     }
 
-    private static OrgwideEmailAddress getOrgwideEmailAddress() {
+    private static OrgWideEmailAddress getOrgwideEmailAddress(String addressName) {
         List<OrgWideEmailAddress> orgwideEmailAddresses = [
                 SELECT Id
-                FROM OrgwideEmailAddress
-                WHERE displayname = :CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_NAME
+                FROM OrgWideEmailAddress
+                WHERE DisplayName = :addressName
                 LIMIT 1
         ];
         if (orgwideEmailAddresses.isEmpty()) {
@@ -187,9 +187,21 @@ public without sharing class SendEmailTemplate {
                     return orgwideEmailAddresses[0];
                 }
             }
-            throw new SendEmailTemplateException('Org Wide Email Address: "' + CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_NAME + '" not found');
+            throw new SendEmailTemplateException('Org Wide Email Address: "' + addressName + '" not found');
         }
         return orgwideEmailAddresses[0];
+    }
+
+    /**
+        @param fromId ID of user Contact
+     */
+    public static Id getOrgWideEmailId(Id fromId) {
+        String userMode = CommunityService.getContactUserMode(fromId);
+        if (userMode != null && userMode.equalsIgnoreCase(CommunityService.USER_MODE_PARTICIPANT)) {
+            return getOrgwideEmailAddress(CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_PATIENT).Id;
+        } else {
+            return getOrgwideEmailAddress(CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL).Id;
+        }
     }
     
     public static void sendEmailMessages(List<Messaging.SingleEmailMessage> emailMessages){

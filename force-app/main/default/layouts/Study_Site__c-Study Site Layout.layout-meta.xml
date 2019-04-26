@@ -12,36 +12,28 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Clinical_Trial_Profile__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Principal_Investigator__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
                 <field>Site__c</field>
             </layoutItems>
             <layoutItems>
+                <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Clinical_Trial_Profile__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Recruitment_Status__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Primary_Key__c</field>
+                <field>Protocol_ID__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Study_Site_Number__c</field>
+                <emptySpace>true</emptySpace>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Study_Site_Phone__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Study_Site_Email__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Site_Staff__c</field>
-            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Study_Site_Type__c</field>
@@ -50,27 +42,15 @@
                 <behavior>Edit</behavior>
                 <field>ReferralNetworkId__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Study_Site_Key__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Cleaned_Study_Key__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Protocol_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Project_Code__c</field>
+                <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Suppress_Participant_Emails__c</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -79,11 +59,11 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Recruitment Status</label>
+        <label>PI Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Recruitment_Status__c</field>
+                <behavior>Required</behavior>
+                <field>Principal_Investigator__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -93,15 +73,38 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Override_Status_Updated_By__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>PI_Status_Reason__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Study_Site_Status_Reason__c</field>
             </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Study Site Contact Details</label>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Override_Status_Updated_By__c</field>
+                <field>Site_Staff__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Study_Site_Email__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Study_Site_Phone__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -137,16 +140,54 @@
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
-        <label>Trial Information</label>
+        <label>Other</label>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Study_Site_Key__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Primary_Key__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Study_Site_Number__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Project_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Cleaned_Study_Key__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Enrollment_Start_Date2__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Enrollment_End_Date2__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Enrollment_Start_Date2__c</field>
+                <emptySpace>true</emptySpace>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Virtual_Study_Site__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Reimbursement Details</label>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Sponsor_Pays_for_Referral_Activity__c</field>
@@ -154,6 +195,9 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>PI_Pays_for_Referral_Activity__c</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -195,14 +239,6 @@
                 <field>Radius_Type__c</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
-        <style>TwoColumnsLeftToRight</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>false</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
-        <label>System Information</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -213,11 +249,20 @@
                 <field>Protocol_Country_Id__c</field>
             </layoutItems>
         </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>false</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>System Information</label>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>CreatedById</field>
             </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>LastModifiedById</field>
