@@ -561,6 +561,14 @@
         <relatedList>Study_ID__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>Resource__c.NAME</fields>
+        <fields>Resource__c.CUST_RECORDTYPE</fields>
+        <fields>Resource__c.Content_Class__c</fields>
+        <fields>Resource__c.Content_Type__c</fields>
+        <fields>Resource__c.Title__c</fields>
+        <relatedList>Res_study__c.Clinical_Trial_Profile__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

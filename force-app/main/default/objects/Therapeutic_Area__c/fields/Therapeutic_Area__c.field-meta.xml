@@ -4,8 +4,17 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Therapeutic Area</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Therapeutic_Area__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Therapeutic Area</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
-    <relationshipLabel>Therapeutic Areas</relationshipLabel>
+    <relationshipLabel>Conditions of Interests</relationshipLabel>
     <relationshipName>Therapeutic_Areas</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

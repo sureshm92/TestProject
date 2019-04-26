@@ -24,5 +24,6 @@
 
     hideDialogs: function (component) {
         component.find('selectReferralDeclineReasonDialog').hide();
+        component.find('reasonSpinner').hide();
     }
 })

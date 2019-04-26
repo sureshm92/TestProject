@@ -27,7 +27,7 @@ public class StudyActionsParticipant extends StudyActions {
         
         actions.put(ACT_VIEW_TC, new Action(
                 ACT_VIEW_TC,
-                LABEL_VIEW_TC,
+                LABEL_VIEW_TC_Participant,
                 'paper-many',
                 false
         ));

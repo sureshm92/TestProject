@@ -30,7 +30,7 @@
         //     component.set('v.peStatusStateMap', initData.peStatusStateMap);
         //     component.set('v.statistics', initData.statistics);
         //     component.set('v.changeStatusBtnList', initData.btnList);
-        //     component.set('v.isInitialized', true);
+            component.set('v.isInitialized', true);
         //     component.set('v.skipUpdate', false);
             spinner.hide();
         // });

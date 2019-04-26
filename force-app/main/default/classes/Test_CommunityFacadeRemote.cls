@@ -13,7 +13,9 @@ private class Test_CommunityFacadeRemote {
         insert acc1; 
         Contact conCase = new Contact (
                 AccountId = acc1.id,
-                LastName = 'portalTestUser1'
+                LastName = 'portalTestUser1',
+                RRCookiesAllowedCookie__c = false,
+                RRLanguageAllowedCookie__c = true
         );
         insert conCase;
 
@@ -39,8 +41,18 @@ private class Test_CommunityFacadeRemote {
             Test.startTest();
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.accpetTerms();
+            CommunityFacadeRemote.urlExists('test_url');
+            CommunityFacadeRemote.getLocalizedURL('https://login.salesforce.com/');
+            CommunityFacadeRemote.changeMode('HCP');
+            CommunityFacadeRemote.isTCAccepted();
+            CommunityFacadeRemote.getCommunityData();
+            try {
+                CommunityFacadeRemote.getPreferredLanguageCode('us');
+            } catch (Exception ex) {
+
+            }
+
             Test.stopTest();
         }
-
     }
 }

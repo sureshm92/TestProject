@@ -38,7 +38,7 @@ public without sharing class MedicalRecordReviewLogController {
             //filters:
             pDetail.peFilter = new ParticipantEnrollmentService.PEFilter(pDetail.peFilterData);
             pDetail.peFilter.study = trialId;
-            pDetail.peFilter.showExcludedFromReferring='hide';
+            pDetail.peFilter.showExcludedFromReferring='show';
             //set up search fields
             pDetail.peFilter.searchFields = new List<String>{
                     'Participant_Name__c',

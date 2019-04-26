@@ -42,6 +42,8 @@ public without sharing class SubscribeToReferralNetworkRemote {
             ];
         }
 
+        TranslateHelper.translate(currReferralNetworks);
+
         return currReferralNetworks;
     }
 
@@ -112,6 +114,7 @@ public without sharing class SubscribeToReferralNetworkRemote {
                         ORDER BY Name ASC
                 ];
             }
+            TranslateHelper.translate(foundRecords);
 
             wrappers = getReferralNetworkWrappers(foundRecords, getCurrentReferralNetworks(currType));
         } catch (Exception e) {

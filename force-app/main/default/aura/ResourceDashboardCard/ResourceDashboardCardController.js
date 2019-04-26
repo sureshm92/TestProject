@@ -3,9 +3,7 @@
         doInit : function (component, event, helper) {
 
             if (communityService.isInitialized()) {
-                communityService.executeAction(component, 'getTrialId', {
-                    userMode : communityService.getUserMode()
-                }, function (returnValue) {
+                communityService.executeAction(component, 'getTrialId', {}, function (returnValue) {
                     component.set("v.trialId", returnValue);
                 });
                 communityService.executeAction(component, 'getNoTAMessage', {}, function (returnValue) {
