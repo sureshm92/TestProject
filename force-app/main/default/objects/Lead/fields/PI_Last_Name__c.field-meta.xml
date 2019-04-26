@@ -2,11 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>PI_Last_Name__c</fullName>
     <externalId>false</externalId>
-    <formula>Study_Site__r.Principal_Investigator__r.LastName</formula>
+    <formula>IF(Study_Site__c != NULL, HYPERLINK( &quot;/&quot;&amp;Study_Site__r.Principal_Investigator__c , Study_Site__r.Principal_Investigator__r.FirstName&amp;&quot; &quot; &amp;Study_Site__r.Principal_Investigator__r.LastName ),HYPERLINK( &quot;/&quot;&amp;Invited_by_PI__c , Invited_by_PI__r.FirstName&amp;&quot; &quot; &amp;Invited_by_PI__r.LastName ))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>PI Last Name</label>
+    <label>PI Contact</label>
     <required>false</required>
-
+    <trackHistory>false</trackHistory>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>
