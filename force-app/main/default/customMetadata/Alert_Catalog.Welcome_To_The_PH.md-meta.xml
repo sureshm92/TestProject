@@ -4,15 +4,15 @@
     <protected>false</protected>
     <values>
         <field>Body_label__c</field>
-        <value xsi:type="xsd:string">AL_Title_Welcome_To_The_PH</value>
+        <value xsi:type="xsd:string">AL_Body_Welcome_to_PH</value>
     </values>
     <values>
         <field>Parameters__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">UserName = First_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Participant__c</value>
     </values>
     <values>
         <field>Title_label__c</field>
