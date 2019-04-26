@@ -1,4 +1,5 @@
 const profileFolders = ['../force-app/main/default/profiles'];
+const labelFolders = ['../force-app/main/default/labels'];
 const translationFolder = '../force-app/main/default/translations';
 const objectsFolder = '../force-app/main/default/objects/Contact/recordTypes/MASTER.recordType-meta.xml';
 const communityFile1 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site';
@@ -104,6 +105,32 @@ profileFolders.forEach(profileFolder => {
         });
     });
 });
+
+labelFolders.forEach(labelFolder => {
+    fileReader.readFiles(labelFolder, (content, filename) => {
+        let todesTodelete = [];
+        content = content.replace('xmlns="http://soap.sforce.com/2006/04/metadata"', 'attrStub="stub"');
+        var doc = new dom().parseFromString(content);
+        let node1 = xpath.select("//CustomLabels//labels//fullName[text()='CommunityURL']", doc);
+        todesTodelete.push(node1);
+        todesTodelete.forEach(item => {
+            if (item && item[0] && item[0].parentNode) {
+                doc.documentElement.removeChild(item[0].parentNode);
+            }
+        });
+        /*    let spaces = xpath.select("//text()[normalize-space(.)='']", doc);
+            spaces.forEach(item => {
+                item.parentNode.removeChild(item);
+            });*/
+        let xml = doc.toString();
+        xml = xml.replace('attrStub="stub"', 'xmlns="http://soap.sforce.com/2006/04/metadata"');
+        fs.writeFile(labelFolder + '/' + filename, xml, function (err, data) {
+            if (err) console.log(err);
+            console.log(filename, "successfully updated");
+        });
+    });
+});
+
 
 
 

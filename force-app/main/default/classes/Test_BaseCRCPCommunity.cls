@@ -454,6 +454,11 @@ private class Test_BaseCRCPCommunity {
         controller.getDelegateLevelsHCP();
         controller.getResultUserMode();
         controller.getParameters();
+
+        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
+        String url = emailActionBtnController.communityURL;
+        url = emailActionBtnController.communityURL;
+
         Test.stopTest();
     }
 

@@ -69,7 +69,7 @@
     background: #FF0031;
 }
 
-.THIS .p-container .p-content {
+.THIS .p-container .p-content{
     max-height: 60vh;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -78,16 +78,21 @@
     color: #000000;
     font-size: 14px;
     line-height: 17px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
     white-space: initial;
     text-align: center;
     font-weight: 600;
+    overflow-x: hidden;
 }
 
-.THIS .p-container .p-content::-webkit-scrollbar {
+
+.THIS .p-container .p-content:not(.with-scroll) {
+
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+
+}
+
+.THIS .p-container .p-content:not(.with-scroll)::-webkit-scrollbar {
     width: 0;
 }
 

@@ -72,7 +72,7 @@
         <aura:if isTrue="{!v.userMode != 'HCP'}">
             <div class="slvi-top-container slvi-section">
                 <div class="slvi-name-section">
-                    <div class="study-name">
+                    <div class="study-name study-name-pi">
                         <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                   page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                     </div>

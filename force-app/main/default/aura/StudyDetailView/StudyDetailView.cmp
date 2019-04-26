@@ -46,7 +46,7 @@
     <div>
         <aura:if isTrue="{!v.isInitialized}">
             <!-- Share dialog -->
-            <c:ShareModal aura:id="shareModal" parent="{!this}"/>
+            <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
             <!-- top bar -->
             <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">

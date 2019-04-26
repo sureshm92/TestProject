@@ -41,7 +41,7 @@
                             {!$Label.c.PG_MRC_BTN_Invite_Referring_Provider}
                         </button>
                     </div>
-                <c:Popup aura:id="invite-rp" title="{!$Label.c.PG_MRC_L_Invite_Referring_Provider}" size="medium">
+                <c:Popup aura:id="invite-rp" title="{!$Label.c.PG_MRC_L_Invite_Referring_Provider}" size="medium" showScroll="{!true}">
                     <div class="rr-form-element">
                         <div class="slds-grid slds-wrap slds-grid_vertical-align-end">
                             <div class="rr-form-element slds-col slds-size_7-of-12">
