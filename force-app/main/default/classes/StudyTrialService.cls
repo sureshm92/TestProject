@@ -318,7 +318,14 @@ public without sharing class StudyTrialService {
         for (Clinical_Trial_Profile__c trial : trials) {
             trialIds.add(trial.Id);
         }
-        for (Participant_Enrollment__c pe : [SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds]) {
+        String delegatesFilter = '';
+        List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
+        if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
+        String query = 'SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds AND ' + '(' +
+                '   HCP__r.HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
+                delegatesFilter +
+                ') ';
+        for (Participant_Enrollment__c pe : Database.query(query)) {
             trialsWithPatients.add(pe.Clinical_Trial_Profile__c);
         }
 

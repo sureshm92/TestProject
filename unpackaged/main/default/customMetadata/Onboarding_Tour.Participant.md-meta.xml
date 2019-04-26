@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">OT_Header</value>
+        <value xsi:type="xsd:string">OT_Header_PP</value>
     </values>
 </CustomMetadata>

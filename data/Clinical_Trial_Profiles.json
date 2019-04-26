@@ -46,7 +46,7 @@
             "Study_Type__c": "Interventional",
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
-            "Therapeutic_Area__c": "@Therapeutic_Area__cRef5",
+            "Therapeutic_Area__c": "@Therapeutic_Area__cRef1",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -95,7 +95,7 @@
             "Study_Type__c": "Interventional",
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
-            "Therapeutic_Area__c": "@Therapeutic_Area__cRef6",
+            "Therapeutic_Area__c": "@Therapeutic_Area__cRef2",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -144,7 +144,7 @@
             "Study_Type__c": "Interventional",
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
-            "Therapeutic_Area__c": "@Therapeutic_Area__cRef7",
+            "Therapeutic_Area__c": "@Therapeutic_Area__cRef3",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -193,7 +193,7 @@
             "Study_Type__c": "Interventional",
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
-            "Therapeutic_Area__c": "@Therapeutic_Area__cRef8",
+            "Therapeutic_Area__c": "@Therapeutic_Area__cRef4",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -242,7 +242,7 @@
             "Study_Type__c": "Interventional",
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
-            "Therapeutic_Area__c": "@Therapeutic_Area__cRef9",
+            "Therapeutic_Area__c": "@Therapeutic_Area__cRef5",
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -291,7 +291,7 @@
             "Study_Type__c": "Interventional",
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
-            "Therapeutic_Area__c": "@Therapeutic_Area__cRef10",
+            "Therapeutic_Area__c": "@Therapeutic_Area__cRef6",
             "Visit_Plan__c": "@vsp"
         }
     ]

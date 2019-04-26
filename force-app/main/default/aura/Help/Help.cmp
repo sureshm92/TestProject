@@ -171,13 +171,13 @@
 
                     <aura:if isTrue="{!v.currentTab == 'feedback'}">
                         <div class="h-body-info">
-                            {!$Label.c.PG_HLP_T1_Feedback}
+                            {!if(v.userMode == 'Participant', $Label.c.PP_HLP_T1_Feedback, $Label.c.PG_HLP_T1_Feedback)}
                             <br/><br/>
                             {!$Label.c.PG_HLP_Terms_Note}
                             <c:RRLink page="terms-and-conditions?ret=help"
                                       class="text">{!$Label.c.PG_HLP_T_Terms}</c:RRLink>
                             .
-                            {!$Label.c.PG_HLP_T2_Feedback}
+                            {!if(v.userMode == 'Participant', $Label.c.PP_HLP_T2_Feedback, $Label.c.PG_HLP_T2_Feedback)}
                             <aura:if isTrue="{!v.userMode == 'HCP'}">
                                 {!$Label.c.PG_HLP_T3_HCP_Feedback}
                             </aura:if>

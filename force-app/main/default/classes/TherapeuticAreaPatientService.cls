@@ -127,7 +127,9 @@ public with sharing class TherapeuticAreaPatientService {
         }
 
         public override Integer hashCode() {
-            return (System.hashCode(String.valueOf(participantId)) * (isPrimary ? 2 : 1)) ^ System.hashCode(String.valueOf(therapeuticAreaId));
+            Integer hash = (System.hashCode(String.valueOf(participantId)) * (isPrimary ? 2 : 1));
+            if(therapeuticAreaId != null) hash = hash ^ System.hashCode(String.valueOf(therapeuticAreaId));
+            return hash;
         }
     }
 }

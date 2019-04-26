@@ -16,10 +16,13 @@ public class ParticipantService {
         @AuraEnabled public Participant__c participant;
         @AuraEnabled public String participantName;
         @AuraEnabled public Boolean showTerms;
+        @AuraEnabled public Boolean showVisits;
+        @AuraEnabled public Boolean isPremium;
 
         public ParticipantState(){
             value = ParticipantStates.PROSPECT;
             isDelegate = false;
+            isPremium = false;
         }
     }
     
@@ -46,21 +49,26 @@ public class ParticipantService {
 
             if(participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+                participantState.showTerms = showTerms();
+                if(participantState.ctp.Participating_in_Patient_Portal__c == 'Yes') participantState.isPremium = true;
             }
-            if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c)){
+            if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c)
+                    && participantState.isPremium)
+            {
                 participantState.value = ParticipantStates.ALUMNI;
             }else if(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)){
                 participantState.value = ParticipantStates.REFERRAL;
-                participantState.showTerms = showTerms();
-            }else if(participantState.pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS){
-                participantState.value = ParticipantStates.PARTICIPANT;
-                participantState.showTerms = showTerms();
+            }else if(participantState.pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    && participantState.isPremium){
                 List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListForParticipant();
                 if(pseList.size() > 0) {
+                    participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.pse = pseList[0];
+                    if(participantState.isPremium) participantState.showVisits = true;
                     participantState.isDelegate = participantState.pse.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
                     if(PSEService.PSE_STATUS_GROUP_COMPLETE.contains(participantState.pse.Status__c)){
                         participantState.value = ParticipantStates.ALUMNI;
+                        participantState.showVisits = false;
                     }
                 }
             }

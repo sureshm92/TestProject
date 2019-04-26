@@ -55,15 +55,15 @@
                                     </aura:if>
                                 </td>
                                 <td>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c != null}">
-                                        <ui:outputDate value="{!taskWrapper.openTask.Completed_Date__c}"/>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c != null}">
+                                        <ui:outputDate value="{!taskWrapper.openTask.Reminder_Date__c}"/>
                                     </aura:if>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c == null}">
+                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c == null}">
                                         {!$Label.c.None}
                                     </aura:if>
                                 </td>
                                 <td class="ignore">
-                                    <aura:if isTrue="{!taskWrapper.originator != $Label.c.Admin}">
+                                    <aura:if isTrue="{!!taskWrapper.openTask.Action_URL__c}">
                                         <button id="{!taskWrapper.openTask.Id}" class="apollo-btn tertiary" onclick="{!c.doIgnoreTask}">{!$Label.c.BTN_Ignore}</button>
                                     </aura:if>
                                 </td>

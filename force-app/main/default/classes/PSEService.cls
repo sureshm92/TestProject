@@ -31,6 +31,7 @@ public without sharing class PSEService {
             'Name',
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Profile_Picture__c',
+            'Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
             'Clinical_Trial_Profile__r.Study_Title__c',
             'Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Clinical_Trial_Profile__r.Study_Sponsor__c',
