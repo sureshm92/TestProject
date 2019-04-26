@@ -75,7 +75,6 @@
             participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Email__c &&
-            participant.Email__c === emailRepeat &&
             participant.Mailing_Zip_Postal_Code__c &&
             //emailVaild &&
             //emailRepeatValid &&
@@ -85,11 +84,25 @@
             (selectedState || states.length === 0) &&
             agreePolicy;
         component.set('v.allRequiredCompleted', result);
+        component.set('v.emailsMatch',participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() === emailRepeat.toLowerCase());
 
-        if(participant.Email__c !== emailRepeat && emailRepeat){
-            emailCmp.set('v.validity', {valid: false, badInput: true});
-            emailRepeatCmp.set('v.validity', {valid: false, badInput: true});
+        if(emailCmp && emailRepeatCmp){
+            if(participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()){
+                emailCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                //set('v.validity', {valid: false, badInput: true});
+
+                emailRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//.set('v.validity', {valid: false, badInput: true});
+            }
+            else{
+                emailCmp.setCustomValidity("");
+                emailRepeatCmp.setCustomValidity("");
+            }
+            if(participant.Email__c && participant.Email__c !== '' && emailRepeat && emailRepeat !== ''){
+                emailCmp.reportValidity();
+                emailRepeatCmp.reportValidity();
+            }
         }
+
     },
     checkSites: function(component){
         var studySites = component.get("v.studySites");

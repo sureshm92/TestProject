@@ -83,6 +83,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CTCTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CatalogParametersHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -108,6 +112,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CodeExecutor</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -623,6 +631,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StubFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyActions</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -959,6 +971,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Book__c.Price__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTC__c.COI_3rdParty__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2907,9 +2924,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant__c.Phone_Type__c</field>
-        <readable>true</readable>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3134,11 +3151,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.URL_Part__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Resource__c.URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3718,6 +3730,9 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CTC__c-CTC Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CTE__c-CTE Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3777,6 +3792,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>National_ID__c-National ID Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Number_Of_Limits__mdt-Number Of Limits Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Onboarding_Slide__mdt-Onboarding Slide Layout</layout>
@@ -3882,7 +3900,7 @@
         <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Therapeutic_Area__c-Condition of Interests</layout>
+        <layout>Therapeutic_Area__c-SiteCore Condition of Interests</layout>
         <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
     </layoutAssignments>
     <layoutAssignments>

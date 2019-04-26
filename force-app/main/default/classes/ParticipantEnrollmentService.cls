@@ -407,9 +407,13 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> excludedFromReferring;
         public List<LabelValueItem> referringClinics;
         public List<LabelValueItem> dateRanges = DateRangeFilterData.getRanges();
-        public List<LabelValueItem> sortVariants = SortOrder.SORT_TYPES;
+        public List<LabelValueItem> sortVariants;
         public List<LabelValueItem> acceptenceStatuses = PEStatusState.getAcceptenceStatusesLVList();
         public List<LabelValueItem> enrollmentStatuses = PEStatusState.getEnrollmentStatusesLVList();
+        public PEFilterData(){
+            sortVariants = new List<LabelValueItem>();
+            sortVariants.addAll( SortOrder.SORT_TYPES);
+        }
     }
 
     public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial){

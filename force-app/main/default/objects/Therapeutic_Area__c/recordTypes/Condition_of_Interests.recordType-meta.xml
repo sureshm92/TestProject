@@ -3,4 +3,19 @@
     <fullName>Condition_of_Interests</fullName>
     <active>true</active>
     <label>Condition of Interests</label>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>3dPartyCOI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>
