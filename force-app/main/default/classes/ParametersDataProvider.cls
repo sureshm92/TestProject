@@ -279,7 +279,7 @@ public without sharing class ParametersDataProvider {
             if(!isDelegate) {
                 initParamsFromPE(contactId);
             }else{
-                //todo prepare parameters for patient delegate
+                parameters.put('Username', getCommunityUserName(contactId));
             }
         }
     }
@@ -294,6 +294,11 @@ public without sharing class ParametersDataProvider {
         if(recipientName != null) return recipientName;
         String userNameParam = userMode + 'Name';
         return parameters.get(userNameParam);
+    }
+
+    public String getCommunityUserName(String contactId) {
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
+        return !userList.isEmpty() ? userList.get(0).Username : '';
     }
     
     public String getUserLanguage(){

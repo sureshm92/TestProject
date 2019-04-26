@@ -1,15 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>AL_Body_Assigned_as_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Assigned_as_Delegate</shortDescription>
+        <value>Hi ##Contact! You have been assigned as a Delegate for &lt;patients first name&gt;.  We are so excited you have chosen to take this journey with ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Delegate_assigned_to_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Delegate_assigned_to_a_Patient</shortDescription>
+        <value>Hi ##Contact! You have been assigned as a Delegate for ##UserName in the ##StudyName study.  We are so excited you have chosen to take this journey with ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Returning_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Returning_Delegate</shortDescription>
+        <value>Welcome Back ##Contact. You have been assigned as a Delegate for ##UserName in the ##StudyName study. We are so excited you have chosen to take this journey with ##UserName.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Returning_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Returning_Patient</shortDescription>
+        <value>Welcome Back ##UserName to your new ##StudyName study. We are excited to be on a new journey with you.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Travel_Support</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Travel_Support</shortDescription>
+        <value>Do you consent to participate in this travel support service?  Please be aware that by clicking OK, you are leaving the Patient Portal website. The Terms of Use and Privacy Policy on other websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be responsible for their policies, terms of use, or legal/regulatory compliance.  Some sites have elected not to provide travel services. We will redirect you to the travel service setup and if you were not provided a travel service packet, you will not be able to log in.</value>
+    </labels>
+    <labels>
         <fullName>AL_Body_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body Welcome Study</shortDescription>
-        <value>Congratularions ##UserName!
+        <value>Hi ##UserName!
 
-You are now enrolled in the ##StudyName study!
+            Welcome to your ##StudyName study!
 
-Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
+            We are excited to be on this journey with you.
 
 Click OK to begin!</value>
     </labels>
@@ -1339,9 +1374,9 @@ By clicking through to our website, you are accepting use of cookies.</value>
     <labels>
         <fullName>Email_Body_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>Complete baseline survey body text</value>
+        <value>We would love to hear from you!  Please take 2 minutes to fill out the baseline survey in  IQVIA™ Patient  Portal.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1390,7 +1425,11 @@ To track your clinical research study status and to learn more about future clin
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>Some text for patient delegate here</value>
+        <value>You have been assigned as a Delegate for ##ParticipantName. We are so excited you have chosen to take this journey with ##ParticipantName.
+
+To track ##ParticipantName  clinical research study status, please login to the IQVIA™ Patient Portal. 
+Your username is ##Username.  
+Please click the Enroll button below to create your password.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -1812,7 +1851,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Initial Patient Delegate</shortDescription>
-        <value>Header for patient delegate email</value>
+        <value>You have been assigned as a Delegate</value>
     </labels>
     <labels>
         <fullName>Email_Header_Medication_Task_Reminder</fullName>
@@ -2081,13 +2120,24 @@ Sincerely,
 The IQVIA Referral Hub and Patient Portal Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Survey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Signature_Survey</shortDescription>
+        <value>We appreciate your feedback!
+
+Sincerely,
+
+IQVIA Study Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_VT</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature VT</shortDescription>
-        <value>Sincerely, 
+        <value>Sincerely,
 
-The IQVIA Study Team</value>
+IQVIA Study Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_drop_out</fullName>
@@ -2103,7 +2153,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Complete Baseline Survey</shortDescription>
-        <value>Complete baseline survey</value>
+        <value>You have a baseline survey that needs your feedback</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Follow_up_on_a_Study</fullName>
@@ -2131,7 +2181,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Medication Task Reminder</shortDescription>
-        <value>Upcoming medication dosage</value>
+        <value>You have a medication reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>
