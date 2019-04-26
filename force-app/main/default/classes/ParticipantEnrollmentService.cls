@@ -388,10 +388,12 @@ public without sharing class ParticipantEnrollmentService {
         public String additionalFilter;
         public String acceptenceStatus;
         public String referringClinic;
+        public String dateField;
 
         public PEFilter(PEFilterData filterData){
             mode = filterData.mode;
             trialIds = filterData.trialIds;
+            dateField = filterData.dateField;
         }
     }
 
@@ -413,6 +415,7 @@ public without sharing class ParticipantEnrollmentService {
             sortVariants = new List<LabelValueItem>();
             sortVariants.addAll( SortOrder.SORT_TYPES);
         }
+        public String dateField = 'CreatedDate';
     }
 
     public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial){
@@ -479,7 +482,7 @@ public without sharing class ParticipantEnrollmentService {
             }
         }
         if(!String.isEmpty(filter.dateRange)){
-            filterStr += ' AND Referred_Date__c ' + filter.dateRange + ' ';
+            filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
         if(!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         System.debug('FILTER STRING: ' + filterStr);
