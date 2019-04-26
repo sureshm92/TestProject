@@ -2221,6 +2221,13 @@
         <value>A clinical research study that may interest you</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Share_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Share Resource</shortDescription>
+        <value>Interesting content was shared with you!</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
         <language>en_US</language>
         <protected>false</protected>

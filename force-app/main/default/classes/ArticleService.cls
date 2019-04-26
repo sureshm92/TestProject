@@ -111,7 +111,7 @@ public with sharing class ArticleService {
     public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resources) {
             if (resource.Expiration_Date__c != null) {
-                if (!resource.Expiration_Date__c.isSameDay(oldResMap.get(resource.Id).Expiration_Date__c)) {
+                if (resource.Expiration_Date__c!= oldResMap.get(resource.Id).Expiration_Date__c) {
                     this.addSharing(resource);
                 }
             }
