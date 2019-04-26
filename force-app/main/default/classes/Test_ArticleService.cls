@@ -42,6 +42,19 @@ public with sharing class Test_ArticleService {
         System.assertEquals(Date.today().addMonths(-12), test.Posting_Date__c);
         System.assertEquals(Date.today(), test.Expiration_Date__c);
     }
+    @IsTest
+    public static void addRecordTypeTest() {
+        Resource__c test = getResource(Date.today(), Date.today().addDays(-12), false);
+        test.Content_Type__c = 'Video';
+        insert test;
+        Resource__c r = [SELECT RecordType.Name FROM Resource__c WHERE Id=:test.Id];
+        System.assertEquals('Video',r.RecordType.Name);
+        Resource__c test2 = getResource(Date.today(), Date.today().addDays(-12), false);
+        test2.Content_Type__c = 'Article';
+        insert test2;
+        Resource__c r2 = [SELECT RecordType.Name FROM Resource__c WHERE Id=:test2.Id];
+        System.assertEquals('Article',r2.RecordType.Name);
+    }
 
     @IsTest
     public static void testCreateArticleWrongDate() {

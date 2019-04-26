@@ -1,7 +1,10 @@
 const profileFolders = ['../force-app/main/default/profiles'];
+const labelFolders = ['../force-app/main/default/labels'];
 const translationFolder = '../force-app/main/default/translations';
 const objectsFolder = '../force-app/main/default/objects/Contact/recordTypes/MASTER.recordType-meta.xml';
-const fs = require("fs");;
+const communityFile1 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site';
+const communityFile2 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site-meta.xml';
+const fs = require("fs");
 const fileReader = require("./fileReader");
 let xpath = require('xpath');
 let dom = require('xmldom').DOMParser;
@@ -16,6 +19,30 @@ fs.exists(objectsFolder, function (exists) {
         });
     } else {
         console.log(objectsFolder, 'File not found, so not deleting.');
+    }
+});
+fs.exists(communityFile1, function (exists) {
+    if (exists) {
+        //Show in green
+        console.log(communityFile1, ('File exists. Deleting now ...'));
+        fs.unlink(communityFile1, function (err) {
+            if (err) return console.log(err);
+            console.log(communityFile1, 'file deleted successfully');
+        });
+    } else {
+        console.log(communityFile1, 'File not found, so not deleting.');
+    }
+});
+fs.exists(communityFile2, function (exists) {
+    if (exists) {
+        //Show in green
+        console.log(communityFile2, ('File exists. Deleting now ...'));
+        fs.unlink(communityFile2, function (err) {
+            if (err) return console.log(err);
+            console.log(communityFile2, 'file deleted successfully');
+        });
+    } else {
+        console.log(communityFile2, 'File not found, so not deleting.');
     }
 });
 
@@ -40,7 +67,7 @@ fileReader.readFiles(translationFolder, (content, filename) => {
         }
     });
     let xml = doc.toString();
-    xml.replace('attrStub="stub"', 'xmlns="http://soap.sforce.com/2006/04/metadata"');
+    xml = xml.replace('attrStub="stub"', 'xmlns="http://soap.sforce.com/2006/04/metadata"');
     fs.writeFile(translationFolder + '/' + filename, xml, function (err, data) {
         if (err) console.log(err);
         console.log(filename, "successfully updated");
@@ -66,10 +93,10 @@ profileFolders.forEach(profileFolder => {
                 doc.documentElement.removeChild(item[0].parentNode);
             }
         });
-        let spaces = xpath.select("//text()[normalize-space(.)='']", doc);
+    /*    let spaces = xpath.select("//text()[normalize-space(.)='']", doc);
         spaces.forEach(item => {
             item.parentNode.removeChild(item);
-        });
+        });*/
         let xml = doc.toString();
         xml = xml.replace('attrStub="stub"', 'xmlns="http://soap.sforce.com/2006/04/metadata"');
         fs.writeFile(profileFolder + '/' + filename, xml, function (err, data) {
@@ -78,6 +105,32 @@ profileFolders.forEach(profileFolder => {
         });
     });
 });
+
+labelFolders.forEach(labelFolder => {
+    fileReader.readFiles(labelFolder, (content, filename) => {
+        let todesTodelete = [];
+        content = content.replace('xmlns="http://soap.sforce.com/2006/04/metadata"', 'attrStub="stub"');
+        var doc = new dom().parseFromString(content);
+        let node1 = xpath.select("//CustomLabels//labels//fullName[text()='CommunityURL']", doc);
+        todesTodelete.push(node1);
+        todesTodelete.forEach(item => {
+            if (item && item[0] && item[0].parentNode) {
+                doc.documentElement.removeChild(item[0].parentNode);
+            }
+        });
+        /*    let spaces = xpath.select("//text()[normalize-space(.)='']", doc);
+            spaces.forEach(item => {
+                item.parentNode.removeChild(item);
+            });*/
+        let xml = doc.toString();
+        xml = xml.replace('attrStub="stub"', 'xmlns="http://soap.sforce.com/2006/04/metadata"');
+        fs.writeFile(labelFolder + '/' + filename, xml, function (err, data) {
+            if (err) console.log(err);
+            console.log(filename, "successfully updated");
+        });
+    });
+});
+
 
 
 

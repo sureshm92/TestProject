@@ -59,6 +59,12 @@
                 <c:RRNPathItem label="Search for Studies"/>
             </c:RRNavigationPath>
         </div>
+        <aura:if isTrue="{!v.userMode != 'HCP'}">
+            <c:rrButtonTubSet >
+                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>
+                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>
+            </c:rrButtonTubSet>
+        </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'HCP'}">
             <div>
@@ -81,7 +87,8 @@
                                 class="{! !v.isSearchResume ? 'slds-hide' : ''}"/>
                     <c:rrSelect value="{!v.filterData.therapeuticArea}"
                                 options="{!v.filterData.therapeuticAreas}"
-                                placeholder=""/>
+                                placeholder=""
+                                setValueAsSelected="true"/>
                 </c:FilterPanel>
             </div>
 
