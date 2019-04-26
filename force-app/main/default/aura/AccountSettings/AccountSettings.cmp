@@ -77,7 +77,12 @@
             <!-- Date format and preferred language panel: -->
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>
-                <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                    <div class="as-sub-title">{!$Label.c.PP_L_Account_Setting_Preferred_Lng}</div>
+                    <aura:set attribute="else">
+                        <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                    </aura:set>
+                </aura:if>
                 <div class="as-language-switcher">
                     <c:LanguageSwitcher/>
                 </div>
@@ -147,7 +152,7 @@
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">{!$Label.c.AccountSettings_Cookie_Description}
+                         style="margin-bottom: 15px">{!if(v.userMode == 'Participant', $Label.c.PP_Account_Settings_Cookie_Description, $Label.c.AccountSettings_Cookie_Description)}
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">

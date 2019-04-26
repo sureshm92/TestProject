@@ -47,22 +47,21 @@
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
-
     <enableReports>false</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
     <label>Terms And Conditions</label>
     <nameField>
         <displayFormat>TC-{0000}</displayFormat>
         <label>Terms And Conditions Name</label>
-
+        <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Terms And Conditions</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts>
+        <searchFilterFields>NAME</searchFilterFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
-
     <visibility>Public</visibility>
 </CustomObject>

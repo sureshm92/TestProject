@@ -55,7 +55,7 @@ public with sharing class ParticipantVisitsRemote {
         }
     }
 
-    class Legend {
+    public class Legend {
         public String iconId;
         public String iconLabel;
         public String iconLegend;

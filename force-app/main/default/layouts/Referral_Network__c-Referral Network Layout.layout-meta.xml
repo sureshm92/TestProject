@@ -39,9 +39,10 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
+        <customLabel>true</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>true</editHeading>
+        <label>Custom Links</label>
         <layoutColumns/>
         <layoutColumns/>
         <layoutColumns/>
@@ -49,6 +50,15 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Principal_Investigator__c</fields>
+        <fields>Protocol_ID__c</fields>
+        <fields>Study_Site_Type__c</fields>
+        <relatedList>Study_Site__c.ReferralNetworkId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Contact.Full_Name__c</fields>
+        <fields>Contact.CNTC_ADDR2_STATE_CODE</fields>
         <relatedList>Contact_Referral_Network__c.ReferralNetworkId__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -56,4 +66,10 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h2D000000M2Ib</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>
