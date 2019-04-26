@@ -12,8 +12,6 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Boolean reminderEnabled {get;set;}
         @AuraEnabled public Boolean createdByAdmin {get;set;}
 
-        public TaskEditDataWrapper(){
-
         public TaskEditDataWrapper() {
             task = new Task();
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
