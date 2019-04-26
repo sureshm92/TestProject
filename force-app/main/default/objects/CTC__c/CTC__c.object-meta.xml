@@ -48,16 +48,16 @@
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableReports>false</enableReports>
-    <enableSearch>true</enableSearch>
+    <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>TA / COI</label>
+    <label>CTC</label>
     <nameField>
-        <label>Name</label>
+        <label>CTC Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>TA / COI</pluralLabel>
+    <pluralLabel>CTC&#39;S</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
