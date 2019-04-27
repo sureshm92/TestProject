@@ -6,13 +6,12 @@
         component.set('v.userMode', userMode);
 
         if (userMode === 'HCP') {
-            window.addEventListener('resize', $A.getCallback(function(){
+            window.addEventListener('resize', $A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
                 // helper.doUpdateStudyDescription(component);
             }));
             communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                debugger;
                 console.log('in getHCPInitData');
                 console.log(initData);
 
@@ -50,7 +49,11 @@
     },
 
     doUpdateRecords: function (cmp, event, helper) {
-        helper.searchForRecords(cmp, helper);
+        helper.searchForRecords(cmp, helper, false);
+    },
+
+    doUpdateRecordsWithFirstPage: function (cmp, event, helper) {
+        helper.searchForRecords(cmp, helper, true);
     },
 
     showNoThanksDialog: function (component, event, helper) {
@@ -61,6 +64,7 @@
 
     switchToSearchResume: function (cmp, event, helper) {
         cmp.set("v.isSearchResume", true);
-        helper.searchForRecords(cmp,helper);
+        cmp.set("v.searchResumeChanged", true);
+        helper.searchForRecords(cmp, helper);
     }
 });

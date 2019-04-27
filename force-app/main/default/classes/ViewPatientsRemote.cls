@@ -17,11 +17,11 @@ public without sharing class ViewPatientsRemote {
     }
 
     public class PEWrapper{
-        public Participant_Enrollment__c pe;
+        public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
 
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions){
-            this.pe = pe;
+            this.pItem = new ParticipantItem(pe);
             this.actions = actions;
         }
     }
@@ -34,6 +34,7 @@ public without sharing class ViewPatientsRemote {
             initData.paginationData = new PaginationData();
             //filters data:
             initData.peFilterData = ParticipantEnrollmentService.getPEFilterData(trialId, mode, true);
+            initData.peFilterData.dateField = 'Referred_Date__c';
             initData.peFilterData.sortVariants.addAll(new List<LabelValueItem>{
                     new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
                     new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
@@ -76,6 +77,12 @@ public without sharing class ViewPatientsRemote {
                             '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')';
                 }
             }
+            else if(mode == CommunityService.USER_MODE_HCP){
+                filterCopy.additionalFilter += ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\'';
+            }
+
             //records for current filter and pagination
             initData.currentPageList = convertToPEWrapperList(
                     ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData),
@@ -113,12 +120,24 @@ public without sharing class ViewPatientsRemote {
                 filter.referringClinic = null;*/
                 if(piBtnFilter.equalsIgnoreCase('Pending')){
                     filter.additionalFilter += ' AND Participant_Status__c IN ' +
-                            '(\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[0].states.values(), '\',\'') + '\')';
+                            '(\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[0].states.values(), '\',\'') + '\')'
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
                 }else{
                     filter.additionalFilter += ' AND Participant_Status__c IN ' +
-                            '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')';
+                            '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')'
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
+                            + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
                 }
             }
+            else if(userMode == CommunityService.USER_MODE_HCP){
+                filter.additionalFilter += + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
+                        + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
+            }
+            System.debug('additionalFilter' + filter.additionalFilter);
             SearchResult result = new SearchResult();
             result.peList = convertToPEWrapperList(
                     ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination),

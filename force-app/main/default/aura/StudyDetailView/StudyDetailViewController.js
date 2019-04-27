@@ -18,16 +18,19 @@
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
-            helper.setTabInitialized(component);
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
+                debugger;
                 component.set('v.studyDetail', trialDetail);
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                 component.set('v.isInitialized', true);
+                component.set('v.shareButtons', trialDetail.shareActions);
+                helper.setTabInitialized(component);
+                helper.setTabActions(component);
                 spinner.hide();
                 helper.mailSendMessage(component);
             });
@@ -39,6 +42,9 @@
         var trial = component.get('v.studyDetail').trial;
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
+
+        let shareUrl = trial.Share_URL__c + 'none';
+        let shareText = 'A clinical study of interest';
         switch (actionId){
             case 'backHome' :
                 communityService.navigateToPage('');
@@ -50,7 +56,7 @@
             case 'refer':
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
-            case 'share': {
+            case 'shareEmail': {
                 var modal = component.find('shareModal');
                 if (communityService.getUserMode() === 'HCP') {
                     modal.show(trial.Id, studyDetail.hcpe.HCP_Contact__c);
@@ -59,18 +65,18 @@
                 }
             }
                 break;
-            case 'facebook':
-                window.
-                    open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
+            case 'shareFacebook':
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + shareText);
                 break;
-            case 'twitter':
-                window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
+            case 'shareTwitter':
+                window.open('https://twitter.com/home?status=' + shareText + ':%20' + encodeURIComponent(shareUrl));
                 break;
-            case 'linkedin':
-                window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
+            case 'shareLinkedin':
+                window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(shareUrl));
                 break;
             case 'viewTermsAndConditions':
-                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
+                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret="
+                    + communityService.createRetString());
                 break;
             case 'findStudySites':
                 communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
@@ -95,6 +101,9 @@
             case 'shares':
                 component.set('v.isShare', !component.get('v.isShare'));
                 break;
+            case 'addPatient':
+                communityService.navigateToPage('add-patient?id=' + trialId);
+                break;
         }
     },
 
@@ -108,6 +117,7 @@
     doTabChanged: function(component, event, helper){
         helper.setBrowserHistory(component);
         helper.setTabInitialized(component);
+        helper.setTabActions(component);
     }
 
 })

@@ -56,6 +56,10 @@
     text-decoration: none;
 }
 
+.THIS .logo-row {
+    display: inline-flex;
+}
+
 .THIS .main-logo{
     margin: 40px 0;
     /*height: 110px;*/

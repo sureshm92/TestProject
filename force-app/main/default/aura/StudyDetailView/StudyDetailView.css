@@ -103,6 +103,11 @@
     font-weight: bold;
 }
 
+.THIS .share-btn-label{
+    color: #297DFD;
+    text-align: center;
+}
+
 .THIS .sd-tab.disabled{
     background-color: #FFFFFF;
     pointer-events: none;
@@ -234,6 +239,21 @@
     visibility: hidden;
 }
 
+.THIS .share-icons{
+    display: flex;
+}
+
+.THIS .share-ico{
+    margin: 0 8px;
+    cursor: pointer;
+
+}
+
+.THIS .share-ico .rr-icon-default{
+    width: 20px!important;
+    height: 20px!important;
+}
+
 @media (max-width: 768px){
     .THIS .sdv-top-bar .links .apollo-btn.text{
         font-size: 13px;
@@ -258,12 +278,20 @@
     max-width: 136px;
     margin: 10px 0;
 }
+
+.THIS .actions-buttons{
+    margin-top: 4px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .THIS .button-share-icon {
     visibility: hidden;
-    display:block;
-    position:absolute;
-    margin-left: 65px;
-    margin-top: 73px;
+    display: flex;
+    position: fixed;
+    margin-left: -54px;
+    margin-top: 20px;
     transition: all ease 0.3s;
 
 }

@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 23.03.2019.
  -->
 
-<aura:component controller="MyTeamRemote" implements="forceCommunity:availableForAllPageTypes"
+<aura:component controller="PatientDelegateRemote" implements="forceCommunity:availableForAllPageTypes"
                 description="EditDelegate">
 
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
@@ -13,7 +13,6 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="delegate" type="Contact" access="private"/>
     <aura:attribute name="isCorrectEmail" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="currentUserContactId" type="String" access="private"/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -100,12 +99,7 @@
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <button class="apollo-btn primary ntm-button"
                                                 onclick="{!c.doSaveChanges}"
-                                                disabled="{!or(
-                                                               or(
-                                                                  not(v.isCorrectEmail), empty(or(
-                                                                                                  v.delegate.FirstName,
-                                                                                                  v.delegate.LastName))),
-                                                               v.delegate == v.currentUserContactId)}">
+                                                disabled="{!or(not(v.isCorrectEmail), empty(and(v.delegate.FirstName, v.delegate.LastName)))}">
                                             {!$Label.c.PG_PST_L_Delegates_Save}
                                         </button>
                                     </div>

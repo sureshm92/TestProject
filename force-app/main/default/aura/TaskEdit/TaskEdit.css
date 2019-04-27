@@ -41,3 +41,7 @@
 .THIS .icon-alert .text{
     padding-left: 10px;
 }
+
+.THIS .icon-refresh {
+    cursor:pointer;
+}

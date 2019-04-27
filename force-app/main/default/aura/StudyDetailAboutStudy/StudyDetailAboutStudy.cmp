@@ -10,6 +10,8 @@
     <aura:attribute name="parent" type="Aura.Component"/>
 
     <!-- actions: -->
+
+    <aura:handler name="change" value="{!v.studyDetail.primaryContact}" action="{!c.doChangePrimaryContact}"/>
     <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
     <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
     <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
@@ -122,7 +124,7 @@
                                         <div class="address">
                                             <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
                                             <div class="address-3">{!accountWithEnrollments.addrCity}</div>
-                                            <aura:if isTrue="{!and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled)}">
+                                            <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
                                                 <div style="margin-top: 10px">
                                                     <button class="apollo-btn tertiary"
                                                             id="{!accountWithEnrollments.studySiteId}"
@@ -135,7 +137,7 @@
                                         </div>
                                     </div>
                                 </aura:iteration>
-                                <aura:if isTrue="{!and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled)}">
+                                <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
                                     <div class="study-sites-footer">
                                         <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
                                         &nbsp;
@@ -152,7 +154,8 @@
 
                 <!-- right info section -->
                 <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
-                    <div class="sdas-main-info">
+                    <div class="sdas-main-info" style="position: relative;">
+                        <c:RRSpinner aura:id="mainSpinner" size="medium"/>
                         <div class="title">{!$Label.c.PG_SW_F_Study_Name}</div>
                         <div class="text">{!v.studyDetail.trial.Study_Code_Name__c}</div>
 

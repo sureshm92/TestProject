@@ -1,5 +1,5 @@
 /**
- * Created by user on 11.03.2019.
+ * Created by Igor Malyuta on 11.03.2019.
  */
 ({
     reset : function (component) {

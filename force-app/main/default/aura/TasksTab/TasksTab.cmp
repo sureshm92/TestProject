@@ -28,7 +28,7 @@
                         <tr>
                             <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
                             <th class="priority">{!$Label.c.Originator}</th>
-                            <th class="completed-by">{!$Label.c.Due_date}</th>
+                            <th class="completed-by">{!$Label.c.Complete_By_Date}</th>
                             <th class="completed-by">{!$Label.c.Reminder_Date}</th>
                             <th></th>
                         </tr>
@@ -46,19 +46,24 @@
                                         In Progress
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
-                                        <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                        <aura:if isTrue="{!taskWrapper.openTask.ActivityDate}">
+                                            <ui:outputDate value="{!taskWrapper.openTask.ActivityDate}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!!taskWrapper.openTask.ActivityDate}">
+                                            {!$Label.c.None}
+                                        </aura:if>
                                     </aura:if>
                                 </td>
                                 <td>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c != null}">
-                                        <ui:outputDate value="{!taskWrapper.openTask.Completed_Date__c}"/>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c != null}">
+                                        <ui:outputDate value="{!taskWrapper.openTask.Reminder_Date__c}"/>
                                     </aura:if>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Completed_Date__c == null}">
+                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c == null}">
                                         {!$Label.c.None}
                                     </aura:if>
                                 </td>
                                 <td class="ignore">
-                                    <aura:if isTrue="{!taskWrapper.originator != $Label.c.Admin}">
+                                    <aura:if isTrue="{!!taskWrapper.openTask.Action_URL__c}">
                                         <button id="{!taskWrapper.openTask.Id}" class="apollo-btn tertiary" onclick="{!c.doIgnoreTask}">{!$Label.c.BTN_Ignore}</button>
                                     </aura:if>
                                 </td>
@@ -99,7 +104,7 @@
                                         Ignored
                                     </aura:if>
                                     <aura:if isTrue="{!task.Status == 'Completed'}">
-                                        <ui:outputDate value="{!task.Completed_Date__c}"/>
+                                        <ui:outputDate value="{!task.Reminder_Date__c}"/>
                                     </aura:if>
                                 </td>
                             </tr>

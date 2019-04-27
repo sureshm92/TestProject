@@ -311,3 +311,49 @@
         margin-top: 15px;
     }
 }
+
+.THIS .ssi-site-name{
+    text-align: left;
+    color: #000000;
+    font-size: 15px;
+    font-weight: bold;
+}
+.THIS .ssi-pi-name {
+    text-align: left;
+    color: #999999;
+    font-size: 13px;
+}
+.THIS .ssi-site-type {
+    color: #999999;
+    font-size: 14px;
+}
+.THIS .ssi-site-distance{
+    color: #999999;
+    font-size: 14px;
+}
+.THIS .ssi-address{
+    color: #333333;
+    font-size: 13px;
+}
+
+.THIS .ssi-button{
+    text-align: right;
+}
+
+@media all and (min-width: 768px){
+    .THIS .ssi-site-distance,
+    .THIS .ssi-site-type{
+        text-align: right;
+    }
+}
+.THIS .sub-title{
+    font-size: 18px!important;
+}
+.THIS .ssi-address{
+    color: #333333;
+    font-size: 13px;
+    text-align: left;
+}
+.THIS .slvi-search-site-btn{
+    width: 100%;
+}

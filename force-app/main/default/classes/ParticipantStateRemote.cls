@@ -4,24 +4,10 @@
 
 public class ParticipantStateRemote {
     
-    public class InitData{
-        public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
-        public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        public ParticipantService.ParticipantState participantState;
-        public List<Path.PathItem> psePath;
-    }
-    
     @AuraEnabled
     public static String getInitData(){
         try{
-            InitData initData = new InitData();
-            initData.participantState = ParticipantService.getParticipantState();
-            if(initData.participantState.pse != null){
-                List<String> translatedStatuses = new List<String>();
-                for(String status : PSEService.PSE_STATUS_GROUP_ALL) translatedStatuses.add(TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status));
-                initData.psePath = Path.generatePath(translatedStatuses, initData.participantState.pse.Status__c);
-            }
-            return JSON.serialize(initData);
+            return JSON.serialize(new ParticipantItem(ParticipantService.getInstance().getState()));
         }catch (Exception e){
             return (String)AuraHelper.throwException(e);
         }
@@ -39,9 +25,8 @@ public class ParticipantStateRemote {
             if(participants.size() > 0) name = participants[0].First_Name__c + ' ' + participants[0].Last_Name__c;
             return name.trim();
         }catch (Exception e){
-            AuraHelper.throwException(e);
+            return (String)AuraHelper.throwException(e);
         }
-        return null;
     }
 
 }

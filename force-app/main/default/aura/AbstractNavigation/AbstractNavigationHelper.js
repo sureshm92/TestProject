@@ -82,12 +82,14 @@
 
             'participant-home':{
                 page: '',
-                label: $A.get('$Label.c.Navigation_Home')
+                label: $A.get('$Label.c.Navigation_Home'),
+                icon: 'icon-home-brand-new'
             },
 
             'my-study':{
                 page: 'study-workspace',
-                label: $A.get('$Label.c.Navigation_My_Study')
+                label: $A.get('$Label.c.Navigation_My_Study'),
+                icon: 'about-the-study'
             },
 
             'resources':{
@@ -128,6 +130,7 @@
     },
 
     updateDocumentTitle: function (component, pageName) {
+        if(!this.itemsMap) this.initItemsMap();
         var page = this.allPagesMap[pageName];
         if(page) document.title = page.label;
     }

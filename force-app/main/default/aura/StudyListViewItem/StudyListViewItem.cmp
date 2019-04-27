@@ -15,72 +15,50 @@
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
 
-            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                <div class="slvi-top-container-hcp slvi-section">
-                    <!-- Name: -->
+        <aura:if isTrue="{!v.userMode == 'HCP'}">
+            <div class="slvi-top-container-hcp slvi-section">
+                <!-- Name: -->
                 <div class="slvi-name-section-hcp">
                     <div class="slds-grid slds-wrap">
-                        <div class="slds-col slds-medium-size_10-of-12 slds-size_1-of-1 study-name">
+                        <div class="slds-col slds-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
                             <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                         </div>
+                        <div class="slds-col slds-small-size_2-of-3 slds-x-small-size--2-of-3 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name">
+                            {!v.currentStudy.trial.Study_Sponsor__c}
+                        </div>
 
                         <!--Social Widgets-->
-                        <aura:if isTrue="{!v.userMode == 'HCP'}">
-                            <div class="rri-icon">
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onEmailClick}">
+                        <div class="slds-col slds-small-size_1-of-3 slds-x-small-size--1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
+                            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                                <div class="rri-icon slds-float_right">
+                                    <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
                                     </span>
-                                </a>
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onFacebookClick}">
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
                                     </span>
-                                </a>
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onTwitterClick}">
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
                                     </span>
-                                </a>
-                                <a href="javascript:void(0);" target="_blank" onclick="{!c.onLinkedInClick}">
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
-                                        <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
+                                        <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
                                     </span>
-                                </a>
-                            </div>
-                        </aura:if>
-
-                        <!--Social Widgets-->
-                        <!--div class="slds-col slds-medium-size_2-of-12 slds-size_1-of-3 slds-order_3 slds-medium-order_2 rri-icon">
-                            <a href="https://www.google.com" target="_blank">
-                                <span class="slds-m-around_x-small">
-                                    <c:RRIcon iconName="icon-mailbox" id="icon-mailbox" color="#297DFD"/>
-                                </span>
-                            </a>
-                            <a href="https://www.google.com" target="_blank">
-                                <span class="slds-m-around_x-small">
-                                    <c:RRIcon iconName="icon-facebook" id="icon-facebook" color="#297DFD"/>
-                                </span>
-                            </a>
-                            <a href="https://www.google.com" target="_blank">
-                                <span class="slds-m-around_x-small">
-                                    <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#297DFD"/>
-                                </span>
-                            </a>
-                            <a href="https://www.google.com" target="_blank">
-                                <span class="slds-m-around_x-small">
-                                    <c:RRIcon iconName="icon-linkedin" id="icon-linkedin" color="#297DFD"/>
-                                </span>
-                            </a>
-                        </div-->
-                        <div class="slds-col slds-size_2-of-3 slds-order_2 slds-medium-order_3 sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
-
+                                    </a>
+                                </div>
+                            </aura:if>
+                        </div>
                     </div>
-
                 </div>
                 <div class="slvi-objective-section">
-                    <div class="objective-text">{!v.currentStudy.trial.Detailed_Description__c}</div>
+                    <div class="objective-text">{!v.currentStudy.trial.Brief_Summary__c}</div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
                             <c:RRIcon iconName="icon-chevron-right"/>
@@ -89,20 +67,19 @@
 
                 </div>
             </div>
-            </aura:if>
+        </aura:if>
 
-            <aura:if isTrue="{!v.userMode != 'HCP'}">
-                <div class="slvi-top-container slvi-section">
+        <aura:if isTrue="{!v.userMode != 'HCP'}">
+            <div class="slvi-top-container slvi-section">
                 <div class="slvi-name-section">
-                    <div class="study-name">
+                    <div class="study-name study-name-pi">
                         <c:RRLink label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                   page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                     </div>
 
 
-
                     <!-- Status: -->
-                        <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
+                    <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
                             {!v.currentStudy.trialRecruitmentStatusLabel}
                         </div>
                 </div>
@@ -117,9 +94,9 @@
                         </c:RRLink>
                     </div>
                 </div>
-                </div>
+            </div>
 
-            </aura:if>
+        </aura:if>
 
         <!-- PI statistics: -->
         <c:StudyTotalPassed userMode="{!v.userMode}" statistics="{!v.currentStudy.statistics}" class="slvi-section"/>
@@ -145,58 +122,66 @@
         <aura:if isTrue="{!v.userMode == 'HCP'}">
             <div style="background-color: #f2f2f2; min-height: 43px; box-sizing: border-box; padding-top: 12px;">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12
                                 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
                         <div>
-                            <div class="{!v.searchItem ? 'slds-hide' : ''}">
+                            <div class="{!or(v.searchItem, !v.currentStudy.hasActiveHCPEnrollments)? 'slds-hide' : ''}">
                                 <a href="javascript:void(0);"
                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
                                    onclick="{!c.toggleStudySiteListView}">
-                                    <span class="slds-m-right--xx-small">Associated Sites and Site Details</span>
+                                    <span class="slds-m-right--xx-small">{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span>
                                     <c:RRIcon iconName="icon-chevron-right"/>
                                 </a>
                             </div>
                             <aura:if isTrue="{!v.searchItem}">
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments}">
                                     <div>
-                                        <span class="slds-m-right--xx-small rr-blue-color">You are already associated with this study.</span>
+                                        <span class="slds-m-right--xx-small rr-blue-color">{!$Label.c.MyStudy_You_are_already_associated}</span>
                                     </div>
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
-                                        <span class="slds-m-right--xx-small">No sites associated yet. Click on Find Study Site to search for sites.</span>
+                                        <span class="slds-m-right--xx-small">{!$Label.c.MyStudy_No_sites_associated_yet}</span>
                                     </div>
                                 </aura:if>
                             </aura:if>
                         </div>
                     </div>
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12
                                 slds-order_3 slds-medium-order_2 slds-m-vertical_x-small">
                         <div class="slvi-status-item">
                             <aura:if isTrue="{!v.currentStudy.distance != null}">
                                 <div style="float: left;">
                                     <c:RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/>
                                 </div>
-                                <div>Nearest site: <aura:unescapedHtml value="{!v.currentStudy.distance}"/></div>
+                                <div>Nearest site:
+                                    <aura:unescapedHtml value="{!v.currentStudy.distance}"/>
+                                </div>
                             </aura:if>
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
                                 slds-order_2 slds-medium-order_3 slds-m-vertical_x-small">
                         <div class="slvi-status-item">
-                            <div style="float: left;">
-                                <c:RRIcon class="slvi-status-icon blue-icon" iconName="about-the-study"/>
-                            </div>
-                            <div>{!v.currentStudy.therapeuticArea}</div>
+                            <aura:if isTrue="{!v.currentStudy.therapeuticArea != null}">
+                                <div style="float: left;">
+                                    <c:RRIcon class="slvi-status-icon blue-icon" iconName="about-the-study"/>
+                                </div>
+                                <div>{!v.currentStudy.therapeuticArea}</div>
+                            </aura:if>
                         </div>
                     </div>
+
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6
                                 slds-order_1 slds-medium-order_4 slds-m-vertical_x-small">
                         <div class="slvi-status-item">
                             <div style="float: left;">
-                                <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}" iconName="{!v.currentStudy.trial.statusIcon}"/>
+                                <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}"
+                                          iconName="{!v.currentStudy.trial.statusIcon}"/>
                             </div>
-                            <div>{!v.currentStudy.trial.Override_Recruitment_Status__c}</div>
+                            <div class="slvi-status">
+                                {!v.currentStudy.trialRecruitmentStatusLabel}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,82 +190,100 @@
                 <div class="slds-p-horizontal_medium slds-p-bottom_small">
 
                     <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
-                        <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
-                            <div class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
-                                    <div class="clinic-name">
-                                        {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
+                        <aura:if isTrue="{!siteWrapper.hasActiveHCPE}">
+                            <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
+                                        <div class="clinic-name">
+                                            {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
+                                        </div>
+                                    <div class="site-sub-header slds-m-top--x-small">
+                                            {!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
                                     </div>
-                                    <div class="site-sub-header slds-m-top--x-small">{!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}</div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
-                                    <div class="site-sub-header site-distance">
-                                        {!siteWrapper.siteType + 'Site'}
                                     </div>
-                                    <div class="site-sub-header slds-m-topxx-small site-distance"><aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/> </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                                        <div class="site-sub-header site-distance">
+                                            {!siteWrapper.siteType + ' Site'}
+                                        </div>
+                                        <div class="site-sub-header slds-m-topxx-small site-distance">
+                                            <aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="slds-grid slds-wrap slds-m-top--x-small">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
-                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.MailingStreet}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}</div>
-                                </div>
-                                <div class="slds-col slds-show_medium slds-size_1-of-12">
-                                    <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>
-                                </div>
-                                <div class="slds-col slds-m-vertical_small slds-hide_medium slds-size_1-of-2">
-                                    <div style="height: 1px; background-color: gray; "></div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>
-                                    <div class="site-address slds-m-top--xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
-                                    <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
-                                        <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
+                                <div class="slds-grid slds-wrap slds-m-top--x-small">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                                    <div class="site-address">
+                                            {!siteWrapper.site.Principal_Investigator__r.MailingStreet}
+                                    </div>
+                                    <div class="site-address slds-m-top--xx-small">
+                                            {!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}
+                                    </div>
+                                    </div>
+<!--                                    <div class="slds-col slds-show_medium slds-size_1-of-12">-->
+<!--                                        <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>-->
+<!--                                    </div>-->
+<!--                                    <div class="slds-col slds-m-vertical_small slds-hide_medium slds-size_1-of-2">-->
+<!--                                        <div style="height: 1px; background-color: gray; "></div>-->
+<!--                                    </div>-->
+<!--                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">-->
+<!--                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>-->
+<!--                                    <div class="site-address slds-m-top&#45;&#45;xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>-->
+<!--                                    <div class="site-address slds-m-top&#45;&#45;xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>-->
+<!--                                    </div>-->
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
+                                        <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
+                                            <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
-                                            <div class="slds-col slds-size_1-of-2">
-                                                <button data-site-id="{!siteWrapper.site.Id}"
-                                                        class="apollo-btn primary slvi-site-btn"
-                                                        style="background-color: white; color: #297DFD; box-shadow: none;"
-                                                        onclick="{!c.doMyPatients}">
-                                                    {!$Label.c.BTN_My_Patients}
-                                                </button>
-                                            </div>
-                                            <div class="slds-col slds-size_1-of-2">
-                                                <button class="apollo-btn primary slvi-site-btn" onclick="{!c.doReferPatient}"
-                                                disabled="{!siteWrapper.actions.refer.disabled}"
-                                                title="{!siteWrapper.actions.refer.disableReason}">
-                                                    {!$Label.c.BTN_Refer_a_Patient}
-                                                </button>
-                                            </div>
-                                        </aura:if>
-                                        <aura:if isTrue="{!and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <aura:if isTrue="{!v.currentStudy.hasPatients}">
+
+                                                        <button data-site-id="{!siteWrapper.site.Id}"
+                                                                class="apollo-btn primary slvi-site-btn"
+                                                                style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                                onclick="{!c.doMyPatients}">
+                                                            {!$Label.c.BTN_My_Patients}
+                                                        </button>
+                                                    </aura:if>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <button data-hcpe-id="{!siteWrapper.hcpe.Id}"
+                                                            class="apollo-btn primary slvi-site-btn"
+                                                            onclick="{!c.doReferPatient}"
+                                                            disabled="{!siteWrapper.actions.refer.disabled}"
+                                                            title="{!siteWrapper.actions.refer.disableReason}">
+                                                        {!$Label.c.BTN_Refer_a_Patient}
+                                                    </button>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action)}">
-                                            <div class="slds-col slds-size_1-of-3 slds-show_medium"/>
-                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
-                                                <button disabled='disabled'
-                                                        class="apollo-btn tertiary slvi-site-btn"
-                                                        style="background-color: white; color: #297DFD; box-shadow: none;"
-                                                        onclick="{!c.doMyPatients}">
-                                                    {!siteWrapper.hcpe.Status__c}
-                                                </button>
-                                            </div>
-                                    </aura:if>
+                                                <div class="slds-col slds-size_1-of-3 slds-show_medium"/>
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                                                    <button disabled='disabled'
+                                                            class="apollo-btn tertiary slvi-site-btn"
+                                                            style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                            onclick="{!c.doMyPatients}">
+                                                        {!siteWrapper.hcpe.Status__c}
+                                                    </button>
+                                                </div>
+                                            </aura:if>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </aura:if>
                     </aura:iteration>
 
                     <div class="slds-p-around--medium">
-                        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center" style="min-height: 100%;">
+                        <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
+                             style="min-height: 100%;">
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
-                                <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
+                                <span class="header-white-panel" style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
                             </div>
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
-                                <button class="apollo-btn primary slvi-search-site-btn" onclick="{!c.navigateToSitesSearch}">Find More Sites for This Study</button>
+                                <button class="apollo-btn primary slvi-search-site-btn"
+                                        onclick="{!c.navigateToSitesSearch}">{!$Label.c.MyStudy_Find_More_Sites}
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -289,5 +292,5 @@
         </aura:if>
     </div>
 
-    <c:ShareModal aura:id="emailModal" parent="{!v.parent}"/>
+    <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
 </aura:component>

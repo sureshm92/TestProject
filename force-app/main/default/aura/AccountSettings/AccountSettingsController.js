@@ -1,6 +1,13 @@
 ({
     doInit: function (component, event, helper) {
         component.set("v.showSpinner", true);
+        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        component.set('v.todayDate', todayDate);
+        var genders = [
+            $A.get("$Label.c.Gender_Male"),
+            $A.get("$Label.c.Gender_Female")
+        ];
+        component.set('v.genders', genders);
         communityService.executeAction(component, 'getInitData', {
             userMode: component.get("v.userMode")
         }, function (returnValue) {
@@ -10,9 +17,25 @@
             initData.password.new = '';
             initData.password.reNew = '';
             component.set("v.initData", initData);
+            if(initData.participant){
+                component.set("v.birthdateDisabled", initData.participant.Date_of_Birth__c);
+                component.set("v.genderDisabled", initData.participant.Gender__c);
+                component.set("v.initialsDisabled", initData.participant.Initials__c);
+            }
             component.set("v.currentEmail", initData.myContact.Email);
             component.set('v.isDelegate', initData.isDelegate);
             component.set('v.isInitialized', true);
+        }, null, function () {
+            component.set("v.showSpinner", false);
+        })
+    },
+
+    doUpdateParticipant: function (component, event, helper) {
+        component.set("v.showSpinner", true);
+        communityService.executeAction(component, 'updateParticipant', {
+            participantJSON : JSON.stringify(component.get("v.initData.participant"))
+        }, function () {
+            window.history.go(-1);
         }, null, function () {
             component.set("v.showSpinner", false);
         })
@@ -80,7 +103,7 @@
             rrCookieAllowed: initData.myContact.RRCookiesAllowedCookie__c,
             rrLanguageAllowed: initData.myContact.RRLanguageAllowedCookie__c
         }, function () {
-            //do nothing
+            location.reload();
         });
     },
 

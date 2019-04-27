@@ -42,13 +42,18 @@
 
     setParticipant: function (component, pe) {
         component.set('v.countryInitialized', false);
-        component.set('v.participant', {
+        var participant = {
             sobjectType: 'Participant__c',
             First_Name__c: pe.Participant_Name__c,
             Last_Name__c: pe.Participant_Surname__c,
-            Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
-            Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
-        });
+            // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
+            // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
+        };
+        if(pe.HCP__r){
+            participant.Mailing_Country_Code__c= pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
+            participant.Mailing_State_Code__c= pe.HCP__r.HCP_Contact__r.Account.BillingStateCode;
+        }
+        component.set('v.participant', participant);
         component.set('v.countryInitialized', true);
     },
 
@@ -70,7 +75,6 @@
             participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Email__c &&
-            participant.Email__c === emailRepeat &&
             participant.Mailing_Zip_Postal_Code__c &&
             //emailVaild &&
             //emailRepeatValid &&
@@ -80,10 +84,33 @@
             (selectedState || states.length === 0) &&
             agreePolicy;
         component.set('v.allRequiredCompleted', result);
+        component.set('v.emailsMatch',participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() === emailRepeat.toLowerCase());
 
-        if(participant.Email__c !== emailRepeat && emailRepeat){
-            emailCmp.set('v.validity', {valid: false, badInput: true});
-            emailRepeatCmp.set('v.validity', {valid: false, badInput: true});
+        if(emailCmp && emailRepeatCmp){
+            if(participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()){
+                emailCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
+                //set('v.validity', {valid: false, badInput: true});
+
+                emailRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//.set('v.validity', {valid: false, badInput: true});
+            }
+            else{
+                emailCmp.setCustomValidity("");
+                emailRepeatCmp.setCustomValidity("");
+            }
+            if(participant.Email__c && participant.Email__c !== '' && emailRepeat && emailRepeat !== ''){
+                emailCmp.reportValidity();
+                emailRepeatCmp.reportValidity();
+            }
+        }
+
+    },
+    checkSites: function(component){
+        var studySites = component.get("v.studySites");
+        if(studySites.length>0){
+            component.set('v.currentState', 'Screening');
+        }
+        else{
+            component.set('v.currentState', 'No Active Sites');
         }
     }
 

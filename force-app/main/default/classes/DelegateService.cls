@@ -2,13 +2,13 @@
  * Created by Leonid Bartenev
  */
 
-public class DelegateService {
+public without sharing class DelegateService {
     
     public static String OWNER_LEVEL = 'All';
     public static String DELEGATE_LEVEL_1 = 'Level 1';
     public static String DELEGATE_LEVEL_2 = 'Level 2';
     public static String DELEGATE_LEVEL_3 = 'Level 3';
-
+    
     public static final List<String> DELEGATE_LEVEL_1_AND_LOW = new List<String>{
             DELEGATE_LEVEL_1,
             DELEGATE_LEVEL_2,
@@ -18,85 +18,20 @@ public class DelegateService {
             DELEGATE_LEVEL_2,
             DELEGATE_LEVEL_3
     };
-
-
-    private static Map<Id, String> piStudySitesAccessLevelMap;
-    private static Map<Id, String> hcpEnrollmentsAccessLevelMap;
-    private static Map<Id, String> piStudiesAccessLevel;
-    private static Map<Id, String> hcpStudiesAccessLevel;
-    private static Map<Id, Id> studyPIContactsMap;
-    private static Map<Id, Id> studyHCPContactsMap;
-    private static Map<Id, Map<Id,Site_Staff__c>> piTeamStaffTrialMap;
-    private static Map<Id, Map<Id,Referring_HCP_Staff__c>> hcpTeamStaffTrialMap;
-    
     public static final String ACCESS_LEVEL_ALL = 'All';
     
-    public static Map<Id, String> getPIStudySitesAccessLevelMap(){
-        if(piStudySitesAccessLevelMap == null) init();
-        return piStudySitesAccessLevelMap;
-    }
+    private Map<Id, String> piStudySitesAccessLevelMap;
+    private Map<Id, String> hcpEnrollmentsAccessLevelMap;
+    private Map<Id, String> piStudiesAccessLevel;
+    private Map<Id, String> hcpStudiesAccessLevel;
+    private Map<Id, Id> studyPIContactsMap;
+    private Map<Id, Id> studyHCPContactsMap;
+    private Map<Id, Map<Id,Site_Staff__c>> piTeamStaffTrialMap;
+    private Map<Id, Map<Id,Referring_HCP_Staff__c>> hcpTeamStaffTrialMap;
     
-    public static Map<Id, String> getHCPEnrollmentAccessLevelMap(){
-        if(hcpEnrollmentsAccessLevelMap == null) init();
-        return hcpEnrollmentsAccessLevelMap;
-    }
+    private static DelegateService instance;
     
-    public static List<Id> getDelegatedHCPEnrollmentIds(){
-        return new List<Id>(getHCPEnrollmentAccessLevelMap().keySet());
-    }
-    
-    public static List<Id> getDelegatedStudySiteIds(){
-        return new List<Id>(getPIStudySitesAccessLevelMap().keySet());
-    }
-    
-    public static Map<Id, Id> getStudyPIContactsMap(){
-        if(studyPIContactsMap == null) init();
-        return studyPIContactsMap;
-    }
-    
-    public static Map<Id, Id> getStudyHCPContactsMap(){
-        if(studyHCPContactsMap == null) init();
-        return studyHCPContactsMap;
-    }
-
-    public static Map<Id, Map<Id,Site_Staff__c>> getPITeamStaffTrialMap(){
-        if(piTeamStaffTrialMap == null) init();
-        return piTeamStaffTrialMap;
-    }
-
-    public static Map<Id, Map<Id,Referring_HCP_Staff__c>> getHCPTeamStaffTrialMap(){
-        if(hcpTeamStaffTrialMap == null) init();
-        return hcpTeamStaffTrialMap;
-    }
-    
-    public static Id getContactId(Id studyId, String userMode){
-        Id contactId;
-        if(userMode == CommunityService.USER_MODE_PI){
-            contactId = getStudyPIContactsMap().get(studyId);
-        }else if(userMode == CommunityService.USER_MODE_HCP){
-            contactId = getStudyHCPContactsMap().get(studyId);
-        }
-        if(contactId != null) return contactId;
-        return CommunityService.getUserContact().Id;
-    }
-    
-    public static Map<Id, String> getStudiesAccessLevelMap(String userMode){
-        if(userMode == CommunityService.USER_MODE_PI){
-            if(piStudiesAccessLevel == null) init();
-            return piStudiesAccessLevel;
-        }else{
-            if(hcpStudiesAccessLevel == null) init();
-            return hcpStudiesAccessLevel;
-        }
-    }
-    
-    public static String getStudyAccessLevel(Id studyId, String userMode){
-        String accessLevel = getStudiesAccessLevelMap(userMode).get(studyId);
-        if(accessLevel != null) return accessLevel;
-        return ACCESS_LEVEL_ALL;
-    }
-    
-    public static void init(){
+    public DelegateService(){
         Set<Id> siteIds = new Set<Id>();
         for(Site_Staff__c del : [SELECT Id, Study_Site__c FROM Site_Staff__c WHERE Site_Contact__c = : CommunityService.getUserContact().Id]){
             siteIds.add(del.Study_Site__c);
@@ -129,14 +64,14 @@ public class DelegateService {
                 }
                 piTeamStaffTrialMap.get(siteStaff.Site_Contact__c).put(siteStaff.Study_Site__c,siteStaff);
             }
-
+        
         }
-    
+        
         Set<Id> hcpeIds = new Set<Id>();
         for(Referring_HCP_Staff__c del : [SELECT Id, HCP_Enrollment__c FROM Referring_HCP_Staff__c WHERE Contact__c = : CommunityService.getUserContact().Id]){
             hcpeIds.add(del.HCP_Enrollment__c);
         }
-
+        
         List<Referring_HCP_Staff__c> hcpStaffs = [
                 SELECT Id, Delegate_Level__c,
                         HCP_Enrollment__r.HCP_Contact__c,
@@ -166,6 +101,104 @@ public class DelegateService {
                 hcpTeamStaffTrialMap.get(hcpStaff.Contact__c).put(hcpStaff.HCP_Enrollment__c,hcpStaff);
             }
         }
+    }
+    
+    public static DelegateService getInstance(){
+        if(instance == null) instance = new DelegateService();
+        return instance;
+    }
+    
+    public static void setMock(StubProvider stubProvider){
+        instance = (DelegateService) Test.createStub(DelegateService.class, stubProvider);
+    }
+    
+    
+    public Map<Id, String> getPIStudySitesAccessLevelMapImpl(){
+        return piStudySitesAccessLevelMap;
+    }
+    
+    public Map<Id, String> getHCPEnrollmentAccessLevelMapImpl(){
+        return hcpEnrollmentsAccessLevelMap;
+    }
+    
+    public List<Id> getDelegatedHCPEnrollmentIdsImpl(){
+        return new List<Id>(hcpEnrollmentsAccessLevelMap.keySet());
+    }
+    
+    public List<Id> getDelegatedStudySiteIdsImpl(){
+        return new List<Id>(piStudySitesAccessLevelMap.keySet());
+    }
+    
+    public Map<Id, Id> getStudyPIContactsMapImpl(){
+        return studyPIContactsMap;
+    }
+    
+    public Map<Id, Id> getStudyHCPContactsMapImpl(){
+        return studyHCPContactsMap;
+    }
+    
+    public Map<Id, Map<Id,Site_Staff__c>> getPITeamStaffTrialMapImpl(){
+        return piTeamStaffTrialMap;
+    }
+    
+    public Map<Id, Map<Id,Referring_HCP_Staff__c>> getHCPTeamStaffTrialMapImpl(){
+        return hcpTeamStaffTrialMap;
+    }
+    
+    public Map<Id, String> getStudiesAccessLevelMapImpl(String userMode){
+        if(userMode == CommunityService.USER_MODE_PI){
+            return piStudiesAccessLevel;
+        }else{
+            return hcpStudiesAccessLevel;
+        }
+    }
+    
+    public String getStudyAccessLevelImpl(Id studyId, String userMode){
+        String accessLevel = getStudiesAccessLevelMapImpl(userMode).get(studyId);
+        if(accessLevel != null) return accessLevel;
+        return ACCESS_LEVEL_ALL;
+    }
+    
+    // Static facade: --------------------------------------------------------------------------------------------------
+    
+    public static Map<Id, String> getPIStudySitesAccessLevelMap(){
+        return getInstance().getPIStudySitesAccessLevelMapImpl();
+    }
+    
+    public static Map<Id, String> getHCPEnrollmentAccessLevelMap(){
+        return getInstance().getHCPEnrollmentAccessLevelMapImpl();
+    }
+    
+    public static List<Id> getDelegatedHCPEnrollmentIds(){
+        return getInstance().getDelegatedHCPEnrollmentIdsImpl();
+    }
+    
+    public static List<Id> getDelegatedStudySiteIds(){
+        return getInstance().getDelegatedStudySiteIdsImpl();
+    }
+    
+    public static Map<Id, Id> getStudyPIContactsMap(){
+        return getInstance().getStudyPIContactsMapImpl();
+    }
+    
+    public static Map<Id, Id> getStudyHCPContactsMap(){
+        return getInstance().getStudyHCPContactsMapImpl();
+    }
+    
+    public static Map<Id, Map<Id,Site_Staff__c>> getPITeamStaffTrialMap(){
+        return getInstance().getPITeamStaffTrialMapImpl();
+    }
+    
+    public static Map<Id, Map<Id,Referring_HCP_Staff__c>> getHCPTeamStaffTrialMap(){
+        return getInstance().getHCPTeamStaffTrialMapImpl();
+    }
+    
+    public static Map<Id, String> getStudiesAccessLevelMap(String userMode){
+        return getInstance().getStudiesAccessLevelMapImpl(userMode);
+    }
+    
+    public static String getStudyAccessLevel(Id studyId, String userMode){
+        return getInstance().getStudyAccessLevelImpl(studyId, userMode);
     }
 
 }

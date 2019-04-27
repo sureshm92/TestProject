@@ -4,7 +4,25 @@
         "saveRefs": true,
         "resolveRefs": true,
         "files": [
-            "Therapeutic_Areas.json"
+            "Therapeutic_Area__c.json"
+        ]
+    },
+
+    {
+        "sobject": "Visit_Plan__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Visit_Plan__c.json"
+        ]
+    },
+
+    {
+        "sobject": "Visit__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Visit__c.json"
         ]
     },
 

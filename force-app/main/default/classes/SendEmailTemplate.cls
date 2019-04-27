@@ -1,35 +1,70 @@
 public without sharing class SendEmailTemplate {
-    
+
     public static final String EMAIL_TEMPLATE_PATIENT1_NEW = 'Patient1_New_Study';
     public static final String EMAIL_TEMPLATE_PATIENT2_NEW = 'Patient2_New_Study';
-    
-    public class SendEmailTemplateException extends Exception{}
-    public static final Id ORGWIDE_EMAIL_ADDRESS_ID = getOrgwideEmailAddress().Id;
-    
-    public static void sendEmailNotification(String templateName, Map<Id, String> whatIdMap){
+
+    public class SendEmailTemplateException extends Exception {}
+
+    public static void sendEmailNotification(String templateName, Map<Id, String> whatIdMap) {
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        List<Contact> contacts = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id IN : whatIdMap.values()];
-        Map<Id, Boolean> contactsOptedOutEmailMap = new Map<Id, Boolean>();
-        for(Contact c: contacts) contactsOptedOutEmailMap.put(c.Id, c.HasOptedOutOfEmail);
-        
-        for(Id whatId : whatIdMap.keySet()){
-            if(contactsOptedOutEmailMap.get(whatIdMap.get(whatId))!= null && !contactsOptedOutEmailMap.get(whatIdMap.get(whatId))){
+        Map<Id, Boolean> contactsOptedOutEmailMap = getContactsOptedOutEmailMap(whatIdMap.values());
+
+        for (Id whatId : whatIdMap.keySet()) {
+            if (contactsOptedOutEmailMap.get(whatIdMap.get(whatId)) != null && !contactsOptedOutEmailMap.get(whatIdMap.get(whatId))) {
                 emailMessages.add(createEmail(getEmailTemplateId(templateName), whatIdMap.get(whatId), whatId));
             }
         }
+
         //send emails:
         sendEmailMessages(emailMessages);
     }
+
+    public static void sendEmailNotification(String templateName, Map<Id, Set<Id>> contactIdToWhatIdSet) {
+        //prepare emails list:
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+
+        Map<Id, Boolean> contactsOptedOutEmailMap = getContactsOptedOutEmailMap(new List<Id>(contactIdToWhatIdSet.keySet()));
+        for (Id currContactId : contactIdToWhatIdSet.keySet()) {
+            for (Id whatId : contactIdToWhatIdSet.get(currContactId)) {
+                if (contactsOptedOutEmailMap.get(currContactId) != null && !contactsOptedOutEmailMap.get(currContactId)) {
+                    emailMessages.add(createEmail(getEmailTemplateId(templateName), currContactId, whatId));
+                }
+            }
+        }
+
+        //send emails:
+        sendEmailMessages(emailMessages);
+    }
+
+    private static Map<Id, Boolean> getContactsOptedOutEmailMap(List<Id> contactIds) {
+        List<Contact> contacts = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id IN :contactIds];
+        Map<Id, Boolean> contactsOptedOutEmailMap = new Map<Id, Boolean>();
+        for (Contact c : contacts) contactsOptedOutEmailMap.put(c.Id, c.HasOptedOutOfEmail);
+        return contactsOptedOutEmailMap;
+    }
+
     
-    public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr) {
-        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =: CommunityService.COMMUNITY_ET_SHARE_STUDY LIMIT 1].Id;
+    public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr, String templateName) {
+        String eTemplateDeveloperName;
+        if (templateName != null) {
+            eTemplateDeveloperName = templateName;
+        } else {
+            eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_STUDY;
+            if (whatId.getSobjectType() == Resource__c.getSObjectType()) {
+                eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_RESOURCE;
+            }
+        }
+
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:eTemplateDeveloperName LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplateId);
         msg.setWhatId(whatId);
         msg.setTargetObjectId(fromId);
-        msg.setToAddresses(new List<String>{emailAddr});
+        msg.setToAddresses(new List<String>{
+                emailAddr
+        });
         msgList.add(msg);
         // Send the emails in a transaction, then roll it back
         Savepoint sp = Database.setSavepoint();
@@ -41,16 +76,17 @@ public without sharing class SendEmailTemplate {
             Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
             emailToSend.setToAddresses(email.getToAddresses());
             emailToSend.setPlainTextBody(email.getPlainTextBody());
-            emailToSend.setHTMLBody(email.getHTMLBody());
+            emailToSend.setHtmlBody(email.getHtmlBody());
             emailToSend.setPlainTextBody(email.getPlainTextBody());
             emailToSend.setSubject(email.getSubject());
-            emailToSend.setOrgWideEmailAddressId(ORGWIDE_EMAIL_ADDRESS_Id);
+            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailId(fromId));
             msgListToBeSend.add(emailToSend);
         }
         Messaging.sendEmail(msgListToBeSend);
     }
+
     @InvocableMethod(Label='Send Emails')
-    public static void sendEmailNotificationWithDelegates(List<emailNotification> variables){
+    public static void sendEmailNotificationWithDelegates(List<emailNotification> variables) {
         //prepare emails list:
         System.debug(variables);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
@@ -73,44 +109,45 @@ public without sharing class SendEmailTemplate {
     }
 
 
-    
-    public static Messaging.SingleEmailMessage createEmail(String templateDeveloperName, Id contactId, Id whatId){
+    public static Messaging.SingleEmailMessage createEmail(String templateDeveloperName, Id contactId, Id whatId) {
         return createEmail(getEmailTemplateId(templateDeveloperName), contactId, whatId);
     }
-    
-    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId){
 
-        return createEmail(emailTemplateId, contactId, whatId, null, false,'');
+    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId) {
+
+        return createEmail(emailTemplateId, contactId, whatId, null, false, '');
     }
 
-    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId, Id studyId, Boolean ccDelegates, String userMode){
+    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId, Id studyId, Boolean ccDelegates, String userMode) {
         Messaging.SingleEmailMessage newEmail = new Messaging.SingleEmailMessage();
         newEmail.setTemplateId(emailTemplateId);
         newEmail.setTargetObjectId(contactId);
         newEmail.setSaveAsActivity(false);
-        newEmail.setOrgWideEmailAddressId(ORGWIDE_EMAIL_ADDRESS_Id);
+        newEmail.setOrgWideEmailAddressId(getOrgWideEmailId(contactId));
+
         //newEmail.setToAddresses(new List<String>{toAddress});
         newEmail.setWhatId(whatId);
-        if(ccDelegates && userMode == CommunityService.USER_MODE_PI){
+        if (ccDelegates && userMode == CommunityService.USER_MODE_PI) {
             List<String> delegateAddresses = new List<String>();
-            for(Site_Staff__c delegate : [
+            for (Site_Staff__c delegate : [
                     SELECT Id, Site_Contact__r.Email
                     FROM Site_Staff__c
                     WHERE
-                    Delegate_Level__c =: DelegateService.DELEGATE_LEVEL_1
-                    AND Study_Site__c = :studyId]){
+                    Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                    AND Study_Site__c = :studyId
+            ]) {
                 delegateAddresses.add(delegate.Site_Contact__r.Email);
             }
             newEmail.setCcAddresses(delegateAddresses);
-        }
-        else if(ccDelegates && userMode == CommunityService.USER_MODE_HCP){
+        } else if (ccDelegates && userMode == CommunityService.USER_MODE_HCP) {
             List<String> delegateAddresses = new List<String>();
-            for(Referring_HCP_Staff__c delegate : [
+            for (Referring_HCP_Staff__c delegate : [
                     SELECT Id, Contact__r.Email
                     FROM Referring_HCP_Staff__c
                     WHERE
-                    Delegate_Level__c =: DelegateService.DELEGATE_LEVEL_1
-                    AND HCP_Enrollment__r.Study_Site__c = :studyId]){
+                    Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                    AND HCP_Enrollment__r.Study_Site__c = :studyId
+            ]) {
                 delegateAddresses.add(delegate.Contact__r.Email);
             }
             newEmail.setCcAddresses(delegateAddresses);
@@ -118,41 +155,53 @@ public without sharing class SendEmailTemplate {
 
         return newEmail;
     }
-    
+
     private static final Map<String, Id> templateNameIdMap = new Map<String, Id>();
-    
+
     private static Id getEmailTemplateId(String templateName) {
         Id templateId = templateNameIdMap.get(templateName);
-        if(templateId != null) return templateId;
+        if (templateId != null) return templateId;
         List<EmailTemplate> templates = [
                 SELECT Id
                 FROM EmailTemplate
                 WHERE DeveloperName = :templateName
                 LIMIT 1
         ];
-        if(templates.isEmpty()) throw new SendEmailTemplateException('Email template: "' + templateName + '" not found');
+        if (templates.isEmpty()) throw new SendEmailTemplateException('Email template: "' + templateName + '" not found');
         templateNameIdMap.put(templateName, templates[0].Id);
         return templates[0].Id;
     }
-    
-    private static OrgwideEmailAddress getOrgwideEmailAddress() {
+
+    private static OrgWideEmailAddress getOrgwideEmailAddress(String addressName) {
         List<OrgWideEmailAddress> orgwideEmailAddresses = [
                 SELECT Id
-                FROM OrgwideEmailAddress
-                WHERE displayname = :CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_NAME
+                FROM OrgWideEmailAddress
+                WHERE DisplayName = :addressName
                 LIMIT 1
         ];
-        if(orgwideEmailAddresses.isEmpty()){
+        if (orgwideEmailAddresses.isEmpty()) {
             Organization org = [SELECT Id, IsSandbox FROM Organization LIMIT 1];
-            if(org.IsSandbox){
+            if (org.IsSandbox) {
                 orgwideEmailAddresses = [SELECT Id FROM OrgWideEmailAddress LIMIT 1];
-                if(!orgwideEmailAddresses.isEmpty()){
+                if (!orgwideEmailAddresses.isEmpty()) {
                     return orgwideEmailAddresses[0];
                 }
             }
-            throw new SendEmailTemplateException('Org Wide Email Address: "' + CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_NAME + '" not found');
+            throw new SendEmailTemplateException('Org Wide Email Address: "' + addressName + '" not found');
         }
         return orgwideEmailAddresses[0];
+    }
+
+    /**
+        @param fromId ID of user Contact
+     */
+    public static Id getOrgWideEmailId(Id fromId) {
+        String userMode = CommunityService.getContactUserMode(fromId);
+        if (userMode != null && userMode.equalsIgnoreCase(CommunityService.USER_MODE_PARTICIPANT)) {
+            return getOrgwideEmailAddress(CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_PATIENT).Id;
+        } else {
+            return getOrgwideEmailAddress(CommunityService.COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL).Id;
+        }
     }
     
     public static void sendEmailMessages(List<Messaging.SingleEmailMessage> emailMessages){

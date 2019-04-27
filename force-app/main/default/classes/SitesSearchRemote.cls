@@ -87,7 +87,7 @@ public without sharing class SitesSearchRemote {
             SearchResult result = new SearchResult();
             result.siteList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(filter, pagination, false);
             for(Integer i = 1; i<= result.siteList.size(); i++){
-                result.siteList[i-1].site.Name = String.valueOf(i) + '. ' + result.siteList[i-1].site.Name;
+                result.siteList[i-1].site.Name = String.valueOf(pagination.offset + i) + '. ' + result.siteList[i-1].site.Name;
             }
             result.mapMarkers = new List<MapMarker>();
             for(StudySiteService.StudySiteDistanceWrapper siteWrapper : result.siteList){

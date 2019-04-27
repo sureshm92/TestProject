@@ -46,6 +46,9 @@
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
+            case 'addPatient':
+                communityService.navigateToPage('add-patient?id=' + trialId);
+                break;
         }
     },
 
@@ -62,7 +65,8 @@
         var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage('referring?id=' + trialId);
+        var hcpeId = event.target.dataset.hcpeId;
+        communityService.navigateToPage('referring?id=' + trialId +(hcpeId?'&hcpeid='+hcpeId:''));
     },
 
     doMyPatients: function(cmp, event, helper) {
@@ -82,20 +86,23 @@
         communityService.navigateToPage("sites-search?id=" + trialId);
     },
 
-    onEmailClick : function (component, event, helper) {
-        var hcpe = component.get('v.currentStudy').hcpe;
-        component.find('emailModal').show(hcpe);
-    },
-
-    onFacebookClick: function (component, event, helper) {
-        window.open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text');
-    },
-
-    onTwitterClick: function (component, event, helper) {
-        window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com');
-    },
-
-    onLinkedInClick: function (component, event, helper) {
-        window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com');
+    onShareClick : function (component, event, helper) {
+        let url = component.get('v.currentStudy').trial.Share_URL__c + 'none';
+        let text = 'A clinical study of interest';
+        let id = event.currentTarget.dataset.id;
+        switch (id) {
+            case 'email':
+                helper.onEmailClick(component);
+                break;
+            case 'facebook':
+                helper.onFacebookClick(component, url, text);
+                break;
+            case 'twitter':
+                helper.onTwitterClick(component, url, text);
+                break;
+            case 'linkedin':
+                helper.onLinkedInClick(component, url);
+                break;
+        }
     }
 })

@@ -10,6 +10,11 @@
     <aura:attribute name="currentEmail" type="String" access="private"/>
     <aura:attribute name="privacyFormText" type="String" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="genders" type="String[]" default="Male,Female"/>
+    <aura:attribute name="birthdateDisabled" type="Boolean"/>
+    <aura:attribute name="genderDisabled" type="Boolean"/>
+    <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="initialsDisabled" type="Boolean"/>
     <!--=============================================================================================================-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--=============================================================================================================-->
@@ -24,7 +29,7 @@
                 <div class="as-title">{!$Label.c.PG_AS_H_Email}</div>
                 <div class="as-email rr-form-element">
                     <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                        <div class="rr-form-element All fields are required.All fields are required.slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label">{!$Label.c.PG_AS_F_Username}</div>
                             <c:rrInput valueString="{!v.initData.userName}" placeholder="{!$Label.c.PG_AS_F_Username}"
                                        disabled="{!true}"/>
@@ -72,7 +77,12 @@
             <!-- Date format and preferred language panel: -->
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>
-                <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                    <div class="as-sub-title">{!$Label.c.PP_L_Account_Setting_Preferred_Lng}</div>
+                    <aura:set attribute="else">
+                        <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                    </aura:set>
+                </aura:if>
                 <div class="as-language-switcher">
                     <c:LanguageSwitcher/>
                 </div>
@@ -121,6 +131,16 @@
                                                  onchange="{!c.doSwitchOptInEmail}"/>
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
+                            <div class="as-email-preference">
+                                <div class="as-title ">Conditions of Interest</div>
+                                <div class="as-sub-title">
+                                    Select up to 5 medical conditions that you would be interested in for participating
+                                    in a clinical trial.
+                                </div>
+                                <div class="slds-grid slds-wrap slds-p-top--medium">
+                                    <c:ConditionOfInterestListView/>
+                                </div>
+                            </div>
                         </aura:if>
                         <div style="height: 15px"></div>
                     </div>
@@ -130,18 +150,12 @@
             <!-- Cookies settings -->
             <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
                 <div class="as-email-preference">
-                    <div class="as-title">Cookie Settings</div>
+                    <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">Some essential features on Referral Hub site just won’t work
-                        without cookies.
-                        And having other cookies switched off can seriously affect the way you’ll be able to enjoy our
-                        services.
-                        Please check your cookie settings below and turn on any cookies you’re happy with.
-                        "Strictly necessary" cookies can’t be turned off.
-                        However "Functional" cookies can be turned on or off below.
+                         style="margin-bottom: 15px">{!if(v.userMode == 'Participant', $Label.c.PP_Account_Settings_Cookie_Description, $Label.c.AccountSettings_Cookie_Description)}
                     </div>
                     <div class="collapse-section slds-m-top--large">
-                        <c:RRCollapse label="Strictly Necessary Cookies" isCollapsed="true">
+                        <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">
                             <div class="ah-main-container slds-grid slds-wrap slds-m-top--large">
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                     <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
@@ -160,15 +174,14 @@
                     </div>
 
                     <div class="collapse-section slds-m-top--large">
-                        <c:RRCollapse label="Functional Cookies" isCollapsed="true">
+                        <c:RRCollapse label="{!$Label.c.AccountSettings_Functional_Cookies}" isCollapsed="true">
                             <div class="ah-main-container slds-grid slds-wrap slds-m-top--large">
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                     <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
                                         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
                                             <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
-                                                <div class="ah-item-label">RRCookies</div>
-                                                <div class="ah-item-sublabel">Used to store cookies agreement decision.
-                                                    It prevents from popup appearing several times.
+                                                <div class="ah-item-label">{!$Label.c.AccountSettings_Functional_RRCookies}</div>
+                                                <div class="ah-item-sublabel">{!$Label.c.AccountSettings_RRCookies_Description}
                                                 </div>
                                             </div>
                                             <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
@@ -183,8 +196,8 @@
                                         </div>
                                         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
                                             <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
-                                                <div class="ah-item-label">RRLanguage</div>
-                                                <div class="ah-item-sublabel">Used to store user preferred language.
+                                                <div class="ah-item-label">{!$Label.c.AccountSettings_Cookies_RRLanguage}</div>
+                                                <div class="ah-item-sublabel">{!$Label.c.AccountSettings_Cookies_RRLanguage_Description}
                                                 </div>
                                             </div>
                                             <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-7 ah-toggle-container">
@@ -202,13 +215,39 @@
                             </div>
                         </c:RRCollapse>
                     </div>
-
                     <div style="height: 15px"></div>
                 </div>
             </div>
 
+            <!-- Referral Network settings -->
+            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
+                    <div class="as-email-preference">
+                        <div class="as-title">{!$Label.c.AccountSettings_Referral_Networks}</div>
+                        <div class="as-sub-title">
+                            {!$Label.c.AccountSettings_Referral_Networks_Description}
+                        </div>
+
+                        <div class="as-sub-title slds-m-top--medium">
+                            {!$Label.c.AccountSettings_Referral_Networks_Site_Based}
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top--small">
+                            <c:SubscribeToReferralNetwork sObjectType="Referral_Network__c"/>
+                        </div>
+                        <div class="as-sub-title slds-m-top--x-large">
+                            {!$Label.c.AccountSettings_Referral_Networks_Topic_Based}
+                        </div>
+                        <div class="slds-grid slds-wrap slds-p-top--small">
+                            <c:SubscribeToReferralNetwork sObjectType="Therapeutic_Area__c"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
             <div class="rr-white-panel" style="padding: 30px">
-                <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
+                <div class="as-title">
+                    {!$Label.c.PG_AS_H_Contact_Information}
+                </div>
                 <div class="as-sub-title">
                     {!$Label.c.PG_AS_T1_Contact_Info + ' '}
                     <c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>
@@ -278,37 +317,58 @@
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_First_name}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.FirstName,v.initData.participant.First_Name__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Last_name}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.LastName,v.initData.participant.Last_Name__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.Phone,v.initData.participant.Phone__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
+                        <aura:if isTrue="{!!v.isDelegate}">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Initials}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Initials__c}"
+                                           />
+                            </div>
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
+                                <c:rrInput type="date" valueString="{!v.initData.participant.Date_of_Birth__c}"
+                                           maxValue="{!v.todayDate}"/>
+                            </div>
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Gender__c}"
+                                           values="{!v.genders}" type="picklist"/>
+                            </div>
+                        </aura:if>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PE_State}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.MailingState,v.initData.participant.Mailing_State__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PE_Country}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                 v.initData.myContact.MailingCountry,v.initData.participant.Mailing_Country__c)}"
-                                       disabled="true"/>
+                                       />
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                 v.initData.myContact.MailingPostalCode,v.initData.participant.Mailing_Zip_Postal_Code__c)}"
-                                       disabled="true"/>
+                                       />
+                        </div>
+                        <div class="slds-col slds-size_1-of-1  slds-medium-size_4-of-12">
+                            <button class="apollo-btn primary as-submit-button"
+                                    onclick="{!c.doUpdateParticipant}">{!$Label.c.Update_Participant}</button>
                         </div>
                     </aura:if>
                 </div>

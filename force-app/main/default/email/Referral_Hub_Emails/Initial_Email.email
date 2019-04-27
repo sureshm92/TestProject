@@ -1,0 +1,22 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Initial}"
+                         recipientType="User"
+                         relatedToType="Community"
+                         language="{!recipient.LanguageLocaleKey}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate sourceId="{!recipient.Id}"
+                         greeting="{!$Label.Email_User_Greeting}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                              buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText sourceId="{!recipient.Id}"
+                             greeting="{!$Label.Email_User_Greeting}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                                  buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

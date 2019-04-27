@@ -3,43 +3,70 @@
  */
 ({
     valueChange: function (component, event, helper) {
-        debugger;
         component.set('v.bypass', false);
         let value = event.getSource().get('v.value');
         if (!value) {
-            component.set('v.displayFooter', true);
-            var evt = component.getEvent('setDefaultPage');
-            evt.fire();
-            return;
+            value = null;
         }
-        component.set('v.displayFooter', false);
-        value = value.toUpperCase();
-        console.log('valueSearch', value);
-        let originalItems = component.get('v.originalItems');
-        let criterias = component.get('v.searchCriterias');
-        let filteredItems = originalItems.filter(checkCriteria);
-        //component.set('v.bypass',true);
-        component.set('v.displayedItems', filteredItems);
-        //component.set('v.bypass',false);
-        function checkCriteria(e) {
-            debugger;
-            let result = false;
-            if (!value) {
-                result = true;
-            }
-            for (let i = 0; i < criterias.length; i++) {
-                let index = e.csValues.findIndex(x => x.name.toUpperCase() == criterias[i].toUpperCase());
-                if (index > -1) {
-                    if (e.csValues[index].Value) {
-                        result = e.csValues[index].Value.toUpperCase().indexOf(value) > -1;
-                        if (result) return result;
-                    }
+        communityService.executeAction(component, 'searchConditionOfInterest', {
+            nameTA: value
+        }, function (returnValue) {
+            let coiList = component.get('v.conditionsOfInterestTemp');
+            let coiWrappers = returnValue;
+            coiWrappers.forEach(coiWrapper => {
+                if (coiList.some(coiEl => coiEl.coi.Therapeutic_Area__r.Id === coiWrapper.coi.Therapeutic_Area__r.Id)) {
+                    coiWrapper.isSelected = true;
                 }
-
-            }
-            return result;
-
-        }
-
+            });
+            component.set('v.displayedItems', coiWrappers);
+        });
     },
+
+    saveElement: function (component) {
+        let deleteCOI = component.get('v.conditionsOfInterest');
+        let conditionsOfInterestTemp = component.get('v.conditionsOfInterestTemp');
+        let deleteCoiId = [];
+        conditionsOfInterestTemp.sort((a, b) => {
+            return a.coi.Condition_Of_Interest_Order__c - b.coi.Condition_Of_Interest_Order__c;
+        });
+        for( let i=deleteCOI.length - 1; i>=0; i--){
+            for( let j=0; j<conditionsOfInterestTemp.length; j++){
+                if(deleteCOI[i] && (deleteCOI[i].coi.Id === conditionsOfInterestTemp[j].coi.Id)){
+                    deleteCOI.splice(i, 1);
+                }
+            }
+        }
+        if (deleteCOI) {
+            deleteCoiId = deleteCOI.map((e) => {
+                return e.coi.Id;
+            });
+        }
+        if (deleteCoiId) {
+            communityService.executeAction(component, 'deleteCOI', {
+                coiIds : deleteCoiId
+            }, function (returnValue) {
+            });
+        }
+        component.set('v.conditionsOfInterest', conditionsOfInterestTemp);
+        component.find('searchModal').hide();
+        let arr = [];
+        component.set('v.displayedItems', arr);
+        component.find('searchInput').set('v.value', '');
+        component.set('v.isSaveList', !component.get('v.isSaveList'));
+    },
+
+    changeCheckBox: function (component, event) {
+        let taWrapper = event.getSource().get('v.value');
+        let taList = component.get('v.conditionsOfInterestTemp');
+        if (event.getParam('checked')) {
+            if (taList.length < 5) {
+                taList.push(taWrapper);
+            } else {
+                event.getSource().set('v.checked', false);
+            }
+        } else {
+            taList = taList.filter(e => e.coi.Therapeutic_Area__r.Id !== taWrapper.coi.Therapeutic_Area__r.Id);
+        }
+        component.set('v.conditionsOfInterestTemp', taList);
+    }
 })

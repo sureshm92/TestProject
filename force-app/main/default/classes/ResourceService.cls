@@ -6,16 +6,19 @@ public with sharing class ResourceService {
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
     public static final String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
+    public static final String RESOURCE_STUDY_DOCUMENT = 'Study Document';
     public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
-    private static final String EXPIRATION_DATE = 'Expiration_Date__c';
+    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
+    private static final String BYLINE_API_NAME = 'Byline__c';
+    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
+    public static String DEFAULT_LANGUAGE = 'en_US';
+    public static String RESOURCE_TYPE_ARTICLE = 'Article';
+    public static String RESOURCE_TYPE_VIDEO = 'Video';
+    public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
     @TestVisible
-    private static String DEFAULT_LANGUAGE = 'en_US';
-    @TestVisible
-    private static String RESOURCE_TYPE_ARTICLE = 'Article';
-    @TestVisible
-    private static String RESOURCE_TYPE_VIDEO = 'Video';
+    private static final String STADY_DOCUMENT_RECORD_TYPE = 'Study_Document';
 
     public ResourceWrapperContainer getResources(String resourceType) {
 
@@ -53,17 +56,68 @@ public with sharing class ResourceService {
         return new ResourceWrapperContainer(wrappers);
     }
 
+    public ResourceWrapperContainer getStudyDocuments() {
+
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        if (participantState.ctp == null) {
+            return new ResourceWrapperContainer(CommunityService.ERROR_MISSING_STUDY);
+        }
+        List<Resource__c> resources = this.getStudyDocuments(participantState);
+        if (resources == null || resources.isEmpty()) {
+            return new ResourceWrapperContainer(Label.Resources_No_Study_Documents);
+        }
+        return new ResourceWrapperContainer(this.getResourceWrappers(resources));
+    }
+
+    public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
+
+        Set<Id> resourcesForDelete = new Set<Id>();
+        List<Res_study__c> relatedResStudies = [
+                SELECT Resource__r.Name,
+                        Resource__r.Title__c
+                FROM Res_study__c
+                WHERE (Clinical_Trial_Profile__c
+                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :STADY_DOCUMENT_RECORD_TYPE
+        ];
+        if (!relatedResStudies.isEmpty()) {
+            for (Res_study__c r : relatedResStudies) {
+                resourcesForDelete.add(r.Resource__c);
+            }
+        }
+        List<Res_study__c> NotCompletedProfiles = [
+                SELECT Resource__r.Name,
+                        Resource__r.Title__c
+                FROM Res_study__c
+                WHERE (Clinical_Trial_Profile__c NOT IN:trialProfiles)AND Resource__c IN:resourcesForDelete
+        ];
+        if (!NotCompletedProfiles.isEmpty()) {
+            for (Res_study__c r : NotCompletedProfiles) {
+                resourcesForDelete.remove(r.Resource__c);
+            }
+        }
+        delete relatedResStudies;
+        if (!resourcesForDelete.isEmpty()) {
+            Database.delete(new List<Id>(resourcesForDelete));
+        }
+    }
+
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
 
         Participant__c participant = this.getParticipant(resourceType);
         if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
         }
-        List<Resource__c> resources = this.getSortedResources(participant, resourceType);
+        ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+        if (participantState.ctp == null) {
+            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
+        }
+        List<Resource__c> resources = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType) ?
+                this.getStudyDocuments(participantState)
+                : this.getSortedResources(participant, resourceType);
         if (resources.isEmpty()) {
             return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
         }
-        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(resources);
+        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(new List<Resource__c>(new Set<Resource__c>(resources)));
         if (resourceMap.get(resourceId) != null) {
             return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
                     new ResourceDetailWrapper(resourceMap.get(resourceId))
@@ -81,7 +135,24 @@ public with sharing class ResourceService {
     }
 
     @TestVisible
+    private List<Resource__c> getStudyDocuments(ParticipantService.ParticipantState participantState) {
+
+        Set<String> resourcesIdsSet = this.getRelatedToStudyResourcesIds(participantState.ctp.Id, ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT);
+
+        if (resourcesIdsSet.isEmpty()) {
+            return new List<Resource__c>();
+        }
+        List<String> resourcesIds = new List<String>();
+        resourcesIds.addAll(resourcesIdsSet);
+
+        String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
+        String orderByClause = 'ORDER BY Version_Date__c DESC NULLS LAST';
+        return this.getResources(participantState.participant, whereClause, orderByClause);
+    }
+
+    @TestVisible
     private List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
+
         String language = this.getParticipantLanguage(participant);
         if (String.isBlank(whereClause)) {
             whereClause = 'WHERE Language__c = \'' + language + '\' ';
@@ -109,6 +180,7 @@ public with sharing class ResourceService {
                         'X3rd_Party_Source__c, ' +
                         'Image_Title__c, ' +
                         'Source__c, ' +
+                        'Version_Date__c, ' +
                         '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
                         'FROM Resource__c ' +
                         whereClause +
@@ -127,7 +199,7 @@ public with sharing class ResourceService {
         resourcesIds.addAll(resourcesIdsSet);
 
         String whereClause = 'WHERE Id IN (' + String.join(resourcesIds, ', ') + ')';
-        String orderByClause = 'ORDER BY Posting_Date__c NULLS LAST';
+        String orderByClause = 'ORDER BY Posting_Date__c DESC NULLS LAST';
         return this.getResources(participant, whereClause, orderByClause);
     }
 
@@ -157,10 +229,16 @@ public with sharing class ResourceService {
         if (trial == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
         }
+        return this.getResources(this.getRelatedToStudyResourcesIds(trial.Id, resourceType), participant);
+    }
+
+    @TestVisible
+    private Set<String> getRelatedToStudyResourcesIds(String studyId, String resourceType) {
+
         String resStudyQuery = 'SELECT Id, ' +
                 'Resource__c ' +
                 'FROM Res_study__c ' +
-                'WHERE Clinical_Trial_Profile__c = \'' + trial.Id + '\' ' +
+                'WHERE Clinical_Trial_Profile__c = \'' + studyId + '\' ' +
                 'AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\'';
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<Res_study__c> studyToResourceJunctions = (List<Res_study__c>) databaseProxy.query(resStudyQuery);
@@ -168,7 +246,7 @@ public with sharing class ResourceService {
         for (Res_study__c junction : studyToResourceJunctions) {
             resourcesIds.add('\'' + junction.Resource__c + '\'');
         }
-        return this.getResources(resourcesIds, participant);
+        return resourcesIds;
     }
 
     @TestVisible
@@ -177,7 +255,7 @@ public with sharing class ResourceService {
         List<Resource__c> resources = new List<Resource__c>();
         String studyTherapeuticAreaId;
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
-        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : participant.Therapeutic_Area_Patients__r) {
+        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
             if (therapeuticAreaPatient.IsRelatedToStudy__c) {
                 studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
             }
@@ -201,8 +279,7 @@ public with sharing class ResourceService {
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
         List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
         for (Resource__c singleResource : resources) {
-            ResourceService.ResourceWrapper singleWrapper = new ResourceService.ResourceWrapper(singleResource);
-            wrappers.add(singleWrapper);
+            wrappers.add(new ResourceService.ResourceWrapper(singleResource));
         }
         return wrappers;
     }
@@ -286,12 +363,12 @@ public with sharing class ResourceService {
             } else {
                 resourceFieldApis = getResourceFieldApis(null, resource.RecordType.DeveloperName);
             }
-            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.URL_Part__c)) {
+            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.article_external_link__c)) {
                 shareMessage = this.getShareMessage();
                 this.isShareable = true;
             }
             for (Resource_Field_Api__mdt fieldApi : resourceFieldApis) {
-                if (EXPIRATION_DATE.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                if (EXPIRATION_DATE_API_NAME.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
                     cutList = true;
                     continue;
                 }
@@ -301,6 +378,11 @@ public with sharing class ResourceService {
                         headerFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
                     } else {
                         bodyFieldWrappers.add(new ResourceFieldWrapper(fieldApi.Field_Api_Name__c, valueField, fieldApi.CSS_Class_Name__c));
+                    }
+                } else if (BYLINE_API_NAME.equalsIgnoreCase(fieldApi.Field_Api_Name__c)) {
+                    valueField = resource.get(AUTHOR_S_NAME_API_NAME);
+                    if (valueField != null) {
+                        bodyFieldWrappers.add(new ResourceFieldWrapper(AUTHOR_S_NAME_API_NAME, valueField, fieldApi.CSS_Class_Name__c));
                     }
                 }
             }

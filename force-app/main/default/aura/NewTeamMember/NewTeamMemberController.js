@@ -7,10 +7,9 @@
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
-        if (userMode === 'Participant' || userMode === 'Delegate')
-            component.set('v.isStaff', false);
-        else if (userMode === 'PI' || userMode === 'HCP')
-            component.set('v.isStaff', true);
+
+        if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);
+        else component.set('v.isStaff', false);
 
         component.set('v.changedLevels', []);
         component.set('v.changedLevelsAll', []);
@@ -101,13 +100,16 @@
         component.find('mainSpinner').show();
         if (component.get('v.userMode') === 'Participant') {
             communityService.executeAction(component, 'savePatientDelegate', {
-                delegate: JSON.stringify(delegate)
-            }, function (returnValue) {
+                delegate: JSON.stringify(delegate.delegateContact)
+            }, function () {
                 communityService.showToast(
                     'Success', 'success', $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') + ' ' +
-                    delegate.delegateContact.Name + '.');
+                    delegate.delegateContact.FirstName + ' ' + delegate.delegateContact.LastName + '.');
                 component.refresh();
             }, function () {
+                component.find('emailInput').set('v.value', '');
+                component.find('firstNameInput').set('v.value', '');
+                component.find('lastNameInput').set('v.value', '');
                 component.find('mainSpinner').hide();
             });
         } else

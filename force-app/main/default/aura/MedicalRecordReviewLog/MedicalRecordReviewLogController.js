@@ -37,22 +37,26 @@
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
         var showMore = component.get('v.showMore');
-
+        debugger;
         communityService.executeAction(component, 'getRecords', {
             filterJSON: JSON.stringify(filter),
             paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
             applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false
         }, function (returnValue) {
+
             if(component.get('v.peFilter').searchText !== searchText) return;
             component.set("v.skipUpdate", true);
             var result = JSON.parse(returnValue);
+            debugger;
             component.set('v.currentPageList', result.currentPageList);
-            var pagination = component.get('v.paginationData');
-            pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
             if(!showMore){
-                pagination.currentPage = result.paginationData.currentPage;
+                component.set('v.paginationData.currentPage', result.paginationData.currentPage);
+                component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
             }
-            component.set('v.paginationData', pagination);
+            else{
+                component.set('v.paginationData.currentPageCount', result.paginationData.allRecordsCount);
+            }
             component.set("v.skipUpdate", false);
             spinner.hide();
         });

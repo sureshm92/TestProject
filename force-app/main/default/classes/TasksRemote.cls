@@ -7,7 +7,7 @@ public class TasksRemote {
     @AuraEnabled
     public static List<Task> getPreviewTasks(){
         try {
-            return TaskService.getPreviewTasks();
+            return TaskService.getInstance().getPreviewTasks();
         }catch (Exception e){
             AuraHelper.throwException(e);
         }
@@ -29,7 +29,7 @@ public class TasksRemote {
         try{
             ParticipantTasks participantTasks = new ParticipantTasks();
             List<Task> openTasks = new List<Task>();
-            openTasks = TaskService.getOpenTasks();
+            openTasks = TaskService.getInstance().getOpenTasks();
             participantTasks.openTasksWrapper = new List<OpenTask>();
             for(Task task : openTasks){
                 OpenTask taskWrapper = new OpenTask();
@@ -37,10 +37,11 @@ public class TasksRemote {
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
 
-            participantTasks.completedTasks = TaskService.getCompletedTasks();
+            participantTasks.completedTasks = TaskService.getInstance().getCompletedTasks();
             createOriginatorsList(participantTasks.openTasksWrapper);
             return participantTasks;
         }catch (Exception e){
+            System.debug(e.getMessage());
             AuraHelper.throwException(e);
         }
         return null;
@@ -49,7 +50,7 @@ public class TasksRemote {
     @AuraEnabled
     public static ParticipantTasks ignoreTask(Id taskId){
         try{
-            TaskService.ignoreTask(taskId);
+            TaskService.getInstance().ignoreTask(taskId);
             return getParticipantTasks();
         }catch (Exception e){
             AuraHelper.throwException(e);
@@ -60,7 +61,7 @@ public class TasksRemote {
     @AuraEnabled
     public static ParticipantTasks completeTask(Id taskId){
         try{
-            TaskService.completeTask(taskId);
+            TaskService.getInstance().completeTask(taskId);
             return getParticipantTasks();
         }catch (Exception e){
             AuraHelper.throwException(e);
@@ -70,9 +71,9 @@ public class TasksRemote {
     
     private static void createOriginatorsList(List<OpenTask> tasks) {
         Id participantId;
-        Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getDelegatedParticipantUserIds());
+        Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
         if(ParticipantService.getParticipantState().isDelegate){
-            participantId = PatientDelegateService.getDelegatePatientUserId();
+            participantId = PatientDelegateService.getInstance().getParticipantUserId();
         } else {
             participantId = UserInfo.getUserId();
         }
@@ -87,5 +88,6 @@ public class TasksRemote {
         }
     }
     
+
 
 }

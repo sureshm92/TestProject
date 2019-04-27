@@ -1,5 +1,6 @@
-public class StudyActionsParticipant /*extends StudyActions*/ {
-   /* public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
+public class StudyActionsParticipant extends StudyActions {
+
+    public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
         this(
                 participantEnrollment.Clinical_Trial_Profile__r,
                 participantEnrollment.Study_Site__r,
@@ -15,80 +16,53 @@ public class StudyActionsParticipant /*extends StudyActions*/ {
                 CommunityService.USER_MODE_PARTICIPANT
         );
 
-        studyDetailActions.add(new Action(
-                'downloadConsent',
-                'Download Consent',
+        actions = new Map<String, Action>();
+        
+        actions.put(ACT_SHARE, new Action(
+                ACT_SHARE,
+                LABEL_SHARE,
+                'icon-share',
+                false
+        )) ;
+        
+        actions.put(ACT_VIEW_TC, new Action(
+                ACT_VIEW_TC,
+                LABEL_VIEW_TC_Participant,
+                'paper-many',
+                false
+        ));
+        
+        actions.put(ACT_DOWNLOAD_CONSENT, new Action(
+                ACT_DOWNLOAD_CONSENT,
+                LABEL_DOWNLOAD_CONSENT,
                 'icon-import',
                 false
         ));
-        studyDetailActions.add(new Action(
-                ACT_SHARE,
-                LABEL_SHARE,
-                'share',
-                false
-        ));
-        studyDetailActions.add(new Action(
-                'backHome',
-                'Back to Home',
-                'icon-home',
-                false
-        ));
-    }*/
-
-    public List <StudyActions.Action> studyDetailActions ;
-    public Map<String, StudyActions.Action> actions;
-
-
-    public StudyActionsParticipant() {
-        this.actions  = new Map<String, StudyActions.Action>();
-        if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
-            actions.put('facebook', new StudyActions.Action(
-                    'facebook',
-                    '',
-                    'icon-facebook',
-                    false
-            )) ;
-            actions.put('twitter', new StudyActions.Action(
-                    'twitter',
-                    '',
-                    'icon-twitter',
-                    false
-            )) ;
-            actions.put('linkedin', new StudyActions.Action(
-                    'linkedin',
-                    '',
-                    'icon-linkedin',
-                    false
-            ));
-            actions.put('envelope', new StudyActions.Action(
-                    StudyActions.ACT_SHARE,
-                    '',
-                    'icon-envelope',
-                    false
-            ));
-        }
-
-        this.studyDetailActions = new List<StudyActions.Action>();
-        if(ParticipantService.getParticipantState().value != ParticipantService.ParticipantStates.ALUMNI) {
-            studyDetailActions.add(new StudyActions.Action(
-                    'viewTermsAndConditions',
-                    'Terms and Conditions',
-                    'paper-many',
-                    false
-            ));
-            studyDetailActions.add(new StudyActions.Action(
-                    'shares',
-                    StudyActions.LABEL_SHARE,
-                    'share',
-                    false
-            ));
-        }
-
-        studyDetailActions.add(new StudyActions.Action(
-                'backHome',
-                'Back to Home',
+        
+        actions.put(ACT_HOME, new Action(
+                ACT_HOME,
+                LABEL_HOME,
                 'icon-home-brand-new',
                 false
         ));
+
+        ParticipantService.ParticipantStates participantStateValue = ParticipantService.getParticipantState().value;
+        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) studyDetailActions.add(actions.get(ACT_DOWNLOAD_CONSENT));
+        
+        if( (participantStateValue == ParticipantService.ParticipantStates.REFERRAL ||
+                participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT)
+             && study.Terms_And_Conditions_ID__c != null) {
+            studyDetailActions.add(actions.get(ACT_VIEW_TC));
+        }
+    
+        studyDetailActions.add(actions.get(ACT_HOME));
+        
+        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
+            studyDetailActions.add(actions.get(ACT_SHARE));
+        }
+    
+
+
     }
+
 }

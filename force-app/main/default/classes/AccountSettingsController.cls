@@ -17,11 +17,12 @@ public without sharing class AccountSettingsController {
             if (initData.myContact.primaryContact__c == null) {
         
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT
-                        && !ParticipantService.getParticipantState().isDelegate) {
+                        && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
                             SELECT Id, First_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
-                                    Mailing_Country_Code__c, Mailing_State_Code__c
+                                    Mailing_Country_Code__c, Mailing_State_Code__c,
+                                    Gender__c, Date_of_Birth__c, Initials__c
                             FROM Participant__c
                             WHERE Contact__c = :initData.myContact.Id
                     ];
@@ -42,7 +43,7 @@ public without sharing class AccountSettingsController {
                 initData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
             }
             initData.userName = UserInfo.getUserName();
-            initData.isDelegate = ParticipantService.getParticipantState().isDelegate;
+            initData.isDelegate = PatientDelegateService.getInstance().isDelegate();
             return JSON.serialize(initData);
         } catch (Exception e) {
             System.debug(e);
@@ -51,14 +52,20 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static String isDelegate() {
-        return PatientDelegateRemote.isDelegate();
+    public static void updateParticipant(String participantJSON) {
+        try {
+            Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            TaskService.getInstance().completeCYPTaskForParticipant();
+            upsert participant;
+        }  catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
     }
 
     @AuraEnabled
     public static void changeEmail(String newEmail) {
         try {
-            Contact currentContact = CommunityService.getUserContact();
+            Contact currentContact = getCurrentContact();
             currentContact.Email = newEmail;
             update currentContact;
         } catch (Exception e) {
@@ -104,10 +111,13 @@ public without sharing class AccountSettingsController {
 
     private static Contact fillParticipantContact(Contact pContact) {
         List<Participant__c> pList = [
-                SELECT First_Name__c
-                        , Last_Name__c
-                FROM Participant__c
-                WHERE Contact__c = :pContact.Id
+                SELECT  First_Name__c,
+                        Last_Name__c,
+                        Initials__c,
+                        Gender__c,
+                        Date_of_Birth__c
+                FROM    Participant__c
+                WHERE   Contact__c = :pContact.Id
         ];
         if (!pList.isEmpty()) {
             pContact.FirstName = pList[0].First_Name__c;
@@ -150,7 +160,7 @@ public without sharing class AccountSettingsController {
         List<AssignmentRule> ars = getCaseAssignmentRule();
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
-        dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
+        if(!ars.isEmpty()) dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
         newCase.Status = 'New';
@@ -213,18 +223,18 @@ public without sharing class AccountSettingsController {
 
     public static List<CookieSettings> getCookieSettings() {
         List<CookieSettings> cookieSettings = new List<CookieSettings>();
-        cookieSettings.add(new CookieSettings('autocomplete', 'Used to determine whether the browser remembers a user’s login ID'));
-        cookieSettings.add(new CookieSettings('clientSrc', 'Used to authenticate a user'));
-        cookieSettings.add(new CookieSettings('force-proxy-stream', 'Used to redirect server requests for sticky sessions'));
-        cookieSettings.add(new CookieSettings('force-stream', 'Used to redirect server requests for sticky sessions'));
-        cookieSettings.add(new CookieSettings('RRetURL', 'Used to redirect user logins'));
-        cookieSettings.add(new CookieSettings('RSID', 'Used to redirect user logins'));
-        cookieSettings.add(new CookieSettings('sfdc-stream', 'Used to redirect server requests for sticky sessions'));
-        cookieSettings.add(new CookieSettings('sid', 'Used to authenticate a user'));
-        cookieSettings.add(new CookieSettings('sid_Client', 'Used to authenticate a user'));
-        cookieSettings.add(new CookieSettings('oid', 'Used to redirect a user to the correct Salesforce org and assist the user for the next login'));
-        cookieSettings.add(new CookieSettings('x-apm-brtm-bt-p', 'Used to maintain browser type'));
-        cookieSettings.add(new CookieSettings('x-apm-brtm-bt-pv', 'Used to maintain browser version'));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_Autocomplete, Label.AccountSettings_Cookie_Autocomplete_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_ClientSrc, Label.AccountSettings_Cookie_ClientSrc_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_force_proxy_stream, Label.AccountSettings_Cookie_force_proxy_stream_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_force_stream, Label.AccountSettings_Cookie_force_stream_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_RRetURL, Label.AccountSettings_Cookie_RRetURL_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_RSID, Label.AccountSettings_Cookie_RSID_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_sfdc_stream, Label.AccountSettings_Cookie_sfdc_stream_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_sid, Label.AccountSettings_Cookie_sid_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_sid_Client, Label.AccountSettings_Cookie_sid_Client_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_oid, Label.AccountSettings_Cookie_oid_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_x_apm_brtm_bt_p, Label.AccountSettings_Cookie_x_apm_brtm_bt_p_Description));
+        cookieSettings.add(new CookieSettings(Label.AccountSettings_Cookie_x_apm_brtm_bt_pv, Label.AccountSettings_Cookie_x_apm_brtm_bt_pv_Description));
 
         return cookieSettings;
     }
@@ -235,6 +245,7 @@ public without sharing class AccountSettingsController {
         public Participant__c participant;
         public String userName;
      	public Boolean isDelegate;
+        public String message;
         @AuraEnabled
         public List<CookieSettings> cookieSettings;
     }

@@ -11,7 +11,7 @@ public without sharing class HelpController {
         try{
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
-            userContact.isDelegate = ParticipantService.getParticipantState().isDelegate;
+            userContact.isDelegate = PatientDelegateService.getInstance().isDelegate();
             returnValue = JSON.serialize(userContact);
             return returnValue;
         }catch (Exception e) {

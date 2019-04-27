@@ -41,5 +41,13 @@ public class SObjectHelper {
         }
         return resList;
     }
+    
+    public static List<LabelValueItem> getPicklistLabelValueList(SObjectField field){
+        List<LabelValueItem> items = new List<LabelValueItem>();
+        for(PicklistEntry ple : field.getDescribe().getPicklistValues()){
+            items.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
+        }
+        return items;
+    }
 
 }

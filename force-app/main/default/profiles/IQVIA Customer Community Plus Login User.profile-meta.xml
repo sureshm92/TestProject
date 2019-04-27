@@ -31,7 +31,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AddPatientByPIRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Alert</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AlertTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -67,7 +75,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CTCTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -92,6 +108,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ClinicProfileRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CodeExecutor</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CollectionUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -147,6 +175,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContentDocumentLinkService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CountryStateUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -155,7 +191,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DataHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DatabaseProxy</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -168,6 +212,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DeploymentContext</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -196,6 +244,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ExcelController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ExternalParticipantRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ExternalParticipantsService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -415,6 +471,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -431,6 +491,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantVisitsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Path</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -440,6 +504,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PostInstallDX</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -455,7 +523,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RRPDFViewerController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RRProfileController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferralNetworkService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -483,6 +559,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceNotifierRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -500,6 +580,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SObjectHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SchemaUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -543,6 +631,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StubFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyActions</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -564,6 +656,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyDetailAboutStudyRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyDetailItem</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -595,11 +691,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SubscribeToReferralNetworkRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SudyTrialService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SummaryContainer</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SurveyResponseTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -627,11 +731,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TermsAndConditionsTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TestController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TestDataFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AccountSettingsController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -647,6 +759,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_CommunityFacadeRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -659,7 +779,23 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_DatabaseService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PSEService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -671,7 +807,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ReferringRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceExpBatchScheduler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceNotifierRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -683,7 +827,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_SchemaUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Task</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskEditRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -703,11 +859,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TherapeuticAreaTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TranslateHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TranslationExportImportRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TranslationTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -727,7 +891,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>UserTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
@@ -800,6 +972,11 @@
         <editable>false</editable>
         <field>Book__c.Price__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CTC__c.COI_3rdParty__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1067,6 +1244,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Participating_in_Patient_Portal__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Participating_in_Rocket_Referral__c</field>
         <readable>true</readable>
@@ -1135,6 +1317,11 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Start_Date__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Status__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1215,6 +1402,11 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Verification_Date__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Visit_Plan__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1373,7 +1565,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.RRCookiesAllowedCookie__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.RRLanguageAllowedCookie__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.SitesInterested__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Specialty__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.TopicsInterested__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2217,6 +2429,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.MRN_Id__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Medical_Record_Review_Completed_Date__c</field>
         <readable>true</readable>
@@ -2337,6 +2554,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Study_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Participant_Surname__c</field>
         <readable>false</readable>
@@ -2399,6 +2621,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Referral_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Referred_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2588,12 +2815,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.Email__c</field>
-        <readable>true</readable>
+        <field>Participant__c.Date_of_Birth__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant__c.Enrolled__c</field>
+        <field>Participant__c.Day_of_Birth__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2602,13 +2834,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Full_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
-        <field>Participant__c.Follow_Up_Period_Started__c</field>
+        <field>Participant__c.Gender__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.Full_Name__c</field>
+        <field>Participant__c.Initials__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2672,18 +2909,23 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Middle_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.PSE_Count__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.PSE_Count__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant__c.Participant_Dropped_Out__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Participation_Complete__c</field>
+        <field>Participant__c.Phone_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2695,11 +2937,6 @@
         <editable>false</editable>
         <field>Participant__c.Study_Enrollment_Status__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Treatment_Period_Started__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2742,14 +2979,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Res_study__c.Clinical_Trial_Profile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Res_study__c.Resource__c</field>
-        <readable>true</readable>
+        <editable>false</editable>
+        <field>Post_Install__mdt.HandlerName__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2923,11 +3155,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Resource__c.URL__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Resource__c.Updated_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2944,6 +3171,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.X3rd_Party_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3193,6 +3425,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.ReferralNetworkId__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Referral__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3208,8 +3445,18 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Site_Staff__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Study_Site_Email__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3230,6 +3477,11 @@
         <editable>false</editable>
         <field>Study_Site__c.Study_Site_Status_Reason__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Study_Site_Type__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3337,6 +3589,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Therapeutic_Area_Assignment__c.Third_Party_COI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Therapeutic_Area_Patient__c.Condition_Of_Interest_Order__c</field>
         <readable>false</readable>
@@ -3344,6 +3601,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Therapeutic_Area_Patient__c.IsRelatedToStudy__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Therapeutic_Area__c.Therapeutic_Area_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Therapeutic_Area__c.Therapeutic_Area__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Therapeutic_Area__c.Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3441,6 +3713,16 @@
         <field>User.Survey_Result__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit__c.Icons__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit__c.Timeplane__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
@@ -3448,10 +3730,19 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CTC__c-CTC Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CTE__c-CTE Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact_Referral_Network__c-Contact Referral Network Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact_Therapeutic_Area__c-Contact Therapeutic Area Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
@@ -3496,6 +3787,9 @@
         <layout>National_ID__c-National ID Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Number_Of_Limits__mdt-Number Of Limits Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Onboarding_Slide__mdt-Onboarding Slide Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3532,6 +3826,12 @@
         <layout>Patient_Delegate__c-Caregiver Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Post_Install__mdt-Post Install Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Referral_Network__c-Referral Network Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3545,14 +3845,14 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Article</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource__c-Article</layout>
         <recordType>Resource__c.Article</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Study Document</layout>
         <recordType>Resource__c.Study_Document</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Resource__c-Video</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
@@ -3592,6 +3892,21 @@
         <layout>Therapeutic_Area_Patient__c-Therapeutic Area Patient Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Therapeutic_Area__c-Condition of Interests</layout>
+        <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area__c-SiteCore Condition of Interests</layout>
+        <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Therapeutic_Area__c-Therapeutic Area Layout</layout>
+        <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Tracking_Information__c-Tracking Information Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3599,6 +3914,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Plan__c-Visit Plan Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit__c-Visit Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -3907,6 +4228,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>RRPDFViewer</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>SiteLogin</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -3969,6 +4294,21 @@
         <recordType>Resource__c.Video</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Therapeutic_Area__c.Condition_of_Interests</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
         <visibility>Hidden</visibility>
@@ -4003,6 +4343,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Patient_Delegate__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Referral_Network__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -4041,6 +4385,14 @@
         <tab>Translation__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    <tabVisibilities>
+        <tab>Visit_Plan__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Visit__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <userLicense>Customer Community Plus Login</userLicense>
     <userPermissions>
         <enabled>true</enabled>
@@ -4057,10 +4409,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ApexRestServices</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ApiEnabled</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -4141,6 +4489,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>UseWebLink</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewContent</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

@@ -27,6 +27,81 @@ public without sharing class ParticipantEnrollmentService {
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
     public static final String NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED = 'Had Discussion, Not Interested';
 
+    private static ParticipantEnrollmentService instance;
+
+    public static ParticipantEnrollmentService getInstance(){
+        if(instance == null) instance = new ParticipantEnrollmentService();
+        return instance;
+    }
+
+    public static void setMock(StubProvider stubProvider){
+        instance = (ParticipantEnrollmentService) Test.createStub(ParticipantEnrollmentService.class, stubProvider);
+    }
+
+    public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter){
+        String defaultFilter = ' Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
+        if(filter != null) defaultFilter += ' ' + filter;
+        List<Participant_Enrollment__c> peList = DatabaseService.query(
+                customFields,
+                Participant_Enrollment__c.getSObjectType(),
+                defaultFilter
+        );
+        TranslateHelper.translate(peList);
+        setPSELookups(userMode, peList);
+        return peList;
+    }
+
+    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode){
+        List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'');
+        if(peList.size() > 0) return peList[0];
+        return null;
+    }
+
+    public Participant_Enrollment__c createParticipantEnrollmentImpl(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
+        String mrrStatus = MRR_STATUS_NOT_REQUIRED;
+        if(trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
+
+        String pesStatus = PES_STATUS_NOT_REQUIRED;
+        if(trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
+
+
+        Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                Pre_screening_Status__c = pesStatus,
+                Medical_Record_Review_Status__c = mrrStatus,
+                Patient_ID__c = participantId,
+                Referral_Source__c = 'HCP'
+        );
+
+        if(hcpEnrollment!=null){
+            participantEnrollment.HCP__c = hcpEnrollment.Id;
+            participantEnrollment.HCP__r = hcpEnrollment;
+            participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+            participantEnrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+        }
+        //insert participantEnrollment;
+        return participantEnrollment;
+    }
+
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId){
+        return getPEnrolmentsCommon(
+                CommunityService.USER_MODE_HCP,
+                ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
+        );
+    }
+
+
+    private void setPSELookups(String userMode, List<Participant_Enrollment__c> peList){
+        List<Participant_Study_Enrollment__c> pseList = PSEService.getPSECommon(userMode, ' AND ' +
+                DatabaseService.fieldIn('Participant_Enrollment__c', peList));
+        Map<Id, Participant_Study_Enrollment__c> pseByPeIdMap = new Map<Id, Participant_Study_Enrollment__c>();
+        for(Participant_Study_Enrollment__c pse : pseList) if(pse.Participant_Enrollment__c != null) pseByPeIdMap.put(pse.Participant_Enrollment__c, pse);
+        for(Participant_Enrollment__c pe : peList){
+            Participant_Study_Enrollment__c pse = pseByPeIdMap.get(pe.Id);
+            pe.Participant_Study_Enrollment__r = pse;
+        }
+    }
+
+    // Static facade: --------------------------------------------------------------------------------------------------
 
     public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){
         //find all participant enrollments for this patientId, clinic and trial
@@ -54,16 +129,11 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode){
-        List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'');
-        if(peList.size() > 0) return peList[0];
-        return null;
+        return getInstance().getParticipantEnrollmentImpl(peId, userMode);
     }
     
-    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id hcpEnrollmentId){
-        return getPEnrolmentsCommon(
-                CommunityService.USER_MODE_HCP,
-                ' AND HCP__c =\'' + hcpEnrollmentId + '\' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\''
-        );
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId){
+        return getInstance().getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId);
     }
 
     public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId){
@@ -176,6 +246,7 @@ public without sharing class ParticipantEnrollmentService {
     private static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
             'HCP__c',
+            'Informed_Consent__c',
             'Name',
             'Patient_ID__c',
             'PI_Contact__r.Name',
@@ -199,12 +270,16 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Mailing_Zip_Postal_Code__c',
             'Participant__r.Contact__c',
             'Participant__r.Conditions__c',
+            'Participant__r.Contact__r.Language__c',
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Detailed_Description__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c',
@@ -215,6 +290,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Site__r.BillingStreet',
+            'Study_Site__r.Site__r.BillingPostalCode',
             'Study_Site__r.Principal_Investigator__r.Name',
             'Study_Site__r.Principal_Investigator__r.Salutation',
             'Study_Site__r.Principal_Investigator__r.Language__c',
@@ -242,14 +318,7 @@ public without sharing class ParticipantEnrollmentService {
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
-        String query = 'SELECT ' + String.join(customFields, ',') +
-                ' FROM Participant_Enrollment__c ' +
-                ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(userMode);
-        if(filter != null) query += ' ' + filter;
-        System.debug('EXECUTE QUERY: ' + query);
-        List<Participant_Enrollment__c> peList = Database.query(query);
-        TranslateHelper.translate(peList);
-        return peList;
+        return getInstance().getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter);
     }
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter){
@@ -287,8 +356,8 @@ public without sharing class ParticipantEnrollmentService {
                         delegatesFilter +
                     ') ';
         } else{
-            if(PatientDelegateService.isDelegate){
-                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.participant.Id + '\' ';
+            if(PatientDelegateService.getInstance().isDelegate()){
+                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
             }
             return '( ' +
                     '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
@@ -298,25 +367,7 @@ public without sharing class ParticipantEnrollmentService {
     }
     
     public static Participant_Enrollment__c createParticipantEnrollment(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
-        String mrrStatus = MRR_STATUS_NOT_REQUIRED;
-        if(trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
-
-        String pesStatus = PES_STATUS_NOT_REQUIRED;
-        if(trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
-
-
-        Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                HCP__r = hcpEnrollment,
-                Pre_screening_Status__c = pesStatus,
-                Medical_Record_Review_Status__c = mrrStatus,
-                PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c,
-                Study_Site__c = hcpEnrollment.Study_Site__c,
-                Patient_ID__c = participantId,
-                Referral_Source__c = 'HCP'
-        );
-        //insert participantEnrollment;
-        return participantEnrollment;
+        return getInstance().createParticipantEnrollmentImpl(trial, hcpEnrollment, participantId);
     }
 
     //contains selected filter values
@@ -338,10 +389,12 @@ public without sharing class ParticipantEnrollmentService {
         public String additionalFilter;
         public String acceptenceStatus;
         public String referringClinic;
+        public String dateField;
 
         public PEFilter(PEFilterData filterData){
             mode = filterData.mode;
             trialIds = filterData.trialIds;
+            dateField = filterData.dateField;
         }
     }
 
@@ -356,9 +409,14 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> excludedFromReferring;
         public List<LabelValueItem> referringClinics;
         public List<LabelValueItem> dateRanges = DateRangeFilterData.getRanges();
-        public List<LabelValueItem> sortVariants = SortOrder.SORT_TYPES;
+        public List<LabelValueItem> sortVariants;
         public List<LabelValueItem> acceptenceStatuses = PEStatusState.getAcceptenceStatusesLVList();
         public List<LabelValueItem> enrollmentStatuses = PEStatusState.getEnrollmentStatusesLVList();
+        public PEFilterData(){
+            sortVariants = new List<LabelValueItem>();
+            sortVariants.addAll( SortOrder.SORT_TYPES);
+        }
+        public String dateField = 'CreatedDate';
     }
 
     public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial){
@@ -425,7 +483,7 @@ public without sharing class ParticipantEnrollmentService {
             }
         }
         if(!String.isEmpty(filter.dateRange)){
-            filterStr += ' AND CreatedDate ' + filter.dateRange + ' ';
+            filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
         if(!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         System.debug('FILTER STRING: ' + filterStr);

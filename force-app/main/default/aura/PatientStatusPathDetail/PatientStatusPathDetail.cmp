@@ -18,7 +18,7 @@
 
     <!-- component body: -->
     <div style="position: relative">
-        <c:RRSpinner size="medium" showSpinner="{!v.showStepSpinner}"/>
+        <c:RRSpinner size="small" showSpinner="{!v.showStepSpinner}"/>
         <div class="slds-grid slds-grid_vertical">
             <aura:iteration items="{!v.pathItemsReversed}" var="pathItem">
                 <div class="slds-col slds-grid pe-state-row" >

@@ -7,6 +7,8 @@ public with sharing class ResourceRemote {
             ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
             if ('Favorite'.equalsIgnoreCase(resourceMode)) {
                 return resourceService.getFavoriteResources(resourceType);
+            } else if ('Documents'.equalsIgnoreCase(resourceMode)) {
+                return resourceService.getStudyDocuments();
             } else {
                 return resourceService.getResources(resourceType);
             }
@@ -40,7 +42,7 @@ public with sharing class ResourceRemote {
     }
 
     @AuraEnabled
-    public static String getTrialId(String userMode) {
+    public static String getTrialId() {
 
         try {
             String trialId;
