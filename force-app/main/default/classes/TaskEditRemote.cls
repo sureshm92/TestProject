@@ -38,7 +38,11 @@ public without sharing class TaskEditRemote {
     public static void upsertTask(Task paramTask) {
         try {
             paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
-
+            if(ParticipantService.getInstance().getState().isDelegate) {
+                paramTask.Originator__c = 'Delegate';
+            } else {
+                paramTask.Originator__c = 'Participant';
+            }
             if (paramTask.Visible_For__c == null) {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }

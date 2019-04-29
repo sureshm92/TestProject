@@ -13,7 +13,8 @@ public class TasksRemote {
         }
         return null;
     }
-    
+
+    //TODO: replace wrapper
     public class ParticipantTasks{
         @AuraEnabled public List<OpenTask> openTasksWrapper;
         @AuraEnabled public List<Task> completedTasks;
