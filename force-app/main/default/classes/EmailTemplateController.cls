@@ -10,14 +10,15 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_TITLE = 'Email_Title';
     public static final String LABEL_TITLE_PH = 'Email_Title_PH';
     public static final String LABEL_TITLE_ALL = 'Email_Title_ALL';
-
+    
     public static final String LABEL_HEADER_INITIAL_PARTICIPANT = 'Email_Header_Initial_Patient';
     public static final String LABEL_HEADER_INITIAL_PATIENT_DELEGATE = 'Email_Header_Initial_Patient_Delegate';
     public static final String LABEL_HEADER_INITIAL_DELEGATE= 'Email_Header_Initial_Delegate';
     public static final String LABEL_HEADER_INITIAL_PI = 'Email_Header_Initial_PI';
     public static final String LABEL_HEADER_INITIAL_HCP = 'Email_Header_Initial_HCP';
-
+    
     public static final String LABEL_BODY_INITIAL_PARTICIPANT = 'Email_Body_Initial_Patient';
+    public static final String LABEL_BODY_INITIAL_PARTICIPANT_BY_PI = 'Email_Body_Initial_Patient_Created_By_PI';
     public static final String LABEL_BODY_INITIAL_PATIENT_DELEGATE = 'Email_Body_Initial_Patient_Delegate';
     public static final String LABEL_BODY_INITIAL_DELEGATE = 'Email_Body_Initial_Delegate';
     public static final String LABEL_BODY_INITIAL_PI = 'Email_Body_Initial_PI';
@@ -156,7 +157,12 @@ global without sharing class EmailTemplateController {
                     signatureLabel = LABEL_SIGNATURE;
                 }
             } else if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
-                bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT;
+                String referralSource = getDataProvider().parameters.get('ReferralSource');
+                if(referralSource == 'PI'){
+                    bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT_BY_PI;
+                }else{
+                    bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT;
+                }
                 headerLabel = LABEL_HEADER_INITIAL_PARTICIPANT;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE_PATIENT;

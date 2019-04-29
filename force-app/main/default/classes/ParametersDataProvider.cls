@@ -102,6 +102,7 @@ public without sharing class ParametersDataProvider {
     private void initParamsFromPE(Id sourceId){
         Participant_Enrollment__c pe = [
                 SELECT Id, Name,
+                        Referral_Source__c,
                         HCP__r.HCP_Contact__c,
                         HCP__r.HCP_Contact__r.Name,
                         HCP__r.HCP_Contact__r.Salutation,
@@ -150,7 +151,8 @@ public without sharing class ParametersDataProvider {
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
                 'HCP' => pe.HCP__c,
-                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c
+                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c,
+                'ReferralSource' => pe.Referral_Source__c
         });
     }
     

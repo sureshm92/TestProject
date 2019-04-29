@@ -1414,6 +1414,17 @@ You will be contacted by the study team regarding next steps in the enrollment p
 To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
+        <value>Recently, ##PIName made a referral on your behalf regarding your potential participation in a clinical research study ##StudyName.
+
+You will be contacted by the study team regarding next steps in the enrollment process. 
+
+To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
