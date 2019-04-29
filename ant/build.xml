@@ -66,6 +66,29 @@
         </sf:deploy>
     </target>
 
+    <target name="create-rollback-source">
+        <delete dir="${rollback.dir}"/>
+        <mkdir dir="${rollback.source.dir}"/>
+        <sf:retrieve
+                username="${sf.rollback.username}"
+                password="${sf.rollback.password}"
+                serverurl="${sf.serverurl}"
+                retrieveTarget="${rollback.source.dir}"
+                unpackaged="${source.dir}/package.xml" />
+    </target>
+
+    <target name="rollback">
+        <sf:deploy username="${sf.rollback.username}"
+                   password="${sf.rollback.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${rollback.source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}" ignorewarnings="true"
+                   rollbackOnError="true" checkonly="true">
+        </sf:deploy>
+
+    </target>
+
     <target name="create-distributive" depends="prepare-metadata">
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
