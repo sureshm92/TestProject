@@ -39,7 +39,7 @@
                                               page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'edit-task?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
                                 </td>
                                 <td>
-                                    {!taskWrapper.originator}
+                                    {!taskWrapper.openTask.Originator__c}
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
