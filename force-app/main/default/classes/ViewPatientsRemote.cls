@@ -34,6 +34,7 @@ public without sharing class ViewPatientsRemote {
             initData.paginationData = new PaginationData();
             //filters data:
             initData.peFilterData = ParticipantEnrollmentService.getPEFilterData(trialId, mode, true);
+            initData.peFilterData.dateField = 'Referred_Date__c';
             initData.peFilterData.sortVariants.addAll(new List<LabelValueItem>{
                     new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
                     new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')

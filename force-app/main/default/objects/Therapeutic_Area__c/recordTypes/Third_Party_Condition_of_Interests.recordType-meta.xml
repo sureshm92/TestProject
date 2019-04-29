@@ -2,5 +2,20 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Third_Party_Condition_of_Interests</fullName>
     <active>true</active>
-    <label>Third Party Condition of Interests</label>
+    <label>SiteCore Condition</label>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>3dPartyCOI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>

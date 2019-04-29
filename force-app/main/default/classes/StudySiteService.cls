@@ -196,7 +196,16 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.MailingAddress',
             'Principal_Investigator__r.Phone',
             'Principal_Investigator__r.Email',
-            'Principal_Investigator__r.Salutation'
+            'Principal_Investigator__r.Salutation',
+            'Principal_Investigator__r.Account.BillingStreet',
+            'Principal_Investigator__r.Account.BillingCity',
+            'Principal_Investigator__r.Account.BillingState',
+            'Principal_Investigator__r.Account.BillingStateCode',
+            'Principal_Investigator__r.Account.BillingPostalCode',
+            'Principal_Investigator__r.Account.BillingCountry',
+            'Principal_Investigator__r.Account.BillingLatitude',
+            'Principal_Investigator__r.Account.BillingLongitude',
+            'Principal_Investigator__r.Account.BillingAddress'
     };
 
 
@@ -350,12 +359,15 @@ public without sharing class StudySiteService {
         public Boolean hasActiveHCPE;
         public Datetime hcpCreatedDate;
 
+        public StudySiteDistanceWrapper() {
+        }
+
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
             this.site = site;
             this.siteType = site.Study_Site_Type__c;
             if(SS_TYPE_SHOW_DISTANCE.contains(this.siteType)){
 
-                this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
+                this.distance = DistanceHelper.calculateDistanceTo(site.Principal_Investigator__r.Account);
                 if (this.distance != null) {
                     this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
                 } else {

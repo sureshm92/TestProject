@@ -56,10 +56,8 @@ public with sharing class ArticleService {
                 }
             }
         }
-        if (!tANames.isEmpty()) {
-            List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
-            tAAService.createDeleteTAAs(resourcesToProcess, oldResourcesByIds, therapeuticAreas);
-        }
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
+        tAAService.createDeleteTAAs(resourcesToProcess, oldResourcesByIds, therapeuticAreas);
     }
 
     public void addDefaultImage(List<Resource__c> resources) {
@@ -97,11 +95,23 @@ public with sharing class ArticleService {
             }
         }
     }
+    public void assignRecordTypeFor3dParty(List<Resource__c> resources) {
+
+        for (Resource__c resource : resources) {
+            if (resource.Content_Class__c == '3rd Party') {
+                Id therddpartyRectypeId = SchemaUtil.getRecordTypeIdByName(
+                        resource.Content_Type__c,
+                        Resource__c.getSObjectType()
+                );
+                resource.RecordTypeId = therddpartyRectypeId;
+            }
+        }
+    }
 
     public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resources) {
             if (resource.Expiration_Date__c != null) {
-                if (!resource.Expiration_Date__c.isSameDay(oldResMap.get(resource.Id).Expiration_Date__c)) {
+                if (resource.Expiration_Date__c!= oldResMap.get(resource.Id).Expiration_Date__c) {
                     this.addSharing(resource);
                 }
             }

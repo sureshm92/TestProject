@@ -37,7 +37,7 @@
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
         var showMore = component.get('v.showMore');
-
+        debugger;
         communityService.executeAction(component, 'getRecords', {
             filterJSON: JSON.stringify(filter),
             paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
@@ -49,16 +49,14 @@
             var result = JSON.parse(returnValue);
             debugger;
             component.set('v.currentPageList', result.currentPageList);
-            var pagination = component.get('v.paginationData');
-            pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
             if(!showMore){
-                pagination.currentPage = result.paginationData.currentPage;
-                pagination.currentPageCount = result.paginationData.currentPageCount;
+                component.set('v.paginationData.currentPage', result.paginationData.currentPage);
+                component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
             }
             else{
-                pagination.currentPageCount = result.paginationData.allRecordsCount;
+                component.set('v.paginationData.currentPageCount', result.paginationData.allRecordsCount);
             }
-            component.set('v.paginationData', pagination);
             component.set("v.skipUpdate", false);
             spinner.hide();
         });

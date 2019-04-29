@@ -32,6 +32,7 @@
             if(!component.get('v.initialized')) {
                 component.set('v.task', wrapper.task);
             }
+            component.set('v.createdByAdmin', wrapper.createdByAdmin);
             component.set('v.errorMessage', wrapper.errorMessage);
             component.set('v.reminderDateEnabled', wrapper.reminderEnabled);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
@@ -70,8 +71,8 @@
 
     doSave: function (component, event, helper) {
         console.log(component.get('v.task.ActivityDate'));
-        console.log(new Date(component.get('v.task.Completed_Date__c')));
-        component.set('v.task.Completed_Date__c', new Date(component.get('v.task.Completed_Date__c')));
+        console.log(new Date(component.get('v.task.Reminder_Date__c')));
+        component.set('v.task.Reminder_Date__c', new Date(component.get('v.task.Reminder_Date__c')));
         var task = component.get('v.task');
         if (!task.Subject) {
             communityService.showErrorToast('', 'Task Name cannot be empty');
@@ -122,7 +123,7 @@
         if (reminderFrequencyValue == $A.get('$Label.c.Disabled')) {
             component.set('v.frequencyEnabled', false);
             component.set('v.reminderDateEnabled', false);
-            component.set('v.task.Completed_Date__c', null);
+            component.set('v.task.Reminder_Date__c', null);
         } else if (reminderFrequencyValue == $A.get('$Label.c.Email')) {
             if(component.get('v.task.ActivityDate')) {
                 component.set('v.frequencyEnabled', true);
@@ -155,7 +156,7 @@
             }
         }
         if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.Complete_By_Date')) {
-            component.set('v.task.Completed_Date__c', dueDate);
+            component.set('v.task.Reminder_Date__c', dueDate);
         }
         if(dueDate) component.set('v.frequencyEnabled', true);
     },
@@ -167,6 +168,6 @@
             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
         var formatedDate = monthNames[d.getMonth()] + ' ' + (d.getDate() - 1) + ',' + d.getFullYear();
-        component.set('v.task.Completed_Date__c', formatedDate);
+        component.set('v.task.Reminder_Date__c', formatedDate);
     }
 });

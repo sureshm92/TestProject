@@ -11,7 +11,7 @@
         communityService.executeAction(component, 'searchConditionOfInterest', {
             nameTA: value
         }, function (returnValue) {
-            let coiList = component.get('v.conditionsOfInterest');
+            let coiList = component.get('v.conditionsOfInterestTemp');
             let coiWrappers = returnValue;
             coiWrappers.forEach(coiWrapper => {
                 if (coiList.some(coiEl => coiEl.coi.Therapeutic_Area__r.Id === coiWrapper.coi.Therapeutic_Area__r.Id)) {
@@ -22,7 +22,7 @@
         });
     },
 
-    saveElemet: function (component) {
+    saveElement: function (component) {
         let deleteCOI = component.get('v.conditionsOfInterest');
         let conditionsOfInterestTemp = component.get('v.conditionsOfInterestTemp');
         let deleteCoiId = [];

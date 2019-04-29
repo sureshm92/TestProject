@@ -7,7 +7,8 @@
         helper.valueChange(component, event, helper);
     },
 
-    show: function (component) {
+    show: function (component, event, helper) {
+        helper.valueChange(component, event, helper);
         component.find('searchModal').show();
     },
 
@@ -41,7 +42,7 @@
     },
 
     doSave: function (component, event, helper) {
-        helper.saveElemet(component);
+        helper.saveElement(component);
     }
 
 })

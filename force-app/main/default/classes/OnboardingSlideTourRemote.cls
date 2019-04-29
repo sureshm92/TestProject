@@ -18,6 +18,7 @@ public without sharing class OnboardingSlideTourRemote {
         }
     }
 
+    //TODO unused?
     public class InitData{
         public Map<String, String> systemTourNames;
         public Map<String, Boolean> showOnLogin;

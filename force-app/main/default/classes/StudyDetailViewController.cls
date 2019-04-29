@@ -17,25 +17,25 @@ public without sharing class StudyDetailViewController {
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_EMAIL,
                         StudyActions.LABEL_SHARE,
-                        'icon-mailbox',
+                        'icon-mail',
                         false
                 ),
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_FACEBOOK,
                         StudyActions.LABEL_SHARE,
-                        'icon-facebook',
+                        'facebook',
                         false
                 ),
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_LINKEDIN,
                         StudyActions.LABEL_SHARE,
-                        'icon-linkedin',
+                        'linked-in',
                         false
                 ),
                 new StudyActions.Action(
                         StudyActions.ACT_SHARE_TWITTER,
                         StudyActions.LABEL_SHARE,
-                        'icon-twitter',
+                        'twitter',
                         false
                 )
         };

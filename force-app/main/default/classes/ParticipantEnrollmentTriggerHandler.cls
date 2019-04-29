@@ -218,8 +218,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void sendCalloutOnEligibilityPassed(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
         String acceptedStatus = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
         for(Participant_Enrollment__c pe : newList){
-            if(oldMap == null && pe.Participant_Status__c == acceptedStatus &&
-                    oldMap.get(pe.Id).Participant_Status__c != acceptedStatus){
+            if(pe.Participant_Status__c == acceptedStatus && (oldMap == null ||
+                    oldMap.get(pe.Id).Participant_Status__c != acceptedStatus)){
                 IntegrationService.sendPEToStudyHubAsync(pe.Id);
             }
         }

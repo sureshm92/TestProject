@@ -44,6 +44,7 @@
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
         var filterJSON = JSON.stringify(filter);
+        debugger;
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
         var piBtnFilter = component.get('v.piBtnFilter');
         var action = component.get('c.getRecords');
@@ -58,6 +59,7 @@
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);
+            debugger;
             component.set('v.skipUpdate', true);
             component.set('v.pageList', result.peList);
             if(trialId != filter.study){
@@ -65,10 +67,9 @@
                 component.set('v.peFilter', result.peFilter);
                 component.set('v.trialId', filter.study)
             }
-            var pagination = component.get('v.paginationData');
-            // pagination.allRecordsCount = result.paginationData.allRecordsCount;
-            // pagination.currentPage = result.paginationData.currentPage;
-            component.set('v.paginationData', result.paginationData);
+            component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
+            component.set('v.paginationData.currentPage', result.paginationData.currentPage);
+            component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
 
             component.set('v.skipUpdate', false);
             spinner.hide();

@@ -15,33 +15,35 @@
     <aura:method name="show" action="{!c.show}"/>
     <aura:method name="hide" action="{!c.hide}"/>
 
-    <c:Popup aura:id="searchModal" title="Select Your Conditions of Interest" size="medium" showClose="false" primaryButtonLabel="Save" variant=" slds-float--right">
-
-        <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label="" variant="label-hidden" placeholder="Search for Condition"/>
-
+    <c:Popup aura:id="searchModal" title="Select Your Conditions of Interest" size="medium" showClose="false"
+             primaryButtonLabel="Save" variant=" slds-float--right">
+        <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
+                         variant="label-hidden" placeholder="Search for Condition"/>
         <div class="alert-count-condition">
             You may only select to 5 conditions at any time.
         </div>
-        <table aria-multiselectable="true"
-               class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
-               role="treegrid">
-            <tbody>
-
-            <aura:iteration items="{!v.displayedItems}" var="coiWrapper">
-                <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
-                    tabindex="0">
-                    <td class="slds-text-align_right" role="gridcell" style="width: 3.25rem;">
-                        <div class="slds-checkbox">
-                            <lightning:input label="" type="checkbox" checked="{!coiWrapper.isSelected}"  value="{!coiWrapper}" onchange="{!c.handleChange}"/>
-                        </div>
-                    </td>
-                    <th class="slds-tree__item" data-label="Account Name" scope="row">
-                        <div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
-                    </th>
-                </tr>
-            </aura:iteration>
-            </tbody>
-        </table>
+        <div class="table-scroll">
+            <table aria-multiselectable="true"
+                   class="slds-table slds-table_header-hidden slds-table_edit"
+                   role="treegrid">
+                <tbody>
+                <aura:iteration items="{!v.displayedItems}" var="coiWrapper">
+                    <tr aria-level="1" aria-posinset="1" aria-selected="false" aria-setsize="4" class="slds-hint-parent"
+                        tabindex="0">
+                        <td class="slds-text-align_right" role="gridcell" style="width: 1.25rem;">
+                            <div class="slds-checkbox">
+                                <lightning:input label="" type="checkbox" checked="{!coiWrapper.isSelected}"
+                                                 value="{!coiWrapper}" onchange="{!c.handleChange}"/>
+                            </div>
+                        </td>
+                        <th class="" data-label="Account Name" scope="row">
+                            <div class="slds-truncate">{!coiWrapper.coi.Therapeutic_Area__r.Name}</div>
+                        </th>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
         <aura:set attribute="footerButtons">
             <button class="apollo-btn tertiary" id="Cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
             <button class="apollo-btn primary" id="Save" onclick="{!c.doSave}">{!$Label.c.BTN_Save}</button>
