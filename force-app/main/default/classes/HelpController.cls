@@ -7,29 +7,24 @@ public without sharing class HelpController {
      */
     @AuraEnabled
     public static String getUserInfo() {
-        String returnValue;
         try{
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = PatientDelegateService.getInstance().isDelegate();
-            returnValue = JSON.serialize(userContact);
-            return returnValue;
+            return JSON.serialize(userContact);
         }catch (Exception e) {
-            AuraHelper.throwException(e);
+           return (String) AuraHelper.throwException(e);
         }
-
-        return returnValue;
     }
 
     @AuraEnabled
     public static void createCase(String description, String type, String files) {
-
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
         if(ars.isEmpty()) throw new AuraHandledException('No case assigenment rule found!');
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
-        dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
+        dmlOptions.assignmentRuleHeader.assignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
         newCase.Status = 'New';
@@ -52,12 +47,11 @@ public without sharing class HelpController {
     }
 
     private static List<AssignmentRule> getCaseAssignmentRule() {
-
         return [
                 SELECT Id
                 FROM AssignmentRule
                 WHERE SobjectType = 'Case'
-                AND Active = true
+                AND Active = TRUE
                 LIMIT 1
         ];
     }
