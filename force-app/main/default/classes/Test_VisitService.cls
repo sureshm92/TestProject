@@ -1,5 +1,6 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
+ * Before launch this test turn off ParticipantTrigger
  */
 
 @IsTest

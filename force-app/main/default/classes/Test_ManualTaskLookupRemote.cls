@@ -108,7 +108,7 @@ private class Test_ManualTaskLookupRemote {
                 searchingTrial.Id,
                 'Clinical_Trial_Profile__c',
                 null,
-                'S-100001',
+                'S-100006',
                 'Code name ' + searchingTrial.Study_Code_Name__c
         );
 
