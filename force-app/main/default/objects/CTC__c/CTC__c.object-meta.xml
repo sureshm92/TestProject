@@ -53,8 +53,9 @@
     <enableStreamingApi>true</enableStreamingApi>
     <label>CTC</label>
     <nameField>
+        <displayFormat>CTC - {000000000}</displayFormat>
         <label>CTC Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>CTC&#39;S</pluralLabel>
     <searchLayouts/>
