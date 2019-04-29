@@ -1753,6 +1753,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <value>This is a quick email to remind you of your ##TaskName due  on ##CompleteByDate.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2255,7 +2262,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out</shortDescription>
-        <value>You are dropped out</value>
+        <value>We are sorry to see you leave your clinical trial</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>
@@ -2311,7 +2318,14 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
-        <value>Task overdue soon</value>
+        <value>You have a task reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
+        <value>Your Patient has a task reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Visit_Task_Reminder</fullName>
