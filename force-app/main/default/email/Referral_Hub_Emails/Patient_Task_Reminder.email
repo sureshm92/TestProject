@@ -13,7 +13,7 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
-                         signature="{!$Label.Email_Signature_VT}">
+                         signature="{!$Label.Email_Signature_drop_out}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                               buttonURL="{!$Label.CommunityURL}"/>
         </c:EmailTemplate>
@@ -29,7 +29,7 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
-                             signature="{!$Label.Email_Signature_VT}">
+                             signature="{!$Label.Email_Signature_drop_out}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                                   buttonURL="{!$Label.CommunityURL}"/>
         </c:EmailTemplateText>

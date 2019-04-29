@@ -43,30 +43,6 @@ public with sharing class ManualTaskRemote {
         }
     }
 
-    @AuraEnabled
-    public static String remindDateCalc(Date activityDate, Date remindDate, Boolean isNumberInput, Integer count) {
-        try {
-            if(isNumberInput) {
-                Date remind = activityDate.addDays(-count);
-                return (remind.daysBetween(activityDate) >= 0) ? JSON.serialize(remind) : JSON.serialize(activityDate);
-            }
-            else {
-                return JSON.serialize(Math.abs(activityDate.daysBetween(remindDate)));
-            }
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static Date checkAndGetValidDate(Date start, Date due) {
-        try {
-            return due.dayOfYear() >= start.dayOfYear() ? due : start;
-        } catch (Exception e) {
-            return (Date) AuraHelper.throwException(e);
-        }
-    }
-
     public class InitData {
         public Task task;
         public ManualTaskFilter filters;
