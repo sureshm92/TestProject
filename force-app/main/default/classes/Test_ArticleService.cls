@@ -63,7 +63,7 @@ public with sharing class Test_ArticleService {
         System.assertEquals(Date.today().addDays(-12), test.Expiration_Date__c);
         test = getSelectResource(test.Id);
         System.assertEquals(Date.today(), test.Posting_Date__c);
-        System.assertEquals(Date.today().addMonths(12), test.Expiration_Date__c);
+        System.assertEquals(Date.today().addDays(-12), test.Expiration_Date__c);
     }
     @IsTest
     public static void validateDateTestUpdateDateEqPostingDate() {
@@ -180,7 +180,7 @@ public with sharing class Test_ArticleService {
         updateResource(test, Date.today(), Date.today().addDays(-12));
         test = getSelectResource(test.Id);
         System.assertEquals(Date.today(), test.Posting_Date__c);
-        System.assertEquals(Date.today().addMonths(12), test.Expiration_Date__c);
+        System.assertEquals(Date.today().addDays(-12), test.Expiration_Date__c);
     }
 
     @IsTest
@@ -194,6 +194,39 @@ public with sharing class Test_ArticleService {
         test = getSelectResource(test.Id);
         System.assert(String.isBlank(test.Image__c));
 
+    }
+
+    @IsTest
+    public static void testRemoveSharingBeforeInsert() {
+        List<Resource__c> resources = new List<Resource__c>{
+                (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                        'Expiration_Date__c' => Date.today().addDays(12),
+                        'Remove_sharing__c' => true
+                })
+        };
+        Test.startTest();
+        new ArticleService().updateRemoveSharing(resources);
+        Test.stopTest();
+        System.assert(!resources[0].Remove_sharing__c);
+    }
+
+    @IsTest
+    public static void testRemoveSharingBeforeUpdate() {
+        Resource__c resourceNew =   (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                'Id' => TestDataFactory.getFakeId(Resource__c.getSObjectType()),
+                'Expiration_Date__c' => Date.today().addDays(12),
+                'Remove_sharing__c' => true
+        });
+
+        Resource__c resourceOld =   (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                'Id' => resourceNew.Id,
+                'Expiration_Date__c' => Date.today().addDays(-12),
+                'Remove_sharing__c' => false
+        });
+        Test.startTest();
+        new ArticleService().updateRemoveSharing(new List<Resource__c>{resourceNew}, new Map<Id, Resource__c>(new List<Resource__c>{resourceOld}));
+        Test.stopTest();
+        System.assert(!resourceNew.Remove_sharing__c);
     }
 
     private static Resource__c getResource(Date publishDate

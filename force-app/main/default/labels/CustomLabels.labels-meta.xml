@@ -53,11 +53,11 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Congratularions ##Contact! 
+        <value>Congratularions ##Contact!
 
-You are now enrolled in the ##StudyName study! 
+You are now enrolled in the ##StudyName study!
 
-Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page. 
+Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
 
 Click OK to begin!</value>
     </labels>
@@ -916,6 +916,13 @@ Click OK to begin!</value>
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>Can_Not_Edit_Mapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Can Not Edit Mapping</shortDescription>
+        <value>You can not edit this object. Delete and create a new one instead.</value>
+    </labels>
+    <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -969,7 +976,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cookies Info Text</shortDescription>
-        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL. 
+        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
 By clicking through to our website, you are accepting use of cookies.</value>
     </labels>
     <labels>
@@ -1399,7 +1406,7 @@ The first step is for you to enroll in the IQVIA Referral Hub.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll and activate your Referral Hub account. 
+        <value>Please take a moment to enroll and activate your Referral Hub account.
 You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
@@ -1407,9 +1414,9 @@ You will then be able to manage patient referrals to the study from any IQVIA so
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient</shortDescription>
-        <value>Recently, ##HCPName made a referral on your behalf to ##PIName regarding your potential participation in a clinical research study: ##StudyName. 
+        <value>Recently, ##HCPName made a referral on your behalf to ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-You will be contacted by the study team regarding next steps in the enrollment process. 
+You will be contacted by the study team regarding next steps in the enrollment process.
 
 To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
     </labels>
@@ -1431,8 +1438,8 @@ To track your clinical research study status and to learn more about future clin
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantName. We are so excited you have chosen to take this journey with ##ParticipantName.
 
-To track ##ParticipantName  clinical research study status, please login to the IQVIA™ Patient Portal. 
-Your username is ##Username.  
+To track ##ParticipantName  clinical research study status, please login to the IQVIA™ Patient Portal.
+Your username is ##Username.
 Please click the Enroll button below to create your password.</value>
     </labels>
     <labels>
@@ -1440,9 +1447,9 @@ Please click the Enroll button below to create your password.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Virtual</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyName. 
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
 
-You will be contacted by the study team regarding the next steps in the enrollment process. 
+            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
 
 To track where you are in the clinical research study referral process and learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
     </labels>
@@ -1465,7 +1472,7 @@ To track where you are in the clinical research study referral process and learn
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle 
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
 
 Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to  manage patient referrals to the study from any IQVIA source.</value>
     </labels>
@@ -1492,7 +1499,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI5</shortDescription>
-        <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).  
+        <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
 
 To review the referral(s), log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
@@ -1513,9 +1520,9 @@ To accept this request, log in to the IQVIA Referral Hub and navigate to “My R
         <protected>false</protected>
         <shortDescription>Email Body Patient1</shortDescription>
         <value>Thank you for your interest in the clinical research study: ##StudyTitle.
- 
+
 You will be contacted by the Principal Investigator’s site, ##StudySiteName , regarding the next steps in the enrollment process.
-   
+
 To track your clinical research study status and to see additional information about the study, log in to the Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
@@ -1523,7 +1530,7 @@ To track your clinical research study status and to see additional information a
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP10</shortDescription>
-        <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle. 
+        <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle.
 
 To see the referral status of your patient, log in to Patient Portal, and then go to &quot;My Patients.&quot;</value>
     </labels>
@@ -1532,7 +1539,7 @@ To see the referral status of your patient, log in to Patient Portal, and then g
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient13</shortDescription>
-        <value>This email is to inform you that ##PIName has declined your referral to the clinical research study: ##StudyName. 
+        <value>This email is to inform you that ##PIName has declined your referral to the clinical research study: ##StudyName.
 
 Please contact your physician for further treatment discussions.
 
@@ -1543,7 +1550,7 @@ If you would like to be contacted about future clinical research opportunities, 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient14</shortDescription>
-        <value>The study team has determined that you are not eligible to participate in the clinical research study: ##StudyName. 
+        <value>The study team has determined that you are not eligible to participate in the clinical research study: ##StudyName.
 
 Please contact your physician for further treatment discussions.
 
@@ -1569,9 +1576,9 @@ If you would like to be contacted about future clinical research opportunities, 
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
         <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
- 
+
 You will be contacted by the study team regarding the next steps in the enrollment process for this study.
- 
+
 To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
     </labels>
     <labels>
@@ -1601,7 +1608,7 @@ If you are not contacted about this opportunity within 3 business days, please c
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient7</shortDescription>
-        <value>Your referral has been placed on hold for the clinical research study: ##StudyName.  
+        <value>Your referral has been placed on hold for the clinical research study: ##StudyName.
 
 To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
@@ -1610,9 +1617,9 @@ To see additional information, log in to the IQVIA Patient Portal, and then go t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient8</shortDescription>
-        <value>Recruitment is on hold for the clinical research study: ##StudyName. 
+        <value>Recruitment is on hold for the clinical research study: ##StudyName.
 
-You will be contacted promptly if the study once again begins accepting referrals or if the status of your referral changes.  
+You will be contacted promptly if the study once again begins accepting referrals or if the status of your referral changes.
 
 The study recruitment team can be reached at ##SitePhoneNumber with any questions or comments regarding the study or the referral process.</value>
     </labels>
@@ -1646,11 +1653,11 @@ Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quo
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP2</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been accepted into the clinical research study: ##StudyTitle. 
+        <value>Your patient referral, ID number: ##PEName, has been accepted into the clinical research study: ##StudyTitle.
 
 The study site will contact your referral directly to discuss next steps.
 
-To see additional information about this patient&#39;s referral status, log in to Referral Hub, and then go to the &quot;My Patients.&quot;  
+To see additional information about this patient&#39;s referral status, log in to Referral Hub, and then go to the &quot;My Patients.&quot;
 
 To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to “My Studies.”</value>
     </labels>
@@ -1659,9 +1666,9 @@ To see additional information about this study or to refer another patient, log 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP3</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been put on hold for the clinical research study: ##StudyTitle. 
+        <value>Your patient referral, ID number: ##PEName, has been put on hold for the clinical research study: ##StudyTitle.
 
-To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;  
+To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
 To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
     </labels>
@@ -1670,9 +1677,9 @@ To see additional information about this study or refer another patient, log in 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP4</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been declined for the clinical research study: ##StudyTitle. 
+        <value>Your patient referral, ID number: ##PEName, has been declined for the clinical research study: ##StudyTitle.
 
-To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;  
+To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
 To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
     </labels>
@@ -1690,7 +1697,7 @@ To view additional information about this study and begin referring patients, pl
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP6</shortDescription>
-        <value>Thank you for completing orientation for clinical research study: ##StudyTitle. Your referral functionality has been activated. 
+        <value>Thank you for completing orientation for clinical research study: ##StudyTitle. Your referral functionality has been activated.
 
 To view additional information about this study and begin patient referrals, please log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
     </labels>
@@ -1719,7 +1726,7 @@ You may be contacted regarding further options.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP9</shortDescription>
-        <value>##StudySiteName is not accepting new referring providers at this time.   
+        <value>##StudySiteName is not accepting new referring providers at this time.
 
 To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to “My Studies.”</value>
     </labels>
@@ -1751,6 +1758,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
         <value>This is a quick email to remind you of your ##TaskName due  on ##CompleteByDate.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.</value>
     </labels>
     <labels>
         <fullName>Email_Body_User_Lockout</fullName>
@@ -2255,7 +2269,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out</shortDescription>
-        <value>You are dropped out</value>
+        <value>We are sorry to see you leave your clinical trial</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>
@@ -2300,6 +2314,13 @@ IQVIA Study Team</value>
         <value>A clinical research study that may interest you</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Share_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Share Resource</shortDescription>
+        <value>Interesting content was shared with you!</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2311,7 +2332,14 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
-        <value>Task overdue soon</value>
+        <value>You have a task reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
+        <value>Your Patient has a task reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Visit_Task_Reminder</fullName>
@@ -5725,8 +5753,8 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Disclaimer</shortDescription>
-        <value>Disclaimer regarding data and delegate access etc. 
-This will likely go into a second line so this sentence here 
+        <value>Disclaimer regarding data and delegate access etc.
+This will likely go into a second line so this sentence here
 is a placehilder to show you what it would look like.</value>
     </labels>
     <labels>

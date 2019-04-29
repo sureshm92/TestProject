@@ -227,15 +227,15 @@
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-address">
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStreet:
-                                                    ss.site.Principal_Investigator__r.MailingStreet}
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                                    ss.site.Site__r.BillingStreet}
                                                     <br/>
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingCity:
-                                                    ss.site.Principal_Investigator__r.MailingCity},
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStateCode:
-                                                    ss.site.Principal_Investigator__r.MailingStateCode},
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingPostalCode:
-                                                    ss.site.Principal_Investigator__r.MailingPostalCode}
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                                    ss.site.Site__r.BillingCity},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                                    ss.site.Site__r.BillingStateCode},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                                    ss.site.Site__r.BillingPostalCode}
                                                 </div>
                                             </aura:if>
                                         </div>
@@ -270,15 +270,15 @@
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-address">
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStreet:
-                                                    ss.site.Principal_Investigator__r.MailingStreet}
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                                    ss.site.Site__r.BillingStreet}
                                                     <br/>
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingCity:
-                                                    ss.site.Principal_Investigator__r.MailingCity},
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStateCode:
-                                                    ss.site.Principal_Investigator__r.MailingStateCode},
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingPostalCode:
-                                                    ss.site.Principal_Investigator__r.MailingPostalCode}
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                                    ss.site.Site__r.BillingCity},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                                    ss.site.Site__r.BillingStateCode},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                                    ss.site.Site__r.BillingPostalCode}
                                                 </div>
                                             </aura:if>
                                         </div>
@@ -498,15 +498,15 @@
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                                 <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                     <div class="ssi-address">
-                                                        {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStreet:
-                                                        ss.site.Principal_Investigator__r.MailingStreet}
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                                        ss.site.Site__r.BillingStreet}
                                                         <br/>
-                                                        {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingCity:
-                                                        ss.site.Principal_Investigator__r.MailingCity},
-                                                        {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStateCode:
-                                                        ss.site.Principal_Investigator__r.MailingStateCode},
-                                                        {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingPostalCode:
-                                                        ss.site.Principal_Investigator__r.MailingPostalCode}
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                                        ss.site.Site__r.BillingCity},
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                                        ss.site.Site__r.BillingStateCode},
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                                        ss.site.Site__r.BillingPostalCode}
                                                     </div>
                                                 </aura:if>
                                             </div>

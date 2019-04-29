@@ -25,6 +25,7 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> participantsPDList = DatabaseService.query(
                 new List<String>{
                         'Id',
+                        'Participant__r.Full_Name__c',
                         'Participant__r.Contact__c',
                         'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
                         'Participant__r.First_Name__c',
@@ -43,6 +44,7 @@ public without sharing class PatientDelegateService {
                             'Id',
                             'First_Name__c',
                             'Last_Name__c',
+                            'Full_Name__c',
                             'Contact__c',
                             'Contact__r.Participant_Opt_In_Status_Emails__c'
                     },
