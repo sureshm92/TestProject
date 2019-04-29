@@ -36,8 +36,6 @@ public with sharing class ExternalParticipantsService {
         request.setHeader('Content-Type', 'application/json');
         request.setBody(participantJSON);
         HttpResponse response = http.send(request);
-        System.debug(response.getStatus());
-        System.debug(response.getBody());
         return response.getStatus();
     }
 
