@@ -85,44 +85,6 @@ private class Test_ManualTaskRemote {
         System.assertEquals(countOfTaskCreated, tasks.size());
     }
 
-    @IsTest
-    static void remindDateCalcDateTest() {
-        Date activityDate = System.today().addDays(5);
-        Date remindDate = System.today().addDays(2);
-
-        Test.startTest();
-        Date returnValue =
-                (Date) JSON.deserialize(ManualTaskRemote.remindDateCalc(activityDate, remindDate, true, 3), Date.class);
-        Test.stopTest();
-
-        System.assertEquals(activityDate.addDays(-3), returnValue);
-    }
-
-    @IsTest
-    static void remindDateCalcDayTest() {
-        Date activityDate = System.today().addDays(6);
-        Date remindDate = System.today().addDays(2);
-
-        Test.startTest();
-        Integer returnValue =
-                (Integer) JSON.deserialize(ManualTaskRemote.remindDateCalc(activityDate, remindDate, false, 3), Integer.class);
-        Test.stopTest();
-
-        System.assertEquals(4, returnValue);
-    }
-
-    @IsTest
-    static void checkAndGetValidDateTest() {
-        Date before = System.today().addDays(-5);
-        Date now = System.today();
-
-        Test.startTest();
-        Date nearestDate = ManualTaskRemote.checkAndGetValidDate(before, now);
-        Test.stopTest();
-
-        System.assertEquals(now, nearestDate);
-    }
-
     @TestSetup
     static void setup() {
         Therapeutic_Area__c ta = new Therapeutic_Area__c(Name = 'Test Area');
