@@ -21,7 +21,7 @@ public without sharing class HelpController {
     public static void createCase(String description, String type, String files) {
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
-        if(ars.isEmpty()) throw new AuraHandledException('No case assigenment rule found!');
+        if(ars.isEmpty()) throw new AuraHandledException(Label.No_Case_Assign);
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
         dmlOptions.assignmentRuleHeader.assignmentRuleId = ars[0].Id;
@@ -36,22 +36,24 @@ public without sharing class HelpController {
         try {
             insert newCase;
             if(String.isNotEmpty(files)){
-                List<HelpController.FileContainer> fileContainers = (List<HelpController.FileContainer>) JSON.deserialize(files, List<HelpController.FileContainer>.class);
+                List<HelpController.FileContainer> fileContainers =
+                        (List<HelpController.FileContainer>) JSON.deserialize(files, List<HelpController.FileContainer>.class);
                 addFiles(newCase.Id, fileContainers);
             }
         } catch (Exception e) {
             Database.rollback(sp);
-            throw new AuraHandledException(e.getMessage() + e.getStackTraceString());
-            throw new AuraHandledException('Can`t create case! [' + e.getMessage() + ']');
+            AuraHelper.throwException(e);
         }
     }
 
+    /**
+     * Before use need to create Case Assignment Rules
+     */
     private static List<AssignmentRule> getCaseAssignmentRule() {
         return [
                 SELECT Id
                 FROM AssignmentRule
-                WHERE SobjectType = 'Case'
-                AND Active = TRUE
+                WHERE SobjectType = 'Case' AND Active = TRUE
                 LIMIT 1
         ];
     }

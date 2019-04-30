@@ -379,6 +379,10 @@
         <name>BTN_Orientation_attended_activate</name>
     </customLabels>
     <customLabels>
+        <label><!-- BTN PES --></label>
+        <name>BTN_PES</name>
+    </customLabels>
+    <customLabels>
         <label>Пациент больше не заинтересован</label>
         <name>BTN_Patient_no_longer_interested</name>
     </customLabels>
@@ -401,6 +405,10 @@
     <customLabels>
         <label><!-- BTN Refer a Patient --></label>
         <name>BTN_Refer_a_Patient</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN Refer to this Site --></label>
+        <name>BTN_Refer_to_this_Site</name>
     </customLabels>
     <customLabels>
         <label>Рекомендовать на исследование</label>
@@ -455,6 +463,10 @@
         <name>BTN_Start_Medical_Record_Review</name>
     </customLabels>
     <customLabels>
+        <label><!-- BTN Start Pre-eligibility Screening --></label>
+        <name>BTN_Start_Pre_eligibility_Screening</name>
+    </customLabels>
+    <customLabels>
         <label>Начать с Начала</label>
         <name>BTN_Stat_Over</name>
     </customLabels>
@@ -481,6 +493,10 @@
     <customLabels>
         <label>Посмотреть правила</label>
         <name>BTN_View_terms_and_conditions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN View terms and conditions participant --></label>
+        <name>BTN_View_terms_and_conditions_participant</name>
     </customLabels>
     <customLabels>
         <label>Смотреть</label>
@@ -521,6 +537,10 @@
     <customLabels>
         <label>Просмотреть в роли пациента</label>
         <name>CTL_L_Patricipant_MODE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Can Not Edit Mapping --></label>
+        <name>Can_Not_Edit_Mapping</name>
     </customLabels>
     <customLabels>
         <label><!-- Community Email Logo --></label>
@@ -799,6 +819,10 @@
         <name>Email_Body_Initial_Patient</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Body Initial Patient Created By PI --></label>
+        <name>Email_Body_Initial_Patient_Created_By_PI</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Body Initial Patient Delegate --></label>
         <name>Email_Body_Initial_Patient_Delegate</name>
     </customLabels>
@@ -815,7 +839,7 @@
         <name>Email_Body_Medication_Task_Reminder</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##PatientFirstName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по телефону: ##SitePhoneNumber.</label>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##ParticipantName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по телефону: ##SitePhoneNumber.</label>
         <name>Email_Body_Medication_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
@@ -1030,6 +1054,10 @@
         <name>Email_Body_Task_Reminder_Type_Not_Selected</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Body_Task_Reminder_Type_Not_Selected Delegate --></label>
+        <name>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Какой то текст для lockout случая</label>
         <name>Email_Body_User_Lockout</name>
     </customLabels>
@@ -1038,7 +1066,7 @@
         <name>Email_Body_Visit_Task_Reminder</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое письмо с напоминанием о предстоящем визите ##PatientFirstName для исследования ##StudyName. Если ##PatientFirstName не может назначить встречу, позвоните, чтобы перенести встречу.</label>
+        <label>Это быстрое письмо с напоминанием о предстоящем визите ##ParticipantName для исследования ##StudyName. Если ##ParticipantName не может назначить встречу, позвоните, чтобы перенести встречу.</label>
         <name>Email_Body_Visit_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
@@ -1278,6 +1306,10 @@
         <name>Email_Subject_Medication_Task_Reminder</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Subject_Medication_Task_Reminder Delegate --></label>
+        <name>Email_Subject_Medication_Task_Reminder_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Новое клиническое исследование доступно</label>
         <name>Email_Subject_PI1</name>
     </customLabels>
@@ -1342,6 +1374,10 @@
         <name>Email_Subject_Share_By_RP</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Subject Share Resource --></label>
+        <name>Email_Subject_Share_Resource</name>
+    </customLabels>
+    <customLabels>
         <label>Ваш реферальный статус изменился</label>
         <name>Email_Subject_Status_Has_Changed</name>
     </customLabels>
@@ -1350,8 +1386,16 @@
         <name>Email_Subject_Task_Reminder_Type_Not_Selected</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Subject Task Reminder Type Not Selected Delegate --></label>
+        <name>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Subject Visit Task Reminder --></label>
         <name>Email_Subject_Visit_Task_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Subject Visit Task Reminder Delegate --></label>
+        <name>Email_Subject_Visit_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
         <label><!-- Email Subject Welcome To The Study --></label>
@@ -1596,6 +1640,10 @@
     <customLabels>
         <label>Доступ отсутствует</label>
         <name>No_Access</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- No Case Assign --></label>
+        <name>No_Case_Assign</name>
     </customLabels>
     <customLabels>
         <label><!-- None --></label>
@@ -4548,4 +4596,130 @@
         <label><!-- Study Export/Import --></label>
         <name>Translation_Import_Export</name>
     </customTabs>
+    <flowDefinitions>
+        <flows>
+            <fullName>Welcome_to_the_Study_Caregiver_Alert-1</fullName>
+        </flows>
+        <fullName>Welcome_to_the_Study_Caregiver_Alert</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_Site_RRR_Status-1</fullName>
+        </flows>
+        <fullName>Update_Site_RRR_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Email_to_PI_HCP_Site_Request-1</fullName>
+        </flows>
+        <fullName>Email_to_PI_HCP_Site_Request</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Welcome_to_the_Study_Patient_Delegate_Alert-1</fullName>
+        </flows>
+        <fullName>Welcome_to_the_Study_Patient_Delegate_Alert</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
+        </flows>
+        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Email_to_PI_Participant_Accepted_Needs_Contact-1</fullName>
+        </flows>
+        <fullName>Email_to_PI_Participant_Accepted_Needs_Contact</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Email_to_PI_New_Patient_Referral-1</fullName>
+        </flows>
+        <fullName>Email_to_PI_New_Patient_Referral</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>PSE_Creation-1</fullName>
+        </flows>
+        <fullName>PSE_Creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
+        </flows>
+        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Patient_Welcome_to_the_Study_Email-1</fullName>
+        </flows>
+        <fullName>Patient_Welcome_to_the_Study_Email</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Patient_Task_Reminder-1</fullName>
+        </flows>
+        <fullName>Patient_Task_Reminder</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_HCP_Status-1</fullName>
+        </flows>
+        <fullName>Update_HCP_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Task_changes_status_to_Expired-1</fullName>
+        </flows>
+        <fullName>Task_changes_status_to_Expired</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <label><!-- Follow Up --></label>
+        <name>Follow_Up</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote --></label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewTask --></label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
 </Translations>
