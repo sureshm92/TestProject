@@ -22,7 +22,8 @@ public without sharing class StudyTrialService {
             'Override_Inclusion_Criteria__c',
             'Override_Description__c',
             'Brief_Summary__c',
-            'Therapeutic_Area__r.Name'
+            'Therapeutic_Area__r.Name',
+            'NCT_Number__c'
     };
 
     private static List<String> TRIAL_SEARCH_FIELDS = new List<String>{
