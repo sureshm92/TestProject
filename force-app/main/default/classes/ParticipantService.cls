@@ -68,6 +68,8 @@ public class ParticipantService {
                             participantState.value = ParticipantStates.ALUMNI;
                             participantState.showVisits = false;
                         }
+                    }else{
+                        participantState.value = ParticipantStates.REFERRAL;
                     }
                 }else{
                     participantState.value = ParticipantStates.REFERRAL;
