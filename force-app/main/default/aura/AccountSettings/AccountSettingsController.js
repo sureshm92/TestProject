@@ -3,11 +3,6 @@
         component.set("v.showSpinner", true);
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
-        var genders = [
-            $A.get("$Label.c.Gender_Male"),
-            $A.get("$Label.c.Gender_Female")
-        ];
-        component.set('v.genders', genders);
         communityService.executeAction(component, 'getInitData', {
             userMode: component.get("v.userMode")
         }, function (returnValue) {
@@ -24,6 +19,7 @@
             }
             component.set("v.currentEmail", initData.myContact.Email);
             component.set('v.isDelegate', initData.isDelegate);
+            component.set('v.genders', initData.gendersLVList);
             component.set('v.isInitialized', true);
         }, null, function () {
             component.set("v.showSpinner", false);

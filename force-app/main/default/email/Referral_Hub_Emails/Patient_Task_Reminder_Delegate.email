@@ -1,6 +1,6 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Medication_Task_Reminder_Delegate}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Task_Reminder_Type_Not_Selected_Delegate}"
                          recipientType="Contact"
-                         relatedToType="Participant_Study_Enrollment__c"
+                         relatedToType="Task"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
@@ -9,12 +9,11 @@
                          recipientName="{!recipient.Name}"
                          recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Medication_Task_Reminder}"
+                         header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
-                         body="{!$Label.Email_Body_Medication_Task_Reminder_Delegate}"
+                         body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected_Delegate}"
                          signature="{!$Label.Email_Signature_drop_out}">
-
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                               buttonURL="{!$Label.CommunityURL}"/>
         </c:EmailTemplate>
@@ -26,10 +25,10 @@
                              recipientName="{!recipient.Name}"
                              recipientLanguage="{!recipient.Language__c}"
                              sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Medication_Task_Reminder}"
+                             header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Medication_Task_Reminder_Delegate}"
+                             body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected_Delegate}"
                              signature="{!$Label.Email_Signature_drop_out}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                                   buttonURL="{!$Label.CommunityURL}"/>

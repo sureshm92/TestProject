@@ -41,7 +41,8 @@ public without sharing class TaskService {
             'Task_Type__c',
             'Visible_For__c',
             'Action_URL__c',
-            'Reminder_Date__c'
+            'Reminder_Date__c',
+            'Originator__c'
     };
     
     private static TaskService instance;
