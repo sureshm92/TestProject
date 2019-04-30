@@ -1711,6 +1711,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Originator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3532,6 +3537,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Originator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

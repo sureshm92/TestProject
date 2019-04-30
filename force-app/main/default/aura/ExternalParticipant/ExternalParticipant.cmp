@@ -23,7 +23,7 @@
             <aura:iteration items="{!v.participants}" var="participant">
                 <tr>
                     <td>
-                        {!participant.patientId}
+                        <a>{!participant.patientId}</a>
                     </td>
                     <td>
                         {!participant.firstName} {!participant.lastName}
