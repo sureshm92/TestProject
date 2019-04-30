@@ -39,7 +39,7 @@
             if(wrapper.reminderEnabled && wrapper.task.ActivityDate && !component.get('v.initialized')){
                 component.set('v.frequencyEnabled', true);
             }
-            if(wrapper.reminderEnabled && component.find('dueDateInputId') && component.get('v.initialized')){
+            if(wrapper.reminderEnabled && component.find('dueDateInputId').get('v.value') && component.get('v.initialized')){
                 component.set('v.frequencyEnabled', true);
             }
             if (wrapper.task.Status === 'Completed') {
@@ -135,7 +135,6 @@
     onChangeDueDate: function (component, event, helper) {
         var dueDate = component.get('v.task.ActivityDate');
         var reminderFrequencyComponent = component.find('reminderFreqId');
-        var reminderDateComponent = component.find('reminderDateId');
         console.log(dueDate);
         if(!dueDate) {
             component.set('v.frequencyEnabled', false);
