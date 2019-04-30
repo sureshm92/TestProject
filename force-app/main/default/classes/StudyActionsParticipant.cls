@@ -47,8 +47,7 @@ public class StudyActionsParticipant extends StudyActions {
         ));
 
         ParticipantService.ParticipantStates participantStateValue = ParticipantService.getParticipantState().value;
-        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) studyDetailActions.add(actions.get(ACT_DOWNLOAD_CONSENT));
-        
+
         if( (participantStateValue == ParticipantService.ParticipantStates.REFERRAL ||
                 participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT)
              && study.Terms_And_Conditions_ID__c != null) {
@@ -60,9 +59,6 @@ public class StudyActionsParticipant extends StudyActions {
         if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
             studyDetailActions.add(actions.get(ACT_SHARE));
         }
-    
-
-
     }
 
 }
