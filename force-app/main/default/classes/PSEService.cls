@@ -26,7 +26,13 @@ public without sharing class PSEService {
             PSE_STATUS_DROP_OUT,
             PSE_STATUS_DECEASED
     };
-    
+
+    public static final List<String> PSE_STATUS_GROUP_IN_PROGRESS = new List<String>{
+            PSE_STATUS_ENROLLED,
+            PSE_STATUS_TREATMENT_PERIOD_STARTED,
+            PSE_STATUS_FOLLOW_UP_PERIOD_STARTED
+    };
+
     public static final List<String> PSE_DEFAULT_FIELDS_LIST = new List<String>{
             'Name',
             'Clinical_Trial_Profile__c',

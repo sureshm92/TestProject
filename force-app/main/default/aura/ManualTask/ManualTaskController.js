@@ -15,52 +15,53 @@
         });
     },
 
-    dueNumberKeyPress: function (component, event, helper) {
-        //Fired on press any key in field
-        if (event.which == 13)
-            helper.setDays(component);
+    doCheckFields: function(component, event, helper) {
+        var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && inputCmp.get('v.validity').valid;
+        }, true);
+        component.set('v.isValidFields', allValid);
     },
 
-    onRemindDaysChange: function (component, event, helper) {
-        //Remove leading zero in field
-        var days = component.get('v.dayRemind');
-        if(!days) days = '0';
-
-        days = days.toString().replace('^0+', '');
-        var intDays = parseInt(days);
-        var isNumberInput = component.get('v.showNumbersAdd') === 'true';
-
-        communityService.executeAction(component, 'remindDateCalc', {
-            'activityDate': component.get('v.task.ActivityDate'),
-            'remindDate': component.get('v.task.Reminder_Date__c'),
-            'isNumberInput': isNumberInput,
-            'count': intDays
-        }, function (response) {
-            var date = JSON.parse(response);
-            if(isNumberInput) {
-                debugger;
-                component.set('v.task.Reminder_Date__c', date);
-            }
-            else {
-                debugger;
-                component.set('v.dayRemind', date);
-            }
-        });
-    },
-
-    dateValid: function (component, event, helper) {
+    onDaysChange: function (component, event, helper) {
         var startDate = component.get('v.task.Start_Date__c');
         if (!startDate) return;
 
         var dueDate = component.get('v.task.ActivityDate');
-        if (!dueDate) dueDate = startDate;
+        if(!dueDate) {
+            component.set('v.showNumbersAdd', 'false');
+            return;
+        }
 
-        communityService.executeAction(component, 'checkAndGetValidDate', {
-            'start': startDate,
-            'due': dueDate
-        }, function (response) {
-            component.set('v.task.ActivityDate', response);
-        });
+        dueDate = new Date(dueDate);
+        if(component.get('v.showNumbersAdd') === 'true') {
+            var days = component.get('v.dayRemind');
+            var daysBetween = helper.getDaysBetween(component, new Date(startDate), dueDate);
+
+            if(!days || days > daysBetween) {
+                days = '1';
+                component.set('v.dayRemind', days);
+            }
+
+            //Remove leading zero in field
+            days = days.toString().replace('^0+', '');
+
+            var remindDate = component.get('v.task.Reminder_Date__c');
+            if(!remindDate) {
+                remindDate = dueDate;
+            }
+            else {
+                remindDate = new Date(remindDate);
+            }
+            remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
+            component.set('v.task.Reminder_Date__c',
+                $A.localizationService.formatDate(new Date(remindDate), 'YYYY-MM-DD'));
+        }
+    },
+
+    dueNumberKeyPress: function (component, event, helper) {
+        //Fired on press any key in field
+        if (event.which === 13) helper.setDays(component);
     },
 
     createTask: function (component, event, helper) {

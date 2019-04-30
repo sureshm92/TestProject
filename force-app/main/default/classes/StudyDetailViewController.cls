@@ -10,6 +10,7 @@ public without sharing class StudyDetailViewController {
         public Boolean isSSAccepted;
         public Study_Site__c studySite; //for PI mode
         public HCP_Enrollment__c hcpe; //for HCP mode
+        public Participant_Enrollment__c pe; //for Participant;
         public List<StudyActions.Action> studyBottomBarActions;
         public Map<String, StudyActions.Action> actions;
         public List<StudyTab> tabs;
@@ -137,6 +138,7 @@ public without sharing class StudyDetailViewController {
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
+                trialDetail.pe = pe;
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
                 trialDetail.tabs = getStudyTabs(userMode, studyActions);

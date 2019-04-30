@@ -31,11 +31,11 @@ public without sharing class SitesSearchRemote {
         public String State;
 
         public MapLocation(Study_Site__c site){
-            Country = site.Site__r.BillingCountry;
-            City = site.Site__r.BillingCity;
-            Street = site.Site__r.BillingStreet;
-            PostalCode = site.Site__r.BillingPostalCode;
-            State = site.Site__r.BillingStateCode;
+            Country = site.Principal_Investigator__r.Account.BillingCountry;
+            City = site.Principal_Investigator__r.Account.BillingCity;
+            Street = site.Principal_Investigator__r.Account.BillingStreet;
+            PostalCode = site.Principal_Investigator__r.Account.BillingPostalCode;
+            State = site.Principal_Investigator__r.Account.BillingStateCode;
         }
     }
 
@@ -60,7 +60,7 @@ public without sharing class SitesSearchRemote {
             }
             initData.mapMarkers = new List<MapMarker>();
             for(StudySiteService.StudySiteDistanceWrapper siteWrapper : initData.currentPageList){
-                if(siteWrapper.site.Site__r.BillingAddress != null){
+                if(siteWrapper.site.Principal_Investigator__r.Account.BillingAddress != null){
                     initData.mapMarkers.add(new MapMarker(siteWrapper.site));
                 }
             }

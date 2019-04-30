@@ -102,6 +102,7 @@ public without sharing class ParametersDataProvider {
     private void initParamsFromPE(Id sourceId){
         Participant_Enrollment__c pe = [
                 SELECT Id, Name,
+                        Referral_Source__c,
                         HCP__r.HCP_Contact__c,
                         HCP__r.HCP_Contact__r.Name,
                         HCP__r.HCP_Contact__r.Salutation,
@@ -150,7 +151,8 @@ public without sharing class ParametersDataProvider {
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
                 'HCP' => pe.HCP__c,
-                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c
+                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c,
+                'ReferralSource' => pe.Referral_Source__c
         });
     }
     
@@ -273,18 +275,18 @@ public without sharing class ParametersDataProvider {
             };
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters = new Map<String, String>{
-                    'ParticipantName' => getFullContactName(cnt),
                     'ParticipantLanguage' => cnt.Language__c
             };
-            if(!isDelegate) {
-                initParamsFromPE(contactId);
+            if(isDelegate) {
+                parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
+                parameters.put('FullName', getFullContactName(cnt));
+                parameters.put('Username', getCommunityUserName(contactId));
             }else{
-                //todo prepare parameters for patient delegate
+                initParamsFromPE(contactId);
             }
         }
     }
-    
-    
+
     private void initParamsFromUser(Id userId){
         User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         initParamsFromContact(user.ContactId);
@@ -292,8 +294,19 @@ public without sharing class ParametersDataProvider {
     
     public String getUserName(){
         if(recipientName != null) return recipientName;
-        String userNameParam = userMode + 'Name';
+        String userNameParam;
+        if(isDelegate) {
+            userNameParam = 'FullName';
+        }
+        else{
+            userNameParam = userMode + 'Name';
+        }
         return parameters.get(userNameParam);
+    }
+
+    public String getCommunityUserName(String contactId) {
+        List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
+        return !userList.isEmpty() ? userList.get(0).Username : '';
     }
     
     public String getUserLanguage(){

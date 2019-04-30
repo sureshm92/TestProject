@@ -213,10 +213,10 @@
                                 <div class="slds-grid slds-wrap slds-m-top--x-small">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                                     <div class="site-address">
-                                            {!siteWrapper.site.Principal_Investigator__r.MailingStreet}
+                                            {!siteWrapper.site.Principal_Investigator__r.Account.BillingStreet}
                                     </div>
                                     <div class="site-address slds-m-top--xx-small">
-                                            {!(siteWrapper.site.Principal_Investigator__r.MailingCity + ' ' + siteWrapper.site.Principal_Investigator__r.MailingState + ' ' + siteWrapper.site.Principal_Investigator__r.MailingPostlCode)}
+                                            {!(siteWrapper.site.Principal_Investigator__r.Account.BillingCity + ' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState + ' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostlCode)}
                                     </div>
                                     </div>
 <!--                                    <div class="slds-col slds-show_medium slds-size_1-of-12">-->

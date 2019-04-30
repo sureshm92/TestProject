@@ -5,9 +5,9 @@
 public class AddPatientByPIRemote {
     
     public static final List<String> PE_STATUSES = new List<String>{
+            PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
             PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
             PEStatusState.PE_STATUS_CONTACT_SUCCESSFUL,
-            PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
             PEStatusState.PE_STATUS_SCREENING_COMPLETE
     };
     
@@ -52,9 +52,18 @@ public class AddPatientByPIRemote {
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             String peStatus = pe.Participant_Status__c;
             pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
+            pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
-            pe.Participant_Status__c = peStatus;
-            Database.update(pe);
+            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
+            for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
+                if(step.name != currentState.name){
+                    pe.Participant_Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS);
+                }else{
+                    pe.Participant_Status__c = peStatus;
+                }
+                Database.update(pe);
+                if(step.name == currentState.name) break;
+            }
         }catch (Exception e){
             AuraHelper.throwException(e);
         }

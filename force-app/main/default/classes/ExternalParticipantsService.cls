@@ -29,13 +29,15 @@ public with sharing class ExternalParticipantsService {
         HttpRequest request = new HttpRequest();
         request.setEndpoint('callout:External_Patients_Database');
         if(getParticipants('USA', participantId).isEmpty()){
-            request.setMethod('PUT');
-        } else {
             request.setMethod('POST');
+        } else {
+            request.setMethod('PUT');
         }
         request.setHeader('Content-Type', 'application/json');
         request.setBody(participantJSON);
         HttpResponse response = http.send(request);
+        System.debug(response.getBody());
+        System.debug(response.getStatus());
         return response.getStatus();
     }
 

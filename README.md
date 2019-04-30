@@ -17,15 +17,14 @@ sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgA
 ```sh
 sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 ```
-- after import go to updates@cp.clinicalresearch.com mail box and approve this email. Ask about how to get access to this mailbox
+- after import go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Ask about how to get access to this mailbox
 
-- then turn on email send "Allow All Profiles to Use this From Address"
 then open setup:
 
 ```sh
 sfdx force:org:open
 ```
-
+- go to Organization-Wide Addresses and turn on email send "Allow All Profiles to Use this From Address"
 - go to **Process Automation Settings** and set up Default workflow user and set in Email approval sender value "IQVIA Referral Hub"
 - go to **Survey Settings** and enable 
 
