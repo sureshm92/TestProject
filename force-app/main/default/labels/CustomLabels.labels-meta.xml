@@ -1376,7 +1376,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you!  Please take 2 minutes to fill out the baseline survey in  IQVIA™ Patient  Portal.</value>
+        <value>We would love to hear from you!  Please take 2 minutes to fill out the Baseline survey in  IQVIA™ Patient  Portal.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1465,7 +1465,7 @@ To track where you are in the clinical research study referral process and learn
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1785,7 +1785,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName upcoming visit for the ##StudyName study.  If ##PatientFirstName is unable to make this appointment, please call to reschedule.</value>
+        <value>This is a quick email to remind you of ##ParticipantName upcoming visit for the ##StudyName study.  If ##ParticipantName is unable to make this appointment, please call to reschedule.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -2202,6 +2202,13 @@ IQVIA Study Team</value>
         <value>You have a medication reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Medication_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Subject_Medication_Task_Reminder Delegate</shortDescription>
+        <value>Your Patient has a visit reminder</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2346,14 +2353,21 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Visit Task Reminder</shortDescription>
-        <value>Upcoming Visit Task</value>
+        <value>You have a visit reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
+        <value>Your Patient has a visit reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
-        <value>Welcome to the study</value>
+        <value>You have been enrolled to a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>
@@ -2771,6 +2785,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>false</protected>
         <shortDescription>No Access</shortDescription>
         <value>No access</value>
+    </labels>
+    <labels>
+        <fullName>No_Case_Assign</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Case Assign</shortDescription>
+        <value>No case assigenment rule found!</value>
     </labels>
     <labels>
         <fullName>None</fullName>

@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Medication_Task_Reminder}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Medication_Task_Reminder_Delegate}"
                          recipientType="Contact"
                          relatedToType="Participant_Study_Enrollment__c"
                          language="{!recipient.Language__c}">

@@ -20,7 +20,7 @@
 
     <!-- component body: -->
     <div class="h-container">
-
+        <c:RRSpinner aura:id="spinner"/>
         <div class="h-header">
 
             <aura:if isTrue="{!or(v.userMode == 'HCP',v.userMode == 'Participant')}">
@@ -69,11 +69,11 @@
                 <!--                </div>-->
             </aura:if>
         </div>
-        <!--Display depending on the selected tab-->
+        <!--Tab Application Help-->
         <aura:if isTrue="{!and(v.currentTab == 'help', v.isInitialized)}">
             <c:ApplicationHelp userMode="{!v.userMode}"/>
         </aura:if>
-
+        <!--Tab Request for Data-->
         <aura:if isTrue="{!v.currentTab == 'req-data'}">
             <div class="req-data-panel rr-white-panel">
                 <p class="req-data-title">{!$Label.c.PG_HLP_Req_Data}</p>
@@ -84,17 +84,16 @@
                                         placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
                 </div>
                 <div class="slds-text-align--right">
-                    <button class="apollo-btn primary req-data-button" tabindex="1" onclick="{!c.submitRequest}">
+                    <button class="apollo-btn primary req-data-button" onclick="{!c.submitRequest}">
                         {!$Label.c.Button_Submit_Your_Question}
                     </button>
                 </div>
             </div>
         </aura:if>
-
+        <!--Tab Study Help-->
         <aura:if isTrue="{!v.currentTab == 'study-h'}">
             <c:StudyHelp/>
         </aura:if>
-
         <!--Tab Give us Feedback-->
         <aura:if isTrue="{!v.currentTab == 'feedback'}">
             <div class="h-title">{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}</div>
@@ -107,7 +106,6 @@
                                             placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
                     </div>
                     <div class="h-body-button">
-                        <c:RRSpinner aura:id="spinner"/>
                         <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
                         {!$Label.c.PG_HLP_BTN_Submit_Your_Feedback}
                     </button>
@@ -126,7 +124,6 @@
                 </div>
             </div>
         </aura:if>
-
         <!--Tab Problem-->
         <aura:if isTrue="{!v.currentTab == 'problem'}">
             <div class="h-title">{!$Label.c.PG_HLP_H_Report_a_Problem}</div>
@@ -176,7 +173,6 @@
                         </div>
                     </div>
                     <div class="h-body-button">
-                        <c:RRSpinner aura:id="spinner"/>
                         <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
                             {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}
                         </button>
