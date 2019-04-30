@@ -240,14 +240,14 @@ public without sharing class AccountSettingsController {
     }
 
     public class AccountData {
-        public Contact myContact;
-        public Account institute;
-        public Participant__c participant;
-        public String userName;
-     	public Boolean isDelegate;
-        public String message;
-        @AuraEnabled
-        public List<CookieSettings> cookieSettings;
+        @AuraEnabled public Contact myContact;
+        @AuraEnabled public Account institute;
+        @AuraEnabled public Participant__c participant;
+        @AuraEnabled public String userName;
+        @AuraEnabled public Boolean isDelegate;
+        @AuraEnabled public String message;
+        @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
+        @AuraEnabled public List<CookieSettings> cookieSettings;
     }
 
     public class CookieSettings {
