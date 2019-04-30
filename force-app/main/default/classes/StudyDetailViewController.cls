@@ -278,7 +278,7 @@ public without sharing class StudyDetailViewController {
 
             } else if (participantState.value == ParticipantService.ParticipantStates.REFERRAL
                         || participantState.value == ParticipantService.ParticipantStates.PROSPECT ) {
-            }
+
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
