@@ -1,7 +1,5 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
- * Before launch this test turn off ParticipantTrigger, TherapeuticAreaPatientTrigger
- * and ProcBld: Alert Welcome to the Study creation, Email to PI- New Patient Referral
  */
 
 @IsTest
@@ -126,6 +124,28 @@ private class Test_ManualTaskRemote {
         );
         insert newUser;
 
+
+        Account clinic = new Account(Name = 'Clinic');
+        insert clinic;
+        Contact pi = new Contact(
+                FirstName = 'Joseph',
+                LastName = 'Davis PI And HCP',
+                Email = 'jdavis@somemail.com',
+                AccountId = clinic.Id
+        );
+        insert pi;
+
+        Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test SS1',
+                Clinical_Trial_Profile__c =  trial.Id,
+                Site__c =  clinic.Id,
+                Principal_Investigator__c =  pi.Id,
+                Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
+                Study_Site_Key__c = '12132123132313',
+                Study_Site_Phone__c =  '+1(232) 222-3434'
+        );
+        insert studySite;
+
         Participant__c participant = new Participant__c(
                 First_Name__c = patientContact.FirstName,
                 Contact__c = patientContact.Id
@@ -135,14 +155,16 @@ private class Test_ManualTaskRemote {
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
                 Participant__c = participant.Id,
-                Clinical_Trial_Profile__c = trial.Id
+                Clinical_Trial_Profile__c = trial.Id,
+                Study_Site__c = studySite.Id
         );
         insert pe;
 
         Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
                 Clinical_Trial_Profile__c = trial.Id,
                 Participant__c = participant.Id,
-                Status__c = 'Enrolled'
+                Status__c = PSEService.PSE_STATUS_ENROLLED,
+                Participant_Enrollment__c = pe.Id
         );
         insert pse;
     }

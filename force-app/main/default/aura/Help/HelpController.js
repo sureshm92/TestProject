@@ -15,28 +15,31 @@
     },
 
     submitRequest: function (component, event, helper) {
-        var description = component.get('v.description');
-        if(!description) {
-            communityService.showToast('warning', 'warning', $A.get('$Label.c.TST_Complete_description'));
-            return;
-        }
-
+        var text;
         var type;
         switch(component.get('v.currentTab')){
             case 'feedback':
                 type = 'Feedback';
+                text = component.get('v.textValueFeedback');
                 break;
             case 'problem':
                 type = 'Problem';
+                text = component.get('v.textValueProblem');
                 break;
             case 'req-data':
-                type = 'Req-data';
+                type = 'Privacy';
+                text = component.get('v.textValueRequest');
                 break;
             default:
-                communityService.showToast('error', 'error', $A.get('$Label.c.TST_Incorrect_user_data'));
+                communityService.showErrorToast(null, $A.get('$Label.c.TST_Incorrect_user_data'));
                 return;
         }
-        helper.createNewCase(component, description, type);
+
+        if(!text) {
+            communityService.showWarningToast(null, $A.get('$Label.c.TST_Complete_description'));
+            return;
+        }
+        helper.createNewCase(component, text, type);
     },
 
     onFileSelect: function (component, event, helper) {

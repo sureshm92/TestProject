@@ -56,7 +56,7 @@ public class StudyActionsParticipant extends StudyActions {
     
         studyDetailActions.add(actions.get(ACT_HOME));
         
-        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
+        if (participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT || participantStateValue == ParticipantService.ParticipantStates.REFERRAL) {
             studyDetailActions.add(actions.get(ACT_SHARE));
         }
     }
