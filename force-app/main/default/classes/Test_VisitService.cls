@@ -1,6 +1,5 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
- * Before launch this test turn off ParticipantTrigger
  */
 
 @IsTest
@@ -139,11 +138,14 @@ private class Test_VisitService {
         );
         insert trial;
 
+        Account accountPartic = new Account(Name = 'Participant');
+        insert accountPartic;
         Contact patientContact = new Contact(
                 FirstName = 'Richard',
                 LastName = 'Wilson',
                 Email = 'r.wilson@gmail.com',
-                userCommunityMode__c = 'Participant'
+                userCommunityMode__c = 'Participant',
+                AccountId = accountPartic.Id
         );
         insert patientContact;
 
