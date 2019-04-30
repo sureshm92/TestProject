@@ -39,7 +39,7 @@
 
     doAction: function (component, event) {
         var studyDetail = component.get('v.studyDetail');
-        var trial = component.get('v.studyDetail').trial;
+        var trial = studyDetail.trial;
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
 
@@ -57,11 +57,12 @@
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'shareEmail': {
+                debugger;
                 var modal = component.find('shareModal');
                 if (communityService.getUserMode() === 'HCP') {
-                    modal.show(trial.Id, studyDetail.hcpe.HCP_Contact__c);
+                    modal.show(studyDetail.hcpe.Id, studyDetail.hcpe.HCP_Contact__c);
                 } else if (communityService.getUserMode() === 'Participant') {
-                    modal.show(trial.Id, null);
+                    modal.show(studyDetail.pe.Id, null);
                 }
             }
                 break;

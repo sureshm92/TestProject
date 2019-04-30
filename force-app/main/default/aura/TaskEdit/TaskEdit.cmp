@@ -133,7 +133,7 @@
             <div class="slds-grid slds-gutters slds-wrap">
                 <!--Due Date-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Complete_By_Date}" value="{!v.task.ActivityDate}"
+                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
                                      disabled="{!v.otherTask || v.taskStatusCompleted}" onchange="{!c.onChangeDueDate}"/>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
@@ -184,9 +184,9 @@
                                 </div>
                                 <div class="text">
                                     <aura:unescapedHtml value="{!v.errorMessage}"/>
-                                </div>
-                                <div onclick="{!c.doInit}" class="icon-refresh">
-                                    <lightning:icon iconName="action:refresh" alternativeText="Refresh"/>
+                                    <div>
+                                        <a onclick="{!c.doInit}">Refresh</a>
+                                    </div>
                                 </div>
                             </aura:if>
 

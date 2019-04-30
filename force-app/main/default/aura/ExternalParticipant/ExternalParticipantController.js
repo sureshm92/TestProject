@@ -20,9 +20,8 @@
     doSave: function (component, event, helper) {
         console.log(JSON.stringify(component.get('v.participant')));
         communityService.executeAction(component, 'saveParticipant', {
-            'participantJSON': JSON.stringify(component.get('v.participant'))``
+            'participantJSON': JSON.stringify(component.get('v.participant'))
         }, function (participants) {
-            console.log('here');
             component.set('v.participants', participants);
         });
     }
