@@ -30,7 +30,7 @@
 
                         <!--Social Widgets-->
                         <div class="slds-col slds-small-size_1-of-3 slds-x-small-size--1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
-                            <aura:if isTrue="{!v.userMode == 'HCP'}">
+                            <aura:if isTrue="{!and(v.userMode == 'HCP',!empty(v.currentStudy.trial.NCT_Number__c))}">
                                 <div class="rri-icon slds-float_right">
                                     <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
@@ -195,7 +195,7 @@
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
                                         <div class="clinic-name">
-                                            {!(siteWrapper.site.Name + ' (' + siteWrapper.site.Site__r.Name + ')')}
+                                            {!(siteWrapper.site.Name)}
                                         </div>
                                     <div class="site-sub-header slds-m-top--x-small">
                                             {!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
