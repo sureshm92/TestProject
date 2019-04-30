@@ -99,13 +99,7 @@
         };
 
         //init items for every type
-        var middleMenuItem;
-        let participantState = communityService.getParticipantState();
-        if (participantState === 'ALUMNI' || participantState === 'PROSPECT') {
-            var middleMenuItem = 'resources';
-        } else {
-            middleMenuItem = 'my-study';
-        }
+        var middleMenuItem = communityService.getParticipantState() === 'ALUMNI' ? 'resources' : 'my-study';
 
         this.itemsMap = {
 
