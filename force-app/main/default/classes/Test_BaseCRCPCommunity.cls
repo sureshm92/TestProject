@@ -662,18 +662,27 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void mrrAndReferringTest() {
         init();
         Test.startTest();
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
-            //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
             String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(study.Id, 'participan01', 'AAA', 'BBB');
             MedicalRecordReviewRemote.SearchPEResult searchPEResult = (MedicalRecordReviewRemote.SearchPEResult) JSON.deserialize(jsonResult, MedicalRecordReviewRemote.SearchPEResult.class);
             String peJSON = JSON.serialize(searchPEResult.pe);
             MedicalRecordReviewRemote.setMRRStatus(peJSON, ParticipantEnrollmentService.PES_STATUS_PASS);
+        }
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void mrrAndReferringTest2() {
+        init();
+        Test.startTest();
+        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        System.runAs(hcpUser) {
             Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
             String refInitDataJSON = ReferringRemote.getInitData(study.Id, pe.Id, hcpEnrollment.Id, CommunityService.USER_MODE_HCP);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
@@ -687,7 +696,7 @@ private class Test_BaseCRCPCommunity {
             participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
             String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
-
+            
             ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP);
             ViewPatientsRemote.getInitDataForPatientProfile(participant2.Id, CommunityService.USER_MODE_HCP);
             String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false);
@@ -701,7 +710,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void excelReportTest() {
         init();
