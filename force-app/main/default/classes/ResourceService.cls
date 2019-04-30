@@ -24,7 +24,7 @@ public with sharing class ResourceService {
 
         Participant__c participant = this.getParticipant(resourceType);
         if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
-            return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
+            return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Articles : Label.Resources_No_Videos);
         }
         List<Resource__c> resources = this.getSortedResources(participant, resourceType);
         if (resources.isEmpty()) {
@@ -278,8 +278,11 @@ public with sharing class ResourceService {
     @TestVisible
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
         List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
+        Set<Resource__c> resourcesSet = new Set<Resource__c>();
         for (Resource__c singleResource : resources) {
-            wrappers.add(new ResourceService.ResourceWrapper(singleResource));
+            if (resourcesSet.add(singleResource)) {
+                wrappers.add(new ResourceService.ResourceWrapper(singleResource));
+            }
         }
         return wrappers;
     }
