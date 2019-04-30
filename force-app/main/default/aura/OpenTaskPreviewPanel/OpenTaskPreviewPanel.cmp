@@ -19,7 +19,7 @@
                 <c:RRTable>
                     <tr>
                         <th>Name</th>
-                        <th style="width:130px">{!$Label.c.Complete_By_Date}</th>
+                        <th style="width:130px">{!$Label.c.Due_Date}</th>
                     </tr>
                     <aura:iteration items="{!v.tasks}" var="task">
                         <tr>
