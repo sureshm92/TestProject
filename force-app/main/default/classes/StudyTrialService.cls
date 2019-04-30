@@ -165,7 +165,7 @@ public without sharing class StudyTrialService {
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         Location userLocation = DistanceHelper.getUserLocation();
 
-        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
+        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
         query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\') ';
 
         if (sortData.sortType == 'CreatedDate DESC') {
@@ -174,7 +174,7 @@ public without sharing class StudyTrialService {
 
         if (sortData.sortType == 'Distance ASC') {
             if (userLocation != null) {
-                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
+                query += 'ORDER BY DISTANCE(Principal_Investigator__r.Account.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
             }
         }
 
@@ -194,7 +194,7 @@ public without sharing class StudyTrialService {
         for (Id currTrialId : trialIdToStudySites.keySet()) {
             Double minDistance;
             for (Study_Site__c currStudySite : trialIdToStudySites.get(currTrialId)) {
-                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Site__r);
+                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Principal_Investigator__r.Account);
                 if (currDistance != null) {
                     if (minDistance == null) {
                         minDistance = currDistance;
