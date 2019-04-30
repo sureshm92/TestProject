@@ -25,7 +25,7 @@
                 <field>Protocol_ID__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>NCT_Number__c</field>
             </layoutItems>
         </layoutColumns>
@@ -577,7 +577,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h2D000000M2I9</masterLabel>
+        <masterLabel>00h2D000000H1Lx</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
