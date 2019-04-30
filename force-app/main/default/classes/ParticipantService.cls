@@ -23,6 +23,8 @@ public class ParticipantService {
             value = ParticipantStates.PROSPECT;
             isDelegate = false;
             isPremium = false;
+            showTerms = false;
+            showVisits = false;
         }
     }
     
@@ -52,7 +54,8 @@ public class ParticipantService {
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
             }
-            if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c)) {
+            if(PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) &&
+                    participantState.isPremium) {
                 participantState.value = ParticipantStates.ALUMNI;
             }else if(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)){
                 participantState.value = ParticipantStates.REFERRAL;
@@ -63,7 +66,8 @@ public class ParticipantService {
                         participantState.value = ParticipantStates.PARTICIPANT;
                         participantState.pse = pseList[0];
                         if(participantState.isPremium) participantState.showVisits = true;
-                        participantState.isDelegate = participantState.pse.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
+                        participantState.isDelegate =
+                                participantState.pse.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
                         if(PSEService.PSE_STATUS_GROUP_COMPLETE.contains(participantState.pse.Status__c)){
                             participantState.value = ParticipantStates.ALUMNI;
                             participantState.showVisits = false;
@@ -78,11 +82,13 @@ public class ParticipantService {
         }
     }
 
+    @TestVisible
     private Boolean showTerms() {
         return participantState.ctp.Terms_And_Conditions_ID__c != null
                 && !TermsAndConditions.isTCAccepted(participantState.ctp.Terms_And_Conditions_ID__c);
     }
 
+    @TestVisible
     private String getParticipantName() {
         String fullName;
         if(participantState.isDelegate) {
@@ -97,12 +103,6 @@ public class ParticipantService {
 
     public ParticipantState getState(){
         return participantState;
-    }
-    
-    public List<ParticipantItem> createParticipantItems(List<Participant_Enrollment__c> peList){
-        List<ParticipantItem> items = new List<ParticipantItem>();
-        for(Participant_Enrollment__c pe : peList) items.add(new ParticipantItem(pe));
-        return items;
     }
     
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe){
@@ -132,7 +132,7 @@ public class ParticipantService {
         if(participant.Id != null){
             pe.Participant__c = participant.Id;
             try{
-                upsert pe;
+                DatabaseService.getInstance().upsertToDB(pe);
             }catch (Exception e){
                 String errorMsg = e.getMessage();
                 if(errorMsg.contains('DUPLICATE')) {

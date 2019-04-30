@@ -4,15 +4,22 @@
 
 @IsTest
 public class Test_ParticipantService {
-    
+
     public class ParticipantEnrollmentServiceMock implements StubProvider {
+
+        String participant_Status;
+
+        public ParticipantEnrollmentServiceMock(){}
+
+        public ParticipantEnrollmentServiceMock(String participant_Status){
+            this.participant_Status = participant_Status;
+        }
+
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
             if (stubbedMethodName == 'getPEnrolmentsCommonCustomFieldsImpl') {
                 return new List<Participant_Enrollment__c>{
-                        new Participant_Enrollment__c(
-                                Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                        )
+                        getPE(participant_Status)
                 };
             }
             return null;
@@ -35,6 +42,10 @@ public class Test_ParticipantService {
             if (stubbedMethodName == 'getCurrentContactId') {
                 return TestDataFactory.getFakeId(Contact.getSObjectType());
             }
+            if(stubbedMethodName == 'getUserContactImpl') {
+                String c = '{"attributes":{"type":"Contact"},"FirstName":"TestF","LastName":"TestL","Name":"TestF TestL"}';
+                return (Contact) JSON.deserialize(c, Contact.class);
+            }
             return null;
         }
     }
@@ -44,24 +55,183 @@ public class Test_ParticipantService {
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
             if (stubbedMethodName == 'getPSEListForCurrentParticipant') {
                 return new List<Participant_Study_Enrollment__c>{
-                        new Participant_Study_Enrollment__c()
+                        getPSE(getPE(null))
                 };
             }
             return null;
         }
     }
-    
+
+    public class DatabaseServiceMock implements StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'insertSObjImpl') {
+                return (Database.SaveResult)
+                        JSON.deserialize('{"id":"0030v00000Dcyq3AAB","success":true,"errors":[]}', Database.SaveResult.class);
+            }
+            if(stubbedMethodName == 'upsertToDB') {
+            }
+            return null;
+        }
+    }
+
     @IsTest
     static void participantServiceTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-        
+
         // Test logic
         Test.startTest();
         ParticipantService.getParticipantState();
+        ParticipantService.getInstance().getState();
         Test.stopTest();
     }
 
+    @IsTest
+    static void participantServiceGROUP_FAILEDTest() {
+        // Set mocks:
+        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_FAILED));
+        PSEService.setMock(new PSEServiceMock());
+        CommunityService.setMock(new CommunityServiceMock());
+
+        // Test logic
+        Test.startTest();
+        ParticipantService.getInstance().getState();
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void participantServiceENROLLMENT_SUCCESSTest() {
+        // Set mocks:
+        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS));
+        PSEService.setMock(new PSEServiceMock());
+        CommunityService.setMock(new CommunityServiceMock());
+
+        // Test logic
+        Test.startTest();
+        ParticipantService.getInstance().getState();
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void showTermsTest() {
+        // Set mocks:
+        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
+        PSEService.setMock(new PSEServiceMock());
+        CommunityService.setMock(new CommunityServiceMock());
+
+        Test.startTest();
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        Boolean showTerms = participantState.showTerms;
+        Test.stopTest();
+
+        System.assertEquals(false, showTerms);
+    }
+
+    @IsTest
+    static void createParticipantItemsTest() {
+
+    }
+
+    @IsTest
+    static void createParticipantAndUpdatePEImplTest() {
+        // Set mocks:
+        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
+        PSEService.setMock(new PSEServiceMock());
+        CommunityService.setMock(new CommunityServiceMock());
+        DatabaseService.setMock(new DatabaseServiceMock());
+
+        Test.startTest();
+        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null));
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getGenderLVListTest() {
+        List<LabelValueItem> genderLVList = ParticipantService.getGenderLVList();
+        System.assertEquals(2, genderLVList.size());
+        System.assertEquals(Label.Gender_Male, genderLVList.get(0).label);
+        System.assertEquals('Female', genderLVList.get(1).value);
+    }
+
+
+    static Participant_Enrollment__c getPE(String partStatus) {
+        if(partStatus == null) partStatus = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
+
+        Terms_And_Conditions__c tc = new Terms_And_Conditions__c(Active__c = false);
+
+        Clinical_Trial_Profile__c trial = new Clinical_Trial_Profile__c(
+                Id = TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()),
+                Protocol_ID__c = 'Prot-333',
+                NCT_Number__c = 'NCT02804789',
+                Therapeutic_Area__r = new Therapeutic_Area__c(Name = 'Test Area'),
+                Participating_in_Patient_Portal__c = 'Yes',
+                Terms_And_Conditions_ID__r = tc
+        );
+
+        Contact patientContact = new Contact(
+                FirstName = 'Richard',
+                LastName = 'Wilson',
+                Email = 'r.wilson@gmail.com',
+                userCommunityMode__c = 'Participant'
+        );
+
+        Participant__c participant = new Participant__c(
+                Id = TestDataFactory.getFakeId(Participant__c.getSObjectType()),
+                First_Name__c = patientContact.FirstName,
+                Contact__r = patientContact
+        );
+
+        Contact pi = new Contact(
+                FirstName = 'Joseph',
+                LastName = 'Davis PI And HCP',
+                Email = 'jdavis@somemail.com'
+        );
+
+        Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test SS1',
+                Clinical_Trial_Profile__c = trial.Id,
+                Clinical_Trial_Profile__r = trial,
+                Site__r =  new Account(Name = 'Clinic'),
+                Principal_Investigator__r = pi,
+                Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
+                Study_Site_Key__c = '12132123132313',
+                Study_Site_Phone__c =  '+1(232) 222-3434'
+        );
+
+        return new Participant_Enrollment__c(
+                Participant_Status__c = partStatus,
+                Participant__c = participant.Id,
+                Participant__r = participant,
+                Clinical_Trial_Profile__c = trial.Id,
+                Clinical_Trial_Profile__r = trial,
+                Study_Site__r = studySite
+        );
+    }
+
+    static Participant__c getParticipant() {
+        Contact patientContact = new Contact(
+                FirstName = 'Richard',
+                LastName = 'Wilson',
+                Email = 'r.wilson@gmail.com',
+                userCommunityMode__c = 'Participant'
+        );
+
+        return new Participant__c(
+                Id = TestDataFactory.getFakeId(Participant__c.getSObjectType()),
+                First_Name__c = patientContact.FirstName,
+                Contact__r = patientContact
+        );
+    }
+
+    static Participant_Study_Enrollment__c getPSE(Participant_Enrollment__c pe) {
+        return new Participant_Study_Enrollment__c(
+                Clinical_Trial_Profile__r = pe.Clinical_Trial_Profile__r,
+                Participant__r = pe.Participant__r,
+                Status__c = PSEService.PSE_STATUS_PARTICIPATION_COMPLETE,
+                Participant_Enrollment__r = pe
+        );
+    }
 }
