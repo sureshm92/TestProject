@@ -2985,6 +2985,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Regex__mdt.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Regex__mdt.Regular_Expression__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3833,6 +3843,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referring_HCP_Staff__c-Referring HCP Staff Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Regex__mdt-Regex Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>

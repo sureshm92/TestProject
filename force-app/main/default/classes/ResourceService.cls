@@ -102,26 +102,23 @@ public with sharing class ResourceService {
     }
 
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
-
         Participant__c participant = this.getParticipant(resourceType);
-        if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
-            return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
-        }
         ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-        if (participantState.ctp == null) {
-            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
+        List<Resource__c> resources = new List<Resource__c>();
+        if (ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType)) {
+            if (participantState.ctp != null) {
+                resources = this.getStudyDocuments(participantState);
+            }
+        } else if (!ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
+            resources = this.getSortedResources(participant, resourceType);
         }
-        List<Resource__c> resources = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType) ?
-                this.getStudyDocuments(participantState)
-                : this.getSortedResources(participant, resourceType);
-        if (resources.isEmpty()) {
-            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
-        }
-        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(new List<Resource__c>(new Set<Resource__c>(resources)));
-        if (resourceMap.get(resourceId) != null) {
-            return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
-                    new ResourceDetailWrapper(resourceMap.get(resourceId))
-            });
+        if (!resources.isEmpty()) {
+            Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(new List<Resource__c>(new Set<Resource__c>(resources)));
+            if (resourceMap.get(resourceId) != null) {
+                return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
+                        new ResourceDetailWrapper(resourceMap.get(resourceId))
+                });
+            }
         }
         return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
     }

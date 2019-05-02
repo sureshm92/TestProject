@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Video Link Parse</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Regular Expression for parce Body__c in Video resources and get URL for video.</value>
+    </values>
+    <values>
+        <field>Regular_Expression__c</field>
+        <value xsi:type="xsd:string">&lt;div[^&gt;]*&gt;&lt;div[^&gt;]*&gt;&lt;iframe.*?src=\&quot;([^ ]*?)\&quot;.*?&gt;.*?&lt;/iframe&gt;&lt;/div&gt;&lt;/div&gt;</value>
+    </values>
+</CustomMetadata>
