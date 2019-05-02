@@ -49,7 +49,16 @@ public class TestDataFactory {
 
             Study_Site__c.getSObjectType() => new Map<String, Object>{
                     'Name' => 'Test Study Name',
-                    'Study_Site_Key__c' => '12132123132313'
+                    'Study_Site_Key__c' => '12132123132313',
+                    'Override_PI_Referral_Status__c' => 'Invitation Sent'
+            },
+
+            Participant_Enrollment__c.getSObjectType() => new Map<String, Object>{
+                    'Medical_Record_Review_Status__c' => 'Pass',
+                    'Pre_screening_Status__c' => 'Pass',
+                    'Patient_ID__c' => '12345678',
+                    'Participant_Status__c' => 'Referral Sent to PI',
+                    'Referral_Source__c' => 'HCP'
             }
     };
 
