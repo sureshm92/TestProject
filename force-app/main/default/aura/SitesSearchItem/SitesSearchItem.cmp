@@ -37,7 +37,7 @@
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
                 <aura:if isTrue="{!!empty(v.studySiteWrapper.formatedDistance)}">
                     <div class="ssi-address">
-                    {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Accounr.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStreet:
+                    {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStreet:
                             v.studySiteWrapper.site.Site__r.BillingStreet}
                         <br/>
                             {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingCity:

@@ -39,7 +39,7 @@
             if(wrapper.reminderEnabled && wrapper.task.ActivityDate && !component.get('v.initialized')){
                 component.set('v.frequencyEnabled', true);
             }
-            if(wrapper.reminderEnabled && component.find('dueDateInputId').get('v.value') && component.get('v.initialized')){
+            if(wrapper.reminderEnabled && component.get('v.initialized') && component.find('dueDateInputId').get('v.value') ){
                 component.set('v.frequencyEnabled', true);
             }
             if (wrapper.task.Status === 'Completed') {
