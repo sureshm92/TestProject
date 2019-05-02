@@ -53,11 +53,9 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Congratularions ##Contact!
+        <value>Hi ##Contact!
 
-You are now enrolled in the ##StudyName study!
-
-Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
+You have been assigned as a Delegate for ##ParticipantUser in the ##StudyName study. We are so excited you have chosen to take this journey with ##ParticipantUser.
 
 Click OK to begin!</value>
     </labels>
@@ -67,6 +65,17 @@ Click OK to begin!</value>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_to_PH</shortDescription>
         <value>Welcome ##UserName!  We are excited to be on this journey with you. Our goal is to provide you timely updates about your enrollment process, knowledge articles and other helpful information.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
+        <value>Hi ##Contact!
+
+You have been assigned as a Delegate for ##ParticipantUser.  We are so excited you have chosen to take this journey with ##ParticipantUser. 
+
+Click OK to begin!</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
