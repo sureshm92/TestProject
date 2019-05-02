@@ -267,6 +267,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>FilterPillInfo</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -792,6 +796,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
