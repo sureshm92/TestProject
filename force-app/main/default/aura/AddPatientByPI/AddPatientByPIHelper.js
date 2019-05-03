@@ -20,6 +20,8 @@
         if(pe.Participant_Status__c === 'Enrollment Success') {
             component.find('actionApprove').execute(function () {
                 helper.saveParticipant(component, pe, callback);
+            }, function () {
+                component.find('spinner').hide();
             });
         } else {
             helper.saveParticipant(component, pe, callback);

@@ -55,15 +55,20 @@ public class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
             PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
+            List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
             for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
-                if(step.name != currentState.name){
-                    pe.Participant_Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS);
-                }else{
-                    pe.Participant_Status__c = peStatus;
-                }
-                Database.update(pe);
                 if(step.name == currentState.name) break;
+                if(step.name == PEStatusState.PE_ST_REFERRED) continue;
+                statusHistories.add(new Participant_Enrollment_Status_History__c(
+                        Notes__c = pe.Last_Status_Changed_Notes__c,
+                        Date__c = Datetime.now(),
+                        ParticipantEnrollment__c = pe.Id,
+                        NewStatus__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                ));
             }
+            insert statusHistories;
+            pe.Participant_Status__c = peStatus;
+            update pe;
         }catch (Exception e){
             AuraHelper.throwException(e);
         }
