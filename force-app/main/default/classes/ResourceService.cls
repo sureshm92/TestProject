@@ -165,6 +165,7 @@ public with sharing class ResourceService {
                         'Updated_Date__c, ' +
                         'RecordType.DeveloperName, ' +
                         'Content_Class__c, ' +
+                        'Content_Type__c, ' +
                         'Image_Subtitle__c, ' +
                         'article_external_link__c, ' +
                         'Subtitle__c, ' +
