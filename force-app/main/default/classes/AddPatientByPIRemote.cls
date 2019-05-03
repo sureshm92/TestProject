@@ -5,10 +5,10 @@
 public class AddPatientByPIRemote {
     
     public static final List<String> PE_STATUSES = new List<String>{
-            PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
             PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
-            PEStatusState.PE_STATUS_CONTACT_SUCCESSFUL,
-            PEStatusState.PE_STATUS_SCREENING_COMPLETE
+            PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
+            PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
+            PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
     };
     
     public class FormData {

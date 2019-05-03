@@ -2136,6 +2136,17 @@ Sincerely,
 The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_New_Participant_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New Participant Delegate</shortDescription>
+        <value>We are so excited to be on this journey with you.
+
+Sincerely,
+
+The IQVIA Referral Hub and Patient Portal Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>

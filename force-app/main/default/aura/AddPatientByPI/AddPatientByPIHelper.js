@@ -16,15 +16,44 @@
     createParticipant: function (component, callback) {
         component.find('spinner').show();
         var pe = component.get('v.pe');
-        var participant = component.get('v.participant');
-        communityService.executeAction(component, 'saveParticipant', {
-            participantJSON: JSON.stringify(participant),
-            peJSON: JSON.stringify(pe)
-        }, function () {
-            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
-            callback();
-        }, null, function () {
-            component.find('spinner').hide();
-        });
-    }
+        if(pe.Participant_Status__c === 'Enrollment Success') {
+            component.find('actionApprove').execute(function () {
+                var participant = component.get('v.participant');
+                communityService.executeAction(component, 'saveParticipant', {
+                    participantJSON: JSON.stringify(participant),
+                    peJSON: JSON.stringify(pe)
+                }, function () {
+                    communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+                    callback();
+                }, null, function () {
+                    component.find('spinner').hide();
+                });
+            });
+        }
+        else {
+            var participant = component.get('v.participant');
+            communityService.executeAction(component, 'saveParticipant', {
+                participantJSON: JSON.stringify(participant),
+                peJSON: JSON.stringify(pe)
+            }, function () {
+                communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+                callback();
+            }, null, function () {
+                component.find('spinner').hide();
+            });
+        }
+    }//,
+
+    // saveParticipant : function (component, pe, callback) {
+    //     var participant = component.get('v.participant');
+    //     communityService.executeAction(component, 'saveParticipant', {
+    //         participantJSON: JSON.stringify(participant),
+    //         peJSON: JSON.stringify(pe)
+    //     }, function () {
+    //         communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+    //         callback();
+    //     }, null, function () {
+    //         component.find('spinner').hide();
+    //     });
+    // }
 })
