@@ -216,6 +216,8 @@ public without sharing class AccountSettingsController {
                         , BillingCity
                         , Phone
                         , Fax
+                        , BillingPostalCode
+                        , BillingCountry
                 FROM Account
                 WHERE Id = :accountId
         ];
