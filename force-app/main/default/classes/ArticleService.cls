@@ -122,7 +122,7 @@ public with sharing class ArticleService {
     public void getUrlVideoFromBody(List<Resource__c> resources) {
         String regex = this.getRegex(REGEX_PARSE_IFRAME);
         for (Resource__c resource : resources) {
-            if ((ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || this.getRecordTypeVideoId().equals((resource.RecordTypeId)))
+            if ((ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_TYPE_VIDEO, Resource__c.getSObjectType()).equals((resource.RecordTypeId)))
                     && ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
                     && String.isNotBlank(resource.Body__c)
                     && String.isBlank(resource.Video__c)) {
@@ -166,14 +166,6 @@ public with sharing class ArticleService {
                 FROM Regex__mdt
                 WHERE Label = :regName
         ][0].Regular_Expression__c;
-    }
-
-    private Id getRecordTypeVideoId() {
-        return [
-                SELECT Id
-                FROM RecordType
-                WHERE DeveloperName = : ResourceService.RESOURCE_TYPE_VIDEO
-        ][0].Id;
     }
 
     private String getStaticUrlImage(String imageName) {
