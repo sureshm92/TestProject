@@ -96,4 +96,7 @@
         height: auto;
         min-height: 200px;
     }
+    .THIS .resource-error-message{
+        padding: 30% 10% 30% 0;
+    }
 }
