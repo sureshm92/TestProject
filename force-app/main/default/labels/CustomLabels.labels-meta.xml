@@ -3822,7 +3822,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AS F Middle name</shortDescription>
-        <value>Middle name</value>
+        <value>Middle Initial</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_New_password</fullName>

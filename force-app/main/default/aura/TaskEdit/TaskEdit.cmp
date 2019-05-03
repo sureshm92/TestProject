@@ -82,6 +82,12 @@
                                             {!$Label.c.BTN_Save_Task}
                                         </div>
                                     </div>
+                                    <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
+                                        <div>
+                                            <c:RRIcon iconName="icon-check-circle"/>
+                                            {!$Label.c.BTN_Ignore}
+                                        </div>
+                                    </div>
                                     <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
                                         <div>
                                             <c:RRIcon iconName="icon-check-circle"/>

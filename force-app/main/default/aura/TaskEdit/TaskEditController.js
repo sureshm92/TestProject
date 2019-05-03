@@ -107,6 +107,17 @@
         })
     },
 
+    doIgnoreTask: function (component, event, helper) {
+        component.find('spinner').show();
+        communityService.executeAction(component, 'ignoreTask', {
+            'taskId': component.get('v.task.Id')
+        }, function () {
+            window.history.go(-1);
+        }, null, function () {
+            component.find('spinner').hide();
+        })
+    },
+
     onChangeFreq: function (component, event, helper) {
         var freq = event.getSource().get('v.value');
 

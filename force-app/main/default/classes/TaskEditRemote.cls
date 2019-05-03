@@ -70,6 +70,11 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
+    public static void ignoreTask(Id taskId) {
+        TasksRemote.ignoreTask(taskId);
+    }
+
+    @AuraEnabled
     public static String markAsCompleted(Task paramTask) {
         try {
             paramTask.Status = 'Completed';
