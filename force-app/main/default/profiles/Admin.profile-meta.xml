@@ -115,6 +115,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ClinicalTrialProfileService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ClinicalTrialProfileTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>

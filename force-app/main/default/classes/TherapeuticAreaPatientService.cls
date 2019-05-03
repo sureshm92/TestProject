@@ -1,5 +1,14 @@
 public with sharing class TherapeuticAreaPatientService {
 
+    public Therapeutic_Area_Patient__c getRelatedToStudyTherapeuticAreaPatient(Id participantId, Id tAId) {
+        return new Therapeutic_Area_Patient__c(
+                Participant__c = participantId,
+                Therapeutic_Area__c = tAId,
+                Condition_Of_Interest_Order__c = 0,
+                IsRelatedToStudy__c = true
+        );
+    }
+
     public static void deleteTherapeuticAreaPatientFromPSE(List<Participant_Study_Enrollment__c> newPSEs,
             Map<Id, Participant_Study_Enrollment__c> oldPSEMap) {
         List<Participant_Study_Enrollment__c> changeList = new List<Participant_Study_Enrollment__c>();
