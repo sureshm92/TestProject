@@ -71,6 +71,12 @@ public class Test_ParticipantService {
             }
             if(stubbedMethodName == 'upsertToDB') {
             }
+            if(stubbedMethodName == 'queryImpl' && listOfArgs.size() > 1) {
+                SObjectType sObjectType = (SObjectType) listOfArgs[1];
+                if (sObjectType == Visit__c.getSObjectType()) {
+                    return new Visit__c(Name = 'TestVisit', Timeplane__c = 'Week 1', Icons__c = '');
+                }
+            }
             return null;
         }
     }
@@ -131,8 +137,19 @@ public class Test_ParticipantService {
     }
 
     @IsTest
-    static void createParticipantItemsTest() {
+    static void showVisitsTest() {
+        // Set mocks:
+        ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
+        PSEService.setMock(new PSEServiceMock());
+        CommunityService.setMock(new CommunityServiceMock());
 
+        Test.startTest();
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        participantState.ctp = getPE(null).Clinical_Trial_Profile__r;
+        Boolean isShow = ParticipantService.getInstance().showVisits();
+        Test.stopTest();
+
+        System.assertEquals(false, isShow);
     }
 
     @IsTest
@@ -156,7 +173,7 @@ public class Test_ParticipantService {
         System.assertEquals('Female', genderLVList.get(1).value);
     }
 
-
+    //Mock data: -------------------------------------------------------------------------------------------------------
     static Participant_Enrollment__c getPE(String partStatus) {
         if(partStatus == null) partStatus = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
 
@@ -168,7 +185,8 @@ public class Test_ParticipantService {
                 NCT_Number__c = 'NCT02804789',
                 Therapeutic_Area__r = new Therapeutic_Area__c(Name = 'Test Area'),
                 Participating_in_Patient_Portal__c = 'Yes',
-                Terms_And_Conditions_ID__r = tc
+                Terms_And_Conditions_ID__r = tc,
+                Visit_Plan__c = TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType())
         );
 
         Contact patientContact = new Contact(

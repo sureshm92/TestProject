@@ -32,6 +32,7 @@ private class Test_VisitService {
                                Clinical_Trial_Profile__r.Visit_Plan__c
                         FROM Participant_Study_Enrollment__c
                 ].get(0);
+                state.showVisits = true;
                 return state;
             }
             return null;

@@ -81,7 +81,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
             System.assert(r.Title__c != 'testStudy');
         }
         List<Res_study__c> resStudeis = [SELECT Id,Name,Clinical_Trial_Profile__c,Resource__c FROM Res_study__c];
-        System.assertEquals(5,resStudeis.size());
+        System.assertEquals(4,resStudeis.size());
 
 
     }
