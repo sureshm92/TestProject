@@ -99,7 +99,7 @@ public with sharing class ArticleService {
     public void assignRecordTypeFor3dParty(List<Resource__c> resources) {
 
         for (Resource__c resource : resources) {
-            if (resource.Content_Class__c == ResourceService.RESOURCE_SOURCE_THIRD_PARTY) {
+            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) && resource.Content_Type__c != null) {
                 Id therddpartyRectypeId = SchemaUtil.getRecordTypeIdByName(
                         resource.Content_Type__c,
                         Resource__c.getSObjectType()
