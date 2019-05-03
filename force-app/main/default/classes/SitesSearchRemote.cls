@@ -2,7 +2,6 @@
  * Created by Kryvolap
  */
 
-
 public without sharing class SitesSearchRemote {
 
     public class InitData{
@@ -42,7 +41,7 @@ public without sharing class SitesSearchRemote {
 
 
     @AuraEnabled
-    public static String getInitData(Id trialId, String mode, String btnFilter, String userMode){
+    public static String getInitData(Id trialId){
         try{
             InitData initData = new InitData();
 
@@ -79,7 +78,7 @@ public without sharing class SitesSearchRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode){
+    public static String getRecords(String filterJSON, String paginationJSON){
         StudySiteService.SiteFilter filter = (StudySiteService.SiteFilter)JSON.deserialize(filterJSON, StudySiteService.SiteFilter.class);
         PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
         try {

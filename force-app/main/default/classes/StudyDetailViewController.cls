@@ -262,8 +262,7 @@ public without sharing class StudyDetailViewController {
 
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
 
-            if (participantState.value == ParticipantService.ParticipantStates.ALUMNI ||
-                    participantState.value == ParticipantService.ParticipantStates.PROSPECT) {
+            if (participantState.value == ParticipantService.ParticipantStates.ALUMNI) {
                 tabs.add(new StudyTab(
                         'tab-tasks',
                         'task',
@@ -277,7 +276,9 @@ public without sharing class StudyDetailViewController {
                         backHomeAction
                 ));
 
-            } else if (participantState.value == ParticipantService.ParticipantStates.REFERRAL) {
+            } else if (participantState.value == ParticipantService.ParticipantStates.REFERRAL
+                        || participantState.value == ParticipantService.ParticipantStates.PROSPECT ) {
+
                 tabs.add(new StudyTab(
                         'tab-about-the-study',
                         'about-the-study',
