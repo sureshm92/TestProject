@@ -36,25 +36,24 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="h-header-tabset rr-small-down-hide">
-                    <c:rrButtonTubSet>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help"
-                                              currentTab="{!v.currentTab}"/>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"
-                                              tabId="feedback"
-                                              currentTab="{!v.currentTab}"/>
-                        <aura:if isTrue="{!v.userMode != 'Participant'}">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"
-                                                  currentTab="{!v.currentTab}"/>
-                        </aura:if>
-                        <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"
-                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>
-                            <!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"-->
-                            <!--                                                  currentTab="{!v.currentTab}"/>-->
-                        </aura:if>
-                    </c:rrButtonTubSet>
-                </div>
+<!--                <div class="h-header-tabset rr-small-down-hide">-->
+<!--                    <c:rrButtonTubSet>-->
+<!--                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help"-->
+<!--                                              currentTab="{!v.currentTab}"/>-->
+<!--                    <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"-->
+<!--                                              tabId="feedback" currentTab="{!v.currentTab}"/>-->
+<!--                        <aura:if isTrue="{!v.userMode != 'Participant'}">-->
+<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"-->
+<!--                                                  currentTab="{!v.currentTab}"/>-->
+<!--                        </aura:if>-->
+                    <!--<aura:if isTrue="{!v.userMode == 'Participant'}">-->
+                        <!--<c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"-->
+                        <!--                      currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>-->
+                        <!--<c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"-->
+                        <!--                      currentTab="{!v.currentTab}"/>-->
+                    <!--</aura:if>-->
+<!--                    </c:rrButtonTubSet>-->
+<!--                </div>-->
                 <!--                <div class="rr-small-up-hide">-->
                 <!--                    <lightning:select label="label" value="{!v.currentTab}" variant="label-hidden">-->
                 <!--                        <option value="help" label="{!$Label.c.PG_HLP_H_Application_Help}"/>-->

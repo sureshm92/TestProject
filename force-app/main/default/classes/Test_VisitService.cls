@@ -1,6 +1,5 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
- * Before launch this test turn off ParticipantTrigger
  */
 
 @IsTest
@@ -33,6 +32,7 @@ private class Test_VisitService {
                                Clinical_Trial_Profile__r.Visit_Plan__c
                         FROM Participant_Study_Enrollment__c
                 ].get(0);
+                state.showVisits = true;
                 return state;
             }
             return null;
@@ -139,11 +139,14 @@ private class Test_VisitService {
         );
         insert trial;
 
+        Account accountPartic = new Account(Name = 'Participant');
+        insert accountPartic;
         Contact patientContact = new Contact(
                 FirstName = 'Richard',
                 LastName = 'Wilson',
                 Email = 'r.wilson@gmail.com',
-                userCommunityMode__c = 'Participant'
+                userCommunityMode__c = 'Participant',
+                AccountId = accountPartic.Id
         );
         insert patientContact;
 
