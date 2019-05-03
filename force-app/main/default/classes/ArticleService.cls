@@ -99,7 +99,7 @@ public with sharing class ArticleService {
     public void assignRecordTypeFor3dParty(List<Resource__c> resources) {
 
         for (Resource__c resource : resources) {
-            if (resource.Content_Class__c == ResourceService.RESOURCE_SOURCE_THIRD_PARTY) {
+            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) && resource.Content_Type__c != null) {
                 Id therddpartyRectypeId = SchemaUtil.getRecordTypeIdByName(
                         resource.Content_Type__c,
                         Resource__c.getSObjectType()
@@ -122,7 +122,7 @@ public with sharing class ArticleService {
     public void getUrlVideoFromBody(List<Resource__c> resources) {
         String regex = this.getRegex(REGEX_PARSE_IFRAME);
         for (Resource__c resource : resources) {
-            if (ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c)
+            if ((ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_TYPE_VIDEO, Resource__c.getSObjectType()).equals((resource.RecordTypeId)))
                     && ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
                     && String.isNotBlank(resource.Body__c)
                     && String.isBlank(resource.Video__c)) {
@@ -134,7 +134,7 @@ public with sharing class ArticleService {
     public void getUrlVideoFromBody(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
         String regex = this.getRegex(REGEX_PARSE_IFRAME);
         for (Resource__c newResource : newResources) {
-            if (ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(newResource.Content_Type__c)
+            if ((ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(newResource.Content_Type__c) || ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(SchemaUtil.getRecordTypeDeveloperNameBySObjectId(newResource.Id)))
                     && ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(newResource.Content_Class__c)
                     && newResource.Body__c != oldResourcesByIds.get(newResource.Id).Body__c) {
                 this.parseBody(newResource, regex);
