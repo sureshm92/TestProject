@@ -172,19 +172,25 @@ public class Test_PatientDelegateRemote {
         );
         insert testContact;
 
+        Account accountPartic = new Account(Name = 'Participant');
+        insert accountPartic;
+
         Contact delegateContact = new Contact(
                 FirstName = 'James',
                 LastName = 'Smith',
                 Email = 'j.smith@gmail.com',
-                userCommunityMode__c = 'Participant'
+                userCommunityMode__c = 'Participant',
+                AccountId = accountPartic.Id
         );
         insert delegateContact;
+
 
         Contact patientContact = new Contact(
                 FirstName = 'Richard',
                 LastName = 'Wilson',
                 Email = 'r.wilson@gmail.com',
-                userCommunityMode__c = 'Participant'
+                userCommunityMode__c = 'Participant',
+                AccountId = accountPartic.Id
         );
         insert patientContact;
 

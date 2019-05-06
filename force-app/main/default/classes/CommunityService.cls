@@ -58,18 +58,18 @@ public without sharing class CommunityService {
     }
 
     public Contact getUserContactImpl(){
-        return getUserContact();
-    }
-    
-    //Old static logic: ------------------------------------------------------------------------------------------------
-    
-    public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
             if(currentUser.ContactId == null) throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
             userContact = getContactById(currentUser.ContactId);
         }
         return userContact;
+    }
+    
+    //Old static logic: ------------------------------------------------------------------------------------------------
+    
+    public static Contact getUserContact() {
+        return getInstance().getUserContactImpl();
     }
 
     //TODO for remove:
