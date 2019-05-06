@@ -319,22 +319,30 @@
                                     v.initData.myContact.FirstName,v.initData.participant.First_Name__c)}"
                                        />
                         </div>
+                        <aura:if isTrue="{!!v.isDelegate}">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Middle_name}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Middle_Name__c}"
+                                />
+                            </div>
+                        </aura:if>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Last_name}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.LastName,v.initData.participant.Last_Name__c)}"
                                        />
                         </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
-                            <c:rrInput valueString="{!if(v.isDelegate,
-                                    v.initData.myContact.Phone,v.initData.participant.Phone__c)}"
-                                       />
-                        </div>
+                        <aura:if isTrue="{!v.isDelegate}">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
+                                <c:rrInput valueString="{!v.initData.myContact.Phone}"
+                                />
+                            </div>
+                        </aura:if>
                         <aura:if isTrue="{!!v.isDelegate}">
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Initials}</div>
-                                <c:rrInput valueString="{!v.initData.participant.Initials__c}"
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Phone__c}"
                                            />
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">

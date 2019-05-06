@@ -289,6 +289,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Visit_Plan__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Site__r.BillingStreet',
             'Study_Site__r.Site__r.BillingPostalCode',

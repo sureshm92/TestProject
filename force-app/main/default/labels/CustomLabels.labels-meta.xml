@@ -53,11 +53,9 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Congratularions ##Contact!
+        <value>Hi ##Contact!
 
-You are now enrolled in the ##StudyName study!
-
-Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page.
+You have been assigned as a Delegate for ##ParticipantUser in the ##StudyName study. We are so excited you have chosen to take this journey with ##ParticipantUser.
 
 Click OK to begin!</value>
     </labels>
@@ -67,6 +65,17 @@ Click OK to begin!</value>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_to_PH</shortDescription>
         <value>Welcome ##UserName!  We are excited to be on this journey with you. Our goal is to provide you timely updates about your enrollment process, knowledge articles and other helpful information.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
+        <value>Hi ##Contact!
+
+You have been assigned as a Delegate for ##ParticipantUser.  We are so excited you have chosen to take this journey with ##ParticipantUser. 
+
+Click OK to begin!</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -2127,6 +2136,17 @@ Sincerely,
 The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_New_Participant_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New Participant Delegate</shortDescription>
+        <value>We are so excited to be on this journey with you.
+
+Sincerely,
+
+The IQVIA Referral Hub and Patient Portal Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3868,7 +3888,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AS F Middle name</shortDescription>
-        <value>Middle name</value>
+        <value>Middle Initial</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_New_password</fullName>

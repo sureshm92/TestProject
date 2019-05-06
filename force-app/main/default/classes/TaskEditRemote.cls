@@ -52,9 +52,9 @@ public without sharing class TaskEditRemote {
             if (paramTask.Id != null) {
                 changeReminderDate(paramTask);
             }
-            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
+            System.debug(e);
             AuraHelper.throwException(e);
         }
     }
@@ -67,6 +67,11 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
         return 'Success';
+    }
+
+    @AuraEnabled
+    public static void ignoreTask(Id taskId) {
+        TasksRemote.ignoreTask(taskId);
     }
 
     @AuraEnabled
