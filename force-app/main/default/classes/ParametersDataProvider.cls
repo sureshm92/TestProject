@@ -246,7 +246,8 @@ public without sharing class ParametersDataProvider {
         ];
         parameters = new Map<String, String>{
             'TaskName' => task.Subject,
-            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
+            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey),
+            'ParticipantName' => PatientDelegateService.getInstance().getParticipant().Full_Name__c
         };
     }
     
