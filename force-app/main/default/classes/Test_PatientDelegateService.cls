@@ -93,6 +93,7 @@ public class Test_PatientDelegateService {
         Test.stopTest();
     }
 
+    /* Used full test instead: Test_MyTeamRemote.testCreatePatientDelegate()
     @IsTest
     static void createPatientDelegateTest() {
         refreshTestData();
@@ -113,7 +114,7 @@ public class Test_PatientDelegateService {
 
         System.assertEquals(1, patDel.size());
         System.assertEquals(secondDelegateContact.FirstName, patDel.get(0).Contact__r.FirstName);
-    }
+    }*/
 
     @IsTest
     static void resetDelegateTest() {
