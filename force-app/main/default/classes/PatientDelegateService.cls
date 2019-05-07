@@ -3,25 +3,26 @@
  */
 
 public without sharing class PatientDelegateService {
-    
-    public class PatientDelegateServiceException extends Exception {}
-    
+
+    public class PatientDelegateServiceException extends Exception {
+    }
+
     private List<Contact> delegates = new List<Contact>();
     private Boolean isDelegate;
     private Participant__c participant;
-    
+
     private static PatientDelegateService instance;
-    
-    public static PatientDelegateService getInstance(){
-        if(instance == null) instance = new PatientDelegateService();
+
+    public static PatientDelegateService getInstance() {
+        if (instance == null) instance = new PatientDelegateService();
         return instance;
     }
-    
-    public static void setMock(StubProvider stubProvider){
+
+    public static void setMock(StubProvider stubProvider) {
         instance = (PatientDelegateService) Test.createStub(PatientDelegateService.class, stubProvider);
     }
-    
-    public PatientDelegateService(){
+
+    public PatientDelegateService() {
         List<Patient_Delegate__c> participantsPDList = DatabaseService.query(
                 new List<String>{
                         'Id',
@@ -51,37 +52,37 @@ public without sharing class PatientDelegateService {
                     Participant__c.getSObjectType(),
                     DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
             );
-            if(participants.size() > 0) participant = participants[0];
+            if (participants.size() > 0) participant = participants[0];
         }
-        if(participant != null){
+        if (participant != null) {
             List<Patient_Delegate__c> delegatesPDList = getPDelegates(participant.Contact__c);
             for (Patient_Delegate__c pd : delegatesPDList) delegates.add(pd.Contact__r);
         }
     }
-    
-    public List<Contact> getDelegates(){
+
+    public List<Contact> getDelegates() {
         return delegates;
     }
 
     public Contact getDelegateContact(Id contactId) {
         Contact delegate;
-        for(Contact con : getDelegates()) {
-            if(con.Id == contactId) delegate = con;
+        for (Contact con : getDelegates()) {
+            if (con.Id == contactId) delegate = con;
         }
-        if(delegate == null) throw new PatientDelegateServiceException('Wrong id');
+        if (delegate == null) throw new PatientDelegateServiceException('Wrong id');
 
         return delegate;
     }
-    
-    public Participant__c getParticipant(){
+
+    public Participant__c getParticipant() {
         return participant;
     }
-    
-    public Boolean isDelegate(){
+
+    public Boolean isDelegate() {
         return isDelegate;
     }
-    
-    public Id getParticipantUserId(){
+
+    public Id getParticipantUserId() {
         List<User> users = DatabaseService.query(
                 'SELECT Id FROM User WHERE ' + DatabaseService.fieldEqual('ContactId', participant.Contact__c) + ' LIMIT 1'
         );
@@ -91,12 +92,12 @@ public without sharing class PatientDelegateService {
         }
         return users[0].Id;
     }
-    
-    public List<Patient_Delegate__c> getPDelegates(){
+
+    public List<Patient_Delegate__c> getPDelegates() {
         return getPDelegates(CommunityService.getInstance().getCurrentContactId());
     }
-    
-    public List<Patient_Delegate__c> getPDelegates(Id participantContactId){
+
+    public static List<Patient_Delegate__c> getPDelegates(Id participantContactId) {
         return DatabaseService.query(
                 new List<String>{
                         'Id',
@@ -117,24 +118,24 @@ public without sharing class PatientDelegateService {
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
         );
     }
-    
+
     public List<Id> getDelegatedUsersIds() {
         Map<Id, SObject> usersMap = new Map<Id, SObject>(
                 DatabaseService.query('SELECT Id FROM User WHERE ' + DatabaseService.fieldIn('ContactId', delegates))
         );
         return new List<Id>(usersMap.keySet());
     }
-    
-    public List<Contact> getDelegateContacts(Id participantContactId) {
+
+    public static List<Contact> getDelegateContacts(Id participantContactId) {
         List<Contact> contacts = new List<Contact>();
         for (Patient_Delegate__c pd : getPDelegates(participantContactId)) contacts.add(pd.Contact__r);
         return contacts;
     }
-    
+
     public List<Id> getDelegatedContactIds() {
         return SObjectHelper.toIdsList(delegates);
     }
-    
+
     public List<Id> getDelegatedContactIds(Id participantContactId) {
         return SObjectHelper.toIdsList(getDelegateContacts(participantContactId));
     }
@@ -144,11 +145,16 @@ public without sharing class PatientDelegateService {
             throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
         }
         List<Participant__c> participant = DatabaseService.getInstance().queryImpl(
-                new List<String>{'Id'},
+                new List<String>{
+                        'Id',
+                        'Contact__c'
+                },
                 Participant__c.getSObjectType(),
                 DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
         );
-        
+
+        createPDAlerts(newDelegate);
+
         if (participant.size() == 0) {
             throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
         }
@@ -159,7 +165,30 @@ public without sharing class PatientDelegateService {
         );
         insert delegate;
     }
-    
+
+    public void createPDAlerts(Contact contactDelegate) {
+        String phWelcomeCode = 'Welcome_To_The_PH_Delegate';
+        String studyWelcomeCode = 'Welcome_to_the_Study_Patient_Delegates';
+
+        List<Alert__c> alertList = new List<Alert__c>();
+        alertList.add(new Alert__c(
+                Contact__c = contactDelegate.Id,
+                Alert_Code__c = phWelcomeCode,
+                Record_ID__c = contactDelegate.Id
+        ));
+
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
+            alertList.add(new Alert__c(
+                        Contact__c = contactDelegate.Id,
+                        Alert_Code__c = studyWelcomeCode,
+                        Record_ID__c = participantState.pse.Id
+                ));
+        }
+
+        insert alertList;
+    }
+
     public void resetDelegate(Id contactId) {
         Contact delegateContact = new Contact(
                 Id = contactId,
@@ -171,7 +200,7 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT Id
                 FROM Patient_Delegate__c
-                WHERE Contact__c =: contactId
+                WHERE Contact__c = :contactId
         ];
         delete patientDelegate;
     }
