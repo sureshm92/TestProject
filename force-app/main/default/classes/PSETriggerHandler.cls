@@ -44,7 +44,29 @@ public without sharing class PSETriggerHandler {
     
     }
     
-    
+    public class CreateWelcomeToStudyAlertHandler extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            List<Alert__c> alerts = new List<Alert__c>();
+            for(Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) newList) {
+                alerts.add(new Alert__c(
+                        Contact__c = pse.Participant_Contact__c,
+                        Alert_Code__c = 'Welcome_to_the_Study',
+                        Record_ID__c = pse.Participant_Enrollment__c
+                ));
+                for(Contact contactDelegate : PatientDelegateService.getDelegateContacts(pse.Participant_Contact__c)) {
+                    alerts.add(new Alert__c(
+                            Contact__c = contactDelegate.Id,
+                            Alert_Code__c = 'Welcome_to_the_Study_Patient_Delegates',
+                            Record_ID__c = pse.Id)
+                    );
+                }
+            }
+
+            insert alerts;
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
     
     @TestVisible
@@ -65,7 +87,9 @@ public without sharing class PSETriggerHandler {
             pse.PI_Contact__c = null;
             pse.Participant_Contact__c = null;
             if(pse.Study_Site__c != null) pse.PI_Contact__c = studySitesMap.get(pse.Study_Site__c).Principal_Investigator__c;
-            if(pse.Participant__c != null) pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
+            if(pse.Participant__c != null) {
+                pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
+            }
         }
     }
     
@@ -139,4 +163,5 @@ public without sharing class PSETriggerHandler {
         for(User u : users) u.IsActive = false;
         update users;
     }
+
 }

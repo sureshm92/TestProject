@@ -8,4 +8,5 @@ trigger ParticipantStudyEnrollmentTrigger on Participant_Study_Enrollment__c (be
     TriggerHandlerExecutor.execute(PSETriggerHandler.ProcessStatusHistoryHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.CreateCompleteBaselineSurveyTaskHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.DeactivateDeceasedUsersHandler.class);
+    TriggerHandlerExecutor.execute(PSETriggerHandler.CreateWelcomeToStudyAlertHandler.class);
 }

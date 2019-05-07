@@ -101,7 +101,7 @@ public class Test_ResourceService {
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
         Test.stopTest();
-        System.assertEquals(Label.Resources_No_Therapeutic_Area, container.errorMessage);
+        System.assertEquals(Label.Resources_No_Articles, container.errorMessage);
     }
 
     @IsTest
