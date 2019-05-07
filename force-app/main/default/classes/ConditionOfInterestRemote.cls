@@ -10,8 +10,8 @@ public with sharing class ConditionOfInterestRemote {
         try {
             TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
             Participant__c participant = taService.getParticipant();
-            if (!participant.Therapeutic_Area_Patients__r.isEmpty()) {
-                for (Therapeutic_Area_Patient__c coi : participant.Therapeutic_Area_Patients__r) {
+            if (!ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
+                for (Therapeutic_Area_Patient__c coi : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
                     TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
                     caWrapper.isSelected = true;
                     caWrapper.coi = coi;
