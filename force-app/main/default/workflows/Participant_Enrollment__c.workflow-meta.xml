@@ -259,7 +259,7 @@
             <name>Email_to_PI_New_patient_referral</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>PI receives an email that they have a new patient referral</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
