@@ -10,7 +10,7 @@ public with sharing class ManualTaskRemote {
             InitData initData = new InitData();
             return JSON.serialize(initData);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 
@@ -23,41 +23,23 @@ public with sharing class ManualTaskRemote {
             //Assigning a common task for each found user
             List<User> users = taskFilter.getUsers();
             List<Task> tasks = new List<Task>();
-            for (User user : users)
-                tasks.add(
-                        new Task(OwnerId = user.Id,
-                                 Subject = newTask.Subject,
-                                 Priority = newTask.Priority,
-                                 Start_Date__c = newTask.Start_Date__c,
-                                 ActivityDate = newTask.ActivityDate,
-                                 Visible_For__c = newTask.Visible_For__c)
+            for(User user : users) {
+                tasks.add(new Task(
+                                OwnerId = user.Id,
+                                Subject = newTask.Subject,
+                                Priority = newTask.Priority,
+                                Start_Date__c = newTask.Start_Date__c,
+                                ActivityDate = newTask.ActivityDate,
+                                Reminder_Date__c = newTask.Reminder_Date__c,
+                                Visible_For__c = newTask.Visible_For__c)
                 );
-
+            }
             insert tasks;
 
             //For toast after onclick
             return users.size();
         } catch (Exception e) {
-            System.debug(e.getMessage() + '\n' + e.getStackTraceString());
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-
-    @AuraEnabled
-    public static Date remindBeforeDays(Date dateDue, Integer count) {
-        try {
-            return dateDue.addDays(-count);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-
-    @AuraEnabled
-    public static Date checkAndGetValidDate(Date start, Date due) {
-        try {
-            return due.dayOfYear() >= start.dayOfYear() ? due : start;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (Integer) AuraHelper.throwException(e);
         }
     }
 

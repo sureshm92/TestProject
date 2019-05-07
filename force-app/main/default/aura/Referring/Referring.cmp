@@ -105,7 +105,7 @@
                                 onclick="{!c.doGoToMedicalRecordReview}">
                             <!--disabled="{!v.actions.medicalRecordReview.disabled}"
                             title="{!v.actions.medicalRecordReview.disableReason}"-->
-                            {!$Label.c.BTN_Start_Medical_Record_Review}
+                            {!$Label.c.BTN_Start_Pre_eligibility_Screening}
                         </button>
                     </div>
                     <aura:if isTrue="{!!empty(v.pendingPEnrollments)}">
@@ -224,11 +224,25 @@
                                                 </div>
                                             </aura:if>
                                         </div>
-                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"/>
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                                <div class="ssi-address">
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                                    ss.site.Site__r.BillingStreet}
+                                                    <br/>
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                                    ss.site.Site__r.BillingCity},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                                    ss.site.Site__r.BillingStateCode},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                                    ss.site.Site__r.BillingPostalCode}
+                                                </div>
+                                            </aura:if>
+                                        </div>
 
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
                                             <button data-hcpe-id="{!ss.hcpe.Id}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">
-                                                {!$Label.c.BTN_Select_as_Preferred_Site}
+                                                {!$Label.c.BTN_Refer_to_this_Site}
                                             </button>
                                         </div>
                                     </div>
@@ -253,7 +267,21 @@
                                                 </div>
                                             </aura:if>
                                         </div>
-                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"/>
+                                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                                <div class="ssi-address">
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                                    ss.site.Site__r.BillingStreet}
+                                                    <br/>
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                                    ss.site.Site__r.BillingCity},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                                    ss.site.Site__r.BillingStateCode},
+                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                                    ss.site.Site__r.BillingPostalCode}
+                                                </div>
+                                            </aura:if>
+                                        </div>
 
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
                                             <button class="apollo-btn secondary" style="margin-top: 10px" disabled="true">
@@ -265,11 +293,11 @@
                                 <div class="slds-grid slds-wrap slds-grid_align-center slds-p-around--medium slds-grid_vertical-align-center"
                                      style="min-height: 100%;">
                                     <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
-                                        <span class="header-white-panel" style="font-size: 16px;">None of these sites work for your patient?</span>
+                                        <span class="header-white-panel" style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
                                     </div>
                                     <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                         <button class="apollo-btn primary slvi-search-site-btn"
-                                                onclick="{!c.doGoFindStudySites}">Find More Sites for This Study
+                                                onclick="{!c.doGoFindStudySites}">{!$Label.c.MyStudy_Find_More_Sites}
                                         </button>
                                     </div>
                                 </div>
@@ -467,7 +495,21 @@
                                                     </div>
                                                 </aura:if>
                                             </div>
-                                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"/>
+                                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                                                <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                                    <div class="ssi-address">
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                                        ss.site.Site__r.BillingStreet}
+                                                        <br/>
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                                        ss.site.Site__r.BillingCity},
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                                        ss.site.Site__r.BillingStateCode},
+                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                                        ss.site.Site__r.BillingPostalCode}
+                                                    </div>
+                                                </aura:if>
+                                            </div>
 
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
                                                 <button class="apollo-btn secondary" style="margin-top: 10px" disabled="true">

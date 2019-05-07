@@ -10,8 +10,9 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Boolean isReferral {get;set;}
         @AuraEnabled public String errorMessage {get;set;}
         @AuraEnabled public Boolean reminderEnabled {get;set;}
+        @AuraEnabled public Boolean createdByAdmin {get;set;}
 
-        public TaskEditDataWrapper(){
+        public TaskEditDataWrapper() {
             task = new Task();
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
@@ -19,42 +20,43 @@ public without sharing class TaskEditRemote {
             isReferral = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.REFERRAL;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
+            createdByAdmin = false;
         }
     }
 
     @AuraEnabled
-    public static TaskEditDataWrapper getTaskEditData(Id taskId){
+    public static TaskEditDataWrapper getTaskEditData(Id taskId) {
         TaskEditDataWrapper wrapper = new TaskEditDataWrapper();
-        if(taskId != null) {
+        if (taskId != null) {
             wrapper.task = TaskService.getInstance().getTask(taskId);
+            wrapper.createdByAdmin = createdByAdmin(wrapper.task);
         }
         return wrapper;
     }
 
     @AuraEnabled
-    public static String upsertTask(Task paramTask) {
-        try{
-            Boolean isDelegate = ParticipantService.getInstance().getState().isDelegate;
-            if(isDelegate){
-                paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
-            } else{
-                paramTask.OwnerId = UserInfo.getUserId();
+    public static void upsertTask(Task paramTask) {
+        try {
+            paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
+            if(ParticipantService.getInstance().getState().isDelegate) {
+                paramTask.Originator__c = 'Delegate';
+            } else {
+                paramTask.Originator__c = 'Participant';
             }
             if (paramTask.Visible_For__c == null) {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }
-            if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
-                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
+            if (paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit') {
+                paramTask.WhatId = ParticipantService.getInstance().getState().ctp.Id;
             }
-            if(paramTask.Id != null){
+            if (paramTask.Id != null) {
                 changeReminderDate(paramTask);
             }
             upsert paramTask;
         } catch (Exception e) {
-            System.debug(e.getLineNumber());
+            System.debug(e);
             AuraHelper.throwException(e);
         }
-        return 'Success';
     }
 
     @AuraEnabled
@@ -65,6 +67,11 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
         return 'Success';
+    }
+
+    @AuraEnabled
+    public static void ignoreTask(Id taskId) {
+        TasksRemote.ignoreTask(taskId);
     }
 
     @AuraEnabled
@@ -84,53 +91,64 @@ public without sharing class TaskEditRemote {
         return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
-    private static List<String> getTaskTypeList(){
-        List<String> pickListValuesList= new List<String>();
+    private static List<String> getTaskTypeList() {
+        List<String> pickListValuesList = new List<String>();
         Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
         List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
-        for( Schema.PicklistEntry pickListValue : picklistEntry){
+        for (Schema.PicklistEntry pickListValue : picklistEntry) {
             pickListValuesList.add(pickListValue.getLabel());
         }
         return pickListValuesList;
     }
 
-    private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates){
+    private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         String errorMessage = '';
-        if(!emailEnabledForAllRelatedContacts(emailPreferencesIsOn, delegates)){
+        if (!emailEnabledForAllRelatedContacts(emailPreferencesIsOn, delegates)) {
             errorMessage = Label.Task_Reminders_Missing;
         }
-        if(!emailEnabledForCurrentContact()){
+        if (!emailEnabledForCurrentContact()) {
             errorMessage = Label.EmailPreferencesIsOff;
         }
         return errorMessage;
     }
 
-    private static Boolean emailEnabledForAllRelatedContacts(Boolean emailPreferencesIsOn, List<Contact> delegates){
-        if(!emailPreferencesIsOn)
+    private static Boolean emailEnabledForAllRelatedContacts(Boolean emailPreferencesIsOn, List<Contact> delegates) {
+        if (!emailPreferencesIsOn)
             return false;
-        for(Contact delegate : delegates){
-            if(!delegate.Participant_Opt_In_Status_Emails__c) return false;
+        for (Contact delegate : delegates) {
+            if (!delegate.Participant_Opt_In_Status_Emails__c) return false;
         }
         return true;
     }
-    private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates){
-        if(emailPreferencesIsOn)
+    private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates) {
+        if (emailPreferencesIsOn)
             return true;
-        for(Contact delegate : delegates) {
+        for (Contact delegate : delegates) {
             if (delegate.Participant_Opt_In_Status_Emails__c) return true;
         }
         return false;
     }
 
-    private static Boolean emailEnabledForCurrentContact(){
+    private static Boolean emailEnabledForCurrentContact() {
         List<Contact> currentContact = [
-                SELECT  Participant_Opt_In_Status_Emails__c
-                FROM    Contact
-                WHERE   Id = :CommunityService.getInstance().getCurrentContactId()
+                SELECT Participant_Opt_In_Status_Emails__c
+                FROM Contact
+                WHERE Id = :CommunityService.getInstance().getCurrentContactId()
         ];
-        if(!currentContact.isEmpty())
+        if (!currentContact.isEmpty())
             return currentContact[0].Participant_Opt_In_Status_Emails__c;
         return false;
+    }
+
+    private static Boolean createdByAdmin(Task task){
+        Id participantId;
+        Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
+        if(ParticipantService.getInstance().getState().isDelegate){
+            participantId = PatientDelegateService.getInstance().getParticipantUserId();
+        } else {
+            participantId = UserInfo.getUserId();
+        }
+        return (task.CreatedById != participantId && !delegateIds.contains(task.CreatedById));
     }
 
     private static void changeReminderDate(Task paramTask){
@@ -138,12 +156,12 @@ public without sharing class TaskEditRemote {
                 SELECT
                         Id,
                         Reminder_Date__c
-                FROM    Task
-                WHERE   Id = :paramTask.Id
+                FROM Task
+                WHERE Id = :paramTask.Id
         ];
-        if(paramTask.Reminder_Date__c != null && oldTask.Reminder_Date__c != paramTask.Reminder_Date__c){
+        if (paramTask.Reminder_Date__c != null && oldTask.Reminder_Date__c != paramTask.Reminder_Date__c) {
             Datetime tmpDate = paramTask.Reminder_Date__c;
-            if(tmpDate.hourGMT() == 0){
+            if (tmpDate.hourGMT() == 0) {
                 tmpDate.addHours(12);
             }
             paramTask.Reminder_Date__c = null;

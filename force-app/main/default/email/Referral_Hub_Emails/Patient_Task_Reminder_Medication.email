@@ -10,7 +10,7 @@
                          recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Medication_Task_Reminder}"
-                         title="{!$Label.Email_Title}"
+                         title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Medication_Task_Reminder}"
                          signature="{!$Label.Email_Signature_VT}">
@@ -27,7 +27,7 @@
                              recipientLanguage="{!recipient.Language__c}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Medication_Task_Reminder}"
-                             title="{!$Label.Email_Title}"
+                             title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Medication_Task_Reminder}"
                              signature="{!$Label.Email_Signature_VT}">

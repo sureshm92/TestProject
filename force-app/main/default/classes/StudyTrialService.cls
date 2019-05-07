@@ -3,6 +3,8 @@
  */
 
 public without sharing class StudyTrialService {
+    public static String ACTIVELY_ENROLLING_STATUS = 'Actively Enrolling';
+
     private static List<String> TRIAL_FIELDS = new List<String>{
             'Id',
             'Name',
@@ -19,7 +21,9 @@ public without sharing class StudyTrialService {
             'Sponsor_Pays_for_Referral_Activity__c',
             'Override_Inclusion_Criteria__c',
             'Override_Description__c',
-            'Therapeutic_Area__r.Name'
+            'Brief_Summary__c',
+            'Therapeutic_Area__r.Name',
+            'NCT_Number__c'
     };
 
     private static List<String> TRIAL_SEARCH_FIELDS = new List<String>{
@@ -27,7 +31,7 @@ public without sharing class StudyTrialService {
             'Study_Code_Name__c',
             'Study_Sponsor__c',
             'Override_Inclusion_Criteria__c',
-            'Override_Description__c'
+            'Brief_Summary__c'
     };
 
     public class StudyFilterData {
@@ -161,8 +165,11 @@ public without sharing class StudyTrialService {
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         Location userLocation = DistanceHelper.getUserLocation();
 
-        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
-        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'Actively Enrolling\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\') ';
+        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
+        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\''+
+                '  AND Override_PI_Referral_Status__c != NULL ' +
+                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
+                ') ';
 
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY CreatedDate DESC ';
@@ -170,7 +177,7 @@ public without sharing class StudyTrialService {
 
         if (sortData.sortType == 'Distance ASC') {
             if (userLocation != null) {
-                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
+                query += 'ORDER BY DISTANCE(Principal_Investigator__r.Account.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
             }
         }
 
@@ -190,7 +197,7 @@ public without sharing class StudyTrialService {
         for (Id currTrialId : trialIdToStudySites.keySet()) {
             Double minDistance;
             for (Study_Site__c currStudySite : trialIdToStudySites.get(currTrialId)) {
-                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Site__r);
+                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Principal_Investigator__r.Account);
                 if (currDistance != null) {
                     if (minDistance == null) {
                         minDistance = currDistance;
@@ -253,7 +260,7 @@ public without sharing class StudyTrialService {
         Map<Id, List<HCP_Enrollment__c>> trialIdToEnrollments = getTrialIdToEnrollments();
 
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
+        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', Label.Studies_FindSitesForStudy, 'map-marker', false);
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
@@ -315,7 +322,14 @@ public without sharing class StudyTrialService {
         for (Clinical_Trial_Profile__c trial : trials) {
             trialIds.add(trial.Id);
         }
-        for (Participant_Enrollment__c pe : [SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds]) {
+        String delegatesFilter = '';
+        List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
+        if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
+        String query = 'SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds AND ' + '(' +
+                '   HCP__r.HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
+                delegatesFilter +
+                ') ';
+        for (Participant_Enrollment__c pe : Database.query(query)) {
             trialsWithPatients.add(pe.Clinical_Trial_Profile__c);
         }
 
@@ -337,7 +351,7 @@ public without sharing class StudyTrialService {
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
                 if (!studyDetailItem.hasActiveHCPEnrollments) {
-                    StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', 'Find Sites For This Study', 'map-marker', false);
+                    StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', Label.Studies_FindSitesForStudy, 'map-marker', false);
                     currActions.add(openStudySite);
                 }
                 if (studyDetailItem.hasPatients) {
@@ -401,6 +415,7 @@ public without sharing class StudyTrialService {
                         , Name
                         , Study_Sponsor__c
                         , Detailed_Description__c
+                        , Brief_Summary__c
                         , Override_Recruitment_Status__c
                         , Terms_And_Conditions_ID__c
                         , Link_to_Medical_Record_Review__c

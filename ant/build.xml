@@ -16,9 +16,13 @@
         </classpath>
     </taskdef>
 
+    <tstamp>
+        <format property="nowDT" pattern="yyyy-MM-dd__HH-mm"  locale="en,US" />
+    </tstamp>
+
     <!-- targets: -->
 
-    <target name="deploy-int" depends="prepare-metadata">
+    <target name="deploy-int" depends="prepare-metadata, skip-community">
         <sf:deploy username="${sf.int.username}"
                    password="${sf.int.password}"
                    serverurl="${sf.serverurl}"
@@ -40,7 +44,7 @@
         </sf:deploy>
     </target>
 
-    <target name="deploy-inf" depends="prepare-metadata">
+    <target name="deploy-inf" depends="prepare-metadata, skip-community">
         <sf:deploy username="${sf.inf.username}"
                    password="${sf.inf.password}"
                    serverurl="${sf.serverurl}"
@@ -60,6 +64,65 @@
                    pollwaitmillis="${sf.maxPollWaitTimeMs}"
                    rollbackOnError="true" checkonly="true">
         </sf:deploy>
+    </target>
+
+    <target name="create-rollback-source">
+        <delete dir="${rollback.dir}"/>
+        <mkdir dir="${rollback.source.dir}"/>
+        <sf:retrieve
+                username="${sf.rollback.username}"
+                password="${sf.rollback.password}"
+                serverurl="${sf.serverurl}"
+                retrieveTarget="${rollback.source.dir}"
+                unpackaged="${source.dir}/package.xml" />
+    </target>
+
+    <target name="rollback">
+        <sf:deploy username="${sf.rollback.username}"
+                   password="${sf.rollback.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${rollback.source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}" ignorewarnings="true"
+                   rollbackOnError="true" checkonly="true">
+        </sf:deploy>
+
+    </target>
+
+    <target name="create-distributive" depends="prepare-metadata">
+        <delete dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}/part1"/>
+        <mkdir dir="${dist.dir}/part2"/>
+        <copy todir="${dist.dir}/part1">
+            <fileset dir="${source.dir}">
+                <include name="staticresources/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml">
+            <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
+        </xmltask>
+        <copy todir="${dist.dir}/part2">
+            <fileset dir="${source.dir}">
+                <exclude name="staticresources/*.*"/>
+                <exclude name="translations/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml">
+            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part1.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part1/**/*.*"/>
+            </fileset>
+        </zip>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part2.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part2/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part1"/>
+        <delete dir="${dist.dir}/part2"/>
     </target>
 
     <!-- filter metadata files before deploy: -->
@@ -85,13 +148,22 @@
         <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object">
             <remove path="/:CustomObject/:recordTypes[:fullName[text()='MASTER']]"/>
         </xmltask>
+        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels">
+            <remove path="/:CustomLabels/:labels[:fullName[text()='CommunityURL']]"/>
+        </xmltask>
+
         <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
             <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
             <!-- temporary remove SiteDotCom file from deployment -->
-            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
         </xmltask>
         <echo message="Removed Contact.MASTER record type from metadata" level="info"/>
+    </target>
+
+    <target name="skip-community">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
+            <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
+        </xmltask>
     </target>
 
     <target name="retrieve-site-dot-com">

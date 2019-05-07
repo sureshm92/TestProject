@@ -52,7 +52,6 @@ private class Test_AccountSettingsController {
         System.runAs(portalUser) {
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
             AccountSettingsController.updateParticipant(JSON.serialize(participant));
-            AccountSettingsController.isDelegate();
             AccountSettingsController.changePassword('123', '123', '321');
             AccountSettingsController.changeOptInEmail(true, true, true, true);
             AccountSettingsController.changeOptInCookies(false, false);

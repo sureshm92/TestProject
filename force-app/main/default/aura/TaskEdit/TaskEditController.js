@@ -32,13 +32,14 @@
             if(!component.get('v.initialized')) {
                 component.set('v.task', wrapper.task);
             }
+            component.set('v.createdByAdmin', wrapper.createdByAdmin);
             component.set('v.errorMessage', wrapper.errorMessage);
             component.set('v.reminderDateEnabled', wrapper.reminderEnabled);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
             if(wrapper.reminderEnabled && wrapper.task.ActivityDate && !component.get('v.initialized')){
                 component.set('v.frequencyEnabled', true);
             }
-            if(wrapper.reminderEnabled && component.find('dueDateInputId') && component.get('v.initialized')){
+            if(wrapper.reminderEnabled && component.get('v.initialized') && component.find('dueDateInputId').get('v.value') ){
                 component.set('v.frequencyEnabled', true);
             }
             if (wrapper.task.Status === 'Completed') {
@@ -70,8 +71,8 @@
 
     doSave: function (component, event, helper) {
         console.log(component.get('v.task.ActivityDate'));
-        console.log(new Date(component.get('v.task.Completed_Date__c')));
-        component.set('v.task.Completed_Date__c', new Date(component.get('v.task.Completed_Date__c')));
+        console.log(new Date(component.get('v.task.Reminder_Date__c')));
+        component.set('v.task.Reminder_Date__c', new Date(component.get('v.task.Reminder_Date__c')));
         var task = component.get('v.task');
         if (!task.Subject) {
             communityService.showErrorToast('', 'Task Name cannot be empty');
@@ -106,6 +107,17 @@
         })
     },
 
+    doIgnoreTask: function (component, event, helper) {
+        component.find('spinner').show();
+        communityService.executeAction(component, 'ignoreTask', {
+            'taskId': component.get('v.task.Id')
+        }, function () {
+            window.history.go(-1);
+        }, null, function () {
+            component.find('spinner').hide();
+        })
+    },
+
     onChangeFreq: function (component, event, helper) {
         var freq = event.getSource().get('v.value');
 
@@ -122,7 +134,7 @@
         if (reminderFrequencyValue == $A.get('$Label.c.Disabled')) {
             component.set('v.frequencyEnabled', false);
             component.set('v.reminderDateEnabled', false);
-            component.set('v.task.Completed_Date__c', null);
+            component.set('v.task.Reminder_Date__c', null);
         } else if (reminderFrequencyValue == $A.get('$Label.c.Email')) {
             if(component.get('v.task.ActivityDate')) {
                 component.set('v.frequencyEnabled', true);
@@ -134,7 +146,6 @@
     onChangeDueDate: function (component, event, helper) {
         var dueDate = component.get('v.task.ActivityDate');
         var reminderFrequencyComponent = component.find('reminderFreqId');
-        var reminderDateComponent = component.find('reminderDateId');
         console.log(dueDate);
         if(!dueDate) {
             component.set('v.frequencyEnabled', false);
@@ -155,18 +166,15 @@
             }
         }
         if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.Complete_By_Date')) {
-            component.set('v.task.Completed_Date__c', dueDate);
+            component.set('v.task.Reminder_Date__c', dueDate);
         }
         if(dueDate) component.set('v.frequencyEnabled', true);
     },
 
     changeRemiderDate: function (component, event, helper) {
-        var dueDate = component.get('v.task.ActivityDate');
-        var d = new Date(dueDate);
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ];
-        var formatedDate = monthNames[d.getMonth()] + ' ' + (d.getDate() - 1) + ',' + d.getFullYear();
-        component.set('v.task.Completed_Date__c', formatedDate);
+        var dueDate = new Date(component.get('v.task.ActivityDate'));
+        dueDate.setDate(dueDate.getDate() -1);
+        var oneDayBefore = $A.localizationService.formatDate(dueDate, 'YYYY-MM-DD');
+        component.set('v.task.Reminder_Date__c', oneDayBefore);
     }
 });

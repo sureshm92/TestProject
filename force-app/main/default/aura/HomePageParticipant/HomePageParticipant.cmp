@@ -49,7 +49,7 @@
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <aura:if isTrue="{!and(v.participantState.value != 'ALUMNI', !empty(v.participantState.pse))}">
+                        <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
                             </div>

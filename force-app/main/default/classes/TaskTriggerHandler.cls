@@ -80,11 +80,21 @@ public without sharing class TaskTriggerHandler {
     private static void processSendImmediateEmails(List<Task> tasks){
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+
+        Set<Id> ownerIds = new Set<Id>();
+        for(Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks]) ownerIds.add(t.OwnerId);
+        Map<Id, User> usersByIds = new Map<Id, User>([
+                SELECT Id, ContactId
+                FROM User
+                WHERE Id IN: ownerIds
+        ]);
+        
         for (Task task : tasks){
             if(task.Task_Code__c != null){
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if(card != null && card.Immediate_Email_Template__c != null){
-                    emailMessages.add(SendEmailTemplate.createEmail(card.Immediate_Email_Template__c, task.OwnerId, task.Id));
+                    emailMessages.add(SendEmailTemplate.createEmail(
+                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, null));
                 }
             }
         }

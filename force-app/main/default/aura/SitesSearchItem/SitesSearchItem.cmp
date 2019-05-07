@@ -37,15 +37,15 @@
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
                 <aura:if isTrue="{!!empty(v.studySiteWrapper.formatedDistance)}">
                     <div class="ssi-address">
-                    {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingStreet:
-                            v.studySiteWrapper.site.Principal_Investigator__r.MailingStreet}
+                    {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStreet:
+                            v.studySiteWrapper.site.Site__r.BillingStreet}
                         <br/>
-                            {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingCity:
-                                    v.studySiteWrapper.site.Principal_Investigator__r.MailingCity},
-                            {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingStateCode:
-                                    v.studySiteWrapper.site.Principal_Investigator__r.MailingStateCode},
-                            {!(!empty(v.studySiteWrapper.site.Site__r.BillingAddress))?v.studySiteWrapper.site.Site__r.BillingPostalCode:
-                                    v.studySiteWrapper.site.Principal_Investigator__r.MailingPostalCode}
+                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingCity:
+                                    v.studySiteWrapper.site.Site__r.BillingCity},
+                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStateCode:
+                                    v.studySiteWrapper.site.Site__r.BillingStateCode},
+                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                    v.studySiteWrapper.site.Site__r.BillingPostalCode}
                     </div>
                 </aura:if>
             </div>

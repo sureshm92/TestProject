@@ -9,7 +9,7 @@ public with sharing class ManualTaskFilter {
     private static final String ENROLLED_QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
                     'FROM Participant_Study_Enrollment__c ' +
-                    'WHERE Status__c = \'Enrolled\'';
+                    'WHERE ';
 
     private static final String REFERRED_QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
@@ -20,14 +20,17 @@ public with sharing class ManualTaskFilter {
             'WHERE ';
 
     //Color filters (statuses)
+    @TestVisible
     private static final String[] PE_STATUSES_GREEN = new String[]{
             'Referral Sent to PI', 'Referral Accepted', 'Contact Successful', 'Eligibility Passed', 'Screening Complete'
     };
+
+    @TestVisible
     private static final String[] PE_STATUSES_YELLOW = new String[]{
             'Referral On Hold', 'Contact Attempt In Progress', 'Screening In Progress'
     };
 
-    private static final String SEPARATOR = '\',\'';
+    public static final String SEPARATOR = '\',\'';
 
     @AuraEnabled
     public List<String> statuses = new List<String>();
@@ -51,7 +54,7 @@ public with sharing class ManualTaskFilter {
         Set<Participant__c> participants = new Set<Participant__c>();
 
         if (statuses.contains('Enrolled')) {
-            String query = ENROLLED_QUERY + getFiltersQuery();
+            String query = ENROLLED_QUERY + fieldJoin('Status__c', PSEService.PSE_STATUS_GROUP_IN_PROGRESS) + getFiltersQuery();
             System.debug('Enrolled query is: ' + query);
 
             List<Participant_Study_Enrollment__c> participantStudyEnrollment =
@@ -105,6 +108,7 @@ public with sharing class ManualTaskFilter {
     }
 
     //Add green and yellow status 'IN(...)'
+    @TestVisible
     private String getColorFilters() {
         return '(\'' +
                 String.join(PE_STATUSES_GREEN, ManualTaskFilter.SEPARATOR) +
@@ -113,6 +117,7 @@ public with sharing class ManualTaskFilter {
                 '\') ';
     }
 
+    @TestVisible
     private String filterTherapeutic() {
         List<Therapeutic_Area_Patient__c> participantInArea = (List<Therapeutic_Area_Patient__c>)
                 Database.query(THERAPEUTIC_QUERY + fieldJoin('Therapeutic_Area__c', areas));
@@ -124,6 +129,7 @@ public with sharing class ManualTaskFilter {
         return fieldJoin('Participant__c', participantIds);
     }
 
+    @TestVisible
     private String getFiltersQuery() {
         List<String> filters = new List<String>();
 
@@ -138,6 +144,7 @@ public with sharing class ManualTaskFilter {
         return filters.isEmpty() ? '' : ' AND ' + String.join(filters, ' AND ');
     }
 
+    @TestVisible
     private String fieldJoin(String fieldName, List<LookupSearchResult> items) {
         List<String> ids = new List<String>();
         for (LookupSearchResult result : items) ids.add(result.getId());
@@ -145,10 +152,12 @@ public with sharing class ManualTaskFilter {
         return fieldName + ' IN (\'' + String.join(ids, SEPARATOR) + '\') ';
     }
 
+    @TestVisible
     private String fieldJoin(String fieldName, List<String> items) {
         return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
     }
 
+    @TestVisible
     private List<String> getCountryCode() {
         List<String> countryCodes = new List<String>();
         for (LookupSearchResult searchResult : countries) countryCodes.add(searchResult.getId());

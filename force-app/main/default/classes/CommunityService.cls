@@ -19,7 +19,8 @@ public without sharing class CommunityService {
     public static String COMMUNITY_ET_SHARE_RESOURCE = 'Share_Resources'; //email template
 
     // org wide email address
-    public static String COMMUNITY_ORG_WIDE_ADDRESS_NAME = 'IQVIA Referral Hub';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_PATIENT = 'IQVIA Patient Portal';
 
     // case auto assignment rule
     public static String COMMUNITY_CASE_AR_NAME = 'HelpCase';
@@ -57,18 +58,18 @@ public without sharing class CommunityService {
     }
 
     public Contact getUserContactImpl(){
-        return getUserContact();
-    }
-    
-    //Old static logic: ------------------------------------------------------------------------------------------------
-    
-    public static Contact getUserContact() {
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
             if(currentUser.ContactId == null) throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
             userContact = getContactById(currentUser.ContactId);
         }
         return userContact;
+    }
+    
+    //Old static logic: ------------------------------------------------------------------------------------------------
+    
+    public static Contact getUserContact() {
+        return getInstance().getUserContactImpl();
     }
 
     //TODO for remove:
@@ -277,5 +278,16 @@ public without sharing class CommunityService {
                 WHERE ContactId = :contactId
         ];
         setUserToCommunity(user);
+    }
+
+    public static String getContactUserMode(String contactId) {
+        List<Contact> contact = [
+                SELECT userCommunityMode__c
+                FROM Contact
+                WHERE Id =: contactId
+        ];
+        if(!contact.isEmpty()) return contact.get(0).userCommunityMode__c;
+
+        return null;
     }
 }

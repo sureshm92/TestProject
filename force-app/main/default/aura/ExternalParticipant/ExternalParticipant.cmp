@@ -1,0 +1,55 @@
+<!--
+ - Created by user on 23-Apr-19.
+ -->
+
+<aura:component description="ExternalParticipant" controller="ExternalParticipantRemote" implements="forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="participants" type="Object[]"/>
+    <aura:attribute name="participantId" type="String"/>
+    <aura:attribute name="participant" type="Object"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:input label="Participant Id" value="{!v.participantId}"/>
+    <button onclick="{!c.doInit}">Search</button>
+    <div class="rr-white-panel">
+        <c:RRTable>
+            <tr>
+                <th>Patient Id</th>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Email</th>
+            </tr>
+            <aura:iteration items="{!v.participants}" var="participant">
+                <tr>
+                    <td>
+                        <a>{!participant.patientId}</a>
+                    </td>
+                    <td>
+                        {!participant.firstName} {!participant.lastName}
+                    </td>
+                    <td>
+                        {!participant.dob}
+                    </td>
+                    <td>
+                        {!participant.addressLine1} {!participant.addressLine2} {!participant.city} {!participant.state} {!participant.zipcode}
+                    </td>
+                    <td>
+                        {!participant.email}
+                    </td>
+                </tr>
+            </aura:iteration>
+        </c:RRTable>
+    </div>
+    <lightning:input label="Patient Id" value="{!v.participant.patientId}"/>
+    <lightning:input label="First Name" value="{!v.participant.firstName}"/>
+    <lightning:input label="Last Name" value="{!v.participant.lastName}"/>
+    <lightning:input type="Date" label="Date of Birth" value="{!v.participant.dob}"/>
+    <lightning:input label="Address Line 1" value="{!v.participant.addressLine1}"/>
+    <lightning:input label="Address Line 2" value="{!v.participant.addressLine2}"/>
+    <lightning:input label="City" value="{!v.participant.city}"/>
+    <lightning:input label="State" value="{!v.participant.state}"/>
+    <lightning:input label="Zipcode" value="{!v.participant.zipcode}"/>
+    <lightning:input type="email" label="Email" value="{!v.participant.email}"/>
+    <button onclick="{!c.doSave}">Save</button>
+</aura:component>

@@ -77,7 +77,12 @@
             <!-- Date format and preferred language panel: -->
             <div class="rr-white-panel" style="padding: 30px">
                 <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>
-                <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                    <div class="as-sub-title">{!$Label.c.PP_L_Account_Setting_Preferred_Lng}</div>
+                    <aura:set attribute="else">
+                        <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
+                    </aura:set>
+                </aura:if>
                 <div class="as-language-switcher">
                     <c:LanguageSwitcher/>
                 </div>
@@ -147,7 +152,7 @@
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">{!$Label.c.AccountSettings_Cookie_Description}
+                         style="margin-bottom: 15px">{!if(v.userMode == 'Participant', $Label.c.PP_Account_Settings_Cookie_Description, $Label.c.AccountSettings_Cookie_Description)}
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">
@@ -314,33 +319,39 @@
                                     v.initData.myContact.FirstName,v.initData.participant.First_Name__c)}"
                                        />
                         </div>
+                        <aura:if isTrue="{!!v.isDelegate}">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Middle_name}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Middle_Name__c}"
+                                />
+                            </div>
+                        </aura:if>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Last_name}</div>
                             <c:rrInput valueString="{!if(v.isDelegate,
                                     v.initData.myContact.LastName,v.initData.participant.Last_Name__c)}"
                                        />
                         </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                            <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
-                            <c:rrInput valueString="{!if(v.isDelegate,
-                                    v.initData.myContact.Phone,v.initData.participant.Phone__c)}"
-                                       />
-                        </div>
+                        <aura:if isTrue="{!v.isDelegate}">
+                            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
+                                <c:rrInput valueString="{!v.initData.myContact.Phone}"
+                                />
+                            </div>
+                        </aura:if>
                         <aura:if isTrue="{!!v.isDelegate}">
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Initials}</div>
-                                <c:rrInput valueString="{!v.initData.participant.Initials__c}"
+                                <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Phone_number}</div>
+                                <c:rrInput valueString="{!v.initData.participant.Phone__c}"
                                            />
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                 <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Date_of_Birth}</div>
-                                <c:rrInput type="date" valueString="{!v.initData.participant.Date_of_Birth__c}"
-                                           maxValue="{!v.todayDate}"/>
+                                <lightning:input max="{!v.todayDate}" type="date" value="{!v.initData.participant.Date_of_Birth__c}"/>
                             </div>
                             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                                 <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Gender}</div>
-                                <c:rrInput valueString="{!v.initData.participant.Gender__c}"
-                                           values="{!v.genders}" type="picklist"/>
+                                <c:rrSelect options="{!v.genders}" value="{!v.initData.participant.Gender__c}" placeholder="{!$Label.c.PG_AC_Select}"/>
                             </div>
                         </aura:if>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
@@ -361,9 +372,8 @@
                                 v.initData.myContact.MailingPostalCode,v.initData.participant.Mailing_Zip_Postal_Code__c)}"
                                        />
                         </div>
-                        <div class="slds-col slds-size_1-of-1  slds-medium-size_4-of-12">
-                            <button class="apollo-btn primary as-submit-button"
-                                    onclick="{!c.doUpdateParticipant}">{!$Label.c.Update_Participant}</button>
+                        <div class="slds-col slds-size_1-of-1 as-buttons-footer">
+                            <button class="apollo-btn primary" onclick="{!c.doUpdateParticipant}">{!$Label.c.BTN_Save}</button>
                         </div>
                     </aura:if>
                 </div>

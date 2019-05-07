@@ -1,8 +1,8 @@
 /**
- * Created by user on 01.03.2019.
+ * Created by Igor Malyuta on 01.03.2019.
  */
 ({
-    doInit : function(component, event, helper) {
+    doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.task', initData.task);
@@ -15,54 +15,68 @@
         });
     },
 
-    dueNumberKeyPress : function(component, event, helper) {
-        //Fired on press any key in field
-        if(event.which == 13)
-            helper.setDays(component);
+    doCheckFields: function(component, event, helper) {
+        var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && inputCmp.get('v.validity').valid;
+        }, true);
+        component.set('v.isValidFields', allValid);
     },
 
-    onRemindDaysChange : function(component, event, helper) {
-        //Remove leading zero in field
-        var days = component.get('v.dayRemind').toString().replace('^0+', '');
-        var intDays = parseInt(days);
-        component.set('v.dayRemind', intDays);
-
-        communityService.executeAction(component, 'remindBeforeDays', {
-            'dateDue' : component.get('v.task.ActivityDate'),
-            'count' : intDays
-        }, function (response) {
-            component.set('v.dateRemind', response);
-        });
-    },
-
-    dateValid : function(component, event, helper) {
+    onDaysChange: function (component, event, helper) {
         var startDate = component.get('v.task.Start_Date__c');
+        if (!startDate) return;
+
         var dueDate = component.get('v.task.ActivityDate');
-        if(!startDate || !dueDate) {
+        if(!dueDate) {
+            component.set('v.showNumbersAdd', 'false');
             return;
         }
 
-        communityService.executeAction(component, 'checkAndGetValidDate', {
-            'start' : startDate,
-            'due' : dueDate
-        }, function (response) {
-            component.set('v.task.ActivityDate', response);
-        });
+        dueDate = new Date(dueDate);
+        if(component.get('v.showNumbersAdd') === 'true') {
+            var days = component.get('v.dayRemind');
+            var daysBetween = helper.getDaysBetween(component, new Date(startDate), dueDate);
+
+            if(!days || days > daysBetween) {
+                days = '1';
+                component.set('v.dayRemind', days);
+            }
+
+            //Remove leading zero in field
+            days = days.toString().replace('^0+', '');
+
+            var remindDate = component.get('v.task.Reminder_Date__c');
+            if(!remindDate) {
+                remindDate = dueDate;
+            }
+            else {
+                remindDate = new Date(remindDate);
+            }
+            remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
+            component.set('v.task.Reminder_Date__c',
+                $A.localizationService.formatDate(new Date(remindDate), 'YYYY-MM-DD'));
+        }
     },
 
-    createTask : function (component, event, helper) {
+    dueNumberKeyPress: function (component, event, helper) {
+        //Fired on press any key in field
+        if (event.which === 13) helper.setDays(component);
+    },
+
+    createTask: function (component, event, helper) {
         var filter = component.get('v.taskFilters');
         filter.statuses = component.get('v.statuses');
 
         component.find('spinner').show();
         communityService.executeAction(component, 'createTasks', {
-            'task' : JSON.stringify(component.get('v.task')),
-            'filter' : JSON.stringify(component.get('v.taskFilters'))
+            'task': JSON.stringify(component.get('v.task')),
+            'filter': JSON.stringify(component.get('v.taskFilters'))
         }, function (response) {
-            if(response > 0)
+            if (response > 0)
                 communityService.showSuccessToast(
                     'Success!',
-                    'Task successfully created for ' + response +  ' users.'
+                    'Task successfully created for ' + response + ' users.'
                 );
             else
                 communityService.showWarningToast(
@@ -74,7 +88,7 @@
         });
     },
 
-    resetClick : function (component, event, helper) {
+    resetClick: function (component, event, helper) {
         helper.reset(component);
     }
 })

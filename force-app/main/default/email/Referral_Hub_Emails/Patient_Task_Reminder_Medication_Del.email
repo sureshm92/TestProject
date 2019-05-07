@@ -1,36 +1,36 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Medication_Task_Reminder}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Medication_Task_Reminder_Delegate}"
                          recipientType="Contact"
                          relatedToType="Participant_Study_Enrollment__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailTemplate userType="Participant"
                          recipientId="{!recipient.Id}"
                          recipientName="{!recipient.Name}"
                          recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Medication_Task_Reminder}"
-                         title="{!$Label.Email_Title}"
+                         title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Medication_Task_Reminder_Delegate}"
-                         signature="{!$Label.Email_Signature_VT}">
+                         signature="{!$Label.Email_Signature_drop_out}">
 
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                               buttonURL="{!$Label.CommunityURL}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="Participant"
                              recipientId="{!recipient.Id}"
                              recipientName="{!recipient.Name}"
                              recipientLanguage="{!recipient.Language__c}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Medication_Task_Reminder}"
-                             title="{!$Label.Email_Title}"
+                             title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Medication_Task_Reminder_Delegate}"
-                             signature="{!$Label.Email_Signature_VT}">
+                             signature="{!$Label.Email_Signature_drop_out}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
                                   buttonURL="{!$Label.CommunityURL}"/>
         </c:EmailTemplateText>

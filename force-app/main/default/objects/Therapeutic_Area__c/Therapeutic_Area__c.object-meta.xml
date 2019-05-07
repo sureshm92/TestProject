@@ -51,14 +51,12 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>TA / COI / 3rd Party COI</label>
+    <label>TA / COI</label>
     <nameField>
-        <encryptionScheme>None</encryptionScheme>
         <label>Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>TA / COI / 3rd Party COI</pluralLabel>
+    <pluralLabel>TA / COI</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

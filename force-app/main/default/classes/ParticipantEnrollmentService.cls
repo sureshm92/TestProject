@@ -277,7 +277,9 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Detailed_Description__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Brief_Summary__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
@@ -287,6 +289,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Visit_Plan__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Site__r.BillingStreet',
             'Study_Site__r.Site__r.BillingPostalCode',
@@ -388,10 +391,12 @@ public without sharing class ParticipantEnrollmentService {
         public String additionalFilter;
         public String acceptenceStatus;
         public String referringClinic;
+        public String dateField;
 
         public PEFilter(PEFilterData filterData){
             mode = filterData.mode;
             trialIds = filterData.trialIds;
+            dateField = filterData.dateField;
         }
     }
 
@@ -406,9 +411,14 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> excludedFromReferring;
         public List<LabelValueItem> referringClinics;
         public List<LabelValueItem> dateRanges = DateRangeFilterData.getRanges();
-        public List<LabelValueItem> sortVariants = SortOrder.SORT_TYPES;
+        public List<LabelValueItem> sortVariants;
         public List<LabelValueItem> acceptenceStatuses = PEStatusState.getAcceptenceStatusesLVList();
         public List<LabelValueItem> enrollmentStatuses = PEStatusState.getEnrollmentStatusesLVList();
+        public PEFilterData(){
+            sortVariants = new List<LabelValueItem>();
+            sortVariants.addAll( SortOrder.SORT_TYPES);
+        }
+        public String dateField = 'CreatedDate';
     }
 
     public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial){
@@ -475,7 +485,7 @@ public without sharing class ParticipantEnrollmentService {
             }
         }
         if(!String.isEmpty(filter.dateRange)){
-            filterStr += ' AND Referred_Date__c ' + filter.dateRange + ' ';
+            filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
         if(!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         System.debug('FILTER STRING: ' + filterStr);

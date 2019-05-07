@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>COI__c</fullName>
+    <externalId>false</externalId>
+    <label>COI</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Therapeutic_Area__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Condition of Interests</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Therapeutic_Area__c</referenceTo>
+    <relationshipLabel>CTC&#39;S</relationshipLabel>
+    <relationshipName>CTC_COIs</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

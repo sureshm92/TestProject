@@ -7,29 +7,24 @@ public without sharing class HelpController {
      */
     @AuraEnabled
     public static String getUserInfo() {
-        String returnValue;
         try{
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
-            userContact.isDelegate = ParticipantService.getInstance().getState().isDelegate;
-            returnValue = JSON.serialize(userContact);
-            return returnValue;
+            userContact.isDelegate = PatientDelegateService.getInstance().isDelegate();
+            return JSON.serialize(userContact);
         }catch (Exception e) {
-            AuraHelper.throwException(e);
+           return (String) AuraHelper.throwException(e);
         }
-
-        return returnValue;
     }
 
     @AuraEnabled
     public static void createCase(String description, String type, String files) {
-
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
-        if(ars.isEmpty()) throw new AuraHandledException('No case assigenment rule found!');
+        if(ars.isEmpty()) throw new AuraHandledException(Label.No_Case_Assign);
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
-        dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
+        dmlOptions.assignmentRuleHeader.assignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
         newCase.Status = 'New';
@@ -41,23 +36,24 @@ public without sharing class HelpController {
         try {
             insert newCase;
             if(String.isNotEmpty(files)){
-                List<HelpController.FileContainer> fileContainers = (List<HelpController.FileContainer>) JSON.deserialize(files, List<HelpController.FileContainer>.class);
+                List<HelpController.FileContainer> fileContainers =
+                        (List<HelpController.FileContainer>) JSON.deserialize(files, List<HelpController.FileContainer>.class);
                 addFiles(newCase.Id, fileContainers);
             }
         } catch (Exception e) {
             Database.rollback(sp);
-            throw new AuraHandledException(e.getMessage() + e.getStackTraceString());
-            throw new AuraHandledException('Can`t create case! [' + e.getMessage() + ']');
+            AuraHelper.throwException(e);
         }
     }
 
+    /**
+     * Before use need to create Case Assignment Rules
+     */
     private static List<AssignmentRule> getCaseAssignmentRule() {
-
         return [
                 SELECT Id
                 FROM AssignmentRule
-                WHERE SobjectType = 'Case'
-                AND Active = true
+                WHERE SobjectType = 'Case' AND Active = TRUE
                 LIMIT 1
         ];
     }

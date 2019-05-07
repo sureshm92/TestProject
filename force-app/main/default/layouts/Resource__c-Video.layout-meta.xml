@@ -8,11 +8,11 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Title__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Language__c</field>
             </layoutItems>
             <layoutItems>
@@ -24,7 +24,7 @@
                 <field>Updated_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Posting_Date__c</field>
             </layoutItems>
             <layoutItems>
@@ -34,7 +34,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Content_Class__c</field>
             </layoutItems>
             <layoutItems>
@@ -81,7 +81,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Image__c</field>
             </layoutItems>
             <layoutItems>
@@ -110,11 +110,11 @@
         <label>Body</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Description__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Body__c</field>
             </layoutItems>
         </layoutColumns>
@@ -133,10 +133,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Remove_sharing__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>URL__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -200,11 +196,16 @@
         <relatedList>Resource_Version__c.Resource__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
+        <fields>Therapeutic_Area__c.NAME</fields>
+        <fields>Therapeutic_Area__c.CUST_RECORDTYPE</fields>
+        <fields>Therapeutic_Area__c.Type__c</fields>
         <relatedList>Therapeutic_Area_Assignment__c.Resource__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
+        <fields>Clinical_Trial_Profile__c.NAME</fields>
+        <fields>Clinical_Trial_Profile__c.Status__c</fields>
+        <fields>Clinical_Trial_Profile__c.Study_Type__c</fields>
+        <fields>Clinical_Trial_Profile__c.Study_Title__c</fields>
         <relatedList>Res_study__c.Resource__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -213,7 +214,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h9E000000qQ4L</masterLabel>
+        <masterLabel>00h0E000001K6zc</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

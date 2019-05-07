@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Share_By_RP}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Share_Resource}"
                          relatedToType="Resource__c"
                          recipientType="Contact"
                          language="{!recipient.Language__c}">

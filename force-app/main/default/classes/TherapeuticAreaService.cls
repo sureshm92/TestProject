@@ -5,11 +5,15 @@ public with sharing class TherapeuticAreaService {
     public static final String COI_RT_NAME = 'Condition_of_Interests';
     public static final String TA_RT_NAME = 'Therapeutic_Area';
     public static final String THIRD_PARTY_COI_RT_NAME = 'Third_Party_Condition_of_Interests';
+    public static final String SEARCH_COI_SOQL_COUNT_DEFAULT = 'SearchCOIDefaultSoqlLimit';
+    public static final String SEARCH_COI_SOQL_COUNT_MAX = 'SearchCOIMaxSoqlLimit';
 
     public Set<String> getTANamesOnResource(Resource__c resource) {
         Set<String> tANames = new Set<String>();
-        if(!String.isBlank(resource.Therapeutic_Areas__c)) {
-            tANames.addAll(resource.Therapeutic_Areas__c.split(';'));
+        if (!String.isBlank(resource.Therapeutic_Areas__c)) {
+            for (String singleTAName : resource.Therapeutic_Areas__c.split(';')) {
+                tANames.add(singleTAName.trim());
+            }
         }
         return tANames;
     }
@@ -33,17 +37,36 @@ public with sharing class TherapeuticAreaService {
         return therapeuticAreas;
     }
 
+    public List<Therapeutic_Area__c> getTherapeuticAreasByNames(Set<String> therapeuticAreasNames) {
+
+        if (therapeuticAreasNames == null || therapeuticAreasNames.isEmpty()) {
+            return new List<Therapeutic_Area__c>();
+        }
+
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String therapeuticAreasQuery = 'SELECT Id, ' +
+                'Name ' +
+                'FROM Therapeutic_Area__c ' +
+                'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.TA_RT_NAME + '\' AND ' +
+                'Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(therapeuticAreasNames), ', ') + ')';
+        return (List<Therapeutic_Area__c>) databaseProxy.query(therapeuticAreasQuery);
+    }
+
     public List<Therapeutic_Area__c> getThirdPartyCOIsByNames(Set<String> tANames, Boolean createIfNotExist) {
+
+        if (tANames == null || tANames.isEmpty()) {
+            return new List<Therapeutic_Area__c>();
+        }
 
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String tAsQuery = 'SELECT Id, ' +
-                        'Therapeutic_Area__c, ' +
-                        'Name ' +
+                'Name, ' +
+                '(SELECT Id, COI__c FROM CTC_Third_Party_COIs__r) ' +
                 'FROM Therapeutic_Area__c ' +
                 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME +
                 '\' AND Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tANames), ', ') + ')';
         List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAsQuery);
-        if(!createIfNotExist) {
+        if (!createIfNotExist) {
             return therapeuticAreas;
         }
         Set<String> existingTANames = new Set<String>();
@@ -77,18 +100,32 @@ public with sharing class TherapeuticAreaService {
 
     public List<Therapeutic_Area__c> getTherapeuticAreas(String nameTA) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String whereClause = '';
+        Map<String, Integer> numberOfLimitsMapDecimalsByStrings = new Map<String, Integer>();
+        Number_Of_Limits__mdt[] numberOfLimits = [
+                SELECT
+                        Label,
+                        Count_Limit__c
+                FROM Number_Of_Limits__mdt
+                WHERE Label IN (:SEARCH_COI_SOQL_COUNT_DEFAULT, :SEARCH_COI_SOQL_COUNT_MAX)
+        ];
+        for (Number_Of_Limits__mdt numberOfLimit : numberOfLimits) {
+            numberOfLimitsMapDecimalsByStrings.put(numberOfLimit.Label, (Integer) numberOfLimit.Count_Limit__c);
+        }
+        String limitsClause = 'LIMIT 5';
+        String whereClause = 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\' ';
+        if (!numberOfLimits.isEmpty()) {
+            limitsClause = 'LIMIT ' + numberOfLimitsMapDecimalsByStrings.get(SEARCH_COI_SOQL_COUNT_DEFAULT);
+        }
         if (!String.isBlank(nameTA)) {
-            whereClause = 'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ';
+            whereClause += 'AND Name LIKE \'%' + String.escapeSingleQuotes(nameTA) + '%\' ';
+            limitsClause = 'LIMIT ' + numberOfLimitsMapDecimalsByStrings.get(SEARCH_COI_SOQL_COUNT_MAX);
         }
         String tAQuery =
                 'SELECT Id, ' +
                         'Name ' +
                         'FROM Therapeutic_Area__c ' +
-                        'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\' ' +
                         whereClause +
-                        'LIMIT 5';
-
+                        limitsClause;
         return (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
     }
 

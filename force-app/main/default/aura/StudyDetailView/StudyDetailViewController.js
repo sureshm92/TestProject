@@ -39,9 +39,12 @@
 
     doAction: function (component, event) {
         var studyDetail = component.get('v.studyDetail');
-        var trial = component.get('v.studyDetail').trial;
+        var trial = studyDetail.trial;
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
+
+        let shareUrl = trial.Share_URL__c + 'none';
+        let shareText = 'A clinical study of interest';
         switch (actionId){
             case 'backHome' :
                 communityService.navigateToPage('');
@@ -54,23 +57,23 @@
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'shareEmail': {
+                debugger;
                 var modal = component.find('shareModal');
                 if (communityService.getUserMode() === 'HCP') {
-                    modal.show(trial.Id, studyDetail.hcpe.HCP_Contact__c);
+                    modal.show(studyDetail.hcpe.Id, studyDetail.hcpe.HCP_Contact__c);
                 } else if (communityService.getUserMode() === 'Participant') {
-                    modal.show(trial.Id, null);
+                    modal.show(studyDetail.pe.Id, null);
                 }
             }
                 break;
             case 'shareFacebook':
-                window.
-                    open('https://www.facebook.com/sharer/sharer.php?u=https://www.clinicalresearch.com&quote=some_text', '_blank');
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + shareText);
                 break;
             case 'shareTwitter':
-                window.open('https://twitter.com/home?status=some_text:%20https://www.clinicalresearch.com', '_blank');
+                window.open('https://twitter.com/home?status=' + shareText + ':%20' + encodeURIComponent(shareUrl));
                 break;
             case 'shareLinkedin':
-                window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://www.clinicalresearch.com', '_blank');
+                window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(shareUrl));
                 break;
             case 'viewTermsAndConditions':
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret="

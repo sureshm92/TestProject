@@ -25,6 +25,7 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> participantsPDList = DatabaseService.query(
                 new List<String>{
                         'Id',
+                        'Participant__r.Full_Name__c',
                         'Participant__r.Contact__c',
                         'Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c',
                         'Participant__r.First_Name__c',
@@ -43,6 +44,7 @@ public without sharing class PatientDelegateService {
                             'Id',
                             'First_Name__c',
                             'Last_Name__c',
+                            'Full_Name__c',
                             'Contact__c',
                             'Contact__r.Participant_Opt_In_Status_Emails__c'
                     },
@@ -141,13 +143,15 @@ public without sharing class PatientDelegateService {
         if (getDelegatedContactIds().contains(newDelegate.Id)) {
             throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
         }
-        List<Participant__c> participant = [
-                SELECT Id
-                FROM Participant__c
-                WHERE Contact__c = :CommunityService.getUserContact().Id
-        ];
+        List<Participant__c> participant = DatabaseService.getInstance().queryImpl(
+                new List<String>{'Id'},
+                Participant__c.getSObjectType(),
+                DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
+        );
         
-        if (participant.size() == 0) throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
+        if (participant.size() == 0) {
+            throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);
+        }
 
         Patient_Delegate__c delegate = new Patient_Delegate__c(
                 Contact__c = newDelegate.Id,

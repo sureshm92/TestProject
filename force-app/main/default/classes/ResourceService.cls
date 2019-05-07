@@ -10,21 +10,19 @@ public with sharing class ResourceService {
     public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
-    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
-    private static final String BYLINE_API_NAME = 'Byline__c';
-    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
     public static String DEFAULT_LANGUAGE = 'en_US';
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
     public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
-    @TestVisible
-    private static final String STADY_DOCUMENT_RECORD_TYPE = 'Study_Document';
+    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
+    private static final String BYLINE_API_NAME = 'Byline__c';
+    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
 
     public ResourceWrapperContainer getResources(String resourceType) {
 
         Participant__c participant = this.getParticipant(resourceType);
         if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
-            return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
+            return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Articles : Label.Resources_No_Videos);
         }
         List<Resource__c> resources = this.getSortedResources(participant, resourceType);
         if (resources.isEmpty()) {
@@ -77,7 +75,7 @@ public with sharing class ResourceService {
                         Resource__r.Title__c
                 FROM Res_study__c
                 WHERE (Clinical_Trial_Profile__c
-                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :STADY_DOCUMENT_RECORD_TYPE
+                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
         ];
         if (!relatedResStudies.isEmpty()) {
             for (Res_study__c r : relatedResStudies) {
@@ -102,26 +100,23 @@ public with sharing class ResourceService {
     }
 
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
-
         Participant__c participant = this.getParticipant(resourceType);
-        if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
-            return new ResourceWrapperContainer(Label.Resources_No_Therapeutic_Area);
-        }
         ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-        if (participantState.ctp == null) {
-            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
+        List<Resource__c> resources = new List<Resource__c>();
+        if (ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType)) {
+            if (participantState.ctp != null) {
+                resources = this.getStudyDocuments(participantState);
+            }
+        } else if (!ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
+            resources = this.getSortedResources(participant, resourceType);
         }
-        List<Resource__c> resources = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType) ?
-                this.getStudyDocuments(participantState)
-                : this.getSortedResources(participant, resourceType);
-        if (resources.isEmpty()) {
-            return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
-        }
-        Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(resources);
-        if (resourceMap.get(resourceId) != null) {
-            return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
-                    new ResourceDetailWrapper(resourceMap.get(resourceId))
-            });
+        if (!resources.isEmpty()) {
+            Map<Id, Resource__c> resourceMap = new Map<Id, Resource__c>(new List<Resource__c>(new Set<Resource__c>(resources)));
+            if (resourceMap.get(resourceId) != null) {
+                return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
+                        new ResourceDetailWrapper(resourceMap.get(resourceId))
+                });
+            }
         }
         return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
     }
@@ -170,6 +165,7 @@ public with sharing class ResourceService {
                         'Updated_Date__c, ' +
                         'RecordType.DeveloperName, ' +
                         'Content_Class__c, ' +
+                        'Content_Type__c, ' +
                         'Image_Subtitle__c, ' +
                         'article_external_link__c, ' +
                         'Subtitle__c, ' +
@@ -278,8 +274,11 @@ public with sharing class ResourceService {
     @TestVisible
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
         List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
+        Set<Resource__c> resourcesSet = new Set<Resource__c>();
         for (Resource__c singleResource : resources) {
-            wrappers.add(new ResourceService.ResourceWrapper(singleResource));
+            if (resourcesSet.add(singleResource)) {
+                wrappers.add(new ResourceService.ResourceWrapper(singleResource));
+            }
         }
         return wrappers;
     }

@@ -3,6 +3,7 @@
  */
 .THIS {
 }
+
 .THIS .alert-count-condition{
     height: 17px;
     width: auto;
@@ -13,7 +14,26 @@
     line-height: 17px;
     text-align: center;
 }
+
 .THIS table{
     border-top: 0;
     border-collapse: collapse;
+}
+
+.THIS .table-scroll{
+    height: 170px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 5px;
+}
+
+@media all and (max-width: 750px) {
+    .THIS .alert-count-condition{
+        font-size: 12px;
+    }
+    .THIS .table-scroll{
+        font-size: 12px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
 }
