@@ -10,15 +10,13 @@ public with sharing class ResourceService {
     public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
-    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
-    private static final String BYLINE_API_NAME = 'Byline__c';
-    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
     public static String DEFAULT_LANGUAGE = 'en_US';
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
     public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
-    @TestVisible
-    private static final String STADY_DOCUMENT_RECORD_TYPE = 'Study_Document';
+    private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
+    private static final String BYLINE_API_NAME = 'Byline__c';
+    private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
 
     public ResourceWrapperContainer getResources(String resourceType) {
 
@@ -77,7 +75,7 @@ public with sharing class ResourceService {
                         Resource__r.Title__c
                 FROM Res_study__c
                 WHERE (Clinical_Trial_Profile__c
-                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :STADY_DOCUMENT_RECORD_TYPE
+                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
         ];
         if (!relatedResStudies.isEmpty()) {
             for (Res_study__c r : relatedResStudies) {
@@ -167,6 +165,7 @@ public with sharing class ResourceService {
                         'Updated_Date__c, ' +
                         'RecordType.DeveloperName, ' +
                         'Content_Class__c, ' +
+                        'Content_Type__c, ' +
                         'Image_Subtitle__c, ' +
                         'article_external_link__c, ' +
                         'Subtitle__c, ' +

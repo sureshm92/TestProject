@@ -107,6 +107,17 @@
         })
     },
 
+    doIgnoreTask: function (component, event, helper) {
+        component.find('spinner').show();
+        communityService.executeAction(component, 'ignoreTask', {
+            'taskId': component.get('v.task.Id')
+        }, function () {
+            window.history.go(-1);
+        }, null, function () {
+            component.find('spinner').hide();
+        })
+    },
+
     onChangeFreq: function (component, event, helper) {
         var freq = event.getSource().get('v.value');
 
@@ -161,12 +172,9 @@
     },
 
     changeRemiderDate: function (component, event, helper) {
-        var dueDate = component.get('v.task.ActivityDate');
-        var d = new Date(dueDate);
-        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ];
-        var formatedDate = monthNames[d.getMonth()] + ' ' + (d.getDate() - 1) + ',' + d.getFullYear();
-        component.set('v.task.Reminder_Date__c', formatedDate);
+        var dueDate = new Date(component.get('v.task.ActivityDate'));
+        dueDate.setDate(dueDate.getDate() -1);
+        var oneDayBefore = $A.localizationService.formatDate(dueDate, 'YYYY-MM-DD');
+        component.set('v.task.Reminder_Date__c', oneDayBefore);
     }
 });

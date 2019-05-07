@@ -4,6 +4,8 @@
 
     <aura:attribute name="resourceMode" type="String" default="Documents" access="private"
                     description="constant variable"/>
+    <aura:attribute name="studyDocumentVideoType" type="String" default="Video" access="private"
+                    description="constant variable"/>
     <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
@@ -32,7 +34,9 @@
                             <div class="resource-pointer"
                                  data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
                                  data-id="{!resourceWrapper.resource.Id}" onclick="{!c.navigateToPage}">
-                                <c:RRIcon iconName="icon-pdf" class="resources-icon-pdf"/>
+                                <c:RRIcon
+                                        iconName="{!resourceWrapper.resource.Content_Type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
+                                        class="{!resourceWrapper.resource.Content_Type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
                             </div>
                         </td>
                         <td class="study-document-column-data study-document-title-data">
