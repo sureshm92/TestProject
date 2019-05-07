@@ -262,24 +262,18 @@ public without sharing class ParametersDataProvider {
         initDelegates(cnt);
         isDelegate = cnt.UserCommunityIsDelegate__c;
         userMode = cnt.userCommunityMode__c;
+        parameters = new Map<String, String>();
+        parameters.put('FullName', getFullContactName(cnt));
         if(userMode == CommunityService.USER_MODE_PI){
-            parameters = new Map<String, String>{
-                    'PIName' => getFullContactName(cnt),
-                    'PILanguage' => cnt.Language__c
-            };
-    
+            parameters.put('PIName', getFullContactName(cnt));
+            parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
-            parameters = new Map<String, String>{
-                    'HCPName' => getFullContactName(cnt),
-                    'HCPLanguage' => cnt.Language__c
-            };
+            parameters.put('HCPName', getFullContactName(cnt));
+            parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
-            parameters = new Map<String, String>{
-                    'ParticipantLanguage' => cnt.Language__c
-            };
+            parameters.put('ParticipantLanguage', cnt.Language__c);
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
-                parameters.put('FullName', getFullContactName(cnt));
                 parameters.put('Username', getCommunityUserName(contactId));
             }else{
                 initParamsFromPE(contactId);

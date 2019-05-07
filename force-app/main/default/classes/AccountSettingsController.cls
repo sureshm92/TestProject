@@ -19,7 +19,7 @@ public without sharing class AccountSettingsController {
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT
                         && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
-                            SELECT Id, First_Name__c, Last_Name__c, Phone__c,
+                            SELECT Id, First_Name__c,  Middle_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
                                     Mailing_Country_Code__c, Mailing_State_Code__c,
                                     Gender__c, Date_of_Birth__c, Initials__c
@@ -112,6 +112,7 @@ public without sharing class AccountSettingsController {
     private static Contact fillParticipantContact(Contact pContact) {
         List<Participant__c> pList = [
                 SELECT  First_Name__c,
+                        Middle_Name__c,
                         Last_Name__c,
                         Initials__c,
                         Gender__c,

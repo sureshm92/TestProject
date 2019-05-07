@@ -16,6 +16,8 @@ public with sharing class VisitService {
     }
 
     public List<Visit__c> getVisits(String filter) {
+        if(!ParticipantService.getInstance().getState().showVisits) return null;
+
         List<String> fields = new List<String>{
                 'Name',
                 'Timeplane__c',
@@ -26,7 +28,7 @@ public with sharing class VisitService {
         String fullFilter = 'Visit_Plan__c = \'' + visitPlan + '\' ORDER BY Order__c';
         if (filter != null) fullFilter += filter;
 
-        return DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter);
+        return (List<Visit__c>) DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter);
     }
 
     public List<Visit__c> getPreviewVisits() {
