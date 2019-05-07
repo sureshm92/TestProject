@@ -37,6 +37,21 @@ public with sharing class TherapeuticAreaService {
         return therapeuticAreas;
     }
 
+    public List<Therapeutic_Area__c> getTherapeuticAreasByNames(Set<String> therapeuticAreasNames) {
+
+        if (therapeuticAreasNames == null || therapeuticAreasNames.isEmpty()) {
+            return new List<Therapeutic_Area__c>();
+        }
+
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String therapeuticAreasQuery = 'SELECT Id, ' +
+                'Name ' +
+                'FROM Therapeutic_Area__c ' +
+                'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.TA_RT_NAME + '\' AND ' +
+                'Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(therapeuticAreasNames), ', ') + ')';
+        return (List<Therapeutic_Area__c>) databaseProxy.query(therapeuticAreasQuery);
+    }
+
     public List<Therapeutic_Area__c> getThirdPartyCOIsByNames(Set<String> tANames, Boolean createIfNotExist) {
 
         if (tANames == null || tANames.isEmpty()) {
@@ -93,8 +108,8 @@ public with sharing class TherapeuticAreaService {
                 FROM Number_Of_Limits__mdt
                 WHERE Label IN (:SEARCH_COI_SOQL_COUNT_DEFAULT, :SEARCH_COI_SOQL_COUNT_MAX)
         ];
-        for (Number_Of_Limits__mdt numberOfLimit: numberOfLimits) {
-            numberOfLimitsMapDecimalsByStrings.put(numberOfLimit.Label, (Integer)numberOfLimit.Count_Limit__c);
+        for (Number_Of_Limits__mdt numberOfLimit : numberOfLimits) {
+            numberOfLimitsMapDecimalsByStrings.put(numberOfLimit.Label, (Integer) numberOfLimit.Count_Limit__c);
         }
         String limitsClause = 'LIMIT 5';
         String whereClause = 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\' ';
