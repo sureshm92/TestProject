@@ -11,7 +11,6 @@
 
     <!-- actions: -->
 
-    <aura:handler name="change" value="{!v.studyDetail.primaryContact}" action="{!c.doChangePrimaryContact}"/>
     <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
     <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
     <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
