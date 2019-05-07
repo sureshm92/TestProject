@@ -128,9 +128,10 @@ private class Test_BaseCRCPCommunity {
                 Participating_in_Rocket_Referral__c = 'YES'
         );
         insert study;
-
+    
+        List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
         studyTranslation = new Translation__c(
-                Language__c = 'ru',
+                Language__c = pleList[0].value,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
