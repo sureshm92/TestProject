@@ -6164,6 +6164,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Thank you for your time and interest in this study</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_You_must_be_approved</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L You must be approved to refer</shortDescription>
+        <value>You must be approved to refer to one or more sites before you can refer a patient.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Your_patient_passed_the_pre_eligibility_screening_and_may_be_able_to_pa</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6431,6 +6438,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SFS Referral Status</shortDescription>
         <value>Referral Status</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Site</shortDescription>
+        <value>Site</value>
     </labels>
     <labels>
         <fullName>PG_SFS_L_Site_Type</fullName>

@@ -26,7 +26,7 @@
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <div class="ssi-site-type">
-                        {!v.studySiteWrapper.siteType + ' Site'}
+                        {!if(!empty(v.studySiteWrapper.siteType), v.studySiteWrapper.siteType+ ' ' + $Label.c.PG_SFS_L_Site,'')}
                 </div>
                 <aura:if isTrue="{!and(!empty(v.studySiteWrapper.formatedDistance), v.studySiteWrapper.formatedDistance != null)}">
                     <div class="ssi-site-distance">
