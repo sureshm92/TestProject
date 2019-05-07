@@ -5,6 +5,16 @@
 @IsTest
 private class Test_ManualTaskLookupRemote {
 
+    public class CommunityServiceMock implements StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'createPortalUsers') {
+                return null;
+            }
+            return null;
+        }
+    }
+
     @IsTest
     static void searchTherapeuticTest() {
         //Mock data for search
@@ -141,7 +151,9 @@ private class Test_ManualTaskLookupRemote {
                 AccountId = clinic.Id
         );
         insert pi;
-        
+
+        CommunityService.setMock(new CommunityServiceMock());
+
         Study_Site__c searchingSite = new Study_Site__c(
                 Name = 'Test SS1',
                 Clinical_Trial_Profile__c =  trial.Id,

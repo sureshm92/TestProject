@@ -7,34 +7,17 @@ public class Test_PatientDelegateService {
 
     // Define test objects: --------------------------------------------------------------------------------------------
 
-    private static Contact participantContact = new Contact(
-            Id = TestDataFactory.getFakeId(Contact.getSObjectType()),
-            FirstName = 'Richard',
-            LastName = 'Wilson',
-            Email = 'r.wilson@gmail.com',
-            userCommunityMode__c = 'Participant'
-    );
+    private static Account accountPartic;
 
-    private static Participant__c participant = new Participant__c(
-            Id = TestDataFactory.getFakeId(Participant__c.getSObjectType()),
-            Contact__c = participantContact.Id,
-            Contact__r = participantContact
-    );
+    private static Contact firstParticipantContact;
+    private static Contact secondParticipantContact;
+    private static Contact firstDelegateContact;
+    private static Contact secondDelegateContact;
 
-    private static Contact delegateContact = new Contact(
-            Id = TestDataFactory.getFakeId(Contact.getSObjectType()),
-            FirstName = 'Joseph',
-            LastName = 'Davis',
-            Email = 'jdavis@somemail.com'
-    );
+    private static Participant__c firstParticipant;
+    private static Participant__c secondParticipant;
 
-    private static Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
-            Id = TestDataFactory.getFakeId(Patient_Delegate__c.getSObjectType()),
-            Contact__c = delegateContact.Id,
-            Contact__r = delegateContact,
-            Participant__c = participant.Id,
-            Participant__r = participant
-    );
+    private static Patient_Delegate__c patientDelegate;
 
     // Define mocks: ---------------------------------------------------------------------------------------------------
 
@@ -50,7 +33,11 @@ public class Test_PatientDelegateService {
                     };
                 } else if (sObjectType == Participant__c.getSObjectType()) {
                     return new List<Participant__c>{
-                            participant
+                            firstParticipant
+                    };
+                } else if (sObjectType == Account.getSObjectType()) {
+                    return new List<Account>{
+                            accountPartic
                     };
                 }
             }
@@ -72,11 +59,11 @@ public class Test_PatientDelegateService {
             if (stubbedMethodName == 'getCurrentContactId') {
                 return TestDataFactory.getFakeId(Contact.getSObjectType());
             }
-            if(stubbedMethodName == 'getContactById') {
-                return participantContact;
+            if (stubbedMethodName == 'getContactById') {
+                return firstParticipantContact;
             }
-            if(stubbedMethodName == 'getUserContactImpl') {
-                return participantContact;
+            if (stubbedMethodName == 'getUserContactImpl') {
+                return firstParticipantContact;
             }
             return null;
         }
@@ -87,6 +74,7 @@ public class Test_PatientDelegateService {
 
     @IsTest
     static void patientDelegateServiceTest() {
+        refreshTestData();
         DatabaseService.setMock(new DatabaseServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
@@ -99,71 +87,113 @@ public class Test_PatientDelegateService {
         PatientDelegateService.getInstance().getDelegatedContactIds();
         PatientDelegateService.getInstance().getPDelegates();
         PatientDelegateService.getInstance().getDelegateContact(patientDelegate.Contact__c);
-        PatientDelegateService.getInstance().getDelegateContacts(participantContact.Id);
-        PatientDelegateService.getInstance().getDelegatedContactIds(participantContact.Id);
+        PatientDelegateService.getInstance().getDelegateContacts(firstParticipantContact.Id);
+        PatientDelegateService.getInstance().getDelegatedContactIds(firstParticipantContact.Id);
 
         Test.stopTest();
     }
 
-//    @IsTest
-//    static void createPatientDelegateTest() {
-//        DatabaseService.setMock(new DatabaseServiceMock());
-//        CommunityService.setMock(new CommunityServiceMock());
-//
-//        Contact testDelContact = new Contact(
-//                Id = TestDataFactory.getFakeId(Contact.getSObjectType()),
-//                FirstName = 'Delegat',
-//                LastName = 'Test',
-//                Email = 'delete@somemail.com'
-//        );
-//
-//        Test.startTest();
-//        PatientDelegateService.getInstance().createPatientDelegate(testDelContact);
-//        Test.stopTest();
-//
-//        List<Patient_Delegate__c> patDel = (List<Patient_Delegate__c>) DatabaseService.query(
-//                new List<String>{
-//                        'Contact__c',
-//                        'Participant__c'
-//                },
-//                Patient_Delegate__c.getSObjectType(),
-//                DatabaseService.fieldEqual('Contact__c', testDelContact.Id)
-//        );
-//        System.assertEquals(1, patDel.size());
-//        System.assertEquals(testDelContact.FirstName, patDel.get(0).Contact__r.FirstName);
-//    }
-
     @IsTest
-    static void resetDelegateTest() {
+    static void createPatientDelegateTest() {
+        refreshTestData();
+
         DatabaseService.setMock(new DatabaseServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
-        Contact testDelContact = new Contact(
-                FirstName = 'Delegat',
-                LastName = 'Test',
-                Email = 'delete@somemail.com'
-        );
-        insert testDelContact;
+        Test.startTest();
+        PatientDelegateService.getInstance().createPatientDelegate(secondDelegateContact);
+        Test.stopTest();
 
-        Patient_Delegate__c testPD = new Patient_Delegate__c(
-                Contact__c = testDelContact.Id,
-                Participant__c = 'a0G0v0000002Ol5EAE'
-        );
-        insert testPD;
+        List<Patient_Delegate__c> patDel = [
+                SELECT Contact__r.FirstName,
+                        Participant__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c = :secondDelegateContact.Id
+        ];
+
+        System.assertEquals(1, patDel.size());
+        System.assertEquals(secondDelegateContact.FirstName, patDel.get(0).Contact__r.FirstName);
+    }
+
+    @IsTest
+    static void resetDelegateTest() {
+        refreshTestData();
+
+        DatabaseService.setMock(new DatabaseServiceMock());
+        CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();
-        PatientDelegateService.getInstance().resetDelegate(testDelContact.Id);
+        PatientDelegateService.getInstance().resetDelegate(firstDelegateContact.Id);
         Test.stopTest();
 
         Contact contactFromDB = [
                 SELECT userCommunityMode__c, userCommunytyType__c
                 FROM Contact
-                WHERE Id = :testDelContact.Id
+                WHERE Id = :firstDelegateContact.Id
         ].get(0);
         System.assertEquals(null, contactFromDB.userCommunityMode__c);
         System.assertEquals(null, contactFromDB.userCommunytyType__c);
 
-        List<Patient_Delegate__c> testRemove = [SELECT Id FROM Patient_Delegate__c WHERE Id = :testPD.Id];
+        List<Patient_Delegate__c> testRemove = [SELECT Id FROM Patient_Delegate__c WHERE Id = :patientDelegate.Id];
         System.assertEquals(true, testRemove.isEmpty());
+    }
+
+    private static void refreshTestData() {
+        //Accounts:
+        accountPartic = new Account(
+                Name = 'Participant'
+        );
+        upsert accountPartic;
+
+        //Contacts:
+        firstParticipantContact = new Contact(
+                FirstName = 'Richard',
+                LastName = 'Wilson',
+                Email = 'r.wilson@gmail.com',
+                userCommunityMode__c = 'Participant'
+        );
+        upsert firstParticipantContact;
+
+        secondParticipantContact = new Contact(
+                FirstName = 'David',
+                LastName = 'Wilson',
+                Email = 'd.wilson@gmail.com',
+                userCommunityMode__c = 'Participant'
+        );
+        upsert secondParticipantContact;
+
+        firstDelegateContact = new Contact(
+                FirstName = 'Joseph',
+                LastName = 'Davis',
+                Email = 'jdavis@somemail.com'
+        );
+        upsert firstDelegateContact;
+
+        secondDelegateContact = new Contact(
+                FirstName = 'Tony',
+                LastName = 'Davis',
+                Email = 'tdavis@somemail.com'
+        );
+        upsert secondDelegateContact;
+
+        //Participants:
+        firstParticipant = new Participant__c(
+                Contact__c = firstParticipantContact.Id
+        );
+        upsert firstParticipant;
+
+        secondParticipant = new Participant__c(
+                Contact__c = secondParticipantContact.Id
+        );
+        upsert secondParticipant;
+
+        //Patient_Delegates:
+        patientDelegate = new Patient_Delegate__c(
+                Contact__c = firstDelegateContact.Id,
+                Contact__r = firstDelegateContact,
+                Participant__c = firstParticipant.Id,
+                Participant__r = firstParticipant
+        );
+        upsert patientDelegate;
     }
 }
