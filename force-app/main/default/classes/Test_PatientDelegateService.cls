@@ -87,7 +87,7 @@ public class Test_PatientDelegateService {
         PatientDelegateService.getInstance().getDelegatedContactIds();
         PatientDelegateService.getInstance().getPDelegates();
         PatientDelegateService.getInstance().getDelegateContact(patientDelegate.Contact__c);
-        PatientDelegateService.getInstance().getDelegateContacts(firstParticipantContact.Id);
+        PatientDelegateService.getDelegateContacts(firstParticipantContact.Id);
         PatientDelegateService.getInstance().getDelegatedContactIds(firstParticipantContact.Id);
 
         Test.stopTest();
