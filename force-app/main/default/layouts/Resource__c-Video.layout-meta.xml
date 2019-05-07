@@ -131,7 +131,7 @@
                 <field>URL_Part__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>Remove_sharing__c</field>
             </layoutItems>
         </layoutColumns>

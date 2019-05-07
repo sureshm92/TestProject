@@ -342,7 +342,13 @@ public without sharing class StudyTrialService {
             studyDetailItem.maxHCPCreatedDate = getMaxHCPCreatedDate(trialStudyMap.get(trial.Id));
             studyDetailItem.trial = trial;
             studyDetailItem.site = studyDetailItem.sites[0];
-            studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
+            for(StudySiteService.StudySiteDistanceWrapper siteWrapper:studyDetailItem.sites){
+                if(siteWrapper.hcpe.Status__c != HCPEnrollmentService.HCP_S_INVITATION_SENT){
+                    studyDetailItem.distance = siteWrapper.formatedDistance;
+                    break;
+                }
+            }
+            //studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
             studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
             studyDetailItem.hasActiveHCPEnrollments = trialsWithActiveEnrollments.contains(trial.Id);
             studyDetailItem.hasPatients = trialsWithPatients.contains(trial.Id);

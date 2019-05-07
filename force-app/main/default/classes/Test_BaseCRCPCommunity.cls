@@ -21,6 +21,7 @@ private class Test_BaseCRCPCommunity {
     static User hcpUser;
 
     static Clinical_Trial_Profile__c study;
+    static String languageLocale;
     static Translation__c studyTranslation;
     static Study_Site__c studySite;
     static HCP_Enrollment__c hcpEnrollment;
@@ -128,10 +129,20 @@ private class Test_BaseCRCPCommunity {
                 Participating_in_Rocket_Referral__c = 'YES'
         );
         insert study;
-    
-        List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
+
+        Schema.DescribeFieldResult fieldResult = Translation__c.Language__c.getDescribe();
+        List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry pickListVal : ple){
+            if(pickListVal.getValue()!='en_US'){
+                languageLocale =pickListVal.getValue();
+                break;
+            }
+        }
+
+
+
         studyTranslation = new Translation__c(
-                Language__c = pleList[0].value,
+                Language__c = languageLocale,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
@@ -494,7 +505,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void exportImportRemote() {
         init();
-        String exportXML = TranslationExportImportRemote.export(study.Id, 'ru', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
+        String exportXML = TranslationExportImportRemote.export(study.Id, languageLocale, TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
         TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
     }
 

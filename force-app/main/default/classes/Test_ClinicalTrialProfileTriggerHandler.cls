@@ -151,6 +151,32 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
     }
 
     @IsTest
+    public static void updateCTP_RemoveTAOnCTP_Test() {
+
+        List<Clinical_Trial_Profile__c> cTPs = [
+                SELECT Id,
+                        Therapeutic_Area__c
+                FROM Clinical_Trial_Profile__c
+                ORDER BY Name
+        ];
+        System.assertEquals(2, cTPs.size());
+        cTPs[1].Therapeutic_Area__c = null;
+        Test.startTest();
+        update cTPs;
+        Test.stopTest();
+
+        List<Participant__c> participants = [
+                SELECT Id, (SELECT Id, Therapeutic_Area__c FROM Therapeutic_Area_Patients__r WHERE IsRelatedToStudy__c = TRUE)
+                FROM Participant__c
+                ORDER BY Name
+        ];
+        System.assertEquals(3, participants.size());
+        System.assertEquals(1, participants[0].Therapeutic_Area_Patients__r.size());
+        System.assertEquals(0, participants[1].Therapeutic_Area_Patients__r.size());
+        System.assertEquals(0, participants[2].Therapeutic_Area_Patients__r.size());
+    }
+
+    @IsTest
     public static void deleteRelatedToStudyDocuments_Test_ResInDiffStudies() {
         delete [SELECT Id FROM Clinical_Trial_Profile__c];
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());

@@ -203,7 +203,7 @@
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                         <div class="site-sub-header site-distance">
-                                            {!siteWrapper.siteType + ' Site'}
+                                            {!if(!empty(siteWrapper.siteType),siteWrapper.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                         </div>
                                         <div class="site-sub-header slds-m-topxx-small site-distance">
                                             <aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/>
@@ -216,7 +216,7 @@
                                             {!siteWrapper.site.Principal_Investigator__r.Account.BillingStreet}
                                     </div>
                                     <div class="site-address slds-m-top--xx-small">
-                                            {!(siteWrapper.site.Principal_Investigator__r.Account.BillingCity + ' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState + ' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostlCode)}
+                                            {!(if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingCity),siteWrapper.site.Principal_Investigator__r.Account.BillingCity+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingState),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,''))}
                                     </div>
                                     </div>
 <!--                                    <div class="slds-col slds-show_medium slds-size_1-of-12">-->

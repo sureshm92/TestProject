@@ -454,7 +454,7 @@ public without sharing class StudySiteService {
             List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
             for (StudySiteDistanceWrapper siteWrapper : result) {
                 Double maxDistance = Double.valueOf(filter.distanceRange);
-                if (siteWrapper.distance != null && siteWrapper.distance <= maxDistance) {
+                if (siteWrapper.siteType == 'Virtual' || (siteWrapper.distance != null && siteWrapper.distance <= maxDistance)) {
                     pageList.add(siteWrapper);
                 }
             }
