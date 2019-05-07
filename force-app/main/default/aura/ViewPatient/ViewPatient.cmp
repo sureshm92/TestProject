@@ -27,7 +27,7 @@
             <div class="{!'rr-top-bar ' + if(v.multiMode, ' multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="rr-width-limiter side-padding">
                     <c:RRNavigationPath>
-                        <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}" page=""/>
+                        <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}" page="my-patients"/>
                         <c:RRNPathItem label="{!$Label.c.PG_PP_L_Patient_Profile}"/>
                     </c:RRNavigationPath>
                 </div>
