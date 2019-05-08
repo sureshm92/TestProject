@@ -79,6 +79,11 @@ public class Alert {
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
             }
             cardParametersValueMap.put('ContactName', dbAlert.Contact__r.Name);
+            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+            if (state.isDelegate) {
+                cardParametersValueMap.put('Contact', dbAlert.Contact__r.Name);
+                cardParametersValueMap.put('ParticipantUser', state.pe.Participant__r.Full_Name__c);
+            }
             resultList.add(new Alert(
                     CatalogParametersHelper.prepareLabel(card.Title_label__c, cardParametersValueMap),
                     CatalogParametersHelper.prepareLabel(card.Body_label__c, cardParametersValueMap),
