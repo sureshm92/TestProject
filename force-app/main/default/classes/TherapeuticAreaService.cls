@@ -143,7 +143,11 @@ public with sharing class TherapeuticAreaService {
                         'ORDER BY Condition_Of_Interest_Order__c) ' +
                         'FROM Participant__c ' +
                         'WHERE Id = \'' + participantId + '\'';
-        return ((List<Participant__c>) databaseProxy.query(participantQuery))[0];
+        List<Participant__c> participants = (List<Participant__c>) databaseProxy.query(participantQuery);
+        if (!participants.isEmpty()) {
+            return participants[0];
+        }
+        return null;
     }
 
     public class CAWrapper {
