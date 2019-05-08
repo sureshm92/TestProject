@@ -67,6 +67,13 @@ public without sharing class PSETriggerHandler {
         }
     }
 
+    public class SendDropOutEmailHandler extends TriggerHandler{
+
+        protected override void onAfterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendDropEmails((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
     
     @TestVisible
@@ -164,4 +171,19 @@ public without sharing class PSETriggerHandler {
         update users;
     }
 
+    @TestVisible
+    private static void sendDropEmails(
+            List<Participant_Study_Enrollment__c> newList,
+            Map<Id, Participant_Study_Enrollment__c> oldMap
+    ) {
+        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
+        for(Participant_Study_Enrollment__c pse : newList) {
+            if(pse.Status__c != oldMap.get(pse.Id).Status__c &&
+                    pse.Status__c == PSEService.PSE_STATUS_DROP_OUT) {
+                messages.add(SendEmailTemplate.createEmail('Patient_dropped_out', pse.Participant_Contact__c, pse.Id));
+            }
+        }
+
+        SendEmailTemplate.sendEmailMessages(messages);
+    }
 }
