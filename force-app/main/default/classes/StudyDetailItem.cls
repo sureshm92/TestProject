@@ -33,6 +33,10 @@ public class StudyDetailItem implements Comparable {
                 }
             } else if (compareItem.sites.isEmpty()) {
                 return -1;
+            } else if (this.sites[0].siteType == StudySiteService.SS_TYPE_VIRTUAL) {
+                return -1;
+            } else if (compareItem.sites[0].siteType == StudySiteService.SS_TYPE_VIRTUAL) {
+                return 1;
             } else if (this.sites[0].distance == null) {
                 return 1;
             } else if (compareItem.sites[0].distance == null) {

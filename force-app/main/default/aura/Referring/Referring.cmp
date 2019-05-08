@@ -216,7 +216,7 @@
                                         </div>
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                             <div class="ssi-site-type">
-                                                    {!ss.siteType + ' Site'}
+                                                    {!if(!empty(ss.siteType),ss.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                             </div>
                                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
@@ -259,7 +259,7 @@
                                         </div>
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                             <div class="ssi-site-type">
-                                                    {!ss.siteType + ' Site'}
+                                                    {!if(!empty(ss.siteType),ss.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                             </div>
                                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
@@ -467,7 +467,7 @@
             <aura:if isTrue="{!v.currentState == 'No Active Sites'}">
                 <div class="rr-width-limiter">
                     <div class="big-alert" style="padding: 10px 0">
-                        <div class="message">You must be approved to refer to one or more sites before you can refer a patient.</div>
+                        <div class="message">{!$Label.c.PG_Ref_L_You_must_be_approved}</div>
                     </div>
                     <div class="q-failed">
                         <!--span>Text relating to patient who failed questionare</span-->
@@ -487,7 +487,7 @@
                                             </div>
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                                 <div class="ssi-site-type">
-                                                    {!ss.siteType + ' Site'}
+                                                    {!if(!empty(ss.siteType),ss.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                             </div>
                                                 <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                     <div class="ssi-site-distance">
@@ -512,7 +512,7 @@
                                             </div>
 
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
-                                                <button class="apollo-btn secondary" style="margin-top: 10px" disabled="true">
+                                                <button class="apollo-btn secondary ssi-btn" style="margin-top: 10px" disabled="true">
                                                 {!ss.hcpe.Status__c}
                                             </button>
                                             </div>

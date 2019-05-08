@@ -4,15 +4,6 @@
 
 public with sharing class TestController {
 
-    public static String helloMessage {get; set;}
-
-    @AuraEnabled
-    public static String getHelloMessage() {
-        return 'Hello world';
-    }
-
-    public TestController(){
-        helloMessage = '1';
-    }
+    //DEPRECATED! TODO REMOVE
 
 }
