@@ -49,7 +49,7 @@
         <field>Therapeutic_Area__c$RecordType</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>New TA/COI Without CTC</name>
+    <name>New SiteCore Conditions</name>
     <params>
         <name>co</name>
         <value>1</value>
