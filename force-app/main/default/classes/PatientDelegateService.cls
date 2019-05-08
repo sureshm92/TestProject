@@ -136,7 +136,7 @@ public without sharing class PatientDelegateService {
         return SObjectHelper.toIdsList(delegates);
     }
 
-    public List<Id> getDelegatedContactIds(Id participantContactId) {
+    public static List<Id> getDelegatedContactIds(Id participantContactId) {
         return SObjectHelper.toIdsList(getDelegateContacts(participantContactId));
     }
 

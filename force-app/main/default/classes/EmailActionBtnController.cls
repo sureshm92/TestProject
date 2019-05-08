@@ -8,8 +8,10 @@ global without sharing class EmailActionBtnController {
     
     public String getResultURL(){
         String result = buttonURLString;
+        if(result == null) result = '';
+
         if(!result.containsIgnoreCase('http')){
-            if(!result.startsWith('/')) result = '/' + result;
+            if(!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
             result = getCurrentCommunityURL() + result;
         }
         return result;
