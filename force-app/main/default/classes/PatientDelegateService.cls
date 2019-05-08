@@ -96,8 +96,8 @@ public without sharing class PatientDelegateService {
     public List<Patient_Delegate__c> getPDelegates() {
         return getPDelegates(CommunityService.getInstance().getCurrentContactId());
     }
-    
-    public static List<Patient_Delegate__c> getPDelegates(Id participantContactId){
+
+    public static List<Patient_Delegate__c> getPDelegates(Id participantContactId) {
         return DatabaseService.query(
                 new List<String>{
                         'Id',
@@ -125,7 +125,7 @@ public without sharing class PatientDelegateService {
         );
         return new List<Id>(usersMap.keySet());
     }
-    
+
     public static List<Contact> getDelegateContacts(Id participantContactId) {
         List<Contact> contacts = new List<Contact>();
         for (Patient_Delegate__c pd : getPDelegates(participantContactId)) contacts.add(pd.Contact__r);
@@ -135,7 +135,7 @@ public without sharing class PatientDelegateService {
     public List<Id> getDelegatedContactIds() {
         return SObjectHelper.toIdsList(delegates);
     }
-    
+
     public static List<Id> getDelegatedContactIds(Id participantContactId) {
         return SObjectHelper.toIdsList(getDelegateContacts(participantContactId));
     }
@@ -173,8 +173,7 @@ public without sharing class PatientDelegateService {
         List<Alert__c> alertList = new List<Alert__c>();
         alertList.add(new Alert__c(
                 Contact__c = contactDelegate.Id,
-                Alert_Code__c = phWelcomeCode,
-                Record_ID__c = participant.Id
+                Alert_Code__c = phWelcomeCode
         ));
 
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();

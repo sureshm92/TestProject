@@ -468,8 +468,8 @@ private class Test_BaseCRCPCommunity {
         controller.getParameters();
 
         EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
-        String url = emailActionBtnController.communityURL;
-        url = emailActionBtnController.communityURL;
+        String url = emailActionBtnController.getResultURL();
+        url = emailActionBtnController.getResultURL();
 
         Test.stopTest();
     }

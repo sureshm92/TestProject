@@ -12,7 +12,7 @@
                          body="{!$Label.Email_Body_Patient10}"
                          signature="{!$Label.Email_Signature}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Patients}"
-                              buttonURL="{!$Label.CommunityURL} + '/s/my-patients'"/>
+                              buttonURL="/s/my-patients"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -25,7 +25,7 @@
                              body="{!$Label.Email_Body_Patient10}"
                              signature="{!$Label.Email_Signature}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Patients}"
-                              buttonURL="{!$Label.CommunityURL} + '/s/my-patients'"/>
+                              buttonURL="/s/my-patients"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 
