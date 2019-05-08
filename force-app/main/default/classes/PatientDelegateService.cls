@@ -167,14 +167,13 @@ public without sharing class PatientDelegateService {
     }
 
     public void createPDAlerts(Contact contactDelegate) {
-        String phWelcomeCode = 'Welcome_To_The_PH_Delegate';
+        String phWelcomeCode = 'Welcome_To_The_PH';
         String studyWelcomeCode = 'Welcome_to_the_Study_Patient_Delegates';
 
         List<Alert__c> alertList = new List<Alert__c>();
         alertList.add(new Alert__c(
                 Contact__c = contactDelegate.Id,
-                Alert_Code__c = phWelcomeCode,
-                Record_ID__c = contactDelegate.Id
+                Alert_Code__c = phWelcomeCode
         ));
 
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();

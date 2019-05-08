@@ -44,13 +44,12 @@ public class Alert {
     
         Map<String, Set<Id>> idsByObjectType = new Map<String, Set<Id>>();
         Map<String, Set<String>> fieldsByObjectType = new Map<String, Set<String>>();
-        
+
         for(Alert__c dbAlert : dbAlerts) {
             Alert_Catalog__mdt card = catalogMap.get(dbAlert.Alert_Code__c);
             if(dbAlert.Record_ID__c != null){
                 String objectType = card.Source_Object_Type__c;
                 Map<String, String> cardParametersMap = CatalogParametersHelper.getParamsMap(card.Parameters__c);
-                
                 Set<Id> objectIds = idsByObjectType.get(objectType);
                 if (objectIds == null) objectIds = new Set<Id>();
                 objectIds.add(dbAlert.Record_ID__c);
@@ -69,7 +68,12 @@ public class Alert {
             objectsList = CatalogParametersHelper.queryObjects(objectType, fieldsByObjectType.get(objectType), idsByObjectType.get(objectType));
             for(SObject sobj: objectsList) objectsMap.put(sobj.Id, sobj);
         }
-        
+
+        String userName = [SELECT Name FROM Contact WHERE Id =: contactId].Name;
+        List<Participant__c> participants = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :contactId];
+        if(!participants.isEmpty()) {
+            userName = participants.get(0).Full_Name__c;
+        }
         List<Alert> resultList = new List<Alert>();
         for(Alert__c dbAlert : dbAlerts) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();
@@ -78,12 +82,8 @@ public class Alert {
                 SObject alertObject = objectsMap.get(dbAlert.Record_ID__c);
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
             }
-            cardParametersValueMap.put('ContactName', dbAlert.Contact__r.Name);
-            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            if (state.isDelegate) {
-                cardParametersValueMap.put('Contact', dbAlert.Contact__r.Name);
-                cardParametersValueMap.put('ParticipantUser', state.pe.Participant__r.Full_Name__c);
-            }
+
+            cardParametersValueMap.put('UserName', userName);
             resultList.add(new Alert(
                     CatalogParametersHelper.prepareLabel(card.Title_label__c, cardParametersValueMap),
                     CatalogParametersHelper.prepareLabel(card.Body_label__c, cardParametersValueMap),
