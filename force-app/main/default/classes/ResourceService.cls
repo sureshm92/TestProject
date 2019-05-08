@@ -1,7 +1,7 @@
 /**
  * created by Dmytro Pokutnii
  */
-public with sharing class ResourceService {
+public without sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';

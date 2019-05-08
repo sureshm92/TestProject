@@ -4,6 +4,7 @@ public class TestDataFactory {
             Resource__c.getSObjectType() => new Map<String, Object>{
                     'Title__c' => 'Test subject',
                     'Description__c' => 'Test description',
+                    'Language__c' => 'en_US',
                     'Posting_Date__c' => Date.today(),
                     'Expiration_Date__c' => Date.today().addDays(1)
             },
