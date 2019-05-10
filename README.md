@@ -24,7 +24,6 @@ then open setup:
 ```sh
 sfdx force:org:open
 ```
-- go to Organization-Wide Addresses and turn on email send "Allow All Profiles to Use this From Address"
 - go to **Process Automation Settings** and set up Default workflow user and set in Email approval sender value "IQVIA Referral Hub"
 - go to **Survey Settings** and enable 
 

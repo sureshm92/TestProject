@@ -12,7 +12,7 @@
                          body="{!$Label.Email_Body_PI5}"
                          signature="{!$Label.Email_Signature}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
-                              buttonURL="{!$Label.CommunityURL} + '/s/my-referrals'"/>
+                              buttonURL="/s/my-referrals"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -25,7 +25,7 @@
                              body="{!$Label.Email_Body_PI5}"
                              signature="{!$Label.Email_Signature}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referrals}"
-                              buttonURL="{!$Label.CommunityURL} + '/s/my-referrals'"/>
+                              buttonURL="/s/my-referrals"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>  
 

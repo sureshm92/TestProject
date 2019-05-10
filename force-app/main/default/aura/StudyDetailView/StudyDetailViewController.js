@@ -23,7 +23,6 @@
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
-                debugger;
                 component.set('v.studyDetail', trialDetail);
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
@@ -57,7 +56,6 @@
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'shareEmail': {
-                debugger;
                 var modal = component.find('shareModal');
                 if (communityService.getUserMode() === 'HCP') {
                     modal.show(studyDetail.hcpe.Id, studyDetail.hcpe.HCP_Contact__c);
