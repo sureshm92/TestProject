@@ -7,12 +7,14 @@ public without sharing class ResourceService {
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
     public static final String RESOURCE_SOURCE_THIRD_PARTY = '3rd Party';
     public static final String RESOURCE_STUDY_DOCUMENT = 'Study Document';
+
     public static final String X3_RD_PARTY_NOT_SOURCE = 'N/A';
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
     public static String DEFAULT_LANGUAGE = 'en_US';
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
+    public static String RESOURCE_TYPE_DOCUMENT = 'Document';
     public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
     private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
     private static final String BYLINE_API_NAME = 'Byline__c';
@@ -166,6 +168,7 @@ public without sharing class ResourceService {
                         'RecordType.DeveloperName, ' +
                         'Content_Class__c, ' +
                         'Content_Type__c, ' +
+                        'document_type__c, ' +
                         'Image_Subtitle__c, ' +
                         'article_external_link__c, ' +
                         'Subtitle__c, ' +

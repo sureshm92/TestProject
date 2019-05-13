@@ -1,4 +1,4 @@
-@IsTest
+@IsTest(IsParallel=false)
 public class Test_FillTAOnParticipantsBatchHandler {
 
     @TestSetup

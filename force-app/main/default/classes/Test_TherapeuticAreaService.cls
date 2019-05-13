@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_TherapeuticAreaService {
 
     @TestSetup

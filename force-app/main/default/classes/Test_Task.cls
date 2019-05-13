@@ -2,7 +2,7 @@
  * Created by mkotenev on 2/27/2019.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_Task {
 
     @IsTest public static void testCheckTask() {
