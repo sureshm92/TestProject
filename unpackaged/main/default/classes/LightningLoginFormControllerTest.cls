@@ -1,4 +1,4 @@
-@IsTest(SeeAllData = true)
+@IsTest(IsParallel=true)
 public with sharing class LightningLoginFormControllerTest {
 
  @IsTest

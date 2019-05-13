@@ -1,7 +1,7 @@
 /**
  * Created by AlexKetch on 4/17/2019.
  */
-@IsTest
+@IsTest(IsParallel=false)
 public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @TestSetup

@@ -1,7 +1,7 @@
 /**
  * Created by AlexKetch on 4/16/2019.
  */
-@isTest
+@IsTest(IsParallel=true)
 public with sharing class Test_ResourceNotifierRemote {
     @isTest
     public static void testRemote() {
