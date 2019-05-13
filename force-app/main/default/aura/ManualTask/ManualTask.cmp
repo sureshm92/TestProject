@@ -13,6 +13,8 @@
     <aura:attribute name="visibility" type="List"/>
     <aura:attribute name="showNumbersAdd" type="String" default="false"/>
     <aura:attribute name="dayRemind" type="Integer"/>
+    <aura:attribute name="tomorrowDate" type="Date"/>
+    <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="patientStatuses" type="List"
                     default="[
                         {'label': 'Prospect', 'value' : 'Prospect'},
@@ -43,11 +45,10 @@
                     </aura:iteration>
                 </lightning:select>
 
-                <lightning:input aura:id="field" type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}"
-                                 required="true" onchange="{!c.onDaysChange}"/>
-                <lightning:input aura:id="field" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
-                                 onchange="{!c.onDaysChange}" min="{!v.task.Start_Date__c}"
-                                 disabled="{!empty(v.task.Start_Date__c)}"/>
+                <lightning:input type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}"
+                                 required="true" onchange="{!c.dateValid}" min="{!v.todayDate}" max="{!v.task.ActivityDate}"/>
+                <lightning:input aura:id="due" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
+                                 onchange="{!c.dateValid}"/>
 
                 <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
                     <aura:if isTrue="{!not(empty(v.task.ActivityDate))}">
@@ -61,8 +62,8 @@
                         <lightning:input aura:id="field" type="number" value="{!v.dayRemind}" onchange="{!c.onDaysChange}" min="1"/>
                     </span>
                     <aura:set attribute="else">
-                        <lightning:input aura:id="field" type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
-                                         onchange="{!c.onDaysChange}" min="{!v.task.Start_Date__c}" max="{!v.task.ActivityDate}"/>
+                        <lightning:input type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
+                                         onchange="{!c.onRemindDaysChange}" min="{!v.tomorrowDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
                     </aura:set>
                 </aura:if>
             </div>
