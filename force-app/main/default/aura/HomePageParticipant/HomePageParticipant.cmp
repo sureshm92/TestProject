@@ -49,7 +49,7 @@
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <aura:if isTrue="{!v.participantState.isPremium}">
+                        <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
                             </div>
