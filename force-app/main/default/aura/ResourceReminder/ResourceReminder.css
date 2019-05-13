@@ -1,0 +1,14 @@
+/**
+ * Created by Yehor Dobrovolskyi
+ */
+.THIS {
+}
+
+.THIS .reminder-text {
+    color: #d00d08;
+    font-family: "Proxima Nova";
+    font-size: 25px;
+    margin: 10px;
+    font-weight: bold;
+    text-align: center;
+}
