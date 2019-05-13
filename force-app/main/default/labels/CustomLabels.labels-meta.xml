@@ -4084,7 +4084,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG BLS Header</shortDescription>
-        <value>Base Line Survey</value>
+        <value>TransCelerate Study Baseline Survey</value>
     </labels>
     <labels>
         <fullName>PG_CP_L_Address</fullName>
@@ -7870,7 +7870,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
-        <value>Please complete your baseline survey</value>
+        <value>Please complete your TransCelerate Study Baseline Survey</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>
