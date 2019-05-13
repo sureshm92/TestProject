@@ -119,6 +119,12 @@
     doCheckEmail: function (component, event, helper) {
         var delegate = component.get('v.delegate');
         component.set('v.isCorrectEmail', communityService.isValidEmail(delegate.delegateContact.Email));
+    },
+    doCheckContactData: function (component, event, helper) {
+        debugger;
+        var delegate = component.get('v.delegate');
+        component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim()!==''
+            && delegate.delegateContact.LastName.trim()!=='');
     }
 
 })
