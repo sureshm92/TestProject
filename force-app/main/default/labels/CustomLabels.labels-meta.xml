@@ -1157,6 +1157,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Refer a patient to a study site</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Reffer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Reffer</shortDescription>
+        <value>Refer a Patient</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
         <language>en_US</language>
         <protected>false</protected>
