@@ -25,6 +25,7 @@
     <aura:attribute name="actions" type="Object" access="private"/>
     <aura:attribute name="genders" type="List"/>
     <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="markers" type="Object[]"/>
 
     <aura:attribute name="showMRRButton" type="Boolean"/>
 
@@ -194,21 +195,21 @@
                         <div class="slds-grid slds-wrap pe-panel">
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1">
                                 <!-- todo -->
-                                <aura:iteration items="{!v.studySites}" var="ss">
-<!--                                    <div class="sdas-footer-info">-->
-<!--                                        <div class="name">1. {!ss.name}</div>-->
-<!--                                        <div class="address">-->
-<!--                                            <div class="address-1">{!ss.addrStreet}</div>-->
-<!--                                            <div class="address-3">{!ss.addrCity}</div>-->
-<!--                                        </div>-->
-<!--                                        <button data-hcpe-id="{!ss.hcpeId}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">-->
-<!--                                            {!$Label.c.BTN_Select_as_Preferred_Site}-->
-<!--                                        </button>-->
-<!--                                    </div>-->
+                                <aura:iteration items="{!v.studySites}" var="ss"  indexVar="index">
+                                    <!--                                    <div class="sdas-footer-info">-->
+                                    <!--                                        <div class="name">1. {!ss.name}</div>-->
+                                    <!--                                        <div class="address">-->
+                                    <!--                                            <div class="address-1">{!ss.addrStreet}</div>-->
+                                    <!--                                            <div class="address-3">{!ss.addrCity}</div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                        <button data-hcpe-id="{!ss.hcpeId}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">-->
+                                    <!--                                            {!$Label.c.BTN_Select_as_Preferred_Site}-->
+                                    <!--                                        </button>-->
+                                    <!--                                    </div>-->
                                     <div class="slds-grid slds-wrap slds-p-around--medium">
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ">
                                             <div class="ssi-site-name">
-                                                    {!ss.site.Name}
+                                                {!index+1 +'. '+ ss.site.Name}asdfasdf
                                             </div>
                                             <div class="ssi-pi-name">
                                                     {!ss.site.Principal_Investigator__r.Salutation + ' ' + ss.site.Principal_Investigator__r.Name}
@@ -305,7 +306,10 @@
 
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
-                                <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>
+                                <aura:if isTrue="{!v.markers}">
+                                    <lightning:map mapMarkers="{!v.markers}" zoomLevel="{!if(empty(v.markers),1,10)}"/>
+                                </aura:if>
+                                <!-- <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>-->
                             </div>
                         </div>
                     </div>
@@ -422,7 +426,7 @@
                                             <lightning:input type="text" label="{!$Label.c.PG_AS_F_Zip_Postal_Code}" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                                              required="true" onblur="{!c.doCheckfields}"/>
                                         </div>
-                                         <div class="rr-form-element slds-no-label">
+                                        <div class="rr-form-element slds-no-label">
                                             <div class="rr-cb-container">
                                                 <lightning:input type="checkbox" label="" checked="{!v.agreePolicy}" onchange="{!c.doCheckfields}"/>
                                             </div>
@@ -431,8 +435,8 @@
                                         <button class="apollo-btn primary" style="width: 100%; margin: 20px 0 50px 0"
                                                 onclick="{!c.doSaveParticipant}"
                                                 disabled="{!!v.allRequiredCompleted}">
-<!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
-<!--                                                title="{!v.actions.refer.disableReason}">-->
+                                            <!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
+                                            <!--                                                title="{!v.actions.refer.disableReason}">-->
                                             {!$Label.c.BTN_Refer_Now}
                                         </button>
                                     </div>
@@ -453,8 +457,8 @@
                         <!--span>Text relating to patient who failed questionare</span-->
                         <button class="apollo-btn primary"
                                 onclick="{!c.doReferrAnotherPatient}">
-                                <!--disabled="{!v.actions.refer.disabled}"
-                                title="{!v.actions.refer.disableReason}"-->
+                            <!--disabled="{!v.actions.refer.disabled}"
+                            title="{!v.actions.refer.disableReason}"-->
 
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
@@ -520,7 +524,10 @@
                                     </aura:iteration>
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
-                                    <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>
+                                    <aura:if isTrue="{!v.markers}">
+                                        <lightning:map mapMarkers="{!v.markers}" zoomLevel="{!if(empty(v.markers),1,10)}"/>
+                                    </aura:if>
+                                    <!-- <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>-->
                                 </div>
                             </div>
                         </aura:if>
@@ -572,7 +579,7 @@
                 </div>
             </aura:if>
 
-            <aura:if isTrue="{!v.currentState == 'Refer Success'}"> 
+            <aura:if isTrue="{!v.currentState == 'Refer Success'}">
                 <div class="ref-alert pass">
                     <c:RRIcon iconName="icon-check-circle"/>
                     <div class="main-title">{!$Label.c.PG_Ref_L_Referral_Sent}</div>
@@ -593,12 +600,12 @@
             <aura:if isTrue="{!v.currentState == 'Search PE'}">
                 <div class="rr-width-limiter side-padding">
                     <c:SearchParticipantEnrollment aura:id="searchPECmp"
-                            trialId="{!v.trialId}"
-                            trial="{!v.trial}"
-                            searchData="{!v.searchData}"
-                            searchResult="{!v.searchResult}"
-                            mrrResult="{!v.mrrResult}"
-                            showSpinner="{!v.showSpinner}"/>
+                                                   trialId="{!v.trialId}"
+                                                   trial="{!v.trial}"
+                                                   searchData="{!v.searchData}"
+                                                   searchResult="{!v.searchResult}"
+                                                   mrrResult="{!v.mrrResult}"
+                                                   showSpinner="{!v.showSpinner}"/>
                 </div>
             </aura:if>
 
