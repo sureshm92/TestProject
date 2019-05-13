@@ -14,6 +14,7 @@ public without sharing class ResourceService {
     public static String DEFAULT_LANGUAGE = 'en_US';
     public static String RESOURCE_TYPE_ARTICLE = 'Article';
     public static String RESOURCE_TYPE_VIDEO = 'Video';
+    public static String RESOURCE_TYPE_DOCUMENT = 'Document';
     public static String RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT = 'Study_Document';
     private static final String EXPIRATION_DATE_API_NAME = 'Expiration_Date__c';
     private static final String BYLINE_API_NAME = 'Byline__c';

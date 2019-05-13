@@ -146,6 +146,9 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>ResourceReminder</componentName>
+        </componentInstances>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>parentFieldApiName</name>
                 <value>Resource__c.Id</value>
