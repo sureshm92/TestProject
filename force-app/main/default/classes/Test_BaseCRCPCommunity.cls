@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_BaseCRCPCommunity {
 
     static Account piAccount;
@@ -794,7 +794,6 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
     @IsTest
     static void sitesSearchTest() {
         init();

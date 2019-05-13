@@ -7091,6 +7091,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Select Referral Networks</value>
     </labels>
     <labels>
+        <fullName>Reminder_3rd_Party_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_3rd_Party_No_TA</shortDescription>
+        <value>Remember to add a Condition of Interest</value>
+    </labels>
+    <labels>
         <fullName>Reminder_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7103,6 +7110,34 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Reminder Frequency</shortDescription>
         <value>Reminder Frequency</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_PlatformTA_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_PlatformTA_No_TA</shortDescription>
+        <value>Remember to add a Therapeutic Area</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_Type_Document_No_File</shortDescription>
+        <value>Remember to add a Document</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Specific_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Specific_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
     </labels>
     <labels>
         <fullName>Resource_Social_Share_email_title</fullName>

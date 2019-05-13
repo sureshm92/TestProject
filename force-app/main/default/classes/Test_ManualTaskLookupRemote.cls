@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 22.04.2019.
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_ManualTaskLookupRemote {
 
     public class CommunityServiceMock implements StubProvider {

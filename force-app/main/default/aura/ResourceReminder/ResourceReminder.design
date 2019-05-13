@@ -1,0 +1,8 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<design:component>
+    <sfdc:objects>
+        <sfdc:object>Resource__c</sfdc:object>
+    </sfdc:objects>
+</design:component>

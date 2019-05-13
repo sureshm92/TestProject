@@ -55,6 +55,11 @@ public with sharing class Test_ArticleService {
         insert test2;
         Resource__c r2 = [SELECT RecordType.Name FROM Resource__c WHERE Id=:test2.Id];
         System.assertEquals('Article',r2.RecordType.Name);
+        Resource__c test3 = getResource(Date.today(), Date.today().addDays(-12), false);
+        test3.Content_Type__c = 'Study_Document';
+        insert test3;
+        Resource__c r3 = [SELECT RecordType.DeveloperName FROM Resource__c WHERE Id=:test3.Id];
+        System.assertEquals('Study_Document',r3.RecordType.DeveloperName);
     }
 
     @IsTest
