@@ -43,6 +43,7 @@
 
     .THIS .slv-padded-panel-right {
         padding-right: 4.5rem;
+        padding-left: 4.5rem;
     }
 }
 @media all and (max-width: 767px) {

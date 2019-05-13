@@ -53,7 +53,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Hi ##Contact!
+        <value>Hi ##UserName!
 
 You have been assigned as a Delegate for ##ParticipantUser in the ##StudyName study. We are so excited you have chosen to take this journey with ##ParticipantUser.
 
@@ -340,8 +340,8 @@ Click OK to begin!</value>
         <fullName>AccountSettings_Referral_Networks_Site_Based</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Site Based</shortDescription>
-        <value>Site Based</value>
+        <shortDescription>Institution Based</shortDescription>
+        <value>Institution Based</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Referral_Networks_Topic_Based</fullName>
@@ -1559,11 +1559,11 @@ If you would like to be contacted about future clinical research opportunities, 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient14</shortDescription>
-        <value>The study team has determined that you are not eligible to participate in the clinical research study: ##StudyName.
+        <value>The study recruitment team has determined that you are not eligible to participate in the clinical research study: ##StudyName.
 
-Please contact your physician for further treatment discussions.
+            Please contact your physician for further treatment discussions.
 
-If you would like to be contacted about future clinical research opportunities, please join the ##CRCommunityURL.</value>
+            If you would like to be contacted about future clinical research opportunities, please join the ##CRCommunityURL.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient15</fullName>
@@ -1608,9 +1608,9 @@ If you are not contacted about this opportunity within 3 business days, please c
         <shortDescription>Email Body Patient4</shortDescription>
         <value>Recently, ##HCPName made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
 
-You will be contacted by a member of the study team regarding the next steps in the enrollment process.
+            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
 
-If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
+            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient7</fullName>
@@ -3695,7 +3695,7 @@ If you are prompted with a window indicating that the file format and extension 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP T Indicate Req Fields</shortDescription>
-        <value>indicates a required fields</value>
+        <value>indicates a required field</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
@@ -4057,6 +4057,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_T_Please_Review_Contact_information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS T Please Review Contact information</shortDescription>
+        <value>Please review your contact information and click Save once complete</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Privacy_Rights</fullName>

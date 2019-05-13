@@ -249,9 +249,14 @@
                     {!$Label.c.PG_AS_H_Contact_Information}
                 </div>
                 <div class="as-sub-title">
-                    {!$Label.c.PG_AS_T1_Contact_Info + ' '}
-                    <c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>
-                    {!' ' + $Label.c.PG_AS_T3_Contact_Info}
+                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                        {!$Label.c.PG_AS_T1_Contact_Info + ' '}
+                        <c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>
+                        {!' ' + $Label.c.PG_AS_T3_Contact_Info}
+                        <aura:set attribute="else">
+                            {!$Label.c.PG_AS_T_Please_Review_Contact_information}
+                        </aura:set>
+                    </aura:if>
                 </div>
                 <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
 

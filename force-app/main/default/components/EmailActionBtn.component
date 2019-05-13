@@ -2,14 +2,14 @@
  - Created by Leonid Bartenev
  -->
 
-<apex:component id="EmailActionBtn" access="global">
+<apex:component id="EmailActionBtn" access="global" controller="EmailActionBtnController">
 
     <!-- attributes: -->
     <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
-    <apex:attribute name="buttonURL" type="String" description="" access="global" />
+    <apex:attribute name="buttonURL" type="String" description="" access="global" assignTo="{!buttonURLString}"/>
 
     <!-- component body: -->
-    <apex:outputLink value="{!if(buttonURL == null, $Label.CommunityURL, buttonURL)}"
+    <apex:outputLink value="{!resultURL}"
                      style="border-radius: 4px; background: #297DFD; color: #FFFFFF; padding: 9px 16px;
                                                 border: 1px; font-size: 14px; letter-spacing: 0; line-height: 20px;
                                                 user-select: none; cursor: pointer; min-width: 100px; text-decoration: none;
