@@ -6,14 +6,16 @@
 controller="ResourceReminderRemote">
 
     <aura:attribute name="reminders" type="ResourceReminderService.Reminder[]"/>
+    <aura:attribute name="channel" type="String" default="/event/Reminder_Event__e"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler event="force:refreshView" action="{!c.onLog}"/>
+
+    <lightning:empApi aura:id="empApi"/>
 
     <force:recordData recordId="{!v.recordId}"
                       targetFields="Id"
                       layoutType="COMPACT"
-                      recordUpdated="{!c.doInit}"
+                      recordUpdated="{!c.onRemind}"
     />
 
     <aura:if isTrue="{!!empty(v.reminders)}">
