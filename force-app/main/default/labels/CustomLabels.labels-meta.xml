@@ -1157,6 +1157,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Refer a patient to a study site</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Reffer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Reffer</shortDescription>
+        <value>Refer a Patient</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1610,8 +1617,7 @@ If you are not contacted about this opportunity within 3 business days, please c
 
             You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
 
-            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.
-        </value>
+            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient7</fullName>
