@@ -146,7 +146,7 @@ public with sharing class ResourceReminderService {
             reminderLabel = Label.Reminder_Study_Document_Type_Document_No_File;
             resourceFields = new List<String>{
                     'RecordType.DeveloperName',
-                    'Content_Type__c',
+                    'document_type__c',
                     '(SELECT ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)'
             };
         }
@@ -154,8 +154,8 @@ public with sharing class ResourceReminderService {
             Boolean isActive = false;
             if (String.isNotBlank(resource.RecordType.DeveloperName)
                     && ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.equalsIgnoreCase(resource.RecordType.DeveloperName)
-                    && String.isNotBlank(resource.Content_Type__c)
-                    && ResourceService.RESOURCE_TYPE_DOCUMENT.equalsIgnoreCase(resource.Content_Type__c)
+                    && String.isNotBlank(resource.document_type__c)
+                    && ResourceService.RESOURCE_TYPE_DOCUMENT.equalsIgnoreCase(resource.document_type__c)
                     && (resource.ContentDocumentLinks == null || resource.ContentDocumentLinks.isEmpty())) {
                 isActive = true;
             }
