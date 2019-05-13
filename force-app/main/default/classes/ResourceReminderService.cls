@@ -14,7 +14,9 @@ public with sharing class ResourceReminderService {
         List<Reminder> activeReminders = new List<Reminder>();
         List<Reminder> allReminders = this.getAllReminder();
         System.debug('allReminders: ' + allReminders);
-        Resource__c resource = this.getResource(resId, allReminders);
+        Set<String> fieldsQuery = this.getFields(allReminders);
+        String queryResource = this.buildQuery(resId, fieldsQuery);
+        Resource__c resource = this.getResource(queryResource);
         System.debug('resource: ' + resource);
         for (Reminder reminder: allReminders) {
             if (reminder.isActive(resource)) {
@@ -25,23 +27,14 @@ public with sharing class ResourceReminderService {
         return activeReminders;
     }
 
-    private Resource__c getResource(Id resId, List<Reminder> allReminders) {
+    private Resource__c getResource(String queryResource) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        System.debug('query: ' + this.buildQuery(resId, allReminders));
-        List<Resource__c> resources = (List<Resource__c>) databaseProxy.query(this.buildQuery(resId, allReminders));
+        List<Resource__c> resources = (List<Resource__c>) databaseProxy.query(queryResource);
         System.debug('resources: ' + resources);
         if (!resources.isEmpty()) {
             return resources[0];
         }
         return null;
-    }
-
-    private String buildQuery(Id resId, List<Reminder> allReminders) {
-        Set<String> fieldsQuery = new Set<String>();
-        for (Reminder reminder : allReminders) {
-            fieldsQuery.addAll(reminder.resourceFields);
-        }
-        return 'SELECT ' + String.join(new List<String>(fieldsQuery), ', ') + ' FROM Resource__c ' + 'WHERE Id = \'' + resId + '\'';
     }
 
     private List<Reminder> getAllReminder() {
@@ -50,6 +43,18 @@ public with sharing class ResourceReminderService {
             allReminders.add((Reminder) typeObj.newInstance());
         }
         return allReminders;
+    }
+
+    private  Set<String> getFields(List<Reminder> allReminders) {
+        Set<String> fieldsQuery = new Set<String>();
+        for (Reminder reminder : allReminders) {
+            fieldsQuery.addAll(reminder.resourceFields);
+        }
+        return fieldsQuery;
+    }
+
+    private String buildQuery(Id resId, Set<String> fieldsQuery) {
+        return 'SELECT ' + String.join(new List<String>(fieldsQuery), ', ') + ' FROM Resource__c ' + 'WHERE Id = \'' + resId + '\'';
     }
 
     public abstract class Reminder {
