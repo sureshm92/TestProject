@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_BaselineSurveyRemote {
     
     @IsTest

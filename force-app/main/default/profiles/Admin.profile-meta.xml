@@ -943,6 +943,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TherapeuticAreaService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3299,6 +3303,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.article_external_link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.document_type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

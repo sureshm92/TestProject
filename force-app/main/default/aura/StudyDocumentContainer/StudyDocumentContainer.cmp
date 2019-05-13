@@ -35,8 +35,8 @@
                                  data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
                                  data-id="{!resourceWrapper.resource.Id}" onclick="{!c.navigateToPage}">
                                 <c:RRIcon
-                                        iconName="{!resourceWrapper.resource.Content_Type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
-                                        class="{!resourceWrapper.resource.Content_Type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
+                                        iconName="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
+                                        class="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
                             </div>
                         </td>
                         <td class="study-document-column-data study-document-title-data">

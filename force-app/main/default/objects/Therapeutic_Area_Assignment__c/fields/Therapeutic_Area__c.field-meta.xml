@@ -3,6 +3,15 @@
     <fullName>Therapeutic_Area__c</fullName>
     <externalId>false</externalId>
     <label>Therapeutic Area</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Therapeutic_Area__c.RecordType.DeveloperName</field>
+            <operation>notEqual</operation>
+            <value>Third_Party_Condition_of_Interests</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
     <relationshipLabel>Therapeutic Area Assignments</relationshipLabel>
     <relationshipName>Therapeutic_Area_Assignments</relationshipName>

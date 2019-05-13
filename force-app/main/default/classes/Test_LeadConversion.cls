@@ -1,7 +1,7 @@
 /**
  * Created by Kryvolap on 23.10.2018.
  */
-@isTest
+@IsTest(IsParallel=false)
 private class Test_LeadConversion {
     static Account piAccount;
     static Account studySiteAccount;

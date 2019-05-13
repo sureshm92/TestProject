@@ -19,7 +19,12 @@
                 {!v.resourceWrapper.resource.Description__c}
             </div>
             <div class="resource-expiration-date">
-                Expires: <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}"/>
+                <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">
+                    Expires: <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}"/>
+                    <aura:set attribute="else">
+                        Expires: None
+                    </aura:set>
+                </aura:if>
             </div>
             <div class="resource-description-footer">
                 <div class="resource-icon resource-pointer" onclick="{!c.doVote}">

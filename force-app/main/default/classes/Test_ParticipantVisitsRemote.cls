@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 19.04.2019.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_ParticipantVisitsRemote {
 
     class VisitServiceMock implements StubProvider {

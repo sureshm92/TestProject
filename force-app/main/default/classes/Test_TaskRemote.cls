@@ -2,7 +2,7 @@
  * Created by Denis on 15.04.2019.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_TaskRemote {
 
     public class TaskServiceMock implements System.StubProvider {

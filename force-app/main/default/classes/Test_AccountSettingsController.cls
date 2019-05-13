@@ -2,7 +2,7 @@
  * Created by Denis on 15.04.2019.
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_AccountSettingsController {
 
 
