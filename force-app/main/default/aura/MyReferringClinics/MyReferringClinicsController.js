@@ -64,5 +64,11 @@
         var siteId = event.getSource().get('v.value');
         component.set('v.rpData.studySiteId', siteId);
     },
-
+    checkReqFields : function (component, event, helper) {
+        var rpData = component.get('v.rpData');
+        debugger;
+        var reqFieldsFilled = rpData.firstName.trim()!=='' && rpData.lastName.trim()!=='' &&
+            rpData.phone.trim()!=='' && rpData.clinicName.trim()!=='';
+        component.set('v.reqFieldsFilled',reqFieldsFilled);
+    }
 })
