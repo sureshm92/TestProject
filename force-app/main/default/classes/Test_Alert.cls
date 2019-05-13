@@ -5,6 +5,7 @@
 @isTest
 public with sharing class Test_Alert {
 
+    /*
     @isTest public static void testCheckAlert() {
 
         String alertCatalogName = 'Welcome_to_the_Study';
@@ -70,4 +71,5 @@ public with sharing class Test_Alert {
         System.assertEquals(expectedBody, alerts.get(0).body);
         Test.stopTest();
     }
+    */
 }

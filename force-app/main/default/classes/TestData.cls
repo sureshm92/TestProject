@@ -5,20 +5,26 @@
 @IsTest
 public class TestData {
     
-    User piUser;
-    User hcpUser;
-    User referralUser;
-    User participantUser;
-    Participant__c referral;
-    Participant__c participant;
+    public User piUser;
+    public User hcpUser;
+    //public User referralUser;
+    public User participantUser;
+    public Participant__c referral;
+    public Participant__c participant;
+    public Clinical_Trial_Profile__c ctp;
+    public Study_Site__c ss;
+    public Participant_Study_Enrollment__c pse;
     
     public TestData(){
-        referral = [SELECT Id, Name FROM Participant__c WHERE Last_Name__c = 'Referral'];
+        //referral = [SELECT Id, Name FROM Participant__c WHERE Last_Name__c = 'Referral'];
         participant = [SELECT Id, Name FROM Participant__c WHERE Last_Name__c = 'Participant'];
-        referralUser = [SELECT Id FROM User WHERE Contact.LastName = :referral.Name];
+        //referralUser = [SELECT Id FROM User WHERE Contact.LastName = :referral.Name];
         participantUser = [SELECT Id FROM User WHERE Contact.LastName = :participant.Name];
         hcpUser = [SELECT Id FROM User WHERE Contact.LastName = 'HCP'];
         piUser = [SELECT Id FROM User WHERE Contact.LastName = 'PI'];
+        ctp = [SELECT Id, Therapeutic_Area__c FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
+        ss = [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
+        pse = [SELECT Id FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
     }
     
     
@@ -65,16 +71,7 @@ public class TestData {
                 AccountId = piAccount.Id
         );
         insert piContact;
-    
-        Contact piDelegateContact = new Contact(
-                FirstName = 'PI_Delegate',
-                LastName = 'PI_Delegate',
-                Email = 'pi_delegate@emil.com',
-                AccountId = piAccount.Id,
-                userCommunityMode__c = 'PI'
-        );
-        insert piDelegateContact;
-    
+        
         Contact hcpContact = new Contact(
                 FirstName = 'HCP',
                 LastName = 'HCP',
@@ -84,14 +81,6 @@ public class TestData {
                 MailingLongitude = -73.991509
         );
         insert hcpContact;
-    
-        Contact hcpDelegateContact = new Contact(
-                FirstName = 'HCP_Delegate',
-                LastName = 'HCP_Delegate',
-                Email = 'hcp_delegate@emil.com',
-                AccountId = hcpAccount.Id
-        );
-        insert hcpDelegateContact;
         
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA');
         insert area;
@@ -107,7 +96,9 @@ public class TestData {
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
                 Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES'
+                Participating_in_Rocket_Referral__c = 'YES',
+                Participating_in_Patient_Portal__c = 'Yes',
+                Baseline_Survey_URL__c = 'www.survey.com'
         );
         insert study;
     
@@ -140,42 +131,18 @@ public class TestData {
         insert hcpEnrollment;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
-    
-        Site_Staff__c siteStaff = new Site_Staff__c(
-                Site_Contact__c = piDelegateContact.Id,
-                Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
-                Study_Site__c = studySite.Id
-        );
-        insert siteStaff;
-    
-        Referring_HCP_Staff__c referringHcpStaff = new Referring_HCP_Staff__c(
-                Contact__c = hcpDelegateContact.Id,
-                Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
-                HCP_Enrollment__c = hcpEnrollment.Id
-        );
-        insert referringHcpStaff;
-    
-        Participant_Enrollment__c mrrPE = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PENDING,
-                PI_Contact__c = piContact.Id,
-                Study_Site__c = studySite.Id,
-                Patient_ID__c = 'SomePatienntId',
-                Referral_Source__c = 'HCP'
-        );
-        insert mrrPE;
+        
     
         Participant__c participant = new Participant__c(
-                First_Name__c = 'Referral',
-                Last_Name__c = 'Referral',
+                First_Name__c = 'Participant',
+                Last_Name__c = 'Participant',
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL'
         );
         insert participant;
-        Participant_Enrollment__c passedMrrPE = new Participant_Enrollment__c(
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 HCP__c = hcpEnrollment.Id,
                 Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
                 Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
@@ -186,9 +153,11 @@ public class TestData {
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Participant__c = participant.Id
         );
-        insert passedMrrPE;
+        insert pe;
     
-        participant = new Participant__c(
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update pe;
+        /*participant = new Participant__c(
                 First_Name__c = 'Participant',
                 Last_Name__c = 'Participant',
                 Phone__c = '13412412',
@@ -210,7 +179,7 @@ public class TestData {
         );
         insert pe2;
         pe2.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update pe2;
+        update pe2;*/
     
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
@@ -230,7 +199,6 @@ public class TestData {
         insert contactTherapeuticArea;
     
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
-        User piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
     
         Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
                 User__c = hcpUser.Id,

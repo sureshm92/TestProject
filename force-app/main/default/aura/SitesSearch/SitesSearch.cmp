@@ -76,7 +76,7 @@
                             </aura:iteration>
                         </div>
                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2 slds-order--1 slds-medium-order--2 ss-map">
-                            <lightning:map mapMarkers="{!v.mapMarkers}" zoomLevel="10"/>
+                            <lightning:map mapMarkers="{!v.mapMarkers}" zoomLevel="{!if(empty(v.mapMarkers),1,10)}"/>
                         </div>
                     </div>
                 </aura:if>

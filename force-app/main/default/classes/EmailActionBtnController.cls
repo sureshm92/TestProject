@@ -3,31 +3,30 @@
  */
 
 global without sharing class EmailActionBtnController {
-    private String commUrl;
-    global String communityURL {
-        get {
-            if (commUrl == null) {
-                commUrl = getCurrentCommunityURL();
-            }
-            return commUrl;
+    
+    global String buttonURLString {get; set;}
+    
+    public String getResultURL(){
+        String result = buttonURLString;
+        if(result == null) result = '';
+
+        if(!result.containsIgnoreCase('http')){
+            if(!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
+            result = getCurrentCommunityURL() + result;
         }
-        set;
+        return result;
     }
 
     private String getCurrentCommunityURL() {
-        String redundantUrlEnd = '/s/login';
         List<Network> currCommunities = [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
-        String currCommunityUrl;
+        String urlStr;
         if (currCommunities.size() > 0) {
-            currCommunityUrl = Network.getLoginUrl(currCommunities[0].Id);
-            if (currCommunityUrl.endsWith(redundantUrlEnd)) {
-                currCommunityUrl = currCommunityUrl.removeEnd(redundantUrlEnd);
-            }
+            urlStr = Network.getLoginUrl(currCommunities[0].Id);
+            List<String> urlParts = urlStr.split('//');
+            String startUrl = urlParts[0];
+            urlParts = urlParts[1].split('/');
+            urlStr = startUrl + '//' +urlParts[0];
         }
-        if (currCommunityUrl == null) {
-            currCommunityUrl = Label.CommunityURL;
-        }
-
-        return currCommunityUrl;
+        return urlStr;
     }
 }

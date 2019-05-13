@@ -14,8 +14,7 @@
                          body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
                          signature="{!$Label.Email_Signature}">
             <c:EmailActionBtn buttonLabel="{!$Label.Action_View_New_Study_Site}"
-                              buttonURL="{!'/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"
-                              />
+                              buttonURL="{!'/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
