@@ -152,7 +152,7 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <!--Task Type here-->
                     <aura:if isTrue="{!!v.isReferral &amp;&amp; !v.createdByAdmin}">
-                        <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type}">
+                        <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type__c}">
                             <aura:iteration items="{!v.taskTypeList}" var="type">
                                 <option text="{!type}"></option>
                             </aura:iteration>
