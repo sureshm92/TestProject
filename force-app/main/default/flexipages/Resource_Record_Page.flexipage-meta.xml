@@ -19,10 +19,25 @@
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Resource__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>Study__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>
                 <value>NONE</value>
             </componentInstanceProperties>
-            <componentName>force:relatedListContainer</componentName>
+            <componentName>force:relatedListSingleContainer</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!Record.Content_Class__c}</leftValue>
+                    <operator>NE</operator>
+                    <rightValue>3rd Party</rightValue>
+                </criteria>
+            </visibilityRule>
         </componentInstances>
         <mode>Replace</mode>
         <name>relatedTabContent</name>
@@ -75,6 +90,28 @@
             </componentInstanceProperties>
             <componentName>flexipage:tabset</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Resource__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>AttachedContentDocuments</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListComponentOverride</name>
+                <value>NONE</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!Record.document_type__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Document</rightValue>
+                </criteria>
+            </visibilityRule>
+        </componentInstances>
         <mode>Replace</mode>
         <name>main</name>
         <type>Region</type>
@@ -108,6 +145,21 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Resource__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>Therapeutic_Area_Assignments__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListComponentOverride</name>
+                <value>NONE</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+        </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
                 <name>tabs</name>

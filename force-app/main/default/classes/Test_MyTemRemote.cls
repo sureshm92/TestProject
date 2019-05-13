@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 public class Test_MyTemRemote {
     
     @IsTest

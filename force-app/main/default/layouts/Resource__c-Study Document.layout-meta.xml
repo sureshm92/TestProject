@@ -16,27 +16,24 @@
                 <field>Description__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Language__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>document_type__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Video__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Version_Date__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Language__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Content_Type__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Country__c</field>
-            </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -65,7 +62,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h4E000000gIba</masterLabel>
+        <masterLabel>00h0E000001ASdo</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
