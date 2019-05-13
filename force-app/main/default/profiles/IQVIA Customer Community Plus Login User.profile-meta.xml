@@ -83,6 +83,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CTCService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CTCTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -108,6 +112,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ClinicProfileRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClinicalTrialProfileService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -231,6 +239,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmailActionBtnController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailTemplateController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -256,6 +268,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>FieldDescribeUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FillTAOnParticipantsBatchHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -739,6 +755,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TestData</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TestDataFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -747,7 +767,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_AddPatientByPIRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AlertRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -759,7 +787,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_BaselineSurveyRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CTCTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -775,6 +811,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ConditionOfInterestRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -783,7 +823,31 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualTaskFilter</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualTaskLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualTaskRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MotivationalMessagesRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MyTemRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -792,6 +856,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ParticipantService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantVisitsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -831,6 +903,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_SendEmailToParticipant</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Task</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -840,6 +916,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TaskRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TaskService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1674,6 +1758,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Originator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
@@ -2026,6 +2115,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Lead.HCP_Referral_Source__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Lead.Invited_by_PI__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2919,11 +3013,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.PSE_Count__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Phone_Type__c</field>
         <readable>true</readable>
@@ -3509,6 +3598,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Originator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.Reminder_Date__c</field>
         <readable>true</readable>
@@ -3834,9 +3928,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Patient_Delegate__c-Caregiver Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Post_Install__mdt-Post Install Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
@@ -4422,6 +4513,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ApexRestServices</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ApiEnabled</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
