@@ -3,6 +3,13 @@
  */
 ({
     doInit: function (component, event, helper) {
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var tomorrowDate = $A.localizationService.formatDate(tomorrow, 'YYYY-MM-DD');
+        component.set('v.tomorrowDate', tomorrowDate);
+        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        component.set('v.todayDate', todayDate);
+
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.task', initData.task);
