@@ -5,6 +5,8 @@
 <aura:component controller="ConditionOfInterestRemote" description="ConditionOfInterestListView">
     <aura:attribute name="conditionOfInterestList" type="Object[]"/>
     <aura:attribute name="isSaveList" type="Boolean"/>
+    <aura:attribute name="bypass" type="Boolean" default=""/>
+
 
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
