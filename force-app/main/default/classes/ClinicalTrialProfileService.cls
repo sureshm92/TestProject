@@ -37,7 +37,7 @@ public with sharing class ClinicalTrialProfileService {
             List<Participant__c> participants = this.getParticipantsByIdsSet(tAsByParticipantsIds.keySet());
             for (Participant__c singleParticipant : participants) {
                 tAPToDelete.addAll(singleParticipant.Therapeutic_Area_Patients__r);
-                if(tAsByParticipantsIds.get(singleParticipant.Id) != null) {
+                if (tAsByParticipantsIds.get(singleParticipant.Id) != null) {
                     tAPToCreate.add(service.getRelatedToStudyTherapeuticAreaPatient(singleParticipant.Id, tAsByParticipantsIds.get(singleParticipant.Id)));
                 }
             }
@@ -58,7 +58,9 @@ public with sharing class ClinicalTrialProfileService {
         List<Participant_Enrollment__c> enrollments = databaseProxy.query(enrollmentsQuery);
         Map<Id, Id> tAsByParticipantsIds = new Map<Id, Id>();
         for (Participant_Enrollment__c singlePE : enrollments) {
-            tAsByParticipantsIds.put(singlePE.Participant__c, singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c);
+            if (String.isNotBlank(singlePE.Participant__c)) {
+                tAsByParticipantsIds.put(singlePE.Participant__c, singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c);
+            }
         }
         return tAsByParticipantsIds;
     }
