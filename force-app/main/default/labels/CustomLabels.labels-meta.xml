@@ -1392,7 +1392,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you!  Please take 2 minutes to fill out the Baseline survey in  IQVIA™ Patient  Portal.</value>
+        <value>We would love to hear from you! Please take a few minutes to fill out the &lt;Survey title&gt; survey for the &lt;study code name&gt; study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -2173,7 +2173,7 @@ The IQVIA Referral Hub and Patient Portal Support Team</value>
 
 Sincerely,
 
-IQVIA Study Team</value>
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -3646,7 +3646,21 @@ If you are prompted with a window indicating that the file format and extension 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AL Bottom Signature</shortDescription>
-        <value>Some bottom text. To replace in future</value>
+        <value>Please review your contact information. If any information is incorrect, please</value>
+    </labels>
+    <labels>
+        <fullName>PG_AL_Bottom_Signature_End</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AL Bottom Signature End</shortDescription>
+        <value>to update your information.</value>
+    </labels>
+    <labels>
+        <fullName>PG_AL_Bottom_Signature_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AL Bottom Signature Link</shortDescription>
+        <value>contact IQVIA</value>
     </labels>
     <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
