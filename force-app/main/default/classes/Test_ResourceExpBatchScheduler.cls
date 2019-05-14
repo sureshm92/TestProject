@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest
+@IsTest(IsParallel=false)
 public with sharing class Test_ResourceExpBatchScheduler {
 
     public static String CRON_EXP = '0 0 0 10 2 ? 2020';
@@ -28,6 +28,14 @@ public with sharing class Test_ResourceExpBatchScheduler {
             );
             resources.add(res);
         }
+        resources.add(
+                new Resource__c(
+                Expiration_Date__c = expDate,
+                Posting_Date__c = publish,
+                Content_Type__c = ResourceService.RESOURCE_TYPE_ARTICLE,
+                Content_Class__c = ResourceService.RESOURCE_SOURCE_PLATFORM
+                )
+        );
         insert resources;
         resourceMap = new Map<Id, Resource__c>(resources);
         resIds = new List<Id>(resourceMap.keySet());
@@ -57,7 +65,7 @@ public with sharing class Test_ResourceExpBatchScheduler {
                 FROM Resource__c
                 WHERE Id IN :resIds
         ];
-        System.assertEquals(10, rl.size(), 'Resources delete before job has run');
+        System.assertEquals(11, rl.size(), 'Resources delete before job has run');
         Test.startTest();
         Database.executeBatch(new BatchProcess(query, new ResourceExpirationBatchHandlerImpl()), 1000);
         Test.stopTest();
@@ -66,6 +74,6 @@ public with sharing class Test_ResourceExpBatchScheduler {
                 FROM Resource__c
                 WHERE Id IN :resIds
         ];
-        System.assertEquals(0, rl.size(), 'Resources not delete');
+        System.assertEquals(1, rl.size(), 'Resources not delete');
     }
 }

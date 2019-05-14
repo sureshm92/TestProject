@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest(SeeAllData = true)
+@IsTest(IsParallel=true)
 private class Test_RRLoginRemote {
 
     @IsTest

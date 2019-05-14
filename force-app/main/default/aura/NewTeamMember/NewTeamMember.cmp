@@ -18,6 +18,7 @@
     <aura:attribute name="currentTab" type="String" default="all-same"/>
     <aura:attribute name="allTrialLevel" type="Object"/>
     <aura:attribute name="isCorrectEmail" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isCorrectContactData" type="Boolean" default="false" access="private"/>
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="changedLevelsAll" type="List" access="private" default="[]"/>
     <aura:attribute name="currentUserContactId" type="String" access="private" default=""/>
@@ -29,6 +30,8 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.delegate.delegateContact.Email}" action="{!c.doCheckEmail}"/>
+    <aura:handler name="change" value="{!v.delegate.delegateContact.FirstName}" action="{!c.doCheckContactData}"/>
+    <aura:handler name="change" value="{!v.delegate.delegateContact.LastName}" action="{!c.doCheckContactData}"/>
 
     <!-- component body-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
@@ -150,16 +153,14 @@
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <aura:if isTrue="{!v.isStaff}">
                                             <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
-                                                    disabled="{!or(or(or(or(or(not(v.isCorrectEmail),
-                                                        and(empty(v.delegate.delegateContact.FirstName),v.delegate.delegateContact.Id==undefined)),
-                                                        and(empty(v.delegate.delegateContact.LastName),v.delegate.delegateContact.Id==undefined)),
+                                                    disabled="{!or(or(or(or(not(v.isCorrectEmail),
+                                                        and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId)
 }"
-                                                    title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
-                                                        and(empty(v.delegate.delegateContact.FirstName),v.delegate.delegateContact.Id==undefined)),
-                                                        and(empty(v.delegate.delegateContact.LastName),v.delegate.delegateContact.Id==undefined)),
+                                                    title="{!if(or(or(or(or(not(v.isCorrectEmail),
+                                                        and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),

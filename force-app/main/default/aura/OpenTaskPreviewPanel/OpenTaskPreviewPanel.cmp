@@ -19,7 +19,7 @@
                 <c:RRTable>
                     <tr>
                         <th>Name</th>
-                        <th style="width:130px">{!$Label.c.Complete_By_Date}</th>
+                        <th style="width:130px">{!$Label.c.Due_Date}</th>
                     </tr>
                     <aura:iteration items="{!v.tasks}" var="task">
                         <tr>
@@ -27,7 +27,14 @@
                                 <c:RRLink label="{!task.Subject}"
                                           page="{!if(empty(task.Action_URL__c), 'edit-task?id=' + task.Id, task.Action_URL__c)}"/>
                             </td>
-                            <td><ui:outputDate value="{!task.ActivityDate}"/></td>
+                            <td>
+                                <aura:if isTrue="{!task.ActivityDate}">
+                                    <ui:outputDate value="{!task.ActivityDate}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!!task.ActivityDate}">
+                                    {!$Label.c.None}
+                                </aura:if>
+                            </td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>

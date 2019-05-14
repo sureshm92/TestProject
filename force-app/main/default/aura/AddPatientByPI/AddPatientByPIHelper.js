@@ -16,6 +16,19 @@
     createParticipant: function (component, callback) {
         component.find('spinner').show();
         var pe = component.get('v.pe');
+        var helper = this;
+        if(pe.Participant_Status__c === 'Enrollment Success') {
+            component.find('actionApprove').execute(function () {
+                helper.saveParticipant(component, pe, callback);
+            }, function () {
+                component.find('spinner').hide();
+            });
+        } else {
+            helper.saveParticipant(component, pe, callback);
+        }
+    },
+
+    saveParticipant : function (component, pe, callback) {
         var participant = component.get('v.participant');
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),

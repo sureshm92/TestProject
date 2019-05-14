@@ -18,6 +18,7 @@ public with sharing class ManualTaskRemote {
     public static Integer createTasks(String task, String filter) {
         try {
             Task newTask = (Task) JSON.deserialize(task, Task.class);
+            newTask.Reminder_Date__c = newTask.Reminder_Date__c.addHours(12);
             ManualTaskFilter taskFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
 
             //Assigning a common task for each found user
@@ -40,30 +41,6 @@ public with sharing class ManualTaskRemote {
             return users.size();
         } catch (Exception e) {
             return (Integer) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static String remindDateCalc(Date activityDate, Date remindDate, Boolean isNumberInput, Integer count) {
-        try {
-            if(isNumberInput) {
-                Date remind = activityDate.addDays(-count);
-                return (remind.daysBetween(activityDate) >= 0) ? JSON.serialize(remind) : JSON.serialize(activityDate);
-            }
-            else {
-                return JSON.serialize(Math.abs(activityDate.daysBetween(remindDate)));
-            }
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static Date checkAndGetValidDate(Date start, Date due) {
-        try {
-            return due.dayOfYear() >= start.dayOfYear() ? due : start;
-        } catch (Exception e) {
-            return (Date) AuraHelper.throwException(e);
         }
     }
 

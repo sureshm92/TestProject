@@ -13,6 +13,8 @@
     <aura:attribute name="visibility" type="List"/>
     <aura:attribute name="showNumbersAdd" type="String" default="false"/>
     <aura:attribute name="dayRemind" type="Integer"/>
+    <aura:attribute name="tomorrowDate" type="Date"/>
+    <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="patientStatuses" type="List"
                     default="[
                         {'label': 'Prospect', 'value' : 'Prospect'},
@@ -22,6 +24,13 @@
                         ]"/>
     <aura:attribute name="statuses" type="List"/>
     <aura:attribute name="taskFilters" type="ManualTaskFilter"/>
+    <aura:attribute name="isValidFields" type="Boolean" default="false"/>
+
+    <aura:handler name="change" value="{!v.task.Subject}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.task.Start_Date__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.task.ActivityDate}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.task.Reminder_Date__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.dayRemind}" action="{!c.doCheckFields}"/>
 
     <!-- component body -->
     <lightning:card title="Configure your tasks parameters below">
@@ -29,15 +38,15 @@
         <div class="slds-grid slds-gutters mt-panel">
             <div class="slds-col slds-size--1-of-4">
                 <div class="section-title">Task details</div>
-                <lightning:input label="Enter Subject" value="{!v.task.Subject}" required="true"/>
+                <lightning:input aura:id="field" label="Enter Subject" value="{!v.task.Subject}" required="true"/>
                 <lightning:select label="Set Priority for the Task:" value="{!v.task.Priority}">
                     <aura:iteration items="{!v.priorities}" var="prior">
-                        <option label="{!prior.label}" value="{!prior.value}"/>
+                        <option label="{!prior.label}" value="{!prior.value}"></option>
                     </aura:iteration>
                 </lightning:select>
 
                 <lightning:input type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}"
-                                 required="true" onchange="{!c.dateValid}"/>
+                                 required="true" onchange="{!c.dateValid}" min="{!v.todayDate}" max="{!v.task.ActivityDate}"/>
                 <lightning:input aura:id="due" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
                                  onchange="{!c.dateValid}"/>
 
@@ -47,16 +56,18 @@
                     </aura:if>
                     <option value="false">Specific Date</option>
                 </lightning:select>
+
                 <aura:if isTrue="{!v.showNumbersAdd}">
                     <span onkeypress="{!c.dueNumberKeyPress}">
-                        <lightning:input type="number" value="{!v.dayRemind}" onchange="{!c.onRemindDaysChange}" min="1"/>
+                        <lightning:input aura:id="field" type="number" value="{!v.dayRemind}" onchange="{!c.onDaysChange}" min="1"/>
                     </span>
                     <aura:set attribute="else">
                         <lightning:input type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
-                                         onchange="{!c.onRemindDaysChange}"/>
+                                         onchange="{!c.onRemindDaysChange}" min="{!v.tomorrowDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
                     </aura:set>
                 </aura:if>
             </div>
+
             <div class="slds-col slds-size--3-of-4">
                 <div class="section-title">Filters for Task recipients</div>
                 <div class="slds-grid slds-gutters">
@@ -92,7 +103,7 @@
             </div>
         </div>
         <div class="slds-text-align_right slds-p-right_small">
-            <lightning:button variant="brand" label="Create Tasks" onclick="{!c.createTask}"/>
+            <lightning:button variant="brand" label="Create Tasks" onclick="{!c.createTask}" disabled="{!not(v.isValidFields)}"/>
             <lightning:button label="Reset" onclick="{!c.resetClick}"/>
         </div>
     </lightning:card>

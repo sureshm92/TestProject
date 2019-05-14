@@ -6,7 +6,9 @@
 
     <!-- attributes: -->
     <aura:attribute name="currentTab" type="String" default="help" access="private"/>
-    <aura:attribute name="description" type="String" access="private"/>
+    <aura:attribute name="textValueFeedback" type="String" access="private"/>
+    <aura:attribute name="textValueRequest" type="String" access="private"/>
+    <aura:attribute name="textValueProblem" type="String" access="private"/>
     <aura:attribute name="userMode" type="String" access="private"/>
     <aura:attribute name="userContact" type="Contact" access="private"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false" access="private"/>
@@ -18,7 +20,7 @@
 
     <!-- component body: -->
     <div class="h-container">
-
+        <c:RRSpinner aura:id="spinner"/>
         <div class="h-header">
 
             <aura:if isTrue="{!or(v.userMode == 'HCP',v.userMode == 'Participant')}">
@@ -34,165 +36,148 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="h-header-tabset rr-small-down-hide">
-                    <c:rrButtonTubSet>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help"
-                                              currentTab="{!v.currentTab}"/>
-                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"
-                                              tabId="feedback"
-                                              currentTab="{!v.currentTab}"/>
-                        <aura:if isTrue="{!v.userMode != 'Participant'}">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"
-                                                  currentTab="{!v.currentTab}"/>
-                        </aura:if>
-                        <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"
-                                                  currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>
-<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"-->
+<!--                <div class="h-header-tabset rr-small-down-hide">-->
+<!--                    <c:rrButtonTubSet>-->
+<!--                        <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Application_Help}" tabId="help"-->
+<!--                                              currentTab="{!v.currentTab}"/>-->
+<!--                    <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"-->
+<!--                                              tabId="feedback" currentTab="{!v.currentTab}"/>-->
+<!--                        <aura:if isTrue="{!v.userMode != 'Participant'}">-->
+<!--                            <c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_H_Report_a_Problem}" tabId="problem"-->
 <!--                                                  currentTab="{!v.currentTab}"/>-->
-                        </aura:if>
-                    </c:rrButtonTubSet>
-                </div>
-<!--                <div class="rr-small-up-hide">-->
-<!--                    <lightning:select label="label" value="{!v.currentTab}" variant="label-hidden">-->
-<!--                        <option value="help" label="{!$Label.c.PG_HLP_H_Application_Help}"/>-->
-<!--                        <option value="feedback" label="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"/>-->
-<!--                        <option value="problem" label="{!$Label.c.PG_HLP_H_Report_a_Problem}"/>-->
-                        <!--Hide until the next release-->
-<!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
-<!--                            <option value="req-data" label="{!$Label.c.PG_HLP_Req_Data}"/>-->
-<!--                            <option value="study-h" label="{!$Label.c.PG_HLP_Study_H}"/>-->
 <!--                        </aura:if>-->
-<!--                    </lightning:select>-->
+                    <!--<aura:if isTrue="{!v.userMode == 'Participant'}">-->
+                        <!--<c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Req_Data}" tabId="req-data"-->
+                        <!--                      currentTab="{!v.currentTab}" isDisabled="{!v.isDelegate}"/>-->
+                        <!--<c:rrButtonTubSetItem title="{!$Label.c.PG_HLP_Study_H}" tabId="study-h"-->
+                        <!--                      currentTab="{!v.currentTab}"/>-->
+                    <!--</aura:if>-->
+<!--                    </c:rrButtonTubSet>-->
 <!--                </div>-->
+                <!--                <div class="rr-small-up-hide">-->
+                <!--                    <lightning:select label="label" value="{!v.currentTab}" variant="label-hidden">-->
+                <!--                        <option value="help" label="{!$Label.c.PG_HLP_H_Application_Help}"/>-->
+                <!--                        <option value="feedback" label="{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}"/>-->
+                <!--                        <option value="problem" label="{!$Label.c.PG_HLP_H_Report_a_Problem}"/>-->
+                <!--Hide until the next release-->
+                <!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
+                <!--                            <option value="req-data" label="{!$Label.c.PG_HLP_Req_Data}"/>-->
+                <!--                            <option value="study-h" label="{!$Label.c.PG_HLP_Study_H}"/>-->
+                <!--                        </aura:if>-->
+                <!--                    </lightning:select>-->
+                <!--                </div>-->
             </aura:if>
         </div>
-        <!--Display depending on the selected tab-->
+        <!--Tab Application Help-->
         <aura:if isTrue="{!and(v.currentTab == 'help', v.isInitialized)}">
             <c:ApplicationHelp userMode="{!v.userMode}"/>
         </aura:if>
-
+        <!--Tab Request for Data-->
         <aura:if isTrue="{!v.currentTab == 'req-data'}">
             <div class="req-data-panel rr-white-panel">
                 <p class="req-data-title">{!$Label.c.PG_HLP_Req_Data}</p>
                 <p class="req-data-inf-text">{!$Label.c.PG_HLP_Req_Data_Title}</p>
                 <div class="panel-text">
-                    <lightning:textArea aura:id="textArea" value="{!v.description}" name="description" label=""
+                    <lightning:textArea aura:id="textArea" value="{!v.textValueRequest}" name="description" label=""
                                         variant="label-hidden"
                                         placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
                 </div>
                 <div class="slds-text-align--right">
-                    <button class="apollo-btn primary req-data-button" tabindex="1" onclick="{!c.onSubmitQuestion}">
+                    <button class="apollo-btn primary req-data-button" onclick="{!c.submitRequest}">
                         {!$Label.c.Button_Submit_Your_Question}
                     </button>
                 </div>
             </div>
         </aura:if>
-
+        <!--Tab Study Help-->
         <aura:if isTrue="{!v.currentTab == 'study-h'}">
             <c:StudyHelp/>
         </aura:if>
-
-        <aura:if isTrue="{!or(v.currentTab == 'feedback', v.currentTab == 'problem')}">
-            <div class="h-title">
-                <aura:if isTrue="{!v.currentTab == 'feedback'}">
-                    {!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}
-                </aura:if>
-                <aura:if isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_H_Report_a_Problem}</aura:if>
-            </div>
+        <!--Tab Give us Feedback-->
+        <aura:if isTrue="{!v.currentTab == 'feedback'}">
+            <div class="h-title">{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}</div>
             <div class="slds-grid slds-grid_align-center">
                 <div class="h-body slds-col slds-col slds-size_1-of-1 slds-medium-size--6-of-12">
-                    <div class="h-body-title">
-                        <aura:if isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_T_Let_us_know}</aura:if>
-                        <aura:if isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_T_What_happened}</aura:if>
-                    </div>
+                    <div class="h-body-title">{!$Label.c.PG_HLP_T_Let_us_know}</div>
                     <div class="h-body-text-area">
-                        <lightning:textArea value="{!v.description}" name="description" label=""
+                        <lightning:textArea value="{!v.textValueFeedback}" name="description" label=""
                                             variant="label-hidden"
-                                            placeholder="{!if(v.currentTab == 'req-data', $Label.c.PG_HLP_Req_Data_Placehold,
-                                            if(v.currentTab == 'problem', $Label.c.PG_HLP_F_Placeholder_Briefly_Explain , $Label.c.PG_HLP_F_Placeholder_Other))}"/>
+                                            placeholder="{!$Label.c.PG_HLP_F_Placeholder_Other}"/>
                     </div>
-
-                    <aura:if isTrue="{!v.currentTab == 'problem'}">
-                        <div class="slds-grid slds-wrap">
-                            <div class="h-body-label slds-col slds-size_1-of-2 slds-medium-size--12-of-12">
-                                {!$Label.c.PG_HLP_F_Screenshot_optional}
-                            </div>
-                            <div id="h-body-file-upload"
-                                 class="slds-col slds-size_1-of-2 slds-medium-size--12-of-12 slds-text-align--right slds-form-element">
-                                <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}"
-                                     class="slds-form-element__control">
-
-                                    <div class="slds-file-selector slds-file-selector_files">
-
-                                        <div class="slds-file-selector__dropzone">
-
-                                            <input onchange="{!c.onFileSelect}" id="file-upload-input-01"
-                                                   type="file"
-                                                   accept="image/*" multiple="multiple"
-                                                   class="slds-file-selector__input slds-assistive-text"/>
-                                            <label class="slds-file-selector__body" for="file-upload-input-01">
+                    <div class="h-body-button">
+                        <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
+                        {!$Label.c.PG_HLP_BTN_Submit_Your_Feedback}
+                    </button>
+                    </div>
+                    <div class="h-body-info">
+                        {!if(v.userMode == 'Participant', $Label.c.PP_HLP_T1_Feedback, $Label.c.PG_HLP_T1_Feedback)}
+                        <br/><br/>
+                        {!$Label.c.PG_HLP_Terms_Note}
+                        <c:RRLink page="terms-and-conditions?ret=help"
+                                  class="text">{!$Label.c.PG_HLP_T_Terms}</c:RRLink>
+                        {!if(v.userMode == 'Participant', $Label.c.PP_HLP_T2_Feedback, $Label.c.PG_HLP_T2_Feedback)}
+                        <aura:if isTrue="{!v.userMode == 'HCP'}">
+                                {!$Label.c.PG_HLP_T3_HCP_Feedback}
+                    </aura:if>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <!--Tab Problem-->
+        <aura:if isTrue="{!v.currentTab == 'problem'}">
+            <div class="h-title">{!$Label.c.PG_HLP_H_Report_a_Problem}</div>
+            <div class="slds-grid slds-grid_align-center">
+                <div class="h-body slds-col slds-col slds-size_1-of-1 slds-medium-size--6-of-12">
+                    <div class="h-body-title">{!$Label.c.PG_HLP_T_What_happened}</div>
+                    <div class="h-body-text-area">
+                        <lightning:textArea value="{!v.textValueProblem}" name="description" label=""
+                                            variant="label-hidden"
+                                            placeholder="{!$Label.c.PG_HLP_F_Placeholder_Briefly_Explain}"/>
+                    </div>
+                    <div class="slds-grid slds-wrap">
+                        <div class="h-body-label slds-col slds-size_1-of-2 slds-medium-size--12-of-12">
+                            {!$Label.c.PG_HLP_F_Screenshot_optional}
+                        </div>
+                        <div id="h-body-file-upload"
+                             class="slds-col slds-size_1-of-2 slds-medium-size--12-of-12 slds-text-align--right slds-form-element">
+                            <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}" class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_files">
+                                    <div class="slds-file-selector__dropzone">
+                                        <input onchange="{!c.onFileSelect}" id="file-upload-input-01"
+                                               type="file"
+                                               accept="image/*" multiple="multiple"
+                                               class="slds-file-selector__input slds-assistive-text"/>
+                                        <label class="slds-file-selector__body" for="file-upload-input-01">
                                                 <span class="slds-file-selector__button apollo-btn tertiary file-btn"
                                                       style="display: inline-block">{!$Label.c.BTN_Browse}</span>
-                                                <span class="slds-file-selector__text slds-medium-show">
-                                                <p> {!' ' + $Label.c.PG_HLP_F_Placeholder_Drug_Here}</p>
-                                            </span>
-                                            </label>
-                                        </div>
-
+                                            <span class="slds-file-selector__text slds-medium-show">
+                                            <p>{!' ' + $Label.c.PG_HLP_F_Placeholder_Drug_Here}</p>
+                                        </span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="h-body-file-upload-pills slds-col slds-size_1-of-1 slds-medium-size--12-of-12 slds-grid slds-wrap">
-                                <aura:iteration items="{!v.fileList}" var="file">
-                                    <lightning:pill
-                                            class="h-file-pill slds-col slds-size_1-of-2 slds-medium-size--1-of-5"
-                                            name="{!file.tmpId}" label="{!file.fileName}"
-                                            onremove="{!c.handleRemoveFile}">
-                                        <aura:set attribute="media">
-                                            <c:RRIcon iconName="icon-image"/>
-                                        </aura:set>
-
-                                    </lightning:pill>
-                                </aura:iteration>
-                            </div>
                         </div>
-                    </aura:if>
-
-                    <div class="{!if(v.currentTab == 'req-data', 'slds-float_right', 'h-body-button')}">
-                        <c:RRSpinner aura:id="spinner"/>
+                        <div class="h-body-file-upload-pills slds-col slds-size_1-of-1 slds-medium-size--12-of-12 slds-grid slds-wrap">
+                            <aura:iteration items="{!v.fileList}" var="file">
+                                <lightning:pill
+                                        class="h-file-pill slds-col slds-size_1-of-2 slds-medium-size--1-of-5"
+                                        name="{!file.tmpId}" label="{!file.fileName}"
+                                        onremove="{!c.handleRemoveFile}">
+                                    <aura:set attribute="media">
+                                        <c:RRIcon iconName="icon-image"/>
+                                    </aura:set>
+                                </lightning:pill>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                    <div class="h-body-button">
                         <button class="apollo-btn primary" tabindex="1" onclick="{!c.submitRequest}">
-                            <aura:if
-                                    isTrue="{!v.currentTab == 'feedback'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Feedback}</aura:if>
-                            <aura:if
-                                    isTrue="{!v.currentTab == 'problem'}">{!$Label.c.PG_HLP_BTN_Submit_Your_Problem}</aura:if>
+                            {!$Label.c.PG_HLP_BTN_Submit_Your_Problem}
                         </button>
                     </div>
-
-                    <aura:if isTrue="{!v.currentTab == 'feedback'}">
-                        <div class="h-body-info">
-                            {!if(v.userMode == 'Participant', $Label.c.PP_HLP_T1_Feedback, $Label.c.PG_HLP_T1_Feedback)}
-                            <br/><br/>
-                            {!$Label.c.PG_HLP_Terms_Note}
-                            <c:RRLink page="terms-and-conditions?ret=help"
-                                      class="text">{!$Label.c.PG_HLP_T_Terms}</c:RRLink>
-                            .
-                            {!if(v.userMode == 'Participant', $Label.c.PP_HLP_T2_Feedback, $Label.c.PG_HLP_T2_Feedback)}
-                            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                                {!$Label.c.PG_HLP_T3_HCP_Feedback}
-                            </aura:if>
-                        </div>
-                    </aura:if>
                 </div>
             </div>
         </aura:if>
     </div>
-
-    <c:Popup aura:id="req-modal" title="" showHeader="false" showClose="false" footerText="" size="small">
-        {!$Label.c.PG_HLP_Req_Data_Poput_Mess}
-        <aura:set attribute="footerButtons">
-            <button class="apollo-btn primary" onclick="{!c.onSubmitQuestionOk}">{!$Label.c.BTN_OK}</button>
-<!--            <button class="apollo-btn tertiary" onclick="{!c.doNo}">{!$Label.c.BTN_No}</button>-->
-        </aura:set>
-    </c:Popup>
 </aura:component>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Video_fo_video_content</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF ( AND(RecordType.Name = &#39;Study Document&#39;,  ISPICKVAL( document_type__c, &#39;Video&#39;),  ISBLANK(Video__c) ),True, False)</errorConditionFormula>
+    <errorMessage>Enter the link to the video in the Video field.</errorMessage>
+</ValidationRule>

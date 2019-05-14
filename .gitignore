@@ -9,3 +9,6 @@ IlluminatedCloud
 output
 tmp
 ant/dist
+ant/rollback
+force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site
+force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site

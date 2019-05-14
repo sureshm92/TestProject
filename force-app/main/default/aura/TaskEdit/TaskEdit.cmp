@@ -9,6 +9,7 @@
     <aura:attribute name="editMode" type="Boolean"/>
     <aura:attribute name="task" type="Task"/>
     <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="tomorrowDate" type="Date"/>
     <aura:attribute name="otherTask" type="Boolean" default="{!v.task.OwnerId != v.task.CreatedById}"/>
     <aura:attribute name="taskStatusCompleted" type="Boolean" default="false"/>
     <aura:attribute name="taskTypeList" type="String[]" default="Not Selected,Visit,Medication"/>
@@ -20,7 +21,7 @@
     <aura:attribute name="reminderDateEnabled" type="Boolean"/>
     <aura:attribute name="errorMessage" type="String"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="createdByAdmin" type="Boolean"/>
+    <aura:attribute name="createdByAdmin" type="Boolean" />
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -56,6 +57,12 @@
                                     {!$Label.c.BTN_Cancel}
                                 </div>
                             </div>
+                            <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
+                                <div>
+                                    <c:RRIcon iconName="icon-stop" color="orange"/>
+                                    {!$Label.c.BTN_Ignore}
+                                </div>
+                            </div>
                             <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
                                 <div>
                                     <c:RRIcon iconName="icon-check-circle"/>
@@ -80,6 +87,12 @@
                                         <div>
                                             <c:RRIcon iconName="icon-check-circle"/>
                                             {!$Label.c.BTN_Save_Task}
+                                        </div>
+                                    </div>
+                                    <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
+                                        <div>
+                                            <c:RRIcon iconName="icon-stop" color="orange"/>
+                                            {!$Label.c.BTN_Ignore}
                                         </div>
                                     </div>
                                     <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
@@ -133,13 +146,13 @@
             <div class="slds-grid slds-gutters slds-wrap">
                 <!--Due Date-->
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Complete_By_Date}" value="{!v.task.ActivityDate}"
+                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
                                      disabled="{!v.otherTask || v.taskStatusCompleted}" onchange="{!c.onChangeDueDate}"/>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <!--Task Type here-->
-                    <aura:if isTrue="{!!v.isReferral}">
-                        <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type}">
+                    <aura:if isTrue="{!!v.isReferral &amp;&amp; !v.createdByAdmin}">
+                        <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type__c}">
                             <aura:iteration items="{!v.taskTypeList}" var="type">
                                 <option text="{!type}"></option>
                             </aura:iteration>
@@ -184,9 +197,9 @@
                                 </div>
                                 <div class="text">
                                     <aura:unescapedHtml value="{!v.errorMessage}"/>
-                                </div>
-                                <div onclick="{!c.doInit}" class="icon-refresh">
-                                    <lightning:icon iconName="action:refresh" alternativeText="Refresh"/>
+                                    <div>
+                                        <a onclick="{!c.doInit}">Refresh</a>
+                                    </div>
                                 </div>
                             </aura:if>
 
@@ -207,7 +220,7 @@
                     <!--Reminder Date-->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
-                                         value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.todayDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                                         value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.tomorrowDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
                     </div>
                 </div>
             </aura:if>

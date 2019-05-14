@@ -102,6 +102,7 @@ public without sharing class ParametersDataProvider {
     private void initParamsFromPE(Id sourceId){
         Participant_Enrollment__c pe = [
                 SELECT Id, Name,
+                        Referral_Source__c,
                         HCP__r.HCP_Contact__c,
                         HCP__r.HCP_Contact__r.Name,
                         HCP__r.HCP_Contact__r.Salutation,
@@ -150,7 +151,8 @@ public without sharing class ParametersDataProvider {
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
                 'HCP' => pe.HCP__c,
-                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c
+                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c,
+                'ReferralSource' => pe.Referral_Source__c
         });
     }
     
@@ -244,7 +246,8 @@ public without sharing class ParametersDataProvider {
         ];
         parameters = new Map<String, String>{
             'TaskName' => task.Subject,
-            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
+            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey),
+            'ParticipantName' => PatientDelegateService.getInstance().getParticipant().Full_Name__c
         };
     }
     
@@ -260,31 +263,25 @@ public without sharing class ParametersDataProvider {
         initDelegates(cnt);
         isDelegate = cnt.UserCommunityIsDelegate__c;
         userMode = cnt.userCommunityMode__c;
+        parameters = new Map<String, String>();
+        parameters.put('FullName', getFullContactName(cnt));
         if(userMode == CommunityService.USER_MODE_PI){
-            parameters = new Map<String, String>{
-                    'PIName' => getFullContactName(cnt),
-                    'PILanguage' => cnt.Language__c
-            };
-    
+            parameters.put('PIName', getFullContactName(cnt));
+            parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
-            parameters = new Map<String, String>{
-                    'HCPName' => getFullContactName(cnt),
-                    'HCPLanguage' => cnt.Language__c
-            };
+            parameters.put('HCPName', getFullContactName(cnt));
+            parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
-            parameters = new Map<String, String>{
-                    'ParticipantName' => getFullContactName(cnt),
-                    'ParticipantLanguage' => cnt.Language__c
-            };
-            if(!isDelegate) {
-                initParamsFromPE(contactId);
-            }else{
+            parameters.put('ParticipantLanguage', cnt.Language__c);
+            if(isDelegate) {
+                parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
+            }else{
+                initParamsFromPE(contactId);
             }
         }
     }
-    
-    
+
     private void initParamsFromUser(Id userId){
         User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         initParamsFromContact(user.ContactId);
@@ -292,7 +289,13 @@ public without sharing class ParametersDataProvider {
     
     public String getUserName(){
         if(recipientName != null) return recipientName;
-        String userNameParam = userMode + 'Name';
+        String userNameParam;
+        if(isDelegate) {
+            userNameParam = 'FullName';
+        }
+        else{
+            userNameParam = userMode + 'Name';
+        }
         return parameters.get(userNameParam);
     }
 

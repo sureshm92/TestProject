@@ -23,7 +23,6 @@
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
-                debugger;
                 component.set('v.studyDetail', trialDetail);
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
@@ -39,7 +38,7 @@
 
     doAction: function (component, event) {
         var studyDetail = component.get('v.studyDetail');
-        var trial = component.get('v.studyDetail').trial;
+        var trial = studyDetail.trial;
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
 
@@ -59,9 +58,9 @@
             case 'shareEmail': {
                 var modal = component.find('shareModal');
                 if (communityService.getUserMode() === 'HCP') {
-                    modal.show(trial.Id, studyDetail.hcpe.HCP_Contact__c);
+                    modal.show(studyDetail.hcpe.Id, studyDetail.hcpe.HCP_Contact__c);
                 } else if (communityService.getUserMode() === 'Participant') {
-                    modal.show(trial.Id, null);
+                    modal.show(studyDetail.pe.Id, null);
                 }
             }
                 break;

@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_BaseCRCPCommunity {
 
     static Account piAccount;
@@ -21,6 +21,7 @@ private class Test_BaseCRCPCommunity {
     static User hcpUser;
 
     static Clinical_Trial_Profile__c study;
+    static String languageLocale;
     static Translation__c studyTranslation;
     static Study_Site__c studySite;
     static HCP_Enrollment__c hcpEnrollment;
@@ -129,8 +130,19 @@ private class Test_BaseCRCPCommunity {
         );
         insert study;
 
+        Schema.DescribeFieldResult fieldResult = Translation__c.Language__c.getDescribe();
+        List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry pickListVal : ple){
+            if(pickListVal.getValue()!='en_US'){
+                languageLocale =pickListVal.getValue();
+                break;
+            }
+        }
+
+
+
         studyTranslation = new Translation__c(
-                Language__c = 'ru',
+                Language__c = languageLocale,
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
@@ -427,6 +439,15 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
+    @IsTest
+    static void baseHCPTest5() {
+        init();
+        Test.startTest();
+        System.runAs(hcpUser) {
+            Action_RequestToReferByHCPRemote.requestToReferForHCP(studySite.Id,hcpEnrollment.Id);
+        }
+        Test.stopTest();
+    }
 
     @IsTest
     static void emailTemplateController() {
@@ -456,8 +477,8 @@ private class Test_BaseCRCPCommunity {
         controller.getParameters();
 
         EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
-        String url = emailActionBtnController.communityURL;
-        url = emailActionBtnController.communityURL;
+        String url = emailActionBtnController.getResultURL();
+        url = emailActionBtnController.getResultURL();
 
         Test.stopTest();
     }
@@ -493,7 +514,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void exportImportRemote() {
         init();
-        String exportXML = TranslationExportImportRemote.export(study.Id, 'ru', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
+        String exportXML = TranslationExportImportRemote.export(study.Id, languageLocale, TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
         TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
     }
 
@@ -662,9 +683,20 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
-    static void mrrAndReferringTest() {
+    static void mrrTest() {
+        init();
+        Test.startTest();
+        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        System.runAs(hcpUser) {
+            String jsonResult = MedicalRecordReviewRemote.getInitData(study.Id, hcpEnrollment.Id);
+        }
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void mrrAndReferringTest1() {
         init();
         Test.startTest();
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
@@ -687,9 +719,20 @@ private class Test_BaseCRCPCommunity {
             participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
             String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void mrrAndReferringTest2() {
+        init();
+        Test.startTest();
+        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        System.runAs(hcpUser) {
+            //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
 
             ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP);
-            ViewPatientsRemote.getInitDataForPatientProfile(participant2.Id, CommunityService.USER_MODE_HCP);
+            ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_HCP);
             String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false);
             mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(null, CommunityService.USER_MODE_HCP, false);
             MedicalRecordReviewLogController.ParticipantDetail participantDetail = (MedicalRecordReviewLogController.ParticipantDetail) JSON.deserialize(mrrLogResStr, MedicalRecordReviewLogController.ParticipantDetail.class);
@@ -701,7 +744,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void excelReportTest() {
         init();
@@ -748,6 +791,20 @@ private class Test_BaseCRCPCommunity {
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             IntegrationService.sendPEToServiceNow(passedMrrPE.Id);
+        }
+        Test.stopTest();
+    }
+    @IsTest
+    static void sitesSearchTest() {
+        init();
+        Test.startTest();
+        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        System.runAs(hcpUser) {
+            //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
+            String jsonResult = SitesSearchRemote.getInitData(study.Id);
+            SitesSearchRemote.InitData data = (SitesSearchRemote.InitData)JSON.deserialize(jsonResult, SitesSearchRemote.InitData.class);
+            SitesSearchRemote.getRecords(JSON.serialize(data.siteFilter),JSON.serialize(data.PaginationData));
+
         }
         Test.stopTest();
     }

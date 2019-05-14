@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_CommunityFacadeRemote {
 
     static testMethod void test1() {

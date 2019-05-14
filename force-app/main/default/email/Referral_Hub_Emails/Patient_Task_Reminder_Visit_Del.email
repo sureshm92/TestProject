@@ -1,9 +1,9 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Visit_Task_Reminder}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Visit_Task_Reminder_Delegate}"
                          recipientType="Contact"
                          relatedToType="Participant_Study_Enrollment__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailTemplate userType="Participant"
                          recipientId="{!recipient.Id}"
                          recipientName="{!recipient.Name}"
@@ -14,12 +14,11 @@
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Visit_Task_Reminder_Delegate}"
                          signature="{!$Label.Email_Signature_VT}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
-                              buttonURL="{!$Label.CommunityURL}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="Participant"
                              recipientId="{!recipient.Id}"
                              recipientName="{!recipient.Name}"
@@ -30,8 +29,7 @@
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Visit_Task_Reminder_Delegate}"
                              signature="{!$Label.Email_Signature_VT}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
-                                  buttonURL="{!$Label.CommunityURL}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

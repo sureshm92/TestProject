@@ -38,7 +38,11 @@ public without sharing class TaskEditRemote {
     public static void upsertTask(Task paramTask) {
         try {
             paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
-
+            if(ParticipantService.getInstance().getState().isDelegate) {
+                paramTask.Originator__c = 'Delegate';
+            } else {
+                paramTask.Originator__c = 'Participant';
+            }
             if (paramTask.Visible_For__c == null) {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }
@@ -48,9 +52,9 @@ public without sharing class TaskEditRemote {
             if (paramTask.Id != null) {
                 changeReminderDate(paramTask);
             }
-            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
+            System.debug(e);
             AuraHelper.throwException(e);
         }
     }
@@ -63,6 +67,11 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
         return 'Success';
+    }
+
+    @AuraEnabled
+    public static void ignoreTask(Id taskId) {
+        TasksRemote.ignoreTask(taskId);
     }
 
     @AuraEnabled

@@ -5,6 +5,7 @@ public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
     public static final String PH_FOLDER_LOGO = 'PH_Default_Image';
+    public static final String REGEX_PARSE_IFRAME = 'Video Link Parse';
 
     public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
@@ -95,26 +96,54 @@ public with sharing class ArticleService {
             }
         }
     }
-    public void assignRecordTypeFor3dParty(List<Resource__c> resources) {
+    public void syncContentType(List<Resource__c> resources) {
 
         for (Resource__c resource : resources) {
-            if (resource.Content_Class__c == '3rd Party') {
-                Id therddpartyRectypeId = SchemaUtil.getRecordTypeIdByName(
+            if (!String.isBlank(resource.Content_Type__c)) {
+                Id recordtypeId = SchemaUtil.getRecordTypeIdByName(
                         resource.Content_Type__c,
                         Resource__c.getSObjectType()
                 );
-                resource.RecordTypeId = therddpartyRectypeId;
+                resource.RecordTypeId = recordtypeId;
+            } else {
+                String recordTypeName = SchemaUtil.getRecordTypeDeveloperNameById(
+                        resource.RecordTypeId
+                        , resource.getSObjectType()
+                );
+                resource.Content_Type__c = recordTypeName;
+            }
+        }
+    }
+    public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
+        for (Resource__c resource : resources) {
+            if (resource.Expiration_Date__c != null) {
+                if (resource.Expiration_Date__c != oldResMap.get(resource.Id).Expiration_Date__c) {
+                    this.addSharing(resource);
+                }
             }
         }
     }
 
-    public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
+    public void getUrlVideoFromBody(List<Resource__c> resources) {
+        String regex = this.getRegex(REGEX_PARSE_IFRAME);
         for (Resource__c resource : resources) {
-            if (resource.Expiration_Date__c != null) {
-                if (resource.Expiration_Date__c!= oldResMap.get(resource.Id).Expiration_Date__c) {
-                    this.addSharing(resource);
-                }
+            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
+                    && (ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_TYPE_VIDEO, Resource__c.getSObjectType()).equals((resource.RecordTypeId)))
+                    && String.isNotBlank(resource.Body__c)
+                    && resource.Body__c.indexOf('<iframe') > -1) {
+                this.parseBody(resource, regex);
             }
+        }
+    }
+
+    private void parseBody(Resource__c resource, String regex) {
+        Matcher matcher = Pattern.compile(regex).matcher(resource.Body__c);
+        if (matcher.find()) {
+            String src = matcher.group(1);
+            String[] splitBody = resource.Body__c.split(regex);
+            String concatBody = String.join(splitBody, '');
+            resource.Video__c = src;
+            resource.Body__c = concatBody;
         }
     }
 
@@ -122,6 +151,15 @@ public with sharing class ArticleService {
         if (resource.Expiration_Date__c > Date.today() && resource.Remove_sharing__c) {
             resource.Remove_sharing__c = false;
         }
+    }
+
+    private String getRegex(String regName) {
+        return [
+                SELECT Id,
+                        Regular_Expression__c
+                FROM Regex__mdt
+                WHERE Label = :regName
+        ][0].Regular_Expression__c;
     }
 
     private String getStaticUrlImage(String imageName) {

@@ -3,43 +3,43 @@
  */
 
 public without sharing class ParticipantTriggerHandler {
-    
+
     // Handlers: -------------------------------------------------------------------------------------------------------
-    
+
     public class CreateContactsForParticipantsHandler extends TriggerHandler{
-        
+
         public override void beforeInsert(List<SObject> newList) {
             createContactsForParticipants(newList);
         }
     }
-    
+
     public class UpdatePEAndContactLastNameHandler extends TriggerHandler{
-        
+
         public override void afterInsert(List<SObject> newList) {
             updatePEAndContactLastName(newList);
         }
     }
-    
+
     public class ChangeUserEmailOnParticipantEmailChangeHandler extends TriggerHandler{
-        
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             changeUserEmailOnParticipantEmailChange(newList, (Map<Id, Participant__c>)oldMap);
         }
     }
-    
+
     public class PrepareCityStateFieldsHandler extends TriggerHandler{
-        
+
         public override void beforeInsert(List<SObject> newList) {
             prepareCityStateFields(newList, null);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             prepareCityStateFields(newList, (Map<Id, Participant__c>)oldMap);
         }
     }
-    
+
     // Logic: ----------------------------------------------------------------------------------------------------------
-    
+
     @TestVisible
     private static void createContactsForParticipants(List<Participant__c> newList){
         Id participantAccountId = getParticipantAccountId();
@@ -57,18 +57,18 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactsToInsert.add(newContact);
                 participantsByEmail.put(participant.Email__c, participant);
-        
+
             }
         }
         System.debug('CONTACTS TO INSERT: ' + contactsToInsert);
         insert contactsToInsert;
-    
+
         for(Contact newContact : contactsToInsert){
             Participant__c participant = participantsByEmail.get(newContact.Email);
             if(participant != null) participant.Contact__c = newContact.Id;
         }
     }
-    
+
     @TestVisible
     private static void updatePEAndContactLastName(List<Participant__c> newList){
         List<Contact> contacts = new List<Contact>();
@@ -81,7 +81,7 @@ public without sharing class ParticipantTriggerHandler {
         update contacts;
         update [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c IN: newList];
     }
-    
+
     @TestVisible
     private static void changeUserEmailOnParticipantEmailChange(List<Participant__c> newList, Map<Id, Participant__c> oldMap){
         Set<Id> contactIds = new Set<Id>();
@@ -106,7 +106,7 @@ public without sharing class ParticipantTriggerHandler {
         }
         update usersForUpdate;
     }
-    
+
     @TestVisible
     private static void prepareCityStateFields(List<Participant__c> newList, Map<Id, Participant__c> oldMap){
         for(Participant__c participant : newList){
@@ -114,9 +114,9 @@ public without sharing class ParticipantTriggerHandler {
             String countryCode = participant.Mailing_Country_Code__c;
             String stateName = participant.Mailing_State__c;
             String stateCode = participant.Mailing_State_Code__c;
-        
+
             if(oldMap == null){
-            
+
                 if(countryCode == null && countryName != null){
                     participant.Mailing_Country_Code__c = CountryStateUtil.getCountryCode(countryName);
                     if(participant.Mailing_Country_Code__c == null){
@@ -153,7 +153,7 @@ public without sharing class ParticipantTriggerHandler {
                 Boolean countryCodeChanged = oldMap.get(participant.Id).Mailing_Country_Code__c != countryCode;
                 Boolean stateNameChanged = oldMap.get(participant.Id).Mailing_State__c != stateName;
                 Boolean stateCodeChanged = oldMap.get(participant.Id).Mailing_State_Code__c != stateCode;
-            
+
                 if(countryCodeChanged && !countryNameChanged){
                     participant.Mailing_Country__c = CountryStateUtil.getCountryName(countryCode);
                     if(participant.Mailing_Country__c == null && countryCode != null){
@@ -169,7 +169,7 @@ public without sharing class ParticipantTriggerHandler {
                         participant.addError('Invalid County and Country Code');
                     }
                 }
-            
+
                 if(stateCodeChanged && !stateNameChanged){
                     participant.Mailing_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, stateCode);
                     if(participant.Mailing_State__c == null && stateCode != null){
@@ -188,17 +188,15 @@ public without sharing class ParticipantTriggerHandler {
             }
         }
     }
-    
+
     @TestVisible
     private static Id getParticipantAccountId(){
-        return [
-                SELECT Id
-                FROM Account
-                WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1
-        ].Id ;
+        return DatabaseService.getInstance().queryImpl(
+                new List<String>{
+                    'Id'
+                },
+                Account.getSObjectType(),
+                DatabaseService.fieldEqual('Name', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME)
+        ).get(0).Id;
     }
-    
-    
-    
-
 }

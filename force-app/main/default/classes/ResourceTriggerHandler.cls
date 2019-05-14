@@ -10,7 +10,8 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         articleService.calculateExpirationDate(newList);
         articleService.validateUpdatedDate(newList);
         articleService.updateRemoveSharing(newList);
-        articleService.assignRecordTypeFor3dParty(newList);
+        articleService.syncContentType(newList);
+        articleService.getUrlVideoFromBody(newList);
     }
 
     public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -19,7 +20,8 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
         articleService.calculateExpirationDate(newList, (Map<Id, Resource__c>) oldMap);
         articleService.validateUpdatedDate(newList);
         articleService.updateRemoveSharing(newList, (Map<Id, Resource__c>) oldMap);
-        articleService.assignRecordTypeFor3dParty(newList);
+        articleService.syncContentType(newList);
+        articleService.getUrlVideoFromBody(newList);
     }
 
     public override void afterInsert(List<SObject> newList) {

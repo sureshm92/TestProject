@@ -1,13 +1,13 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Complete_Baseline_Survey}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Task"
-                         language="{!recipient.LanguageLocaleKey}">
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="Participant"
                          recipientId="{!recipient.Id}"
                          recipientName="{!recipient.Name}"
-                         recipientLanguage="{!recipient.LanguageLocaleKey}"
+                         recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Complete_Baseline_Survey}"
                          title="{!$Label.Email_Title_PH}"
@@ -15,7 +15,7 @@
                          body="{!$Label.Email_Body_Complete_Baseline_Survey}"
                          signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                              buttonURL="{!$Label.CommunityURL}/baseline-survey"/>
+                              buttonURL="/s/baseline-survey"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -23,7 +23,7 @@
         <c:EmailTemplateText userType="Participant"
                              recipientId="{!recipient.Id}"
                              recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.LanguageLocaleKey}"
+                             recipientLanguage="{!recipient.Language__c}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Complete_Baseline_Survey}"
                              title="{!$Label.Email_Title_PH}"
@@ -31,7 +31,7 @@
                              body="{!$Label.Email_Body_Complete_Baseline_Survey}"
                              signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                                  buttonURL="{!$Label.CommunityURL}/baseline-survey"/>
+                                  buttonURL="/s/baseline-survey"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

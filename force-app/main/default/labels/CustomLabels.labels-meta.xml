@@ -53,11 +53,9 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Congratularions ##Contact! 
+        <value>Hi ##UserName!
 
-You are now enrolled in the ##StudyName study! 
-
-Additional information such as the study schedule, additional resources specific to the study, as well as tasks associated with the study will now be avaliable on the Home page. 
+You have been assigned as a Delegate for ##ParticipantUser in the ##StudyName study. We are so excited you have chosen to take this journey with ##ParticipantUser.
 
 Click OK to begin!</value>
     </labels>
@@ -67,6 +65,17 @@ Click OK to begin!</value>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_to_PH</shortDescription>
         <value>Welcome ##UserName!  We are excited to be on this journey with you. Our goal is to provide you timely updates about your enrollment process, knowledge articles and other helpful information.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
+        <value>Hi ##Contact!
+
+You have been assigned as a Delegate for ##ParticipantUser.  We are so excited you have chosen to take this journey with ##ParticipantUser. 
+
+Click OK to begin!</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -331,8 +340,8 @@ Click OK to begin!</value>
         <fullName>AccountSettings_Referral_Networks_Site_Based</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Site Based</shortDescription>
-        <value>Site Based</value>
+        <shortDescription>Institution Based</shortDescription>
+        <value>Institution Based</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Referral_Networks_Topic_Based</fullName>
@@ -916,13 +925,6 @@ Click OK to begin!</value>
         <value>Submit Your Question</value>
     </labels>
     <labels>
-        <fullName>Can_Not_Edit_Mapping</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Can Not Edit Mapping</shortDescription>
-        <value>You can not edit this object. Delete and create a new one instead.</value>
-    </labels>
-    <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -942,6 +944,13 @@ Click OK to begin!</value>
         <protected>false</protected>
         <shortDescription>CTL L Patricipant MODE</shortDescription>
         <value>View as a Participant</value>
+    </labels>
+    <labels>
+        <fullName>Can_Not_Edit_Mapping</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Can Not Edit Mapping</shortDescription>
+        <value>You can not edit this object. Delete and create a new one instead.</value>
     </labels>
     <labels>
         <fullName>CommunityEmailLogo</fullName>
@@ -976,7 +985,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cookies Info Text</shortDescription>
-        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL. 
+        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
 By clicking through to our website, you are accepting use of cookies.</value>
     </labels>
     <labels>
@@ -1146,6 +1155,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <protected>false</protected>
         <shortDescription>DLIT L Refer a patient to a study site</shortDescription>
         <value>Refer a patient to a study site</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Reffer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Reffer</shortDescription>
+        <value>Refer a Patient</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -1376,7 +1392,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you!  Please take 2 minutes to fill out the baseline survey in  IQVIA™ Patient  Portal.</value>
+        <value>We would love to hear from you!  Please take 2 minutes to fill out the Baseline survey in  IQVIA™ Patient  Portal.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1406,7 +1422,7 @@ The first step is for you to enroll in the IQVIA Referral Hub.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll and activate your Referral Hub account. 
+        <value>Please take a moment to enroll and activate your Referral Hub account.
 You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
@@ -1414,7 +1430,18 @@ You will then be able to manage patient referrals to the study from any IQVIA so
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient</shortDescription>
-        <value>Recently, ##HCPName made a referral on your behalf to ##PIName regarding your potential participation in a clinical research study: ##StudyName. 
+        <value>Recently, ##HCPName made a referral on your behalf to ##PIName regarding your potential participation in a clinical research study: ##StudyName.
+
+You will be contacted by the study team regarding next steps in the enrollment process.
+
+To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
+        <value>Recently, ##PIName made a referral on your behalf regarding your potential participation in a clinical research study ##StudyName.
 
 You will be contacted by the study team regarding next steps in the enrollment process. 
 
@@ -1427,8 +1454,8 @@ To track your clinical research study status and to learn more about future clin
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantName. We are so excited you have chosen to take this journey with ##ParticipantName.
 
-To track ##ParticipantName  clinical research study status, please login to the IQVIA™ Patient Portal. 
-Your username is ##Username.  
+To track ##ParticipantName  clinical research study status, please login to the IQVIA™ Patient Portal.
+Your username is ##Username.
 Please click the Enroll button below to create your password.</value>
     </labels>
     <labels>
@@ -1436,9 +1463,9 @@ Please click the Enroll button below to create your password.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Virtual</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyName. 
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
 
-You will be contacted by the study team regarding the next steps in the enrollment process. 
+            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
 
 To track where you are in the clinical research study referral process and learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
     </labels>
@@ -1454,14 +1481,14 @@ To track where you are in the clinical research study referral process and learn
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle 
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
 
 Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to  manage patient referrals to the study from any IQVIA source.</value>
     </labels>
@@ -1488,7 +1515,7 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI5</shortDescription>
-        <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).  
+        <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
 
 To review the referral(s), log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
@@ -1509,9 +1536,9 @@ To accept this request, log in to the IQVIA Referral Hub and navigate to “My R
         <protected>false</protected>
         <shortDescription>Email Body Patient1</shortDescription>
         <value>Thank you for your interest in the clinical research study: ##StudyTitle.
- 
+
 You will be contacted by the Principal Investigator’s site, ##StudySiteName , regarding the next steps in the enrollment process.
-   
+
 To track your clinical research study status and to see additional information about the study, log in to the Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
@@ -1519,7 +1546,7 @@ To track your clinical research study status and to see additional information a
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP10</shortDescription>
-        <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle. 
+        <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle.
 
 To see the referral status of your patient, log in to Patient Portal, and then go to &quot;My Patients.&quot;</value>
     </labels>
@@ -1528,7 +1555,7 @@ To see the referral status of your patient, log in to Patient Portal, and then g
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient13</shortDescription>
-        <value>This email is to inform you that ##PIName has declined your referral to the clinical research study: ##StudyName. 
+        <value>This email is to inform you that ##PIName has declined your referral to the clinical research study: ##StudyName.
 
 Please contact your physician for further treatment discussions.
 
@@ -1539,11 +1566,11 @@ If you would like to be contacted about future clinical research opportunities, 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient14</shortDescription>
-        <value>The study team has determined that you are not eligible to participate in the clinical research study: ##StudyName. 
+        <value>The study recruitment team has determined that you are not eligible to participate in the clinical research study: ##StudyName.
 
-Please contact your physician for further treatment discussions.
+            Please contact your physician for further treatment discussions.
 
-If you would like to be contacted about future clinical research opportunities, please join the ##CRCommunityURL.</value>
+            If you would like to be contacted about future clinical research opportunities, please join the ##CRCommunityURL.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient15</fullName>
@@ -1565,9 +1592,9 @@ If you would like to be contacted about future clinical research opportunities, 
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
         <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
- 
+
 You will be contacted by the study team regarding the next steps in the enrollment process for this study.
- 
+
 To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
     </labels>
     <labels>
@@ -1588,16 +1615,16 @@ If you are not contacted about this opportunity within 3 business days, please c
         <shortDescription>Email Body Patient4</shortDescription>
         <value>Recently, ##HCPName made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
 
-You will be contacted by a member of the study team regarding the next steps in the enrollment process.
+            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
 
-If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
+            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient7</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient7</shortDescription>
-        <value>Your referral has been placed on hold for the clinical research study: ##StudyName.  
+        <value>Your referral has been placed on hold for the clinical research study: ##StudyName.
 
 To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
@@ -1606,9 +1633,9 @@ To see additional information, log in to the IQVIA Patient Portal, and then go t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient8</shortDescription>
-        <value>Recruitment is on hold for the clinical research study: ##StudyName. 
+        <value>Recruitment is on hold for the clinical research study: ##StudyName.
 
-You will be contacted promptly if the study once again begins accepting referrals or if the status of your referral changes.  
+You will be contacted promptly if the study once again begins accepting referrals or if the status of your referral changes.
 
 The study recruitment team can be reached at ##SitePhoneNumber with any questions or comments regarding the study or the referral process.</value>
     </labels>
@@ -1642,11 +1669,11 @@ Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quo
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP2</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been accepted into the clinical research study: ##StudyTitle. 
+        <value>Your patient referral, ID number: ##PEName, has been accepted into the clinical research study: ##StudyTitle.
 
 The study site will contact your referral directly to discuss next steps.
 
-To see additional information about this patient&#39;s referral status, log in to Referral Hub, and then go to the &quot;My Patients.&quot;  
+To see additional information about this patient&#39;s referral status, log in to Referral Hub, and then go to the &quot;My Patients.&quot;
 
 To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to “My Studies.”</value>
     </labels>
@@ -1655,9 +1682,9 @@ To see additional information about this study or to refer another patient, log 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP3</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been put on hold for the clinical research study: ##StudyTitle. 
+        <value>Your patient referral, ID number: ##PEName, has been put on hold for the clinical research study: ##StudyTitle.
 
-To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;  
+To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
 To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
     </labels>
@@ -1666,9 +1693,9 @@ To see additional information about this study or refer another patient, log in 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP4</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been declined for the clinical research study: ##StudyTitle. 
+        <value>Your patient referral, ID number: ##PEName, has been declined for the clinical research study: ##StudyTitle.
 
-To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;  
+To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
 To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
     </labels>
@@ -1686,7 +1713,7 @@ To view additional information about this study and begin referring patients, pl
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP6</shortDescription>
-        <value>Thank you for completing orientation for clinical research study: ##StudyTitle. Your referral functionality has been activated. 
+        <value>Thank you for completing orientation for clinical research study: ##StudyTitle. Your referral functionality has been activated.
 
 To view additional information about this study and begin patient referrals, please log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
     </labels>
@@ -1715,7 +1742,7 @@ You may be contacted regarding further options.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP9</shortDescription>
-        <value>##StudySiteName is not accepting new referring providers at this time.   
+        <value>##StudySiteName is not accepting new referring providers at this time.
 
 To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to “My Studies.”</value>
     </labels>
@@ -1749,6 +1776,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <value>This is a quick email to remind you of your ##TaskName due  on ##CompleteByDate.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
+        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1767,7 +1801,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName upcoming visit for the ##StudyName study.  If ##PatientFirstName is unable to make this appointment, please call to reschedule.</value>
+        <value>This is a quick email to remind you of ##ParticipantName upcoming visit for the ##StudyName study.  If ##ParticipantName is unable to make this appointment, please call to reschedule.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -2089,6 +2123,15 @@ The IQVIA Referral Hub and Patient Portal Support Team</value>
         <value>The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_4</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature 4</shortDescription>
+        <value>Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Forgot_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2107,6 +2150,17 @@ To keep your account secure, please don&#39;t forward this email to anyone.</val
 Sincerely,
 
 The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_New_Participant_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New Participant Delegate</shortDescription>
+        <value>We are so excited to be on this journey with you.
+
+Sincerely,
+
+The IQVIA Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
@@ -2184,6 +2238,13 @@ IQVIA Study Team</value>
         <value>You have a medication reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Medication_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Subject_Medication_Task_Reminder Delegate</shortDescription>
+        <value>Your Patient has a visit reminder</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2251,7 +2312,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out</shortDescription>
-        <value>You are dropped out</value>
+        <value>We are sorry to see you leave your clinical trial</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>
@@ -2314,21 +2375,35 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected</shortDescription>
-        <value>Task overdue soon</value>
+        <value>You have a task reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
+        <value>Your Patient has a task reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Visit Task Reminder</shortDescription>
-        <value>Upcoming Visit Task</value>
+        <value>You have a visit reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Visit_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Visit Task Reminder Delegate</shortDescription>
+        <value>Your Patient has a visit reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Welcome_To_The_Study</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
-        <value>Welcome to the study</value>
+        <value>You have been enrolled to a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>
@@ -2746,6 +2821,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>false</protected>
         <shortDescription>No Access</shortDescription>
         <value>No access</value>
+    </labels>
+    <labels>
+        <fullName>No_Case_Assign</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Case Assign</shortDescription>
+        <value>No case assigenment rule found!</value>
     </labels>
     <labels>
         <fullName>None</fullName>
@@ -3629,7 +3711,7 @@ If you are prompted with a window indicating that the file format and extension 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP T Indicate Req Fields</shortDescription>
-        <value>indicates a required fields</value>
+        <value>indicates a required field</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
@@ -3822,7 +3904,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AS F Middle name</shortDescription>
-        <value>Middle name</value>
+        <value>Middle Initial</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_New_password</fullName>
@@ -3991,6 +4073,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_T_Please_Review_Contact_information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS T Please Review Contact information</shortDescription>
+        <value>Please review your contact information and click Save once complete</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Privacy_Rights</fullName>
@@ -5728,8 +5817,8 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Disclaimer</shortDescription>
-        <value>Disclaimer regarding data and delegate access etc. 
-This will likely go into a second line so this sentence here 
+        <value>Disclaimer regarding data and delegate access etc.
+This will likely go into a second line so this sentence here
 is a placehilder to show you what it would look like.</value>
     </labels>
     <labels>
@@ -6118,6 +6207,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Thank you for your time and interest in this study</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_You_must_be_approved</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L You must be approved to refer</shortDescription>
+        <value>You must be approved to refer to one or more sites before you can refer a patient.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Your_patient_passed_the_pre_eligibility_screening_and_may_be_able_to_pa</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6385,6 +6481,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SFS Referral Status</shortDescription>
         <value>Referral Status</value>
+    </labels>
+    <labels>
+        <fullName>PG_SFS_L_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SFS Site</shortDescription>
+        <value>Site</value>
     </labels>
     <labels>
         <fullName>PG_SFS_L_Site_Type</fullName>
@@ -6995,6 +7098,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Select Referral Networks</value>
     </labels>
     <labels>
+        <fullName>Reminder_3rd_Party_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_3rd_Party_No_TA</shortDescription>
+        <value>Remember to add a Condition of Interest</value>
+    </labels>
+    <labels>
         <fullName>Reminder_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7007,6 +7117,34 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Reminder Frequency</shortDescription>
         <value>Reminder Frequency</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_PlatformTA_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_PlatformTA_No_TA</shortDescription>
+        <value>Remember to add a Therapeutic Area</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_Type_Document_No_File</shortDescription>
+        <value>Remember to add a Document</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Specific_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Specific_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
     </labels>
     <labels>
         <fullName>Resource_Social_Share_email_title</fullName>

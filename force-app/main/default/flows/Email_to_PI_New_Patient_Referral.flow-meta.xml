@@ -772,13 +772,13 @@
             <inputParameters>
                 <name>TimeOffsetUnit</name>
                 <value>
-                    <stringValue>Hours</stringValue>
+                    <stringValue>Days</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
                 <name>TimeOffset</name>
                 <value>
-                    <numberValue>1.0</numberValue>
+                    <numberValue>5.0</numberValue>
                 </value>
             </inputParameters>
             <label>myWaitEvent_myWait_myRule_1_event_0</label>
