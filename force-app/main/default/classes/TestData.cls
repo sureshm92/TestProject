@@ -13,6 +13,7 @@ public class TestData {
     public Clinical_Trial_Profile__c ctp;
     public Study_Site__c ss;
     public Participant_Study_Enrollment__c pse;
+    public Participant_Enrollment__c pe;
     
     public TestData(){
         participant = [SELECT Id, Name FROM Participant__c WHERE Last_Name__c = 'Participant'];
@@ -22,6 +23,7 @@ public class TestData {
         ctp = [SELECT Id, Therapeutic_Area__c FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
         ss = [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
         pse = [SELECT Id FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
+        pe = [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c =: participant.Id];
     }
     
     
