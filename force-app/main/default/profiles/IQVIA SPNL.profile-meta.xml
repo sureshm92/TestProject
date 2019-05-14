@@ -240,7 +240,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>EmailTemplateController</apexClass>

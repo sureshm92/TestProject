@@ -58,21 +58,6 @@
             </div>
         </div>
     </div>
-    <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-align-bottom slds-p-top--medium slds-p-bottom--small slds-p-left--large">
-        <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
-            <aura:if isTrue="{!lessthan(v.conditionOfInterestList.length, 5)}">
-                <div class="slds-text-color--error">
-                    Max 5 conditions - still active
-                </div>
-            </aura:if>
-            <aura:if isTrue="{!v.conditionOfInterestList.length == 5}">
-                <div class="slds-text-color--error">
-                    Still active as the validation will be done within the modal
-                </div>
-            </aura:if>
-        </aura:if>
-
-    </div>
 
     <c:SearchConditionsOfInterest aura:id="searchModal" conditionsOfInterest="{!v.conditionOfInterestList}" isSaveList="{!v.isSaveList}"/>
 </aura:component>

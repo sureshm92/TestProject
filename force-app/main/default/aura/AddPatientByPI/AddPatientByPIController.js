@@ -47,7 +47,7 @@
     },
 
     doCancel: function (component) {
-        window.history.go(-1);
+        communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
     },
 
     doSaveAndExit: function (component, event, helper) {

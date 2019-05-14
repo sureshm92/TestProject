@@ -21,8 +21,6 @@ private class Test_AddPatientByPIRemote {
         TestData.loadTestData();
         Test.startTest();
         TestData testData = new TestData();
-        System.debug('CTP: ' + testData.ctp);
-        System.debug('PARTICIPANTS: ' + [SELECT Name FROM Participant__c]);
         System.runAs(testData.piUser){
             Participant__c participant = new Participant__c(
                     First_Name__c = 'NewP',
