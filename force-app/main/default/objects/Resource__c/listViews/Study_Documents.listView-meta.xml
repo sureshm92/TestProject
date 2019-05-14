@@ -9,11 +9,6 @@
     <filters>
         <field>Content_Type__c</field>
         <operation>equals</operation>
-        <value>Video,Document</value>
-    </filters>
-    <filters>
-        <field>Content_Class__c</field>
-        <operation>equals</operation>
         <value>Study Document</value>
     </filters>
     <label>Study Documents</label>

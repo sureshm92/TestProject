@@ -22,7 +22,6 @@
 
     <div class="bls-body rr-all-content">
         <aura:if isTrue="{!!empty(v.ctp.Baseline_Survey_URL__c)}">
-
             <iframe id="blsIFrame" class="bls-iframe" src="{!v.ctp.Baseline_Survey_URL__c}" onload="{!c.doFrameLoaded}"></iframe>
         </aura:if>
     </div>
@@ -30,6 +29,5 @@
     <div class="rr-width-limiter side-padding">
         <c:CommunityFooter/>
     </div>
-
 
 </aura:component>

@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_BaseCRCPCommunity {
 
     static Account piAccount;
@@ -477,8 +477,8 @@ private class Test_BaseCRCPCommunity {
         controller.getParameters();
 
         EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
-        String url = emailActionBtnController.communityURL;
-        url = emailActionBtnController.communityURL;
+        String url = emailActionBtnController.getResultURL();
+        url = emailActionBtnController.getResultURL();
 
         Test.stopTest();
     }
@@ -794,7 +794,6 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
     @IsTest
     static void sitesSearchTest() {
         init();

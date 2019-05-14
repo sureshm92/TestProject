@@ -39,9 +39,17 @@
             </aura:if>
             <div class="resource-expiration-date">
                 {!(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? $Label.c.Resources_Version_Date + ': ' : $Label.c.Resources_Expires + ': ')}
-                <ui:outputDate value="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ?
-                v.resourceWrapper.resource.Version_Date__c
-                : v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>
+                <aura:if isTrue="{!!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}">
+                    <ui:outputDate value="{!v.resourceWrapper.resource.Version_Date__c}" format="dd-MMM-y"/>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">
+                            <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>
+                            <aura:set attribute="else">
+                                None
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
+                </aura:if>
             </div>
             <div class="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? 'display-none' : 'resource-description-footer'}">
                 <div class="resources-icon icon-like" onclick="{!c.doLike}">

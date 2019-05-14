@@ -96,19 +96,24 @@ public with sharing class ArticleService {
             }
         }
     }
-    public void assignRecordTypeFor3dParty(List<Resource__c> resources) {
+    public void syncContentType(List<Resource__c> resources) {
 
         for (Resource__c resource : resources) {
-            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) && resource.Content_Type__c != null) {
-                Id therddpartyRectypeId = SchemaUtil.getRecordTypeIdByName(
+            if (!String.isBlank(resource.Content_Type__c)) {
+                Id recordtypeId = SchemaUtil.getRecordTypeIdByName(
                         resource.Content_Type__c,
                         Resource__c.getSObjectType()
                 );
-                resource.RecordTypeId = therddpartyRectypeId;
+                resource.RecordTypeId = recordtypeId;
+            } else {
+                String recordTypeName = SchemaUtil.getRecordTypeDeveloperNameById(
+                        resource.RecordTypeId
+                        , resource.getSObjectType()
+                );
+                resource.Content_Type__c = recordTypeName;
             }
         }
     }
-
     public void updateRemoveSharing(List<Resource__c> resources, Map<Id, Resource__c> oldResMap) {
         for (Resource__c resource : resources) {
             if (resource.Expiration_Date__c != null) {
@@ -123,7 +128,7 @@ public with sharing class ArticleService {
         String regex = this.getRegex(REGEX_PARSE_IFRAME);
         for (Resource__c resource : resources) {
             if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
-                    &&(ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_TYPE_VIDEO, Resource__c.getSObjectType()).equals((resource.RecordTypeId)))
+                    && (ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_TYPE_VIDEO, Resource__c.getSObjectType()).equals((resource.RecordTypeId)))
                     && String.isNotBlank(resource.Body__c)
                     && resource.Body__c.indexOf('<iframe') > -1) {
                 this.parseBody(resource, regex);

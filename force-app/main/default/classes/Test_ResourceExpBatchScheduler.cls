@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest
+@IsTest(IsParallel=false)
 public with sharing class Test_ResourceExpBatchScheduler {
 
     public static String CRON_EXP = '0 0 0 10 2 ? 2020';

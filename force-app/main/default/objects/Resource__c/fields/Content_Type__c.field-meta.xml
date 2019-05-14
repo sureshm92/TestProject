@@ -22,9 +22,9 @@
                 <label>Video</label>
             </value>
             <value>
-                <fullName>Document</fullName>
+                <fullName>Study_Document</fullName>
                 <default>false</default>
-                <label>Document</label>
+                <label>Study Document</label>
             </value>
         </valueSetDefinition>
     </valueSet>

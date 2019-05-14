@@ -53,7 +53,7 @@ Click OK to begin!</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Hi ##Contact!
+        <value>Hi ##UserName!
 
 You have been assigned as a Delegate for ##ParticipantUser in the ##StudyName study. We are so excited you have chosen to take this journey with ##ParticipantUser.
 
@@ -1157,6 +1157,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Refer a patient to a study site</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Reffer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Reffer</shortDescription>
+        <value>Refer a Patient</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1610,8 +1617,7 @@ If you are not contacted about this opportunity within 3 business days, please c
 
             You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
 
-            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.
-        </value>
+            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient7</fullName>
@@ -2154,7 +2160,7 @@ The IQVIA Patient Portal Support Team</value>
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal Support Team</value>
+The IQVIA Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
@@ -3705,7 +3711,7 @@ If you are prompted with a window indicating that the file format and extension 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP T Indicate Req Fields</shortDescription>
-        <value>indicates a required fields</value>
+        <value>indicates a required field</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
@@ -4067,6 +4073,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_T_Please_Review_Contact_information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS T Please Review Contact information</shortDescription>
+        <value>Please review your contact information and click Save once complete</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Privacy_Rights</fullName>
@@ -7085,6 +7098,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Select Referral Networks</value>
     </labels>
     <labels>
+        <fullName>Reminder_3rd_Party_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_3rd_Party_No_TA</shortDescription>
+        <value>Remember to add a Condition of Interest</value>
+    </labels>
+    <labels>
         <fullName>Reminder_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7097,6 +7117,34 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Reminder Frequency</shortDescription>
         <value>Reminder Frequency</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_PlatformTA_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_PlatformTA_No_TA</shortDescription>
+        <value>Remember to add a Therapeutic Area</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_Type_Document_No_File</shortDescription>
+        <value>Remember to add a Document</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Specific_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Specific_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
     </labels>
     <labels>
         <fullName>Resource_Social_Share_email_title</fullName>

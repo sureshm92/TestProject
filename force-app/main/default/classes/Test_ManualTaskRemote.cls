@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 19.04.2019.
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_ManualTaskRemote {
 
     @IsTest
@@ -20,7 +20,8 @@ private class Test_ManualTaskRemote {
                 Priority = 'Critical',
                 Start_Date__c = System.today(),
                 ActivityDate = System.today().addDays(1),
-                Visible_For__c = 'Owner;Delegates'
+                Visible_For__c = 'Owner;Delegates',
+                Reminder_Date__c = Datetime.now()
         );
 
         Test.startTest();
@@ -33,7 +34,8 @@ private class Test_ManualTaskRemote {
                         Priority,
                         Start_Date__c,
                         ActivityDate,
-                        Visible_For__c
+                        Visible_For__c,
+                        Reminder_Date__c
                 FROM Task
                 WHERE Subject = 'TestTask'
                 ORDER BY OwnerId
@@ -70,7 +72,8 @@ private class Test_ManualTaskRemote {
                 Priority = 'Critical',
                 Start_Date__c = System.today(),
                 ActivityDate = System.today().addDays(1),
-                Visible_For__c = 'Owner;Delegates'
+                Visible_For__c = 'Owner;Delegates',
+                Reminder_Date__c = Datetime.now()
         );
 
         Test.startTest();
