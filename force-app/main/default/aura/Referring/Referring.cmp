@@ -305,7 +305,7 @@
 
 
                             </div>
-                            <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2 ss-map">
                                 <aura:if isTrue="{!v.markers}">
                                     <lightning:map mapMarkers="{!v.markers}" zoomLevel="{!if(empty(v.markers),1,10)}"/>
                                 </aura:if>

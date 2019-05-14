@@ -184,8 +184,8 @@ public without sharing class MedicalRecordReviewLogController {
         peFilterData.mode = userMode;
 
         //set sort
-        peFilterData.sortVariants.add(new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant_Name__c'));
-        peFilterData.sortVariants.add(new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant_Name__c'));
+        peFilterData.sortVariants.add(new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant_Name__c,Participant_Surname__c'));
+        peFilterData.sortVariants.add(new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant_Name__c,Participant_Surname__c'));
 
         //set Review Results
         peFilterData.reviewResults = new List<LabelValueItem>();
