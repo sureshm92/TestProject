@@ -78,10 +78,14 @@ public class CatalogParametersHelper {
     }
     
     public static String prepareLabel(String labelName, Map<String, String> parameters) {
-        if(String.isEmpty(labelName)) return labelName;
-        return prepareMergeFields(TranslateHelper.getLabelValue(labelName), parameters);
+        return prepareLabel(labelName, parameters, UserInfo.getLanguage());
     }
-    
+
+    public static String prepareLabel(String labelName, Map<String, String> parameters, String language) {
+        if(String.isEmpty(labelName)) return labelName;
+        return prepareMergeFields(TranslateHelper.getLabelValue(labelName, language), parameters);
+    }
+
     public static String prepareMergeFields(String sourceString, Map<String, String> parameters){
         if(sourceString == null) return null;
         String resultValue = sourceString;

@@ -102,6 +102,10 @@ public without sharing class TaskTriggerHandler {
     }
     
     public static void processDefaultFieldValues(List<Task> tasks){
+        processDefaultFieldValues(tasks, UserInfo.getLanguage());
+    }
+
+    public static void processDefaultFieldValues(List<Task> tasks, String language){
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         Map<String, Set<Id>> idsByObjectType = new Map<String, Set<Id>>();
         Map<String, Set<String>> fieldsByObjectType = new Map<String, Set<String>>();
@@ -113,26 +117,26 @@ public without sharing class TaskTriggerHandler {
             if(task.WhatId == null) continue;
             if(String.isEmpty(card.Parameters__c)) continue;
             Map<String, String> cardParametersMap = CatalogParametersHelper.getParamsMap(card.Parameters__c);
-        
+
             Set<Id> objectIds = idsByObjectType.get(card.Source_Object_Type__c);
             if(objectIds == null) objectIds = new Set<Id>();
             objectIds.add(task.WhatId);
             idsByObjectType.put(card.Source_Object_Type__c, objectIds);
-        
+
             Set<String> objectFields = fieldsByObjectType.get(card.Source_Object_Type__c);
             if(objectFields == null) objectFields = new Set<String>();
             objectFields.addAll(cardParametersMap.values());
             fieldsByObjectType.put(card.Source_Object_Type__c, objectFields);
         }
-    
+
         Map<Id, SObject> objectsMap = new Map<Id, SObject>();
         for(String objectType : idsByObjectType.keySet()) {
             List<SObject> objectsList = new List<SObject>();
             objectsList = CatalogParametersHelper.queryObjects(objectType, fieldsByObjectType.get(objectType), idsByObjectType.get(objectType));
             for(SObject sobj: objectsList) objectsMap.put(sobj.Id, sobj);
         }
-        TranslateHelper.translate(objectsMap.values());
-    
+        TranslateHelper.translate(objectsMap.values(), language);
+
         for(Task task : tasks) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();
             if(String.isEmpty(task.Task_Code__c)) continue;
@@ -147,7 +151,7 @@ public without sharing class TaskTriggerHandler {
             task.Subject = CatalogParametersHelper.prepareLabel(card.Subject_Label__c, cardParametersValueMap);
             task.Description = CatalogParametersHelper.prepareLabel(card.Comments_Label__c, cardParametersValueMap);
             task.Action_URL__c = CatalogParametersHelper.prepareMergeFields(card.Action_Link__c, cardParametersValueMap);
-            
+
         }
     }
     

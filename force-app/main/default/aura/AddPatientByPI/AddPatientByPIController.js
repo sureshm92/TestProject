@@ -27,7 +27,6 @@
         if(pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
         }
-        console.log('>>>screeningRequired: '+ isEnrollmentSuccess);
         component.set('v.screeningRequired', isEnrollmentSuccess);
 
         var isAllRequiredCompletedAndValid =

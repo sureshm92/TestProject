@@ -1392,7 +1392,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you! Please take a few minutes to fill out the &lt;Survey title&gt; survey for the &lt;study code name&gt; study.</value>
+        <value>We would love to hear from you! Please take a few minutes to fill out the ##SurveyName survey for the #StudyName study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1441,22 +1441,26 @@ To track your clinical research study status and to learn more about future clin
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
-        <value>Recently, ##PIName made a referral on your behalf regarding your potential participation in a clinical research study ##StudyName.
+        <value>Recently, ##PIName made a referral on your behalf to ##StudyName regarding your potential participation in a clinical research study: ##StudyName. 
 
-You will be contacted by the study team regarding next steps in the enrollment process. 
+We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process. 
 
-To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
+To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantName. We are so excited you have chosen to take this journey with ##ParticipantName.
+        <value>You have been assigned as a Delegate for  ##ParticipantName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantName on their journey.  
 
-To track ##ParticipantName  clinical research study status, please login to the IQVIA™ Patient Portal.
-Your username is ##Username.
-Please click the Enroll button below to create your password.</value>
+To assist you in tracking  ##ParticipantName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+
+Your username is ##Username. Please click the Log In button to create your password.
+
+Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantName to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -1464,24 +1468,26 @@ Please click the Enroll button below to create your password.</value>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Virtual</shortDescription>
         <value>Thank you for your interest in the clinical research study: ##StudyName.
+ 
+We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process. 
 
-            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
+To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-To track where you are in the clinical research study referral process and learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
+Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: #StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName Study. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantName upcoming medication dosage for ##StudyName study.  If you have any questions regarding this medication, please contact your ##PIName at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantName upcoming medication dosage for ##StudyName Study.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1577,14 +1583,20 @@ If you would like to be contacted about future clinical research opportunities, 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient15</shortDescription>
-        <value>Congratulations, you have been enrolled in the clinical research study: ##StudyTitle. You will be contacted by the Principal Investigator’s site regarding next steps in the study process. To track your clinical research study status, please login to the IQVIA™ Patient Portal.</value>
+        <value>Congratulations, you have been enrolled in ##StudyName clinical research study.   
+
+You will be contacted by the Study Site Team regarding next steps in the study process.
+
+To assist you in tracking where you are in the clinical research study, please log in to the IQVIA Patient Portal.
+
+Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient16</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient16</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. We want to ensure you are successful as you continue to manage your health. Please feel free to contact us at any time, if we can be of assistance with any future trial information.</value>
+        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -1773,14 +1785,18 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is a quick email to remind you of your ##TaskName due  on ##CompleteByDate.</value>
+        <value>This is a quick email to remind you of your ##TaskName due  on ##CompleteByDate.
+
+Please login to update the status of your task.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.</value>
+        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.
+
+Please login to update the status of this task.</value>
     </labels>
     <labels>
         <fullName>Email_Body_User_Lockout</fullName>
@@ -1794,14 +1810,14 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the #StudyName study. If you are unable to make this appointment, please call to reschedule.</value>
+        <value>This is a quick email to remind you of your upcoming visit for the #StudyName Study. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantName upcoming visit for the ##StudyName study.  If ##ParticipantName is unable to make this appointment, please call to reschedule.</value>
+        <value>This is a quick email to remind you of ##ParticipantName upcoming visit for the ##StudyName Study. If ##ParticipantName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -1892,7 +1908,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Medication Task Reminder</shortDescription>
-        <value>This is a reminder of your upcoming medication dosage</value>
+        <value>This is a medication reminder</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI2</fullName>
@@ -1955,7 +1971,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out</shortDescription>
-        <value>You are dropped out</value>
+        <value>You have left your clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP10</fullName>
@@ -2067,7 +2083,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Task Reminder Type Not Selected</shortDescription>
-        <value>This is a reminder of your pending task</value>
+        <value>This is a task reminder</value>
     </labels>
     <labels>
         <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
@@ -2082,6 +2098,13 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <protected>true</protected>
         <shortDescription>Email Header Visit Task Reminder</shortDescription>
         <value>This is a reminder of your upcoming visit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Visit_Task_Reminder_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
+        <value>This is a reminder of your patient&#39;s upcoming visit</value>
     </labels>
     <labels>
         <fullName>Email_Header_Your_Access_Level_Has_Been_Changed</fullName>
@@ -2123,6 +2146,17 @@ The IQVIA Referral Hub and Patient Portal Support Team</value>
         <value>The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Drop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Signature_Drop</shortDescription>
+        <value>We wish you luck with the future management of your condition. 
+
+Sincerely,
+                                
+The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Forgot_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2152,6 +2186,15 @@ The IQVIA Patient Portal Support Team</value>
 Sincerely,
 
 The IQVIA Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_PPST</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email_Signature_PPST</shortDescription>
+        <value>Sincerely,
+
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
@@ -7899,6 +7942,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
         <value>Please complete your TransCelerate Study Baseline Survey</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Survey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Survey</shortDescription>
+        <value>Please complete your ##SurveyName Study Survey</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>

@@ -119,25 +119,33 @@ public without sharing class PSETriggerHandler {
     
     @TestVisible
     private static void createCompleteBaselineSurveyTask(List<Participant_Study_Enrollment__c> newList){
-        List<Task> tasks = new List<Task>();
-        List<Id> participantIds = new List<Id>();
+        List<User> users = [
+                SELECT Id, ContactId
+                FROM User
+                WHERE ContactId IN (
+                        SELECT Participant_Contact__c
+                        FROM Participant_Study_Enrollment__c
+                        WHERE Id IN: newList)
+        ];
+
+        Map<Id, Id> idsToUsers = new Map<Id, Id>();
+        for(User taskOwner : users) idsToUsers.put(taskOwner.ContactId, taskOwner.Id);
+
         List<Participant_Study_Enrollment__c> pseList = [
                 SELECT Id,
-                       Participant__c,
-                       Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c
+                        Participant_Contact__c,
+                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c,
+                        Clinical_Trial_Profile__r.Survey__c
                 FROM Participant_Study_Enrollment__c
                 WHERE Id IN:newList
         ];
-
+        List<Task> tasks = new List<Task>();
         for(Participant_Study_Enrollment__c pse : pseList) {
-            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') participantIds.add(pse.Participant__c);
-        }
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN: participantIds];
-        List<Id> contactIds = new List<Id>();
-        for(Participant__c participant : participants) contactIds.add(participant.Contact__c);
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN: contactIds];
-        for(User taskOwner : users){
-            tasks.add(TaskService.getInstance().createCompleteBaselineSurveyTask(taskOwner.Id, taskOwner.ContactId));
+            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') {
+                Id ownerId = idsToUsers.get(pse.Participant_Contact__c);
+                tasks.add(TaskService.getInstance()
+                        .createCompleteSurveyTask(ownerId, pse.Participant_Contact__c, pse.Clinical_Trial_Profile__r.Survey__c));
+            }
         }
         insert tasks;
     }
