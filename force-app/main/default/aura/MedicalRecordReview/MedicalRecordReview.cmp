@@ -11,6 +11,7 @@
     <aura:attribute name="hcpeId" type="String"/>
     <aura:attribute name="trial" type="Object"/>
     <aura:attribute name="hcpEnrollment" type="Object"/>
+    <aura:attribute name="hcpContact" type="Object"/>
     <aura:attribute name="searchResult" type="Object"/>
     <aura:attribute name="searchData" type="Object"/>
     <aura:attribute name="mrrResult" type="String" default="Pending"/>
@@ -42,6 +43,11 @@
                                 <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
                                     <div class="rr-primary-text">{!v.hcpEnrollment.HCP_Contact__r.Salutation} {!v.hcpEnrollment.HCP_Contact__r.Name}</div>
                                     <div class="rr-secondary-text">{!$Label.c.PG_DBPI_at + ' ' + v.hcpEnrollment.Study_Site__r.Name}</div>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!!empty(v.hcpContact)}">
+                                            <div class="rr-primary-text">{!v.hcpContact.Salutation} {!v.hcpContact.Name}</div>
+                                        </aura:if>
+                                    </aura:set>
                                 </aura:if>
                             </div>
                             <div class="rr-secondary-text" style="padding-top: 20px">{!$Label.c.PG_MRR_Note_Remember}</div>
@@ -77,10 +83,11 @@
                         <c:RRIcon iconName="icon-check-circle"/>
                         <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                         <button class="apollo-btn primary"
-                                onclick="{!c.doReferPatient}">
+                                onclick="{!c.doReferPatient}"
+                                disabled="{!v.actions.referToThisStudy.disabled}"
+                                title="{!v.actions.referToThisStudy.disableReason}">
                             {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
-                            <!--disabled="{!v.actions.referToThisStudy.disabled}"
-                                                            title="{!v.actions.referToThisStudy.disableReason}"-->
+
                         </button>
                         <button class="apollo-btn primary"
                                 onclick="{!c.doStartMRR}">
