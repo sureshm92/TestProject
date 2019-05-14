@@ -61,7 +61,7 @@
         <label>Video Details</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Video__c</field>
             </layoutItems>
             <layoutItems>
@@ -69,7 +69,7 @@
                 <field>Description__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Body__c</field>
             </layoutItems>
         </layoutColumns>
