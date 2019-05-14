@@ -4719,6 +4719,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Hi ##UserName, welcome to Patient Portal! You can see your study status and all related information below.</value>
     </labels>
     <labels>
+        <fullName>PG_Home_Welcome_Message_Alumni</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Home Welcome Message Alumni</shortDescription>
+        <value>Hi ##UserName, great that you are continuing to use the Patient Portal.  You can see content related to your conditions of interest below.</value>
+    </labels>
+    <labels>
         <fullName>PG_IMI_L_by_user</fullName>
         <language>en_US</language>
         <protected>false</protected>
