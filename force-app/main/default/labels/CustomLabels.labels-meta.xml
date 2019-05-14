@@ -3642,6 +3642,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>User manual with further details</value>
     </labels>
     <labels>
+        <fullName>PG_AL_Bottom_Signature</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AL Bottom Signature</shortDescription>
+        <value>Some bottom text. To replace in future</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
