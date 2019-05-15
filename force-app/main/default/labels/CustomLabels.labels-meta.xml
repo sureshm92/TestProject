@@ -3769,6 +3769,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>indicates a required field</value>
     </labels>
     <labels>
+        <fullName>PG_AP_T_Sub_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Sub Info</shortDescription>
+        <value>Please advise Participants to view their Account Settings to update their personal information.</value>
+    </labels>
+    <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
         <language>en_US</language>
         <protected>false</protected>
