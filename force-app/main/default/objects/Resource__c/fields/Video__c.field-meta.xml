@@ -3,7 +3,7 @@
     <fullName>Video__c</fullName>
     <externalId>false</externalId>
     <inlineHelpText>Use this field to save the link to the video.</inlineHelpText>
-    <label>Video</label>
+    <label>Video Link</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

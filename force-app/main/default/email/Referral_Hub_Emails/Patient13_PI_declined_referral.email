@@ -10,7 +10,8 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Patient13}"
-                         signature="{!$Label.Email_Signature}"/>
+                         signature="{!$Label.Email_Signature}"
+                         onlyFirstName="true"/>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
@@ -20,7 +21,8 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Patient13}"
-                             signature="{!$Label.Email_Signature}"/>
+                             signature="{!$Label.Email_Signature}"
+                             onlyFirstName="true"/>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

@@ -357,3 +357,14 @@
 .THIS .slvi-search-site-btn{
     width: 100%;
 }
+.THIS .slds-coordinates {
+    display: none!important;
+}
+@media all and (min-width: 768px){
+    .THIS .ss-map{
+        align-self: stretch;
+    }
+    .THIS lightning-map{
+        height: 100%;
+    }
+}
