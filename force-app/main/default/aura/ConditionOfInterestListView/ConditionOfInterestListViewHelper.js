@@ -12,7 +12,7 @@
         console.log('before update COI ' + JSON.stringify(coiList));
         if (coiList) {
             communityService.executeAction(component, 'upsertListCoi', {
-                cois : coiList
+                cois: coiList
             }, function (returnValue) {
                 let coiSaveWrapperList = [];
                 returnValue.forEach(e => {
@@ -23,6 +23,7 @@
                 });
                 console.log('after update COI ' + JSON.stringify(coiSaveWrapperList));
                 component.set('v.conditionOfInterestList', coiSaveWrapperList);
+                component.set('v.bypass', false);
             });
         }
     },
@@ -32,5 +33,22 @@
         [conditionOfInterestList[index1], conditionOfInterestList[index2]] = [conditionOfInterestList[index2], conditionOfInterestList[index1]];
         component.set('v.conditionOfInterestList', conditionOfInterestList);
         component.set('v.isSaveList', !component.get('v.isSaveList'));
+    },
+
+    deleteCOI: function (component, idCOI) {
+        let coiIds = [];
+        coiIds.push(idCOI);
+        let conditionOfInterestList = component.get('v.conditionOfInterestList');
+        if (coiIds) {
+            communityService.executeAction(component, 'deleteCOI', {
+                coiIds: coiIds
+            }, function () {
+                conditionOfInterestList = conditionOfInterestList.filter((el) => {
+                    return el.coi.Id !== idCOI;
+                });
+                component.set('v.conditionOfInterestList', conditionOfInterestList);
+                component.set('v.isSaveList', !component.get('v.isSaveList'));
+            });
+        }
     }
 })
