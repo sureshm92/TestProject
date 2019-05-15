@@ -19,8 +19,7 @@ public without sharing class TaskService {
     
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
-    
-    public static final String TASK_CODE_COMPLETE_BASELINE_SURVEY = 'Complete_Baseline_Survey';
+
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
     
@@ -114,19 +113,6 @@ public without sharing class TaskService {
     public void completeTask(Task task){
         task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
-    }
-    
-    
-    public Task createCompleteBaselineSurveyTask(Id ownerId, Id participantContactId){
-        return new Task(
-                OwnerId = ownerId,
-                Subject = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
-                Task_Code__c = TaskService.TASK_CODE_COMPLETE_BASELINE_SURVEY,
-                Status = TASK_STATUS_OPEN,
-                Priority = TASK_PRIORITY_CRITICAL,
-                WhoId = participantContactId,
-                Visible_For__c = TASK_VISIBILITY_OWNER
-        );
     }
 
     public Task createCompleteSurveyTask(Id ownerId, Id participantContactId, Id ctpId) {
