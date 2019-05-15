@@ -2146,6 +2146,15 @@ The IQVIA Referral Hub and Patient Portal Support Team</value>
         <value>The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_4</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature 4</shortDescription>
+        <value>Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Drop</fullName>
         <language>en_US</language>
         <protected>true</protected>
