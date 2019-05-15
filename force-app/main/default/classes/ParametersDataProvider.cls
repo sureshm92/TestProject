@@ -93,7 +93,7 @@ public without sharing class ParametersDataProvider {
                 FROM Participant_Study_Enrollment__c
                 WHERE Id =: sourceId
         ];
-    
+        
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pse.Study_Site__r.Principal_Investigator__r),
                 'PILanguage' => pse.Study_Site__r.Principal_Investigator__r.Language__c,
@@ -102,7 +102,7 @@ public without sharing class ParametersDataProvider {
         };
         
         TranslateHelper.translate(pse, getUserLanguage());
-    
+        
         parameters.putAll(new Map<String, String>{
                 'PSEName' => pse.Name,
                 'StudyName' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
@@ -161,9 +161,9 @@ public without sharing class ParametersDataProvider {
                     'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c
             });
         }
-    
+        
         TranslateHelper.translate(pe, getUserLanguage());
-    
+        
         parameters.putAll(new Map<String, String>{
                 'PEName' => pe.Name,
                 'StudyName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
@@ -198,7 +198,7 @@ public without sharing class ParametersDataProvider {
                 FROM HCP_Enrollment__c
                 WHERE Id = :hcpeId
         ];
-    
+        
         parameters = new Map<String, String>{
                 'GuestName' => TranslateHelper.getLabelValue('Email_Guest_User_Name'),
                 'GuestLanguage' => hcpe.HCP_Contact__r.Language__c,
@@ -207,17 +207,17 @@ public without sharing class ParametersDataProvider {
                 'PILanguage' => hcpe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'HCPLanguage' => hcpe.HCP_Contact__r.Language__c
         };
-    
+        
         TranslateHelper.translate(hcpe, getUserLanguage());
-    
+        
         parameters.putAll(new Map<String, String>{
                 'StudySiteName' => hcpe.Study_Site__r.Name,
                 'StudyName' => hcpe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => hcpe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'SitePhoneNumber' => hcpe.Study_Site__r.Study_Site_Phone__c
         });
-        
-
+    
+    
     }
     
     private void initParamsFromSS(Id ssId){
@@ -235,21 +235,21 @@ public without sharing class ParametersDataProvider {
                 FROM Study_Site__c
                 WHERE Id = :ssId
         ];
-    
+        
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(ss.Principal_Investigator__r),
                 'PILanguage' => ss.Principal_Investigator__r.Language__c
         };
-    
+        
         TranslateHelper.translate(ss, getUserLanguage());
-    
+        
         parameters.putAll(new Map<String, String>{
                 'StudySiteName' => ss.Name,
                 'StudyName' => ss.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => ss.Clinical_Trial_Profile__r.Study_Title__c,
                 'SitePhoneNumber' => ss.Study_Site_Phone__c
         });
-
+    
     }
     
     private void initParamsFromTask(Id taskId){
@@ -263,7 +263,7 @@ public without sharing class ParametersDataProvider {
                 FROM Task
                 WHERE Id =: taskId
         ];
-
+        
         User emailOwner = [
                 SELECT Id,
                         LanguageLocaleKey,
@@ -272,10 +272,10 @@ public without sharing class ParametersDataProvider {
                 WHERE Id =: task.OwnerId
         ];
         //TaskTriggerHandler.processDefaultFieldValues(new List<Task> {task}, emailOwner.LanguageLocaleKey);
-
+        
         parameters = new Map<String, String>{
-            'TaskName' => task.Subject,
-            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
+                'TaskName' => task.Subject,
+                'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
     }
     
@@ -313,7 +313,7 @@ public without sharing class ParametersDataProvider {
             }
         }
     }
-
+    
     private void initParamsFromUser(Id userId){
         User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         initParamsFromContact(user.ContactId);
@@ -330,7 +330,7 @@ public without sharing class ParametersDataProvider {
         }
         return parameters.get(userNameParam);
     }
-
+    
     public String getCommunityUserName(String contactId) {
         List<User> userList = [SELECT Username FROM User WHERE ContactId = :contactId];
         return !userList.isEmpty() ? userList.get(0).Username : '';
