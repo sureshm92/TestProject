@@ -23,6 +23,12 @@
     doCheckFields: function (component) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        var isEnrollmentSuccess = false;
+        if(pe && pe.Participant_Status__c) {
+            isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
+        }
+        component.set('v.screeningRequired', isEnrollmentSuccess);
+
         var isAllRequiredCompletedAndValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
@@ -35,6 +41,7 @@
             participant.Mailing_Zip_Postal_Code__c &&
             pe.Participant_Status__c &&
             communityService.isValidEmail(participant.Email__c) &&
+            (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
             pe.Referred_By__c;
         component.set('v.isAllRequiredCompleted', isAllRequiredCompletedAndValid);
     },
@@ -54,5 +61,4 @@
             helper.initData(component);
         })
     }
-
 })

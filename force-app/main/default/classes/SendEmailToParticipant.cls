@@ -5,12 +5,11 @@
 public class SendEmailToParticipant {
     
     public static final String EMAIL_TEMPLATE_NO_TYPE_TASK = 'Patient_Task_Reminder';
+    public static final String EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE = 'Patient_Task_Reminder_Delegate';
     public static final String EMAIL_TEMPLATE_MEDICATION_TASK = 'Patient_Task_Reminder_Medication';
     public static final String EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE = 'Patient_Task_Reminder_Medication_Del';
     public static final String EMAIL_TEMPLATE_VISIT_TASK = 'Patient_Task_Reminder_Visit';
     public static final String EMAIL_TEMPLATE_VISIT_TASK_DELEGATE = 'Patient_Task_Reminder_Visit_Del';
-    
-    public static final Long EXECUTION_DELTA_MS = 2 * 60 * 60 * 1000;
     
     public static final Map<String, String> PATIENT_EMAIL_TEMPLATES_MAP = new Map<String, String>{
             TaskService.TASK_TYPE_VISIT => EMAIL_TEMPLATE_VISIT_TASK,
@@ -30,11 +29,9 @@ public class SendEmailToParticipant {
     }
     
     public static void sendEmailReminderForTask(Task task){
-        Long delta = Math.abs(Datetime.now().getTime() - task.Reminder_Date__c.getTime());
-        System.debug('DELTA: ' + delta);
-        if(task.Reminder_Date__c == null || delta > EXECUTION_DELTA_MS) return;
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         if(task.WhatId != null && task.WhatId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType() && task.Task_Type__c != null){
+            System.debug('WhatId != null');
             Participant_Study_Enrollment__c pse = [
                     SELECT
                             Id,
@@ -58,7 +55,7 @@ public class SendEmailToParticipant {
             );
         }
         
-        if(task.Task_Type__c == null){
+        if(task.Task_Type__c == null || task.Task_Type__c == 'Not Selected'){
             User user = [
                     SELECT
                             Id,
@@ -75,12 +72,13 @@ public class SendEmailToParticipant {
             addMessagesForDelegates(
                     emailMessages,
                     PatientDelegateService.getDelegatedContactIds(user.ContactId),
-                    EMAIL_TEMPLATE_NO_TYPE_TASK,
+                    EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE,
                     task.Id
             );
 
         }
         SendEmailTemplate.sendEmailMessages(emailMessages);
+        System.debug('EMAIL MESSAGES: ' + emailMessages.size());
     }
     
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId){

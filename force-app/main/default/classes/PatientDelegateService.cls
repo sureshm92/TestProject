@@ -203,5 +203,19 @@ public without sharing class PatientDelegateService {
         ];
         delete patientDelegate;
     }
+    
+    public static Participant__c getParticipantByDelegateContactId(Id contactId){
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id,
+                        Participant__r.First_Name__c,
+                        Participant__r.Last_Name__c,
+                        Participant__r.Full_Name__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c =: contactId
+        ];
+        if(patientDelegates.size() > 0) return patientDelegates[0].Participant__r;
+        return null;
+    }
+    
 }
 
