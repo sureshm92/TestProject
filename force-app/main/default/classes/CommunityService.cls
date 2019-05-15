@@ -227,7 +227,8 @@ public without sharing class CommunityService {
                         userCommunity_ShowTour__c,
                         Last_Session_Id__c,
                         MailingLatitude,
-                        MailingLongitude
+                        MailingLongitude,
+                        Account.BillingCountry
                 FROM Contact
                 WHERE Id = :contactId
         ];

@@ -198,7 +198,7 @@
                                             {!(siteWrapper.site.Name)}
                                         </div>
                                     <div class="site-sub-header slds-m-top--x-small">
-                                            {!(siteWrapper.site.Principal_Investigator__r.Title + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
+                                            {!(siteWrapper.site.Principal_Investigator__r.Salutation + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
                                     </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">

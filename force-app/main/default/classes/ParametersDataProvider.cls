@@ -64,6 +64,8 @@ public without sharing class ParametersDataProvider {
                 SELECT Id, Name,
                         Participant__r.Contact__c,
                         Participant__r.Contact__r.Name,
+                        Participant__r.Contact__r.FirstName,
+                        Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
                         Participant__r.Language_Preference_Code__c,
@@ -71,6 +73,8 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Last_Name__c,
                         Study_Site__r.Name,
                         Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Principal_Investigator__r.Language__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
@@ -83,8 +87,10 @@ public without sharing class ParametersDataProvider {
     
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pse.Study_Site__r.Principal_Investigator__r),
+                'PIFirstName' => pse.Study_Site__r.Principal_Investigator__r.FirstName,
                 'PILanguage' => pse.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pse.Participant__r),
+                'ParticipantFirstName' => pse.Participant__r.First_Name__c,
                 'ParticipantLanguage' => getParticipantLanguage(pse.Participant__r)
         };
         
@@ -92,6 +98,7 @@ public without sharing class ParametersDataProvider {
     
         parameters.putAll(new Map<String, String>{
                 'PSEName' => pse.Name,
+                'PSEFirstName' => pse.Name,
                 'StudyName' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pse.Study_Site__r.Name,
@@ -105,10 +112,14 @@ public without sharing class ParametersDataProvider {
                         Referral_Source__c,
                         HCP__r.HCP_Contact__c,
                         HCP__r.HCP_Contact__r.Name,
+                        HCP__r.HCP_Contact__r.FirstName,
+                        HCP__r.HCP_Contact__r.LastName,
                         HCP__r.HCP_Contact__r.Salutation,
                         HCP__r.HCP_Contact__r.Language__c,
                         Participant__r.Contact__c,
                         Participant__r.Contact__r.Name,
+                        Participant__r.Contact__r.FirstName,
+                        Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
                         Participant__r.Language_Preference_Code__c,
@@ -116,6 +127,8 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Last_Name__c,
                         Study_Site__r.Name,
                         Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Principal_Investigator__r.Language__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
@@ -130,8 +143,10 @@ public without sharing class ParametersDataProvider {
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
+                'PIFirstName' => pe.Study_Site__r.Principal_Investigator__r.FirstName,
                 'PILanguage' => pe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pe.Participant__r),
+                'ParticipantFirstName' => pe.Participant__r.First_Name__c,
                 'ParticipantLanguage' => getParticipantLanguage(pe.Participant__r),
                 'IsVirtual' => pe.Is_Virtual_Study_Site__c + ''
         };
@@ -139,6 +154,7 @@ public without sharing class ParametersDataProvider {
         if(pe.HCP__c != null){
             parameters.putAll(new Map<String, String>{
                     'HCPName' => getFullContactName(pe.HCP__r.HCP_Contact__r),
+                    'HCPFirstName' => pe.HCP__r.HCP_Contact__r.FirstName,
                     'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c
             });
         }
@@ -147,6 +163,7 @@ public without sharing class ParametersDataProvider {
     
         parameters.putAll(new Map<String, String>{
                 'PEName' => pe.Name,
+                'PEFirstName' => pe.Name,
                 'StudyName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
@@ -160,6 +177,8 @@ public without sharing class ParametersDataProvider {
         HCP_Enrollment__c hcpe = [
                 SELECT Id, Name,
                         HCP_Contact__r.Name,
+                        HCP_Contact__r.FirstName,
+                        HCP_Contact__r.LastName,
                         HCP_Contact__r.Salutation,
                         HCP_Contact__r.Language__c,
                         Study_Site__r.Name,
@@ -169,6 +188,8 @@ public without sharing class ParametersDataProvider {
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Principal_Investigator__r.Language__c,
                         Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Study_Site_Phone__c,
                         HCP_Contact__c
@@ -180,7 +201,9 @@ public without sharing class ParametersDataProvider {
                 'GuestName' => TranslateHelper.getLabelValue('Email_Guest_User_Name'),
                 'GuestLanguage' => hcpe.HCP_Contact__r.Language__c,
                 'PIName' =>  getFullContactName(hcpe.Study_Site__r.Principal_Investigator__r),
+                'PIFirstName' =>  hcpe.Study_Site__r.Principal_Investigator__r.FirstName,
                 'HCPName' => getFullContactName(hcpe.HCP_Contact__r),
+                'HCPFirstName' => hcpe.HCP_Contact__r.FirstName,
                 'PILanguage' => hcpe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'HCPLanguage' => hcpe.HCP_Contact__r.Language__c
         };
@@ -201,6 +224,8 @@ public without sharing class ParametersDataProvider {
         Study_Site__c ss = [
                 SELECT Id, Name,
                         Principal_Investigator__r.Name,
+                        Principal_Investigator__r.FirstName,
+                        Principal_Investigator__r.LastName,
                         Principal_Investigator__r.Salutation,
                         Principal_Investigator__r.Language__c,
                         Principal_Investigator__c,
@@ -213,6 +238,7 @@ public without sharing class ParametersDataProvider {
     
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(ss.Principal_Investigator__r),
+                'PIFirstName' => ss.Principal_Investigator__r.FirstName,
                 'PILanguage' => ss.Principal_Investigator__r.Language__c
         };
     
@@ -247,7 +273,8 @@ public without sharing class ParametersDataProvider {
         parameters = new Map<String, String>{
             'TaskName' => task.Subject,
             'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey),
-            'ParticipantName' => PatientDelegateService.getInstance().getParticipant().Full_Name__c
+            'ParticipantName' => PatientDelegateService.getInstance().getParticipant().Full_Name__c,
+            'ParticipantFirstName' => PatientDelegateService.getInstance().getParticipant().Full_Name__c
         };
     }
     
@@ -267,14 +294,17 @@ public without sharing class ParametersDataProvider {
         parameters.put('FullName', getFullContactName(cnt));
         if(userMode == CommunityService.USER_MODE_PI){
             parameters.put('PIName', getFullContactName(cnt));
+            parameters.put('PIFirstName', cnt.FirstName);
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
             parameters.put('HCPName', getFullContactName(cnt));
+            parameters.put('HCPFirstName', cnt.FirstName);
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantLanguage', cnt.Language__c);
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
+                parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
             }else{
                 initParamsFromPE(contactId);
@@ -287,11 +317,14 @@ public without sharing class ParametersDataProvider {
         initParamsFromContact(user.ContactId);
     }
     
-    public String getUserName(){
+    public String getUserName(Boolean greetingOnlyFirstName){
         if(recipientName != null) return recipientName;
         String userNameParam;
         if(isDelegate) {
             userNameParam = 'FullName';
+        }
+        else if(greetingOnlyFirstName){
+            userNameParam = userMode + 'FirstName';
         }
         else{
             userNameParam = userMode + 'Name';

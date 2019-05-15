@@ -164,11 +164,19 @@ public without sharing class StudyTrialService {
 
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         Location userLocation = DistanceHelper.getUserLocation();
-
+        Contact userContact = CommunityService.getUserContact();
+        String userCountry;
+        if(userContact.Account.BillingCountry != null && userContact.Account.BillingCountry!=''){
+            userCountry = userContact.Account.BillingCountry;
+        }
+        else{
+            userCountry='United States';
+        }
         String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Site__c, Study_Site_Type__c FROM Study_Site__c WHERE ';
         query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\''+
                 '  AND Override_PI_Referral_Status__c != NULL ' +
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
+                '  AND Principal_Investigator__r.Account.BillingCountry = :userCountry '+
                 ') ';
 
         if (sortData.sortType == 'CreatedDate DESC') {

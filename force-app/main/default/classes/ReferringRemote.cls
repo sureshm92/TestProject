@@ -29,49 +29,50 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode){
         //try{
-            InitData initData = new InitData();
-            initData.trial = TrialService.getInstance().getTrialImpl(trialId);
-            //localize pes
-            if(initData.trial.Link_to_Pre_screening__c != null){
-                initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(initData.trial.Link_to_Pre_screening__c);
-            }
-            if(hcpeId != null){
-                initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
-            }
-            //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
+        InitData initData = new InitData();
+        initData.trial = TrialService.getInstance().getTrialImpl(trialId);
+        //localize pes
+        if(initData.trial.Link_to_Pre_screening__c != null){
+            initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(initData.trial.Link_to_Pre_screening__c);
+        }
+        if(hcpeId != null){
+            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
+        }
+        //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
 
-            //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
-            if(peId != null) {
-                initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
-            }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
-                initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
-            }
-            if(initData.trial.Link_to_Medical_Record_Review__c != null) {
-                initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null);
-            }
-            StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
+        //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
+        if(peId != null) {
+            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
+        }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
+            initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
+        }
+        if(initData.trial.Link_to_Medical_Record_Review__c != null) {
+            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null);
+        }
+        StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
 
-            StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
-            List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true);
-            initData.markers = new List<ReferringRemote.AccountWrapper>();
-            initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
-            initData.studiesPending = new List<StudySiteService.StudySiteDistanceWrapper>();
-            for(StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp){
-                if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c) ||
-                        HCPEnrollmentService.STATUS_GROUP_PENDING.contains(siteWrapper.hcpe.Status__c)){
-                    if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c)){
-                        initData.studies.add(siteWrapper);
-                    }
-                    else {
-                        initData.studiesPending.add(siteWrapper);
-                    }
+        StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
+        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true);
+        initData.markers = new List<ReferringRemote.AccountWrapper>();
+        initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
+        initData.studiesPending = new List<StudySiteService.StudySiteDistanceWrapper>();
+        for(StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp){
+            if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c) ||
+                    HCPEnrollmentService.STATUS_GROUP_PENDING.contains(siteWrapper.hcpe.Status__c)){
+                if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c)){
+                    initData.studies.add(siteWrapper);
+                }
+                else {
+                    initData.studiesPending.add(siteWrapper);
+                }
+                if(siteWrapper.siteType != 'Virtual') {
                     AccountWrapper aw = new AccountWrapper();
                     aw.clinic = siteWrapper.site.Site__r;
                     aw.name = siteWrapper.site.Name;
                     initData.markers.add(aw);
                 }
-
             }
+        }
 //            Account site = [
 //                    SELECT Id, Name, BillingStreet, BillingState, BillingPostalCode, BillingCity, Phone,
 //                            BillingLongitude, BillingLatitude
@@ -84,10 +85,10 @@ public without sharing class ReferringRemote {
 //            aw.addrCity = getCityString(site);
 //            aw.clinic = site;
 //            initData.studies.add(aw);
-            initData.countries = CountryStateUtil.getCountries();
-            initData.genders = ParticipantService.getGenderLVList();
-            initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-            return JSON.serialize(initData);
+        initData.countries = CountryStateUtil.getCountries();
+        initData.genders = ParticipantService.getGenderLVList();
+        initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+        return JSON.serialize(initData);
         /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -175,11 +176,11 @@ public without sharing class ReferringRemote {
         if(acc.BillingPostalCode != null) addressList.add(acc.BillingPostalCode);
         return String.join(addressList, ', ');
     }*/
-    
+
     public static final Map<String, List<String>> STATES_MAP = FieldDescribeUtil.getDependentOptionsImpl(
             User.CountryCode,
             User.StateCode
     );
 
-    
+
 }
