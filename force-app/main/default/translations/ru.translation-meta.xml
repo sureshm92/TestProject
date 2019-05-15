@@ -47,6 +47,10 @@
         <name>AL_Body_Welcome_to_PH</name>
     </customLabels>
     <customLabels>
+        <label><!-- AL_Body_Welcome_to_PH_Delegates --></label>
+        <name>AL_Body_Welcome_to_PH_Delegates</name>
+    </customLabels>
+    <customLabels>
         <label>Добро пожаловать на исследование!</label>
         <name>AL_Title_Welcome_Study</name>
     </customLabels>
@@ -191,7 +195,7 @@
         <name>AccountSettings_Referral_Networks_Description</name>
     </customLabels>
     <customLabels>
-        <label><!-- Site Based --></label>
+        <label><!-- Institution Based --></label>
         <name>AccountSettings_Referral_Networks_Site_Based</name>
     </customLabels>
     <customLabels>
@@ -660,6 +664,10 @@
         <name>DLIT_L_Refer_a_patient_to_a_study_site</name>
     </customLabels>
     <customLabels>
+        <label><!-- DLIT L Reffer --></label>
+        <name>DLIT_L_Reffer</name>
+    </customLabels>
+    <customLabels>
         <label>Выбрать пункт исследвоания</label>
         <name>DLIT_L_Select_a_study_site_to_refer_to</name>
     </customLabels>
@@ -835,11 +843,11 @@
         <name>Email_Body_Initial_Patient_Virtual</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое электронное письмо, чтобы напомнить вам о предстоящей дозировке медикаментов для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по адресу ##SitePhoneNumber.</label>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о предстоящей дозировке медикаментов для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с учебной группой по телефону ##SitePhoneNumber.</label>
         <name>Email_Body_Medication_Task_Reminder</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##ParticipantName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по телефону: ##SitePhoneNumber.</label>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##ParticipantName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с учебной группой по телефону: ##SitePhoneNumber.</label>
         <name>Email_Body_Medication_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
@@ -904,15 +912,13 @@
         <name>Email_Body_Patient14</name>
     </customLabels>
     <customLabels>
-        <label>Недавно ##HCPName сделал от вашего имени направление в ##PIName для потенциального участия в клиническом
-            исследовании: ##StudyName.
-             
-            С вами свяжется сайт главного исследователя ##StudySiteName, чтобы узнать о следующих шагах в процессе
-            регистрации.
-             
-            Чтобы просмотреть дополнительную информацию об этом исследовании, войдите на платформу и перейдите в раздел
-            «Мои исследования».
-        </label>
+        <label>Поздравляем, вы были зачислены в ## StudyName клиническое исследование.
+
+Команда Учебной Площадки свяжется с вами по поводу следующих шагов в процессе обучения.
+
+Чтобы помочь вам отследить, где вы находитесь в клиническом исследовании, пожалуйста, войдите на портал пациентов IQVIA.
+
+Обратите внимание, что регистрация в портале для пациентов IQVIA не является обязательным требованием для участия в исследовании: ## StudyName.</label>
         <name>Email_Body_Patient15</name>
     </customLabels>
     <customLabels>
@@ -1066,7 +1072,7 @@
         <name>Email_Body_Visit_Task_Reminder</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое письмо с напоминанием о предстоящем визите ##ParticipantName для исследования ##StudyName. Если ##ParticipantName не может назначить встречу, позвоните, чтобы перенести встречу.</label>
+        <label>Это быстрое письмо с напоминанием о предстоящем визите ##ParticipantName для исследования ##StudyName. Если ##ParticipantName не может назначить встречу, позвоните, чтобы перенести встречу. Пожалуйста авторизуйтесь для получения дополнительной информации.</label>
         <name>Email_Body_Visit_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
@@ -1230,6 +1236,10 @@
         <name>Email_Header_Visit_Task_Reminder</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Header_Visit_Task_Reminder_Delegate --></label>
+        <name>Email_Header_Visit_Task_Reminder_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Ваш уровень доступа был изменен</label>
         <name>Email_Header_Your_Access_Level_Has_Been_Changed</name>
     </customLabels>
@@ -1254,6 +1264,10 @@
         <name>Email_Signature_3</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Signature_Drop --></label>
+        <name>Email_Signature_Drop</name>
+    </customLabels>
+    <customLabels>
         <label>Если вы не хотите менять свой пароль или не запрашивали это, просто проигнорируйте это электронное письмо, и никакие изменения не будут внесены в вашу учетную запись.
 
 Чтобы обеспечить безопасность своего аккаунта, не пересылайте это письмо никому.</label>
@@ -1262,6 +1276,14 @@
     <customLabels>
         <label><!-- Email Signature New --></label>
         <name>Email_Signature_New</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature New Participant Delegate --></label>
+        <name>Email_Signature_New_Participant_Delegate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email_Signature_PPST --></label>
+        <name>Email_Signature_PPST</name>
     </customLabels>
     <customLabels>
         <label><!-- Email Signature Patient --></label>
@@ -2114,6 +2136,18 @@
         <name>PG_AH_T_User_manual_with_further_details</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AL Bottom Signature --></label>
+        <name>PG_AL_Bottom_Signature</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AL Bottom Signature End --></label>
+        <name>PG_AL_Bottom_Signature_End</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AL Bottom Signature Link --></label>
+        <name>PG_AL_Bottom_Signature_Link</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG AP F Phone Type --></label>
         <name>PG_AP_F_Phone_Type</name>
     </customLabels>
@@ -2720,6 +2754,10 @@
     <customLabels>
         <label>Здравствуйте ##UserName, добро пожаловать в Patient Hub! Здесь Вы можете видеть свой статус на исследовании и всю необходимую информацию</label>
         <name>PG_Home_Welcome_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG Home Welcome Message Alumni --></label>
+        <name>PG_Home_Welcome_Message_Alumni</name>
     </customLabels>
     <customLabels>
         <label>с помощью</label>
@@ -3566,6 +3604,10 @@
         <name>PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG Ref L You must be approved to refer --></label>
+        <name>PG_Ref_L_You_must_be_approved</name>
+    </customLabels>
+    <customLabels>
         <label>Пацинет прошел предварительный отбор и возможно сможет участвовать в исследовании</label>
         <name>PG_Ref_L_Your_patient_passed_the_pre_eligibility_screening_and_may_be_able_to_pa</name>
     </customLabels>
@@ -3719,6 +3761,10 @@
     <customLabels>
         <label><!-- PG SFS Referral Status --></label>
         <name>PG_SFS_L_Referral_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Site --></label>
+        <name>PG_SFS_L_Site</name>
     </customLabels>
     <customLabels>
         <label><!-- PG SFS Site Type --></label>
@@ -4517,6 +4563,10 @@
         <name>Task_Subject_Complete_Baseline_Survey</name>
     </customLabels>
     <customLabels>
+        <label><!-- Task Subject Complete Survey --></label>
+        <name>Task_Subject_Complete_Survey</name>
+    </customLabels>
+    <customLabels>
         <label>Дорогой ##ParticipantName, пожалуйста, завершите заполнение Вашего профиля</label>
         <name>Task_Subject_Complete_Your_Profile</name>
     </customLabels>
@@ -4588,4 +4638,13 @@
         <label><!-- update resource content --></label>
         <name>update_resource_content</name>
     </customLabels>
+    <customTabs>
+        <label><!-- Manual Tasks Creation --></label>
+        <name>Manual_Tasks_Creation</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Study Export/Import --></label>
+        <name>Translation_Import_Export</name>
+    </customTabs>
+
 </Translations>
