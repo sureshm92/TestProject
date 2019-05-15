@@ -19,7 +19,6 @@
     <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
     <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
-    <apex:attribute name="onlyFirstName" assignTo="{!greetingOnlyFirstName}" type="Boolean" description="" default="false"/>
 
     <!-- component body: -->
     {!headerValue}

@@ -5,26 +5,26 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="Participant"
+                         recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient2}"
                          title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient2}"
-                         signature="{!$Label.Email_Signature_Patient}"
-                         onlyFirstName="true">
+                         signature="{!$Label.Email_Signature_Patient}">
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="Participant"
+                             recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient2}"
                              title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient2}"
-                             signature="{!$Label.Email_Signature_Patient}"
-                             onlyFirstName="true">
+                             signature="{!$Label.Email_Signature_Patient}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>

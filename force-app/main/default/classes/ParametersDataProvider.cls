@@ -15,6 +15,7 @@ public without sharing class ParametersDataProvider {
     public List<DelegateLevelWrapper> delegateLevelsPI = new List<DelegateLevelWrapper>();
     public List<DelegateLevelWrapper> delegateLevelsHCP = new List<DelegateLevelWrapper>();
     public String recipientName;
+    public String recipientFirstName;
     public Id recipientId;
     public String recipientLanguage;
     public String parametersProviderName;
@@ -55,7 +56,8 @@ public without sharing class ParametersDataProvider {
         String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
         if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
-        
+        parameters.put('RecipientName', getUserName());
+        parameters.put('RecipientFirstName', recipientFirstName);
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
     }
     
@@ -87,10 +89,8 @@ public without sharing class ParametersDataProvider {
     
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pse.Study_Site__r.Principal_Investigator__r),
-                'PIFirstName' => pse.Study_Site__r.Principal_Investigator__r.FirstName,
                 'PILanguage' => pse.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pse.Participant__r),
-                'ParticipantFirstName' => pse.Participant__r.First_Name__c,
                 'ParticipantLanguage' => getParticipantLanguage(pse.Participant__r)
         };
         
@@ -98,7 +98,6 @@ public without sharing class ParametersDataProvider {
     
         parameters.putAll(new Map<String, String>{
                 'PSEName' => pse.Name,
-                'PSEFirstName' => pse.Name,
                 'StudyName' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pse.Study_Site__r.Name,
@@ -143,10 +142,8 @@ public without sharing class ParametersDataProvider {
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
-                'PIFirstName' => pe.Study_Site__r.Principal_Investigator__r.FirstName,
                 'PILanguage' => pe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pe.Participant__r),
-                'ParticipantFirstName' => pe.Participant__r.First_Name__c,
                 'ParticipantLanguage' => getParticipantLanguage(pe.Participant__r),
                 'IsVirtual' => pe.Is_Virtual_Study_Site__c + ''
         };
@@ -154,7 +151,6 @@ public without sharing class ParametersDataProvider {
         if(pe.HCP__c != null){
             parameters.putAll(new Map<String, String>{
                     'HCPName' => getFullContactName(pe.HCP__r.HCP_Contact__r),
-                    'HCPFirstName' => pe.HCP__r.HCP_Contact__r.FirstName,
                     'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c
             });
         }
@@ -163,7 +159,6 @@ public without sharing class ParametersDataProvider {
     
         parameters.putAll(new Map<String, String>{
                 'PEName' => pe.Name,
-                'PEFirstName' => pe.Name,
                 'StudyName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
@@ -201,9 +196,7 @@ public without sharing class ParametersDataProvider {
                 'GuestName' => TranslateHelper.getLabelValue('Email_Guest_User_Name'),
                 'GuestLanguage' => hcpe.HCP_Contact__r.Language__c,
                 'PIName' =>  getFullContactName(hcpe.Study_Site__r.Principal_Investigator__r),
-                'PIFirstName' =>  hcpe.Study_Site__r.Principal_Investigator__r.FirstName,
                 'HCPName' => getFullContactName(hcpe.HCP_Contact__r),
-                'HCPFirstName' => hcpe.HCP_Contact__r.FirstName,
                 'PILanguage' => hcpe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'HCPLanguage' => hcpe.HCP_Contact__r.Language__c
         };
@@ -238,7 +231,6 @@ public without sharing class ParametersDataProvider {
     
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(ss.Principal_Investigator__r),
-                'PIFirstName' => ss.Principal_Investigator__r.FirstName,
                 'PILanguage' => ss.Principal_Investigator__r.Language__c
         };
     
@@ -317,14 +309,11 @@ public without sharing class ParametersDataProvider {
         initParamsFromContact(user.ContactId);
     }
     
-    public String getUserName(Boolean greetingOnlyFirstName){
+    public String getUserName(){
         if(recipientName != null) return recipientName;
         String userNameParam;
         if(isDelegate) {
             userNameParam = 'FullName';
-        }
-        else if(greetingOnlyFirstName){
-            userNameParam = userMode + 'FirstName';
         }
         else{
             userNameParam = userMode + 'Name';
@@ -414,17 +403,19 @@ public without sharing class ParametersDataProvider {
         Id rId = recipientId;
         if (rId.getSobjectType() == User.getSObjectType()) {
             User recipientUser = [
-                    SELECT Id, ContactId, Contact.Name,
+                    SELECT Id, ContactId, Contact.Name, Contact.FirstName,
                             LanguageLocaleKey
                     FROM User
                     WHERE Id =: recipientId
             ];
             recipientContactId = recipientUser.ContactId;
             recipientName = recipientUser.Contact.Name;
+            recipientFirstName = recipientUser.Contact.FirstName;
             recipientLanguage = recipientUser.LanguageLocaleKey;
         }else{
-            Contact cnt = [SELECT Id, Name, Language__c FROM Contact WHERE Id =: recipientId];
+            Contact cnt = [SELECT Id, Name, FirstName, Language__c FROM Contact WHERE Id =: recipientId];
             recipientName = cnt.Name;
+            recipientFirstName = cnt.FirstName;
             recipientLanguage = cnt.Language__c;
         }
         
@@ -432,6 +423,7 @@ public without sharing class ParametersDataProvider {
             List<Participant__c> participants = [SELECT First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c = :recipientContactId];
             if (participants.size() > 0) {
                 recipientName = getFullParticipantName(participants[0]);
+                recipientFirstName = participants[0].First_Name__c;
             }
         }
     }
