@@ -10,8 +10,6 @@ public class SendEmailToParticipant {
     public static final String EMAIL_TEMPLATE_VISIT_TASK = 'Patient_Task_Reminder_Visit';
     public static final String EMAIL_TEMPLATE_VISIT_TASK_DELEGATE = 'Patient_Task_Reminder_Visit_Del';
     
-    public static final Long EXECUTION_DELTA_MS = 2 * 60 * 60 * 1000;
-    
     public static final Map<String, String> PATIENT_EMAIL_TEMPLATES_MAP = new Map<String, String>{
             TaskService.TASK_TYPE_VISIT => EMAIL_TEMPLATE_VISIT_TASK,
             TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK
@@ -30,9 +28,6 @@ public class SendEmailToParticipant {
     }
     
     public static void sendEmailReminderForTask(Task task){
-        Long delta = Math.abs(Datetime.now().getTime() - task.Reminder_Date__c.getTime());
-        System.debug('DELTA: ' + delta);
-        if(task.Reminder_Date__c == null || delta > EXECUTION_DELTA_MS) return;
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         if(task.WhatId != null && task.WhatId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType() && task.Task_Type__c != null){
             Participant_Study_Enrollment__c pse = [

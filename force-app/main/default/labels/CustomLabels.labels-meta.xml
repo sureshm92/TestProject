@@ -1392,7 +1392,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you! Please take 2 minutes to fill out the TransCelerate Study Baseline Survey in  IQVIA™ Patient  Portal.</value>
+        <value>We would love to hear from you! Please take a few minutes to fill out a quick survey.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
