@@ -4,9 +4,7 @@
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="Participant"
-                         recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
+        <c:EmailTemplate recipientId="{!recipient.Id}"
                          recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
@@ -19,10 +17,7 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="Participant"
-                             recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                              title="{!$Label.Email_Title_PH}"
