@@ -33,13 +33,7 @@
         <name>AL_Body_Welcome_Study</name>
     </customLabels>
     <customLabels>
-        <label>Поздравляю ##Contact!
-
-Теперь вы зарегистрированы в ##StudyName study! исследовании!
-
-Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
-
-Нажмите OK, чтобы начать!</label>
+        <label><!-- AL_Body_Welcome_Study_Patient_Delegates --></label>
         <name>AL_Body_Welcome_Study_Patient_Delegates</name>
     </customLabels>
     <customLabels>
@@ -2388,6 +2382,10 @@
         <name>PG_AS_T_Participant_Email_Preferences</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AS T Please Review Contact information --></label>
+        <name>PG_AS_T_Please_Review_Contact_information</name>
+    </customLabels>
+    <customLabels>
         <label>По вопросам, касающихся ваших личных данных или прав на конфиденциальность, напишите нам, используя форму ниже.</label>
         <name>PG_AS_T_Privacy_Rights</name>
     </customLabels>
@@ -4648,12 +4646,6 @@
     </customTabs>
     <flowDefinitions>
         <flows>
-            <fullName>Task_status_changer-1</fullName>
-        </flows>
-        <fullName>Task_status_changer</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
             <fullName>Task_changes_status_to_Expired-1</fullName>
         </flows>
         <fullName>Task_changes_status_to_Expired</fullName>
@@ -4735,6 +4727,12 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows>
+            <fullName>Survey_Response_Change_Handler-1</fullName>
+        </flows>
+        <fullName>Survey_Response_Change_Handler</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
             <fullName>Email_to_PI_New_Patient_Referral-1</fullName>
         </flows>
         <fullName>Email_to_PI_New_Patient_Referral</fullName>
@@ -4793,4 +4791,26 @@
         <label><!-- SendEmail --></label>
         <name>SendEmail</name>
     </quickActions>
+    <reportTypes>
+        <description><!-- Resources with or without TA Assignments --></description>
+        <label><!-- Resources with or without TA Assignments --></label>
+        <name>Resources_with_or_without_TA_Assignments</name>
+        <sections>
+            <label><!-- Resources --></label>
+            <name>Resources</name>
+        </sections>
+        <sections>
+            <label><!-- Therapeutic Area Assignments --></label>
+            <name>Therapeutic Area Assignments</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- TA / COI w/o Child --></description>
+        <label><!-- TA / COI w/o Child --></label>
+        <name>TA_COI_w_o</name>
+        <sections>
+            <label><!-- TA / COI --></label>
+            <name>TA / COI</name>
+        </sections>
+    </reportTypes>
 </Translations>

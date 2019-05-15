@@ -47,7 +47,7 @@ public without sharing class TaskEditRemote {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }
             if (paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit') {
-                paramTask.WhatId = ParticipantService.getInstance().getState().ctp.Id;
+                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
             }
             if (paramTask.Id != null) {
                 changeReminderDate(paramTask);

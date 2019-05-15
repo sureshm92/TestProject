@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL_Body_Assigned_as_Delegate</shortDescription>
-        <value>Hi ##Contact! You have been assigned as a Delegate for &lt;patients first name&gt;.  We are so excited you have chosen to take this journey with ##UserName.</value>
+        <value>Hi ##Contact! You have been assigned as a Delegate for ##UserName. Thank you for joining ##UserName on their journey through the ##StudyName Study.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Delegate_assigned_to_a_Patient</fullName>
@@ -19,21 +19,23 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL_Body_Returning_Delegate</shortDescription>
-        <value>Welcome Back ##Contact. You have been assigned as a Delegate for ##UserName in the ##StudyName study. We are so excited you have chosen to take this journey with ##UserName.</value>
+        <value>Welcome Back ##Contact. You have been assigned as a Delegate for ##UserName in the. Thank you for joining ##UserName on their journey through the ##StudyName Study.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Returning_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL_Body_Returning_Patient</shortDescription>
-        <value>Welcome Back ##UserName to your new ##StudyName study. We are excited to be on a new journey with you.</value>
+        <value>Welcome Back ##UserName to your new ##StudyName Study. We are excited to be on a new journey with you.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Travel_Support</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL_Body_Travel_Support</shortDescription>
-        <value>Do you consent to participate in this travel support service?  Please be aware that by clicking OK, you are leaving the Patient Portal website. The Terms of Use and Privacy Policy on other websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be responsible for their policies, terms of use, or legal/regulatory compliance.  Some sites have elected not to provide travel services. We will redirect you to the travel service setup and if you were not provided a travel service packet, you will not be able to log in.</value>
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
+
+By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance. </value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study</fullName>
