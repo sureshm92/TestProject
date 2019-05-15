@@ -58,7 +58,9 @@ public with sharing class ClinicalTrialProfileService {
         List<Participant_Enrollment__c> enrollments = databaseProxy.query(enrollmentsQuery);
         Map<Id, Id> tAsByParticipantsIds = new Map<Id, Id>();
         for (Participant_Enrollment__c singlePE : enrollments) {
-            if (String.isNotBlank(singlePE.Participant__c)) {
+            if (String.isNotBlank(singlePE.Participant__c) && singlePE.Study_Site__c != null &&
+                    singlePE.Study_Site__r.Clinical_Trial_Profile__c != null &&
+                    singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c != null) {
                 tAsByParticipantsIds.put(singlePE.Participant__c, singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c);
             }
         }
