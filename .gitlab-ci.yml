@@ -1,10 +1,10 @@
 stages:
 - deployINT
 - validateINT
-- validateScratchKiev
-- validateScratchMoscow
 - validateINF
 - deployINF
+- runTestINF
+- runTestINT
 
 cache:
   paths:
@@ -97,35 +97,31 @@ DeployINF:
   - sfdx force:mdapi:deploy -d output -u INF  -w 60
   - echo "deploy Inf success"
 
-  #validateScratchKiev:
-  #tags:
-  #- shell
-  #only:
-  #- PH_R1_Sprint5_K
-  #- merge_requests
+runTestINT:
+  tags:
+  - shell
+  only:
+  - PH_R1_Sprint
+  except:
+  - merge_requests
 
-  #stage: validateScratchKiev
-  #script:
-  #- echo "$PH_R1_SPRINT_K_AUTH" > sfdx-auth-url
-  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubK -d
-  #- echo "login dev hub successfully"
-  #- sfdx --version
-  #- sfdx force:source:push -u scratch -f
-  #- echo "validate scratch success"
+  stage: runTestINT
+  script:
+  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
+  - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
 
-#validateScratchMoscow:
- # tags:
-  #- shell
-  #only:
-  #- $PH_R1_Sprint_MBranch
-  #- merge_requests
+runTestINF:
+  tags:
+  - shell
+  only:
+  - master
+  except:
+  - merge_requests
 
-  #stage: validateScratchMoscow
-  #script:
-  #- echo "$PH_R1_SPRINT_M_AUTH" > sfdx-auth-url
-  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a devhubM -d
-  #- echo "login dev hub successfully"
- # - sfdx --version
-  #- sfdx force:source:push -u scratch -f
-  #- echo "validate scratch success"
+  stage: runTestINF
+  script:
+  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+  - sfdx force:apex:test:run -u INF --testlevel=RunLocalTests -w 60
 

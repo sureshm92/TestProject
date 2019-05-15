@@ -52,13 +52,14 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
-    <label>Therapeutic Area Assignment</label>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <label>TA / COI Assignment</label>
     <nameField>
         <displayFormat>TAA - {0000000}</displayFormat>
         <label>Therapeutic Area Assignment Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Therapeutic Area Assignments</pluralLabel>
+    <pluralLabel>TA / COI Assignments</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

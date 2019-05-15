@@ -13,7 +13,7 @@
         <isOptional>true</isOptional>
     </lookupFilter>
     <referenceTo>Therapeutic_Area__c</referenceTo>
-    <relationshipLabel>Therapeutic Area Assignments</relationshipLabel>
+    <relationshipLabel>TA / COI Assignments (Therapeutic Area)</relationshipLabel>
     <relationshipName>Therapeutic_Area_Assignments</relationshipName>
     <relationshipOrder>1</relationshipOrder>
     <reparentableMasterDetail>true</reparentableMasterDetail>
