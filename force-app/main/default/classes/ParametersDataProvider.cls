@@ -15,6 +15,7 @@ public without sharing class ParametersDataProvider {
     public List<DelegateLevelWrapper> delegateLevelsPI = new List<DelegateLevelWrapper>();
     public List<DelegateLevelWrapper> delegateLevelsHCP = new List<DelegateLevelWrapper>();
     public String recipientName;
+    public String recipientFirstName;
     public Id recipientId;
     public String recipientLanguage;
     public String parametersProviderName;
@@ -55,6 +56,8 @@ public without sharing class ParametersDataProvider {
         String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
         if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
+        parameters.put('RecipientName', getUserName());
+        parameters.put('RecipientFirstName', recipientFirstName);
         
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
@@ -70,6 +73,8 @@ public without sharing class ParametersDataProvider {
                 SELECT Id, Name,
                         Participant__r.Contact__c,
                         Participant__r.Contact__r.Name,
+                        Participant__r.Contact__r.FirstName,
+                        Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
                         Participant__r.Language_Preference_Code__c,
@@ -77,6 +82,8 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Last_Name__c,
                         Study_Site__r.Name,
                         Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Principal_Investigator__r.Language__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
@@ -111,10 +118,14 @@ public without sharing class ParametersDataProvider {
                         Referral_Source__c,
                         HCP__r.HCP_Contact__c,
                         HCP__r.HCP_Contact__r.Name,
+                        HCP__r.HCP_Contact__r.FirstName,
+                        HCP__r.HCP_Contact__r.LastName,
                         HCP__r.HCP_Contact__r.Salutation,
                         HCP__r.HCP_Contact__r.Language__c,
                         Participant__r.Contact__c,
                         Participant__r.Contact__r.Name,
+                        Participant__r.Contact__r.FirstName,
+                        Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
                         Participant__r.Language_Preference_Code__c,
@@ -122,6 +133,8 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Last_Name__c,
                         Study_Site__r.Name,
                         Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Principal_Investigator__r.Language__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
@@ -166,6 +179,8 @@ public without sharing class ParametersDataProvider {
         HCP_Enrollment__c hcpe = [
                 SELECT Id, Name,
                         HCP_Contact__r.Name,
+                        HCP_Contact__r.FirstName,
+                        HCP_Contact__r.LastName,
                         HCP_Contact__r.Salutation,
                         HCP_Contact__r.Language__c,
                         Study_Site__r.Name,
@@ -175,6 +190,8 @@ public without sharing class ParametersDataProvider {
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Principal_Investigator__r.Language__c,
                         Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Study_Site_Phone__c,
                         HCP_Contact__c
@@ -207,6 +224,8 @@ public without sharing class ParametersDataProvider {
         Study_Site__c ss = [
                 SELECT Id, Name,
                         Principal_Investigator__r.Name,
+                        Principal_Investigator__r.FirstName,
+                        Principal_Investigator__r.LastName,
                         Principal_Investigator__r.Salutation,
                         Principal_Investigator__r.Language__c,
                         Principal_Investigator__c,
@@ -276,14 +295,17 @@ public without sharing class ParametersDataProvider {
         parameters.put('FullName', getFullContactName(cnt));
         if(userMode == CommunityService.USER_MODE_PI){
             parameters.put('PIName', getFullContactName(cnt));
+            parameters.put('PIFirstName', cnt.FirstName);
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
             parameters.put('HCPName', getFullContactName(cnt));
+            parameters.put('HCPFirstName', cnt.FirstName);
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantLanguage', cnt.Language__c);
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
+                parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
                 parameters.put('StudyName', ParticipantService.getParticipantState().ctp.Study_Code_Name__c);
             }else{
@@ -402,6 +424,7 @@ public without sharing class ParametersDataProvider {
             ];
             recipientContactId = recipientUser.ContactId;
             recipientName = recipientUser.Contact.Name;
+            recipientFirstName = recipientUser.Contact.FirstName;
             recipientLanguage = recipientUser.LanguageLocaleKey;
             isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
             userMode = recipientUser.Contact.userCommunityMode__c;
@@ -415,6 +438,7 @@ public without sharing class ParametersDataProvider {
                     FROM Contact
                     WHERE Id =: recipientId];
             recipientName = cnt.Name;
+            recipientFirstName = cnt.FirstName;
             recipientLanguage = cnt.Language__c;
             isDelegate = cnt.UserCommunityIsDelegate__c;
             userMode = cnt.userCommunityMode__c;
@@ -424,6 +448,7 @@ public without sharing class ParametersDataProvider {
             List<Participant__c> participants = [SELECT First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c = :recipientContactId];
             if (participants.size() > 0) {
                 recipientName = getFullParticipantName(participants[0]);
+                recipientFirstName = participants[0].First_Name__c;
             }
         }
     }

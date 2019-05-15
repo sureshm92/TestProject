@@ -17,31 +17,20 @@
     },
 
     doDown: function (component, event, helper) {
-        let indexCoi = event.getSource().get('v.value');
-        helper.swapElement(component, indexCoi, (indexCoi + 1));
+            component.set('v.showSpinner', true);
+            let indexCoi = event.getSource().get('v.value');
+            helper.swapElement(component, indexCoi, (indexCoi + 1));
     },
 
     doUp: function (component, event, helper) {
-        let indexCoi = event.getSource().get('v.value');
-        helper.swapElement(component, indexCoi, (indexCoi - 1));
+            component.set('v.showSpinner', true);
+            let indexCoi = event.getSource().get('v.value');
+            helper.swapElement(component, indexCoi, (indexCoi - 1));
     },
 
     doDelete: function (component, event, helper) {
-        let idCOI = event.getSource().get('v.value');
-        let coiIds = [];
-        coiIds.push(idCOI);
-        let conditionOfInterestList = component.get('v.conditionOfInterestList');
-        if (coiIds) {
-            communityService.executeAction(component, 'deleteCOI', {
-                coiIds : coiIds
-            }, function () {
-                conditionOfInterestList = conditionOfInterestList.filter((el) => {
-                    return el.coi.Id !== idCOI;
-                });
-                component.set('v.conditionOfInterestList', conditionOfInterestList);
-                component.set('v.isSaveList', !component.get('v.isSaveList'));
-            });
-        }
-
+            component.set('v.showSpinner', true);
+            let idCOI = event.getSource().get('v.value');
+            helper.deleteCOI(component, idCOI);
     }
 })

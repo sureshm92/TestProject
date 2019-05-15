@@ -2479,7 +2479,14 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear</value>
+        <value>Dear ##RecipientName,</value>
+    </labels>
+    <labels>
+        <fullName>Email_User_Greeting_FirstName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email User Greeting</shortDescription>
+        <value>Dear ##RecipientFirstName,</value>
     </labels>
     <labels>
         <fullName>Email_body_PI4</fullName>
@@ -6175,7 +6182,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient agrees to share her/his details with the study doctors and IQVIA so they can be contacted.</value>
+        <value>My patient, or patient's representative if patient is a juvenile, agrees to share the patient's contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>

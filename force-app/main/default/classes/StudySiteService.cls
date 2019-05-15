@@ -474,6 +474,14 @@ public without sharing class StudySiteService {
     }
 
     public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
+        Contact userContact = CommunityService.getUserContact();
+        String userCountry;
+        if(userContact.MailingCountry != null && userContact.MailingCountry!=''){
+            userCountry = userContact.MailingCountry;
+        }
+        else{
+            userCountry='United States';
+        }
         String filterString = '';
         if (filter.trialId != null && (filter.trialIds == null || filter.trialIds.isEmpty())) {
             filterString = 'Clinical_Trial_Profile__c =\'' + filter.trialId + '\' ';
@@ -492,6 +500,7 @@ public without sharing class StudySiteService {
         if (filter.siteType != null && filter.siteType != '') {
             filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
+        filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';
 
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
