@@ -23,7 +23,7 @@
                 });
                 console.log('after update COI ' + JSON.stringify(coiSaveWrapperList));
                 component.set('v.conditionOfInterestList', coiSaveWrapperList);
-                component.set('v.bypass', false);
+                component.set('v.showSpinner', false);
             });
         }
     },
