@@ -5,6 +5,7 @@
 public class SendEmailToParticipant {
     
     public static final String EMAIL_TEMPLATE_NO_TYPE_TASK = 'Patient_Task_Reminder';
+    public static final String EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE = 'Patient_Task_Reminder_Delegate';
     public static final String EMAIL_TEMPLATE_MEDICATION_TASK = 'Patient_Task_Reminder_Medication';
     public static final String EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE = 'Patient_Task_Reminder_Medication_Del';
     public static final String EMAIL_TEMPLATE_VISIT_TASK = 'Patient_Task_Reminder_Visit';
@@ -30,6 +31,7 @@ public class SendEmailToParticipant {
     public static void sendEmailReminderForTask(Task task){
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         if(task.WhatId != null && task.WhatId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType() && task.Task_Type__c != null){
+            System.debug('WhatId != null');
             Participant_Study_Enrollment__c pse = [
                     SELECT
                             Id,
@@ -53,7 +55,7 @@ public class SendEmailToParticipant {
             );
         }
         
-        if(task.Task_Type__c == null){
+        if(task.Task_Type__c == null || task.Task_Type__c == 'Not Selected'){
             User user = [
                     SELECT
                             Id,
@@ -70,12 +72,13 @@ public class SendEmailToParticipant {
             addMessagesForDelegates(
                     emailMessages,
                     PatientDelegateService.getDelegatedContactIds(user.ContactId),
-                    EMAIL_TEMPLATE_NO_TYPE_TASK,
+                    EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE,
                     task.Id
             );
 
         }
         SendEmailTemplate.sendEmailMessages(emailMessages);
+        System.debug('EMAIL MESSAGES: ' + emailMessages.size());
     }
     
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId){

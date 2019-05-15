@@ -4,11 +4,9 @@
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="Participant"
-                         recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
-                         recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
+                         parametersProvider="Email_Template_Parameters_From_PSE"
                          header="{!$Label.Email_Header_Medication_Task_Reminder}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -20,11 +18,9 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="Participant"
-                             recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
+                             parametersProvider="Email_Template_Parameters_From_PSE"
                              header="{!$Label.Email_Header_Medication_Task_Reminder}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
