@@ -1,5 +1,16 @@
 public with sharing class ContentDocumentLinkService {
 
+    public static final Set<String> AVAILABLE_IMAGE_TYPES = new Set<String>{
+            'jpeg',
+            'png',
+            'jpg',
+            'gif',
+            'JPEG',
+            'PNG',
+            'JPG',
+            'GIF'
+    };
+
     public List<ContentDocumentLink> getContentDocumentLinksByResourcesIds(Set<String> resourcesIdsSet) {
 
         if (resourcesIdsSet.isEmpty()) {
@@ -22,12 +33,60 @@ public with sharing class ContentDocumentLinkService {
     public void extendSharingToAllUsers(List<ContentDocumentLink> links) {
 
         for (ContentDocumentLink singleLink : links) {
-            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType() &&
-                    SchemaUtil.getRecordTypeDeveloperNameBySObjectId(singleLink.LinkedEntityId) == ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT) {
+            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType()) {
                 singleLink.ShareType = 'I';
                 singleLink.Visibility = 'AllUsers';
             }
         }
+    }
+
+    public void createURLsForImagesOnResources(List<ContentDocumentLink> links) {
+
+        List<Resource__c> resourcesToUpdate = new List<Resource__c>();
+        Set<Id> linksIds = new Map<Id, ContentDocumentLink>(links).keySet();
+        List<ContentDocumentLink> documentLinks = new List<ContentDocumentLink>([
+                SELECT Id,
+                        ContentDocument.LatestPublishedVersionId,
+                        ContentDocument.FileType,
+                        LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE Id IN :linksIds
+        ]);
+        if (!documentLinks.isEmpty()) {
+            Map<Id, Resource__c> resourcesByIds = new Map<Id, Resource__c>(this.getResourcesFromContentDocumentLinks(documentLinks));
+            if (!resourcesByIds.isEmpty()) {
+                for (ContentDocumentLink singleLink : documentLinks) {
+                    if (resourcesByIds.get(singleLink.LinkedEntityId) != null &&
+                            ContentDocumentLinkService.AVAILABLE_IMAGE_TYPES.contains(singleLink.ContentDocument.FileType)) {
+                        Resource__c singleResource = resourcesByIds.get(singleLink.LinkedEntityId);
+                        singleResource.Image__c = '/sfc/servlet.shepherd/version/download/' + singleLink.ContentDocument.LatestPublishedVersionId;
+                        resourcesToUpdate.add(singleResource);
+                    }
+                }
+                update resourcesToUpdate;
+            }
+        }
+    }
+
+    public void removeURLsFromImagesOnResources(List<ContentDocument> documents) {
+
+        Set<Id> documentsIds = new Map<Id, ContentDocument>(documents).keySet();
+        List<ContentDocumentLink> links = [
+                SELECT Id,
+                        LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE ContentDocumentId IN :documentsIds
+        ];
+        Map<Id, Resource__c> resourcesByIds = new Map<Id, Resource__c>(this.getResourcesFromContentDocumentLinks(links));
+        List<Resource__c> resourcesToUpdate = new List<Resource__c>();
+        for (ContentDocumentLink singleLink : links) {
+            Resource__c singleResource = resourcesByIds.get(singleLink.LinkedEntityId);
+            if (singleResource != null) {
+                singleResource.Image__c = null;
+                resourcesToUpdate.add(singleResource);
+            }
+        }
+        update resourcesToUpdate;
     }
 
     public void remindEventFire(List<ContentDocumentLink> links) {
@@ -43,5 +102,56 @@ public with sharing class ContentDocumentLinkService {
             PlatformEventService platformEventService = (PlatformEventService) ClassFactory.newInstance(PlatformEventService.class);
             platformEventService.remindEventFire();
         }
+    }
+
+    public void validateImageTypes(List<ContentDocumentLink> links) {
+
+        List<ContentDocumentLink> linksToValidate = new List<ContentDocumentLink>();
+
+        Set<Id> resourcesIds = new Set<Id>();
+        Set<Id> documentsIds = new Set<Id>();
+        for (ContentDocumentLink singleLink : links) {
+            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType()) {
+                linksToValidate.add(singleLink);
+                resourcesIds.add(singleLink.LinkedEntityId);
+                documentsIds.add(singleLink.ContentDocumentId);
+            }
+        }
+        if (!linksToValidate.isEmpty() && !resourcesIds.isEmpty() && !documentsIds.isEmpty()) {
+            Map<Id, ContentDocument> documentsByIds = new Map<Id, ContentDocument>([
+                    SELECT Id,
+                            FileType
+                    FROM ContentDocument
+                    WHERE Id IN :documentsIds
+                    AND FileType IN :ContentDocumentLinkService.AVAILABLE_IMAGE_TYPES
+            ]);
+            Map<Id, Resource__c> resourcesByIds = new Map<Id, Resource__c>(this.getResourcesByIds(resourcesIds));
+            for (ContentDocumentLink singleLink : linksToValidate) {
+                if (documentsByIds.get(singleLink.ContentDocumentId) == null || resourcesByIds.get(singleLink.LinkedEntityId) == null) {
+                    singleLink.addError(Label.Resources_Incompatible_Image_Or_Resource_Type);
+                }
+            }
+        }
+    }
+
+    private List<Resource__c> getResourcesFromContentDocumentLinks(List<ContentDocumentLink> links) {
+
+        Set<Id> resourcesIds = new Set<Id>();
+        for (ContentDocumentLink singleLink : links) {
+            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType()) {
+                resourcesIds.add(singleLink.LinkedEntityId);
+            }
+        }
+        return this.getResourcesByIds(resourcesIds);
+    }
+
+    private List<Resource__c> getResourcesByIds(Set<Id> resourcesIds) {
+        return [
+                SELECT Id, Image__c
+                FROM Resource__c
+                WHERE Id IN :resourcesIds
+                AND RecordType.DeveloperName IN (:ResourceService.RESOURCE_TYPE_ARTICLE, :ResourceService.RESOURCE_TYPE_VIDEO)
+                AND Content_Class__c IN (:ResourceService.RESOURCE_SOURCE_PLATFORM, :ResourceService.RESOURCE_SOURCE_STUDY)
+        ];
     }
 }
