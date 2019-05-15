@@ -101,9 +101,9 @@ runTestINT:
   tags:
   - shell
   only:
-  - master
-  except:
   - PH_R1_Sprint
+  except:
+  - merge_requests
 
   stage: runTestINT
   script:
