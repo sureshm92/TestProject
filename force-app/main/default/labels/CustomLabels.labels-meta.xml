@@ -7014,6 +7014,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Referring statuses</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Study_site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Study site</shortDescription>
+        <value>Study site</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_Study_sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
