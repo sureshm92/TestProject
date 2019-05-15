@@ -13,7 +13,7 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected_Delegate}"
-                         signature="{!$Label.Email_Signature_VT}">
+                         signature="{!$Label.Email_Signature_PPST}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
@@ -28,7 +28,7 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected_Delegate}"
-                             signature="{!$Label.Email_Signature_VT}">
+                             signature="{!$Label.Email_Signature_PPST}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>

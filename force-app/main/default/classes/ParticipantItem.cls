@@ -14,6 +14,7 @@ public class ParticipantItem {
     public ParticipantItem(Participant_Enrollment__c pe){
         this.pe = pe;
         this.pse = pe.Participant_Study_Enrollment__r;
+        this.showPSESteps = pe.Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes';
     }
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {

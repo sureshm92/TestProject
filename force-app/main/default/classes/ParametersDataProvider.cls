@@ -237,6 +237,7 @@ public without sharing class ParametersDataProvider {
                 FROM Task
                 WHERE Id =: taskId
         ];
+
         User emailOwner = [
                 SELECT Id,
                         LanguageLocaleKey,
@@ -244,6 +245,8 @@ public without sharing class ParametersDataProvider {
                 FROM User
                 WHERE Id =: task.OwnerId
         ];
+        TaskTriggerHandler.processDefaultFieldValues(new List<Task> {task}, emailOwner.LanguageLocaleKey);
+
         parameters = new Map<String, String>{
             'TaskName' => task.Subject,
             'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey),
