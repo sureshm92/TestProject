@@ -129,7 +129,7 @@ public without sharing class TaskService {
         );
     }
 
-    public Task createCompleteSurveyTask(Id ownerId, Id participantContactId, Id surveyId) {
+    public Task createCompleteSurveyTask(Id ownerId, Id participantContactId, Id ctpId) {
         return new Task(
                 OwnerId = ownerId,
                 Subject = TaskService.TASK_CODE_COMPLETE_SURVEY,
@@ -138,7 +138,7 @@ public without sharing class TaskService {
                 Priority = TASK_PRIORITY_CRITICAL,
                 WhoId = participantContactId,
                 Visible_For__c = TASK_VISIBILITY_OWNER,
-                WhatId = surveyId
+                WhatId = ctpId
         );
     }
     

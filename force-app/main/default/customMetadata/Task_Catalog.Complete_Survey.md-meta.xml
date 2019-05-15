@@ -16,11 +16,11 @@
     </values>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">SurveyName = Name</value>
+        <value xsi:type="xsd:string">SurveyName = Survey__r.Name</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
-        <value xsi:type="xsd:string">Survey</value>
+        <value xsi:type="xsd:string">Clinical_Trial_Profile__c</value>
     </values>
     <values>
         <field>Subject_Label__c</field>

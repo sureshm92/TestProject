@@ -134,8 +134,8 @@ public without sharing class PSETriggerHandler {
         List<Participant_Study_Enrollment__c> pseList = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c,
-                        Clinical_Trial_Profile__r.Survey__c
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c
                 FROM Participant_Study_Enrollment__c
                 WHERE Id IN:newList
         ];
@@ -144,7 +144,7 @@ public without sharing class PSETriggerHandler {
             if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') {
                 Id ownerId = idsToUsers.get(pse.Participant_Contact__c);
                 tasks.add(TaskService.getInstance()
-                        .createCompleteSurveyTask(ownerId, pse.Participant_Contact__c, pse.Clinical_Trial_Profile__r.Survey__c));
+                        .createCompleteSurveyTask(ownerId, pse.Participant_Contact__c, pse.Clinical_Trial_Profile__c));
             }
         }
         insert tasks;

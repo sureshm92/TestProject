@@ -1134,11 +1134,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Baseline_Survey_URL__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Brief_Summary__c</field>
         <readable>true</readable>
     </fieldPermissions>

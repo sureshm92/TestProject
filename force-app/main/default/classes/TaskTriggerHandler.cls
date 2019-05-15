@@ -3,32 +3,32 @@
  */
 
 public without sharing class TaskTriggerHandler {
-    
+
     // Handlers: -------------------------------------------------------------------------------------------------------
-    
-    public class CheckTaskFieldsWithTaskCodeHandler extends TriggerHandler{
-        
+
+    public class CheckTaskFieldsWithTaskCodeHandler extends TriggerHandler {
+
         public override void beforeInsert(List<SObject> newList) {
             checkTaskFields(newList);
         }
-        
+
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             checkTaskFields(newList);
         }
     }
-    
-    public class SendImmediateEmailsForTaskCodeHandler extends TriggerHandler{
-        
+
+    public class SendImmediateEmailsForTaskCodeHandler extends TriggerHandler {
+
         public override void afterInsert(List<SObject> newList) {
             processSendImmediateEmails(newList);
         }
     }
-    
-    
+
+
     // Logic: ----------------------------------------------------------------------------------------------------------
-    
+
     @TestVisible
-    private static void checkTaskFields(List<Task> newList){
+    private static void checkTaskFields(List<Task> newList) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(newList);
         List<Task> checkedTasks = new List<Task>();
         for (Task task : newList) {
@@ -43,30 +43,30 @@ public without sharing class TaskTriggerHandler {
                 continue;
             }
             SObjectType sourceObjectType = Schema.getGlobalDescribe().get(card.Source_Object_Type__c);
-            if(sourceObjectType == null && card.Parameters__c != null) {
+            if (sourceObjectType == null && card.Parameters__c != null) {
                 task.addError('Wrong Source Object Type in Task Catalog ' + card.DeveloperName + ': ' + card.Source_Object_Type__c);
                 continue;
             }
             System.debug('SOBJTYPE: ' + sourceObjectType);
             String errorsInParameters = CatalogParametersHelper.getErrorInParameters(sourceObjectType, card.Parameters__c);
-            if(errorsInParameters != null) {
+            if (errorsInParameters != null) {
                 task.addError('Task Catalog: ' + card.DeveloperName + '; Parameters error: ' + errorsInParameters);
                 continue;
             }
-        
-            if(task.WhatId == null && card.Parameters__c != null) {
+
+            if (task.WhatId == null && card.Parameters__c != null) {
                 task.WhatId.addError('What Id can not be null');
                 continue;
             }
             Id recId;
-            if(task.WhatId != null){
-                try{
+            if (task.WhatId != null) {
+                try {
                     recId = task.WhatId;
-                    if(recId.getSobjectType() != sourceObjectType) {
+                    if (recId.getSobjectType() != sourceObjectType) {
                         task.WhatId.addError('Wrong Related To SObject Type');
                         continue;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     task.WhatId.addError('Wrong WhatId: ' + task.WhatId);
                     continue;
                 }
@@ -75,76 +75,76 @@ public without sharing class TaskTriggerHandler {
             checkedTasks.add(task);
         }
     }
-    
+
     @TestVisible
-    private static void processSendImmediateEmails(List<Task> tasks){
+    private static void processSendImmediateEmails(List<Task> tasks) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
 
         Set<Id> ownerIds = new Set<Id>();
-        for(Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks]) ownerIds.add(t.OwnerId);
+        for (Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks]) ownerIds.add(t.OwnerId);
         Map<Id, User> usersByIds = new Map<Id, User>([
                 SELECT Id, ContactId
                 FROM User
-                WHERE Id IN: ownerIds
+                WHERE Id IN:ownerIds
         ]);
-        
-        for (Task task : tasks){
-            if(task.Task_Code__c != null){
+
+        for (Task task : tasks) {
+            if (task.Task_Code__c != null) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
-                if(card != null && card.Immediate_Email_Template__c != null){
+                if (card != null && card.Immediate_Email_Template__c != null) {
                     emailMessages.add(SendEmailTemplate.createEmail(
-                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, null));
+                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, task.WhatId));
                 }
             }
         }
-        if(emailMessages.size() > 0) SendEmailTemplate.sendEmailMessages(emailMessages);
+        if (emailMessages.size() > 0) SendEmailTemplate.sendEmailMessages(emailMessages);
     }
-    
-    public static void processDefaultFieldValues(List<Task> tasks){
+
+    public static void processDefaultFieldValues(List<Task> tasks) {
         processDefaultFieldValues(tasks, UserInfo.getLanguage());
     }
 
-    public static void processDefaultFieldValues(List<Task> tasks, String language){
+    public static void processDefaultFieldValues(List<Task> tasks, String language) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         Map<String, Set<Id>> idsByObjectType = new Map<String, Set<Id>>();
         Map<String, Set<String>> fieldsByObjectType = new Map<String, Set<String>>();
-        for(Task task : tasks){
-            if(task.Task_Code__c == null) continue;
+        for (Task task : tasks) {
+            if (task.Task_Code__c == null) continue;
             Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
-            if(card == null) continue;
-            if(card.Source_Object_Type__c == null) continue;
-            if(task.WhatId == null) continue;
-            if(String.isEmpty(card.Parameters__c)) continue;
+            if (card == null) continue;
+            if (card.Source_Object_Type__c == null) continue;
+            if (task.WhatId == null) continue;
+            if (String.isEmpty(card.Parameters__c)) continue;
             Map<String, String> cardParametersMap = CatalogParametersHelper.getParamsMap(card.Parameters__c);
 
             Set<Id> objectIds = idsByObjectType.get(card.Source_Object_Type__c);
-            if(objectIds == null) objectIds = new Set<Id>();
+            if (objectIds == null) objectIds = new Set<Id>();
             objectIds.add(task.WhatId);
             idsByObjectType.put(card.Source_Object_Type__c, objectIds);
 
             Set<String> objectFields = fieldsByObjectType.get(card.Source_Object_Type__c);
-            if(objectFields == null) objectFields = new Set<String>();
+            if (objectFields == null) objectFields = new Set<String>();
             objectFields.addAll(cardParametersMap.values());
             fieldsByObjectType.put(card.Source_Object_Type__c, objectFields);
         }
 
         Map<Id, SObject> objectsMap = new Map<Id, SObject>();
-        for(String objectType : idsByObjectType.keySet()) {
+        for (String objectType : idsByObjectType.keySet()) {
             List<SObject> objectsList = new List<SObject>();
             objectsList = CatalogParametersHelper.queryObjects(objectType, fieldsByObjectType.get(objectType), idsByObjectType.get(objectType));
-            for(SObject sobj: objectsList) objectsMap.put(sobj.Id, sobj);
+            for (SObject sobj : objectsList) objectsMap.put(sobj.Id, sobj);
         }
         TranslateHelper.translate(objectsMap.values(), language);
 
-        for(Task task : tasks) {
+        for (Task task : tasks) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();
-            if(String.isEmpty(task.Task_Code__c)) continue;
+            if (String.isEmpty(task.Task_Code__c)) continue;
             Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
-            if(card == null) continue;
-            if(task.WhatId != null){
+            if (card == null) continue;
+            if (task.WhatId != null) {
                 SObject whatObject = objectsMap.get(task.WhatId);
-                if(whatObject != null){
+                if (whatObject != null) {
                     cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(whatObject, card.Parameters__c);
                 }
             }
@@ -154,9 +154,9 @@ public without sharing class TaskTriggerHandler {
 
         }
     }
-    
+
     @TestVisible
-    private static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks){
+    private static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks) {
         Set<String> catalogCodes = new Set<String>();
         for (Task task : tasks) if (task.Task_Code__c != null) catalogCodes.add(task.Task_Code__c);
         List<Task_Catalog__mdt> cards = [
