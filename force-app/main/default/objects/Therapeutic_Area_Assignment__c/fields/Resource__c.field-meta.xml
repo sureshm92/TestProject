@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>Resource</label>
     <referenceTo>Resource__c</referenceTo>
-    <relationshipLabel>Therapeutic Area Assignments</relationshipLabel>
+    <relationshipLabel>TA / COI Assignments</relationshipLabel>
     <relationshipName>Therapeutic_Area_Assignments</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <label>Third Party COI</label>
     <referenceTo>Therapeutic_Area__c</referenceTo>
-    <relationshipLabel>Therapeutic Area Assignments (Third Party COI)</relationshipLabel>
+    <relationshipLabel>TA / COI Assignments (Third Party COI)</relationshipLabel>
     <relationshipName>Therapeutic_Area_Assignments2</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

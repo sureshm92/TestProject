@@ -51,6 +51,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Res-study</label>
     <nameField>
         <displayFormat>RS-{000000}</displayFormat>
