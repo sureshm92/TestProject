@@ -38,7 +38,6 @@ global without sharing class EmailTemplateController {
     global String emailParametersProvider {get; set;}
     global Id sourceRecordId {get; set;}
     global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
-    global Boolean greetingOnlyFirstName {get; set;}
 
     private String bodyParamValue;
     global String bodyValue {
@@ -86,7 +85,7 @@ global without sharing class EmailTemplateController {
     
     global String userGreetingValue {
         get{
-            return prepareLineBreaks(userGreetingValue + ' ' + getUserName() + ',\n\n');
+            return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
         }
         set;
     }
@@ -125,7 +124,7 @@ global without sharing class EmailTemplateController {
     }
     
     global String getUserName(){
-        return getDataProvider().getUserName(greetingOnlyFirstName);
+        return getDataProvider().getUserName();
     }
     
     global Map<String, String> getParameters(){
