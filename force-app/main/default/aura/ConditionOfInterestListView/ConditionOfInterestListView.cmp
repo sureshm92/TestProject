@@ -5,14 +5,13 @@
 <aura:component controller="ConditionOfInterestRemote" description="ConditionOfInterestListView">
     <aura:attribute name="conditionOfInterestList" type="Object[]"/>
     <aura:attribute name="isSaveList" type="Boolean"/>
-    <aura:attribute name="bypass" type="Boolean" default=""/>
-
-
+    <aura:attribute name="showSpinner" type="Boolean" default=""/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.isSaveList}" action="{!c.doSaveSortCOIs}"/>
 
-    <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-2 slds-p-right--small">
+    <c:RRSpinner aura:id="spinner" showSpinner="{!v.showSpinner}"/>
+    <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-x-small-size--1-of-1 size slds-large-size--1-of-2 slds-p-right--small">
         <div class="slds-grid slds-wrap">
             <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
                 <aura:iteration items="{!v.conditionOfInterestList}" var="coi" indexVar="arrayInd">
@@ -60,6 +59,5 @@
             </div>
         </div>
     </div>
-
     <c:SearchConditionsOfInterest aura:id="searchModal" conditionsOfInterest="{!v.conditionOfInterestList}" isSaveList="{!v.isSaveList}"/>
 </aura:component>
