@@ -103,7 +103,7 @@ runTestINT:
   only:
   - master
   except:
-  - merge_requests
+  - PH_R1_Sprint
 
   stage: runTestINT
   script:
