@@ -476,8 +476,8 @@ public without sharing class StudySiteService {
     public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
         Contact userContact = CommunityService.getUserContact();
         String userCountry;
-        if(userContact.Account.BillingCountry != null && userContact.Account.BillingCountry!=''){
-            userCountry = userContact.Account.BillingCountry;
+        if(userContact.MailingCountry != null && userContact.MailingCountry!=''){
+            userCountry = userContact.MailingCountry;
         }
         else{
             userCountry='United States';
