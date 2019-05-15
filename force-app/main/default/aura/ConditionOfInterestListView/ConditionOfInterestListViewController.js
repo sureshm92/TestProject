@@ -17,33 +17,20 @@
     },
 
     doDown: function (component, event, helper) {
-        if (component.get('v.bypass')) {
-        } else {
-            component.set('v.bypass', true);
+            component.set('v.showSpinner', true);
             let indexCoi = event.getSource().get('v.value');
             helper.swapElement(component, indexCoi, (indexCoi + 1));
-        }
-
     },
 
     doUp: function (component, event, helper) {
-        if (component.get('v.bypass')) {
-        } else {
-            component.set('v.bypass', true);
+            component.set('v.showSpinner', true);
             let indexCoi = event.getSource().get('v.value');
             helper.swapElement(component, indexCoi, (indexCoi - 1));
-        }
-
     },
 
     doDelete: function (component, event, helper) {
-        if (component.get('v.bypass')) {
-        } else {
-            component.set('v.bypass', true);
+            component.set('v.showSpinner', true);
             let idCOI = event.getSource().get('v.value');
             helper.deleteCOI(component, idCOI);
-        }
-
-
     }
 })
