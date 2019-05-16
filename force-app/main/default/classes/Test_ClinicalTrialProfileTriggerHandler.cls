@@ -1,7 +1,7 @@
 /**
  * Created by AlexKetch on 4/17/2019.
  */
-@IsTest
+@IsTest(IsParallel=false)
 public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @TestSetup
@@ -199,10 +199,14 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         insert profiles;
         Resource__c r1StudyDoc = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r1StudyDoc.Title__c = 'testStudy';
+        r1StudyDoc.Content_Class__c = 'Study-Specific';
         Resource__c r2StudyDoc = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r2StudyDoc.Title__c = 'testStudy2';
+        r2StudyDoc.Content_Class__c = 'Study-Specific';
         Resource__c r3 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        r3.Content_Class__c = 'Study-Specific';
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        r4.Content_Class__c = 'Study-Specific';
         r1StudyDoc.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT].Id;
         r2StudyDoc.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT].Id;
         resources.add(r1StudyDoc);
@@ -276,10 +280,15 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         insert profiles;
         Resource__c r1StudyDoc = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r1StudyDoc.Title__c = 'testStudy';
+        r1StudyDoc.Content_Class__c = 'Study-Specific';
+
         Resource__c r2StudyDoc = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r2StudyDoc.Title__c = 'testStudy2';
+        r2StudyDoc.Content_Class__c = 'Study-Specific';
         Resource__c r3 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        r3.Content_Class__c = 'Study-Specific';
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        r4.Content_Class__c = 'Study-Specific';
         r1StudyDoc.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT].Id;
         r2StudyDoc.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT].Id;
         resources.add(r1StudyDoc);
@@ -301,10 +310,10 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         resStudy2.Clinical_Trial_Profile__c = t1.Id;
         resStudy2.Resource__c = r3.Id;
 
+
         Res_study__c resStudy3 = new Res_study__c();
         resStudy3.Resource__c = r4.Id;
         resStudy3.Clinical_Trial_Profile__c = t1.Id;
-
 
         Res_study__c resStudy5 = new Res_study__c();
         resStudy5.Resource__c = r4.Id;
@@ -348,9 +357,12 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         insert profiles;
         Resource__c r1StudyDoc = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r1StudyDoc.Title__c = 'testStudy';
+        r1StudyDoc.Content_Class__c = 'Study-Specific';
         Resource__c r2StudyDoc = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r2StudyDoc.Title__c = 'testStudy2';
+        r2StudyDoc.Content_Class__c = 'Study-Specific';
         Resource__c r3 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        r3.Content_Class__c = 'Study-Specific';
         Resource__c r4 = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
         r1StudyDoc.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT].Id;
         r2StudyDoc.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = :ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT].Id;
@@ -358,6 +370,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         resources.add(r2StudyDoc);
         resources.add(r3);
         resources.add(r4);
+        r4.Content_Class__c = 'Study-Specific';
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
 
@@ -372,16 +385,13 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         Res_study__c resStudy2 = new Res_study__c();
         resStudy2.Clinical_Trial_Profile__c = t1.Id;
         resStudy2.Resource__c = r3.Id;
-
         Res_study__c resStudy3 = new Res_study__c();
         resStudy3.Resource__c = r4.Id;
         resStudy3.Clinical_Trial_Profile__c = t1.Id;
 
-
         Res_study__c resStudy5 = new Res_study__c();
         resStudy5.Resource__c = r4.Id;
         resStudy5.Clinical_Trial_Profile__c = t1.Id;
-
         resStudies.add(resStudy);
         resStudies.add(resStudy1);
         resStudies.add(resStudy2);

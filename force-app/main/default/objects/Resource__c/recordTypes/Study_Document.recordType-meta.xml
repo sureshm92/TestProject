@@ -6,7 +6,7 @@
     <picklistValues>
         <picklist>Content_Type__c</picklist>
         <values>
-            <fullName>Document</fullName>
+            <fullName>Study_Document</fullName>
             <default>false</default>
         </values>
         <values>

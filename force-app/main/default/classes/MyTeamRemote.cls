@@ -114,7 +114,7 @@ public without sharing class MyTeamRemote {
                         dw.delegateContact = delegateContact;
                         for (Study_Site__c study : studySites) {
                             TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
-                            trialLevel.trialName = study.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                            trialLevel.trialName = study.Clinical_Trial_Profile__r.Study_Code_Name__c + '(' + study.Name +')';
                             trialLevel.enrollmentOrStudySiteId = study.Id;
                             trialLevel.delegateLevel = '';
                             trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(study.Id));
@@ -164,7 +164,7 @@ public without sharing class MyTeamRemote {
                         dw.delegateContact = delegateContact;
                         for (HCP_Enrollment__c enrollment : hcpEnrollments) {
                             TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
-                            trialLevel.trialName = enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                            trialLevel.trialName = enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c + '(' + enrollment.Study_Site__r.Name +')';
                             trialLevel.enrollmentOrStudySiteId = enrollment.Id;
                             trialLevel.delegateLevel = '';
                             trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPEnrollmentAccessLevelMap().get(enrollment.Id));

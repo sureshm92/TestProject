@@ -7,14 +7,9 @@
     <columns>Language__c</columns>
     <filterScope>Mine</filterScope>
     <filters>
-        <field>Content_Type__c</field>
+        <field>RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Video,Document</value>
-    </filters>
-    <filters>
-        <field>Content_Class__c</field>
-        <operation>equals</operation>
-        <value>Study Document</value>
+        <value>Resource__c.Study_Document</value>
     </filters>
     <label>Study Documents</label>
 </ListView>

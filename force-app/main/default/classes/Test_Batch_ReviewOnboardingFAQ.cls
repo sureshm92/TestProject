@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 04.04.2019.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_Batch_ReviewOnboardingFAQ {
 
     @TestSetup

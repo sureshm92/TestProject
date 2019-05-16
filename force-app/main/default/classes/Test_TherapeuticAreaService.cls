@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_TherapeuticAreaService {
 
     @TestSetup
@@ -106,5 +106,16 @@ public with sharing class Test_TherapeuticAreaService {
         Participant__c participant = new TherapeuticAreaService().getParticipant();
         Test.stopTest();
         System.assertEquals(null, participant);
+    }
+
+    @IsTest
+    public static void deleteTA_test() {
+        Therapeutic_Area__c therapeuticArea = (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType());
+        insert therapeuticArea;
+        List<Therapeutic_Area__c> tas = [SELECT Id FROM Therapeutic_Area__c];
+        System.assert(!tas.isEmpty());
+        delete therapeuticArea;
+        tas = [SELECT Id FROM Therapeutic_Area__c];
+        System.assert(tas.isEmpty());
     }
 }

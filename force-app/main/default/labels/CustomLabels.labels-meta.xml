@@ -2159,6 +2159,15 @@ The IQVIA Referral Hub and Patient Portal Support Team</value>
         <value>The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_4</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature 4</shortDescription>
+        <value>Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Drop</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2492,7 +2501,14 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear</value>
+        <value>Dear ##RecipientName,</value>
+    </labels>
+    <labels>
+        <fullName>Email_User_Greeting_FirstName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email User Greeting</shortDescription>
+        <value>Dear ##RecipientFirstName,</value>
     </labels>
     <labels>
         <fullName>Email_body_PI4</fullName>
@@ -3780,6 +3796,13 @@ If you are prompted with a window indicating that the file format and extension 
         <protected>true</protected>
         <shortDescription>PG AP T Indicate Req Fields</shortDescription>
         <value>indicates a required field</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_T_Sub_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Sub Info</shortDescription>
+        <value>Please advise Participants to view their Account Settings to update their personal information.</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
@@ -6181,7 +6204,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient agrees to share her/his details with the study doctors and IQVIA so they can be contacted.</value>
+        <value>My patient, or patient's representative if patient is a juvenile, agrees to share the patient's contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
@@ -7020,6 +7043,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Referring statuses</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Study_site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Study site</shortDescription>
+        <value>Study site</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_Study_sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7173,6 +7203,13 @@ is a placehilder to show you what it would look like.</value>
         <value>Select Referral Networks</value>
     </labels>
     <labels>
+        <fullName>Reminder_3rd_Party_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_3rd_Party_No_TA</shortDescription>
+        <value>Remember to add a Condition of Interest</value>
+    </labels>
+    <labels>
         <fullName>Reminder_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7185,6 +7222,34 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Reminder Frequency</shortDescription>
         <value>Reminder Frequency</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_PlatformTA_No_TA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_PlatformTA_No_TA</shortDescription>
+        <value>Remember to add a Therapeutic Area</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Document_Type_Document_No_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Document_Type_Document_No_File</shortDescription>
+        <value>Remember to add a Document</value>
+    </labels>
+    <labels>
+        <fullName>Reminder_Study_Specific_No_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reminder_Study_Specific_No_Study</shortDescription>
+        <value>Remember to add a Study</value>
     </labels>
     <labels>
         <fullName>Resource_Social_Share_email_title</fullName>
@@ -7269,6 +7334,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Resources Image Unavailable</shortDescription>
         <value>The image is unavailable. Contact administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Incompatible_Image_Or_Resource_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Incompatible Image Or Resource Type</shortDescription>
+        <value>Incompatible image or resource type.</value>
     </labels>
     <labels>
         <fullName>Resources_More_Articles</fullName>

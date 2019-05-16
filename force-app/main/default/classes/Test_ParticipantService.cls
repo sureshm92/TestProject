@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 public class Test_ParticipantService {
 
     public class ParticipantEnrollmentServiceMock implements StubProvider {

@@ -5,20 +5,22 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="Participant"
+                         recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient3}"
                          title="{!$Label.Email_Title_VT}"
-                         greeting="{!$Label.Email_User_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient8}"
                          signature="{!$Label.Email_Signature_VT}"/>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="Participant"
+                             recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient3}"
                              title="{!$Label.Email_Title_VT}"
-                             greeting="{!$Label.Email_User_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient8}"
                              signature="{!$Label.Email_Signature_VT}"/>
     </messaging:plainTextEmailBody>

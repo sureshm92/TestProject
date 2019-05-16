@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=false)
 private class Test_BaseCRCPCommunity {
 
     static Account piAccount;
@@ -439,6 +439,15 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
+    @IsTest
+    static void baseHCPTest5() {
+        init();
+        Test.startTest();
+        System.runAs(hcpUser) {
+            Action_RequestToReferByHCPRemote.requestToReferForHCP(studySite.Id,hcpEnrollment.Id);
+        }
+        Test.stopTest();
+    }
 
     @IsTest
     static void emailTemplateController() {
@@ -676,25 +685,27 @@ private class Test_BaseCRCPCommunity {
     }
     
     @IsTest
-    static void mrrAndReferringTest() {
+    static void mrrTest() {
         init();
         Test.startTest();
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
-            String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(study.Id, 'participan01', 'AAA', 'BBB');
-            MedicalRecordReviewRemote.SearchPEResult searchPEResult = (MedicalRecordReviewRemote.SearchPEResult) JSON.deserialize(jsonResult, MedicalRecordReviewRemote.SearchPEResult.class);
-            String peJSON = JSON.serialize(searchPEResult.pe);
-            MedicalRecordReviewRemote.setMRRStatus(peJSON, ParticipantEnrollmentService.PES_STATUS_PASS);
+            String jsonResult = MedicalRecordReviewRemote.getInitData(study.Id, hcpEnrollment.Id);
         }
         Test.stopTest();
     }
     
     @IsTest
-    static void mrrAndReferringTest2() {
+    static void mrrAndReferringTest1() {
         init();
         Test.startTest();
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
+            //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
+            String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(study.Id, 'participan01', 'AAA', 'BBB');
+            MedicalRecordReviewRemote.SearchPEResult searchPEResult = (MedicalRecordReviewRemote.SearchPEResult) JSON.deserialize(jsonResult, MedicalRecordReviewRemote.SearchPEResult.class);
+            String peJSON = JSON.serialize(searchPEResult.pe);
+            MedicalRecordReviewRemote.setMRRStatus(peJSON, ParticipantEnrollmentService.PES_STATUS_PASS);
             Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
             String refInitDataJSON = ReferringRemote.getInitData(study.Id, pe.Id, hcpEnrollment.Id, CommunityService.USER_MODE_HCP);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
@@ -708,9 +719,20 @@ private class Test_BaseCRCPCommunity {
             participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
             String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
-            
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void mrrAndReferringTest2() {
+        init();
+        Test.startTest();
+        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        System.runAs(hcpUser) {
+            //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
+
             ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP);
-            ViewPatientsRemote.getInitDataForPatientProfile(participant2.Id, CommunityService.USER_MODE_HCP);
+            ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_HCP);
             String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false);
             mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(null, CommunityService.USER_MODE_HCP, false);
             MedicalRecordReviewLogController.ParticipantDetail participantDetail = (MedicalRecordReviewLogController.ParticipantDetail) JSON.deserialize(mrrLogResStr, MedicalRecordReviewLogController.ParticipantDetail.class);
@@ -769,6 +791,20 @@ private class Test_BaseCRCPCommunity {
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             IntegrationService.sendPEToServiceNow(passedMrrPE.Id);
+        }
+        Test.stopTest();
+    }
+    @IsTest
+    static void sitesSearchTest() {
+        init();
+        Test.startTest();
+        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        System.runAs(hcpUser) {
+            //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
+            String jsonResult = SitesSearchRemote.getInitData(study.Id);
+            SitesSearchRemote.InitData data = (SitesSearchRemote.InitData)JSON.deserialize(jsonResult, SitesSearchRemote.InitData.class);
+            SitesSearchRemote.getRecords(JSON.serialize(data.siteFilter),JSON.serialize(data.PaginationData));
+
         }
         Test.stopTest();
     }

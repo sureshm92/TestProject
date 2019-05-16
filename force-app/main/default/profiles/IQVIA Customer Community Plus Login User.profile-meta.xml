@@ -527,6 +527,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PlatformEventService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PostInstallDX</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -567,6 +571,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResStudyTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceDecoupler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -580,6 +588,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceNotifierRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceReminderRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceReminderService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -956,6 +972,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TherapeuticAreaAssignmentService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TherapeuticAreaAssignmentTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>

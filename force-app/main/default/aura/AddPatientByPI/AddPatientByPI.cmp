@@ -148,9 +148,10 @@
                 </div>
             </div>
             <div class="ap-bottom-info">
-                {!$Label.c.PG_AL_Bottom_Signature}&nbsp;
+               <!-- {!$Label.c.PG_AL_Bottom_Signature}&nbsp;
                 <c:RRLink class="text" label="{!$Label.c.PG_AL_Bottom_Signature_Link}" page="help?tab=problem"/>
-                &nbsp;{!$Label.c.PG_AL_Bottom_Signature_End}
+                &nbsp;{!$Label.c.PG_AL_Bottom_Signature_End} -->
+                {!$Label.c.PG_AP_T_Sub_Info}
             </div>
             <div class="ap-buttons">
                 <button class="apollo-btn secondary custom-cancel"

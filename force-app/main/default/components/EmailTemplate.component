@@ -20,6 +20,7 @@
     <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
 
+
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
 
     <!-- component body: -->

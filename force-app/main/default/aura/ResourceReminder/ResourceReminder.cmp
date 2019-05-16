@@ -1,0 +1,31 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component description="ResourceReminder"
+                implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+controller="ResourceReminderRemote">
+
+    <aura:attribute name="reminders" type="ResourceReminderService.Reminder[]"/>
+    <aura:attribute name="channel" type="String" default="/event/Reminder_Event__e"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:empApi aura:id="empApi"/>
+
+    <force:recordData recordId="{!v.recordId}"
+                      targetFields="Id"
+                      layoutType="COMPACT"
+                      recordUpdated="{!c.onRemind}"
+    />
+
+    <aura:if isTrue="{!!empty(v.reminders)}">
+        <lightning:card>
+        <aura:iteration var="rem" items="{!v.reminders}">
+            <div class="reminder-text">
+            {!rem.reminderLabel}
+            </div>
+        </aura:iteration>
+        </lightning:card>
+    </aura:if>
+
+</aura:component>
