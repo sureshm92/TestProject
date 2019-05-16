@@ -43,7 +43,7 @@ public with sharing class Batch_PatientTaskReminder implements Database.Batchabl
                 AND Reminder_Date__c <= :executionTime
         ];
 
-        System.debug('Recods found: '+ tasks.size());
+        System.debug('Records found: '+ tasks.size());
         System.debug('Prev time : ' + previousExecutionTime.format());
         System.debug('Exec time : ' + executionTime.format());
 
