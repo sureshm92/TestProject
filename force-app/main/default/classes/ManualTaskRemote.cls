@@ -18,7 +18,6 @@ public with sharing class ManualTaskRemote {
     public static Integer createTasks(String task, String filter) {
         try {
             Task newTask = (Task) JSON.deserialize(task, Task.class);
-            newTask.Reminder_Date__c = newTask.Reminder_Date__c.addHours(8);
             ManualTaskFilter taskFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
 
             //Assigning a common task for each found user
