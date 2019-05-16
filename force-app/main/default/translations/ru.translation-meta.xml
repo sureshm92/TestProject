@@ -33,18 +33,16 @@
         <name>AL_Body_Welcome_Study</name>
     </customLabels>
     <customLabels>
-        <label>Поздравляю ##Contact!
-
-Теперь вы зарегистрированы в ##StudyName study! исследовании!
-
-Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
-
-Нажмите OK, чтобы начать!</label>
+        <label><!-- AL_Body_Welcome_Study_Patient_Delegates --></label>
         <name>AL_Body_Welcome_Study_Patient_Delegates</name>
     </customLabels>
     <customLabels>
         <label><!-- AL_Body_Welcome_to_PH --></label>
         <name>AL_Body_Welcome_to_PH</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AL_Body_Welcome_to_PH_Delegates --></label>
+        <name>AL_Body_Welcome_to_PH_Delegates</name>
     </customLabels>
     <customLabels>
         <label>Добро пожаловать на исследование!</label>
@@ -191,7 +189,7 @@
         <name>AccountSettings_Referral_Networks_Description</name>
     </customLabels>
     <customLabels>
-        <label><!-- Site Based --></label>
+        <label><!-- Institution Based --></label>
         <name>AccountSettings_Referral_Networks_Site_Based</name>
     </customLabels>
     <customLabels>
@@ -379,6 +377,10 @@
         <name>BTN_Orientation_attended_activate</name>
     </customLabels>
     <customLabels>
+        <label><!-- BTN PES --></label>
+        <name>BTN_PES</name>
+    </customLabels>
+    <customLabels>
         <label>Пациент больше не заинтересован</label>
         <name>BTN_Patient_no_longer_interested</name>
     </customLabels>
@@ -401,6 +403,10 @@
     <customLabels>
         <label><!-- BTN Refer a Patient --></label>
         <name>BTN_Refer_a_Patient</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN Refer to this Site --></label>
+        <name>BTN_Refer_to_this_Site</name>
     </customLabels>
     <customLabels>
         <label>Рекомендовать на исследование</label>
@@ -455,6 +461,10 @@
         <name>BTN_Start_Medical_Record_Review</name>
     </customLabels>
     <customLabels>
+        <label><!-- BTN Start Pre-eligibility Screening --></label>
+        <name>BTN_Start_Pre_eligibility_Screening</name>
+    </customLabels>
+    <customLabels>
         <label>Начать с Начала</label>
         <name>BTN_Stat_Over</name>
     </customLabels>
@@ -481,6 +491,10 @@
     <customLabels>
         <label>Посмотреть правила</label>
         <name>BTN_View_terms_and_conditions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN View terms and conditions participant --></label>
+        <name>BTN_View_terms_and_conditions_participant</name>
     </customLabels>
     <customLabels>
         <label>Смотреть</label>
@@ -521,6 +535,10 @@
     <customLabels>
         <label>Просмотреть в роли пациента</label>
         <name>CTL_L_Patricipant_MODE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Can Not Edit Mapping --></label>
+        <name>Can_Not_Edit_Mapping</name>
     </customLabels>
     <customLabels>
         <label><!-- Community Email Logo --></label>
@@ -638,6 +656,10 @@
     <customLabels>
         <label>Порекомендовать пациента в пункт исследования</label>
         <name>DLIT_L_Refer_a_patient_to_a_study_site</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DLIT L Reffer --></label>
+        <name>DLIT_L_Reffer</name>
     </customLabels>
     <customLabels>
         <label>Выбрать пункт исследвоания</label>
@@ -799,6 +821,10 @@
         <name>Email_Body_Initial_Patient</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Body Initial Patient Created By PI --></label>
+        <name>Email_Body_Initial_Patient_Created_By_PI</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Body Initial Patient Delegate --></label>
         <name>Email_Body_Initial_Patient_Delegate</name>
     </customLabels>
@@ -811,11 +837,11 @@
         <name>Email_Body_Initial_Patient_Virtual</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое электронное письмо, чтобы напомнить вам о предстоящей дозировке медикаментов для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по адресу ##SitePhoneNumber.</label>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о предстоящей дозировке медикаментов для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с учебной группой по телефону ##SitePhoneNumber.</label>
         <name>Email_Body_Medication_Task_Reminder</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##PatientFirstName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с вашим ##PIName по телефону: ##SitePhoneNumber.</label>
+        <label>Это быстрое электронное письмо, чтобы напомнить вам о ##ParticipantName предстоящей дозировке лекарства для исследования ##StudyName. Если у вас есть какие-либо вопросы относительно этого лекарства, пожалуйста, свяжитесь с учебной группой по телефону: ##SitePhoneNumber.</label>
         <name>Email_Body_Medication_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
@@ -880,15 +906,13 @@
         <name>Email_Body_Patient14</name>
     </customLabels>
     <customLabels>
-        <label>Недавно ##HCPName сделал от вашего имени направление в ##PIName для потенциального участия в клиническом
-            исследовании: ##StudyName.
-             
-            С вами свяжется сайт главного исследователя ##StudySiteName, чтобы узнать о следующих шагах в процессе
-            регистрации.
-             
-            Чтобы просмотреть дополнительную информацию об этом исследовании, войдите на платформу и перейдите в раздел
-            «Мои исследования».
-        </label>
+        <label>Поздравляем, вы были зачислены в ## StudyName клиническое исследование.
+
+Команда Учебной Площадки свяжется с вами по поводу следующих шагов в процессе обучения.
+
+Чтобы помочь вам отследить, где вы находитесь в клиническом исследовании, пожалуйста, войдите на портал пациентов IQVIA.
+
+Обратите внимание, что регистрация в портале для пациентов IQVIA не является обязательным требованием для участия в исследовании: ## StudyName.</label>
         <name>Email_Body_Patient15</name>
     </customLabels>
     <customLabels>
@@ -1030,6 +1054,10 @@
         <name>Email_Body_Task_Reminder_Type_Not_Selected</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Body_Task_Reminder_Type_Not_Selected Delegate --></label>
+        <name>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Какой то текст для lockout случая</label>
         <name>Email_Body_User_Lockout</name>
     </customLabels>
@@ -1038,7 +1066,7 @@
         <name>Email_Body_Visit_Task_Reminder</name>
     </customLabels>
     <customLabels>
-        <label>Это быстрое письмо с напоминанием о предстоящем визите ##PatientFirstName для исследования ##StudyName. Если ##PatientFirstName не может назначить встречу, позвоните, чтобы перенести встречу.</label>
+        <label>Это быстрое письмо с напоминанием о предстоящем визите ##ParticipantName для исследования ##StudyName. Если ##ParticipantName не может назначить встречу, позвоните, чтобы перенести встречу. Пожалуйста авторизуйтесь для получения дополнительной информации.</label>
         <name>Email_Body_Visit_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
@@ -1202,6 +1230,10 @@
         <name>Email_Header_Visit_Task_Reminder</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Header_Visit_Task_Reminder_Delegate --></label>
+        <name>Email_Header_Visit_Task_Reminder_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Ваш уровень доступа был изменен</label>
         <name>Email_Header_Your_Access_Level_Has_Been_Changed</name>
     </customLabels>
@@ -1226,6 +1258,10 @@
         <name>Email_Signature_3</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email_Signature_Drop --></label>
+        <name>Email_Signature_Drop</name>
+    </customLabels>
+    <customLabels>
         <label>Если вы не хотите менять свой пароль или не запрашивали это, просто проигнорируйте это электронное письмо, и никакие изменения не будут внесены в вашу учетную запись.
 
 Чтобы обеспечить безопасность своего аккаунта, не пересылайте это письмо никому.</label>
@@ -1234,6 +1270,14 @@
     <customLabels>
         <label><!-- Email Signature New --></label>
         <name>Email_Signature_New</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature New Participant Delegate --></label>
+        <name>Email_Signature_New_Participant_Delegate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email_Signature_PPST --></label>
+        <name>Email_Signature_PPST</name>
     </customLabels>
     <customLabels>
         <label><!-- Email Signature Patient --></label>
@@ -1276,6 +1320,10 @@
     <customLabels>
         <label><!-- Email Subject Medication Task Reminder --></label>
         <name>Email_Subject_Medication_Task_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email_Subject_Medication_Task_Reminder Delegate --></label>
+        <name>Email_Subject_Medication_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
         <label>Новое клиническое исследование доступно</label>
@@ -1342,6 +1390,10 @@
         <name>Email_Subject_Share_By_RP</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Subject Share Resource --></label>
+        <name>Email_Subject_Share_Resource</name>
+    </customLabels>
+    <customLabels>
         <label>Ваш реферальный статус изменился</label>
         <name>Email_Subject_Status_Has_Changed</name>
     </customLabels>
@@ -1350,8 +1402,16 @@
         <name>Email_Subject_Task_Reminder_Type_Not_Selected</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Subject Task Reminder Type Not Selected Delegate --></label>
+        <name>Email_Subject_Task_Reminder_Type_Not_Selected_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Subject Visit Task Reminder --></label>
         <name>Email_Subject_Visit_Task_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Subject Visit Task Reminder Delegate --></label>
+        <name>Email_Subject_Visit_Task_Reminder_Delegate</name>
     </customLabels>
     <customLabels>
         <label><!-- Email Subject Welcome To The Study --></label>
@@ -1596,6 +1656,10 @@
     <customLabels>
         <label>Доступ отсутствует</label>
         <name>No_Access</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- No Case Assign --></label>
+        <name>No_Case_Assign</name>
     </customLabels>
     <customLabels>
         <label><!-- None --></label>
@@ -2066,6 +2130,18 @@
         <name>PG_AH_T_User_manual_with_further_details</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AL Bottom Signature --></label>
+        <name>PG_AL_Bottom_Signature</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AL Bottom Signature End --></label>
+        <name>PG_AL_Bottom_Signature_End</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AL Bottom Signature Link --></label>
+        <name>PG_AL_Bottom_Signature_Link</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG AP F Phone Type --></label>
         <name>PG_AP_F_Phone_Type</name>
     </customLabels>
@@ -2304,6 +2380,10 @@
     <customLabels>
         <label><!-- PG AS T Participant Email Preferences --></label>
         <name>PG_AS_T_Participant_Email_Preferences</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AS T Please Review Contact information --></label>
+        <name>PG_AS_T_Please_Review_Contact_information</name>
     </customLabels>
     <customLabels>
         <label>По вопросам, касающихся ваших личных данных или прав на конфиденциальность, напишите нам, используя форму ниже.</label>
@@ -2672,6 +2752,10 @@
     <customLabels>
         <label>Здравствуйте ##UserName, добро пожаловать в Patient Hub! Здесь Вы можете видеть свой статус на исследовании и всю необходимую информацию</label>
         <name>PG_Home_Welcome_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG Home Welcome Message Alumni --></label>
+        <name>PG_Home_Welcome_Message_Alumni</name>
     </customLabels>
     <customLabels>
         <label>с помощью</label>
@@ -3518,6 +3602,10 @@
         <name>PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG Ref L You must be approved to refer --></label>
+        <name>PG_Ref_L_You_must_be_approved</name>
+    </customLabels>
+    <customLabels>
         <label>Пацинет прошел предварительный отбор и возможно сможет участвовать в исследовании</label>
         <name>PG_Ref_L_Your_patient_passed_the_pre_eligibility_screening_and_may_be_able_to_pa</name>
     </customLabels>
@@ -3671,6 +3759,10 @@
     <customLabels>
         <label><!-- PG SFS Referral Status --></label>
         <name>PG_SFS_L_Referral_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SFS Site --></label>
+        <name>PG_SFS_L_Site</name>
     </customLabels>
     <customLabels>
         <label><!-- PG SFS Site Type --></label>
@@ -4469,6 +4561,10 @@
         <name>Task_Subject_Complete_Baseline_Survey</name>
     </customLabels>
     <customLabels>
+        <label><!-- Task Subject Complete Survey --></label>
+        <name>Task_Subject_Complete_Survey</name>
+    </customLabels>
+    <customLabels>
         <label>Дорогой ##ParticipantName, пожалуйста, завершите заполнение Вашего профиля</label>
         <name>Task_Subject_Complete_Your_Profile</name>
     </customLabels>
@@ -4548,142 +4644,5 @@
         <label><!-- Study Export/Import --></label>
         <name>Translation_Import_Export</name>
     </customTabs>
-    <flowDefinitions>
-        <flows>
-            <fullName>Email_to_PI_New_Patient_Referral-1</fullName>
-        </flows>
-        <fullName>Email_to_PI_New_Patient_Referral</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Email_to_PI_HCP_Site_Request-1</fullName>
-        </flows>
-        <fullName>Email_to_PI_HCP_Site_Request</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
-        </flows>
-        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Email_to_PI_Participant_Accepted_Needs_Contact-1</fullName>
-        </flows>
-        <fullName>Email_to_PI_Participant_Accepted_Needs_Contact</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Patient_Task_Reminder-1</fullName>
-        </flows>
-        <fullName>Patient_Task_Reminder</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>PSE_Creation-2</fullName>
-        </flows>
-        <fullName>PSE_Creation</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Task_changes_status_to_Expired-1</fullName>
-        </flows>
-        <fullName>Task_changes_status_to_Expired</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Patient_Welcome_to_the_Study_Email-1</fullName>
-        </flows>
-        <fullName>Patient_Welcome_to_the_Study_Email</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Alert_Welcome_to_the_Study_creation-1</fullName>
-        </flows>
-        <fullName>Alert_Welcome_to_the_Study_creation</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Create_Therapeutic_Area_Patient_from_PSE-1</fullName>
-        </flows>
-        <fullName>Create_Therapeutic_Area_Patient_from_PSE</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Create_Therapeutic_Area_Patient_from_PE-1</fullName>
-        </flows>
-        <fullName>Create_Therapeutic_Area_Patient_from_PE</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Welcome_to_the_Study_Patient_Delegate_Alert-1</fullName>
-        </flows>
-        <fullName>Welcome_to_the_Study_Patient_Delegate_Alert</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Welcome_to_the_Study_Caregiver_Alert-1</fullName>
-        </flows>
-        <fullName>Welcome_to_the_Study_Caregiver_Alert</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Update_Site_RRR_Status-1</fullName>
-        </flows>
-        <fullName>Update_Site_RRR_Status</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows>
-            <fullName>Update_HCP_Status-1</fullName>
-        </flows>
-        <fullName>Update_HCP_Status</fullName>
-    </flowDefinitions>
-    <quickActions>
-        <label><!-- Follow Up --></label>
-        <name>Follow_Up</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- LogACall --></label>
-        <name>LogACall</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewAccount --></label>
-        <name>NewAccount</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewCase --></label>
-        <name>NewCase</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewContact --></label>
-        <name>NewContact</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewEvent --></label>
-        <name>NewEvent</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewGroup --></label>
-        <name>NewGroup</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewLead --></label>
-        <name>NewLead</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewNote --></label>
-        <name>NewNote</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewOpportunity --></label>
-        <name>NewOpportunity</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- NewTask --></label>
-        <name>NewTask</name>
-    </quickActions>
-    <quickActions>
-        <label><!-- SendEmail --></label>
-        <name>SendEmail</name>
-    </quickActions>
+
 </Translations>

@@ -194,7 +194,7 @@
     text-align: center;
 }
 
-.THIS .q-failed .apollo-btn{
+.THIS .q-failed .apollo-btn:not(.ssi-btn){
     display: block;
     margin: 20px auto;
 }

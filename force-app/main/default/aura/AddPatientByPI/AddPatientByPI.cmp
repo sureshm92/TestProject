@@ -2,7 +2,8 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="AddPatientByPI" implements="forceCommunity:availableForAllPageTypes" controller="AddPatientByPIRemote">
+<aura:component description="AddPatientByPI" implements="forceCommunity:availableForAllPageTypes"
+                controller="AddPatientByPIRemote">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -15,6 +16,7 @@
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="isAllRequiredCompleted" type="Boolean" default="false"/>
+    <aura:attribute name="screeningRequired" type="Boolean" default="false"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -31,6 +33,8 @@
                 smallTitle="{!v.ctp.Study_Code_Name__c}"
                 bigTitle="{!$Label.c.PG_Add_Patient_Header}">
     </c:RRTopBar>
+    <c:RRActionApprove aura:id="actionApprove" message="{!$Label.c.Poput_ICF}"
+                       approveBtnName="{!$Label.c.BTN_Confirm}"/>
 
     <aura:if isTrue="{!v.initialized}">
         <div class="rr-width-limiter side-padding">
@@ -43,24 +47,33 @@
                             <div class="label">
                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
                             </div>
-                            <lightning:input type="text" value="{!v.participant.First_Name__c}" required="true" onblur="{!c.doCheckFields}"/>
+                            <lightning:input type="text" value="{!v.participant.First_Name__c}" required="true"
+                                             onblur="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
                             <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
-                            <lightning:input type="text" value="{!v.participant.Middle_Name__c}" onblur="{!c.doCheckFields}"/>
+                            <lightning:input type="text" value="{!v.participant.Middle_Name__c}"
+                                             onblur="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
-                            <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true" onblur="{!c.doCheckFields}"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
+                            <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true"
+                                             onblur="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}</div>
-                            <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}" required="true"
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
+                            </div>
+                            <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}"
+                                             required="true"
                                              onblur="{!c.doCheckfields}" onchange="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}</div>
-                            <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}</div>
+                            <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                     </div>
                 </div>
@@ -68,24 +81,38 @@
                     <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
-                            <lightning:input type="text" value="{!v.participant.Phone__c}" required="true" onblur="{!c.doCheckFields}"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                            </div>
+                            <lightning:input type="text" value="{!v.participant.Phone__c}" required="true"
+                                             onblur="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
-                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
+                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}</div>
-                            <lightning:input type="email" value="{!v.participant.Email__c}" required="true" onblur="{!c.doCheckFields}"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
+                            </div>
+                            <lightning:input type="email" value="{!v.participant.Email__c}" required="true"
+                                             onblur="{!c.doCheckFields}"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_State}</div>
-                            <c:rrSelect options="{!v.formData.statesLVList}" value="{!v.participant.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_State}
+                            </div>
+                            <c:rrSelect options="{!v.formData.statesLVList}"
+                                        value="{!v.participant.Mailing_State_Code__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
-                            <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}" required="true" onblur="{!c.doCheckFields}"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
+                            </div>
+                            <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
+                                             required="true" onblur="{!c.doCheckFields}"/>
                         </div>
                     </div>
                 </div>
@@ -94,15 +121,24 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="rr-form-element slds-col">
                             <div class="label"><abbr title="required" class="slds-required">*</abbr>Patient Status</div>
-                            <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                            <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
-                            <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}" placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
+                            <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
                         </div>
                         <div class="rr-form-element slds-col">
-                            <div class="label">{!$Label.c.PG_AP_F_Screening_Subject_Id}</div>
-                            <lightning:input type="text" value="{!v.pe.Screening_ID__c}"/>
+                            <div class="label">
+                                <aura:if isTrue="{!v.screeningRequired}">
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </aura:if>
+                                {!$Label.c.PG_AP_F_Screening_Subject_Id}
+                            </div>
+                            <lightning:input type="text" value="{!v.pe.Screening_ID__c}" onblur="{!c.doCheckFields}"
+                                             required="{!v.screeningRequired}"/>
                         </div>
                         <div class="rr-form-element slds-col">
                             <div class="label">{!$Label.c.MRN_Internal_Id}</div>
@@ -111,10 +147,18 @@
                     </div>
                 </div>
             </div>
+            <div class="ap-bottom-info">
+                {!$Label.c.PG_AL_Bottom_Signature}&nbsp;
+                <c:RRLink class="text" label="{!$Label.c.PG_AL_Bottom_Signature_Link}" page="help?tab=problem"/>
+                &nbsp;{!$Label.c.PG_AL_Bottom_Signature_End}
+            </div>
             <div class="ap-buttons">
-                <button class="apollo-btn secondary custom-cancel" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-                <button class="apollo-btn tertiary" disabled="{!!v.isAllRequiredCompleted}" onclick="{!c.doSaveAndNew}">{!$Label.c.BTN_Send_and_Add_Another}</button>
-                <button class="apollo-btn primary" disabled="{!!v.isAllRequiredCompleted}" onclick="{!c.doSaveAndExit}">{!$Label.c.BTN_Save_and_Exit}</button>
+                <button class="apollo-btn secondary custom-cancel"
+                        onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+                <button class="apollo-btn tertiary" disabled="{!!v.isAllRequiredCompleted}"
+                        onclick="{!c.doSaveAndNew}">{!$Label.c.BTN_Send_and_Add_Another}</button>
+                <button class="apollo-btn primary" disabled="{!!v.isAllRequiredCompleted}"
+                        onclick="{!c.doSaveAndExit}">{!$Label.c.BTN_Save_and_Exit}</button>
             </div>
         </div>
 

@@ -186,7 +186,8 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
-            'Clinical_Trial_Profile__r.Orientation_Required__c ',
+            'Clinical_Trial_Profile__r.Orientation_Required__c',
+            'Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
             'Principal_Investigator__r.Name',
             'Principal_Investigator__r.Title',
             'Principal_Investigator__r.MailingStreet',
@@ -453,7 +454,7 @@ public without sharing class StudySiteService {
             List<StudySiteDistanceWrapper> pageList = new List<StudySiteDistanceWrapper>();
             for (StudySiteDistanceWrapper siteWrapper : result) {
                 Double maxDistance = Double.valueOf(filter.distanceRange);
-                if (siteWrapper.distance != null && siteWrapper.distance <= maxDistance) {
+                if (siteWrapper.siteType == 'Virtual' || (siteWrapper.distance != null && siteWrapper.distance <= maxDistance)) {
                     pageList.add(siteWrapper);
                 }
             }

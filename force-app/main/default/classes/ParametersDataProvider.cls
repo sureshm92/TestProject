@@ -56,6 +56,12 @@ public without sharing class ParametersDataProvider {
         if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
         
+        if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
+            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
+            if(participant != null){
+                parameters.put('ParticipantName', participant.Full_Name__c);
+            }
+        }
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
     }
     
@@ -102,6 +108,7 @@ public without sharing class ParametersDataProvider {
     private void initParamsFromPE(Id sourceId){
         Participant_Enrollment__c pe = [
                 SELECT Id, Name,
+                        Referral_Source__c,
                         HCP__r.HCP_Contact__c,
                         HCP__r.HCP_Contact__r.Name,
                         HCP__r.HCP_Contact__r.Salutation,
@@ -150,7 +157,8 @@ public without sharing class ParametersDataProvider {
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
                 'HCP' => pe.HCP__c,
-                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c
+                'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c,
+                'ReferralSource' => pe.Referral_Source__c
         });
     }
     
@@ -231,10 +239,12 @@ public without sharing class ParametersDataProvider {
                         Id,
                         Subject,
                         ActivityDate,
-                        OwnerId
+                        OwnerId,
+                        Task_Code__c
                 FROM Task
                 WHERE Id =: taskId
         ];
+
         User emailOwner = [
                 SELECT Id,
                         LanguageLocaleKey,
@@ -242,6 +252,8 @@ public without sharing class ParametersDataProvider {
                 FROM User
                 WHERE Id =: task.OwnerId
         ];
+        //TaskTriggerHandler.processDefaultFieldValues(new List<Task> {task}, emailOwner.LanguageLocaleKey);
+
         parameters = new Map<String, String>{
             'TaskName' => task.Subject,
             'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
@@ -260,31 +272,26 @@ public without sharing class ParametersDataProvider {
         initDelegates(cnt);
         isDelegate = cnt.UserCommunityIsDelegate__c;
         userMode = cnt.userCommunityMode__c;
+        parameters = new Map<String, String>();
+        parameters.put('FullName', getFullContactName(cnt));
         if(userMode == CommunityService.USER_MODE_PI){
-            parameters = new Map<String, String>{
-                    'PIName' => getFullContactName(cnt),
-                    'PILanguage' => cnt.Language__c
-            };
-    
+            parameters.put('PIName', getFullContactName(cnt));
+            parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
-            parameters = new Map<String, String>{
-                    'HCPName' => getFullContactName(cnt),
-                    'HCPLanguage' => cnt.Language__c
-            };
+            parameters.put('HCPName', getFullContactName(cnt));
+            parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
-            parameters = new Map<String, String>{
-                    'ParticipantName' => getFullContactName(cnt),
-                    'ParticipantLanguage' => cnt.Language__c
-            };
-            if(!isDelegate) {
-                initParamsFromPE(contactId);
-            }else{
+            parameters.put('ParticipantLanguage', cnt.Language__c);
+            if(isDelegate) {
+                parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
+                parameters.put('StudyName', ParticipantService.getParticipantState().ctp.Study_Code_Name__c);
+            }else{
+                initParamsFromPE(contactId);
             }
         }
     }
-    
-    
+
     private void initParamsFromUser(Id userId){
         User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         initParamsFromContact(user.ContactId);
@@ -292,7 +299,13 @@ public without sharing class ParametersDataProvider {
     
     public String getUserName(){
         if(recipientName != null) return recipientName;
-        String userNameParam = userMode + 'Name';
+        String userNameParam;
+        if(isDelegate) {
+            userNameParam = 'FullName';
+        }
+        else{
+            userNameParam = userMode + 'Name';
+        }
         return parameters.get(userNameParam);
     }
 
@@ -378,7 +391,11 @@ public without sharing class ParametersDataProvider {
         Id rId = recipientId;
         if (rId.getSobjectType() == User.getSObjectType()) {
             User recipientUser = [
-                    SELECT Id, ContactId, Contact.Name,
+                    SELECT Id,
+                            ContactId,
+                            Contact.Name,
+                            Contact.UserCommunityIsDelegate__c,
+                            Contact.userCommunityMode__c,
                             LanguageLocaleKey
                     FROM User
                     WHERE Id =: recipientId
@@ -386,10 +403,21 @@ public without sharing class ParametersDataProvider {
             recipientContactId = recipientUser.ContactId;
             recipientName = recipientUser.Contact.Name;
             recipientLanguage = recipientUser.LanguageLocaleKey;
+            isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
+            userMode = recipientUser.Contact.userCommunityMode__c;
         }else{
-            Contact cnt = [SELECT Id, Name, Language__c FROM Contact WHERE Id =: recipientId];
+            Contact cnt = [
+                    SELECT Id,
+                            Name,
+                            Language__c,
+                            UserCommunityIsDelegate__c,
+                            userCommunityMode__c
+                    FROM Contact
+                    WHERE Id =: recipientId];
             recipientName = cnt.Name;
             recipientLanguage = cnt.Language__c;
+            isDelegate = cnt.UserCommunityIsDelegate__c;
+            userMode = cnt.userCommunityMode__c;
         }
         
         if (recipientContactId != null) {

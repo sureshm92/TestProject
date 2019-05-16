@@ -29,6 +29,10 @@ public class DatabaseService {
     public Database.SaveResult insertSObjImpl(SObject sObj, Boolean allOrNothing){
         return Database.insert(sObj, allOrNothing);
     }
+
+    public void upsertToDB(SObject sobj) {
+        upsert sobj;
+    }
     
     // Static facade: --------------------------------------------------------------------------------------------------
     

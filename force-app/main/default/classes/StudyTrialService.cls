@@ -22,7 +22,8 @@ public without sharing class StudyTrialService {
             'Override_Inclusion_Criteria__c',
             'Override_Description__c',
             'Brief_Summary__c',
-            'Therapeutic_Area__r.Name'
+            'Therapeutic_Area__r.Name',
+            'NCT_Number__c'
     };
 
     private static List<String> TRIAL_SEARCH_FIELDS = new List<String>{
@@ -164,8 +165,11 @@ public without sharing class StudyTrialService {
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         Location userLocation = DistanceHelper.getUserLocation();
 
-        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Site__r.BillingLatitude, Site__r.BillingLongitude, Site__c FROM Study_Site__c WHERE ';
-        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\') ';
+        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Site__c, Study_Site_Type__c FROM Study_Site__c WHERE ';
+        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\''+
+                '  AND Override_PI_Referral_Status__c != NULL ' +
+                '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
+                ') ';
 
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY CreatedDate DESC ';
@@ -173,7 +177,7 @@ public without sharing class StudyTrialService {
 
         if (sortData.sortType == 'Distance ASC') {
             if (userLocation != null) {
-                query += 'ORDER BY DISTANCE(Site__r.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
+                query += 'ORDER BY DISTANCE(Principal_Investigator__r.Account.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
             }
         }
 
@@ -190,10 +194,14 @@ public without sharing class StudyTrialService {
         }
 
         Map<Id, Double> trialIdToDistance = new Map<Id, Double>();
+        Set<Id> trialsWithVirtualSites = new Set<Id>();
         for (Id currTrialId : trialIdToStudySites.keySet()) {
             Double minDistance;
             for (Study_Site__c currStudySite : trialIdToStudySites.get(currTrialId)) {
-                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Site__r);
+                if(currStudySite.Study_Site_Type__c == StudySiteService.SS_TYPE_VIRTUAL){
+                    trialsWithVirtualSites.add(currTrialId);
+                }
+                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Principal_Investigator__r.Account);
                 if (currDistance != null) {
                     if (minDistance == null) {
                         minDistance = currDistance;
@@ -206,7 +214,20 @@ public without sharing class StudyTrialService {
                 trialIdToDistance.put(currTrialId, minDistance);
             }
         }
-
+        if (sortData.sortType == 'Distance ASC'){
+            List<Clinical_Trial_Profile__c> tempStudies = new List<Clinical_Trial_Profile__c>();
+            List<Clinical_Trial_Profile__c> tempStudiesWithVirtual = new List<Clinical_Trial_Profile__c>();
+            for(Clinical_Trial_Profile__c study : trials){
+                if(trialsWithVirtualSites.contains(study.Id)){
+                    tempStudiesWithVirtual.add(study);
+                }
+                else{
+                    tempStudies.add(study);
+                }
+            }
+            tempStudiesWithVirtual.addAll(tempStudies);
+            trials = tempStudiesWithVirtual;
+        }
         // search and filters
         Double currMaxDistance = String.isNotBlank(filterData.distance) ? Double.valueOf(filterData.distance) : null;
         List<Clinical_Trial_Profile__c> filteredTrials = new List<Clinical_Trial_Profile__c>();
@@ -231,7 +252,7 @@ public without sharing class StudyTrialService {
             }
 
             Double distance = trialIdToDistance.get(currTrial.Id);
-            if (currMaxDistance != null && (distance == null || distance > currMaxDistance)) {
+            if (currMaxDistance != null && (distance == null || distance > currMaxDistance)&& !trialsWithVirtualSites.contains(currTrial.Id)) {
                 isMatchDistance = false;
             }
 
@@ -295,7 +316,7 @@ public without sharing class StudyTrialService {
 
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
-        siteFilter.sortType = StudySiteService.SS_SORT_TYPE_DISTANCE_VIRT_LAST;
+        siteFilter.sortType = StudySiteService.SS_SORT_TYPE_DISTANCE;
         siteFilter.onlyAcceptedSites = false;
         List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
         Set<Id> trialsWithActiveEnrollments = new Set<Id>();
@@ -338,7 +359,13 @@ public without sharing class StudyTrialService {
             studyDetailItem.maxHCPCreatedDate = getMaxHCPCreatedDate(trialStudyMap.get(trial.Id));
             studyDetailItem.trial = trial;
             studyDetailItem.site = studyDetailItem.sites[0];
-            studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
+            for(StudySiteService.StudySiteDistanceWrapper siteWrapper:studyDetailItem.sites){
+                if(siteWrapper.hcpe.Status__c != HCPEnrollmentService.HCP_S_INVITATION_SENT && siteWrapper.siteType != StudySiteService.SS_TYPE_VIRTUAL){
+                    studyDetailItem.distance = siteWrapper.formatedDistance;
+                    break;
+                }
+            }
+            //studyDetailItem.distance = studyDetailItem.sites[0].formatedDistance;
             studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
             studyDetailItem.hasActiveHCPEnrollments = trialsWithActiveEnrollments.contains(trial.Id);
             studyDetailItem.hasPatients = trialsWithPatients.contains(trial.Id);

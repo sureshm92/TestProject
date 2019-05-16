@@ -113,3 +113,10 @@
     margin-top: 25px;
     margin-bottom: 25px;
 }
+
+.THIS .as-buttons-footer{
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px;
+    margin-top: 20px;
+}

@@ -9,6 +9,7 @@ public with sharing class Test_ArticleService {
     public static final String IQVIA_NAME_LOGO = 'IQVIA.svg';
     public static final String TEST_URL_IMAGE = 'http://localhost/test.png';
     public static final String TEST_NAME_IMAGE = 'test.png';
+    private static final String HTML_IFRAME_TAG_BLOCK = '<div><div><iframe src="//localhost"></iframe></div></div>';
 
 
     // INSERT TEST
@@ -227,6 +228,23 @@ public with sharing class Test_ArticleService {
         new ArticleService().updateRemoveSharing(new List<Resource__c>{resourceNew}, new Map<Id, Resource__c>(new List<Resource__c>{resourceOld}));
         Test.stopTest();
         System.assert(!resourceNew.Remove_sharing__c);
+    }
+
+    @IsTest
+    public static void testParseVideoResource3rdParty() {
+        Resource__c res =   (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                'Content_Class__c' => ResourceService.RESOURCE_SOURCE_THIRD_PARTY,
+                'Content_Type__c' => ResourceService.RESOURCE_TYPE_VIDEO,
+                'Body__c' => HTML_IFRAME_TAG_BLOCK,
+                'Video__c' => ''
+        });
+        Test.startTest();
+        new ArticleService().getUrlVideoFromBody(new List<Resource__c>{
+                res
+                });
+        Test.stopTest();
+        System.assertEquals('//localhost', res.Video__c);
+        System.assertNotEquals(HTML_IFRAME_TAG_BLOCK, res.Body__c);
     }
 
     private static Resource__c getResource(Date publishDate

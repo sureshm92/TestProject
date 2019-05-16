@@ -32,6 +32,7 @@ private class Test_VisitService {
                                Clinical_Trial_Profile__r.Visit_Plan__c
                         FROM Participant_Study_Enrollment__c
                 ].get(0);
+                state.showVisits = true;
                 return state;
             }
             return null;
@@ -138,11 +139,14 @@ private class Test_VisitService {
         );
         insert trial;
 
+        Account accountPartic = new Account(Name = 'Participant');
+        insert accountPartic;
         Contact patientContact = new Contact(
                 FirstName = 'Richard',
                 LastName = 'Wilson',
                 Email = 'r.wilson@gmail.com',
-                userCommunityMode__c = 'Participant'
+                userCommunityMode__c = 'Participant',
+                AccountId = accountPartic.Id
         );
         insert patientContact;
 
@@ -152,9 +156,17 @@ private class Test_VisitService {
         );
         insert participant;
 
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                Patient_ID__c = 'SomePatientId1',
+                Referral_Source__c = 'HCP',
+                Participant__c = participant.Id
+        );
+        insert pe;
+        
         Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
                 Clinical_Trial_Profile__c = trial.Id,
-                Participant__c = participant.Id
+                Participant__c = participant.Id,
+                Participant_Enrollment__c = pe.Id
         );
         insert pse;
     }

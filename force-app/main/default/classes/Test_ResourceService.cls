@@ -101,7 +101,7 @@ public class Test_ResourceService {
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
         Test.stopTest();
-        System.assertEquals(Label.Resources_No_Therapeutic_Area, container.errorMessage);
+        System.assertEquals(Label.Resources_No_Articles, container.errorMessage);
     }
 
     @IsTest
@@ -151,18 +151,21 @@ public class Test_ResourceService {
     }
 
     @IsTest
-    public static void getResources_Integration_Test() {
+    public static void getResources_Integration_ReferredPatient_Test() {
 
-        Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
-        Account participantAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
+        ClassFactory.clearStubTypesByClassNamesMap();
+        Id cOIRecordTypeId = SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.COI_RT_NAME, Therapeutic_Area__c.getSObjectType());
+        Id tARecordTypeId = SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.TA_RT_NAME, Therapeutic_Area__c.getSObjectType());
+
+        List<Account> accounts = new List<Account>();
+        accounts.add((Account) TestDataFactory.getSObject(Account.getSObjectType()));
+        accounts.add((Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
                 'Name' => 'Participant'
-        });
-        insert new List<Account>{
-                singleAccount, participantAccount
-        };
+        }));
+        insert accounts;
 
         Contact piContact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType(), new Map<String, Object>{
-                'AccountId' => singleAccount.Id,
+                'AccountId' => accounts[0].Id,
                 'LastName' => 'portalTestUser1',
                 'Email' => 'some@email.com'
         });
@@ -171,18 +174,58 @@ public class Test_ResourceService {
         Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
         insert singleParticipant;
 
-        Therapeutic_Area__c tA = (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType());
-        insert tA;
+        List<Resource__c> resources = new List<Resource__c>();
+        resources.add((Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                'Content_Class__c' => ResourceService.RESOURCE_SOURCE_PLATFORM,
+                'Title__c' => 'Resource 1'
+        }));
+        resources.add((Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                'Content_Class__c' => ResourceService.RESOURCE_SOURCE_PLATFORM,
+                'Title__c' => 'Resource 2'
+        }));
+        resources.add((Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
+                'Content_Class__c' => ResourceService.RESOURCE_SOURCE_STUDY,
+                'Title__c' => 'Resource 3'
+        }));
+        insert resources;
+
+        List<Therapeutic_Area__c> tAs = new List<Therapeutic_Area__c>();
+        tAs.add(new Therapeutic_Area__c(
+                RecordTypeId = cOIRecordTypeId,
+                Name = 'COI 1'
+        ));
+        tAs.add(new Therapeutic_Area__c(
+                RecordTypeId = cOIRecordTypeId,
+                Name = 'COI 2'
+        ));
+        tAs.add(new Therapeutic_Area__c(
+                RecordTypeId = tARecordTypeId,
+                Name = 'TA 1'
+        ));
+        insert tAs;
+
+        List<Therapeutic_Area_Patient__c> tAPs = new List<Therapeutic_Area_Patient__c>();
+        tAPs.add(new Therapeutic_Area_Patient__c(
+                Participant__c = singleParticipant.Id,
+                Therapeutic_Area__c = tAs[0].Id,
+                Condition_Of_Interest_Order__c = 1
+        ));
+        tAPs.add(new Therapeutic_Area_Patient__c(
+                Participant__c = singleParticipant.Id,
+                Therapeutic_Area__c = tAs[1].Id,
+                Condition_Of_Interest_Order__c = 2
+        ));
+        insert tAPs;
 
         Clinical_Trial_Profile__c clinicalTrialProfile = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
                 new Map<String, Object>{
-                    'Therapeutic_Area__c' => tA.Id
+                        'Therapeutic_Area__c' => tAs[2].Id
                 });
         insert clinicalTrialProfile;
 
         Study_Site__c studySite = (Study_Site__c) TestDataFactory.getSObject(Study_Site__c.getSObjectType(), new Map<String, Object>{
                 'Clinical_Trial_Profile__c' => clinicalTrialProfile.Id,
-                'Site__c' => singleAccount.Id,
+                'Site__c' => accounts[0].Id,
                 'Principal_Investigator__c' => piContact.Id,
                 'Override_PI_Referral_Status__c' => 'Invitation Sent'
         });
@@ -202,11 +245,49 @@ public class Test_ResourceService {
                 });
         insert enrollment;
 
-        System.debug([SELECT Name FROM User]);
-//        Test.startTest();
-//        ResourceService.ResourceWrapperContainer container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_VIDEO);
-//        Test.stopTest();
-//        System.assertEquals(Label.Resources_No_Videos, container.errorMessage);
+        List<Therapeutic_Area_Assignment__c> assignments = new List<Therapeutic_Area_Assignment__c>();
+        assignments.add(new Therapeutic_Area_Assignment__c(
+                Resource__c = resources[0].Id,
+                Therapeutic_Area__c = tAs[0].Id
+        ));
+        assignments.add(new Therapeutic_Area_Assignment__c(
+                Resource__c = resources[1].Id,
+                Therapeutic_Area__c = tAs[1].Id
+        ));
+        insert assignments;
+
+        List<Res_study__c> resStudies = new List<Res_study__c>();
+        resStudies.add(new Res_study__c(
+                Clinical_Trial_Profile__c = clinicalTrialProfile.Id,
+                Resource__c = resources[2].Id
+        ));
+        insert resStudies;
+
+        List<Participant__c> participants = [
+                SELECT Id,
+                        Contact__c
+                FROM Participant__c
+                WHERE Id = :singleParticipant.Id
+        ];
+        System.assertEquals(1, participants.size());
+        List<User> users = [
+                SELECT Id
+                FROM User
+                WHERE ContactId = :participants[0].Contact__c
+        ];
+        System.assertEquals(1, users.size());
+
+        Test.startTest();
+        ResourceService.ResourceWrapperContainer container;
+        System.runAs(users[0]) {
+            container = new ResourceService().getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
+        }
+        Test.stopTest();
+
+        System.assertEquals(3, container.wrappers.size());
+        System.assertEquals(resources[2].Title__c, container.wrappers[0].resource.Title__c);
+        System.assertEquals(resources[0].Title__c, container.wrappers[1].resource.Title__c);
+        System.assertEquals(resources[1].Title__c, container.wrappers[2].resource.Title__c);
     }
 
     public class CommunityServiceStub implements System.StubProvider {

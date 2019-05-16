@@ -1,0 +1,110 @@
+/**
+ * Created by Yehor Dobrovolskyi
+ */
+@IsTest
+public with sharing class Test_TherapeuticAreaService {
+
+    @TestSetup
+    public static void setup() {
+
+    }
+
+    @IsTest
+    public static void createThirdPartyCOIsByNames_Test() {
+        Test.startTest();
+        List<Therapeutic_Area__c> therapeuticAreas = new TherapeuticAreaService().createThirdPartyCOIsByNames(new Set<String>{
+                'Test'
+        });
+        Test.stopTest();
+        System.assert(!therapeuticAreas.isEmpty());
+    }
+
+    @IsTest
+    public static void getTherapeuticAreasByNames_Test() {
+        insert (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
+                'RecordTypeId' => SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.TA_RT_NAME, Therapeutic_Area__c.getSObjectType()),
+                'Name' => 'Test'
+        });
+        Test.startTest();
+        List<Therapeutic_Area__c> therapeuticAreasEmpty = new TherapeuticAreaService().getTherapeuticAreasByNames(null);
+        List<Therapeutic_Area__c> therapeuticAreas = new TherapeuticAreaService().getTherapeuticAreasByNames(new Set<String>{
+                'Test'
+        });
+        Test.stopTest();
+        System.assert(therapeuticAreasEmpty.isEmpty());
+        System.assert(!therapeuticAreas.isEmpty());
+    }
+
+    @IsTest
+    public static void getThirdPartyCOIsByNames_Test() {
+        insert (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
+                'RecordTypeId' => SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME, Therapeutic_Area__c.getSObjectType()),
+                'Name' => 'Test'
+        });
+        Test.startTest();
+        List<Therapeutic_Area__c> therapeuticAreasEmpty = new TherapeuticAreaService().getThirdPartyCOIsByNames(null, false);
+        List<Therapeutic_Area__c> therapeuticAreasFalse = new TherapeuticAreaService().getThirdPartyCOIsByNames(new Set<String>{
+                'Test'
+        }, false);
+        List<Therapeutic_Area__c> therapeuticAreasTrue = new TherapeuticAreaService().getThirdPartyCOIsByNames(new Set<String>{
+                'Test',
+                'Test 2'
+        }, true);
+        Test.stopTest();
+        System.assert(therapeuticAreasEmpty.isEmpty());
+        System.assertEquals(1, therapeuticAreasFalse.size());
+        System.assertEquals(2, therapeuticAreasTrue.size());
+    }
+
+    @IsTest
+    public static void getCOIWrappers_Test() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('getParticipantId')
+                .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+                .getInstance()
+        );
+        Test.startTest();
+        List<TherapeuticAreaService.CAWrapper> caWrappers = new TherapeuticAreaService().getCOIWrappers(new List<Therapeutic_Area__c>{
+                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
+                        'Id' => TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType())
+                })
+        });
+        Test.stopTest();
+        System.assert(!caWrappers.isEmpty());
+    }
+
+    @IsTest
+    public static void getTherapeuticAreas_Test() {
+        insert new List<Therapeutic_Area__c>{
+                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
+                        'RecordTypeId' => SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.COI_RT_NAME, Therapeutic_Area__c.getSObjectType()),
+                        'Name' => 'Test'
+                }),
+                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
+                        'RecordTypeId' => SchemaUtil.getRecordTypeIdByName(TherapeuticAreaService.COI_RT_NAME, Therapeutic_Area__c.getSObjectType()),
+                        'Name' => 'Def'
+                })
+        };
+        Test.startTest();
+        List<Therapeutic_Area__c> therapeuticAreasNull = new TherapeuticAreaService().getTherapeuticAreas(null);
+        List<Therapeutic_Area__c> therapeuticAreas = new TherapeuticAreaService().getTherapeuticAreas('Test');
+        Test.stopTest();
+        System.assertEquals(2, therapeuticAreasNull.size());
+        System.assertEquals(1, therapeuticAreas.size());
+    }
+
+    @IsTest
+    public static void getParticipant_Test() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('getParticipantId')
+                .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+                .getInstance()
+        );
+        Test.startTest();
+        Participant__c participant = new TherapeuticAreaService().getParticipant();
+        Test.stopTest();
+        System.assertEquals(null, participant);
+    }
+}

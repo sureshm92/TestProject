@@ -26,7 +26,7 @@
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <div class="ssi-site-type">
-                        {!v.studySiteWrapper.siteType + ' Site'}
+                        {!if(!empty(v.studySiteWrapper.siteType), v.studySiteWrapper.siteType+ ' ' + $Label.c.PG_SFS_L_Site,'')}
                 </div>
                 <aura:if isTrue="{!and(!empty(v.studySiteWrapper.formatedDistance), v.studySiteWrapper.formatedDistance != null)}">
                     <div class="ssi-site-distance">
@@ -35,19 +35,20 @@
                 </aura:if>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
-                <aura:if isTrue="{!!empty(v.studySiteWrapper.formatedDistance)}">
+<!--                <aura:if isTrue="{!!empty(v.studySiteWrapper.formatedDistance)}">-->
                     <div class="ssi-address">
-                    {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Accounr.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStreet:
+                    {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStreet:
                             v.studySiteWrapper.site.Site__r.BillingStreet}
                         <br/>
-                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingCity:
-                                    v.studySiteWrapper.site.Site__r.BillingCity},
-                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStateCode:
-                                    v.studySiteWrapper.site.Site__r.BillingStateCode},
-                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode:
-                                    v.studySiteWrapper.site.Site__r.BillingPostalCode}
+                            {!(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingAddress))?
+                                (if(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingCity),v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingCity+ ', ','')
+                                 + if(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStateCode),v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingStateCode+ ', ','')
+                                 + if(!empty(v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),v.studySiteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,'')):
+                                (if(!empty(v.studySiteWrapper.site.Site__r.BillingCity),v.studySiteWrapper.site.Site__r.BillingCity+ ', ','')
+                                + if(!empty(v.studySiteWrapper.site.Site__r.BillingStateCode),v.studySiteWrapper.site.Site__r.BillingStateCode+ ', ','')
+                                + if(!empty(v.studySiteWrapper.site.Site__r.BillingPostalCode),v.studySiteWrapper.site.Site__r.BillingPostalCode,''))}
                     </div>
-                </aura:if>
+<!--                </aura:if>-->
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <aura:if isTrue="{!!v.studySiteWrapper.hasActiveHCPE}">

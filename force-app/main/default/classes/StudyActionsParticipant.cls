@@ -2,7 +2,7 @@ public class StudyActionsParticipant extends StudyActions {
 
     public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
         this(
-                participantEnrollment.Clinical_Trial_Profile__r,
+                participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
                 participantEnrollment.Study_Site__r,
                 null,
                 participantEnrollment
@@ -47,8 +47,7 @@ public class StudyActionsParticipant extends StudyActions {
         ));
 
         ParticipantService.ParticipantStates participantStateValue = ParticipantService.getParticipantState().value;
-        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) studyDetailActions.add(actions.get(ACT_DOWNLOAD_CONSENT));
-        
+
         if( (participantStateValue == ParticipantService.ParticipantStates.REFERRAL ||
                 participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT)
              && study.Terms_And_Conditions_ID__c != null) {
@@ -57,12 +56,9 @@ public class StudyActionsParticipant extends StudyActions {
     
         studyDetailActions.add(actions.get(ACT_HOME));
         
-        if (participantStateValue != ParticipantService.ParticipantStates.ALUMNI) {
+        if (participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT || participantStateValue == ParticipantService.ParticipantStates.REFERRAL) {
             studyDetailActions.add(actions.get(ACT_SHARE));
         }
-    
-
-
     }
 
 }

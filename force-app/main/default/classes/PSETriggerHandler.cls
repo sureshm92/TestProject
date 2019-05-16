@@ -44,7 +44,36 @@ public without sharing class PSETriggerHandler {
     
     }
     
-    
+    public class CreateWelcomeToStudyAlertHandler extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            List<Alert__c> alerts = new List<Alert__c>();
+            for(Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) newList) {
+                alerts.add(new Alert__c(
+                        Contact__c = pse.Participant_Contact__c,
+                        Alert_Code__c = 'Welcome_to_the_Study',
+                        Record_ID__c = pse.Participant_Enrollment__c
+                ));
+                for(Contact contactDelegate : PatientDelegateService.getDelegateContacts(pse.Participant_Contact__c)) {
+                    alerts.add(new Alert__c(
+                            Contact__c = contactDelegate.Id,
+                            Alert_Code__c = 'Welcome_to_the_Study_Patient_Delegates',
+                            Record_ID__c = pse.Id)
+                    );
+                }
+            }
+
+            insert alerts;
+        }
+    }
+
+    public class SendDropOutEmailHandler extends TriggerHandler{
+
+        protected override void onAfterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendDropEmails((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
     
     @TestVisible
@@ -65,7 +94,9 @@ public without sharing class PSETriggerHandler {
             pse.PI_Contact__c = null;
             pse.Participant_Contact__c = null;
             if(pse.Study_Site__c != null) pse.PI_Contact__c = studySitesMap.get(pse.Study_Site__c).Principal_Investigator__c;
-            if(pse.Participant__c != null) pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
+            if(pse.Participant__c != null) {
+                pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
+            }
         }
     }
     
@@ -88,25 +119,33 @@ public without sharing class PSETriggerHandler {
     
     @TestVisible
     private static void createCompleteBaselineSurveyTask(List<Participant_Study_Enrollment__c> newList){
-        List<Task> tasks = new List<Task>();
-        List<Id> participantIds = new List<Id>();
+        List<User> users = [
+                SELECT Id, ContactId
+                FROM User
+                WHERE ContactId IN (
+                        SELECT Participant_Contact__c
+                        FROM Participant_Study_Enrollment__c
+                        WHERE Id IN: newList)
+        ];
+
+        Map<Id, Id> idsToUsers = new Map<Id, Id>();
+        for(User taskOwner : users) idsToUsers.put(taskOwner.ContactId, taskOwner.Id);
+
         List<Participant_Study_Enrollment__c> pseList = [
                 SELECT Id,
-                       Participant__c,
-                       Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c
+                        Participant_Contact__c,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c
                 FROM Participant_Study_Enrollment__c
                 WHERE Id IN:newList
         ];
-
+        List<Task> tasks = new List<Task>();
         for(Participant_Study_Enrollment__c pse : pseList) {
-            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') participantIds.add(pse.Participant__c);
-        }
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN: participantIds];
-        List<Id> contactIds = new List<Id>();
-        for(Participant__c participant : participants) contactIds.add(participant.Contact__c);
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN: contactIds];
-        for(User taskOwner : users){
-            tasks.add(TaskService.getInstance().createCompleteBaselineSurveyTask(taskOwner.Id, taskOwner.ContactId));
+            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') {
+                Id ownerId = idsToUsers.get(pse.Participant_Contact__c);
+                tasks.add(TaskService.getInstance()
+                        .createCompleteSurveyTask(ownerId, pse.Participant_Contact__c, pse.Clinical_Trial_Profile__c));
+            }
         }
         insert tasks;
     }
@@ -138,5 +177,21 @@ public without sharing class PSETriggerHandler {
         ];
         for(User u : users) u.IsActive = false;
         update users;
+    }
+
+    @TestVisible
+    private static void sendDropEmails(
+            List<Participant_Study_Enrollment__c> newList,
+            Map<Id, Participant_Study_Enrollment__c> oldMap
+    ) {
+        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
+        for(Participant_Study_Enrollment__c pse : newList) {
+            if(pse.Status__c != oldMap.get(pse.Id).Status__c &&
+                    pse.Status__c == PSEService.PSE_STATUS_DROP_OUT) {
+                messages.add(SendEmailTemplate.createEmail('Patient_dropped_out', pse.Participant_Contact__c, pse.Id));
+            }
+        }
+
+        SendEmailTemplate.sendEmailMessages(messages);
     }
 }

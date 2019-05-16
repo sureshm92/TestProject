@@ -19,7 +19,7 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div class="hp-welcome-msg">{!v.participantState.participantName}</div>
+        <div class="hp-welcome-msg">{!v.participantState.welcomeMessage}</div>
 
         <aura:if isTrue="{!!empty(v.participantState.pe)}">
             <div class="slds-grid slds-gutters slds-wrap">
@@ -49,7 +49,7 @@
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
-                        <aura:if isTrue="{!v.participantState.showVisits}">
+                        <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
                             </div>

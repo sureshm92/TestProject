@@ -3,35 +3,28 @@
                          relatedToType="Task"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
-        <c:EmailTemplate userType="Participant"
-                         recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate recipientId="{!recipient.Id}"
                          recipientLanguage="{!recipient.Language__c}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
-                         signature="{!$Label.Email_Signature_VT}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
-                              buttonURL="{!$Label.CommunityURL}"/>
+                         signature="{!$Label.Email_Signature_PPST}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
-        <c:EmailTemplateText userType="Participant"
-                             recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.Language__c}"
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
-                             body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
-                             signature="{!$Label.Email_Signature_VT}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"
-                                  buttonURL="{!$Label.CommunityURL}"/>
+                             body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected_Delegate}"
+                             signature="{!$Label.Email_Signature_PPST}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

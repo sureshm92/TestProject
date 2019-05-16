@@ -7,17 +7,18 @@
         if(!communityService.isInitialized()) return;
         communityService.executeAction(component, 'getBaselineSurveyURL', {
             userMode: communityService.getUserMode()
-        }, function (ctpJSON) {
-            var ctp = JSON.parse(ctpJSON);
-            component.set('v.ctp', ctp);
+        }, function (response) {
+            var initData = JSON.parse(response);
+            component.set('v.ctp', initData.ctp);
+            component.set('v.link', initData.surveyLink);
+            component.set('v.surveyName', initData.surveyName);
         }, function () {
             communityService.navigateToHome();
             //component.find('spinner').hide();
-        })
+        });
     },
 
     doFrameLoaded: function (component) {
         component.find('spinner').hide();
-
     }
 })
