@@ -107,4 +107,15 @@ public with sharing class Test_TherapeuticAreaService {
         Test.stopTest();
         System.assertEquals(null, participant);
     }
+
+    @IsTest
+    public static void deleteTA_test() {
+        Therapeutic_Area__c therapeuticArea = (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType());
+        insert therapeuticArea;
+        List<Therapeutic_Area__c> tas = [SELECT Id FROM Therapeutic_Area__c];
+        System.assert(!tas.isEmpty());
+        delete therapeuticArea;
+        tas = [SELECT Id FROM Therapeutic_Area__c];
+        System.assert(tas.isEmpty());
+    }
 }
