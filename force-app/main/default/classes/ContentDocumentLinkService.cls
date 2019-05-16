@@ -127,7 +127,7 @@ public with sharing class ContentDocumentLinkService {
             ]);
             Map<Id, Resource__c> resourcesByIds = new Map<Id, Resource__c>(this.getResourcesByIds(resourcesIds));
             for (ContentDocumentLink singleLink : linksToValidate) {
-                if (documentsByIds.get(singleLink.ContentDocumentId) == null || resourcesByIds.get(singleLink.LinkedEntityId) == null) {
+                if (resourcesByIds.get(singleLink.LinkedEntityId) != null && documentsByIds.get(singleLink.ContentDocumentId) == null) {
                     singleLink.addError(Label.Resources_Incompatible_Image_Or_Resource_Type);
                 }
             }
