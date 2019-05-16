@@ -6,6 +6,10 @@
     margin-bottom: 15px;
 }
 
+.THIS .ap-bottom-info{
+    margin-top: 15px;
+}
+
 .THIS .rr-form-element + .rr-form-element{
     margin-top: 0;
 }
@@ -26,7 +30,7 @@
 .THIS .ap-buttons{
     display: flex;
     justify-content: flex-end;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 80px;
 }
 

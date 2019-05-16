@@ -3,6 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
+        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        component.set('v.todayDate', todayDate);
+
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.task', initData.task);
@@ -17,7 +20,6 @@
 
     doCheckFields: function(component, event, helper) {
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
-            inputCmp.showHelpMessageIfInvalid();
             return validSoFar && inputCmp.get('v.validity').valid;
         }, true);
         component.set('v.isValidFields', allValid);

@@ -56,6 +56,12 @@ public without sharing class ParametersDataProvider {
         if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
         
+        if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
+            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
+            if(participant != null){
+                parameters.put('ParticipantName', participant.Full_Name__c);
+            }
+        }
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
     }
     
@@ -233,10 +239,12 @@ public without sharing class ParametersDataProvider {
                         Id,
                         Subject,
                         ActivityDate,
-                        OwnerId
+                        OwnerId,
+                        Task_Code__c
                 FROM Task
                 WHERE Id =: taskId
         ];
+
         User emailOwner = [
                 SELECT Id,
                         LanguageLocaleKey,
@@ -244,10 +252,11 @@ public without sharing class ParametersDataProvider {
                 FROM User
                 WHERE Id =: task.OwnerId
         ];
+        //TaskTriggerHandler.processDefaultFieldValues(new List<Task> {task}, emailOwner.LanguageLocaleKey);
+
         parameters = new Map<String, String>{
             'TaskName' => task.Subject,
-            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey),
-            'ParticipantName' => PatientDelegateService.getInstance().getParticipant().Full_Name__c
+            'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
     }
     
@@ -276,6 +285,7 @@ public without sharing class ParametersDataProvider {
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
+                parameters.put('StudyName', ParticipantService.getParticipantState().ctp.Study_Code_Name__c);
             }else{
                 initParamsFromPE(contactId);
             }
@@ -381,7 +391,11 @@ public without sharing class ParametersDataProvider {
         Id rId = recipientId;
         if (rId.getSobjectType() == User.getSObjectType()) {
             User recipientUser = [
-                    SELECT Id, ContactId, Contact.Name,
+                    SELECT Id,
+                            ContactId,
+                            Contact.Name,
+                            Contact.UserCommunityIsDelegate__c,
+                            Contact.userCommunityMode__c,
                             LanguageLocaleKey
                     FROM User
                     WHERE Id =: recipientId
@@ -389,10 +403,21 @@ public without sharing class ParametersDataProvider {
             recipientContactId = recipientUser.ContactId;
             recipientName = recipientUser.Contact.Name;
             recipientLanguage = recipientUser.LanguageLocaleKey;
+            isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
+            userMode = recipientUser.Contact.userCommunityMode__c;
         }else{
-            Contact cnt = [SELECT Id, Name, Language__c FROM Contact WHERE Id =: recipientId];
+            Contact cnt = [
+                    SELECT Id,
+                            Name,
+                            Language__c,
+                            UserCommunityIsDelegate__c,
+                            userCommunityMode__c
+                    FROM Contact
+                    WHERE Id =: recipientId];
             recipientName = cnt.Name;
             recipientLanguage = cnt.Language__c;
+            isDelegate = cnt.UserCommunityIsDelegate__c;
+            userMode = cnt.userCommunityMode__c;
         }
         
         if (recipientContactId != null) {

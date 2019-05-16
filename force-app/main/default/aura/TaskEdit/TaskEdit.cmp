@@ -9,6 +9,7 @@
     <aura:attribute name="editMode" type="Boolean"/>
     <aura:attribute name="task" type="Task"/>
     <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="tomorrowDate" type="Date"/>
     <aura:attribute name="otherTask" type="Boolean" default="{!v.task.OwnerId != v.task.CreatedById}"/>
     <aura:attribute name="taskStatusCompleted" type="Boolean" default="false"/>
     <aura:attribute name="taskTypeList" type="String[]" default="Not Selected,Visit,Medication"/>
@@ -54,6 +55,12 @@
                                 <div>
                                     <c:RRIcon iconName="icon-close-circle"/>
                                     {!$Label.c.BTN_Cancel}
+                                </div>
+                            </div>
+                            <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
+                                <div>
+                                    <c:RRIcon iconName="icon-stop" color="orange"/>
+                                    {!$Label.c.BTN_Ignore}
                                 </div>
                             </div>
                             <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
@@ -144,7 +151,7 @@
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                     <!--Task Type here-->
-                    <aura:if isTrue="{!!v.isReferral}">
+                    <aura:if isTrue="{!!v.isReferral &amp;&amp; !v.createdByAdmin}">
                         <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type__c}">
                             <aura:iteration items="{!v.taskTypeList}" var="type">
                                 <option text="{!type}"></option>

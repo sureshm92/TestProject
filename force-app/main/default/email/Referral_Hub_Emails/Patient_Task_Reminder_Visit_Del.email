@@ -4,12 +4,10 @@
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="Participant"
-                         recipientId="{!recipient.Id}"
-                         recipientName="{!recipient.Name}"
-                         recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplate recipientId="{!recipient.Id}"
+                         parametersProvider="Email_Template_Parameters_From_PSE"
                          sourceId="{!relatedTo.Id}"
-                         header="{!$Label.Email_Header_Visit_Task_Reminder}"
+                         header="{!$Label.Email_Header_Visit_Task_Reminder_Delegate}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Visit_Task_Reminder_Delegate}"
@@ -19,12 +17,10 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="Participant"
-                             recipientId="{!recipient.Id}"
-                             recipientName="{!recipient.Name}"
-                             recipientLanguage="{!recipient.Language__c}"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
+                             parametersProvider="Email_Template_Parameters_From_PSE"
                              sourceId="{!relatedTo.Id}"
-                             header="{!$Label.Email_Header_Visit_Task_Reminder}"
+                             header="{!$Label.Email_Header_Visit_Task_Reminder_Delegate}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Visit_Task_Reminder_Delegate}"

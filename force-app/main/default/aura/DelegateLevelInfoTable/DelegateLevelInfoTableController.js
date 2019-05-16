@@ -28,6 +28,10 @@
                         levels: [true, false, false]
                     },
                     {
+                        text: $A.get('$Label.c.DLIT_L_Reffer'),
+                        levels: [true, false, false]
+                    },
+                    {
                         text : $A.get("$Label.c.DLIT_L_Accept_a_patient"),
                         levels : [true,true,false]
                     },

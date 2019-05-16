@@ -13,6 +13,7 @@
     <aura:attribute name="visibility" type="List"/>
     <aura:attribute name="showNumbersAdd" type="String" default="false"/>
     <aura:attribute name="dayRemind" type="Integer"/>
+    <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="patientStatuses" type="List"
                     default="[
                         {'label': 'Prospect', 'value' : 'Prospect'},
@@ -44,7 +45,7 @@
                 </lightning:select>
 
                 <lightning:input aura:id="field" type="date" label="Set Task Start Date" value="{!v.task.Start_Date__c}"
-                                 required="true" onchange="{!c.onDaysChange}"/>
+                                 required="true" onchange="{!c.onDaysChange}" min="{!v.todayDate}"/>
                 <lightning:input aura:id="field" type="date" label="Set Task Due Date" value="{!v.task.ActivityDate}"
                                  onchange="{!c.onDaysChange}" min="{!v.task.Start_Date__c}"
                                  disabled="{!empty(v.task.Start_Date__c)}"/>
@@ -62,7 +63,7 @@
                     </span>
                     <aura:set attribute="else">
                         <lightning:input aura:id="field" type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
-                                         onchange="{!c.onDaysChange}" min="{!v.task.Start_Date__c}" max="{!v.task.ActivityDate}"/>
+                                         onchange="{!c.onDaysChange}" min="{!v.todayDate}" max="{!v.task.ActivityDate}"/>
                     </aura:set>
                 </aura:if>
             </div>
