@@ -60,6 +60,11 @@ public class TestDataFactory {
                     'Patient_ID__c' => '12345678',
                     'Participant_Status__c' => 'Referral Sent to PI',
                     'Referral_Source__c' => 'HCP'
+            },
+
+            ContentVersion.getSObjectType() => new Map<String, Object>{
+                'Title' => 'Test Title',
+                'VersionData' => Blob.valueOf('Test Data')
             }
     };
 

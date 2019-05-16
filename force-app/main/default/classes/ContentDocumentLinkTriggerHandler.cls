@@ -11,9 +11,4 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
         contentDocumentLinkService.remindEventFire(newList);
         contentDocumentLinkService.createURLsForImagesOnResources(newList);
     }
-
-    public override void afterDelete(List<SObject> oldList) {
-        ContentDocumentLinkService contentDocumentLinkService = (ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class);
-        contentDocumentLinkService.remindEventFire(oldList);
-    }
 }
