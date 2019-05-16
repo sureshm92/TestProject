@@ -2289,7 +2289,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Subject_Medication_Task_Reminder Delegate</shortDescription>
-        <value>Your Patient has a visit reminder</value>
+        <value>Your Patient has a medication reminder</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>

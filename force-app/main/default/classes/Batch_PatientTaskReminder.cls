@@ -13,7 +13,7 @@ public with sharing class Batch_PatientTaskReminder implements Database.Batchabl
 
     public void execute(Database.BatchableContext param1, List<Task> tasks) {
         SendEmailToParticipant.sendEmailNotificationWithDelegates(tasks);
-        for(Task t : tasks) t.Is_Reminder_Sent__c = false;
+        for(Task t : tasks) t.Is_Reminder_Sent__c = true;
         update tasks;
     }
 
