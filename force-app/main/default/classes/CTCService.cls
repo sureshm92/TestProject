@@ -96,7 +96,7 @@ public with sharing class CTCService {
                 }
             }
             if (resourcesIdsByThirdPartyCOIsIds.get(singleThirdPartyCOIId) != null) {
-                for (Integer i = 1; i < cTCs.size(); i++) {
+                for (Integer i = startIndex; i < cTCs.size(); i++) {
                     for (Id resourceId : resourcesIdsByThirdPartyCOIsIds.get(singleThirdPartyCOIId)) {
                         tAAsToCreate.add(tAAService.getTAAWithFilledFields(cTCs.get(i).COI__c, resourceId, singleThirdPartyCOIId));
                     }

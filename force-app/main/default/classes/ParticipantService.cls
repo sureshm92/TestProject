@@ -17,7 +17,7 @@ public class ParticipantService {
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant__c participant;
-        @AuraEnabled public String participantName;
+        @AuraEnabled public String welcomeMessage;
         @AuraEnabled public Boolean showTerms;
         @AuraEnabled public Boolean showVisits;
         @AuraEnabled public Boolean isPremium;
@@ -49,8 +49,8 @@ public class ParticipantService {
         if (peList.size() > 0) {
             participantState.pe = peList[0];
             participantState.participant = participantState.pe.Participant__r;
-            participantState.isDelegate = participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-            participantState.participantName = getParticipantName();
+            participantState.isDelegate =
+                    participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
 
             if (participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
@@ -82,6 +82,7 @@ public class ParticipantService {
                     participantState.value = ParticipantStates.REFERRAL;
                 }
             }
+            participantState.welcomeMessage = getWelcomeMessage();
         }
     }
 
@@ -110,7 +111,7 @@ public class ParticipantService {
     }
 
     @TestVisible
-    private String getParticipantName() {
+    private String getWelcomeMessage() {
         String fullName;
         if (participantState.isDelegate) {
             fullName = (String) CommunityService.getUserContact().get('Name');
@@ -118,7 +119,10 @@ public class ParticipantService {
             fullName = participantState.pe.Participant__r.Full_Name__c;
         }
 
-        return Label.PG_Home_Welcome_Message.replace('##UserName', fullName);
+        String message = participantState.value == ParticipantStates.ALUMNI
+                ? Label.PG_Home_Welcome_Message_Alumni : Label.PG_Home_Welcome_Message;
+
+        return message.replace('##UserName', fullName);
     }
 
     public ParticipantState getState() {

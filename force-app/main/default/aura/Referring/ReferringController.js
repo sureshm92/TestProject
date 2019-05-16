@@ -52,7 +52,7 @@
             component.set('v.genders', initData.genders);
             component.set('v.counries', initData.countries);
             component.set('v.statesByCountyMap', initData.statesByCountryMap);
-
+            component.set('v.markers',helper.fillMarkers(component));
             if(initData.participantEnrollment) {
                 helper.setParticipant(component, initData.participantEnrollment);
                 if(initData.studies.length > 0){
@@ -107,8 +107,8 @@
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Site_Selection"));
         }
         else if(trial.Link_to_Pre_screening__c){
-                helper.addEventListener(component, helper);
-                component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
+            helper.addEventListener(component, helper);
+            component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Questionnaire"));
         }else{
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Contact_Info"));
         }

@@ -38,7 +38,7 @@ global without sharing class EmailTemplateController {
     global String emailParametersProvider {get; set;}
     global Id sourceRecordId {get; set;}
     global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
-    
+
     private String bodyParamValue;
     global String bodyValue {
         get{
@@ -85,7 +85,7 @@ global without sharing class EmailTemplateController {
     
     global String userGreetingValue {
         get{
-            return prepareLineBreaks(userGreetingValue + ' ' + getUserName() + ',\n\n');
+            return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
         }
         set;
     }

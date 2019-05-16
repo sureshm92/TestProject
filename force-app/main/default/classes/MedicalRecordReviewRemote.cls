@@ -6,6 +6,7 @@ public without sharing class MedicalRecordReviewRemote {
 
     public class InitData{
         public HCP_Enrollment__c hcpEnrollment;
+        public Contact hcpContact;
         public Clinical_Trial_Profile__c trial;
         public Map<String, StudyActions.Action> actions;
     }
@@ -26,6 +27,13 @@ public without sharing class MedicalRecordReviewRemote {
                 new StudyActionsHCP(hcpEnrollment).checkAction(StudyActions.ACT_MEDICAL_RECORD_REVIEW);
                 StudyActions sActions = new StudyActionsHCP(hcpEnrollment);
                 initData.hcpEnrollment = hcpEnrollment;
+                initData.actions = sActions.actions;
+            }
+            else if(DelegateService.DELEGATE_LEVEL_1_AND_LOW.contains(DelegateService.getStudyAccessLevel(trialId, CommunityService.USER_MODE_HCP))){
+                List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrial(trialId);
+                if(hcpEnrollments.isEmpty()) throw new CommunityServiceException('Data not found');
+                initData.hcpContact = hcpEnrollments[0].HCP_Contact__r;
+                StudyActions sActions = new StudyActionsHCP(hcpEnrollments[0]);
                 initData.actions = sActions.actions;
             }
             //check accessibility;
