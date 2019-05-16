@@ -32,7 +32,7 @@
         <operation>without</operation>
         <primaryTableColumn>Therapeutic_Area__c$Id</primaryTableColumn>
         <relatedTable>CTC__c</relatedTable>
-        <relatedTableJoinColumn>COI__c</relatedTableJoinColumn>
+        <relatedTableJoinColumn>COI_3rdParty__c</relatedTableJoinColumn>
     </crossFilters>
     <filter>
         <criteriaItems>
