@@ -30,6 +30,7 @@ validateINT:
   - cd Nodejs
   - node convert.js
   - cd ..
+  - rm -rf output
   - sfdx force:source:convert -d output
   - sfdx force:mdapi:deploy -d output -u INT -c -w 60
   - echo "validate Int success"
@@ -51,6 +52,7 @@ deployINT:
   - cd Nodejs
   - node convert.js
   - cd ..
+  - rm -rf output
   - sfdx force:source:convert -d output
   - sfdx force:mdapi:deploy -d output -u INT  -w 60
   - echo "deploy Int success"
@@ -73,6 +75,7 @@ ValidateINF:
   - cd Nodejs
   - node convert.js
   - cd ..
+  - rm -rf output
   - sfdx force:source:convert -d output
   - sfdx force:mdapi:deploy -d output -u INF -c -w 60
   - echo "validate Inf success"
@@ -93,6 +96,7 @@ DeployINF:
   - cd Nodejs
   - node convert.js
   - cd ..
+  - rm -rf output
   - sfdx force:source:convert -d output
   - sfdx force:mdapi:deploy -d output -u INF  -w 60
   - echo "deploy Inf success"
