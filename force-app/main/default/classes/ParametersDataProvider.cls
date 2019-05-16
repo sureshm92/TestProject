@@ -295,17 +295,15 @@ public without sharing class ParametersDataProvider {
         parameters.put('FullName', getFullContactName(cnt));
         if(userMode == CommunityService.USER_MODE_PI){
             parameters.put('PIName', getFullContactName(cnt));
-            parameters.put('PIFirstName', cnt.FirstName);
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
             parameters.put('HCPName', getFullContactName(cnt));
-            parameters.put('HCPFirstName', cnt.FirstName);
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantLanguage', cnt.Language__c);
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
-                parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
+                parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
                 parameters.put('StudyName', ParticipantService.getParticipantState().ctp.Study_Code_Name__c);
             }else{
@@ -415,7 +413,7 @@ public without sharing class ParametersDataProvider {
             User recipientUser = [
                     SELECT Id,
                             ContactId,
-                            Contact.Name,
+                            Contact.Name, Contact.FirstName, Contact.LastName,
                             Contact.UserCommunityIsDelegate__c,
                             Contact.userCommunityMode__c,
                             LanguageLocaleKey
@@ -431,7 +429,7 @@ public without sharing class ParametersDataProvider {
         }else{
             Contact cnt = [
                     SELECT Id,
-                            Name,
+                            Name, FirstName, LastName,
                             Language__c,
                             UserCommunityIsDelegate__c,
                             userCommunityMode__c
