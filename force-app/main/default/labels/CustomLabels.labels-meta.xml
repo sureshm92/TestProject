@@ -1560,6 +1560,17 @@ If you would like to be contacted about future clinical research opportunities, 
         <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. We want to ensure you are successful as you continue to manage your health. Please feel free to contact us at any time, if we can be of assistance with any future trial information.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient17</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient17</shortDescription>
+        <value>Recently, ##PIName (PI) made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
+
+You will be contacted by a member of the study team regarding the next steps in the enrollment process.
+
+If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
