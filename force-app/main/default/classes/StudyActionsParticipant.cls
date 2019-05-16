@@ -2,7 +2,7 @@ public class StudyActionsParticipant extends StudyActions {
 
     public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
         this(
-                participantEnrollment.Clinical_Trial_Profile__r,
+                participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
                 participantEnrollment.Study_Site__r,
                 null,
                 participantEnrollment

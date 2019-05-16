@@ -166,8 +166,8 @@ public without sharing class StudyTrialService {
         Location userLocation = DistanceHelper.getUserLocation();
         Contact userContact = CommunityService.getUserContact();
         String userCountry;
-        if(userContact.Account.BillingCountry != null && userContact.Account.BillingCountry!=''){
-            userCountry = userContact.Account.BillingCountry;
+        if(userContact.MailingCountry != null && userContact.MailingCountry!=''){
+            userCountry = userContact.MailingCountry;
         }
         else{
             userCountry='United States';
@@ -209,12 +209,14 @@ public without sharing class StudyTrialService {
                 if(currStudySite.Study_Site_Type__c == StudySiteService.SS_TYPE_VIRTUAL){
                     trialsWithVirtualSites.add(currTrialId);
                 }
-                Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Principal_Investigator__r.Account);
-                if (currDistance != null) {
-                    if (minDistance == null) {
-                        minDistance = currDistance;
-                    } else if (minDistance > currDistance) {
-                        minDistance = currDistance;
+                else{
+                    Double currDistance = DistanceHelper.calculateDistanceTo(currStudySite.Principal_Investigator__r.Account);
+                    if (currDistance != null) {
+                        if (minDistance == null) {
+                            minDistance = currDistance;
+                        } else if (minDistance > currDistance) {
+                            minDistance = currDistance;
+                        }
                     }
                 }
             }
