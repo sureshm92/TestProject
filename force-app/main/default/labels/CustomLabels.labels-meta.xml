@@ -7238,6 +7238,13 @@ is a placehilder to show you what it would look like.</value>
         <value>The image is unavailable. Contact administrator.</value>
     </labels>
     <labels>
+        <fullName>Resources_Incompatible_Image_Or_Resource_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Incompatible Image Or Resource Type</shortDescription>
+        <value>Incompatible image or resource type.</value>
+    </labels>
+    <labels>
         <fullName>Resources_More_Articles</fullName>
         <language>en_US</language>
         <protected>true</protected>
