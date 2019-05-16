@@ -135,14 +135,15 @@
                         <button class="apollo-btn text" data-anchor="inclusionExclusionAnchor"
                                 onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</button>
                         <!-- HCP -->
-                        <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'Participant')}">
-                            <button class="apollo-btn text" data-anchor="studySitesAnchor"
-                                    onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>
+                        <aura:if isTrue="{!v.userMode == 'HCP'}">
+                            <button class="apollo-btn text" data-anchor="studySitesAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>
+
+                        </aura:if><aura:if isTrue="{!v.userMode == 'Participant'}">
+                            <button class="apollo-btn text" data-anchor="studySiteAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_site}</button>
                         </aura:if>
                         <!-- PI -->
                         <aura:if isTrue="{!v.userMode == 'PI'}">
-                            <button class="apollo-btn text" data-anchor="referringClinicsAnchor"
-                                    onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
+                            <button class="apollo-btn text" data-anchor="referringClinicsAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
                         </aura:if>
                     </div>
 

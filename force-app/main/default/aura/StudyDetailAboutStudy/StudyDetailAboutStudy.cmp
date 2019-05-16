@@ -79,6 +79,10 @@
                         </div>
                     </aura:if>
 
+                    <aura:if isTrue="{!v.userMode == 'Participant'}">
+                        <c:RRAnchor aura:id="studySiteAnchor" offset="-160"/>
+                    </aura:if>
+
                     <!-- for PI: -->
                     <aura:if isTrue="{!v.userMode == 'PI'}">
                         <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160"/>
