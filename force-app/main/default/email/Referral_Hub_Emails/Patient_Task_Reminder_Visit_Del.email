@@ -5,8 +5,8 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PSE"
                          sourceId="{!relatedTo.Id}"
+                         parametersProvider="Email_Template_Parameters_From_PSE"
                          header="{!$Label.Email_Header_Visit_Task_Reminder_Delegate}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -18,8 +18,8 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PSE"
                              sourceId="{!relatedTo.Id}"
+                             parametersProvider="Email_Template_Parameters_From_PSE"
                              header="{!$Label.Email_Header_Visit_Task_Reminder_Delegate}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"

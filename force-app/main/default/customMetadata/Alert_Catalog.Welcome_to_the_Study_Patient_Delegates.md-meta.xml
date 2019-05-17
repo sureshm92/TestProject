@@ -11,7 +11,7 @@
         <value xsi:type="xsd:string">StudyName = Clinical_Trial_Profile__r.Study_Title__c 
 Logo = Clinical_Trial_Profile__r.Profile_Picture__c 
 LogoText = Clinical_Trial_Profile__r.Study_Code_Name__c
-ParticipantUser = Participant__r.Full_Name__c</value>
+ParticipantUser = Participant__r.First_Name__c</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

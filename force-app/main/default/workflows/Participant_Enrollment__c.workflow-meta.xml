@@ -374,9 +374,14 @@
             <name>Email_to_VT_PI_Patient_New_Study</name>
             <type>Alert</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <description>Patient receives email that they have been referred to a clinical research study by PI</description>
-        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp; ISBLANK(HCP__c)&amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;PI&quot;)</formula>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;
+ISBLANK(HCP__c) &amp;&amp; 
+Is_Virtual_Study_Site__c = True &amp;&amp; 
+NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp;
+NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; 
+ISPICKVAL( Referral_Source__c , &quot;PI&quot;)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
@@ -409,7 +414,12 @@
         </actions>
         <active>true</active>
         <description>Patient  receives email that they have been referred to a clinical research study by eRP</description>
-        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;  ISBLANK(HCP__c)&amp;&amp;  Is_Virtual_Study_Site__c = True  &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;  NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;ePR&quot;)</formula>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;
+ISBLANK(HCP__c)&amp;&amp;  
+Is_Virtual_Study_Site__c = True  &amp;&amp; 
+NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;
+NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; 
+ISPICKVAL( Referral_Source__c , &quot;ePR&quot;)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
 </Workflow>
