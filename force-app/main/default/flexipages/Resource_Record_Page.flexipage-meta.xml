@@ -110,6 +110,34 @@
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
+                <value>Study__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListComponentOverride</name>
+                <value>NONE</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+            <visibilityRule>
+                <booleanFilter>1 OR 2</booleanFilter>
+                <criteria>
+                    <leftValue>{!Record.Content_Class__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Study-Specific</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.Content_Type__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Study_Document</rightValue>
+                </criteria>
+            </visibilityRule>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Resource__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
                 <value>AttachedContentDocuments</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
