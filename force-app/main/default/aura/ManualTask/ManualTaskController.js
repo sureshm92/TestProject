@@ -20,7 +20,6 @@
 
     doCheckFields: function(component, event, helper) {
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
-            inputCmp.showHelpMessageIfInvalid();
             return validSoFar && inputCmp.get('v.validity').valid;
         }, true);
         component.set('v.isValidFields', allValid);

@@ -220,7 +220,7 @@
                     <!--Reminder Date-->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
-                                         value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.tomorrowDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                                         value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.todayDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
                     </div>
                 </div>
             </aura:if>

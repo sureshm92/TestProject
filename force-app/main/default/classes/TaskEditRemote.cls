@@ -163,9 +163,6 @@ public without sharing class TaskEditRemote {
         ];
         if (paramTask.Reminder_Date__c != null && oldTask.Reminder_Date__c != paramTask.Reminder_Date__c) {
             Datetime tmpDate = paramTask.Reminder_Date__c;
-            if (tmpDate.hourGMT() == 0) {
-                tmpDate.addHours(12);
-            }
             paramTask.Reminder_Date__c = null;
             upsert paramTask;
             paramTask.Reminder_Date__c = tmpDate;
