@@ -75,6 +75,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_PatientTaskReminder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -739,6 +743,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SurveyService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TaskEditRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -871,6 +879,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PSEStatusHistoryRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -927,6 +939,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_StudyActionParticipant</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Task</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -944,6 +960,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TherapeuticAreaService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_UserService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1783,6 +1803,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Is_Reminder_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3628,6 +3653,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Is_Reminder_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
