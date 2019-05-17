@@ -1443,7 +1443,7 @@ To track your clinical research study status and to learn more about future clin
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
-        <value>Recently, ##PIName made a referral on your behalf to ##StudySite regarding your potential participation in a clinical research study: ##StudyName. 
+        <value>Recently, ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
 
 We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process. 
 

@@ -434,7 +434,8 @@ private class Test_BaseCRCPCommunity {
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_HCP);
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PI);
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PARTICIPANT);
-            ShareModalController.sendEmail(hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', 'SOCIAL_SHARING');
+            //ShareModalController.sendEmail(hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', 'SOCIAL_SHARING');
+            SendEmailTemplate.sendShareEmail(hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', 'Share_Social_Study_Template');
             ShareModalController.sendEmail(hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', null);
         }
         Test.stopTest();
