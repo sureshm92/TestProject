@@ -44,11 +44,9 @@ By clicking OK, you are consenting to participate in the travel support service 
         <shortDescription>AL Body Welcome Study</shortDescription>
         <value>Hi ##UserName!
 
-            Welcome to your ##StudyName study!
+            Welcome to the ##StudyName Study.
 
-            We are excited to be on this journey with you.
-
-Click OK to begin!</value>
+            We are excited to be on this journey with you.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study_Patient_Delegates</fullName>
@@ -57,9 +55,7 @@ Click OK to begin!</value>
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
         <value>Hi ##UserName!
 
-You have been assigned as a Delegate for ##ParticipantUser in the ##StudyName study. We are so excited you have chosen to take this journey with ##ParticipantUser.
-
-Click OK to begin!</value>
+You have been assigned as a Delegate for ##ParticipantUser. Thank you for joining ##ParticipantUser on their journey through the ##StudyName Study.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_to_PH</fullName>
@@ -69,15 +65,13 @@ Click OK to begin!</value>
         <value>Welcome ##UserName!  We are excited to be on this journey with you. Our goal is to provide you timely updates about your enrollment process, knowledge articles and other helpful information.</value>
     </labels>
     <labels>
-        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <fullName>AL_Body_Welcome_to_PH_Delegate</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
-        <value>Hi ##Contact!
+        <protected>false</protected>
+        <shortDescription>AL Body Welcome to PH Delegate</shortDescription>
+        <value>Hi ##UserName!
 
-You have been assigned as a Delegate for ##ParticipantUser.  We are so excited you have chosen to take this journey with ##ParticipantUser. 
-
-Click OK to begin!</value>
+You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining  ##ParticipantFirstName on their journey through the ##StudyName Study.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -7005,7 +6999,14 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Task Tab No Tasks</shortDescription>
-        <value>You do not currently have any tasks created or assigned to you at this time.</value>
+        <value>You currently do not have any tasks assigned to you.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Task_Tab_No_Tasks_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Task Tab No Tasks Delegate</shortDescription>
+        <value>##ParticipantFirstName does not currently have any tasks created or assigned to them at this time.</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Acceptance_status</fullName>
@@ -7027,6 +7028,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG VP L No Items</shortDescription>
         <value>Oh no, there are no items to display</value>
+    </labels>
+    <labels>
+        <fullName>PG_VP_L_No_Items_display</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG VP L No Items display</shortDescription>
+        <value>There are no items to display</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Referral_status</fullName>

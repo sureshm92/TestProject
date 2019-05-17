@@ -8,6 +8,7 @@
     <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
     <aura:attribute name="openTasks" type="Object[]"/>
     <aura:attribute name="completedTasks" type="Task[]"/>
+    <aura:attribute name="emptyTaskLabel" type="String"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -65,7 +66,7 @@
                         </aura:iteration>
                     </c:RRTable>
                     <aura:if isTrue="{!empty(v.openTasks)}">
-                        <div class="tt-empty-list">{!$Label.c.PG_Task_Tab_No_Tasks}</div>
+                        <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
                     </aura:if>
                     <aura:set attribute="footer">
                         <c:RRLink page="study-workspace?tab=tab-tasks" label="See All"/>
@@ -105,7 +106,7 @@
                         </aura:iteration>
                     </c:RRTable>
                     <aura:if isTrue="{!empty(v.completedTasks)}">
-                        <div class="tt-empty-list">{!$Label.c.PG_Task_Tab_No_Tasks}</div>
+                        <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
                     </aura:if>
                 </div>
             </aura:if>
