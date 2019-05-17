@@ -11,7 +11,6 @@
             userMode: component.get('v.userMode')
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            debugger;
             component.set("v.referringClinics", initData.referringClinics);
             component.set("v.filteredReferringClinics", initData.referringClinics);
             component.set("v.summaryContainers", initData.summrayContainers);
@@ -40,7 +39,6 @@
         component.find('invite-rp').hide();
     },
     doInviteRP: function (component, event, helper) {
-        debugger;
         var rpData = component.get('v.rpData');
         component.find('modalSpinner').show();
         communityService.executeAction(component, 'inviteHCP', {
@@ -50,7 +48,6 @@
             phone: rpData.phone,
             studySiteId: rpData.studySiteId,
         }, function (returnValue) {
-            debugger;
             var initData = JSON.parse(returnValue);
             component.find('modalSpinner').hide();
             helper.clearInviteFields(component, event, helper)
@@ -60,7 +57,6 @@
 
     },
     doSelectStudy: function (component, event, helper) {
-        debugger;
         var siteId = event.getSource().get('v.value');
         component.set('v.rpData.studySiteId', siteId);
     },
