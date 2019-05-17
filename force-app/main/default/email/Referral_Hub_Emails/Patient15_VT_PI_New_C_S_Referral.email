@@ -1,11 +1,12 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Participant_Enrollment__c"
-                         language="{!relatedTo.Participant__r.Language_Preference_Code__c}">
+                         language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="Participant"
+        <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
                          sourceId="{!relatedTo.Id}"
+                         parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Patient3}"
                          title="{!$Label.Email_Title_VT}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -14,8 +15,9 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText userType="Participant"
+        <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              sourceId="{!relatedTo.Id}"
+                             parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Patient3}"
                              title="{!$Label.Email_Title_VT}"
                              greeting="{!$Label.Email_User_Greeting}"
