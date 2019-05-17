@@ -5,10 +5,6 @@
     doInit: function (component, event, helper) {
         console.log('init');
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var tomorrowDate = $A.localizationService.formatDate(tomorrow, 'YYYY-MM-DD');
-        component.set('v.tomorrowDate', tomorrowDate);
         component.set('v.todayDate', todayDate);
         if(!component.get('v.initialized')) {
             component.set('v.task', {
@@ -159,33 +155,19 @@
         }
         if (component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')) {
             if (dueDate) {
-                if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.One_day_before')){
+                if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.One_day_before')) {
                     $A.enqueueAction(component.get('c.changeReminderDate'));
-                } else {
-                    component.set('v.reminderDateEnabled', true);
                 }
                 component.set('v.frequencyEnabled', true);
-                if(dueDate == component.get('v.todayDate')){
-                    component.set('v.reminderDateEnabled', false);
-                    component.set('v.frequencyEnabled', false);
-                    component.set('v.task.Reminder_Date__c', null);
-                    reminderFrequencyComponent.set('v.value', $A.get('$Label.c.Complete_By_Date'));
-                } else if(dueDate == component.get('v.tomorrowDate')){
-                    reminderFrequencyComponent.set('v.value', $A.get('$Label.c.Complete_By_Date'));
-                    component.set('v.frequencyEnabled', false);
-                    component.set('v.task.Reminder_Date__c', dueDate);
-                }
             } else {
                 reminderFrequencyComponent.set('v.value', $A.get('$Label.c.Complete_By_Date'));
                 component.set('v.frequencyEnabled', false);
             }
         }
-        if(dueDate != component.get('v.todayDate') && dueDate != component.get('v.tomorrowDate')) {
-            if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.Complete_By_Date')) {
-                component.set('v.task.Reminder_Date__c', dueDate);
-            }
-            if (dueDate) component.set('v.frequencyEnabled', true);
+        if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.Complete_By_Date')) {
+            component.set('v.task.Reminder_Date__c', dueDate);
         }
+        if(dueDate) component.set('v.frequencyEnabled', true);
     },
 
     changeReminderDate: function (component, event, helper) {
