@@ -63,6 +63,8 @@ public with sharing class ResourceReminderService {
         public String reminderLabel;
         @AuraEnabled
         public List<String> resourceFields;
+        @AuraEnabled
+        public String cssColor = 'red-text';
         public abstract Boolean isActive(Resource__c resource);
     }
 
@@ -111,6 +113,7 @@ public with sharing class ResourceReminderService {
                     'Content_Class__c',
                     'Image__c'
             };
+            cssColor = 'orange-text';
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
@@ -169,6 +172,7 @@ public with sharing class ResourceReminderService {
                     'document_type__c',
                     '(SELECT ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)'
             };
+            cssColor = 'orange-text';
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;
