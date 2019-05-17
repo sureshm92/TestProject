@@ -4,7 +4,6 @@
         component.set("v.showSpinner", true);
         let userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
-
         if (userMode === 'HCP') {
             window.addEventListener('resize', $A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
