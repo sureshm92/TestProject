@@ -92,8 +92,7 @@ public with sharing class ContentDocumentLinkService {
     public void remindEventFire(List<ContentDocumentLink> links) {
         Boolean isFireEvent = false;
         for (ContentDocumentLink singleLink : links) {
-            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType() &&
-                    SchemaUtil.getRecordTypeDeveloperNameBySObjectId(singleLink.LinkedEntityId) == ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT) {
+            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType()) {
                 isFireEvent = true;
                 break;
             }

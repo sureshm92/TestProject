@@ -5,6 +5,7 @@ public with sharing class ResourceReminderService {
     final List<Type> reminders = new List<Type>{
             PlatformTAnoTAReminder.class,
             X3rdPartyNoTaReminder.class,
+            StudySpecificAndPlatformTAnoImageReminder.class,
             StudySpecificNoStudyReminder.class,
             StudyDocumentNoStudyReminder.class,
             StudyDocumentTypeDocumentNoFileReminder.class
@@ -97,6 +98,25 @@ public with sharing class ResourceReminderService {
             if (String.isNotBlank(resource.Content_Class__c)
                     && ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
                     && (resource.Therapeutic_Area_Assignments__r == null || resource.Therapeutic_Area_Assignments__r.isEmpty())) {
+                isActive = true;
+            }
+            return isActive;
+        }
+    }
+
+    class StudySpecificAndPlatformTAnoImageReminder extends Reminder {
+        public StudySpecificAndPlatformTAnoImageReminder() {
+            reminderLabel = Label.Reminder_Study_Specific_And_PlatformTA_No_Image;
+            resourceFields = new List<String>{
+                    'Content_Class__c',
+                    'Image__c'
+            };
+        }
+        public override Boolean isActive(Resource__c resource) {
+            Boolean isActive = false;
+            if (String.isNotBlank(resource.Content_Class__c)
+                    && (ResourceService.RESOURCE_SOURCE_STUDY.equalsIgnoreCase(resource.Content_Class__c) || ResourceService.RESOURCE_SOURCE_PLATFORM.equalsIgnoreCase(resource.Content_Class__c))
+                    && String.isBlank(resource.Image__c)) {
                 isActive = true;
             }
             return isActive;
