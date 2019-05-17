@@ -1378,7 +1378,7 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action View Resource</shortDescription>
-        <value>View Resource</value>
+        <value>View Study Details</value>
     </labels>
     <labels>
         <fullName>Email_Action_View_Trial_Details</fullName>
@@ -1778,7 +1778,10 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Share Resource</shortDescription>
-        <value>Someone requested that we share a link with you for the following resource: ##ResourceName</value>
+        <value>An IQVIA Patient Portal user thought you might be interested in this content: ##UrlShare.
+
+
+            We hope you find this information helpful.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected</fullName>
@@ -2217,6 +2220,15 @@ Sincerely,
 The IQVIA Referral Hub and Patient Portal Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Resource</shortDescription>
+        <value>Sincerely,
+
+The IQVIA Patient Portal Support Team&quot;</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Survey</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2404,7 +2416,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Share Resource</shortDescription>
-        <value>Interesting content was shared with you!</value>
+        <value>A clinical research study that may interest you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
