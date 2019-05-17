@@ -36,7 +36,7 @@ public without sharing class ResourceService {
     public ResourceWrapperContainer getFavoriteResources(String resourceType) {
 
         Participant__c participant = this.getParticipant(resourceType);
-        if (participant.Resource_Actions__r.isEmpty()) {
+        if (ParticipantDecoupler.getResourceActions(participant).isEmpty()) {
             return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Favorite_Articles : Label.Resources_No_Favorite_Videos);
         }
         ResourceService.ResourceWrapperContainer container = this.getResources(resourceType);

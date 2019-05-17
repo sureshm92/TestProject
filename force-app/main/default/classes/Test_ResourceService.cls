@@ -143,6 +143,53 @@ public class Test_ResourceService {
     }
 
     @IsTest
+    public static void getFavoriteResources_ResourceActionsEmpty_Test() {
+        String participantId = TestDataFactory.getFakeId(Participant__c.getSObjectType());
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+                .when('query')
+                .then(new List<Participant__c>{(Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType())})
+                .getInstance()
+        );
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('getParticipantId')
+                .then(participantId)
+                .getInstance()
+        );
+        Test.startTest();
+        ResourceService.ResourceWrapperContainer container = new ResourceService().getFavoriteResources(ResourceService.RESOURCE_TYPE_ARTICLE);
+        Test.stopTest();
+        System.assertEquals(Label.Resources_No_Favorite_Articles, container.errorMessage);
+    }
+
+    @IsTest
+    public static void getFavoriteResources_NoResources_Test() {
+        String participantId = TestDataFactory.getFakeId(Participant__c.getSObjectType());
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+                .when('query')
+                .then(new List<Participant__c>{(Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object> {
+                        'Id' => participantId
+                })})
+                .getInstance()
+        );
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('getParticipantId')
+                .then(participantId)
+                .getInstance()
+        );
+        ParticipantDecoupler.resourceActionsByParticipantIds = new Map<Id, List<Resource_Action__c>>{
+                participantId => new List<Resource_Action__c>{
+                        (Resource_Action__c) TestDataFactory.getSObject(Resource_Action__c.getSObjectType())
+                }
+        };
+        Test.startTest();
+        ResourceService.ResourceWrapperContainer container = new ResourceService().getFavoriteResources(ResourceService.RESOURCE_TYPE_VIDEO);
+        Test.stopTest();
+        System.assertEquals(Label.Resources_No_Favorite_Videos, container.errorMessage);
+    }
+
+    @IsTest
     public static void getResources_Integration_ReferredPatient_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
