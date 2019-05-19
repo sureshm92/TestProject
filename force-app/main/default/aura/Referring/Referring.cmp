@@ -209,7 +209,7 @@
                                     <div class="slds-grid slds-wrap slds-p-around--medium">
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ">
                                             <div class="ssi-site-name">
-                                                {!index+1 +'. '+ ss.site.Name}asdfasdf
+                                                {!index+1 +'. '+ ss.site.Name}
                                             </div>
                                             <div class="ssi-pi-name">
                                                     {!ss.site.Principal_Investigator__r.Salutation + ' ' + ss.site.Principal_Investigator__r.Name}

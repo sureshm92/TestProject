@@ -1633,6 +1633,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Integration_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Investigator_Key__c</field>
         <readable>true</readable>
@@ -1665,11 +1670,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.OneKey_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Override_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
