@@ -13,7 +13,7 @@
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
-    <c:Popup aura:id="searchModal" title="Select Your Referral Networks" size="medium" showClose="false"
+    <c:Popup aura:id="searchModal" title="{!$Label.c.PG_SRN_L_Select_Your_Referral_Networks}" size="medium" showClose="false"
              primaryButtonLabel="Save" variant="slds-float--right" showFooter="false">
 
         <div>

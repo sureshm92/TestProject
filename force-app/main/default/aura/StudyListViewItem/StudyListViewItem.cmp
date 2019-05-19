@@ -154,7 +154,7 @@
                                 <div style="float: left;">
                                     <c:RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/>
                                 </div>
-                                <div>Nearest site:
+                                <div>{!$Label.c.PG_MS_L_Nearest_site}
                                     <aura:unescapedHtml value="{!v.currentStudy.distance}"/>
                                 </div>
                             </aura:if>

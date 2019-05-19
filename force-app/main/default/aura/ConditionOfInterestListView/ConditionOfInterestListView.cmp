@@ -46,7 +46,7 @@
                 </aura:iteration>
                 <aura:set attribute="else">
                     <div class="slds-pill slds-container--fluid">
-                        <div class="slds-pill__label slds-p-left--medium slds-color__text_gray-5">No conditions selected</div>
+                        <div class="slds-pill__label slds-p-left--medium slds-color__text_gray-5">{!$Label.c.PG_COI_L_No_conditions_selected}</div>
                     </div>
                 </aura:set>
             </aura:if>
@@ -54,7 +54,7 @@
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                 <button class="apollo-btn primary slds-float--right slds-m-top--medium slds-p-bottom--medium" id="0"
                         onclick="{!c.doSelect}">
-                    Select Conditions
+                    {!$Label.c.PG_COI_L_Select_Conditions}
                 </button>
             </div>
         </div>
