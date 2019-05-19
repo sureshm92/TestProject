@@ -217,7 +217,7 @@
                                         </div>
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                             <div class="ssi-site-type">
-                                                    {!if(!empty(ss.siteType),ss.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
+                                                    {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                             </div>
                                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
@@ -260,7 +260,7 @@
                                         </div>
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                             <div class="ssi-site-type">
-                                                    {!if(!empty(ss.siteType),ss.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
+                                                    {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                             </div>
                                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                 <div class="ssi-site-distance">
@@ -286,7 +286,7 @@
 
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
                                             <button class="apollo-btn secondary" style="margin-top: 10px" disabled="true">
-                                                {!ss.hcpe.Status__c}
+                                                {!ss.siteStatusLabel}
                                             </button>
                                         </div>
                                     </div>
@@ -491,7 +491,7 @@
                                             </div>
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                                                 <div class="ssi-site-type">
-                                                    {!if(!empty(ss.siteType),ss.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
+                                                    {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                             </div>
                                                 <aura:if isTrue="{!!empty(ss.formatedDistance)}">
                                                     <div class="ssi-site-distance">
@@ -517,7 +517,7 @@
 
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
                                                 <button class="apollo-btn secondary ssi-btn" style="margin-top: 10px" disabled="true">
-                                                {!ss.hcpe.Status__c}
+                                                {!ss.siteStatusLabel}
                                             </button>
                                             </div>
                                         </div>
