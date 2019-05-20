@@ -1,14 +1,13 @@
 /**
  * Created by Yehor Dobrovolskyi
  */({
-    subscribe: function (component, event) {
-
+    subscribe: function (component, event, helper) {
         const empApi = component.find('empApi');
         const channel = component.get('v.channel');
         const replayId = -1;
         empApi.subscribe(channel, replayId, $A.getCallback(eventReceived => {
             // Process event (this is called each time we receive an event)
-            this.remind(component, event);
+            helper.remind(component, event);
             console.log('Received event ', JSON.stringify(eventReceived));
         }))
             .then(subscription => {
