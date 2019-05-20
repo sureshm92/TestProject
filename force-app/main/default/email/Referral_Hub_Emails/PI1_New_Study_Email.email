@@ -3,7 +3,7 @@
                          relatedToType="Study_Site__c"
                          language="{!relatedTo.Principal_Investigator__r.Language__c}">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailTemplate userType="PI"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Review_and_accept_a_new_study}"
@@ -11,11 +11,12 @@
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_PI1}"
                          signature="{!$Label.Email_Signature_RH}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+                              buttonURL="/s/"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText userType="PI"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Review_and_accept_a_new_study}"
@@ -23,7 +24,8 @@
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_PI1}"
                              signature="{!$Label.Email_Signature_RH}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+                                  buttonURL="/s/"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

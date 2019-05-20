@@ -13,7 +13,13 @@
 
         component.set('v.changedLevels', []);
         component.set('v.changedLevelsAll', []);
-        component.set('v.currentTab', 'by-study');
+        if (userMode !== 'HCP'){
+            component.set('v.currentTab', 'by-study');
+        }
+        else{
+            component.set('v.currentTab', 'all-same');
+        }
+
 
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
