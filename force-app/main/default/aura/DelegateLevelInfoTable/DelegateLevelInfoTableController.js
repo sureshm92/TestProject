@@ -55,6 +55,10 @@
                 component.set("v.header",header);
                 capList = [
                     {
+                        text : $A.get("$Label.c.DLIT_L_Select_new_study_to_refer_to"),
+                        levels : [true,false]
+                    },
+                    {
                         text : $A.get("$Label.c.DLIT_L_Manage_team_member"),
                         levels : [true,false]
                     },
