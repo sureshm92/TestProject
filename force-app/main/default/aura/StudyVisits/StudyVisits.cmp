@@ -9,9 +9,10 @@
     <!--attributes-->
     <aura:attribute name="visits" type="List"/>
     <aura:attribute name="currentVisits" type="List"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
 
-    <div class="sv-body">
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
+    <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
             {!$Label.c.Home_Page_StudyVisit_Title}
             <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>

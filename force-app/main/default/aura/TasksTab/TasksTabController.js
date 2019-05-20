@@ -5,6 +5,7 @@
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getParticipantTasks', null, function (participantTasks) {
             helper.updateTasks(component, participantTasks);
+            component.set('v.emptyTaskLabel', participantTasks.emptyText);
             component.set('v.initialized', true);
         }, null, function () {
             component.find('spinner').hide();
