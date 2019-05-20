@@ -9,7 +9,7 @@
                          parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Patient2}"
                          title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient15}"
                          signature="{!$Label.Email_Signature_New}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
@@ -23,7 +23,7 @@
                              parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Patient2}"
                              title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient15}"
                              signature="{!$Label.Email_Signature_New}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
