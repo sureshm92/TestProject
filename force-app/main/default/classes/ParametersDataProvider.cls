@@ -283,7 +283,11 @@ public without sharing class ParametersDataProvider {
     
     private void initParamsFromContact(Id contactId){
         Contact cnt = [
-                SELECT Id, Name, Salutation,
+                SELECT Id,
+                        Name,
+                        FirstName,
+                        LastName,
+                        Salutation,
                         Language__c,
                         userCommunityMode__c,
                         UserCommunityIsDelegate__c
