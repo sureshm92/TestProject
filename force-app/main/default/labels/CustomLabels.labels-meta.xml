@@ -1167,6 +1167,13 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <value>Select a study site to refer to</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Select_new_study_to_refer_to</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Select new study to refer to</shortDescription>
+        <value>Select new study to refer to</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Update_status_of_an_accepted_patient</fullName>
         <language>en_US</language>
         <protected>false</protected>

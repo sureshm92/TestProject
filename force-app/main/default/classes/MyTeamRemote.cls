@@ -127,6 +127,7 @@ public without sharing class MyTeamRemote {
                             dw.trialLevels.add(trialLevel);
                         }
                         dw.trialLevels.sort();
+
                         delegates.add(dw);
                     }
                 }
@@ -177,6 +178,7 @@ public without sharing class MyTeamRemote {
                             dw.trialLevels.add(trialLevel);
                         }
                         dw.trialLevels.sort();
+                        dw.trialLevel = dw.trialLevels[0];
                         delegates.add(dw);
                     }
                 }
@@ -280,6 +282,9 @@ public without sharing class MyTeamRemote {
                         delete delegateRecordsToDelete;
                     }
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
+                    for(TrialDelegateLevelWrapper level : dw.trialLevels){
+                        level.delegateLevel = dw.trialLevel.delegateLevel;
+                    }
                     Map<Id, Referring_HCP_Staff__c> delegateHCPStaffMap =
                             DelegateService.getHCPTeamStaffTrialMap().get(dw.delegateContact.Id);
                     List<Referring_HCP_Staff__c> delegateRecordsToInsert = new List<Referring_HCP_Staff__c>();
@@ -429,6 +434,7 @@ public without sharing class MyTeamRemote {
     public class DelegateWrapper implements Comparable {
         public Contact delegateContact;
         public List<TrialDelegateLevelWrapper> trialLevels;
+        public TrialDelegateLevelWrapper trialLevel;
         public DelegateWrapper() {
             trialLevels = new List<TrialDelegateLevelWrapper>();
         }
