@@ -131,6 +131,7 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Language_Preference_Code__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
+                        Participant_Contact__r.FirstName,
                         Study_Site__r.Name,
                         Study_Site__r.Principal_Investigator__r.Name,
                         Study_Site__r.Principal_Investigator__r.FirstName,
@@ -151,6 +152,7 @@ public without sharing class ParametersDataProvider {
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
                 'PILanguage' => pe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pe.Participant__r),
+                'ParticipantContactFirstName' => pe.Participant_Contact__r.FirstName,
                 'ParticipantLanguage' => getParticipantLanguage(pe.Participant__r),
                 'IsVirtual' => pe.Is_Virtual_Study_Site__c + ''
         };
@@ -277,11 +279,18 @@ public without sharing class ParametersDataProvider {
                 'TaskName' => task.Subject,
                 'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
+        if(isDelegate) {
+            parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c + '\'s');
+        }
     }
     
     private void initParamsFromContact(Id contactId){
         Contact cnt = [
-                SELECT Id, Name, Salutation,
+                SELECT Id,
+                        Name,
+                        FirstName,
+                        LastName,
+                        Salutation,
                         Language__c,
                         userCommunityMode__c,
                         UserCommunityIsDelegate__c
@@ -326,7 +335,12 @@ public without sharing class ParametersDataProvider {
         else{
             userNameParam = userMode + 'Name';
         }
-        return parameters.get(userNameParam);
+        String name = parameters.get(userNameParam);
+        if(name == null) {
+            name = parameters.get('ParticipantContactFirstName');
+        }
+
+        return name;
     }
     
     public String getCommunityUserName(String contactId) {

@@ -73,12 +73,17 @@ public without sharing class ParticipantTriggerHandler {
     private static void updatePEAndContactLastName(List<Participant__c> newList){
         List<Contact> contacts = new List<Contact>();
         for(Participant__c participant : newList){
-            contacts.add(new Contact(
-                    Id = participant.Contact__c,
-                    LastName = participant.Name
-            ));
+            if(participant.Contact__c != null){
+                contacts.add(new Contact(
+                        Id = participant.Contact__c,
+                        LastName = participant.Name
+                ));
+            }
+
         }
-        update contacts;
+        if(!contacts.isEmpty()){
+            update contacts;
+        }
         update [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c IN: newList];
     }
 

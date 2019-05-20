@@ -9,6 +9,8 @@
     <aura:attribute name="languages" type="LabelValueItem[]"/>
     <aura:attribute name="localeKey" type="String"/>
     <aura:attribute name="locales" type="LabelValueItem[]"/>
+    <aura:attribute name="timezoneKey" type="String" />
+    <aura:attribute name="timezones" type="LabelValueItem[]" />
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -19,6 +21,10 @@
     <div style="padding-top: 10px">
         <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative">
             <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_Select_Preferred_Timezone}</div>
+                <c:rrSelect options="{!v.timezones}" value="{!v.timezoneKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_Select_Locale}</div>
                 <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>

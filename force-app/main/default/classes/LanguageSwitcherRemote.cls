@@ -9,6 +9,8 @@ public without sharing class LanguageSwitcherRemote {
         List<LabelValueItem> languages = new List<LabelValueItem>();
         String localeKey;
         List<LabelValueItem> locales = new List<LabelValueItem>();
+        String timezoneKey;
+        List<LabelValueItem> timezones = new List<LabelValueItem>();
     }
     
     @AuraEnabled
@@ -23,8 +25,13 @@ public without sharing class LanguageSwitcherRemote {
             for(PicklistEntry ple : listPLE){
                 initData.locales.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
+            listPLE = User.Timezonesidkey.getDescribe().getPicklistValues();
+            for(PicklistEntry ple : listPLE){
+                initData.timezones.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
+            }
             initData.languageKey = UserInfo.getLanguage();
             initData.localeKey = UserInfo.getLocale();
+            initData.timezoneKey = String.ValueOf(UserInfo.getTimeZone());
             return JSON.serialize(initData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -32,12 +39,13 @@ public without sharing class LanguageSwitcherRemote {
     }
     
     @AuraEnabled
-    public static void changeLanguage(String languageKey, String localeKey){
+    public static void changeLanguage(String languageKey, String localeKey, String timezoneKey){
         try{
             update new User(
                     Id = UserInfo.getUserId(),
                     LanguageLocaleKey = languageKey,
-                    LocaleSidKey = localeKey
+                    LocaleSidKey = localeKey,
+                	Timezonesidkey = timezoneKey
             );
             
         }catch (Exception e){

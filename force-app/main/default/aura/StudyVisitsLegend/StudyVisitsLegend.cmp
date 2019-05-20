@@ -9,7 +9,6 @@
     <aura:attribute name="legends" type="List"/>
 
     <div class="rr-white-panel">
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
         <div class="inner-panel slds-scrollable_y" style="height:260px;">
             <table class="svl-table">

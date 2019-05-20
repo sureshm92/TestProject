@@ -124,7 +124,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Override_Email__c</field>
+                <field>Integration_Email__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

@@ -354,6 +354,8 @@ public without sharing class StudySiteService {
         public Double distance;
         public String formatedDistance;
         public String siteType;
+        public String siteTypeLabel;
+        public String siteStatusLabel;
         public HCP_Enrollment__c hcpe;
         public Map<String, StudyActions.Action> actions;
         public String sortType;
@@ -366,6 +368,11 @@ public without sharing class StudySiteService {
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
             this.site = site;
             this.siteType = site.Study_Site_Type__c;
+            this.siteTypeLabel = TranslateHelper.getPickListLabel(Study_Site__c.Study_Site_Type__c,site.Study_Site_Type__c);
+            if(hcpe!=null){
+                this.siteStatusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c,hcpe.Status__c);
+            }
+
             if(SS_TYPE_SHOW_DISTANCE.contains(this.siteType)){
 
                 this.distance = DistanceHelper.calculateDistanceTo(site.Principal_Investigator__r.Account);
