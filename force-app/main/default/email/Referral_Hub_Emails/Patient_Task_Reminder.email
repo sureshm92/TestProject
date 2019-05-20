@@ -8,7 +8,7 @@
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                          title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
                          signature="{!$Label.Email_Signature_PPST}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
@@ -20,7 +20,7 @@
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Task_Reminder_Type_Not_Selected}"
                              title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
                              signature="{!$Label.Email_Signature_PPST}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>

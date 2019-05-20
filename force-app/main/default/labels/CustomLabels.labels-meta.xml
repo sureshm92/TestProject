@@ -1792,7 +1792,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is a quick email to remind you of your ##TaskName due on ##CompleteByDate.
+        <value>This is a quick email to remind you of your ##TaskName.
 
 Please login to update the status of your task.</value>
     </labels>
@@ -1801,7 +1801,7 @@ Please login to update the status of your task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.
+        <value>This is a quick email to remind you of ##ParticipantFirstName ##TaskName.
 
 Please login to update the status of this task.</value>
     </labels>

@@ -42,4 +42,17 @@ public with sharing class Batch_PatientTaskReminder implements Database.Batchabl
     public static void run(Integer intervalInMinutes) {
         Database.executeBatch(new Batch_PatientTaskReminder(intervalInMinutes), SCOPE_SIZE);
     }
+
+    public static void stop() {
+        List<CronTrigger> cronTriggers = [
+                SELECT Id
+                FROM CronTrigger
+                WHERE CronJobDetail.Name = 'PatientTaskReminder'
+        ];
+        if(!cronTriggers.isEmpty()) {
+            for(CronTrigger cronT : cronTriggers) {
+                System.abortJob(cronT.Id);
+            }
+        }
+    }
 }

@@ -279,6 +279,9 @@ public without sharing class ParametersDataProvider {
                 'TaskName' => task.Subject,
                 'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
+        if(isDelegate) {
+            parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c + '\'s');
+        }
     }
     
     private void initParamsFromContact(Id contactId){
