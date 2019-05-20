@@ -38,19 +38,25 @@ public without sharing class TaskEditRemote {
     public static void upsertTask(Task paramTask) {
         try {
             paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
-
+            if(ParticipantService.getInstance().getState().isDelegate) {
+                paramTask.Originator__c = 'Delegate';
+            } else {
+                paramTask.Originator__c = 'Participant';
+            }
             if (paramTask.Visible_For__c == null) {
                 paramTask.Visible_For__c = 'Owner;Delegates';
             }
-            if (paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit') {
-                paramTask.WhatId = ParticipantService.getInstance().getState().ctp.Id;
+            if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
+                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
+            } else {
+                paramTask.Task_Type__c = 'Not Selected';
             }
             if (paramTask.Id != null) {
                 changeReminderDate(paramTask);
             }
-            System.debug(paramTask);
             upsert paramTask;
         } catch (Exception e) {
+            System.debug(e);
             AuraHelper.throwException(e);
         }
     }
@@ -63,6 +69,11 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
         return 'Success';
+    }
+
+    @AuraEnabled
+    public static void ignoreTask(Id taskId) {
+        TasksRemote.ignoreTask(taskId);
     }
 
     @AuraEnabled
@@ -152,9 +163,6 @@ public without sharing class TaskEditRemote {
         ];
         if (paramTask.Reminder_Date__c != null && oldTask.Reminder_Date__c != paramTask.Reminder_Date__c) {
             Datetime tmpDate = paramTask.Reminder_Date__c;
-            if (tmpDate.hourGMT() == 0) {
-                tmpDate.addHours(12);
-            }
             paramTask.Reminder_Date__c = null;
             upsert paramTask;
             paramTask.Reminder_Date__c = tmpDate;
