@@ -141,8 +141,8 @@ public without sharing class PSETriggerHandler {
         ];
         List<Task> tasks = new List<Task>();
         for(Participant_Study_Enrollment__c pse : pseList) {
-            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes') {
-                Id ownerId = idsToUsers.get(pse.Participant_Contact__c);
+            Id ownerId = idsToUsers.get(pse.Participant_Contact__c);
+            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes' && ownerId != null) {
                 tasks.add(TaskService.getInstance()
                         .createCompleteSurveyTask(ownerId, pse.Participant_Contact__c, pse.Clinical_Trial_Profile__c));
             }
