@@ -121,8 +121,10 @@
                                 <div class="permissions-panel">
                                     <div class="panel-heading">{!$Label.c.PG_NTM_L_Permissions}</div>
                                     <c:rrButtonTubSet>
+                                        <aura:if isTrue="{!v.userMode != 'HCP'}">
                                         <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study}" tabId="by-study"
                                                               currentTab="{!v.currentTab}" variant="underlined"/>
+                                        </aura:if>
                                         <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_Same_For_All_Studies}" tabId="all-same"
                                                               currentTab="{!v.currentTab}" variant="underlined"/>
                                     </c:rrButtonTubSet>

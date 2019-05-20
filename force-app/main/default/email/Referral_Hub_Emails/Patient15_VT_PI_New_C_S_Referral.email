@@ -9,7 +9,7 @@
                          parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Patient3}"
                          title="{!$Label.Email_Title_VT}"
-                         greeting="{!$Label.Email_User_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient17}"
                          signature="{!$Label.Email_Signature_VT}"/>
     </messaging:htmlEmailBody>
@@ -20,7 +20,7 @@
                              parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Patient3}"
                              title="{!$Label.Email_Title_VT}"
-                             greeting="{!$Label.Email_User_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient17}"
                              signature="{!$Label.Email_Signature_VT}"/>
     </messaging:plainTextEmailBody>
