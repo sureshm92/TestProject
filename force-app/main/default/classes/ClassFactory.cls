@@ -25,6 +25,10 @@ public with sharing class ClassFactory {
 		stubTypesByClassNames.put(classType.getName(), instanceOfStub);
 	}
 
+	public ClassForTestingClassFactory getClassForTestingClassFactory() {
+		return new ClassForTestingClassFactory();
+	}
+
 	private static Object getPrimitive(Type typeOfPrimitive) {
 
 		if (typeOfPrimitive.getName() == 'Boolean') return false;
@@ -60,7 +64,7 @@ public with sharing class ClassFactory {
 	public class ClassForTestingClassFactory {
 		public String testingString;
 		public ClassForTestingClassFactory () {
-			this.testingString = 'Class created';
+			this.testingString = 'Class Created';
 		}
 	}
 }
