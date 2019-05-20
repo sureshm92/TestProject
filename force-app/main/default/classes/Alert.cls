@@ -74,9 +74,7 @@ public class Alert {
         if(!participants.isEmpty()) {
             userName = participants.get(0).First_Name__c;
         }
-        else {
-            userName = PatientDelegateService.getInstance().getDelegateContact(contactId).FirstName;
-        }
+
         List<Alert> resultList = new List<Alert>();
         for(Alert__c dbAlert : dbAlerts) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();

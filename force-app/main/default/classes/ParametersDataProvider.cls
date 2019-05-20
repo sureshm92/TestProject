@@ -62,7 +62,7 @@ public without sharing class ParametersDataProvider {
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
             if(participant != null){
-                parameters.put('ParticipantName', participant.Full_Name__c);
+                parameters.put('ParticipantFirstName', participant.First_Name__c);
             }
         }
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
@@ -147,6 +147,8 @@ public without sharing class ParametersDataProvider {
                 FROM Participant_Enrollment__c
                 WHERE Id =: sourceId OR Participant__r.Contact__c =: sourceId LIMIT 1
         ];
+
+        if(pe.Is_Virtual_Study_Site__c) recipientFirstName = pe.Participant__r.First_Name__c;
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
@@ -279,6 +281,7 @@ public without sharing class ParametersDataProvider {
                 'TaskName' => task.Subject,
                 'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
+
     }
     
     private void initParamsFromContact(Id contactId){

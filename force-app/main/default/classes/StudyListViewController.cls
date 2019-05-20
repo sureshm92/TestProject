@@ -54,14 +54,18 @@ public without sharing class StudyListViewController {
             }
             return JSON.serialize(initData);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
     public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume) {
-        String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume);
-        return studiesJSON;
+        try {
+            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume);
+            return studiesJSON;
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
     }
 
     @AuraEnabled
@@ -86,7 +90,7 @@ public without sharing class StudyListViewController {
 
             return JSON.serialize(initData);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 
