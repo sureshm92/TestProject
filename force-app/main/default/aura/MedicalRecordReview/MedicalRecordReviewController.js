@@ -3,6 +3,7 @@
  */
 ({
     doInit: function (component) {
+
         debugger;
         if(!communityService.isInitialized()) return;
         if(communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
@@ -24,6 +25,7 @@
                 };
                 component.set('v.searchData', searchData);
                 component.set("v.hcpEnrollment", initData.hcpEnrollment);
+                component.set("v.accessUserLevel", initData.delegateAccessLevel);
                 component.set("v.trial", initData.trial);
                 component.set("v.actions", initData.actions);
                 spinner.hide();

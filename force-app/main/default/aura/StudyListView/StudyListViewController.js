@@ -19,7 +19,6 @@
                 component.set("v.sortData", initData.sortData);
                 helper.prepareIcons(initData.currentPageList);
                 component.set("v.currentPageList", initData.currentPageList);
-
                 component.set("v.showSpinner", false);
                 component.set('v.isInitialized', true);
                 setTimeout($A.getCallback(function () {
