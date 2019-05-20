@@ -21,7 +21,7 @@ controller="ResourceReminderRemote">
     <aura:if isTrue="{!!empty(v.reminders)}">
         <lightning:card>
         <aura:iteration var="rem" items="{!v.reminders}">
-            <div class="reminder-text">
+            <div class="{!'reminder-text ' + rem.cssColor}">
             {!rem.reminderLabel}
             </div>
         </aura:iteration>

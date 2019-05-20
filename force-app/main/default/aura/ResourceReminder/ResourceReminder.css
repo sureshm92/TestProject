@@ -5,10 +5,16 @@
 }
 
 .THIS .reminder-text {
-    color: #d00d08;
     font-family: "Proxima Nova";
     font-size: 25px;
     margin: 10px;
     font-weight: bold;
     text-align: center;
+}
+.THIS .red-text {
+    color: darkred;
+}
+
+.THIS .orange-text {
+    color: darkorange;
 }
