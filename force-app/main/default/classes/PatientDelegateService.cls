@@ -11,7 +11,7 @@ public without sharing class PatientDelegateService {
     public static final String STUDY_WELCOME_CODE = 'Welcome_to_the_Study_Patient_Delegates';
 
     private List<Contact> delegates = new List<Contact>();
-    private Boolean isDelegate;
+    private Boolean isDelegate = false;
     private Participant__c participant;
 
     private static PatientDelegateService instance;
