@@ -1799,7 +1799,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is a quick email to remind you of your ##TaskName due on ##CompleteByDate.
+        <value>This is a quick email to remind you of your ##TaskName.
 
 Please login to update the status of your task.</value>
     </labels>
@@ -1808,7 +1808,7 @@ Please login to update the status of your task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantName ##TaskName due on ##CompleteByDate.
+        <value>This is a quick email to remind you of ##ParticipantFirstName ##TaskName.
 
 Please login to update the status of this task.</value>
     </labels>
@@ -4063,6 +4063,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Select preferred language</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Select_Preferred_Timezone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Select_Preferred_Timezone</shortDescription>
+        <value>Select preferred timezone</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6277,7 +6284,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient's representative if patient is a juvenile, agrees to share the patient's contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
