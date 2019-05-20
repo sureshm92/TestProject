@@ -113,7 +113,7 @@
         if (freq == $A.get('$Label.c.Complete_By_Date')) {
             component.set('v.reminderDateEnabled', true);
         } else if (freq == $A.get('$Label.c.One_day_before')) {
-            $A.enqueueAction(component.get('c.changeRemiderDate'));
+            $A.enqueueAction(component.get('c.changeReminderDate'));
             component.set('v.reminderDateEnabled', false);
         }
     },
@@ -147,7 +147,7 @@
             component.get('v.reminderDateEnabled')
             if (dueDate) {
                 if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.One_day_before')){
-                    $A.enqueueAction(component.get('c.changeRemiderDate'));
+                    $A.enqueueAction(component.get('c.changeReminderDate'));
                 }
                 component.set('v.frequencyEnabled', true);
             } else {
@@ -161,7 +161,7 @@
         if(dueDate) component.set('v.frequencyEnabled', true);
     },
 
-    changeRemiderDate: function (component, event, helper) {
+    changeReminderDate: function (component, event, helper) {
         var dueDate = component.get('v.task.ActivityDate');
         var d = new Date(dueDate);
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
