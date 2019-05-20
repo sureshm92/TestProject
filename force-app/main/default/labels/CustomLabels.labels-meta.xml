@@ -2224,6 +2224,17 @@ Sincerely,
 The IQVIA Referral Hub and Patient Portal Support Team</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_RH</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature RH</shortDescription>
+        <value>Thank you for your interest in participating in the IQVIA Referral Hub.
+
+            Sincerely,
+
+            The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Survey</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3729,6 +3740,13 @@ If you are prompted with a window indicating that the file format and extension 
         <value>contact IQVIA</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_Patient_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Patient Status</shortDescription>
+        <value>Patient Status</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3803,10 +3821,7 @@ If you are prompted with a window indicating that the file format and extension 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG ASSR L No Orientation Required</shortDescription>
-        <value>Activation of your referral functionality will need to be completed by the selected study site.
-You will receive notification upon activation.
-During this period, you may refer potential participants, who will be processed upon the site’s activation.
-This should take no more than 5 business days.</value>
+        <value>You may now start the referral process for potential participants by conducting pre-eligibility screenings, and then complete the referral via the My Patients page after you are activated. Activations should take no more than 5 business days.</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_Orientation_Required</fullName>
@@ -4090,6 +4105,13 @@ The site you have selected will contact you directly to discuss next steps.</val
         <value>Privacy Rights</value>
     </labels>
     <labels>
+        <fullName>PG_AS_L_Conditions_of_Interest</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Conditions of Interest</shortDescription>
+        <value>Conditions of Interest</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_L_Opt_In_HCP_Patient_Status_Emails</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4116,6 +4138,14 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
         <value>updates about your referral status</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_L_Select_Conditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Select conditions</shortDescription>
+        <value>Select up to 5 medical conditions that you would be interested in for participating
+            in a clinical trial.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
@@ -4186,6 +4216,20 @@ The site you have selected will contact you directly to discuss next steps.</val
         <protected>true</protected>
         <shortDescription>PG BLS Header</shortDescription>
         <value>TransCelerate Study Baseline Survey</value>
+    </labels>
+    <labels>
+        <fullName>PG_COI_L_No_conditions_selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG CP L No conditions selected</shortDescription>
+        <value>No conditions selected</value>
+    </labels>
+    <labels>
+        <fullName>PG_COI_L_Select_Conditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG CP L Select Conditions</shortDescription>
+        <value>Select Conditions</value>
     </labels>
     <labels>
         <fullName>PG_CP_L_Address</fullName>
@@ -5625,6 +5669,13 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Global Search for Study</value>
     </labels>
     <labels>
+        <fullName>PG_MS_L_Nearest_site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L Nearest site:</shortDescription>
+        <value>Nearest site:</value>
+    </labels>
+    <labels>
         <fullName>PG_MS_L_Search_for_More_Studies</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5632,11 +5683,32 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Search for More Studies</value>
     </labels>
     <labels>
+        <fullName>PG_MS_L_Search_for_Studies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L Search for Studies</shortDescription>
+        <value>Search for Studies</value>
+    </labels>
+    <labels>
         <fullName>PG_MS_L_Search_for_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MS L Search for Study</shortDescription>
         <value>Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_MS_L_Studies_low</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L studies</shortDescription>
+        <value>studies</value>
+    </labels>
+    <labels>
+        <fullName>PG_MS_L_Studies_up</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L studies</shortDescription>
+        <value>Studies</value>
     </labels>
     <labels>
         <fullName>PG_MTI_BTN_Save_Changes</fullName>
@@ -6439,6 +6511,27 @@ is a placehilder to show you what it would look like.</value>
         <value>records</value>
     </labels>
     <labels>
+        <fullName>PG_SCOI_L_Search_for_Condition</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SCOI L Search for Condition</shortDescription>
+        <value>Search for Condition</value>
+    </labels>
+    <labels>
+        <fullName>PG_SCOI_L_Select_Your_Conditions_of_Interest</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SCOI L Select Your Conditions of Interest</shortDescription>
+        <value>Select Your Conditions of Interest</value>
+    </labels>
+    <labels>
+        <fullName>PG_SCOI_L_You_may_only_select</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SCOI L You may only select</shortDescription>
+        <value>You may only select to 5 conditions at any time.</value>
+    </labels>
+    <labels>
         <fullName>PG_SDAS_L1_TC_Required</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6720,6 +6813,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>PG SPE T Other</shortDescription>
         <value>To complete a review for another patient, please clear the form and provide another patient&#39;s identifier</value>
+    </labels>
+    <labels>
+        <fullName>PG_SRN_L_Select_Your_Referral_Networks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG SRN L Select Your Referral Networks</shortDescription>
+        <value>Select Your Referral Networks</value>
     </labels>
     <labels>
         <fullName>PG_SRP_L_Referring_Providers</fullName>

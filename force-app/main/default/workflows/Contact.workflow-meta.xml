@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldUpdates>
+        <fullName>Populate_Email_from_Integration_Email</fullName>
+        <field>Email</field>
+        <formula>Integration_Email__c</formula>
+        <name>Populate Email from Integration Email</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Populate_Override_Field_Address</fullName>
         <field>Override_Mailing_Address__c</field>
         <formula>MailingStreet &amp; BR() &amp; MailingCity &amp; &quot;, &quot; &amp; MailingState &amp; &quot;  &quot; &amp;MailingPostalCode</formula>
@@ -11,7 +20,7 @@
     </fieldUpdates>
     <fieldUpdates>
         <fullName>Populate_Override_Field_Email</fullName>
-        <field>Override_Email__c</field>
+        <field>Integration_Email__c</field>
         <formula>Email</formula>
         <name>Populate Override Field: Email</name>
         <notifyAssignee>false</notifyAssignee>
@@ -28,6 +37,16 @@
         <protected>false</protected>
     </fieldUpdates>
     <rules>
+        <fullName>Populate Email from Integration Email</fullName>
+        <actions>
+            <name>Populate_Email_from_Integration_Email</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <formula>LastName &lt;&gt; NULL &amp;&amp; ISBLANK( Email )</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
         <fullName>Populate Override Address Field%3A Contact</fullName>
         <actions>
             <name>Populate_Override_Field_Address</name>
@@ -43,8 +62,8 @@
             <name>Populate_Override_Field_Email</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
-        <formula>LastName &lt;&gt; NULL &amp;&amp; ISBLANK( Override_Email__c )</formula>
+        <active>false</active>
+        <formula>LastName &lt;&gt; NULL &amp;&amp; ISBLANK( Integration_Email__c )</formula>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>

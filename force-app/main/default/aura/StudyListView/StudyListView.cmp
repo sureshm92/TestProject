@@ -55,8 +55,8 @@
         </div>
         <div class="{!v.isSearchResume ? '' : 'slds-hide'}">
             <c:RRNavigationPath>
-                <c:RRNPathItem label="Studies" page=""/>
-                <c:RRNPathItem label="Search for Studies"/>
+                <c:RRNPathItem label="{!$Label.c.PG_MS_L_Studies_up}" page=""/>
+                <c:RRNPathItem label="{!$Label.c.PG_MS_L_Search_for_Studies}"/>
             </c:RRNavigationPath>
         </div>
         <aura:if isTrue="{!v.userMode != 'HCP'}">
@@ -76,7 +76,7 @@
                                sortVariants="{!v.sortData.sortVariants}"
                                allRecordsCount="{!v.paginationData.allRecordsCount}"
                                currentPageCount="{!v.paginationData.currentPageCount}"
-                               itemTitle="studies">
+                               itemTitle="{!$Label.c.PG_MS_L_Studies_low}">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder=""

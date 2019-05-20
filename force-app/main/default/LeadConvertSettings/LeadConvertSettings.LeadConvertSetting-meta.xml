@@ -53,7 +53,7 @@
         </mappingFields>
         <mappingFields>
             <inputField>Override_Email__c</inputField>
-            <outputField>Override_Email__c</outputField>
+            <outputField>Integration_Email__c</outputField>
         </mappingFields>
         <mappingFields>
             <inputField>Override_Phone__c</inputField>
