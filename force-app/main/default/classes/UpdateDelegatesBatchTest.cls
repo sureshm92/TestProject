@@ -23,11 +23,10 @@ public class UpdateDelegatesBatchTest {
     
     @isTest
     public static void testDelegatesUpdates(){
-        String query = 'SELECT id, userCommunytyType__c, (SELECT id, Delegate_Level__c FROM Referring_HCP_Staffs__r), LastName FROM Contact';
         TestData.loadTestData();
         methodName();
         Test.startTest();
-	 	UpdateDelegatesBatch bt = new UpdateDelegatesBatch(query);
+	 	UpdateDelegatesBatch bt = new UpdateDelegatesBatch();
 		Database.executeBatch(bt, 10);  
         Test.stopTest();
         Contact delegateRecord = [SELECT id FROM Contact WHERE LastName = 'TestDelegate'];
