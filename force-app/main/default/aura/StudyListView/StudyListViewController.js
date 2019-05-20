@@ -4,7 +4,6 @@
         component.set("v.showSpinner", true);
         let userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
-
         if (userMode === 'HCP') {
             window.addEventListener('resize', $A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
@@ -20,7 +19,6 @@
                 component.set("v.sortData", initData.sortData);
                 helper.prepareIcons(initData.currentPageList);
                 component.set("v.currentPageList", initData.currentPageList);
-
                 component.set("v.showSpinner", false);
                 component.set('v.isInitialized', true);
                 setTimeout($A.getCallback(function () {

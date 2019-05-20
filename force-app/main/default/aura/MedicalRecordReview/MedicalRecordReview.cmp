@@ -18,6 +18,7 @@
     <aura:attribute name="showSpinner" type="Boolean" default="true"/>
     <aura:attribute name="resultData" type="String"/>
     <aura:attribute name="actions" type="Object"/>
+    <aura:attribute name="accessUserLevel" type="String"/>
 
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -84,8 +85,8 @@
                         <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                         <button class="apollo-btn primary"
                                 onclick="{!c.doReferPatient}"
-                                disabled="{!v.actions.referToThisStudy.disabled}"
-                                title="{!v.actions.referToThisStudy.disableReason}">
+                                disabled="{!v.accessUserLevel=='Level 2'}"
+                                title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
                             {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
 
                         </button>

@@ -6,7 +6,7 @@
                 implements="forceCommunity:availableForAllPageTypes">
 
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js, $Resource.clamp_js)}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
 
@@ -100,7 +100,9 @@
                             <span class="header-white-panel">{!$Label.c.PG_MS_L_Dont_see_a_study}</span>
                         </div>
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-right slv-header-item">
-                            <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}">
+                            <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}"
+                                    disabled="{!v.currentPageList[0].sites[0].actions.refer.disabled}"
+                                    title="{!v.currentPageList[0].sites[0].actions.refer.disableReason}">
                                 {!$Label.c.PG_MS_L_Search_for_More_Studies}
                             </button>
                         </div>
