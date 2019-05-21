@@ -3,10 +3,6 @@
  */
 public with sharing class PlatformEventService {
 
-    public void remindEventFire() {
-        Database.SaveResult result = EventBus.publish(new Reminder_Event__e());
-    }
-
     public void remindEventFire(List<Therapeutic_Area_Assignment__c> therapeuticAreaAssignments) {
         List<Reminder_Event__e> reminderEvents = new List<Reminder_Event__e>();
         Set<Id> resIds = new Set<Id>();
