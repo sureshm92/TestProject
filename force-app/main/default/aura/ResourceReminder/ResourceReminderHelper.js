@@ -7,7 +7,9 @@
         const replayId = -1;
         empApi.subscribe(channel, replayId, $A.getCallback(eventReceived => {
             // Process event (this is called each time we receive an event)
-            helper.remind(component, event);
+            if (eventReceived.data.payload.ResourceId__c === component.get('v.recordId')) {
+                helper.remind(component, event);
+            }
             console.log('Received event ', JSON.stringify(eventReceived));
         }))
             .then(subscription => {
