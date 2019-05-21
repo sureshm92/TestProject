@@ -132,10 +132,9 @@
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
                             <div class="as-email-preference">
-                                <div class="as-title ">Conditions of Interest</div>
+                                <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
                                 <div class="as-sub-title">
-                                    Select up to 5 medical conditions that you would be interested in for participating
-                                    in a clinical trial.
+                                    {!$Label.c.PG_AS_L_Select_Conditions}
                                 </div>
                                 <div class="slds-grid slds-wrap slds-p-top--medium">
                                     <c:ConditionOfInterestListView/>

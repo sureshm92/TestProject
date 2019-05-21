@@ -11,7 +11,8 @@ public class BaselineSurveyRemote {
                 throw new SurveyService.SurveyException('Survey not available');
             }
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-            if(participantState.value != ParticipantService.ParticipantStates.PARTICIPANT) {
+            Id surveyId = participantState.ctp.Survey__c;
+            if(participantState.value != ParticipantService.ParticipantStates.PARTICIPANT || surveyId == null) {
                 throw new SurveyService.SurveyException('Survey not available');
             }
             List<Task> tasks = TaskService.getInstance().getTasksCommon('Task_Code__c =\'' +
@@ -20,7 +21,7 @@ public class BaselineSurveyRemote {
 
             InitData initData = new InitData();
             initData.ctp = participantState.ctp;
-            initData.surveyLink = SurveyService.getInstance().getSurveyLink(participantState.ctp.Survey__c);
+            initData.surveyLink = SurveyService.getInstance().getSurveyLink(surveyId);
             initData.surveyName = participantState.ctp.Survey__r.Name;
 
             return JSON.serialize(initData);

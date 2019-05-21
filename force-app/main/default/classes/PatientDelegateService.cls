@@ -7,8 +7,11 @@ public without sharing class PatientDelegateService {
     public class PatientDelegateServiceException extends Exception {
     }
 
+    public static final String PH_WELCOME_CODE = 'Welcome_To_The_PH_Delegate';
+    public static final String STUDY_WELCOME_CODE = 'Welcome_to_the_Study_Patient_Delegates';
+
     private List<Contact> delegates = new List<Contact>();
-    private Boolean isDelegate;
+    private Boolean isDelegate = false;
     private Participant__c participant;
 
     private static PatientDelegateService instance;
@@ -23,6 +26,8 @@ public without sharing class PatientDelegateService {
     }
 
     public PatientDelegateService() {
+        User user = [SELECT Id, Contact.userCommunityMode__c FROM User WHERE Id =: UserInfo.getUserId()];
+        if(user.Contact.userCommunityMode__c != CommunityService.USER_MODE_PARTICIPANT) return;
         List<Patient_Delegate__c> participantsPDList = DatabaseService.query(
                 new List<String>{
                         'Id',
@@ -167,20 +172,19 @@ public without sharing class PatientDelegateService {
     }
 
     public void createPDAlerts(Contact contactDelegate) {
-        String phWelcomeCode = 'Welcome_To_The_PH';
-        String studyWelcomeCode = 'Welcome_to_the_Study_Patient_Delegates';
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
 
         List<Alert__c> alertList = new List<Alert__c>();
         alertList.add(new Alert__c(
                 Contact__c = contactDelegate.Id,
-                Alert_Code__c = phWelcomeCode
+                Alert_Code__c = PH_WELCOME_CODE,
+                Record_ID__c = participantState.pe.Id
         ));
 
-        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
             alertList.add(new Alert__c(
                         Contact__c = contactDelegate.Id,
-                        Alert_Code__c = studyWelcomeCode,
+                        Alert_Code__c = STUDY_WELCOME_CODE,
                         Record_ID__c = participantState.pse.Id
                 ));
         }

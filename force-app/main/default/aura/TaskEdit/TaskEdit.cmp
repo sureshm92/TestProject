@@ -9,7 +9,6 @@
     <aura:attribute name="editMode" type="Boolean"/>
     <aura:attribute name="task" type="Task"/>
     <aura:attribute name="todayDate" type="Date"/>
-    <aura:attribute name="tomorrowDate" type="Date"/>
     <aura:attribute name="otherTask" type="Boolean" default="{!v.task.OwnerId != v.task.CreatedById}"/>
     <aura:attribute name="taskStatusCompleted" type="Boolean" default="false"/>
     <aura:attribute name="taskTypeList" type="String[]" default="Not Selected,Visit,Medication"/>
@@ -29,204 +28,204 @@
     <!-- top bar with buttons: -->
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
     <aura:if isTrue="{!v.initialized}">
-    <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
-                backPage="study-workspace"
-                smallTitle="TODO Study Name Here"
-                bigTitle="{!$Label.c.TTL_Create_Task}">
-        <aura:if isTrue="{!v.taskStatusCompleted}">
-            <!--Task Status Completed-->
-            <div class="buttons-area">
-                <div class="rr-width-limiter buttons-block">
-                    <div class="pe-button red" onclick="{!c.doCancel}">
-                        <div>
-                            <c:RRIcon iconName="icon-close-circle"/>
-                            {!$Label.c.BTN_Cancel}
-                        </div>{!$Label.c.About_the_Study}
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
+                    backPage="study-workspace"
+                    smallTitle="TODO Study Name Here"
+                    bigTitle="{!$Label.c.TTL_Create_Task}">
+            <aura:if isTrue="{!v.taskStatusCompleted}">
+                <!--Task Status Completed-->
+                <div class="buttons-area">
+                    <div class="rr-width-limiter buttons-block">
+                        <div class="pe-button red" onclick="{!c.doCancel}">
+                            <div>
+                                <c:RRIcon iconName="icon-close-circle"/>
+                                {!$Label.c.BTN_Cancel}
+                            </div>{!$Label.c.About_the_Study}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <aura:set attribute="else">
-                <!--Check if it is Other's Task (OwnerId != CreatedById)-->
-                <aura:if isTrue="{!v.otherTask}">
-                    <div class="buttons-area">
-                        <div class="rr-width-limiter buttons-block">
-                            <div class="pe-button red" onclick="{!c.doCancel}">
-                                <div>
-                                    <c:RRIcon iconName="icon-close-circle"/>
-                                    {!$Label.c.BTN_Cancel}
+                <aura:set attribute="else">
+                    <!--Check if it is Other's Task (OwnerId != CreatedById)-->
+                    <aura:if isTrue="{!v.otherTask}">
+                        <div class="buttons-area">
+                            <div class="rr-width-limiter buttons-block">
+                                <div class="pe-button red" onclick="{!c.doCancel}">
+                                    <div>
+                                        <c:RRIcon iconName="icon-close-circle"/>
+                                        {!$Label.c.BTN_Cancel}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
-                                <div>
-                                    <c:RRIcon iconName="icon-stop" color="orange"/>
-                                    {!$Label.c.BTN_Ignore}
+                                <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
+                                    <div>
+                                        <c:RRIcon iconName="icon-stop" color="orange"/>
+                                        {!$Label.c.BTN_Ignore}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
-                                <div>
-                                    <c:RRIcon iconName="icon-check-circle"/>
-                                    {!$Label.c.BTN_Mark_As_Completed}
+                                <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
+                                    <div>
+                                        <c:RRIcon iconName="icon-check-circle"/>
+                                        {!$Label.c.BTN_Mark_As_Completed}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--OwnerId == CreatedById-->
-                    <aura:set attribute="else">
-                        <!--Edit Task-->
-                        <aura:if isTrue="{!v.editMode}">
-                            <div class="buttons-area">
-                                <div class="rr-width-limiter buttons-block">
-                                    <!--div class="pe-button red" onclick="{!c.doDeleteTask}">
-                                        <div>
-                                            <c:RRIcon iconName="icon-trash"/>
-                                            {!$Label.c.BTN_Delete_Task}
-                                        </div>
-                                    </div-->
-                                    <div class="pe-button blue" onclick="{!c.doSave}">
-                                        <div>
-                                            <c:RRIcon iconName="icon-check-circle"/>
-                                            {!$Label.c.BTN_Save_Task}
-                                        </div>
-                                    </div>
-                                    <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
-                                        <div>
-                                            <c:RRIcon iconName="icon-stop" color="orange"/>
-                                            {!$Label.c.BTN_Ignore}
-                                        </div>
-                                    </div>
-                                    <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
-                                        <div>
-                                            <c:RRIcon iconName="icon-check-circle"/>
-                                            {!$Label.c.BTN_Mark_As_Completed}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--Create Task-->
-                            <aura:set attribute="else">
+                        <!--OwnerId == CreatedById-->
+                        <aura:set attribute="else">
+                            <!--Edit Task-->
+                            <aura:if isTrue="{!v.editMode}">
                                 <div class="buttons-area">
                                     <div class="rr-width-limiter buttons-block">
-                                        <div class="pe-button red" onclick="{!c.doCancel}">
+                                        <!--div class="pe-button red" onclick="{!c.doDeleteTask}">
                                             <div>
-                                                <c:RRIcon iconName="icon-close-circle"/>
-                                                {!$Label.c.BTN_Cancel}
+                                                <c:RRIcon iconName="icon-trash"/>
+                                                {!$Label.c.BTN_Delete_Task}
                                             </div>
-                                        </div>
+                                        </div-->
                                         <div class="pe-button blue" onclick="{!c.doSave}">
                                             <div>
                                                 <c:RRIcon iconName="icon-check-circle"/>
                                                 {!$Label.c.BTN_Save_Task}
                                             </div>
                                         </div>
+                                        <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
+                                            <div>
+                                                <c:RRIcon iconName="icon-stop" color="orange"/>
+                                                {!$Label.c.BTN_Ignore}
+                                            </div>
+                                        </div>
+                                        <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
+                                            <div>
+                                                <c:RRIcon iconName="icon-check-circle"/>
+                                                {!$Label.c.BTN_Mark_As_Completed}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </aura:set>
-                        </aura:if>
-                    </aura:set>
-                </aura:if>
-            </aura:set>
-        </aura:if>
-    </c:RRTopBar>
-    <div style="height: 60px"></div>
-    <div style="min-height: 400px;" class="te-task-panel">
-        <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
-            <div class="te-col-header">
+
+                                <!--Create Task-->
+                                <aura:set attribute="else">
+                                    <div class="buttons-area">
+                                        <div class="rr-width-limiter buttons-block">
+                                            <div class="pe-button red" onclick="{!c.doCancel}">
+                                                <div>
+                                                    <c:RRIcon iconName="icon-close-circle"/>
+                                                    {!$Label.c.BTN_Cancel}
+                                                </div>
+                                            </div>
+                                            <div class="pe-button blue" onclick="{!c.doSave}">
+                                                <div>
+                                                    <c:RRIcon iconName="icon-check-circle"/>
+                                                    {!$Label.c.BTN_Save_Task}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+        </c:RRTopBar>
+        <div style="height: 60px"></div>
+        <div style="min-height: 400px;" class="te-task-panel">
+            <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
+                <div class="te-col-header">
                 {!$Label.c.Task_Details}
             </div>
-            <!--Task Name-->
-            <div class="slds-grid te-form slds-gutters slds-wrap">
-                <div class="slds-col slds-size_1-of-1">
-                    <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}" required="true"
-                                 disabled="{!v.otherTask || v.taskStatusCompleted}"/>
-                </div>
-            </div>
-
-            <div class="slds-grid slds-gutters slds-wrap">
-                <!--Due Date-->
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
-                                     disabled="{!v.otherTask || v.taskStatusCompleted}" onchange="{!c.onChangeDueDate}"/>
-                </div>
-                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                    <!--Task Type here-->
-                    <aura:if isTrue="{!!v.isReferral &amp;&amp; !v.createdByAdmin}">
-                        <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type__c}">
-                            <aura:iteration items="{!v.taskTypeList}" var="type">
-                                <option text="{!type}"></option>
-                            </aura:iteration>
-                        </lightning:select>
-                    </aura:if>
-                </div>
-            </div>
-
-            <div class="te-col-header" style="margin-top: 15px;">
-                {!$Label.c.Task_Reminder_Details}
-            </div>
-            <aura:if isTrue="{!v.createdByAdmin}">
-                <div class="slds-grid slds-gutters slds-wrap">
-                    <div class="slds-col slds-size_1-of-2">
-                        <lightning:input type="date" label="{!$Label.c.Reminder_Date}"
-                                     value="{!if(empty(v.task.Reminder_Date__c),$Label.c.None, v.task.Reminder_Date__c)}" disabled="true"/>
+                <!--Task Name-->
+                <div class="slds-grid te-form slds-gutters slds-wrap">
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}" required="true"
+                                         disabled="{!v.otherTask || v.taskStatusCompleted}"/>
                     </div>
                 </div>
-            </aura:if>
-            <aura:if isTrue="{!!v.createdByAdmin}">
-                <div class="slds-grid te-form slds-gutters slds-wrap">
-                    <!--Set Reminder-->
+
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <!--Due Date-->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <aura:if isTrue="{!v.reminderEnabled}">
-                            <lightning:select aura:id="reminderOptionsId" name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" onchange="{!c.onChangeSetReminder}">
-                                <aura:iteration items="{!v.setReminderValueList}" var="rem">
-                                    <option text="{!rem}"></option>
+                        <lightning:input aura:id="dueDateInputId" type="date" min="{!v.todayDate}" label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
+                                         disabled="{!v.otherTask || v.taskStatusCompleted}" onchange="{!c.onChangeDueDate}"/>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <!--Task Type here-->
+                        <aura:if isTrue="{!!v.isReferral &amp;&amp; !v.createdByAdmin}">
+                            <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type__c}">
+                                <aura:iteration items="{!v.taskTypeList}" var="type">
+                                    <option text="{!type}"></option>
                                 </aura:iteration>
                             </lightning:select>
                         </aura:if>
-                        <aura:if isTrue="{!!v.reminderEnabled}">
-                            <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
-                                <option text="Disabled"></option>
-                            </lightning:select>
-                        </aura:if>
                     </div>
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <div class="icon-alert">
-                            <aura:if isTrue="{!v.errorMessage}">
-                                <div class="icon">
-                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
-                                </div>
-                                <div class="text">
-                                    <aura:unescapedHtml value="{!v.errorMessage}"/>
-                                    <div>
-                                        <a onclick="{!c.doInit}">Refresh</a>
-                                    </div>
-                                </div>
-                            </aura:if>
+                </div>
 
+                <div class="te-col-header" style="margin-top: 15px;">
+                {!$Label.c.Task_Reminder_Details}
+            </div>
+                <aura:if isTrue="{!v.createdByAdmin}">
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input type="date" label="{!$Label.c.Reminder_Date}"
+                                             value="{!if(empty(v.task.Reminder_Date__c),$Label.c.None, v.task.Reminder_Date__c)}" disabled="true"/>
                         </div>
                     </div>
-                </div>
+                </aura:if>
+                <aura:if isTrue="{!!v.createdByAdmin}">
+                    <div class="slds-grid te-form slds-gutters slds-wrap">
+                        <!--Set Reminder-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <aura:if isTrue="{!v.reminderEnabled}">
+                                <lightning:select aura:id="reminderOptionsId" name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" onchange="{!c.onChangeSetReminder}">
+                                    <aura:iteration items="{!v.setReminderValueList}" var="rem">
+                                        <option text="{!rem}"></option>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </aura:if>
+                            <aura:if isTrue="{!!v.reminderEnabled}">
+                                <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
+                                    <option text="Disabled"></option>
+                                </lightning:select>
+                            </aura:if>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <div class="icon-alert">
+                                <aura:if isTrue="{!v.errorMessage}">
+                                    <div class="icon">
+                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                    </div>
+                                    <div class="text">
+                                        <aura:unescapedHtml value="{!v.errorMessage}"/>
+                                        <div>
+                                            <a onclick="{!c.doInit}">Refresh</a>
+                                        </div>
+                                    </div>
+                                </aura:if>
 
-                <div class="slds-grid te-form slds-gutters slds-wrap">
-                    <!--Reminder Frequency-->
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
-                                          onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}" value="{!$Label.c.Complete_By_Date}">
-                            <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
-                                <option text="{!freq}"></option>
-                            </aura:iteration>
-                        </lightning:select>
+                            </div>
+                        </div>
                     </div>
-                    <!--Reminder Date-->
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
-                                         value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.todayDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
-                    </div>
-                </div>
-            </aura:if>
 
+                    <div class="slds-grid te-form slds-gutters slds-wrap">
+                        <!--Reminder Frequency-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning:select aura:id="reminderFreqId" name="reminderFrequencySelect" label="{!$Label.c.Reminder_Frequency}" required="true"
+                                              onchange="{!c.onChangeFreq}" disabled="{!!v.frequencyEnabled}" value="{!$Label.c.Complete_By_Date}">
+                                <aura:iteration items="{!v.reminderFrequencyList}" var="freq">
+                                    <option text="{!freq}"></option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <!--Reminder Date-->
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning:input type="date" aura:id="reminderDateId"  label="{!$Label.c.Reminder_Date}"
+                                             value="{!v.task.Reminder_Date__c}" disabled="{!!v.reminderDateEnabled}" min="{!v.todayDate}" max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                        </div>
+                    </div>
+                </aura:if>
+
+            </div>
         </div>
-    </div>
     </aura:if>
 
 

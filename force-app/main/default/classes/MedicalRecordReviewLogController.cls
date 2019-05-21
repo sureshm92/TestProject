@@ -48,11 +48,13 @@ public without sharing class MedicalRecordReviewLogController {
             };
             //set up additional Filters
             if(applyPendingFilter){
-                pDetail.peFilter.additionalFilter = ADDITIONAL_FILTER +
-                        ' AND Participant_Status__c =\'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\'';
+                pDetail.peFilter.additionalFilter = ADDITIONAL_FILTER + ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
+                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
+
             } else {
                 pDetail.peFilter.additionalFilter = ADDITIONAL_FILTER + ' AND (Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL + '\'' +
                         ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
+                        ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING + '\'' +
                         ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             }
             //set SummrayContainers and FilterInfo
