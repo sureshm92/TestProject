@@ -84,7 +84,7 @@ public abstract class StudyActions {
     public static final String ACT_HCP_ACTIVATE = 'hcpActivate';
     public static final String ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = 'hcpOrientationAttendedAndActivate';
     public static final String ACT_HCP_DEACTIVATE = 'hcpDeactivate';
-
+    public static final String ACT_HCP_LINK_STUDY_SITES = 'linkToStudySites';
 
     //action labels:
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;
@@ -118,6 +118,7 @@ public abstract class StudyActions {
     public static final String LABEL_HCP_APPROVE = Label.BTN_Approve;
     public static final String LABEL_HCP_ACTIVATE = Label.BTN_Activate;
     public static final String LABEL_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = Label.BTN_Orientation_attended_activate;
+    public static final String LABEL_HCP_LINK_STUDY_SITES = Label.Studies_FindSitesForStudy;
 
     //reason labels:
     public static final String REASON_LABEL_STUDY_NO_LONGER_ENROLLING = Label.RSN_Study_no_longer_enrolling;
@@ -175,12 +176,12 @@ public abstract class StudyActions {
         );
 
         studySiteNotAcceptedReason = new DisableReason(
-                !StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySite.Override_PI_Referral_Status__c),
+                studySite!=null && !StudySiteService.STATUS_GROUP_ACCEPTED.contains(studySite.Override_PI_Referral_Status__c),
                 REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
         studySiteOnHoldReason = new DisableReason(
-                StudySiteService.STATUS_GROUP_ON_HOLD.contains(studySite.Override_PI_Referral_Status__c),
+                studySite!=null && StudySiteService.STATUS_GROUP_ON_HOLD.contains(studySite.Override_PI_Referral_Status__c),
                 REASON_LABEL_SS_ON_HOLD
         );
 

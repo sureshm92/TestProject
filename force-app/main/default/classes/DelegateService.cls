@@ -155,12 +155,20 @@ public without sharing class DelegateService {
     }
     
     public String getStudyAccessLevelImpl(Id studyId, String userMode){
-        String accessLevel = getStudiesAccessLevelMapImpl(userMode).get(studyId);
-        if(accessLevel != null) return accessLevel;
+        if(userMode == CommunityService.USER_MODE_HCP){
+            if(!getStudiesAccessLevelMapImpl(userMode).isEmpty()){
+                return getStudiesAccessLevelMapImpl(userMode).values()[0];
+            }
+        }
+        else{
+            String accessLevel = getStudiesAccessLevelMapImpl(userMode).get(studyId);
+            if(accessLevel != null) return accessLevel;
+        }
+
         return ACCESS_LEVEL_ALL;
     }
 
-    public Map<Id, Map<Id, String>> getHCPTeamLevelMapByHCPImpl(Set<Id> hcpIds){
+    public static  Map<Id, Map<Id, String>> getHCPTeamLevelMapByHCPImpl(Set<Id> hcpIds){
         List<Referring_HCP_Staff__c> hcpStaffs = [
                 SELECT Id, Delegate_Level__c,
                         HCP_Enrollment__r.HCP_Contact__c,
@@ -225,6 +233,6 @@ public without sharing class DelegateService {
     }
 
     public static Map<Id, Map<Id,String>> getHCPTeamLevelMapByHCP(Set<Id> hcpIds){
-        return getInstance().getHCPTeamLevelMapByHCPImpl(hcpIds);
+        return getHCPTeamLevelMapByHCPImpl(hcpIds);
     }
 }

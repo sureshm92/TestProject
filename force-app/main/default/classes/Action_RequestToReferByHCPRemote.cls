@@ -11,9 +11,14 @@ public without sharing class Action_RequestToReferByHCPRemote {
             HCP_Enrollment__c hcpEnrollment;
             Study_Site__c studySite = StudySiteService.getStudySiteForHCPById(studySiteId);
             if(hcpeId==null || hcpeId == ''){
+                Id userContactId = CommunityService.getUserContact().Id;
+                System.debug('DelegateMap: ' +DelegateService.getStudyHCPContactsMap());
+                if(!DelegateService.getStudyHCPContactsMap().isEmpty()){
+                    userContactId = DelegateService.getStudyHCPContactsMap().values()[0];
+                }
                 hcpEnrollment = new HCP_Enrollment__c();
                 new StudyActionsHCP(studySite.Clinical_Trial_Profile__r, studySite, null).checkAction(StudyActions.ACT_REQUEST_TO_REFER);
-                hcpEnrollment.HCP_Contact__c = CommunityService.getUserContact().Id;
+                hcpEnrollment.HCP_Contact__c = userContactId;
                 hcpEnrollment.Study_Site__c = studySiteId;
             }
             else{

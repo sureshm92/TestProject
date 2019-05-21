@@ -11,7 +11,7 @@ public without sharing class MyTeamRemote {
         try {
             MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
             detail.currentUserContactId = CommunityService.getUserContact().Id;
-            detail.delegates = getDelegates(userMode, true, null);
+            detail.delegates = getDelegates(userMode, userMode != CommunityService.USER_MODE_HCP, null);
             detail.delegateOptions = getDelegateOptions(userMode);
             if (userMode == CommunityService.USER_MODE_PI) {
                 detail.hasStudies = !StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>{
@@ -37,6 +37,7 @@ public without sharing class MyTeamRemote {
         try {
             List<Contact> delegateContacts = new List<Contact>();
             List<Contact> contactsToProcess = new List<Contact>();
+            Boolean alreadyExists = false;
 
             if (contactEmail != '') {//NewTeamMember.js.doSearchContact()
                 delegateContacts = [
@@ -44,6 +45,20 @@ public without sharing class MyTeamRemote {
                         FROM Contact
                         WHERE Email = :contactEmail
                 ];
+                if(!delegateContacts.isEmpty() && userMode == CommunityService.USER_MODE_HCP){
+                    Id delegateId = delegateContacts[0].Id;
+                    List<HCP_Enrollment__c> hcps = [SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c = : delegateId LIMIT 1];
+                    if(!hcps.isEmpty()){
+                        alreadyExists = true;
+                    }
+                    else{
+                        Id currentContactId= CommunityService.getUserContact().Id;
+                        List<Referring_HCP_Staff__c> del = [SELECT Id FROM Referring_HCP_Staff__c WHERE HCP_Enrollment__r.HCP_Contact__c != :currentContactId AND Contact__c = :delegateId LIMIT 1];
+                        if(!del.isEmpty()){
+                            alreadyExists = true;
+                        }
+                    }
+                }
             }
 
             if (delegateContacts.isEmpty()) {//NewTeamMember.js.doInit()
@@ -72,6 +87,7 @@ public without sharing class MyTeamRemote {
             detail.delegates = getDelegates(userMode, false, contactsToProcess);
             detail.delegateOptions = getDelegateOptions(userMode);
             detail.hasStudies = true;
+            detail.alreadyExists = alreadyExists;
             return JSON.serialize(detail);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -168,7 +184,8 @@ public without sharing class MyTeamRemote {
                             trialLevel.trialName = enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c + '(' + enrollment.Study_Site__r.Name +')';
                             trialLevel.enrollmentOrStudySiteId = enrollment.Id;
                             trialLevel.delegateLevel = '';
-                            trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPEnrollmentAccessLevelMap().get(enrollment.Id));
+                            trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPEnrollmentAccessLevelMap().get(enrollment.Id)) ||
+                                    delegateContact.Id == CommunityService.getUserContact().Id;
                             Referring_HCP_Staff__c delegateRecord =
                                     (staffTrialMap.get(delegateContact.Id) == null) ?
                                             null : (staffTrialMap.get(delegateContact.Id).get(enrollment.Id));
@@ -427,8 +444,10 @@ public without sharing class MyTeamRemote {
         public List<DelegateWrapper> delegates;
         public Id currentUserContactId;
         public Boolean hasStudies;
+        public Boolean alreadyExists;
         public MyTeamDetail() {
             delegates = new List<DelegateWrapper>();
+            alreadyExists = false;
         }
     }
     public class DelegateWrapper implements Comparable {

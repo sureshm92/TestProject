@@ -101,8 +101,8 @@
                         </div>
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-right slv-header-item">
                             <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}"
-                                    disabled="{!v.currentPageList[0].sites[0].actions.refer.disabled}"
-                                    title="{!v.currentPageList[0].sites[0].actions.refer.disableReason}">
+                                    disabled="{!v.currentPageList[0].actionsMap.linkToStudySites.disabled}"
+                                    title="{!v.currentPageList[0].actionsMap.linkToStudySites.disableReason}">
                                 {!$Label.c.PG_MS_L_Search_for_More_Studies}
                             </button>
                         </div>
