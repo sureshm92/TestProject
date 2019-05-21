@@ -11,6 +11,7 @@
     <aura:attribute name="saveInProgress" type="Boolean" default="false"/>
     <aura:attribute name="refreshSDLITrigger" type="Boolean"/>
 
+
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
 
@@ -18,16 +19,21 @@
     <div class="rr-white-panel mti-container">
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mti-name">
-            <div>
-                {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+            <div class="slds-grid">
+                <div class="slds-col slds-size--1-of-3">
+                    {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+                </div>
+                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                    <div class="slds-col slds-size--1-of-3">
+                    <c:StudyDelegateLevelItem studyLevel="{!v.delegate.trialLevel}" options="{!v.options}"
+                                              changedLevels="{!v.changedLevels}"
+                                              refreshTrigger="{!v.refreshSDLITrigger}"
+                                              showStudyName="false"/>
+                    </div>
+                </aura:if>
             </div>
-            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                <c:StudyDelegateLevelItem studyLevel="{!v.delegate.trialLevel}" options="{!v.options}"
-                                          changedLevels="{!v.changedLevels}"
-                                          refreshTrigger="{!v.refreshSDLITrigger}"/>
-            </aura:if>
         </div>
-        <div class="mti-email">
+        <div class="{!'mti-email ' + if(v.userMode!='HCP','mti-hcp','')}">
             {!v.delegate.delegateContact.Email}
         </div>
         <aura:if isTrue="{!v.userMode != 'HCP'}">

@@ -43,6 +43,7 @@
 
             if (!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
+
             component.set('v.showSpinner', false);
         })
     },
@@ -65,10 +66,19 @@
             userMode: component.get('v.userMode'),
             contactEmail: delegate.delegateContact.Email
         }, function (returnValue) {
+            debugger;
             var contactData = JSON.parse(returnValue);
             component.set('v.delegate', contactData.delegates[0]);
-            component.set('v.currentTab', 'by-study');
-
+            if (component.get('v.userMode') !== 'HCP'){
+                component.set('v.currentTab', 'by-study');
+            }
+            else{
+                component.set('v.currentTab', 'all-same');
+            }
+            debugger;
+            component.set('v.alreadyExists',contactData.alreadyExists);
+            component.set('v.alreadyExistsTitle','Team member ' + contactData.delegates[0].delegateContact.Name
+                + ' already exists. Name populated from existing database values.');
             if (contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId) {
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_yourself_as_a_delegate'));
             } else if (contactData.delegates[0].delegateContact.Id === undefined) {
@@ -78,7 +88,8 @@
 
             var allTrialLevel = {
                 delegateLevel: '',
-                trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies')
+                trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies'),
+                readOnly: contactData.alreadyExists
             };
             component.set('v.allTrialLevel', allTrialLevel);
             var studyDelegateLavelItems = component.find('study-level');
@@ -89,6 +100,7 @@
             }
             component.set('v.changedLevels', []);
             component.set('v.changedLevelsAll', []);
+
             component.set('v.showSpinner', false);
         })
     },
@@ -127,7 +139,6 @@
         component.set('v.isCorrectEmail', communityService.isValidEmail(delegate.delegateContact.Email));
     },
     doCheckContactData: function (component, event, helper) {
-        debugger;
         var delegate = component.get('v.delegate');
         component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim()!==''
             && delegate.delegateContact.LastName.trim()!=='');
