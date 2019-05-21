@@ -13,7 +13,7 @@
     <aura:attribute name="visibility" type="List"/>
     <aura:attribute name="showNumbersAdd" type="String" default="false"/>
     <aura:attribute name="dayRemind" type="Integer"/>
-    <aura:attribute name="todayDate" type="Datetime"/>
+    <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="patientStatuses" type="List"
                     default="[
                         {'label': 'Prospect', 'value' : 'Prospect'},
