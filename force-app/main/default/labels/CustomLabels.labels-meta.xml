@@ -1459,13 +1459,13 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for  ##ParticipantName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantName on their journey.  
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
-To assist you in tracking  ##ParticipantName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
 
 Your username is ##Username. Please click the Log In button to create your password.
 
-Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantName to be enrolled into the research study: ##StudyName.</value>
+Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2209,11 +2209,11 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature New Participant Delegate</shortDescription>
-        <value>We are so excited to be on this journey with you.
+        <value>We are excited to be on this journey with you.
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
