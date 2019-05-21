@@ -32,4 +32,16 @@ public with sharing class PlatformEventService {
             List<Database.SaveResult> result = EventBus.publish(reminderEvents);
         }
     }
+
+    public void remindEventFire(List<Res_study__c> resStudies) {
+        List<Reminder_Event__e> reminderEvents = new List<Reminder_Event__e>();
+        for (Res_study__c resStudy : resStudies) {
+            reminderEvents.add(new Reminder_Event__e(
+                    ResourceId__c = resStudy.Resource__c
+            ));
+        }
+        if (!reminderEvents.isEmpty()) {
+            List<Database.SaveResult> result = EventBus.publish(reminderEvents);
+        }
+    }
 }
