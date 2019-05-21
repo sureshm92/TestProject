@@ -1,14 +1,13 @@
 /**
  * Created by Yehor Dobrovolskyi
  */({
-    subscribe: function (component, event) {
-
+    subscribe: function (component, event, helper) {
         const empApi = component.find('empApi');
         const channel = component.get('v.channel');
         const replayId = -1;
         empApi.subscribe(channel, replayId, $A.getCallback(eventReceived => {
             // Process event (this is called each time we receive an event)
-            this.remind(component, event);
+            helper.remind(component, event);
             console.log('Received event ', JSON.stringify(eventReceived));
         }))
             .then(subscription => {
@@ -18,28 +17,31 @@
 
     remind: function (component, event) {
         let action = component.get('c.getReminders');
-        action.setParams({
-            resId: component.get('v.recordId')
-        });
-        action.setCallback(this, function(response) {
-            let state = response.getState();
-            if (state === "SUCCESS") {
-                console.log(response.getReturnValue());
-                component.set('v.reminders',response.getReturnValue());
-            }
-            else if (state === "ERROR") {
-                let errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                            errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
+        if (action) {
+            action.setParams({
+                resId: component.get('v.recordId')
+            });
+            action.setCallback(this, function(response) {
+                let state = response.getState();
+                if (state === "SUCCESS") {
+                    console.log(response.getReturnValue());
+                    component.set('v.reminders',response.getReturnValue());
                 }
-            }
-        });
-        $A.enqueueAction(action);
+                else if (state === "ERROR") {
+                    let errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " +
+                                errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                }
+            });
+            $A.enqueueAction(action);
+        }
+
     },
 
 })

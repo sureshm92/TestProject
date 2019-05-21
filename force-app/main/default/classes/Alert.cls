@@ -18,7 +18,7 @@ public class Alert {
         this.params = params;
     }
     
-    public static List<Alert> getContactAlerts(Id contactId) {
+    public static List<Alert> getContactAlerts(Id contactId, String userMode) {
         List<Alert__c> dbAlerts = [
                 SELECT Id,
                         Record_ID__c, 
@@ -70,11 +70,10 @@ public class Alert {
         }
 
         String userName = [SELECT Name FROM Contact WHERE Id =: contactId].Name;
-        List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c WHERE Contact__c = :contactId];
-        if(!participants.isEmpty()) {
-            userName = participants.get(0).First_Name__c;
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT){
+            List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c WHERE Contact__c = :contactId];
+            if (!participants.isEmpty()) userName = participants.get(0).First_Name__c;
         }
-
         List<Alert> resultList = new List<Alert>();
         for(Alert__c dbAlert : dbAlerts) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();

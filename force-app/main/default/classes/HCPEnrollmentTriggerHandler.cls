@@ -42,6 +42,13 @@ public without sharing class HCPEnrollmentTriggerHandler {
             switchContactUserMode(newList);
         }
     }
+
+    public class CreateRecruitingHCPStaffModeHandler extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            createDelegates(newList);
+        }
+    }
     
     public class CreateStatusHistoryHandler extends TriggerHandler{
         
@@ -110,6 +117,32 @@ public without sharing class HCPEnrollmentTriggerHandler {
             contactsForUpdate.add(piContact);
         }
         update contactsForUpdate;
+    }
+
+    @TestVisible
+    private static void createDelegates(List<HCP_Enrollment__c> newList) {
+        Set<Id> hcpEContactIds = new Set<Id>();
+        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        if (hcpEContactIds.isEmpty()) return;
+        Map<Id, Map<Id, String>> delegatesMapbyHCP = DelegateService.getHCPTeamLevelMapByHCP(hcpEContactIds);
+        List<Referring_HCP_Staff__c> newDelegateRecords = new List<Referring_HCP_Staff__c>();
+        for (HCP_Enrollment__c enrol : newList){
+            if (enrol.HCP_Contact__c != null) {
+                if(delegatesMapbyHCP.containsKey(enrol.HCP_Contact__c)){
+                    Map<Id, String> delegateMap = delegatesMapbyHCP.get(enrol.HCP_Contact__c);
+                    for(Id key: delegateMap.keySet()){
+                        Referring_HCP_Staff__c newDelegate = new Referring_HCP_Staff__c();
+                        newDelegate.Delegate_Level__c = delegateMap.get(key);
+                        newDelegate.Contact__c = key;
+                        newDelegate.HCP_Enrollment__c = enrol.Id;
+                        newDelegateRecords.add(newDelegate);
+                    }
+                }
+            }
+        }
+        if(!newDelegateRecords.isEmpty()){
+            insert newDelegateRecords;
+        }
     }
 
     @TestVisible
