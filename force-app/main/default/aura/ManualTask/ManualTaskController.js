@@ -18,7 +18,7 @@
         });
     },
 
-    doCheckFields: function(component, event, helper) {
+    doCheckFields: function (component, event, helper) {
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
             return validSoFar && inputCmp.get('v.validity').valid;
         }, true);
@@ -30,35 +30,37 @@
         if (!startDate) return;
 
         var dueDate = component.get('v.task.ActivityDate');
-        if(!dueDate) {
+        if (!dueDate) {
             component.set('v.showNumbersAdd', 'false');
             return;
         }
 
+        startDate = new Date(startDate);
+        startDate.setUTCHours(12);
         dueDate = new Date(dueDate);
-        if(component.get('v.showNumbersAdd') === 'true') {
-            var days = component.get('v.dayRemind');
-            var daysBetween = helper.getDaysBetween(component, new Date(startDate), dueDate);
+        dueDate.setUTCHours(12);
+        
+        var days = component.get('v.dayRemind');
+        var daysBetween = helper.getDaysBetween(component, startDate, dueDate);
 
-            if(!days || days > daysBetween) {
-                days = '1';
-                component.set('v.dayRemind', days);
-            }
-
-            //Remove leading zero in field
-            days = days.toString().replace('^0+', '');
-
-            var remindDate = component.get('v.task.Reminder_Date__c');
-            if(!remindDate) {
-                remindDate = dueDate;
-            }
-            else {
-                remindDate = new Date(remindDate);
-            }
-            remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
-            component.set('v.task.Reminder_Date__c',
-                $A.localizationService.formatDate(new Date(remindDate), 'YYYY-MM-DD'));
+        if (!days || days > daysBetween) {
+            days = 1;
+            component.set('v.dayRemind', days);
         }
+
+        //Remove leading zero in field
+        days = days.toString().replace('^0+', '');
+
+        var remindDate = component.get('v.task.Reminder_Date__c');
+        if (!remindDate) {
+            remindDate = dueDate;
+        } else {
+            remindDate = new Date(remindDate);
+            remindDate.setUTCHours(12);
+        }
+        remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
+        component.set('v.task.Reminder_Date__c',
+            $A.localizationService.formatDate(remindDate, 'YYYY-MM-DD'));
     },
 
     dueNumberKeyPress: function (component, event, helper) {
