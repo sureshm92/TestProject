@@ -35,10 +35,14 @@
             return;
         }
 
+        startDate = new Date(startDate);
+        startDate.setUTCHours(12);
         dueDate = new Date(dueDate);
+        dueDate.setUTCHours(12);
+
         if(component.get('v.showNumbersAdd') === 'true') {
             var days = component.get('v.dayRemind');
-            var daysBetween = helper.getDaysBetween(component, new Date(startDate), dueDate);
+            var daysBetween = helper.getDaysBetween(component, startDate, dueDate);
 
             if(!days || days > daysBetween) {
                 days = '1';
@@ -54,6 +58,7 @@
             }
             else {
                 remindDate = new Date(remindDate);
+                remindDate.setUTCHours(12);
             }
             remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
             component.set('v.task.Reminder_Date__c',
