@@ -105,6 +105,8 @@ public class Test_ResourceService {
     @IsTest
     public static void getResources_WithResourceType_Article_NoResources_Test() {
         DatabaseProxyCodeExecutor executor = new DatabaseProxyCodeExecutor();
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.value = ParticipantService.ParticipantStates.ALUMNI;
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('query')
@@ -114,6 +116,11 @@ public class Test_ResourceService {
         ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+                .getInstance()
+        );
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
         Test.startTest();
@@ -125,6 +132,8 @@ public class Test_ResourceService {
     @IsTest
     public static void getResources_WithResourceType_Video_NoResources_Test() {
         DatabaseProxyCodeExecutor executor = new DatabaseProxyCodeExecutor();
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.value = ParticipantService.ParticipantStates.ALUMNI;
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('query')
@@ -134,6 +143,11 @@ public class Test_ResourceService {
         ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+                .getInstance()
+        );
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
         Test.startTest();
@@ -148,7 +162,9 @@ public class Test_ResourceService {
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('query')
-                .then(new List<Participant__c>{(Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType())})
+                .then(new List<Participant__c>{
+                        (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType())
+                })
                 .getInstance()
         );
         ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
@@ -168,9 +184,11 @@ public class Test_ResourceService {
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('query')
-                .then(new List<Participant__c>{(Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object> {
-                        'Id' => participantId
-                })})
+                .then(new List<Participant__c>{
+                        (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
+                                'Id' => participantId
+                        })
+                })
                 .getInstance()
         );
         ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
