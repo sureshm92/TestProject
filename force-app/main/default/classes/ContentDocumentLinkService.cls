@@ -92,8 +92,7 @@ public with sharing class ContentDocumentLinkService {
     public void remindEventFire(List<ContentDocumentLink> links) {
         Boolean isFireEvent = false;
         for (ContentDocumentLink singleLink : links) {
-            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType() &&
-                    SchemaUtil.getRecordTypeDeveloperNameBySObjectId(singleLink.LinkedEntityId) == ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT) {
+            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType()) {
                 isFireEvent = true;
                 break;
             }
@@ -127,7 +126,7 @@ public with sharing class ContentDocumentLinkService {
             ]);
             Map<Id, Resource__c> resourcesByIds = new Map<Id, Resource__c>(this.getResourcesByIds(resourcesIds));
             for (ContentDocumentLink singleLink : linksToValidate) {
-                if (documentsByIds.get(singleLink.ContentDocumentId) == null || resourcesByIds.get(singleLink.LinkedEntityId) == null) {
+                if (resourcesByIds.get(singleLink.LinkedEntityId) != null && documentsByIds.get(singleLink.ContentDocumentId) == null) {
                     singleLink.addError(Label.Resources_Incompatible_Image_Or_Resource_Type);
                 }
             }

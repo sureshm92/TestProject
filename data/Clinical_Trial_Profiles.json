@@ -47,7 +47,10 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef1",
-            "Visit_Plan__c": "@vsp"
+            "Visit_Plan__c": "@vsp",
+            "Participating_in_Patient_Portal__c": "Yes",
+            "Participating_in_Rocket_Referral__c": "Yes",
+            "Participating_in_Digital_Recruitment__c": "Yes"
         },
         {
             "attributes": {

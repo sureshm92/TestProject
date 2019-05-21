@@ -93,7 +93,6 @@
         component.set("v.sortBy", '');
     },
     setStatusFilter: function (component) {
-        debugger;
         var wrappers = component.get("v.workspaceWrapper");
         var status = component.get("v.statusFilter");
         var filteredWrappers = [];

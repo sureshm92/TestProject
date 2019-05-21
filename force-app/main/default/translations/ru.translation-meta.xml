@@ -33,13 +33,7 @@
         <name>AL_Body_Welcome_Study</name>
     </customLabels>
     <customLabels>
-        <label>Поздравляю ##Contact!
-
-Теперь вы зарегистрированы в ##StudyName study! исследовании!
-
-Дополнительная информация, такая как график исследований, дополнительные ресурсы, относящиеся к исследованию, а также задачи, связанные с исследованием, теперь будут доступны на Домашней странице.
-
-Нажмите OK, чтобы начать!</label>
+        <label><!-- AL_Body_Welcome_Study_Patient_Delegates --></label>
         <name>AL_Body_Welcome_Study_Patient_Delegates</name>
     </customLabels>
     <customLabels>
@@ -2386,6 +2380,10 @@
     <customLabels>
         <label><!-- PG AS T Participant Email Preferences --></label>
         <name>PG_AS_T_Participant_Email_Preferences</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AS T Please Review Contact information --></label>
+        <name>PG_AS_T_Please_Review_Contact_information</name>
     </customLabels>
     <customLabels>
         <label>По вопросам, касающихся ваших личных данных или прав на конфиденциальность, напишите нам, используя форму ниже.</label>

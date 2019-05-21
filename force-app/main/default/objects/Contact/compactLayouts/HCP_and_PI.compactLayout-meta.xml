@@ -3,7 +3,7 @@
     <fullName>HCP_and_PI</fullName>
     <fields>Name</fields>
     <fields>Override_Phone__c</fields>
-    <fields>Override_Email__c</fields>
+    <fields>Email</fields>
     <fields>Contact_Method_Preference__c</fields>
     <label>HCP and PI</label>
 </CompactLayout>

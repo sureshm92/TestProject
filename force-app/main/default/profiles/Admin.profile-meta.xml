@@ -579,6 +579,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceContentClassService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceDecoupler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -827,7 +831,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ClassFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CodeExecutor</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -840,6 +852,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -911,7 +931,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_RRPDFViewerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ReferringRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceContentClassService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1042,6 +1070,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Account_Name_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Address_changed_by_non_integration_user__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1621,6 +1654,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Integration_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Investigator_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1652,11 +1690,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.OneKey_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Override_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1807,6 +1840,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Is_Reminder_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3136,6 +3174,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Reminder_Event__e.ResourceId__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3652,6 +3695,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Is_Reminder_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5119,7 +5167,15 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>ManagePropositions</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>ManagePvtRptsAndDashbds</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageRecommendationStrategies</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

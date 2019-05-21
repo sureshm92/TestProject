@@ -75,6 +75,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_PatientTaskReminder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -188,6 +192,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -739,6 +747,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SurveyService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TaskEditRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -831,6 +843,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -868,6 +888,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PSEService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PSEStatusHistoryRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -927,6 +951,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_StudyActionParticipant</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Task</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -944,6 +972,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TherapeuticAreaService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_UserService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1018,6 +1050,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Address_changed_by_non_integration_user__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1596,6 +1633,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Integration_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Investigator_Key__c</field>
         <readable>true</readable>
@@ -1628,11 +1670,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.OneKey_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Override_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1783,6 +1820,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Completed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Is_Reminder_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3631,6 +3673,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Is_Reminder_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task.Originator__c</field>
         <readable>false</readable>
@@ -3860,6 +3907,13 @@
         <field>Visit__c.Timeplane__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Business_Account</recordType>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
@@ -4383,6 +4437,10 @@
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
         <visibility>DefaultOff</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Knowledge__kav</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Manual_Tasks_Creation</tab>
