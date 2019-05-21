@@ -72,12 +72,7 @@ public class Alert {
         String userName = [SELECT Name FROM Contact WHERE Id =: contactId].Name;
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c WHERE Contact__c = :contactId];
-            if(!participants.isEmpty()) {
-                userName = participants.get(0).First_Name__c;
-            }
-            else {
-                userName = PatientDelegateService.getInstance().getDelegateContact(contactId).FirstName;
-            }
+            if (!participants.isEmpty()) userName = participants.get(0).First_Name__c;
         }
         List<Alert> resultList = new List<Alert>();
         for(Alert__c dbAlert : dbAlerts) {
