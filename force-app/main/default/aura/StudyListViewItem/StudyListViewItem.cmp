@@ -283,8 +283,8 @@
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                 <button class="apollo-btn primary slvi-search-site-btn"
                                         onclick="{!c.navigateToSitesSearch}"
-                                        disabled="{!v.currentStudy.sites[0].actions.refer.disabled}"
-                                        title="{!v.currentStudy.sites[0].actions.refer.disableReason}">
+                                        disabled="{!v.currentStudy.actionsMap.linkToStudySites.disabled}"
+                                        title="{!v.currentStudy.actionsMap.linkToStudySites.disableReason}">
                                     {!$Label.c.MyStudy_Find_More_Sites}
                                 </button>
                             </div>

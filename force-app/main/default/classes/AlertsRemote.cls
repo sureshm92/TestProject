@@ -7,7 +7,7 @@ public class AlertsRemote {
     @AuraEnabled
     public static String getAlerts(String userMode){
         try {
-            List<Alert> alerts = Alert.getContactAlerts(CommunityService.getUserContact().Id);
+            List<Alert> alerts = Alert.getContactAlerts(CommunityService.getUserContact().Id, userMode);
             return JSON.serialize(alerts);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);

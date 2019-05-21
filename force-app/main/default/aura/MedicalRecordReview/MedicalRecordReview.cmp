@@ -85,8 +85,8 @@
                         <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                         <button class="apollo-btn primary"
                                 onclick="{!c.doReferPatient}"
-                                disabled="{!v.accessUserLevel=='Level 2'}"
-                                title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
+                                disabled="{!v.actions.referToThisStudy.disabled}"
+                                title="{!v.actions.referToThisStudy.disableReason}">
                             {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
 
                         </button>
