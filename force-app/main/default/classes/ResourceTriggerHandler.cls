@@ -32,5 +32,7 @@ public with sharing class ResourceTriggerHandler extends TriggerHandler {
     public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
         ArticleService articleService = (ArticleService) ClassFactory.newInstance(ArticleService.class);
         articleService.assignTherapeuticAreas(newList, (Map<Id, Resource__c>) oldMap);
+        ResourceContentClassService rCCService = (ResourceContentClassService) ClassFactory.newInstance(ResourceContentClassService.class);
+        rCCService.deleteRelatedObjects((List<Resource__c>) newList, (Map<Id, Resource__c>) oldMap);
     }
 }
