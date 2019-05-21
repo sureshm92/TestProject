@@ -102,7 +102,9 @@ public class TestData {
                 Therapeutic_Area__c = area.Id,
                 Participating_in_Digital_Recruitment__c = 'YES',
                 Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes'
+                Participating_in_Patient_Portal__c = 'Yes',
+                Survey__c = TestDataFactory.getFakeId(Survey.getSObjectType())
+
         );
         insert study;
     

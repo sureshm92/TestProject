@@ -15,7 +15,7 @@
 
     onClickOk : function (component, event, helper) {
         //redirect to url in new window
-        window.open('https://www.iqvia.com/', '_blank') ;
+        window.open($A.get('$Label.c.Travel_Support_Link'), '_blank') ;
         component.find('popup').hide();
     }
 })
