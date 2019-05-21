@@ -19,6 +19,7 @@ global without sharing class EmailTemplateController {
     
     public static final String LABEL_BODY_INITIAL_PARTICIPANT = 'Email_Body_Initial_Patient';
     public static final String LABEL_BODY_INITIAL_PARTICIPANT_BY_PI = 'Email_Body_Initial_Patient_Created_By_PI';
+    public static final String LABEL_BODY_INITIAL_PARTICIPANT_EPR = 'Email_Body_Initial_Patient_Virtual';
     public static final String LABEL_BODY_INITIAL_PATIENT_DELEGATE = 'Email_Body_Initial_Patient_Delegate';
     public static final String LABEL_BODY_INITIAL_DELEGATE = 'Email_Body_Initial_Delegate';
     public static final String LABEL_BODY_INITIAL_PI = 'Email_Body_Initial_PI';
@@ -161,8 +162,10 @@ global without sharing class EmailTemplateController {
                 String referralSource = getDataProvider().parameters.get('ReferralSource');
                 if(referralSource == 'PI'){
                     bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT_BY_PI;
-                }else{
+                }else if(referralSource == 'HCP'){
                     bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT;
+                }else{
+                    bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT_EPR;
                 }
                 headerLabel = LABEL_HEADER_INITIAL_PARTICIPANT;
                 titleLabel = LABEL_TITLE_ALL;
@@ -178,21 +181,11 @@ global without sharing class EmailTemplateController {
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
             }
-            if(bodyLabel != null){
-                if(bodyLabel.contains(LABEL_BODY_INITIAL_PARTICIPANT) && getDataProvider().parameters.get('HCP') == null){
-                    //bodyLabel += '_virtual';
-                }
-                bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
-            }
-            if(headerLabel != null){
-                headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
-            }
-            if(titleLabel != null) {
-                titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
-            }
-            if(signatureLabel != null) {
-                signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
-            }
+            
+            if(bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
+            if(headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
+            if(titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
+            if(signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
         }
     }
     
