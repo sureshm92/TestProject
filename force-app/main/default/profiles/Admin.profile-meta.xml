@@ -3141,6 +3141,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Reminder_Event__e.ResourceId__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>true</readable>
     </fieldPermissions>
