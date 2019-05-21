@@ -1433,18 +1433,20 @@ You will then be able to manage patient referrals to the study from any IQVIA so
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient</shortDescription>
-        <value>Recently, ##HCPName made a referral on your behalf to ##PIName regarding your potential participation in a clinical research study: ##StudyName.
+        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-You will be contacted by the study team regarding next steps in the enrollment process.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
-        <value>Recently, ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
+        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
 
 We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process. 
 
@@ -1457,13 +1459,13 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for  ##ParticipantName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantName on their journey.  
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
-To assist you in tracking  ##ParticipantName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
 
 Your username is ##Username. Please click the Log In button to create your password.
 
-Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantName to be enrolled into the research study: ##StudyName.</value>
+Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2207,11 +2209,11 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature New Participant Delegate</shortDescription>
-        <value>We are so excited to be on this journey with you.
+        <value>We are excited to be on this journey with you.
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
@@ -2227,19 +2229,11 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient</shortDescription>
-        <value>Thank you for your interest in participating in the IQVIA Patient Portal.
+        <value>Thank you for your interest in participating in clinical research.
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal Support Team</value>
-    </labels>
-    <labels>
-        <fullName>Email_Signature_Resource</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Signature Resource</shortDescription>
-        <value>Sincerely,
-The IQVIA Patient Portal Support Team&quot;</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_RH</fullName>
@@ -2249,6 +2243,14 @@ The IQVIA Patient Portal Support Team&quot;</value>
         <value>Thank you for your interest in participating in the IQVIA Referral Hub.
             Sincerely,
             The IQVIA Referral Hub Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Resource</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Resource</shortDescription>
+        <value>Sincerely,
+The IQVIA Patient Portal Support Team&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -8263,6 +8265,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Changes made successfully</shortDescription>
         <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>Travel_Support_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Travel Support Link</shortDescription>
+        <value>https://primarius.cloud/</value>
     </labels>
     <labels>
         <fullName>UOM_Kilometers</fullName>
