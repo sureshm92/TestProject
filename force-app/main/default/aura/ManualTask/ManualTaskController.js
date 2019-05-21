@@ -40,12 +40,12 @@
         dueDate = new Date(dueDate);
         dueDate.setUTCHours(12);
 
-        if(component.get('v.showNumbersAdd') === 'true') {
+        // if(component.get('v.showNumbersAdd') === 'true') {
             var days = component.get('v.dayRemind');
             var daysBetween = helper.getDaysBetween(component, startDate, dueDate);
 
             if(!days || days > daysBetween) {
-                days = '1';
+                days = 1;
                 component.set('v.dayRemind', days);
             }
 
@@ -62,8 +62,8 @@
             }
             remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
             component.set('v.task.Reminder_Date__c',
-                $A.localizationService.formatDate(new Date(remindDate), 'YYYY-MM-DD'));
-        }
+                $A.localizationService.formatDate(remindDate, 'YYYY-MM-DD'));
+        // }
     },
 
     dueNumberKeyPress: function (component, event, helper) {
