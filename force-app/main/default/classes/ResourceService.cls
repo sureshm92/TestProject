@@ -406,9 +406,7 @@ public without sharing class ResourceService {
             return resourceFieldApis;
         }
         private String getShareMessage() {
-            return String.format(Label.Resources_social, new List<String>{
-                    this.resource.article_external_link__c
-            });
+            return Label.Resources_social;
         }
     }
 
