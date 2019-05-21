@@ -39,7 +39,7 @@
         startDate.setUTCHours(12);
         dueDate = new Date(dueDate);
         dueDate.setUTCHours(12);
-        
+
         var days = component.get('v.dayRemind');
         var daysBetween = helper.getDaysBetween(component, startDate, dueDate);
 

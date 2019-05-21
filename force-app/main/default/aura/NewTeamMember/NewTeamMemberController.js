@@ -6,6 +6,8 @@
 
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
+        if(userMode === 'Participant' && communityService.isDelegate) communityService.navigateToHome();
+
         component.set('v.userMode', userMode);
 
         if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);

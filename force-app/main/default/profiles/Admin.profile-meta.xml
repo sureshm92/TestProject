@@ -827,7 +827,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ClassFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CodeExecutor</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -916,6 +924,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RRLoginRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_RRPDFViewerController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1028,6 +1040,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TriggerHandlerExecutor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UpdateDelegatesBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UpdateDelegatesBatchTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3908,13 +3928,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.Business_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4555,6 +4568,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>MyProfilePage</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>Patient16_Self_ePR_New_Referral</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
