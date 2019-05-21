@@ -26,8 +26,6 @@ public without sharing class PatientDelegateService {
     }
 
     public PatientDelegateService() {
-        User user = [SELECT Id, Contact.userCommunityMode__c FROM User WHERE Id =: UserInfo.getUserId()];
-        if(user.Contact.userCommunityMode__c != CommunityService.USER_MODE_PARTICIPANT) return;
         List<Patient_Delegate__c> participantsPDList = DatabaseService.query(
                 new List<String>{
                         'Id',

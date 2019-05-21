@@ -6,7 +6,7 @@ public class AlertsRemote {
     
     @AuraEnabled
     public static String getAlerts(String userMode){
-        List<Alert> alerts = Alert.getContactAlerts(CommunityService.getUserContact().Id);
+        List<Alert> alerts = Alert.getContactAlerts(CommunityService.getUserContact().Id, userMode);
         return JSON.serialize(alerts);
     }
     
