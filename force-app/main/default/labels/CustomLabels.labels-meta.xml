@@ -7597,7 +7597,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>resource send emial soical</shortDescription>
-        <value>link {0} to share</value>
+        <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
