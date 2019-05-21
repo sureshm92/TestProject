@@ -11,12 +11,8 @@
     },
 
     onTravel : function (component, event, helper) {
-        component.find('popup').show();
-    },
-
-    onClickOk : function (component, event, helper) {
-        //redirect to url in new window
-        window.open($A.get('$Label.c.Travel_Support_Link'), '_blank') ;
-        component.find('popup').hide();
+        component.find('popup').execute(function () {
+            window.open($A.get('$Label.c.Travel_Support_Link'), '_blank');
+        });
     }
 })
