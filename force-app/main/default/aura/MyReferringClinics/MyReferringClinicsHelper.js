@@ -17,7 +17,7 @@
                 for(var j = 0; j < wrappers[i].enrollments.length; j++){
 
                     var status = wrappers[i].enrollments[j].status;
-                    
+
                     if(status.indexOf("Pending") !== -1){
 
                         newObj.enrollments.push(wrappers[i].enrollments[j]);
