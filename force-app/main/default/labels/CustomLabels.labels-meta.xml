@@ -2300,7 +2300,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Enroll in the IQVIA Referral Hub</value>
+        <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
