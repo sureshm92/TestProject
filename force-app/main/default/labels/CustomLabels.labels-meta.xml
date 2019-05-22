@@ -1478,7 +1478,7 @@ We are reaching out to you on behalf of the Study Team to let you know that we h
 
 To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: #StudyName.</value>
+Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -7599,7 +7599,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>resource send emial soical</shortDescription>
-        <value>link {0} to share</value>
+        <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
