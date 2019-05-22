@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-public with sharing class ResourceExpBatchScheduler implements Schedulable{
+public with sharing class ResourceExpBatchScheduler implements Schedulable {
 
     public static final String ALERT_GENERATOR_JOB = 'ResourceExp_JOB';
     public static final String LABEL_SCHEDULE = 'ExpDeleteInterval';
@@ -15,11 +15,21 @@ public with sharing class ResourceExpBatchScheduler implements Schedulable{
                 'FROM Resource__c ' +
                 'WHERE Expiration_Date__c <= today  AND Remove_sharing__c = false';
         Database.executeBatch(new BatchProcess(query, new ResourceExpirationBatchHandlerImpl()), 1000);
-        System.abortJob(SC.getTriggerId());
         start();
     }
 
     public static void start() {
+        List<CronTrigger> cleanStatusJob = [
+                SELECT Id
+                FROM CronTrigger
+                WHERE CronJobDetail.Name
+                        LIKE:ResourceExpBatchScheduler.ALERT_GENERATOR_JOB + '%'
+        ];
+        if (!cleanStatusJob.isEmpty()) {
+            for (CronTrigger cr : cleanStatusJob) {
+                System.abortJob(cr.Id);
+            }
+        }
         ScheduleIntervalSettings__mdt resourcesScheduleSetting = [
                 SELECT
                         Seconds__c,
