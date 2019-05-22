@@ -28,6 +28,7 @@
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="accessUserLevel" type="String"/>
 
     <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}"
                   action="{!c.doUpdateRecordsWithFirstPage}"/>
@@ -101,8 +102,8 @@
                         </div>
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-right slv-header-item">
                             <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}"
-                                    disabled="{!v.currentPageList[0].actionsMap.linkToStudySites.disabled}"
-                                    title="{!v.currentPageList[0].actionsMap.linkToStudySites.disableReason}">
+                                    disabled="{!v.accessUserLevel=='Level 2'}"
+                                    title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
                                 {!$Label.c.PG_MS_L_Search_for_More_Studies}
                             </button>
                         </div>
@@ -113,7 +114,7 @@
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
                         <c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
-                                             userMode="{!v.userMode}" parent="{!this}"/>
+                                             userMode="{!v.userMode}" parent="{!this}" accessUserLevel="{!v.accessUserLevel}"/>
                     </aura:iteration>
                 </div>
             </div>
