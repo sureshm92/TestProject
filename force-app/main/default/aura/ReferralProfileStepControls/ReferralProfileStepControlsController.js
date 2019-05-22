@@ -21,6 +21,7 @@
                 changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
             }, function () {
                 rootComponent.find('mainSpinner').hide();
+                communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
             });
         }else {
             changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
