@@ -222,6 +222,7 @@ public without sharing class CommunityService {
                         primaryContact__c,
                         userCommunityMode__c,
                         userCommunytyType__c,
+                        UserCommunityIsDelegate__c,
                         HCP_DelegateAccessLevel__c,
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
