@@ -25,6 +25,7 @@ public without sharing class CommunityFacadeRemote {
     private class CommunityData {
         String communityMode;
         List<String> communityTypes;
+        Boolean isDelegate;
         String state;
         String pathPrefix;
         Boolean isTCAccepted;
@@ -63,6 +64,7 @@ public without sharing class CommunityFacadeRemote {
             cd.pathPrefix = Site.getPathPrefix();
             cd.language = UserInfo.getLanguage();
             cd.preventedCookies = getPreventedCookies(userContact.Id);
+            cd.isDelegate = userContact.UserCommunityIsDelegate__c;
 
             return JSON.serialize(cd);
         } catch (Exception e) {
