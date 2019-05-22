@@ -1601,7 +1601,7 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient16</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
+        <value>We are sorry to see you have decided to leave ##StudyName Study before the clinical trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient17</fullName>
