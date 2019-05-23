@@ -13,9 +13,12 @@
     <!-- component body -->
     <c:EmailTemplateDelegateTable rendered="{!delegateLevelsPI.size > 0 && (showAllPermissions || userMode == 'PI')}"
                                   title="{!$Label.Email_Delegate_PI_Levels_Title}"
-                                  delegateLevels="{!delegateLevelsPI}"/>
+                                  delegateLevels="{!delegateLevelsPI}"
+                                  isPI="true"/>
     <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0 && (showAllPermissions || userMode == 'HCP')}"
                                   title="{!$Label.Email_Delegate_HCP_Levels_Title}"
-                                  delegateLevels="{!delegateLevelsHCP}"/>
+                                  delegateLevels="{!delegateLevelsHCP}"
+                                  isPI="false"
+                                  />
 
 </apex:component>

@@ -62,9 +62,12 @@
     },
     checkReqFields : function (component, event, helper) {
         var rpData = component.get('v.rpData');
-        debugger;
-        var reqFieldsFilled = rpData.firstName.trim()!=='' && rpData.lastName.trim()!=='' &&
-            rpData.phone.trim()!=='' && rpData.clinicName.trim()!=='';
+        var inputPattern = new RegExp('[!+@#$%^&*(),.?":{}|<>]','g');
+        var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
+        var reqFieldsFilled = (inputPattern.test(rpData.firstName) || !rpData.firstName.trim()) ||
+                              (inputPattern.test(rpData.lastName) || !rpData.lastName.trim()) ||
+                              (phonePattern.test(rpData.phone) || !rpData.phone.trim()) ||
+                              (inputPattern.test(rpData.clinicName) || !rpData.clinicName.trim());
         component.set('v.reqFieldsFilled',reqFieldsFilled);
     }
 })

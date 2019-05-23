@@ -359,20 +359,31 @@ public without sharing class MyTeamRemote {
         toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);
         SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE, toSendNotificationMap);
     }
+    
+    private static void sendEmailNotificationWelcome(Contact delegateContact) {
+        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
+        toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);
+        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE_WELCOME, toSendNotificationMap);
+    }
 
     @AuraEnabled
     public static void savePatientDelegate(String delegate) {
         try {
+            System.debug('savePatientDelegate:');
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
             Boolean isNewContact = contactDelegate.Id == null;
             if(isNewContact) {
-                User user = [SELECT Contact.AccountId FROM User WHERE Id = :UserInfo.getUserId()];
+                User user = [
+                    SELECT 	Contact.AccountId 
+                    FROM 	User 
+                    WHERE 	Id = :UserInfo.getUserId()];
                 contactDelegate.AccountId = user.Contact.AccountId;
                 contactDelegate.Language__c = UserInfo.getLanguage();
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 insert contactDelegate;
                 insert CommunityService.createUser(contactDelegate, null, null, null);
+                sendEmailNotificationWelcome(contactDelegate);
             } else {
                 if(CommunityService.isUserInCommunity(contactDelegate.Id)) {
                     throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign);
@@ -382,6 +393,7 @@ public without sharing class MyTeamRemote {
             }
             PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
         } catch (Exception e) {
+            System.debug('ex:' + e.getMessage());
             AuraHelper.throwException(e);
         }
     }
@@ -391,13 +403,27 @@ public without sharing class MyTeamRemote {
         delegateContact.FirstName = delegate.delegateContact.FirstName;
         delegateContact.LastName = delegate.delegateContact.LastName;
         delegateContact.Email = delegate.delegateContact.Email;
-        User currentUser = [SELECT Contact.AccountId FROM User WHERE Id = :UserInfo.getUserId()];
+        User currentUser = [
+            SELECT 	Contact.AccountId, 
+                    Contact.MailingCity, 
+                    Contact.MailingCountry,
+                    Contact.MailingState,
+                    Contact.MailingStreet,
+                    Contact.MailingPostalCode 
+            FROM 	User 
+            WHERE 	Id = :UserInfo.getUserId()
+        ];
         if (currentUser.Contact.AccountId == null)
             throw new CommunityServiceException('User Contact Account can not be NULL');
         delegateContact.AccountId = currentUser.Contact.AccountId;
         delegateContact.userCommunityMode__c = userMode;
         delegateContact.userCommunityIsDelegate__c = true;
         delegateContact.Language__c = UserInfo.getLanguage();
+        delegateContact.MailingCity = currentUser.Contact.MailingCity;
+        delegateContact.MailingCountry = currentUser.Contact.MailingCountry;
+        delegateContact.MailingState = currentUser.Contact.MailingState;
+        delegateContact.MailingStreet = currentUser.Contact.MailingStreet;
+        delegateContact.MailingPostalCode = currentUser.Contact.MailingPostalCode;
         insert delegateContact;
 
         if (userMode == CommunityService.USER_MODE_PI) {

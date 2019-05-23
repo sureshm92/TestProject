@@ -18,13 +18,13 @@ public with sharing class ResourceReminderService {
         Set<String> fieldsQuery = this.getFields(allReminders);
         String queryResource = this.buildQuery(resId, fieldsQuery);
         Resource__c resource = this.getResource(queryResource);
-        System.debug('resource: ' + resource);
-        for (Reminder reminder: allReminders) {
-            if (reminder.isActive(resource)) {
-                activeReminders.add(reminder);
+        if (resource != null) {
+            for (Reminder reminder : allReminders) {
+                if (reminder.isActive(resource)) {
+                    activeReminders.add(reminder);
+                }
             }
         }
-        System.debug('activeReminders: ' + activeReminders);
         return activeReminders;
     }
 
@@ -46,7 +46,7 @@ public with sharing class ResourceReminderService {
         return allReminders;
     }
 
-    private  Set<String> getFields(List<Reminder> allReminders) {
+    private Set<String> getFields(List<Reminder> allReminders) {
         Set<String> fieldsQuery = new Set<String>();
         for (Reminder reminder : allReminders) {
             fieldsQuery.addAll(reminder.resourceFields);
