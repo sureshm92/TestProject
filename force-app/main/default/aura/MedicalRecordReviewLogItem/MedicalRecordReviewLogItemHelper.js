@@ -18,7 +18,7 @@
             component.set("v.referringMessage", $A.get("$Label.c.PG_MRRLI_MSG_Excluded_from_referring"));
         } else if (PStatus === "Failed Referral") {
             component.set("v.isReferred", false);
-            component.set("v.referringMessage",  this.returnPickListTranslation(component, pEnroll.Non_Referral_Reason__c, 'Participant_Enrollment__c', 'Non_Referral_Reason__c') + " " + $A.get("$Label.c.PG_MRRLI_MSG_not_referred"));
+            this.returnPickListTranslation(component, pEnroll.Non_Referral_Reason__c, 'Participant_Enrollment__c', 'Non_Referral_Reason__c');
         } else if (PStatus === "Pending Referral") {
             component.set("v.isReferred", false);
             component.set("v.referringMessage", "");
@@ -39,12 +39,14 @@
 		action.setParams({ 
     		value : picklistValue,
     		sObjectName : objectName,
-    		firstName : fieldName
+    		field : fieldName
 		});
 		action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
-                return response.getReturnValue();
+                console.log(response.getReturnValue());
+                component.set("v.referringMessage",  response.getReturnValue() + " " + $A.get("$Label.c.PG_MRRLI_MSG_not_referred"));
+        
             }
             else if (state === "ERROR") {
                 var errors = response.getError();
