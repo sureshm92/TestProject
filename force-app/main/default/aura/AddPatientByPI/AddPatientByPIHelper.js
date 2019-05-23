@@ -22,6 +22,7 @@
                 helper.saveParticipant(component, pe, callback);
             }, function () {
                 component.find('spinner').hide();
+                communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
             });
         } else {
             helper.saveParticipant(component, pe, callback);

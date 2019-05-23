@@ -251,7 +251,8 @@ public without sharing class ResourceService {
     @TestVisible
     private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
 
-        ParticipantService.ParticipantState pState = ParticipantService.getParticipantState();
+        ParticipantService pService = (ParticipantService) ClassFactory.newInstance(ParticipantService.class);
+        ParticipantService.ParticipantState pState = pService.getState();
         List<Resource__c> resources = new List<Resource__c>();
         String studyTherapeuticAreaId;
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
