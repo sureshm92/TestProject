@@ -92,6 +92,17 @@ public class StudyActionsHCP extends StudyActions{
                 }
         ));
 
+        actions.put(ACT_HCP_LINK_STUDY_SITES, new Action(
+                ACT_HCP_LINK_STUDY_SITES,
+                LABEL_HCP_LINK_STUDY_SITES,
+                'map-marker',
+                new List<DisableReason>{
+                        level2AndLowReason,
+                        studyNoLongerEnrollingReason
+                }
+        ));
+
+
         List<String> shareStatuses = new List<String>{
                 HCPEnrollmentService.HCP_S_ACTIVATED,
                 HCPEnrollmentService.HCP_S_ACTIVATED_A,

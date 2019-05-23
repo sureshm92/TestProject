@@ -9,6 +9,7 @@ public without sharing class MedicalRecordReviewRemote {
         public Contact hcpContact;
         public Clinical_Trial_Profile__c trial;
         public Map<String, StudyActions.Action> actions;
+        public String delegateAccessLevel;
     }
 
     @AuraEnabled
@@ -16,6 +17,7 @@ public without sharing class MedicalRecordReviewRemote {
         try{
             InitData initData = new InitData();
             initData.trial = StudyTrialService.getFullTrial(trialId);
+            initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
             if(hcpeId!=null){
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
                 //localize MRR

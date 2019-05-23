@@ -157,10 +157,8 @@ public class Test_CTCTriggerHandler {
         delete cTCs;
         Test.stopTest();
 
-        assignments = [SELECT Id, Therapeutic_Area__r.Name, Third_Party_COI__r.Name, Resource__r.Title__c FROM Therapeutic_Area_Assignment__c ORDER BY Resource__r.Title__c];
-        System.debug(assignments);
+        assignments = [SELECT Id, Therapeutic_Area__r.Name, Third_Party_COI__r.Name, Resource__r.Title__c FROM Therapeutic_Area_Assignment__c ORDER BY Resource__r.Title__c, Therapeutic_Area__r.Name];
         System.assertEquals(3, assignments.size());
-
         System.assertEquals('Third Party COI 1', assignments[0].Therapeutic_Area__r.Name);
         System.assertEquals('Third Party COI 1', assignments[0].Third_Party_COI__r.Name);
         System.assertEquals('Third Party COI 2', assignments[1].Therapeutic_Area__r.Name);

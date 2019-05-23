@@ -12,7 +12,6 @@
     
     getDaysBetween: function (component, startDate, dueDate) {
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-
         return Math.round(
             Math.abs((startDate.getTime() - dueDate.getTime()) / oneDay)
         );

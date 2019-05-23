@@ -18,6 +18,7 @@ public class TasksRemote {
     public class ParticipantTasks{
         @AuraEnabled public List<OpenTask> openTasksWrapper;
         @AuraEnabled public List<Task> completedTasks;
+        @AuraEnabled public String emptyText;
     }
 
     public class OpenTask{
@@ -40,12 +41,21 @@ public class TasksRemote {
 
             participantTasks.completedTasks = TaskService.getInstance().getCompletedTasks();
             createOriginatorsList(participantTasks.openTasksWrapper);
+
+            ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+            if(participantState.isDelegate) {
+                participantTasks.emptyText =
+                        Label.PG_Task_Tab_No_Tasks_Delegate.replace('##ParticipantFirstName', participantState.participant.First_Name__c);
+            }
+            else {
+                participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
+            }
+
             return participantTasks;
         }catch (Exception e){
             System.debug(e.getMessage());
-            AuraHelper.throwException(e);
+            return (ParticipantTasks) AuraHelper.throwException(e);
         }
-        return null;
     }
     
     @AuraEnabled

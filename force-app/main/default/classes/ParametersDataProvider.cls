@@ -62,7 +62,7 @@ public without sharing class ParametersDataProvider {
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
             if(participant != null){
-                parameters.put('ParticipantName', participant.Full_Name__c);
+                parameters.put('ParticipantFirstName', participant.First_Name__c);
             }
         }
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
@@ -122,6 +122,7 @@ public without sharing class ParametersDataProvider {
                         HCP__r.HCP_Contact__r.LastName,
                         HCP__r.HCP_Contact__r.Salutation,
                         HCP__r.HCP_Contact__r.Language__c,
+                        HCP__r.HCP_Contact__r.Title,
                         Participant__r.Contact__c,
                         Participant__r.Contact__r.Name,
                         Participant__r.Contact__r.FirstName,
@@ -131,12 +132,14 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Language_Preference_Code__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
+                        Participant_Contact__r.FirstName,
                         Study_Site__r.Name,
                         Study_Site__r.Principal_Investigator__r.Name,
                         Study_Site__r.Principal_Investigator__r.FirstName,
                         Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Principal_Investigator__r.Language__c,
+                        Study_Site__r.Principal_Investigator__r.Title,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
@@ -146,11 +149,15 @@ public without sharing class ParametersDataProvider {
                 FROM Participant_Enrollment__c
                 WHERE Id =: sourceId OR Participant__r.Contact__c =: sourceId LIMIT 1
         ];
+
+        if(pe.Is_Virtual_Study_Site__c) recipientFirstName = pe.Participant__r.First_Name__c;
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
+                'PITitle' => pe.Study_Site__r.Principal_Investigator__r.Title,
                 'PILanguage' => pe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pe.Participant__r),
+                'ParticipantContactFirstName' => pe.Participant_Contact__r.FirstName,
                 'ParticipantLanguage' => getParticipantLanguage(pe.Participant__r),
                 'IsVirtual' => pe.Is_Virtual_Study_Site__c + ''
         };
@@ -158,7 +165,8 @@ public without sharing class ParametersDataProvider {
         if(pe.HCP__c != null){
             parameters.putAll(new Map<String, String>{
                     'HCPName' => getFullContactName(pe.HCP__r.HCP_Contact__r),
-                    'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c
+                    'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c,
+                    'HCPTitle' => pe.HCP__r.HCP_Contact__r.Title
             });
         }
         
@@ -169,7 +177,6 @@ public without sharing class ParametersDataProvider {
                 'StudyName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
-                'HCP' => pe.HCP__c,
                 'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c,
                 'ReferralSource' => pe.Referral_Source__c
         });
@@ -277,11 +284,16 @@ public without sharing class ParametersDataProvider {
                 'TaskName' => task.Subject,
                 'CompleteByDate' => UserService.formatDate(task.ActivityDate, emailOwner.LanguageLocaleKey)
         };
+
     }
     
     private void initParamsFromContact(Id contactId){
         Contact cnt = [
-                SELECT Id, Name, Salutation,
+                SELECT Id,
+                        Name,
+                        FirstName,
+                        LastName,
+                        Salutation,
                         Language__c,
                         userCommunityMode__c,
                         UserCommunityIsDelegate__c
@@ -301,6 +313,7 @@ public without sharing class ParametersDataProvider {
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantLanguage', cnt.Language__c);
+
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c);
@@ -326,7 +339,12 @@ public without sharing class ParametersDataProvider {
         else{
             userNameParam = userMode + 'Name';
         }
-        return parameters.get(userNameParam);
+        String name = parameters.get(userNameParam);
+        if(name == null) {
+            name = parameters.get('ParticipantContactFirstName');
+        }
+
+        return name;
     }
     
     public String getCommunityUserName(String contactId) {

@@ -4,7 +4,6 @@
         component.set("v.showSpinner", true);
         let userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
-
         if (userMode === 'HCP') {
             window.addEventListener('resize', $A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
@@ -14,13 +13,12 @@
                 let initData = JSON.parse(returnValue);
                 console.log('in getHCPInitData');
                 console.log(initData);
-
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
                 component.set("v.sortData", initData.sortData);
+                component.set("v.accessUserLevel", initData.delegateAccessLevel);
                 helper.prepareIcons(initData.currentPageList);
                 component.set("v.currentPageList", initData.currentPageList);
-
                 component.set("v.showSpinner", false);
                 component.set('v.isInitialized', true);
                 setTimeout($A.getCallback(function () {

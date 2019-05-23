@@ -36,7 +36,7 @@ public without sharing class ResourceService {
     public ResourceWrapperContainer getFavoriteResources(String resourceType) {
 
         Participant__c participant = this.getParticipant(resourceType);
-        if (participant.Resource_Actions__r.isEmpty()) {
+        if (ParticipantDecoupler.getResourceActions(participant).isEmpty()) {
             return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Favorite_Articles : Label.Resources_No_Favorite_Videos);
         }
         ResourceService.ResourceWrapperContainer container = this.getResources(resourceType);
@@ -251,6 +251,8 @@ public without sharing class ResourceService {
     @TestVisible
     private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
 
+        ParticipantService pService = (ParticipantService) ClassFactory.newInstance(ParticipantService.class);
+        ParticipantService.ParticipantState pState = pService.getState();
         List<Resource__c> resources = new List<Resource__c>();
         String studyTherapeuticAreaId;
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
@@ -260,13 +262,13 @@ public without sharing class ResourceService {
             }
             therapeuticAreaPatients.add(therapeuticAreaPatient);
         }
-        if (!String.isBlank(studyTherapeuticAreaId)) {
+        if (!String.isBlank(studyTherapeuticAreaId) && pState.value != ParticipantService.ParticipantStates.ALUMNI) {
             resources.addAll(this.getStudySpecificResources(participant, resourceType));
         }
         for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
             resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
         }
-        if (String.isBlank(studyTherapeuticAreaId)) {
+        if (String.isBlank(studyTherapeuticAreaId) || pState.value == ParticipantService.ParticipantStates.ALUMNI) {
             for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
                 resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_THIRD_PARTY));
             }
@@ -365,7 +367,7 @@ public without sharing class ResourceService {
             } else {
                 resourceFieldApis = getResourceFieldApis(null, resource.RecordType.DeveloperName);
             }
-            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) || X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.article_external_link__c)) {
+            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) && X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.article_external_link__c)) {
                 shareMessage = this.getShareMessage();
                 this.isShareable = true;
             }
@@ -405,9 +407,7 @@ public without sharing class ResourceService {
             return resourceFieldApis;
         }
         private String getShareMessage() {
-            return String.format(Label.Resources_social, new List<String>{
-                    this.resource.article_external_link__c
-            });
+            return Label.Resources_social;
         }
     }
 

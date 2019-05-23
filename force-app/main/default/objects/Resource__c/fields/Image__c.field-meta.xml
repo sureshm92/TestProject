@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Image__c</fullName>
     <externalId>false</externalId>
+    <inlineHelpText>Use this field to save the link to the image.  If you will be uploading an image, Salesforce will create this link for you.</inlineHelpText>
     <label>Image Link</label>
     <length>1000</length>
     <trackHistory>false</trackHistory>

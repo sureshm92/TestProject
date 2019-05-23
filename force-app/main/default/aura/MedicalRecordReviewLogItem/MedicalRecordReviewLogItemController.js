@@ -13,7 +13,8 @@
             component.set("v.participantEnrollment", {});
             pEnroll.Participant_Status__c = retrunValue;
             helper.setData(component, pEnroll);
-            communityService.showToast("success", "success", pEnroll.Name + " " + $A.get("$Label.c.TST_has_been_successfully_excluded"));
+            var Name = pEnroll.Participant_Surname__c ? pEnroll.Participant_Name__c + ' ' + pEnroll.Participant_Surname__c: pEnroll.Name;
+            communityService.showToast("success", "success", Name + " " + $A.get("$Label.c.TST_has_been_successfully_excluded"));
             component.set("v.participantEnrollment", pEnroll);
             component.set("v.showSpinner", false);
             var parentCmp = component.get("v.parent");

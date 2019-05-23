@@ -9,6 +9,7 @@ window.communityService = (function () {
     var communityMode;
     var communityTypes;
     var communityURLPathPrefix;
+    var isDelegate;
     var stickyBarEnabled = true;
     var stickyBarTop;
     var debugMode = false; //turn on/off output server stack traces in toast messages
@@ -33,6 +34,7 @@ window.communityService = (function () {
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 communityTypes = communityData.communityTypes;
                 communityMode = communityData.communityMode;
+                isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 language = communityData.language;
@@ -119,6 +121,9 @@ window.communityService = (function () {
         },
         setUserMode: function (userMode) {
             communityMode = userMode;
+        },
+        isDelegate(){
+          return isDelegate;
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix

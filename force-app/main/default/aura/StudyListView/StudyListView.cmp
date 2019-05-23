@@ -6,7 +6,7 @@
                 implements="forceCommunity:availableForAllPageTypes">
 
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js, $Resource.clamp_js)}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
 
@@ -28,6 +28,7 @@
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="accessUserLevel" type="String"/>
 
     <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}"
                   action="{!c.doUpdateRecordsWithFirstPage}"/>
@@ -55,8 +56,8 @@
         </div>
         <div class="{!v.isSearchResume ? '' : 'slds-hide'}">
             <c:RRNavigationPath>
-                <c:RRNPathItem label="Studies" page=""/>
-                <c:RRNPathItem label="Search for Studies"/>
+                <c:RRNPathItem label="{!$Label.c.PG_MS_L_Studies_up}" page=""/>
+                <c:RRNPathItem label="{!$Label.c.PG_MS_L_Search_for_Studies}"/>
             </c:RRNavigationPath>
         </div>
         <aura:if isTrue="{!v.userMode != 'HCP'}">
@@ -76,7 +77,7 @@
                                sortVariants="{!v.sortData.sortVariants}"
                                allRecordsCount="{!v.paginationData.allRecordsCount}"
                                currentPageCount="{!v.paginationData.currentPageCount}"
-                               itemTitle="studies">
+                               itemTitle="{!$Label.c.PG_MS_L_Studies_low}">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder=""
@@ -100,7 +101,9 @@
                             <span class="header-white-panel">{!$Label.c.PG_MS_L_Dont_see_a_study}</span>
                         </div>
                         <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slv-padded-panel-right slv-header-item">
-                            <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}">
+                            <button class="apollo-btn primary search-more-btn" onclick="{!c.switchToSearchResume}"
+                                    disabled="{!v.accessUserLevel=='Level 2'}"
+                                    title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
                                 {!$Label.c.PG_MS_L_Search_for_More_Studies}
                             </button>
                         </div>
@@ -111,7 +114,7 @@
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
                         <c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
-                                             userMode="{!v.userMode}" parent="{!this}"/>
+                                             userMode="{!v.userMode}" parent="{!this}" accessUserLevel="{!v.accessUserLevel}"/>
                     </aura:iteration>
                 </div>
             </div>
