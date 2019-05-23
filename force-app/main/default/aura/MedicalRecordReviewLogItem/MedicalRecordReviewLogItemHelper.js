@@ -18,7 +18,7 @@
             component.set("v.referringMessage", $A.get("$Label.c.PG_MRRLI_MSG_Excluded_from_referring"));
         } else if (PStatus === "Failed Referral") {
             component.set("v.isReferred", false);
-            component.set("v.referringMessage", pEnroll.Non_Referral_Reason__c + " " + $A.get("$Label.c.PG_MRRLI_MSG_not_referred"));
+            component.set("v.referringMessage",  this.returnPickListTranslation(component, pEnroll.Non_Referral_Reason__c, 'Participant_Enrollment__c', 'Non_Referral_Reason__c') + " " + $A.get("$Label.c.PG_MRRLI_MSG_not_referred"));
         } else if (PStatus === "Pending Referral") {
             component.set("v.isReferred", false);
             component.set("v.referringMessage", "");
@@ -32,5 +32,35 @@
         }
 
         component.set("v.addedOnDate", $A.get("$Label.c.PG_MRRLI_MSG_Added_on") + " " + pEnroll.CreatedDate.substr(0, 10));
-    }
+    },
+    
+    returnPickListTranslation: function(component, picklistValue, objectName, fieldName){
+    	var action = component.get("c.translatePicklist");
+		action.setParams({ 
+    		value : picklistValue,
+    		sObjectName : objectName,
+    		firstName : fieldName
+		});
+		action.setCallback(this, function(response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                return response.getReturnValue();
+            }
+            else if (state === "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + 
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        });
+		$A.enqueueAction(action);
+
+
+    
+	}
 })
