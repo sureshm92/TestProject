@@ -2701,70 +2701,70 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 1</shortDescription>
-        <value>Motivation message 1</value>
+        <value>Congratulations! You have completed the screening period!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_10</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 10</shortDescription>
-        <value>MP Motivation Message 10</value>
+        <value>You are helping us gather important data about Rheumatoid Arthritis!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_2</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>MP Motivation Message 2</shortDescription>
-        <value>Motivation message 2</value>
+        <value>Welcome back! Your participation is much appreciated!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_3</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 3</shortDescription>
-        <value>Motivation message 3</value>
+        <value>You are helping doctors answer important questions!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_4</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 4</shortDescription>
-        <value>MP Motivation Message 4</value>
+        <value>Thank you for participating in the study.</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_5</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 5</shortDescription>
-        <value>MP Motivation Message 5</value>
+        <value>Your contribution to learning more about Rheumatoid Arthritis is valuable!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_6</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 6</shortDescription>
-        <value>MP Motivation Message 6</value>
+        <value>We greatly appreciate your dedication to the study!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_7</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 7</shortDescription>
-        <value>MP Motivation Message 7</value>
+        <value>Keep up the good work.</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_8</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 8</shortDescription>
-        <value>MP Motivation Message 8</value>
+        <value>Your participation may help others with Rheumatoid Arthritis in the future!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_9</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 9</shortDescription>
-        <value>MP Motivation Message 9</value>
+        <value>Thank you for attending your study visits!</value>
     </labels>
     <labels>
         <fullName>MRN_Internal_Id</fullName>
@@ -8291,6 +8291,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Changes made successfully</shortDescription>
         <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>Toast_ICF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast ICF</shortDescription>
+        <value>Patients cannot be enrolled without signing the Informed Consent Form</value>
     </labels>
     <labels>
         <fullName>UOM_Kilometers</fullName>
