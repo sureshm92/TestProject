@@ -6,16 +6,11 @@
     <columns>Content_Class__c</columns>
     <columns>Content_Type__c</columns>
     <columns>Language__c</columns>
-    <filterScope>Mine</filterScope>
+    <filterScope>Everything</filterScope>
     <filters>
         <field>Content_Type__c</field>
         <operation>equals</operation>
         <value>Video</value>
-    </filters>
-    <filters>
-        <field>Content_Class__c</field>
-        <operation>notEqual</operation>
-        <value>Study Document</value>
     </filters>
     <label>Videos</label>
 </ListView>
