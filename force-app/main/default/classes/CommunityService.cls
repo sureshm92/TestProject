@@ -15,6 +15,7 @@ public without sharing class CommunityService {
     public static String COMMUNITY_ET_PI = 'PI1_New_Study_Email'; //email template
     public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
+    public static String COMMUNITY_ET_DELEGATE_WELCOME = 'Initial_Email'; //email template
     public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
     public static String COMMUNITY_ET_SHARE_RESOURCE = 'Share_Resources'; //email template
 
@@ -222,6 +223,7 @@ public without sharing class CommunityService {
                         primaryContact__c,
                         userCommunityMode__c,
                         userCommunytyType__c,
+                        UserCommunityIsDelegate__c,
                         HCP_DelegateAccessLevel__c,
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,

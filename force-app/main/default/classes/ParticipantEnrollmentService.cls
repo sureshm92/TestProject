@@ -525,8 +525,8 @@ public without sharing class ParticipantEnrollmentService {
                     if(!field.contains('Alphabetical')) key += ' ' + getSObjectFieldValue(pe, field.trim());
                 }
                 key += pe.Id;
-                orderList.add(key);
-                peMap.put(key, pe);
+                orderList.add(key.toLowerCase());
+                peMap.put(key.toLowerCase(), pe);
             }
             orderList.sort();
             

@@ -1,7 +1,7 @@
 @isTest(IsParallel=false)
-public class UpdateDelegatesBatchTest {
+public class DelegateAddressesBatchTest {
 	
-     public static void methodName() {
+     public static void createData() {
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
                 Name = 'Participant'
@@ -122,16 +122,11 @@ public class UpdateDelegatesBatchTest {
     
     @isTest
     public static void testDelegatesUpdates(){
-        //TestData.loadTestData();
-        System.debug('Limits' + limits.getQueries());
-        methodName();
-        System.debug('Limits' + limits.getQueries());
+        createData();
         Test.startTest();
-	 	UpdateDelegatesBatch bt = new UpdateDelegatesBatch();
-		Database.executeBatch(bt, 10);  
+	 	DelegateAddressesBatch bt = new DelegateAddressesBatch();
+		Database.executeBatch(bt);  
         Test.stopTest();
-        Contact delegateRecord = [SELECT id FROM Contact WHERE LastName = 'TestDelegate'];
-        List<Referring_HCP_Staff__c> listOfStaff = [SELECT id, Delegate_Level__c FROM Referring_HCP_Staff__c WHERE Contact__c =:delegateRecord.id];
-        System.assertEquals('Level 1', listOfStaff[3].Delegate_Level__c);
+       
     }
 }

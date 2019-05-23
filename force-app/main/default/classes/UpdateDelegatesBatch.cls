@@ -64,10 +64,10 @@ global class UpdateDelegatesBatch implements Database.Batchable<sObject>, Databa
     
     global void  sendingEmail() {
 		Messaging.SingleEmailMessage semail = new Messaging.SingleEmailMessage();
-		String[] sendingTo = new String[]{'dsmailbox1990@gmail.com'};
+		String[] sendingTo = new String[]{'R&DSReferralHubSupport@quintiles.com'};
 		semail.setToAddresses(sendingTo);
 		String[] sendingTocAdd = new String[]{'Olena.Usoltseva@highpointsolutions.com', 'mikhail.pochkin@highpointsolutions.com', 'diana.antonyan@highpointsolutions.com'};
-		//semail.setCcAddresses(sendingTocAdd);
+		semail.setCcAddresses(sendingTocAdd);
 		semail.setSubject('RP Delegates');
 		semail.setPlainTextBody('List of Ids RP Delegates' + JSON.serialize(rpContacts));
 		Messaging.sendEmail(new Messaging.SingleEmailMessage[] {semail});

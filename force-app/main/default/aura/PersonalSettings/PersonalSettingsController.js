@@ -3,11 +3,8 @@
         if(!communityService.isInitialized()) return;
         component.set('v.showSpinner', true);
 
-        communityService.executeAction(component, 'isDelegate', null,
-            function (returnValue) {
-                if(returnValue === 'TRUE') component.set('v.isDelegate', true);
-        });
         var mode = communityService.getUserMode();
+        component.set('v.isDelegate', communityService.isDelegate());
         var tabId = communityService.getUrlParameter('tab');
         if(tabId) {
             if(mode === 'HCP' || mode === 'PI') {

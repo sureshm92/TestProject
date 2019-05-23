@@ -11,8 +11,7 @@ SitePhoneNumber = Study_Site__r.Study_Site_Phone__c
 ReferralSource = Referral_Source__c
 IsVirtual = Is_Virtual_Study_Site__c
 PIName = Study_Site__r.Principal_Investigator__r.Full_Name__c
-HCP = HCP__c
-HCPName = HCP__r.HCP_Contact__r.Full_Name__c</value>
+HCPName = HCP__r.HCP_Contact__r.Name</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

@@ -122,6 +122,7 @@ public without sharing class ParametersDataProvider {
                         HCP__r.HCP_Contact__r.LastName,
                         HCP__r.HCP_Contact__r.Salutation,
                         HCP__r.HCP_Contact__r.Language__c,
+                        HCP__r.HCP_Contact__r.Title,
                         Participant__r.Contact__c,
                         Participant__r.Contact__r.Name,
                         Participant__r.Contact__r.FirstName,
@@ -138,6 +139,7 @@ public without sharing class ParametersDataProvider {
                         Study_Site__r.Principal_Investigator__r.LastName,
                         Study_Site__r.Principal_Investigator__r.Salutation,
                         Study_Site__r.Principal_Investigator__r.Language__c,
+                        Study_Site__r.Principal_Investigator__r.Title,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
@@ -152,6 +154,7 @@ public without sharing class ParametersDataProvider {
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
+                'PITitle' => pe.Study_Site__r.Principal_Investigator__r.Title,
                 'PILanguage' => pe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'ParticipantName' => getFullParticipantName(pe.Participant__r),
                 'ParticipantContactFirstName' => pe.Participant_Contact__r.FirstName,
@@ -162,7 +165,8 @@ public without sharing class ParametersDataProvider {
         if(pe.HCP__c != null){
             parameters.putAll(new Map<String, String>{
                     'HCPName' => getFullContactName(pe.HCP__r.HCP_Contact__r),
-                    'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c
+                    'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c,
+                    'HCPTitle' => pe.HCP__r.HCP_Contact__r.Title
             });
         }
         
@@ -173,7 +177,6 @@ public without sharing class ParametersDataProvider {
                 'StudyName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'StudyTitle' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                 'StudySiteName' => pe.Study_Site__r.Name,
-                'HCP' => pe.HCP__c,
                 'SitePhoneNumber' => pe.Study_Site__r.Study_Site_Phone__c,
                 'ReferralSource' => pe.Referral_Source__c
         });
@@ -310,6 +313,7 @@ public without sharing class ParametersDataProvider {
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantLanguage', cnt.Language__c);
+
             if(isDelegate) {
                 parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
                 parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c);
