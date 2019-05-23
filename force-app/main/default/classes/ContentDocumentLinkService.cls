@@ -89,20 +89,6 @@ public with sharing class ContentDocumentLinkService {
         update resourcesToUpdate;
     }
 
-    public void remindEventFire(List<ContentDocumentLink> links) {
-        Boolean isFireEvent = false;
-        for (ContentDocumentLink singleLink : links) {
-            if (singleLink.LinkedEntityId.getSobjectType() == Resource__c.getSObjectType()) {
-                isFireEvent = true;
-                break;
-            }
-        }
-        if (isFireEvent) {
-            PlatformEventService platformEventService = (PlatformEventService) ClassFactory.newInstance(PlatformEventService.class);
-            platformEventService.remindEventFire();
-        }
-    }
-
     public void validateImageTypes(List<ContentDocumentLink> links) {
 
         List<ContentDocumentLink> linksToValidate = new List<ContentDocumentLink>();

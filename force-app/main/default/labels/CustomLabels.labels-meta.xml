@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
         <fullName>AL_Body_Assigned_as_Delegate</fullName>
@@ -2774,6 +2774,19 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>true</protected>
         <shortDescription>MRN Internal Id</shortDescription>
         <value>MRN/Internal ID</value>
+    </labels>
+    <labels>
+        
+	<fullName>Medical_Record_Review</fullName>
+        
+	<language>en_US</language>
+        
+	<protected>false</protected>
+        
+	<shortDescription>Medical Record Review</shortDescription>
+        
+	<value>Medical Record Review</value>
+    
     </labels>
     <labels>
         <fullName>MyStudy_Associated_Sites_and_Site_Details</fullName>
@@ -7754,6 +7767,19 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>STP Pre-Eligibility Screenings Completions</shortDescription>
         <value>Pre-Eligibility Screenings Completions</value>
+    </labels>
+    <labels>
+        
+	<fullName>Search_For_Sites</fullName>
+        
+	<language>en_US</language>
+        
+	<protected>false</protected>
+        
+	<shortDescription>Search For Sites</shortDescription>
+        
+	<value>Search For Sites</value>
+    
     </labels>
     <labels>
         <fullName>Set_Reminder</fullName>

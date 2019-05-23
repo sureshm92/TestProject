@@ -41,6 +41,17 @@
                 label: $A.get('$Label.c.Navigation_Reports'),
                 icon: 'reports'
             },
+            
+            'sites-search': {
+                page: 'sites-search',
+                label: $A.get('$Label.c.Search_For_Sites'),
+                icon: 'reports'
+            },
+            'medical-record-review': {
+                page: 'sites-search',
+                label: $A.get('$Label.c.Medical_Record_Review'),
+                icon: 'reports'
+            },
 
             'help': {
                 page: 'help',

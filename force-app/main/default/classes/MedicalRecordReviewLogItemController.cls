@@ -29,4 +29,9 @@ public without sharing class MedicalRecordReviewLogItemController {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
     }
+    @AuraEnabled
+    public static String translatePicklist(String value, String sObjectName, String field){
+        SObjectField sObjectField = Schema.getGlobalDescribe().get(sObjectName).getDescribe().fields.getMap().get(field);
+        return TranslateHelper.getPickListLabel(sObjectField, value);
+    }
 }
