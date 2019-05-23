@@ -669,6 +669,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for j
         <value>Pre-eligibility Screening</value>
     </labels>
     <labels>
+        <fullName>BTN_PES2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN PES2</shortDescription>
+        <value>Pre-eligibility Screening</value>
+    </labels>
+    <labels>
         <fullName>BTN_Patient_no_longer_interested</fullName>
         <language>en_US</language>
         <protected>false</protected>
