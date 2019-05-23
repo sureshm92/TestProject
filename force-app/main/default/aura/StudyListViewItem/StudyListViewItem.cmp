@@ -11,6 +11,7 @@
     <aura:attribute name="detailsExpanded" type="Boolean" default="false"/>
     <aura:attribute name="actionsList" type="Boolean"/>
     <aura:attribute name="searchItem" type="Boolean" default="false"/>
+    <aura:attribute name="accessUserLevel" type="String"/>
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
@@ -283,8 +284,8 @@
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                 <button class="apollo-btn primary slvi-search-site-btn"
                                         onclick="{!c.navigateToSitesSearch}"
-                                        disabled="{!v.currentStudy.actionsMap.linkToStudySites.disabled}"
-                                        title="{!v.currentStudy.actionsMap.linkToStudySites.disableReason}">
+                                        disabled="{!v.accessUserLevel=='Level 2'}"
+                                        title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
                                     {!$Label.c.MyStudy_Find_More_Sites}
                                 </button>
                             </div>
