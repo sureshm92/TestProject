@@ -119,7 +119,6 @@
                                                             </div>
                                                         </aura:iteration>
                                                     </div>
-                                                    <div class="share-btn-label">{!action.label}</div>
                                                 </aura:if>
                                             </div>
                                         </aura:iteration>
