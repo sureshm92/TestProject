@@ -28,7 +28,6 @@ public without sharing class ParametersDataProvider {
         this.parametersProviderName = parametersProviderName;
         parameters = new Map<String, String>();
         updateRecipientName();
-        System.debug('OBJECT>>>>>>>>>>' + sourceId.getSobjectType());
         if(sourceId != null){
             if(parametersProviderName == null){
                 if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
