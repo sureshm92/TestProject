@@ -129,7 +129,8 @@ public without sharing class StudyDetailViewController {
                 for (Study_Site__c ss : hcpStudySites) {
                     String hcpStatus;
                     if (hcpEnrollment != null && hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
-                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(ss.Name, accountsMap.get(ss.Site__c), hcpStatus, ss.Id));
+                    Account account = accountsMap.get(ss.Site__c);
+                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, hcpStatus, ss.Id));
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
@@ -147,9 +148,7 @@ public without sharing class StudyDetailViewController {
                 List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
                 for (Integer i = 0; i < accounts.size(); i++) {
                     Account acc = accounts.get(i);
-                    trialDetail.accountEnrollmentsList.add(
-                            createClinicWrapper(idToStudySiteMap.get(acc.Id).Name, acc, null, null)
-                    );
+                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(acc.Name, acc, null, null));
                 }
             }
             return JSON.serialize(trialDetail);
