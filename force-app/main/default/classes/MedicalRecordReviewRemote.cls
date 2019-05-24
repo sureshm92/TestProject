@@ -17,14 +17,7 @@ public without sharing class MedicalRecordReviewRemote {
         try{
             InitData initData = new InitData();
             initData.trial = StudyTrialService.getFullTrial(trialId);
-            try {
-                Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-                initData.delegateAccessLevel = [SELECT Delegate_Level__c
-                                                FROM Referring_HCP_Staff__c
-                                                WHERE Contact__r.Id = :currentContactId LIMIT 1].Delegate_Level__c;
-            } catch (Exception ex){
-                initData.delegateAccessLevel=null;
-            }
+            initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
             if(hcpeId!=null){
                 HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
                 //localize MRR

@@ -6,11 +6,20 @@
 
     <!-- attributes: -->
     <apex:attribute name="title" type="String" description=""/>
+    <apex:attribute name="isPi" type="Boolean" description=""/>
     <apex:attribute name="delegateLevels" type="DelegateLevelWrapper[]" description=""/>
 
     <!-- component body: -->
     <br/><br/>
-    {!title}
+    <apex:outputPanel rendered="{!isPI}">
+        {!title}
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!!isPI}">
+        {!title}{!delegateLevels[0].level}
+    </apex:outputPanel>
+    
+    <apex:outputPanel rendered="{!isPI}">
+    
     <br/><br/>
     <table style="width: 100%;table-layout: fixed; border-collapse: collapse;">
         <apex:repeat value="{!delegateLevels}" var="studyLevel">
@@ -24,6 +33,7 @@
             </tr>
         </apex:repeat>
     </table>
+    </apex:outputPanel>
     <br/><br/>
 
 </apex:component>

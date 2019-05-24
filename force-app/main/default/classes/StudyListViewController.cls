@@ -28,6 +28,7 @@ public without sharing class StudyListViewController {
         public StudyTrialService.StudyFilterData filterData;
         public PaginationData paginationData;
         public List<StudyDetailItem> currentPageList;
+        public String delegateAccessLevel;
     }
 
     @AuraEnabled
@@ -88,6 +89,7 @@ public without sharing class StudyListViewController {
             // refresh filter data with TA options list
             initData.filterData = StudyTrialService.getStudyFilterData();
 
+            initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
