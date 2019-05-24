@@ -69,7 +69,7 @@
                     <!-- map section: -->
 
                     <!-- for HCP: -->
-                    <aura:if isTrue="{!v.userMode == 'HCP'}">
+                   <!-- <aura:if isTrue="{!v.userMode == 'HCP'}">
                         <c:RRAnchor aura:id="studySitesAnchor" offset="-160"/>
                         <div class="sdas-category"><c:RRIcon iconName="map-marker"/>{!$Label.c.PG_VP_L_Study_sites}</div>
                         <div class="sdas-text">
@@ -81,7 +81,7 @@
 
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <c:RRAnchor aura:id="studySiteAnchor" offset="-160"/>
-                    </aura:if>
+                    </aura:if>-->
 
                     <!-- for PI: -->
                     <aura:if isTrue="{!v.userMode == 'PI'}">
@@ -106,50 +106,52 @@
                     </aura:if>
 
                     <!-- map with items: -->
-                    <div class="sdas-map">
-                        <c:RRAnchor aura:id="mapAnchor" offset="-165"/>
-                        <aura:if isTrue="{!!empty(v.studyDetail.accountEnrollmentsList)}">
-                            <div class="sdas-map-body">
-                                <div class="map-container">
-                                    <c:RRGoogleMap accounts="{!v.studyDetail.accountEnrollmentsList}"/>
-                                </div>
-                            </div>
-                            <div class="sdas-map-footer">
-                                <c:RRSpinner aura:id="accountListSpinner"/>
-                                <aura:iteration items="{!v.studyDetail.accountEnrollmentsList}" var="accountWithEnrollments" indexVar="index">
-                                    <div class="sdas-footer-info">
-                                        <div class="name">
-                                            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                                                <div style="float: right"><c:HCPStatusIco status="{!accountWithEnrollments.hcpStatus}" overrideStatusLabel="{!accountWithEnrollments.hcpStatusLabel}"/></div>
-                                            </aura:if>
-                                            {!index + 1}. {!accountWithEnrollments.name}
-                                        </div>
-                                        <div class="address">
-                                            <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
-                                            <div class="address-3">{!accountWithEnrollments.addrCity}</div>
-                                            <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
-                                                <div style="margin-top: 10px">
-                                                    <button class="apollo-btn tertiary"
-                                                            id="{!accountWithEnrollments.studySiteId}"
-                                                            onclick="{!c.doChangeStudySite}"
-                                                            disabled="{!v.studyDetail.actions.sendSiteRequest.disabled}">
-                                                        {!v.studyDetail.actions.sendSiteRequest.label}
-                                                    </button>
-                                                </div>
-                                            </aura:if>
-                                        </div>
+                    <aura:if isTrue="{!v.userMode == 'PI'}">
+                        <div class="sdas-map">
+                            <c:RRAnchor aura:id="mapAnchor" offset="-165"/>
+                            <aura:if isTrue="{!!empty(v.studyDetail.accountEnrollmentsList)}">
+                                <div class="sdas-map-body">
+                                    <div class="map-container">
+                                        <c:RRGoogleMap accounts="{!v.studyDetail.accountEnrollmentsList}"/>
                                     </div>
-                                </aura:iteration>
-                                <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
-                                    <div class="study-sites-footer">
-                                        <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
-                                        &nbsp;
-                                        {!$Label.c.PG_SDAS_L_not_acceptable}
-                                    </div>  
-                                </aura:if>
-                            </div>
-                        </aura:if>
-                    </div>
+                                </div>
+                                <div class="sdas-map-footer">
+                                    <c:RRSpinner aura:id="accountListSpinner"/>
+                                    <aura:iteration items="{!v.studyDetail.accountEnrollmentsList}" var="accountWithEnrollments" indexVar="index">
+                                        <div class="sdas-footer-info">
+                                            <div class="name">
+                                                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                                                    <div style="float: right"><c:HCPStatusIco status="{!accountWithEnrollments.hcpStatus}" overrideStatusLabel="{!accountWithEnrollments.hcpStatusLabel}"/></div>
+                                                </aura:if>
+                                                {!index + 1}. {!accountWithEnrollments.name}
+                                            </div>
+                                            <div class="address">
+                                                <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
+                                                <div class="address-3">{!accountWithEnrollments.addrCity}</div>
+                                                <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
+                                                    <div style="margin-top: 10px">
+                                                        <button class="apollo-btn tertiary"
+                                                                id="{!accountWithEnrollments.studySiteId}"
+                                                                onclick="{!c.doChangeStudySite}"
+                                                                disabled="{!v.studyDetail.actions.sendSiteRequest.disabled}">
+                                                            {!v.studyDetail.actions.sendSiteRequest.label}
+                                                        </button>
+                                                    </div>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                    </aura:iteration>
+                                    <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
+                                        <div class="study-sites-footer">
+                                            <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
+                                            &nbsp;
+                                            {!$Label.c.PG_SDAS_L_not_acceptable}
+                                        </div>  
+                                    </aura:if>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </aura:if>
                 </div>
 
                 <!-- center column separator: -->
@@ -208,7 +210,7 @@
     </div>
 
     <!-- bottom bar: -->
-    <aura:if isTrue="{!!empty(v.studyDetail.studyBottomBarActions)}">
+    <!--<aura:if isTrue="{!!empty(v.studyDetail.studyBottomBarActions)}">
         <c:RRBottomBar>
             <aura:iteration items="{!v.studyDetail.studyBottomBarActions}" var="action">
                 <button Id="{!action.id}" class="{!'apollo-btn ' + action.cssClass}"
@@ -217,6 +219,6 @@
                         onclick="{!c.doAction}">{!action.label}</button>
             </aura:iteration>
         </c:RRBottomBar>
-    </aura:if>
+    </aura:if> -->
 
 </aura:component>
