@@ -235,16 +235,14 @@ public without sharing class ParametersDataProvider {
                         Principal_Investigator__c,
                         Clinical_Trial_Profile__r.Study_Title__c,
                         Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site_Phone__c,
-                        ReferralNetworkId__r.Name
+                        Study_Site_Phone__c
                 FROM Study_Site__c
                 WHERE Id = :ssId
         ];
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(ss.Principal_Investigator__r),
-                'PILanguage' => ss.Principal_Investigator__r.Language__c,
-                'ReferralNetworkName' => ss.ReferralNetworkId__r.Name
+                'PILanguage' => ss.Principal_Investigator__r.Language__c
         };
         
         TranslateHelper.translate(ss, getUserLanguage());

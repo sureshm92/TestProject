@@ -55,13 +55,7 @@ global without sharing class EmailTemplateController {
     global String headerValue {
         get{
             setDefaultValues();
-            if(headerValue.contains(PARAM_PREFIX)){
-                String resValue = TranslateHelper.replaceParams(headerValue, PARAM_PREFIX, getDataProvider().parameters);
-                return prepareLineBreaks(resValue);
-            }
-            else{
-                return headerValue;
-            }
+            return headerValue;
         }
         set;
     }
