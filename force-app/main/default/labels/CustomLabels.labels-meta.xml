@@ -358,7 +358,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for j
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Action View New Study Site</shortDescription>
-        <value>View New Study Site</value>
+        <value>View Study Site</value>
     </labels>
     <labels>
         <fullName>Admin</fullName>
@@ -1423,9 +1423,9 @@ By clicking through to our website, you are accepting use of cookies.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial HCP</shortDescription>
-        <value>This email is a follow-up to your recent conversation with an IQVIA Outreach Lead in which you expressed interest in referring patients to a clinical research study for further evaluation.
+        <value>This email is a follow-up to your recent conversation with an IQVIA Outreach Lead in which you expressed interest in referring patients to clinical research studies using the IQVIA Referral Hub.  
 
-The first step is for you to enroll in the IQVIA Referral Hub.</value>
+The first step is for you to enroll.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI</fullName>
@@ -1440,18 +1440,20 @@ You will then be able to manage patient referrals to the study from any IQVIA so
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient</shortDescription>
-        <value>Recently, ##HCPName made a referral on your behalf to ##PIName regarding your potential participation in a clinical research study: ##StudyName.
+        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-You will be contacted by the study team regarding next steps in the enrollment process.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-To track your clinical research study status and to learn more about future clinical research opportunities, please join the IQVIA Patient Portal.</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
-        <value>Recently, ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
+        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
 
 We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process. 
 
@@ -1464,13 +1466,13 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for  ##ParticipantName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantName on their journey.  
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
-To assist you in tracking  ##ParticipantName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
 
 Your username is ##Username. Please click the Log In button to create your password.
 
-Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantName to be enrolled into the research study: ##StudyName.</value>
+Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -1483,7 +1485,7 @@ We are reaching out to you on behalf of the Study Team to let you know that we h
 
 To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: #StudyName.</value>
+Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -1606,7 +1608,7 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient16</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyTitle before the trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
+        <value>We are sorry to see you have decided to leave ##StudyName Study before the clinical trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient17</fullName>
@@ -1695,18 +1697,18 @@ Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quo
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP11</shortDescription>
-        <value>Check out new Study Site that has been added to your interested Referral Network</value>
+        <value>A new study site has been added to a Referral Network in which you have expressed interest: ##ReferralNetworkName</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP2</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP2</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been accepted into the clinical research study: ##StudyTitle.
+        <value>Your patient referral, ID number: ##PEName, has been received for the clinical research study: ##StudyTitle. 
 
-The study site will contact your referral directly to discuss next steps.
+The study team will contact your referral directly to discuss next steps.
 
-To see additional information about this patient&#39;s referral status, log in to Referral Hub, and then go to the &quot;My Patients.&quot;
+To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and then access &quot;My Patients&quot; from the main navigation menu or the My Studies page.  
 
 To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to “My Studies.”</value>
     </labels>
@@ -1897,7 +1899,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Delegate</shortDescription>
-        <value>New permissions added</value>
+        <value>You&#39;ve been added as a team member in the</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_HCP</fullName>
@@ -2009,7 +2011,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header RP11</shortDescription>
-        <value>New Study Site has been added to your interested Referral Network!</value>
+        <value>New study site for ##ReferralNetworkName</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP2</fullName>
@@ -2142,11 +2144,11 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature</shortDescription>
-        <value>Thank you for your interest in participating in the IQVIA Referral Hub.
+        <value>Thank you.
 
-Sincerely,
+Sincerely, 
 
-The IQVIA Referral Hub and Patient Portal Support Team</value>
+The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -2214,11 +2216,11 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature New Participant Delegate</shortDescription>
-        <value>We are so excited to be on this journey with you.
+        <value>We are excited to be on this journey with you.
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
@@ -2234,7 +2236,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient</shortDescription>
-        <value>Thank you for your interest in participating in the IQVIA Patient Portal.
+        <value>Thank you for your interest in participating in clinical research.
 
 Sincerely,
 
@@ -2245,9 +2247,11 @@ The IQVIA Referral Hub and Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature RH</shortDescription>
-        <value>Thank you for your interest in participating in the IQVIA Referral Hub.
-            Sincerely,
-            The IQVIA Referral Hub Support Team</value>
+        <value>Thank you for participating in the IQVIA Referral Hub. 
+
+Sincerely,
+
+The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Resource</fullName>
@@ -2403,7 +2407,7 @@ IQVIA Study Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject RP11</shortDescription>
-        <value>New Study Site has been added to Referral Network</value>
+        <value>New study site in one of your Referral Networks</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP2</fullName>
@@ -5864,7 +5868,8 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG NTM T Correct Info</shortDescription>
-        <value>Please, make sure that you have entered a valid email address,&amp;#013;first and last name and chosen permissions for at least one study.</value>
+        <value>Please, make sure that you have entered a valid email address,
+first and last name and chosen permissions for at least one study.</value>
     </labels>
     <labels>
         <fullName>PG_OFE_L_Question</fullName>
@@ -7611,7 +7616,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>resource send emial soical</shortDescription>
-        <value>link {0} to share</value>
+        <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
@@ -7763,7 +7768,7 @@ is a placehilder to show you what it would look like.</value>
     <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
-        <protected>true</protected>
+        <protected>false</protected>
         <shortDescription>Search For Sites</shortDescription>
         <value>Search For Sites</value>
     </labels>
@@ -7926,7 +7931,9 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Popup text</shortDescription>
-        <value>This service may not be available everywhere.  Check with your study team for any questions.</value>
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team.
+
+            By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be responsible for their policies, terms of use, or legal/regulatory compliance.</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
