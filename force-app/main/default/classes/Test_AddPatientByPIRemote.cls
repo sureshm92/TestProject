@@ -38,6 +38,9 @@ private class Test_AddPatientByPIRemote {
             );
             try{
                 AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe));
+                for(Participant_Enrollment__c pe2 : [SELECT Name, Referral_ID__c, Participant_Key__c FROM Participant_Enrollment__c]){
+                    System.debug('XXX_PE: ' + pe2);
+                }
             }catch (Exception e){
                 System.debug('ERROR: ' + e.getMessage());
             }
