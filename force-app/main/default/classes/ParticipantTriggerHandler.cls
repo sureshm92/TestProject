@@ -53,6 +53,7 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.LastName = participant.Last_Name__c;
                 newContact.Email = participant.Email__c;
                 newContact.AccountId = participantAccountId;
+                newContact.Language__c = participant.Language_Preference_Code__c;
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactsToInsert.add(newContact);
