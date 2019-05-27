@@ -333,6 +333,12 @@ public class Test_ResourceService {
                 WHERE ContactId = :participants[0].Contact__c
         ];
         System.assertEquals(1, users.size());
+        
+        List<Resource__Share> shares = new List<Resource__Share>();
+        shares.add(new Resource__Share(ParentId = resources[0].Id, UserOrGroupId = users[0].Id, AccessLevel = 'Edit'));
+        shares.add(new Resource__Share(ParentId = resources[1].Id, UserOrGroupId = users[0].Id, AccessLevel = 'Edit'));
+        shares.add(new Resource__Share(ParentId = resources[2].Id, UserOrGroupId = users[0].Id, AccessLevel = 'Edit'));
+        insert shares;
 
         Test.startTest();
         ResourceService.ResourceWrapperContainer container;

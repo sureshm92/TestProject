@@ -7,7 +7,7 @@
 
 public without sharing class ParametersDataProvider {
     
-    public static final String DEFAULT_LANGUAGE = 'en_US';
+    public static final String DEFAULT_LANGUAGE = 'en_US'; 
     
     public Map<String, String> parameters;
     public String userMode;
@@ -238,14 +238,16 @@ public without sharing class ParametersDataProvider {
                         Principal_Investigator__c,
                         Clinical_Trial_Profile__r.Study_Title__c,
                         Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site_Phone__c
+                        Study_Site_Phone__c,
+                        ReferralNetworkId__r.Name
                 FROM Study_Site__c
                 WHERE Id = :ssId
         ];
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(ss.Principal_Investigator__r),
-                'PILanguage' => ss.Principal_Investigator__r.Language__c
+                'PILanguage' => ss.Principal_Investigator__r.Language__c,
+                'ReferralNetworkName' => ss.ReferralNetworkId__r.Name
         };
         
         TranslateHelper.translate(ss, getUserLanguage());
