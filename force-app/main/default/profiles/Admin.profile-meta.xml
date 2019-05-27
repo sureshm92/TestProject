@@ -223,6 +223,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DelegateAddressesBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateAddressesBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DelegateLevelWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -923,6 +931,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PlatformEventService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -948,6 +960,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceNotifierRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2982,6 +2998,31 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Survey__c.Expiration_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Survey__c.Invitation_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Survey__c.Show_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Survey__c.Survey_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Survey__c.Visible_To_Delegates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3183,7 +3224,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Reminder_Event__e.ResourceId__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3916,6 +3957,26 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Active_After_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Active_On_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Expires_After_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Visible_To_Delegates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>User.First_Logon__c</field>
         <readable>true</readable>
@@ -4040,6 +4101,9 @@
         <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Participant_Survey__c-Participant Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Participant__c-Participant Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4131,6 +4195,17 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Translation__c-Translation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Survey__c-Trial Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Survey__c-Trial Survey Layout</layout>
+        <recordType>Trial_Survey__c.Status_based</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Survey__c-Trial Survey Layout Days</layout>
+        <recordType>Trial_Survey__c.Time_based</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
@@ -4297,6 +4372,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Participant_Study_Enrollment__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Participant_Survey__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -4503,6 +4587,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Trial_Survey__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Visit_Plan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -4581,6 +4674,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>MyProfilePage</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>Patient16_Self_ePR_New_Referral</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -4667,6 +4764,16 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Trial_Survey__c.Status_based</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Trial_Survey__c.Time_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
@@ -5168,15 +5275,7 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ManagePropositions</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>ManagePvtRptsAndDashbds</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageRecommendationStrategies</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

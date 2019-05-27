@@ -195,6 +195,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContentDocumentTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CountryStateUtil</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -216,6 +220,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DateRangeFilterData</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateAddressesBatch</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateAddressesBatchTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -575,6 +587,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceContentClassService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceDecoupler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -823,7 +839,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ClassFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CodeExecutor</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -836,6 +860,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ConditionOfInterestRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -899,6 +931,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PlatformEventService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -907,7 +943,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_RRPDFViewerController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ReferringRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceContentClassService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -916,6 +960,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceNotifierRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1019,6 +1067,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>UpdateDelegatesBatch</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UpdateDelegatesBatchTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>UserService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1038,6 +1094,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Address_changed_by_non_integration_user__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2936,6 +2997,26 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Survey__c.Expiration_date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Survey__c.Invitation_link__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Survey__c.Show_date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Survey__c.Survey_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
@@ -3137,6 +3218,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Reminder_Event__e.ResourceId__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3329,6 +3415,11 @@
         <editable>false</editable>
         <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.document_type__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3862,6 +3953,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Trial_Survey__c.Active_after_days__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Active_on_status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Expires_after_days__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Visible_To_Delegates__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>User.First_Logon__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3982,6 +4093,9 @@
         <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Participant_Survey__c-Participant Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Participant__c-PII Compliant</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4073,6 +4187,17 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Translation__c-Translation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Survey__c-Trial Survey Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Survey__c-Trial Survey Layout</layout>
+        <recordType>Trial_Survey__c.Status_based</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Survey__c-Trial Survey Layout Days</layout>
+        <recordType>Trial_Survey__c.Time_based</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
@@ -4386,6 +4511,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>Patient16_Self_ePR_New_Referral</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>RRChangePassword</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -4469,6 +4598,16 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Therapeutic_Area__c.Third_Party_Condition_of_Interests</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Trial_Survey__c.Status_based</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Trial_Survey__c.Time_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
