@@ -96,7 +96,7 @@ public abstract class StudyActions {
     public static final String LABEL_HOME = Label.Link_Back_To_Home;
 
     public static final String LABEL_MEDICAL_RECORD_REVIEW = Label.BTN_PES;
-    public static final String LABEL_PRE_ELIGIBILITY_SCREENING = 'Pre-eligibility Screening';
+    public static final String LABEL_PRE_ELIGIBILITY_SCREENING = Label.BTN_PES2;
 
 
     public static final String LABEL_EXCLUDE_FROM_REFERRING = Label.BTN_Exclude_from_referring;

@@ -223,6 +223,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DelegateAddressesBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateAddressesBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DelegateLevelWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -923,6 +931,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PlatformEventService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -948,6 +960,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceNotifierRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4691,6 +4707,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Manual_Tasks_Creation</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Participant_Enrollment_Status_History__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
