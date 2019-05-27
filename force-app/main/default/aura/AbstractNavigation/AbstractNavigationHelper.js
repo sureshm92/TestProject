@@ -70,6 +70,11 @@
                 label: $A.get('$Label.c.Navigation_My_Referring_Clinics'),
                 icon: 'referred-clinic'
             },
+            
+            'referring': {
+                page: 'referring',
+                label: $A.get('$Label.c.Referring')
+            },
 
             'study-workspace': {
                 page: 'study-workspace',
