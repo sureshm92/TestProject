@@ -46,6 +46,7 @@ public without sharing class MyTeamRemote {
                         WHERE Email = :contactEmail
                 ];
                 if(!delegateContacts.isEmpty() && userMode == CommunityService.USER_MODE_HCP){
+                    alreadyExists = true;
                     Id delegateId = delegateContacts[0].Id;
                     List<HCP_Enrollment__c> hcps = [SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c = : delegateId LIMIT 1];
                     if(!hcps.isEmpty()){
@@ -304,31 +305,33 @@ public without sharing class MyTeamRemote {
                     }
                     Map<Id, Referring_HCP_Staff__c> delegateHCPStaffMap =
                             DelegateService.getHCPTeamStaffTrialMap().get(dw.delegateContact.Id);
+                    List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentByContactId();
                     List<Referring_HCP_Staff__c> delegateRecordsToInsert = new List<Referring_HCP_Staff__c>();
                     List<Referring_HCP_Staff__c> delegateRecordsToUpdate = new List<Referring_HCP_Staff__c>();
                     List<Referring_HCP_Staff__c> delegateRecordsToDelete = new List<Referring_HCP_Staff__c>();
-                    for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
-                        if (delegateRecord.delegateLevel != '') {
-                            hasDelegateLevels = true;
-                        }
+                    //for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
+                    if (dw.trialLevel.delegateLevel != '') {
+                        hasDelegateLevels = true;
+                    }
+                    for (HCP_Enrollment__c enrollment : hcpEnrollments) {
                         if (delegateHCPStaffMap == null ||
-                                delegateHCPStaffMap.get(delegateRecord.enrollmentOrStudySiteId) == null) {
-                            if (delegateRecord.delegateLevel != '') {
-                                Referring_HCP_Staff__c newDelegateRecord = new Referring_HCP_Staff__c();
-                                newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
-                                newDelegateRecord.HCP_Enrollment__c = delegateRecord.enrollmentOrStudySiteId;
-                                newDelegateRecord.Contact__c = dw.delegateContact.Id;
-                                delegateRecordsToInsert.add(newDelegateRecord);
-                            }
+                                delegateHCPStaffMap.get(enrollment.Id) == null) {
+                                if (dw.trialLevel.delegateLevel != '') {
+                                    Referring_HCP_Staff__c newDelegateRecord = new Referring_HCP_Staff__c();
+                                    newDelegateRecord.Delegate_Level__c = dw.trialLevel.delegateLevel;
+                                    newDelegateRecord.HCP_Enrollment__c = enrollment.Id;
+                                    newDelegateRecord.Contact__c = dw.delegateContact.Id;
+                                    delegateRecordsToInsert.add(newDelegateRecord);
+                                }
                         } else {
-                            Referring_HCP_Staff__c curDelegateRecord =
-                                    delegateHCPStaffMap.get(delegateRecord.enrollmentOrStudySiteId);
-                            if (delegateRecord.delegateLevel == '') {
-                                delegateRecordsToDelete.add(curDelegateRecord);
-                            } else if (delegateRecord.delegateLevel != curDelegateRecord.Delegate_Level__c) {
-                                curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
-                                delegateRecordsToUpdate.add(curDelegateRecord);
-                            }
+                                Referring_HCP_Staff__c curDelegateRecord =
+                                        delegateHCPStaffMap.get(enrollment.Id);
+                                if (dw.trialLevel.delegateLevel == '') {
+                                    delegateRecordsToDelete.add(curDelegateRecord);
+                                } else if (dw.trialLevel.delegateLevel != curDelegateRecord.Delegate_Level__c) {
+                                    curDelegateRecord.Delegate_Level__c = dw.trialLevel.delegateLevel;
+                                    delegateRecordsToUpdate.add(curDelegateRecord);
+                                }
                         }
                     }
                     if (!delegateRecordsToInsert.isEmpty()) {
@@ -441,15 +444,20 @@ public without sharing class MyTeamRemote {
                 insert delegateRecordsToInsert;
             }
         }
-        if (userMode == CommunityService.USER_MODE_HCP) {
+
+
+    if (userMode == CommunityService.USER_MODE_HCP) {
+            List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentByContactId();
             List<Referring_HCP_Staff__c> delegateRecordsToInsert = new List<Referring_HCP_Staff__c>();
             for (TrialDelegateLevelWrapper delegateRecord : delegate.trialLevels) {
-                if (delegateRecord.delegateLevel != '') {
-                    Referring_HCP_Staff__c newDelegateRecord = new Referring_HCP_Staff__c();
-                    newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
-                    newDelegateRecord.HCP_Enrollment__c = delegateRecord.enrollmentOrStudySiteId;
-                    newDelegateRecord.Contact__c = delegateContact.Id;
-                    delegateRecordsToInsert.add(newDelegateRecord);
+                for (HCP_Enrollment__c enrollment : enrollments) {
+                    if (delegateRecord.delegateLevel != '') {
+                        Referring_HCP_Staff__c newDelegateRecord = new Referring_HCP_Staff__c();
+                        newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                        newDelegateRecord.HCP_Enrollment__c = enrollment.Id;
+                        newDelegateRecord.Contact__c = delegateContact.Id;
+                        delegateRecordsToInsert.add(newDelegateRecord);
+                    }
                 }
             }
             if (!delegateRecordsToInsert.isEmpty()) {
