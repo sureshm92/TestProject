@@ -201,11 +201,12 @@ public without sharing class HCPEnrollmentService {
                 ' WHERE ' + getUserModeFilter(userMode, excludeDelegates);
         if(filter != null) query += ' ' + filter;
         System.debug('EXECUTE QUERY: ' + query);
+
         List<HCP_Enrollment__c> hcpeList = Database.query(query);
+
         System.debug('Query:' + query + ' result hcpeList = ' + hcpeList);
         TranslateHelper.translate(hcpeList);
         return hcpeList;
-
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommon(String userMode, String filter, Boolean excludeDelegates){

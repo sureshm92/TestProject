@@ -46,6 +46,7 @@ public without sharing class MyTeamRemote {
                         WHERE Email = :contactEmail
                 ];
                 if(!delegateContacts.isEmpty() && userMode == CommunityService.USER_MODE_HCP){
+                    alreadyExists = true;
                     Id delegateId = delegateContacts[0].Id;
                     List<HCP_Enrollment__c> hcps = [SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c = : delegateId LIMIT 1];
                     if(!hcps.isEmpty()){
@@ -441,7 +442,9 @@ public without sharing class MyTeamRemote {
                 insert delegateRecordsToInsert;
             }
         }
-        if (userMode == CommunityService.USER_MODE_HCP) {
+
+       
+    if (userMode == CommunityService.USER_MODE_HCP) {
             List<Referring_HCP_Staff__c> delegateRecordsToInsert = new List<Referring_HCP_Staff__c>();
             for (TrialDelegateLevelWrapper delegateRecord : delegate.trialLevels) {
                 if (delegateRecord.delegateLevel != '') {
