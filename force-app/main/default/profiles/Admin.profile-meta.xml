@@ -75,6 +75,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ParticipantSurvey</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_PatientTaskExpire</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_PatientTaskReminder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -516,6 +524,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantSurveyService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3003,7 +3015,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Survey__c.Invitation_Link__c</field>
+        <field>Participant_Survey__c.Participant_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Survey__c.Processed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4854,6 +4871,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Translation__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Trial_Survey__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

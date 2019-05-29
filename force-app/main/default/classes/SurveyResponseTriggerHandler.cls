@@ -24,7 +24,7 @@ public without sharing class SurveyResponseTriggerHandler {
                 SELECT Id
                 FROM Task
                 WHERE WhoId IN: contactIdsForCloseTask
-                AND Task_Code__c =: TaskService.TASK_CODE_COMPLETE_SURVEY
+                AND Task_Type__c =: TaskService.TASK_TYPE_SURVEY
         ];
         for (Task t : tasksForComplete) TaskService.getInstance().completeTask(t);
     
@@ -35,7 +35,7 @@ public without sharing class SurveyResponseTriggerHandler {
                 SELECT Id
                 FROM Task
                 WHERE WhoId IN: contactIdsForPauseTask
-                AND Task_Code__c =: TaskService.TASK_CODE_COMPLETE_SURVEY
+                AND Task_Type__c =: TaskService.TASK_TYPE_SURVEY
         ];
         for (Task t : tasksForPause){
             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;

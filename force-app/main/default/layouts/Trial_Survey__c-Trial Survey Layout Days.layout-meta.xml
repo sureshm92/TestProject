@@ -8,6 +8,10 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Name</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Survey__c</field>
             </layoutItems>
@@ -17,11 +21,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Active_after_days__c</field>
+                <field>Active_After_Days__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Expires_after_days__c</field>
+                <field>Expires_After_Days__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

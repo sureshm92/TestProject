@@ -54,7 +54,7 @@
     <enableStreamingApi>true</enableStreamingApi>
     <label>Participant Survey</label>
     <nameField>
-        <displayFormat>PartSurv-{00000}</displayFormat>
+        <displayFormat>PS-{00000}</displayFormat>
         <label>Participant Survey Name</label>
         <type>AutoNumber</type>
     </nameField>

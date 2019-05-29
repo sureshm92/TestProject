@@ -5,7 +5,19 @@
 public with sharing class SurveyService {
 
     public class SurveyException extends Exception {}
-    
+
+    public static final List<String> PS_DEFAULT_FIELDS_LIST = new List<String> {
+            'Expiration_Date__c',
+            'Id',
+            'Name',
+            'Participant_Contact__c',
+            'Participant_Study_Enrollment__c',
+            'Show_Date__c',
+            'Survey__c',
+            'Survey__r.Name',
+            'Visible_To_Delegates__c'
+    };
+
     public class SurveyWrapper{
         public String name;
         public String url;
@@ -26,35 +38,58 @@ public with sharing class SurveyService {
     public static void setMock(StubProvider mock) {
         instance = (SurveyService) Test.createStub(SurveyService.class, mock);
     }
-    
-    public SurveyWrapper getSurveyLinkForCTP(Clinical_Trial_Profile__c ctp){
-        if(ctp.Survey__c == null) {
-            throw new SurveyService.SurveyException('Survey not available');
-        }
-        return getSurveyLink(ctp.Survey__c);
+
+    public Participant_Survey__c getParticipantSurvey(Id psId) {
+        return (Participant_Survey__c) DatabaseService.getInstance().queryImpl(
+                PS_DEFAULT_FIELDS_LIST,
+                Participant_Survey__c.getSObjectType(),
+                DatabaseService.fieldEqual('Id', psId)
+        ).get(0);
     }
 
-    public SurveyWrapper getSurveyLink(Id surveyId) {
-        List<SurveyInvitation> surveyInvitations = [
-                SELECT Id, InvitationLink, Survey.Name
+    public SurveyWrapper getSurveyWrapper(Id psId){
+        Participant_Survey__c ps = getParticipantSurvey(psId);
+        List<SurveyInvitation> invitation = [
+                SELECT InvitationLink
                 FROM SurveyInvitation
-                WHERE SurveyId = :surveyId
+                WHERE ParticipantId =: ps.Participant_Contact__c
         ];
-        if(surveyInvitations.isEmpty()) throw new SurveyService.SurveyException('SurveyInvitation not available');
 
-        String link;
-        String name;
-        for(SurveyInvitation inv : surveyInvitations) {
-            if(inv.InvitationLink.contains('.force.com')) {
-                link = inv.InvitationLink;
-                name = inv.Survey.Name;
-                break;
-            }
-        }
-        if(link == null) throw new SurveyService.SurveyException('Invitation link not found');
-
-        return new SurveyWrapper(name, link);
+        return new SurveyWrapper(ps.Survey__r.Name, invitation.get(0).InvitationLink);
     }
 
+    private SurveyInvitation generateInvitation(Participant_Survey__c ps) {
+        SurveyInvitation invitation = new SurveyInvitation();
+        invitation.CommunityId = CommunityService.getCommunityId(null);
+        invitation.Name = ps.Survey__r.Name + ':' + ps.Participant_Study_Enrollment__c;
+        invitation.ParticipantId = ps.Participant_Contact__c;
+        invitation.SurveyId = ps.Survey__c;
 
+        if(ps.Expiration_Date__c != null) {
+            Datetime expiry = Datetime.newInstanceGmt(
+                    ps.Expiration_Date__c.year(),
+                    ps.Expiration_Date__c.month(),
+                    ps.Expiration_Date__c.day()
+            );
+
+            invitation.InviteExpiryDateTime = expiry;
+        }
+
+        return invitation;
+    }
+
+    /**
+     * Creates the objects SurveyInvitation associated with the participant contact.
+     * <p>Sets the InviteExpiryDateTime when it is available on the Participant_Survey__c.
+     * @author Igor Malyuta
+     * @param psList List of Participant_Survey__c
+     */
+    public void generateInvitations(List<Participant_Survey__c> psList) {
+        List<SurveyInvitation> invitations = new List<SurveyInvitation>();
+        for(Participant_Survey__c ps : psList) {
+            invitations.add(generateInvitation(ps));
+        }
+
+        insert invitations;
+    }
 }

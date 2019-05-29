@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Action_Link__c</field>
-        <value xsi:type="xsd:string">survey?</value>
+        <value xsi:type="xsd:string">survey?ps=##psid</value>
     </values>
     <values>
         <field>Comments_Label__c</field>
@@ -16,11 +16,12 @@
     </values>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">SurveyName = Survey__r.Name</value>
+        <value xsi:type="xsd:string">SurveyName = Survey__r.Name
+psid = Id</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
-        <value xsi:type="xsd:string">Clinical_Trial_Profile__c</value>
+        <value xsi:type="xsd:string">Participant_Survey__c</value>
     </values>
     <values>
         <field>Subject_Label__c</field>

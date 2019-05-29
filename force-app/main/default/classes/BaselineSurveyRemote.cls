@@ -5,19 +5,17 @@
 public class BaselineSurveyRemote {
     
     @AuraEnabled
-    public static String getBaselineSurveyURL(String userMode){
+    public static String getBaselineSurveyURL(String userMode, Id psId){
         try {
             if(userMode != CommunityService.USER_MODE_PARTICIPANT) {
                 throw new SurveyService.SurveyException('Survey not available');
             }
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-            List<Task> tasks = TaskService.getInstance().getTasksCommon('Task_Code__c =\'' +
-                    TaskService.TASK_CODE_COMPLETE_SURVEY +'\' AND ' + TaskService.getInstance().getOpenTasksFilter());
-            if(tasks.size() == 0) throw new SurveyService.SurveyException('Survey already completed');
 
             InitData initData = new InitData();
             initData.ctp = participantState.ctp;
-            SurveyService.SurveyWrapper sw =  SurveyService.getInstance().getSurveyLinkForCTP(initData.ctp);
+            SurveyService.SurveyWrapper sw =
+                    SurveyService.getInstance().getSurveyWrapper(psId);
             initData.surveyLink = sw.url;
             initData.surveyName = sw.name;
 

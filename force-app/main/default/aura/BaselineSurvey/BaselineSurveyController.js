@@ -6,7 +6,8 @@
         component.find('spinner').show();
         if(!communityService.isInitialized()) return;
         communityService.executeAction(component, 'getBaselineSurveyURL', {
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            psId : communityService.getUrlParameter('ps')
         }, function (response) {
             var initData = JSON.parse(response);
             component.set('v.ctp', initData.ctp);

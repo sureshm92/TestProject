@@ -28,21 +28,14 @@ public without sharing class PSETriggerHandler {
         }
     }
 
-    public class CreateCompleteBaselineSurveyTaskHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            createCompleteBaselineSurveyTask(newList);
-        }
-
-    }
-
     public class CreateParticipantSurveysHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            createBasePS(newList);
+            createBaseParticipantSurveys(newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createParticipantSurveysStatusBased(newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
         }
     }
 
@@ -132,37 +125,45 @@ public without sharing class PSETriggerHandler {
     }
 
     @TestVisible
-    private static void createCompleteBaselineSurveyTask(List<Participant_Study_Enrollment__c> newList) {
-        List<User> users = [
-                SELECT Id, ContactId
-                FROM User
-                WHERE ContactId IN (
-                        SELECT Participant_Contact__c
-                        FROM Participant_Study_Enrollment__c
-                        WHERE Id IN:newList
-                )
-        ];
-
-        Map<Id, Id> idsToUsers = new Map<Id, Id>();
-        for (User taskOwner : users) idsToUsers.put(taskOwner.ContactId, taskOwner.Id);
-
-        List<Participant_Study_Enrollment__c> pseList = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Clinical_Trial_Profile__c,
-                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Id IN:newList
-        ];
-        List<Task> tasks = new List<Task>();
-        for (Participant_Study_Enrollment__c pse : pseList) {
-            Id ownerId = idsToUsers.get(pse.Participant_Contact__c);
-            if (pse.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes' && ownerId != null) {
-                tasks.add(TaskService.getInstance()
-                        .createCompleteSurveyTask(ownerId, pse.Participant_Contact__c, pse.Clinical_Trial_Profile__c));
-            }
+    private static void createBaseParticipantSurveys(List<Participant_Study_Enrollment__c> newList) {
+        Map<Id, Participant_Study_Enrollment__c> ctpToPSE = new Map<Id, Participant_Study_Enrollment__c>();
+        for (Participant_Study_Enrollment__c pse : newList) {
+            ctpToPSE.put(pse.Clinical_Trial_Profile__c, pse);
         }
-        insert tasks;
+
+        List<Trial_Survey__c> trialSurveys = [
+                SELECT
+                        Active_After_Days__c,
+                        Active_On_Status__c,
+                        Clinical_Trial_Profile__c,
+                        Expires_After_Days__c,
+                        Id,
+                        Survey__c,
+                        Survey__r.Name,
+                        Visible_To_Delegates__c
+                FROM Trial_Survey__c
+                WHERE Clinical_Trial_Profile__c IN: ctpToPSE.keySet()
+                AND (Active_On_Status__c = :PSEService.PSE_STATUS_ENROLLED
+                OR Active_After_Days__c != NULL)
+        ];
+        if (trialSurveys.isEmpty()) return;
+
+        List<Participant_Survey__c> participantSurveys = new List<Participant_Survey__c>();
+        for (Trial_Survey__c ts : trialSurveys) {
+            participantSurveys.add(ParticipantSurveyService.getInstance().createParticipantSurvey(
+                    ctpToPSE.get(ts.Clinical_Trial_Profile__c),
+                    ts
+            ));
+        }
+
+        if (!participantSurveys.isEmpty()) insert participantSurveys;
+    }
+
+    @TestVisible
+    private static void createParticipantSurveysStatusBased(List<Participant_Study_Enrollment__c> newList,
+            Map<Id, Participant_Study_Enrollment__c> oldMap
+    ) {
+
     }
 
     @TestVisible
@@ -208,52 +209,5 @@ public without sharing class PSETriggerHandler {
         }
 
         SendEmailTemplate.sendEmailMessages(messages);
-    }
-
-    @TestVisible
-    private static void createBasePS(List<Participant_Study_Enrollment__c> newList) {
-        Map<Id, Id> trialToPSE = new Map<Id, Id>();
-        List<Id> trialProfiles = new List<Id>();
-        for (Participant_Study_Enrollment__c pse : newList) {
-            trialProfiles.add(pse.Clinical_Trial_Profile__c);
-            trialToPSE.put(pse.Clinical_Trial_Profile__c, pse.Id);
-        }
-
-        List<Trial_Survey__c> trialSurveys = [
-                SELECT
-                        Active_After_Days__c,
-                        Active_On_Status__c,
-                        Clinical_Trial_Profile__c,
-                        Expires_After_Days__c,
-                        Id,
-                        Survey__c,
-                        Visible_To_Delegates__c
-                FROM Trial_Survey__c
-                WHERE Clinical_Trial_Profile__c IN: trialProfiles
-                    AND (Active_On_Status__c =: PSEService.PSE_STATUS_ENROLLED
-                    OR Active_After_Days__c != NULL)
-        ];
-        if (trialSurveys.isEmpty()) return;
-
-        List<Participant_Survey__c> participantSurveys = new List<Participant_Survey__c>();
-        for (Trial_Survey__c ts : trialSurveys) {
-            Participant_Survey__c ps = new Participant_Survey__c();
-            ps.Participant_Study_Enrollment__c = trialToPSE.get(ts.Clinical_Trial_Profile__c);
-            ps.Visible_To_Delegates__c = ts.Visible_To_Delegates__c;
-
-            SurveyService.SurveyWrapper surveyWrapper = SurveyService.getInstance().getSurveyLink(ts.Survey__c);
-            ps.Survey_Name__c = surveyWrapper.name;
-            ps.Invitation_Link__c = surveyWrapper.url;
-
-            Date showDate = System.today();
-            if (ts.Active_After_Days__c != null) showDate = showDate.addDays((Integer) ts.Active_After_Days__c);
-            ps.Show_Date__c = showDate;
-
-            if (ts.Expires_After_Days__c != null) ps.Expiration_Date__c = showDate.addDays((Integer) ts.Expires_After_Days__c);
-
-            participantSurveys.add(ps);
-        }
-
-        if(!participantSurveys.isEmpty()) insert participantSurveys;
     }
 }

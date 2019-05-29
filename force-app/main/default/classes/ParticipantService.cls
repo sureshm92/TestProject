@@ -186,6 +186,4 @@ public class ParticipantService {
         genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
         return genders;
     }
-
-
 }
