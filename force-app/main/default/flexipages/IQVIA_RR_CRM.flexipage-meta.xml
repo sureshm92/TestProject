@@ -4,14 +4,17 @@
         <componentInstances>
             <componentName>runtime_sales_activities:todayTaskContainer</componentName>
         </componentInstances>
+        <mode>Replace</mode>
         <name>top</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <mode>Replace</mode>
         <name>bottomLeft</name>
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <mode>Replace</mode>
         <name>bottomRight</name>
         <type>Region</type>
     </flexiPageRegions>
@@ -34,10 +37,12 @@
         <componentInstances>
             <componentName>home:eventContainer</componentName>
         </componentInstances>
+        <mode>Replace</mode>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>IQVIA CRCP CRM</masterLabel>
+    <parentFlexiPage>home__desktopDefault</parentFlexiPage>
     <template>
         <name>home:desktopTemplate</name>
     </template>
