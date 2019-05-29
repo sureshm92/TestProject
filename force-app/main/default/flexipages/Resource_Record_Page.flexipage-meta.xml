@@ -153,7 +153,7 @@
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
             <visibilityRule>
-                <booleanFilter>1 OR (2 AND (3 OR 4))</booleanFilter>
+                <booleanFilter>1 OR ((2 OR 5) AND (3 OR 4))</booleanFilter>
                 <criteria>
                     <leftValue>{!Record.document_type__c}</leftValue>
                     <operator>EQUAL</operator>
@@ -173,6 +173,11 @@
                     <leftValue>{!Record.Content_Class__c}</leftValue>
                     <operator>EQUAL</operator>
                     <rightValue>Platform-TA</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.Content_Type__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Video</rightValue>
                 </criteria>
             </visibilityRule>
         </componentInstances>
