@@ -23,7 +23,7 @@
     <utilityBar>IQVIA_RR_CRM_UtilityBar</utilityBar>
     <profileActionOverrides>
         <actionName>Tab</actionName>
-        <content>IQVIA_RR_CRM</content>
+        <content>Home_Page_Default</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
