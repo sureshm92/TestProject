@@ -4,11 +4,7 @@
 
 public with sharing class Batch_PatientTaskExpire implements Database.Batchable<Task>, Database.Stateful{
 
-    public Integer intervalInMinutes;
-
-    public Batch_PatientTaskExpire(Integer intervalInMinutes) {
-        this.intervalInMinutes = intervalInMinutes;
-    }
+    private static final String JOB_NAME = 'PatientTaskExpire';
 
     public Iterable<Task> start(Database.BatchableContext param1) {
         List<Task> tasks = [
@@ -28,19 +24,24 @@ public with sharing class Batch_PatientTaskExpire implements Database.Batchable<
     }
 
     public void finish(Database.BatchableContext param1) {
-        System.scheduleBatch(
-                new Batch_PatientTaskExpire(intervalInMinutes), 'PatientTaskExpire', intervalInMinutes);
+        List<Batch_Executor__mdt> batchExecutor = [
+                SELECT Relaunch_Interval__c FROM Batch_Executor__mdt WHERE Job_Name__c = :JOB_NAME];
+        if(!batchExecutor.isEmpty()) {
+            Integer minutes = batchExecutor.get(0).Relaunch_Interval__c.intValue();
+            System.scheduleBatch(
+                    new Batch_PatientTaskExpire(), JOB_NAME, minutes);
+        }
     }
 
-    public static void run(Integer intervalInMinutes) {
-        Database.executeBatch(new Batch_PatientTaskExpire(intervalInMinutes));
+    public static void run() {
+        Database.executeBatch(new Batch_PatientTaskExpire());
     }
 
     public static void stop() {
         List<CronTrigger> cronTriggers = [
                 SELECT Id
                 FROM CronTrigger
-                WHERE CronJobDetail.Name = 'PatientTaskExpire'
+                WHERE CronJobDetail.Name =: JOB_NAME
         ];
         if(!cronTriggers.isEmpty()) {
             for(CronTrigger cronT : cronTriggers) {

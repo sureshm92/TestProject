@@ -6,25 +6,15 @@ public with sharing class SurveyService {
 
     public class SurveyException extends Exception {}
 
-    public static final List<String> PS_DEFAULT_FIELDS_LIST = new List<String> {
-            'Expiration_Date__c',
-            'Id',
-            'Name',
-            'Participant_Contact__c',
-            'Participant_Study_Enrollment__c',
-            'Show_Date__c',
-            'Survey__c',
-            'Survey__r.Name',
-            'Visible_To_Delegates__c'
-    };
-
     public class SurveyWrapper{
         public String name;
         public String url;
-        
-        public SurveyWrapper(String name, String url){
+        public String studyCodeName;
+
+        public SurveyWrapper(String name, String url, String studyCodeName){
             this.name = name;
             this.url = url;
+            this.studyCodeName = studyCodeName;
         }
     }
 
@@ -39,57 +29,47 @@ public with sharing class SurveyService {
         instance = (SurveyService) Test.createStub(SurveyService.class, mock);
     }
 
-    public Participant_Survey__c getParticipantSurvey(Id psId) {
-        return (Participant_Survey__c) DatabaseService.getInstance().queryImpl(
-                PS_DEFAULT_FIELDS_LIST,
-                Participant_Survey__c.getSObjectType(),
-                DatabaseService.fieldEqual('Id', psId)
-        ).get(0);
+    public SurveyWrapper getSurveyWrapper(Id invitationId){
+        try {
+            SurveyInvitation invitation = [
+                    SELECT
+                            InvitationLink,
+                            Survey.Name,
+                            Participant_Study_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    FROM SurveyInvitation
+                    WHERE Id = :invitationId
+            ];
+
+            return new SurveyWrapper(
+                    invitation.Survey.Name,
+                    invitation.InvitationLink,
+                    invitation.Participant_Study_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
+        } catch (Exception e) {
+            throw new SurveyException(e.getCause() + '\n' + e.getMessage());
+        }
     }
 
-    public SurveyWrapper getSurveyWrapper(Id psId){
-        Participant_Survey__c ps = getParticipantSurvey(psId);
-        List<SurveyInvitation> invitation = [
-                SELECT InvitationLink
-                FROM SurveyInvitation
-                WHERE ParticipantId =: ps.Participant_Contact__c
-        ];
-
-        return new SurveyWrapper(ps.Survey__r.Name, invitation.get(0).InvitationLink);
-    }
-
-    private SurveyInvitation generateInvitation(Participant_Survey__c ps) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Participant_Study_Enrollment__c pse) {
         SurveyInvitation invitation = new SurveyInvitation();
         invitation.CommunityId = CommunityService.getCommunityId(null);
-        invitation.Name = ps.Survey__r.Name + ':' + ps.Participant_Study_Enrollment__c;
-        invitation.ParticipantId = ps.Participant_Contact__c;
-        invitation.SurveyId = ps.Survey__c;
+        invitation.Name = ts.Survey__r.Name + ':TS:' + ts.Id;
+        invitation.ParticipantId = pse.Participant_Contact__c;
+        invitation.Participant_Study_Enrollment__c = pse.Id;
+        invitation.SurveyId = ts.Survey__c;
+        invitation.Survey__c = ts.Survey__c;
+        invitation.Trial_Survey__c = ts.Id;
 
-        if(ps.Expiration_Date__c != null) {
+        if(ts.Expires_After_Days__c != null) {
+            Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
             Datetime expiry = Datetime.newInstanceGmt(
-                    ps.Expiration_Date__c.year(),
-                    ps.Expiration_Date__c.month(),
-                    ps.Expiration_Date__c.day()
+                    today.year(),
+                    today.month(),
+                    today.day()
             );
 
             invitation.InviteExpiryDateTime = expiry;
         }
 
         return invitation;
-    }
-
-    /**
-     * Creates the objects SurveyInvitation associated with the participant contact.
-     * <p>Sets the InviteExpiryDateTime when it is available on the Participant_Survey__c.
-     * @author Igor Malyuta
-     * @param psList List of Participant_Survey__c
-     */
-    public void generateInvitations(List<Participant_Survey__c> psList) {
-        List<SurveyInvitation> invitations = new List<SurveyInvitation>();
-        for(Participant_Survey__c ps : psList) {
-            invitations.add(generateInvitation(ps));
-        }
-
-        insert invitations;
     }
 }

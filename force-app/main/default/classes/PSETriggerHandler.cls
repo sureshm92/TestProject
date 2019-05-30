@@ -28,17 +28,6 @@ public without sharing class PSETriggerHandler {
         }
     }
 
-    public class CreateParticipantSurveysHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            createBaseParticipantSurveys(newList);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createParticipantSurveysStatusBased(newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
-        }
-    }
-
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -122,48 +111,6 @@ public without sharing class PSETriggerHandler {
             }
         }
         if (pseStatusHistories.size() > 0) insert pseStatusHistories;
-    }
-
-    @TestVisible
-    private static void createBaseParticipantSurveys(List<Participant_Study_Enrollment__c> newList) {
-        Map<Id, Participant_Study_Enrollment__c> ctpToPSE = new Map<Id, Participant_Study_Enrollment__c>();
-        for (Participant_Study_Enrollment__c pse : newList) {
-            ctpToPSE.put(pse.Clinical_Trial_Profile__c, pse);
-        }
-
-        List<Trial_Survey__c> trialSurveys = [
-                SELECT
-                        Active_After_Days__c,
-                        Active_On_Status__c,
-                        Clinical_Trial_Profile__c,
-                        Expires_After_Days__c,
-                        Id,
-                        Survey__c,
-                        Survey__r.Name,
-                        Visible_To_Delegates__c
-                FROM Trial_Survey__c
-                WHERE Clinical_Trial_Profile__c IN: ctpToPSE.keySet()
-                AND (Active_On_Status__c = :PSEService.PSE_STATUS_ENROLLED
-                OR Active_After_Days__c != NULL)
-        ];
-        if (trialSurveys.isEmpty()) return;
-
-        List<Participant_Survey__c> participantSurveys = new List<Participant_Survey__c>();
-        for (Trial_Survey__c ts : trialSurveys) {
-            participantSurveys.add(ParticipantSurveyService.getInstance().createParticipantSurvey(
-                    ctpToPSE.get(ts.Clinical_Trial_Profile__c),
-                    ts
-            ));
-        }
-
-        if (!participantSurveys.isEmpty()) insert participantSurveys;
-    }
-
-    @TestVisible
-    private static void createParticipantSurveysStatusBased(List<Participant_Study_Enrollment__c> newList,
-            Map<Id, Participant_Study_Enrollment__c> oldMap
-    ) {
-
     }
 
     @TestVisible

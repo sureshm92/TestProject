@@ -124,28 +124,76 @@ public without sharing class TaskService {
         task.Completed_Date__c = Datetime.now();
     }
 
-    public Task createCompleteSurveyTask(Id ownerId, Participant_Survey__c ps) {
-        String subject = Label.Task_Subject_Complete_Survey.replace('##SurveyName', ps.Survey__r.Name);
+    public void createSurveyTasks(List<SurveyInvitation> invitations) {
+        List<SurveyInvitation> surveyInvitation = [
+                SELECT
+                        CreatedDate,
+                        Id,
+                        InvitationLink,
+                        InviteExpiryDateTime,
+                        Name,
+                        OwnerId,
+                        Participant_Study_Enrollment__c,
+                        ParticipantId,
+                        SurveyId,
+                        Survey.Name,
+                        Trial_Survey__c
+                FROM SurveyInvitation
+                WHERE Id IN:invitations
+        ];
+
+        Set<Id> contactIds = new Set<Id>();
+        for(SurveyInvitation inv : surveyInvitation) contactIds.add(inv.ParticipantId);
+
+        List<User> users = [
+                SELECT Id, ContactId
+                FROM User
+                WHERE ContactId IN: contactIds
+                AND IsActive = TRUE
+        ];
+
+        Map<Id, User> usersMap = new Map<Id, User>();
+        for(User u : users) usersMap.put(u.ContactId, u);
+
+        List<Task> tasks = new List<Task>();
+        for(SurveyInvitation inv : surveyInvitation) {
+            User owner =  usersMap.get(inv.ParticipantId);
+            if(owner != null) tasks.add(createCompleteSurveyTask(owner.Id, inv));
+        }
+
+        insert tasks;
+    }
+
+    public Task createCompleteSurveyTask(Id ownerId, SurveyInvitation invitation) {
+        String subject = Label.Task_Subject_Complete_Survey.replace('##SurveyName', invitation.Survey.Name);
+        Date showDate = Date.newInstance(
+                invitation.CreatedDate.year(),
+                invitation.CreatedDate.month(),
+                invitation.CreatedDate.day()
+        );
 
         Task task = new Task(
+                Description = invitation.Id,
                 OwnerId = ownerId,
                 Subject = subject,
                 Priority = TaskService.TASK_PRIORITY_CRITICAL,
-                Start_Date__c = ps.Show_Date__c,
+                Start_Date__c = showDate,
                 Status = TASK_STATUS_OPEN,
                 Task_Code__c = TASK_CODE_COMPLETE_SURVEY,
-                Reminder_Date__c = ps.Show_Date__c,
+                Reminder_Date__c = showDate,
                 Task_Type__c = TASK_TYPE_SURVEY,
-                WhoId = ps.Participant_Contact__c,
-                WhatId = ps.Id
+                Visible_For__c = TASK_VISIBILITY_OWNER,
+                WhoId = invitation.ParticipantId
 
         );
-        if (ps.Expiration_Date__c != null) task.ActivityDate = ps.Expiration_Date__c;
+        if (invitation.InviteExpiryDateTime != null) {
+            task.ActivityDate = Date.newInstance(
+                    invitation.InviteExpiryDateTime.year(),
+                    invitation.InviteExpiryDateTime.month(),
+                    invitation.InviteExpiryDateTime.day()
+            );
+        }
 
-        String visible = TaskService.TASK_VISIBILITY_OWNER;
-        if (ps.Visible_To_Delegates__c) visible += ';' + TaskService.TASK_VISIBILITY_DELEGATES;
-
-        task.Visible_For__c = visible;
         return task;
     }
 
