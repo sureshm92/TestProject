@@ -17,6 +17,7 @@ validateINT:
   - shell
   only:
   - PH_R1_Sprint
+  - Sprint
   - merge_requests
   except:
   - push
@@ -40,6 +41,7 @@ deployINT:
   - shell
   only:
   - PH_R1_Sprint
+  - Sprint
   except:
   - merge_requests
 
@@ -61,7 +63,7 @@ ValidateINF:
   tags:
   - shell
   only:
-  - master
+  - Informal
   - merge_requests
   except:
   - push
@@ -84,7 +86,7 @@ DeployINF:
   tags:
   - shell
   only:
-  - master
+  - Informal
   except:
   - merge_requests
 
@@ -106,6 +108,7 @@ runTestINT:
   - shell
   only:
   - PH_R1_Sprint
+  - Sprint
   except:
   - merge_requests
 
@@ -119,7 +122,7 @@ runTestINF:
   tags:
   - shell
   only:
-  - master
+  - Informal
   except:
   - merge_requests
 
