@@ -40,5 +40,7 @@
         component.set('v.state', state);
         component.set('v.country', country);
         component.set('v.zipPostal', zipPostal);
+
+        component.set('v.isUpdated', false);
     }
 });

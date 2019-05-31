@@ -28,6 +28,11 @@
     },
 
     doUpdateParticipant: function (component, event, helper) {
+        if(!component.get('v.isUpdated')) {
+            communityService.showWarningToast('', $A.get('$Label.c.Toast_Contact_Inf_Not_Updated'));
+            return;
+        }
+
         component.set("v.showSpinner", true);
         if(communityService.isDelegate() || communityService.getUserMode() !== 'Participant') {
             communityService.executeAction(component, 'updateContact', {
@@ -129,5 +134,9 @@
         }, null, function () {
             component.set("v.showSpinner", false);
         })
+    },
+
+    checkUpdate : function (component, event, helper) {
+        component.set('v.isUpdated', true);
     }
 })

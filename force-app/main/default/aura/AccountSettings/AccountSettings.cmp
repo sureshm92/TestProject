@@ -26,8 +26,21 @@
     <aura:attribute name="state" type="String"/>
     <aura:attribute name="country" type="String"/>
     <aura:attribute name="zipPostal" type="String"/>
+
+    <aura:attribute name="isUpdated" type="Boolean"/>
     <!--=============================================================================================================-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!--Update Contact Info handlers-->
+    <aura:handler name="change" value="{!v.firstName}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.middleInitial}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.lastName}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.phone}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.birthDate}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.gender}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.state}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.country}" action="{!c.checkUpdate}"/>
+    <aura:handler name="change" value="{!v.zipPostal}" action="{!c.checkUpdate}"/>
     <!--=============================================================================================================-->
 
     <div class="as-container">
