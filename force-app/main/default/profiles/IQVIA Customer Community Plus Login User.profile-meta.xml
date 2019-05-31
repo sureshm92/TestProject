@@ -35,6 +35,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AdminPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Alert</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1067,10 +1071,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TrialSurveyTriggerHandler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1175,12 +1175,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>BatchExecutor__mdt.Job_Name__c</field>
+        <field>Batch_Executor__mdt.Job_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>BatchExecutor__mdt.Relaunch_Interval__c</field>
+        <field>Batch_Executor__mdt.Relaunch_Interval__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4020,7 +4020,7 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>BatchExecutor__mdt-BatchExecutor Layout</layout>
+        <layout>Batch_Executor__mdt-BatchExecutor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CTC__c-CTC Layout</layout>
@@ -4630,6 +4630,10 @@
         <recordType>Trial_Survey__c.Time_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Admin_Panel</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
         <visibility>Hidden</visibility>

@@ -1,0 +1,32 @@
+/**
+ * Created by Igor Malyuta on 30.05.2019.
+ */
+
+.THIS .ad-panel{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.THIS .ad-card{
+    padding: 15px;
+    border: inset #e4e4e4;
+    border-radius: 10px;
+    display: inline-flex;
+}
+
+.THIS .ad-title {
+    font-weight: 400;
+    font-size: 15px;
+    color: #000000;
+    margin-left: 50px;
+}
+
+.THIS .ad-desc{
+    display: flex;
+    flex-direction: column;
+}
+
+.THIS .slds-accordion__list-item {
+    border: none;
+}

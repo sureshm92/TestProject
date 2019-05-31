@@ -2,28 +2,15 @@
  * Created by Igor Malyuta on 15.05.2019.
  */
 
-public with sharing class Batch_PatientTaskReminder implements Database.Batchable<Task>, Database.Stateful {
+public with sharing class Batch_PatientTaskReminder extends Batch_ScheduledAbstract{
 
-    public static final Integer SCOPE_SIZE = 10;
-    private static final String JOB_NAME = 'PatientTaskReminder';
-
-    public void execute(Database.BatchableContext param1, List<Task> tasks) {
+    public void execute(Database.BatchableContext param1, List<SObject> tasks) {
         SendEmailToParticipant.sendEmailNotificationWithDelegates(tasks);
-        for(Task t : tasks) t.Is_Reminder_Sent__c = true;
+        for(Task t : (List<Task>) tasks) t.Is_Reminder_Sent__c = true;
         update tasks;
     }
 
-    public void finish(Database.BatchableContext param1) {
-        List<Batch_Executor__mdt> batchExecutor = [
-                SELECT Relaunch_Interval__c FROM Batch_Executor__mdt WHERE Job_Name__c = :JOB_NAME];
-        if(!batchExecutor.isEmpty()) {
-            Integer minutes = batchExecutor.get(0).Relaunch_Interval__c.intValue();
-            System.scheduleBatch(
-                    new Batch_PatientTaskReminder(), JOB_NAME, minutes, SCOPE_SIZE);
-        }
-    }
-
-    public Iterable<Task> start(Database.BatchableContext param1) {
+    public Iterable<SObject> start(Database.BatchableContext param1) {
         List<Task> tasks = [
                 SELECT Id,
                         OwnerId,
@@ -40,20 +27,8 @@ public with sharing class Batch_PatientTaskReminder implements Database.Batchabl
         return tasks;
     }
 
-    public static void run() {
-        Database.executeBatch(new Batch_PatientTaskReminder(), SCOPE_SIZE);
+    public override Type getType() {
+        return Batch_PatientTaskReminder.class;
     }
 
-    public static void stop() {
-        List<CronTrigger> cronTriggers = [
-                SELECT Id
-                FROM CronTrigger
-                WHERE CronJobDetail.Name =: JOB_NAME
-        ];
-        if(!cronTriggers.isEmpty()) {
-            for(CronTrigger cronT : cronTriggers) {
-                System.abortJob(cronT.Id);
-            }
-        }
-    }
 }

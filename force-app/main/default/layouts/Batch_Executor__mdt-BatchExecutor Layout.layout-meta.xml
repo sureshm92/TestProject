@@ -16,11 +16,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Job_Name__c</field>
+                <field>Relaunch_Interval__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Relaunch_Interval__c</field>
+                <field>Scope_Size__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

@@ -1803,7 +1803,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is a quick email to remind you of your ##TaskName.
+        <value>This is an email to remind you of your task: ##TaskName.
 
 Please login to update the status of your task.</value>
     </labels>
@@ -1812,7 +1812,7 @@ Please login to update the status of your task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
 
 Please login to update the status of this task.</value>
     </labels>

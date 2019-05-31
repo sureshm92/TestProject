@@ -2,5 +2,49 @@
  - Created by Igor Malyuta on 30.05.2019.
  -->
 
-<aura:component description="AdminPanel">
+<aura:component description="AdminPanel" controller="AdminPanelRemote"
+                implements="forceCommunity:availableForAllPageTypes,force:appHostable">
+
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="jobs" type="List"/>
+
+    <lightning:card title="Batches">
+        <lightning:accordion aura:id="accordion">
+            <div class="ad-panel">
+                <aura:iteration items="{!v.jobs}" var="job">
+                    <lightning:tile class="ad-card" label="{!job.jobName}">
+                        <div class="slds-grid">
+                            <div class="slds-col ad-title">{!job.state}</div>
+                            <div class="slds-col">
+                                <button data-record="{!job.jobName}" onclick="{!c.clickRun}">Run</button>
+                            </div>
+                            <div class="slds-col">
+                                <button data-record="{!job.jobName}" onclick="{!c.clickStop}">Stop</button>
+                            </div>
+                        </div>
+                        <lightning:accordionSection label="Description">
+                            <aura:set attribute="body">
+                                <div class="ad-desc">
+                                    <lightning:input type="datetime-local"
+                                                     label="Next Fire Time"
+                                                     value="{!job.nextFT}"
+                                                     disabled="true"/>
+
+                                    <lightning:input label="Times Triggered"
+                                                     value="{!job.timesTrigg}"
+                                                     disabled="true"/>
+
+                                    <lightning:input type="datetime-local"
+                                                     label="Previous Fire Time"
+                                                     value="{!job.prevFT}"
+                                                     disabled="true"/>
+                                </div>
+                            </aura:set>
+                        </lightning:accordionSection>
+                    </lightning:tile>
+                </aura:iteration>
+            </div>
+        </lightning:accordion>
+    </lightning:card>
 </aura:component>
