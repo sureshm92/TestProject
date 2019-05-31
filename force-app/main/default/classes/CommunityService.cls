@@ -64,7 +64,7 @@ public without sharing class CommunityService {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             accessLevel = [ SELECT Delegate_Level__c
                             FROM Referring_HCP_Staff__c
-                            WHERE Contact__r.Id = :currentContactId LIMIT 1].Delegate_Level__c;
+                            WHERE Contact__c = :currentContactId LIMIT 1].Delegate_Level__c;
         } catch (Exception ex){
             accessLevel=null;
         }
