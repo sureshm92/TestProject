@@ -40,3 +40,8 @@
     flex-grow: 1;
     background-color: rgba(216,216,216,0.25);
 }
+
+.THIS .svl-icon{
+    height: 32px;
+    width: 32px;
+}

@@ -88,10 +88,8 @@
 
             default: //Participant
                 var headerText;
-                if(userMode === 'Participant')
-                    headerText = $A.get('$Label.c.PG_PST_L_Delegates_Permitted_Actions');
-                else if(userMode === 'Delegate')
-                    headerText = $A.get('$Label.c.PG_PST_L_Delegate_Permitted');
+                if(communityService.isDelegate()) headerText = $A.get('$Label.c.PG_PST_L_Delegate_Permitted');
+                else headerText = $A.get('$Label.c.PG_PST_L_Delegates_Permitted_Actions');
                 header = {
                     text : headerText,
                     levels : []
