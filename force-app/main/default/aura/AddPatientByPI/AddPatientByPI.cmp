@@ -73,7 +73,7 @@
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}</div>
                             <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                             </div>
                             <c:rrSelect options="{!v.formData.statesLVList}"
                                         value="{!v.participant.Mailing_State_Code__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                         </div>
                         <div class="rr-form-element slds-col">
                             <div class="label"><abbr title="required"
@@ -122,13 +122,13 @@
                         <div class="rr-form-element slds-col">
                             <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Patient_Status}</div>
                             <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                         </div>
                         <div class="rr-form-element slds-col">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
                             <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                         </div>
                         <div class="rr-form-element slds-col">
                             <div class="label">
