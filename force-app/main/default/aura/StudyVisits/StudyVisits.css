@@ -36,6 +36,10 @@
 .THIS .sv-t-icons{
     width: 40%;
 }
+.THIS .svl-icon{
+    height: 32px;
+    width: 32px;
+}
 
 .THIS .pagination{
     margin-top: 20px;
