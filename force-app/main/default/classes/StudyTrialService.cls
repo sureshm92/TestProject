@@ -395,7 +395,10 @@ public without sharing class StudyTrialService {
                     StudyActions.Action myPatients = currSA.actions.get(StudyActions.ACT_MY_PATIENTS);//new StudyActions.Action(StudyActions.ACT_MY_PATIENTS, StudyActions.LABEL_MY_PATIENTS, 'referrals', false);
                     currActions.add(myPatients);
                 }
-
+                if(studyDetailItem.trial.Terms_And_Conditions_ID__c != null){
+                	StudyActions.Action tcAction = currSA.actions.get(StudyActions.ACT_VIEW_TC);
+					currActions.add(tcAction);
+                }
                 availableActions.addAll(currActions);
             }
 
