@@ -39,7 +39,7 @@
                 <div class="delegate-info-table-container">
                     <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
                 </div>
-                <c:DelegatesDisclaimer/>
+<!--                <c:DelegatesDisclaimer/>-->
             </div>
             <aura:if isTrue="{!and(v.userMode == 'Participant', v.delegates.length == 0)}">
                 <div class="slds-col slds-size_1-of-1 slds-order_1 slds-medium-order_2 empty-list">
