@@ -15,13 +15,6 @@
     display: inline-flex;
 }
 
-.THIS .ad-title {
-    font-weight: 400;
-    font-size: 15px;
-    color: #000000;
-    margin-left: 50px;
-}
-
 .THIS .ad-desc{
     display: flex;
     flex-direction: column;

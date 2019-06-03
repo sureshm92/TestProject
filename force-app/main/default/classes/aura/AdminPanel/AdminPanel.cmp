@@ -13,36 +13,43 @@
         <lightning:accordion aura:id="accordion">
             <div class="ad-panel">
                 <aura:iteration items="{!v.jobs}" var="job">
-                    <lightning:tile class="ad-card" label="{!job.jobName}">
-                        <div class="slds-grid">
-                            <div class="slds-col ad-title">{!job.state}</div>
-                            <div class="slds-col">
-                                <button data-record="{!job.jobName}" onclick="{!c.clickRun}">Run</button>
-                            </div>
-                            <div class="slds-col">
-                                <button data-record="{!job.jobName}" onclick="{!c.clickStop}">Stop</button>
-                            </div>
+                    <div class="slds-grid ad-card">
+                        <div class="slds-col slds-size_1-of-3">
+                            <p class="slds-text-heading--label-medium slds-text-title_bold">{!job.jobName}</p>
                         </div>
-                        <lightning:accordionSection label="Description">
-                            <aura:set attribute="body">
-                                <div class="ad-desc">
-                                    <lightning:input type="datetime-local"
-                                                     label="Next Fire Time"
-                                                     value="{!job.nextFT}"
-                                                     disabled="true"/>
-
-                                    <lightning:input label="Times Triggered"
-                                                     value="{!job.timesTrigg}"
-                                                     disabled="true"/>
-
-                                    <lightning:input type="datetime-local"
-                                                     label="Previous Fire Time"
-                                                     value="{!job.prevFT}"
-                                                     disabled="true"/>
+                        <div class="slds-col slds-size_2-of-3">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <p class="{!'slds-text-heading--label-normal'}">{!job.state}</p>
                                 </div>
-                            </aura:set>
-                        </lightning:accordionSection>
-                    </lightning:tile>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <button data-record="{!job.jobName}" onclick="{!c.clickRun}">Run</button>
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <button data-record="{!job.jobName}" onclick="{!c.clickStop}">Stop</button>
+                                </div>
+                            </div>
+                            <lightning:accordionSection label="Description">
+                                <aura:set attribute="body">
+                                    <div class="ad-desc">
+                                        <lightning:input type="datetime-local"
+                                                         label="Next Fire Time"
+                                                         value="{!job.nextFT}"
+                                                         disabled="true"/>
+
+                                        <lightning:input label="Times Triggered"
+                                                         value="{!job.timesTrigg}"
+                                                         disabled="true"/>
+
+                                        <lightning:input type="datetime-local"
+                                                         label="Previous Fire Time"
+                                                         value="{!job.prevFT}"
+                                                         disabled="true"/>
+                                    </div>
+                                </aura:set>
+                            </lightning:accordionSection>
+                        </div>
+                    </div>
                 </aura:iteration>
             </div>
         </lightning:accordion>

@@ -1175,11 +1175,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Batch_Executor__mdt.Job_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Batch_Executor__mdt.Relaunch_Interval__c</field>
         <readable>false</readable>
     </fieldPermissions>
