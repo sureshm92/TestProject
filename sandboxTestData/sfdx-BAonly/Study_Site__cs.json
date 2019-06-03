@@ -1,0 +1,14 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef1"
+            },
+            "Name": "Traditional BA New York Study Site",
+            "Principal_Investigator__c": "@ContactRef375",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef2",
+            "Site__c": "@AccountRef427"
+        }
+    ]
+}
