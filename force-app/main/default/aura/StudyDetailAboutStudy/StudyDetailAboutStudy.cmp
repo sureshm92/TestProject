@@ -106,7 +106,7 @@
                     </aura:if>
 
                     <!-- map with items: -->
-                    <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <aura:if isTrue="{!v.userMode != 'HCP'}">
                         <div class="sdas-map">
                             <c:RRAnchor aura:id="mapAnchor" offset="-165"/>
                             <aura:if isTrue="{!!empty(v.studyDetail.accountEnrollmentsList)}">
