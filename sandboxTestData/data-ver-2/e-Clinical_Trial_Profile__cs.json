@@ -1,0 +1,108 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef1"
+            },
+            "Brief_Summary__c": "Brief Summary",
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
+            "Link_to_Pre_screening__c": "https://www.surveygizmo.com/s3/4263003/Rocket-Referral-pre-eligibility-screening",
+            "NCT_Number__c": "NCT87654321",
+            "Official_Title__c": "A study used for Automation Cycle2",
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Participating_in_Digital_Recruitment__c": "Yes",
+            "Participating_in_Rocket_Referral__c": "Yes",
+            "Protocol_ID__c": "Auto_PID_1210",
+            "Recruitment_Status__c": "Open to Enrollment",
+            "Study_Code_Name__c": "Auto_SCN",
+            "Study_Sponsor__c": "sponsor",
+            "Study_Title__c": "A study using for Automation Cycle2",
+            "Suppress_Participant_Emails__c": false,
+            "Surveys_supported_Languages__c": "en_US",
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef2"
+            },
+            "Brief_Summary__c": "Brief Summary of the study. Brief Summary of the study. Brief Summary of the study. Brief Summary of the study. Brief Summary of the study.",
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
+            "Link_to_Pre_screening__c": "https://www.surveygizmo.com/s3/4263003/Rocket-Referral-pre-eligibility-screening",
+            "Official_Title__c": "Extremely official title for this study",
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Participating_in_Digital_Recruitment__c": "Yes",
+            "Participating_in_Rocket_Referral__c": "Yes",
+            "Protocol_ID__c": "IMP28861",
+            "Study_Code_Name__c": "Rajesh Study Code Name 1",
+            "Study_Sponsor__c": "Study Sponsor 1",
+            "Study_Title__c": "Study Title",
+            "Suppress_Participant_Emails__c": false,
+            "Surveys_supported_Languages__c": "en_US",
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef3"
+            },
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
+            "Link_to_Pre_screening__c": "https://www.surveygizmo.com/s3/4263003/Rocket-Referral-pre-eligibility-screening",
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Participating_in_Digital_Recruitment__c": "Yes",
+            "Participating_in_Rocket_Referral__c": "Yes",
+            "Protocol_ID__c": "PID-SCN3",
+            "Study_Code_Name__c": "SCN-3",
+            "Study_Title__c": "ST-3",
+            "Suppress_Participant_Emails__c": false,
+            "Surveys_supported_Languages__c": "en_US",
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef4"
+            },
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Participating_in_Digital_Recruitment__c": "Yes",
+            "Participating_in_Rocket_Referral__c": "Yes",
+            "Protocol_ID__c": "PID-S4",
+            "Study_Code_Name__c": "SCN-4",
+            "Study_Title__c": "ST-4",
+            "Suppress_Participant_Emails__c": false,
+            "Surveys_supported_Languages__c": "en_US",
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef5"
+            },
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Participating_in_Digital_Recruitment__c": "Yes",
+            "Participating_in_Rocket_Referral__c": "Yes",
+            "Protocol_ID__c": "PID-S2",
+            "Study_Code_Name__c": "SCN-2",
+            "Study_Title__c": "ST-2",
+            "Suppress_Participant_Emails__c": false,
+            "Surveys_supported_Languages__c": "en_US",
+            "US_FDA_Regulated_Product__c": false
+        }
+    ]
+}

@@ -378,4 +378,14 @@ public without sharing class HCPEnrollmentService {
         System.debug('HCPE filter' + filter);
         return filter;
     }
+
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentByContactId(){
+        String contactId = CommunityService.getUserContact().Id;
+        List<HCP_Enrollment__c> enrollemntsToReturn = [SELECT Id,
+                                                              HCP_Contact__c
+                                                        FROM HCP_Enrollment__c WHERE HCP_Contact__c =: contactId];
+        return enrollemntsToReturn;
+    }
+
 }

@@ -83,6 +83,8 @@ public class Test_ResourceService {
 
     @IsTest
     public static void getResources_WithResourceType_Article_NoTherapeuticAreas_Test() {
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.value = ParticipantService.ParticipantStates.PARTICIPANT;
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('query')
@@ -94,6 +96,11 @@ public class Test_ResourceService {
         ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+                .getInstance()
+        );
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
         Test.startTest();
@@ -180,20 +187,25 @@ public class Test_ResourceService {
 
     @IsTest
     public static void getFavoriteResources_NoResources_Test() {
+        DatabaseProxyCodeExecutor executor = new DatabaseProxyCodeExecutor();
         String participantId = TestDataFactory.getFakeId(Participant__c.getSObjectType());
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.value = ParticipantService.ParticipantStates.PARTICIPANT;
+        pState.ctp = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('query')
-                .then(new List<Participant__c>{
-                        (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
-                                'Id' => participantId
-                        })
-                })
+                .then(executor)
                 .getInstance()
         );
         ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(participantId)
+                .getInstance()
+        );
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
         ParticipantDecoupler.resourceActionsByParticipantIds = new Map<Id, List<Resource_Action__c>>{
