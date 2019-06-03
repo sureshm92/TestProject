@@ -5,7 +5,7 @@
 <aura:component description="Manual_Task" controller="ManualTaskRemote"
                 implements="forceCommunity:availableForAllPageTypes,force:appHostable">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes: -->
     <aura:attribute name="task" type="Task"/>
@@ -50,21 +50,23 @@
                                  onchange="{!c.onDaysChange}" min="{!v.task.Start_Date__c}"
                                  disabled="{!empty(v.task.Start_Date__c)}"/>
 
-                <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
-                    <aura:if isTrue="{!not(empty(v.task.ActivityDate))}">
-                        <option value="true">Number of days before the Task due date</option>
-                    </aura:if>
-                    <option value="false">Specific Date</option>
-                </lightning:select>
+                <aura:if isTrue="{!v.task.ActivityDate}">
+                    <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
+                        <aura:if isTrue="{!not(empty(v.task.ActivityDate))}">
+                            <option value="true">Number of days before the Task due date</option>
+                        </aura:if>
+                        <option value="false">Specific Date</option>
+                    </lightning:select>
 
-                <aura:if isTrue="{!v.showNumbersAdd}">
+                    <aura:if isTrue="{!v.showNumbersAdd}">
                     <span onkeypress="{!c.dueNumberKeyPress}">
-                        <lightning:input aura:id="field" type="number" value="{!v.dayRemind}" onchange="{!c.onDaysChange}" min="1"/>
+                        <lightning:input aura:id="field" type="number" value="{!v.dayRemind}" onchange="{!c.onDaysChange}" min="0"/>
                     </span>
-                    <aura:set attribute="else">
-                        <lightning:input aura:id="field" type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
-                                         onchange="{!c.onDaysChange}" min="{!v.todayDate}" max="{!v.task.ActivityDate}"/>
-                    </aura:set>
+                        <aura:set attribute="else">
+                            <lightning:input aura:id="field" type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
+                                             onchange="{!c.onDaysChange}" min="{!v.todayDate}" max="{!v.task.ActivityDate}"/>
+                        </aura:set>
+                    </aura:if>
                 </aura:if>
             </div>
 

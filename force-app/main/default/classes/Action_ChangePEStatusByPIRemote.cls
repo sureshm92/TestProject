@@ -29,7 +29,10 @@ public class Action_ChangePEStatusByPIRemote {
                     Non_Enrollment_Reason__c = reason
             );
 
-            if (status == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) pe.Informed_Consent__c = true;
+            if (status == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+                pe.Informed_Consent__c = true;
+                pe.Informed_Consent_Date__c = System.today();
+            }
             update pe;
         } catch (Exception e) {
             Database.rollback(sp);

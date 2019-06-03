@@ -27,40 +27,45 @@
 
     onDaysChange: function (component, event, helper) {
         var startDate = component.get('v.task.Start_Date__c');
-        if (!startDate) return;
-
         var dueDate = component.get('v.task.ActivityDate');
-        if (!dueDate) {
-            component.set('v.showNumbersAdd', 'false');
-            return;
+        var useDaysNumber = component.get('v.showNumbersAdd') === 'true';
+
+        if (!startDate) return;
+        if(!dueDate) {
+            component.set('v.dayRemind', 0);
+            component.set('v.task.Reminder_Date__c', null);
         }
 
-        startDate = new Date(startDate);
-        startDate.setUTCHours(12);
-        dueDate = new Date(dueDate);
-        dueDate.setUTCHours(12);
+        dueDate = moment(dueDate, 'YYYY-MM-DD');
 
-        var days = component.get('v.dayRemind');
-        var daysBetween = helper.getDaysBetween(component, startDate, dueDate);
+        if (useDaysNumber) {
+            var daysCount = component.get('v.dayRemind');
+            var daysBetween = dueDate.diff(startDate, 'days');
 
-        if (!days || days > daysBetween) {
-            days = 1;
-            component.set('v.dayRemind', days);
-        }
+            if(daysCount > daysBetween) {
+                component.set('v.dayRemind', daysBetween);
+                return;
+            } else if(daysCount < 0) {
+                component.set('v.dayRemind', 0);
+                return;
+            }
 
-        //Remove leading zero in field
-        days = days.toString().replace('^0+', '');
+            var remDate = dueDate.add(-daysCount, 'days');
+            component.set('v.task.Reminder_Date__c', remDate.format('YYYY-MM-DD'));
 
-        var remindDate = component.get('v.task.Reminder_Date__c');
-        if (!remindDate) {
-            remindDate = dueDate;
         } else {
-            remindDate = new Date(remindDate);
-            remindDate.setUTCHours(12);
+            var remindDate = component.get('v.task.Reminder_Date__c');
+            if (!remindDate) return;
+            remindDate = moment(remindDate, 'YYYY-MM-DD');
+
+            var diff = dueDate.diff(remindDate, 'days');
+            if(diff < 0) {
+                component.set('v.task.Reminder_Date__c', dueDate.format('YYYY-MM-DD'));
+                diff = 0;
+            }
+
+            component.set('v.dayRemind', diff);
         }
-        remindDate = remindDate.setDate(dueDate.getDate() - parseInt(days));
-        component.set('v.task.Reminder_Date__c',
-            $A.localizationService.formatDate(remindDate, 'YYYY-MM-DD'));
     },
 
     dueNumberKeyPress: function (component, event, helper) {
