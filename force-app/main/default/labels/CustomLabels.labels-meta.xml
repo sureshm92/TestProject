@@ -7546,7 +7546,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Study Documents</shortDescription>
-        <value>Content will be published shortly. Check back for updates</value>
+        <value>Content will be published shortly. Check back for updates.</value>
     </labels>
     <labels>
         <fullName>Resources_No_Therapeutic_Area</fullName>
