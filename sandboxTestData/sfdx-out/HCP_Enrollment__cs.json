@@ -1,0 +1,59 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "HCP_Enrollment__cRef1"
+            },
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef1",
+            "HCP_Contact__c": "@ContactRef1",
+            "Study_Site__c": "@Study_Site__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "HCP_Enrollment__cRef2"
+            },
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef1",
+            "HCP_Contact__c": "@ContactRef126",
+            "Study_Site__c": "@Study_Site__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "HCP_Enrollment__cRef3",
+                "Study_Site__c": "@Study_Site__cRef4"
+            },
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "HCP_Contact__c": "@ContactRef126"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "HCP_Enrollment__cRef4",
+                "Study_Site__c": "Study_Site__cRef2"
+            },
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "HCP_Contact__c": "@ContactRef126"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "HCP_Enrollment__cRef5"
+            },
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "HCP_Contact__c": "@ContactRef313",
+            "Study_Site__c": "@Study_Site__cRef4"
+        },
+        {
+            "attributes": {
+                "type": "HCP_Enrollment__c",
+                "referenceId": "HCP_Enrollment__cRef6"
+            },
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "HCP_Contact__c": "@ContactRef126",
+            "Study_Site__c": "@Study_Site__cRef7"
+
+        }
+    ]
+}
