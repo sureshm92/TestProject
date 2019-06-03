@@ -287,8 +287,9 @@ public without sharing class StudyTrialService {
         Map<Id, List<HCP_Enrollment__c>> trialIdToEnrollments = getTrialIdToEnrollments();
 
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-        StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', Label.Studies_FindSitesForStudy, 'map-marker', false);
+
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
+            StudyActions.Action openStudySite = new StudyActionsHCP(trial,null,null).actions.get(StudyActions.ACT_HCP_LINK_STUDY_SITES);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
             studyDetailItem.studyActions = new List<StudyActions.Action>{
@@ -382,16 +383,20 @@ public without sharing class StudyTrialService {
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
+                studyDetailItem.actionsMap = currSA.actions;
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
                 if (!studyDetailItem.hasActiveHCPEnrollments) {
-                    StudyActions.Action openStudySite = new StudyActions.Action('linkToStudySites', Label.Studies_FindSitesForStudy, 'map-marker', false);
+                    StudyActions.Action openStudySite = currSA.actions.get(StudyActions.ACT_HCP_LINK_STUDY_SITES);
                     currActions.add(openStudySite);
                 }
                 if (studyDetailItem.hasPatients) {
-                    StudyActions.Action myPatients = new StudyActions.Action(StudyActions.ACT_MY_PATIENTS, StudyActions.LABEL_MY_PATIENTS, 'referrals', false);
+                    StudyActions.Action myPatients = currSA.actions.get(StudyActions.ACT_MY_PATIENTS);//new StudyActions.Action(StudyActions.ACT_MY_PATIENTS, StudyActions.LABEL_MY_PATIENTS, 'referrals', false);
                     currActions.add(myPatients);
                 }
-
+                if(studyDetailItem.trial.Terms_And_Conditions_ID__c != null){
+                	StudyActions.Action tcAction = currSA.actions.get(StudyActions.ACT_VIEW_TC);
+					currActions.add(tcAction);
+                }
                 availableActions.addAll(currActions);
             }
 
