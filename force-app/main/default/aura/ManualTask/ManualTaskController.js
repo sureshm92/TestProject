@@ -30,10 +30,16 @@
         var dueDate = component.get('v.task.ActivityDate');
         var useDaysNumber = component.get('v.showNumbersAdd') === 'true';
 
-        if (!startDate) return;
-        if(!dueDate) {
+        if(startDate && !dueDate) {
+            var reminderDate = component.get('v.task.Reminder_Date__c');
+            if(reminderDate && moment(reminderDate).isBefore(startDate)) {
+                component.set('v.task.Reminder_Date__c', startDate);
+            }
+        }
+
+        if (!startDate || !dueDate) {
             component.set('v.dayRemind', 0);
-            component.set('v.task.Reminder_Date__c', null);
+            return;
         }
 
         dueDate = moment(dueDate, 'YYYY-MM-DD');
