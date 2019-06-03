@@ -5,6 +5,5 @@
 ({
     reload : function (component) {
         $A.enqueueAction(component.get('c.doInit'));
-        debugger;
     }
 });

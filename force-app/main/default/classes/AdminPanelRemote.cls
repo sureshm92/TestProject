@@ -30,8 +30,7 @@ public with sharing class AdminPanelRemote {
                             NextFireTime,
                             PreviousFireTime,
                             StartTime,
-                            State,
-                            TimesTriggered
+                            State
                     FROM CronTrigger
                     WHERE CronJobDetail.Name IN:jobMap.keySet()
             ];
@@ -44,7 +43,6 @@ public with sharing class AdminPanelRemote {
                     if(cron == null) continue;
 
                     jw.state = cron.State;
-                    jw.timesTrigg = cron.TimesTriggered;
                     jw.prevFT = cron.PreviousFireTime;
                     jw.nextFT = cron.NextFireTime;
                 }
@@ -53,6 +51,24 @@ public with sharing class AdminPanelRemote {
             return JSON.serialize(wrappers);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void runFAQ(String mode) {
+        switch on mode {
+            when 'all' {
+                Batch_ReviewOnboardingFAQ.runAll();
+            }
+            when 'pi' {
+                Batch_ReviewOnboardingFAQ.runPI();
+            }
+            when 'hcp' {
+                Batch_ReviewOnboardingFAQ.runHCP();
+            }
+            when 'part' {
+                Batch_ReviewOnboardingFAQ.runParticipant();
+            }
         }
     }
 
@@ -77,7 +93,6 @@ public with sharing class AdminPanelRemote {
     public class JobWrapper {
         public String jobName;
         public String state;
-        public Integer timesTrigg;
         public Datetime prevFT;
         public Datetime nextFT;
 

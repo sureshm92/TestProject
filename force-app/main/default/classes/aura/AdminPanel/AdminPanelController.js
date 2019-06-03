@@ -28,5 +28,15 @@
                 communityService.showSuccessToast('', 'Batch stopped successfully!');
                 helper.reload(component);
             });
+    },
+
+    clickRunMode : function (component, event, helper) {
+        communityService.executeAction(component, 'runFAQ',
+            {
+                'mode' : event.currentTarget.dataset.record
+            }, function () {
+                communityService.showSuccessToast('', 'Batch launched successfully!');
+                helper.reload(component);
+            });
     }
 });

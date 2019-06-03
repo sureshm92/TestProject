@@ -19,29 +19,29 @@
                         </div>
                         <div class="slds-col slds-size_2-of-3">
                             <div class="slds-grid">
-                                <div class="slds-col slds-size_1-of-3">
-                                    <p class="{!'slds-text-heading--label-normal'}">{!job.state}</p>
+                                <div class="slds-col slds-size_1-of-3 slds-p-left--medium slds-p-right--medium">
+                                    <p class="{!'slds-text-heading--label-normal ad-state ' + job.state}">{!job.state}</p>
                                 </div>
-                                <div class="slds-col slds-size_1-of-3">
-                                    <button data-record="{!job.jobName}" onclick="{!c.clickRun}">Run</button>
+                                <div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+                                    <button class="slds-button slds-button_outline-brand"
+                                            data-record="{!job.jobName}" onclick="{!c.clickRun}">Run</button>
                                 </div>
-                                <div class="slds-col slds-size_1-of-3">
-                                    <button data-record="{!job.jobName}" onclick="{!c.clickStop}">Stop</button>
+                                <div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+                                    <button class="slds-button slds-button_text-destructive"
+                                            data-record="{!job.jobName}" onclick="{!c.clickStop}">Stop</button>
                                 </div>
                             </div>
                             <lightning:accordionSection label="Description">
                                 <aura:set attribute="body">
                                     <div class="ad-desc">
-                                        <lightning:input type="datetime-local"
+                                        <lightning:input class="slds-p-around--x-small"
+                                                         type="datetime-local"
                                                          label="Next Fire Time"
                                                          value="{!job.nextFT}"
                                                          disabled="true"/>
 
-                                        <lightning:input label="Times Triggered"
-                                                         value="{!job.timesTrigg}"
-                                                         disabled="true"/>
-
-                                        <lightning:input type="datetime-local"
+                                        <lightning:input class="slds-p-around--x-small"
+                                                         type="datetime-local"
                                                          label="Previous Fire Time"
                                                          value="{!job.prevFT}"
                                                          disabled="true"/>
@@ -51,6 +51,27 @@
                         </div>
                     </div>
                 </aura:iteration>
+                <div class="slds-grid ad-card">
+                    <div class="slds-col slds-size_2-of-6">
+                        <p class="slds-text-heading--label-medium slds-text-title_bold">Batch_ReviewOnboardingFAQ</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6">
+                        <button class="slds-button slds-button_outline-brand"
+                                data-record="all" onclick="{!c.clickRunMode}">Run for all</button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6">
+                        <button class="slds-button slds-button_outline-brand"
+                                data-record="pi" onclick="{!c.clickRunMode}">Run for PI's</button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6">
+                        <button class="slds-button slds-button_outline-brand"
+                                data-record="hcp" onclick="{!c.clickRunMode}">Run for HCP's</button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6">
+                        <button class="slds-button slds-button_outline-brand"
+                                data-record="part" onclick="{!c.clickRunMode}">Run for Participant's</button>
+                    </div>
+                </div>
             </div>
         </lightning:accordion>
     </lightning:card>
