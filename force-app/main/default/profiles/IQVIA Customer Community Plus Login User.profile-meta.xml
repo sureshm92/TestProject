@@ -2183,6 +2183,31 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Integration_PH_Update_Patient_Status__c.Date_Time__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_PH_Update_Patient_Status__c.PSE_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_PH_Update_Patient_Status__c.Protocol_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_PH_Update_Patient_Status__c.Study_Site_Number__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_PH_Update_Patient_Status__c.Subject_ID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Lead.Accepts_Reimbursement_for_Referral__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4000,6 +4025,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Integration_PH_Update_Patient_Status__c-Integration PH Update Patient Status Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Knowledge__kav-Knowledge Layout</layout>
