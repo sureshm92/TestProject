@@ -89,11 +89,11 @@
                 </div>
             </div>
         </aura:if>
-        <!--Tab Study Help-->
+<!--        Tab Study Help-->
         <aura:if isTrue="{!v.currentTab == 'study-h'}">
             <c:StudyHelp/>
         </aura:if>
-        <!--Tab Give us Feedback-->
+<!--        Tab Give us Feedback-->
         <aura:if isTrue="{!v.currentTab == 'feedback'}">
             <div class="h-title">{!$Label.c.PG_HLP_H_Give_Us_Feedback_About_a_Feature}</div>
             <div class="slds-grid slds-grid_align-center">
