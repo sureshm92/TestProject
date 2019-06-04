@@ -4620,7 +4620,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG FP L Show more</shortDescription>
-        <value>Show more</value>
+        <value>Show all</value>
     </labels>
     <labels>
         <fullName>PG_FP_L_Showing</fullName>
