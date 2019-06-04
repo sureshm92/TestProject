@@ -53,7 +53,6 @@ public class AddPatientByPIRemote {
             String peStatus = pe.Participant_Status__c;
             pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
             pe.Referral_Source__c = 'PI';
-            if(pe.Informed_Consent__c != null && pe.Informed_Consent__c == true) pe.Informed_Consent_Date__c = System.today();
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
             PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
             List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();

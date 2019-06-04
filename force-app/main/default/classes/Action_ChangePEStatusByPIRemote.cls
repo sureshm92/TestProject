@@ -31,7 +31,6 @@ public class Action_ChangePEStatusByPIRemote {
 
             if (status == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
                 pe.Informed_Consent__c = true;
-                pe.Informed_Consent_Date__c = System.today();
             }
             update pe;
         } catch (Exception e) {

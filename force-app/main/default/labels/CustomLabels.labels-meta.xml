@@ -7252,7 +7252,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Poput_ICF</shortDescription>
-        <value>Please confirm that your patient has signs ICF consent</value>
+        <value>Please confirm that your patient has signed ICF consent</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
