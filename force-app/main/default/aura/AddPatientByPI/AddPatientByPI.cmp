@@ -9,6 +9,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData"/>
+    <aura:attribute name="statesLVList" type="LabelValueItem[]"/>
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="ctp" type="Clinical_Trial_Profile__c"/>
     <aura:attribute name="ss" type="Study_Site__c"/>
@@ -25,6 +26,10 @@
     <aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.pe.Participant_Status__c}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.pe.Referred_By__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.participant.Mailing_Country_Code__c}" action="{!c.doCountryCodeChanged}"/>
+
+    <!-- methods: -->
+    <aura:method name="checkFields" action="{!c.doCheckFields}" access="public"/>
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
@@ -100,10 +105,22 @@
                             <lightning:input type="email" value="{!v.participant.Email__c}" required="true"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
+                    </div>
+                    <div class="slds-grid slds-gutters slds-wrap">
                         <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_State}
+                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                             </div>
-                            <c:rrSelect options="{!v.formData.statesLVList}"
+                            <c:rrSelect options="{!v.formData.countriesLVList}"
+                                        value="{!v.participant.Mailing_Country_Code__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
+                        </div>
+                        <div class="rr-form-element slds-col">
+                            <div class="label">
+                                <aura:if isTrue="{!!empty(v.statesLVList)}">
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </aura:if>{!$Label.c.PE_State}
+                            </div>
+                           <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                                         value="{!v.participant.Mailing_State_Code__c}"
                                         placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                         </div>

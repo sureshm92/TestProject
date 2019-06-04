@@ -9,7 +9,7 @@
         });
         component.set('v.pe', {
             sobjectType: 'Participant_Enrollment__c',
-            Study_Site__c: component.get('v.ss.Id')
+            Study_Site__c: component.get('v.ss.Id'),
         });
     },
 
