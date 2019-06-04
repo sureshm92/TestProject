@@ -68,7 +68,7 @@ public without sharing class ReferringRemote {
                     initData.studiesPending.add(siteWrapper);
                 }
                     AccountWrapper aw = new AccountWrapper();
-                    aw.clinic = siteWrapper.site.Site__r;
+                    aw.clinic = siteWrapper.site.Principal_Investigator__r.Account;
                     aw.name = siteWrapper.site.Name;
                     aw.siteType = siteWrapper.siteType;
                     initData.markers.add(aw);
