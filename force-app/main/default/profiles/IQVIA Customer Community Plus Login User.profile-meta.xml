@@ -71,6 +71,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BatchExecutor</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BatchHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -92,6 +96,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_ScheduledAbstract</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1176,6 +1184,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Batch_Executor__mdt.Relaunch_Interval__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Batch_Executor__mdt.Scope_Size__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -27,9 +27,9 @@ public with sharing class BatchExecutor {
         }
     }
 
-    private static List<CronTrigger> getCronTrigger(String jobName) {
+    public static List<CronTrigger> getCronTrigger(String jobName) {
         return [
-                SELECT Id
+                SELECT Id, State
                 FROM CronTrigger
                 WHERE CronJobDetail.Name =: jobName
         ];
