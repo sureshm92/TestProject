@@ -74,6 +74,15 @@ You have been assigned as a Delegate for ##ParticipantUser. Thank you for joinin
 You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining ##ParticipantFirstName on this journey through the ##StudyName Study.</value>
     </labels>
     <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
+        <value>Hi ##Contact!
+
+You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joining ##ParticipantUser Thank you for joining ##StudyName Study.</value>
+    </labels>
+    <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -974,7 +983,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for j
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://sandbox-efficiency-java-8354-dev-ed-16a4a1ca59a.cs69.force.com</value>
+        <value>https://cp.clinicalresearch.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -4711,7 +4720,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP HI HCP</shortDescription>
-        <value>If your concern is medical related or you want to know more about your clinical trial enrollment status, please contact the Principal Investigator.</value>
+        <value>To report a problem or share feedback with IQVIA about Referral Hub, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_HI_PI</fullName>
