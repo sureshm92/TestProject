@@ -6,12 +6,13 @@
         component.find('spinner').show();
         if(!communityService.isInitialized()) return;
         communityService.executeAction(component, 'getBaselineSurveyURL', {
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            invitationId : communityService.getUrlParameter('inv')
         }, function (response) {
-            var initData = JSON.parse(response);
-            component.set('v.ctp', initData.ctp);
-            component.set('v.link', initData.surveyLink);
-            component.set('v.surveyName', initData.surveyName);
+            var sw = JSON.parse(response);
+            component.set('v.codeName', sw.studyCodeName);
+            component.set('v.link', sw.url);
+            component.set('v.surveyName', sw.name);
         }, function () {
             communityService.navigateToHome();
             //component.find('spinner').hide();

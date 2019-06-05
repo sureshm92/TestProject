@@ -33,9 +33,8 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL_Body_Travel_Support</shortDescription>
-        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
-
-By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance. </value>
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team.
+By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_Study</fullName>
@@ -1811,7 +1810,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is a quick email to remind you of your ##TaskName.
+        <value>This is an email to remind you of your task: ##TaskName.
 
 Please login to update the status of your task.</value>
     </labels>
@@ -1820,7 +1819,7 @@ Please login to update the status of your task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
 
 Please login to update the status of this task.</value>
     </labels>
@@ -2310,7 +2309,7 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
         <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
-    </labels>
+        </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
         <language>en_US</language>

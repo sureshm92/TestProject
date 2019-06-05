@@ -307,4 +307,11 @@ public without sharing class CommunityService {
 
         return null;
     }
+
+    public static Id getCommunityId(String name) {
+        String nameFilter = '';
+        if(name != null) nameFilter = ' WHERE Name = \'' + name + '\' ';
+
+        return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
+    }
 }

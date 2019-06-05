@@ -3,13 +3,10 @@
     <fullName>Survey__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Survey</label>
+    <label>SurveyL</label>
     <referenceTo>Survey</referenceTo>
-    <relationshipLabel>Clinical Trial Profiles</relationshipLabel>
-    <relationshipName>Clinical_Trial_Profiles</relationshipName>
+    <relationshipLabel>Survey Invitations</relationshipLabel>
+    <relationshipName>Survey_Invitations</relationshipName>
     <required>false</required>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
-    <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
