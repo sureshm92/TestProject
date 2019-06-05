@@ -80,7 +80,7 @@
                             <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
                             <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
                         </c:RRNavigationPath>
-                        <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+                        <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
                     </aura:if>
                 </div>
 
