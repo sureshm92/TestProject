@@ -433,15 +433,15 @@ public without sharing class ParametersDataProvider {
             User recipientUser = [
                     SELECT Id,
                             ContactId,
-                            Contact.Name, Contact.FirstName, Contact.LastName,
+                            Contact.Name, Contact.FirstName, Contact.LastName, Contact.Salutation,
                             Contact.UserCommunityIsDelegate__c,
                             Contact.userCommunityMode__c,
-                            LanguageLocaleKey
+                			LanguageLocaleKey
                     FROM User
                     WHERE Id =: recipientId
             ];
             recipientContactId = recipientUser.ContactId;
-            recipientName = recipientUser.Contact.Name;
+            recipientName = (recipientUser.Contact.Salutation == null ? '' : recipientUser.Contact.Salutation + ' ') + recipientUser.Contact.Name;
             recipientFirstName = recipientUser.Contact.FirstName;
             recipientLanguage = recipientUser.LanguageLocaleKey;
             isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
