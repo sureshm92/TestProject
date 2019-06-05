@@ -1,0 +1,21 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef2"
+            },
+            "Brief_Summary__c": "This is pulling from the brief summary field.",
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "NCT_Number__c": "NCT03953333",
+            "Official_Title__c": "This is the official title field.",
+            "Orientation_Required__c": false,
+            "Protocol_ID__c": "252BN211",
+            "Study_Code_Name__c": "BA USE ONLY -- Evaluate the Efficacy and Safety of BIIB093",
+            "Study_Title__c": "A Study to Evaluate the Efficacy and Safety of BIIB093 in Participants With Brain Contusion",
+            "Suppress_Participant_Emails__c": false,
+            "US_FDA_Regulated_Product__c": false
+        }
+    ]
+}

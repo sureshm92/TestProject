@@ -1,0 +1,48 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef1"
+            },
+            "Icons__c": "icon-blood-test;icon-x-rays;icon-lung-test",
+            "Name": "Visit 1",
+            "Order__c": 1,
+            "Timeplane__c": "Week 1",
+            "Visit_Plan__c": "@Visit_Plan__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef2"
+            },
+            "Icons__c": "icon-questions;icon-vital-signs",
+            "Name": "Visit 2",
+            "Order__c": 2,
+            "Timeplane__c": "Week 2",
+            "Visit_Plan__c": "@Visit_Plan__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef3"
+            },
+            "Icons__c": "icon-brief-ph-ex;icon-x-rays;icon-ecg;icon-joint;icon-pregnancy",
+            "Name": "Visit 3",
+            "Order__c": 3,
+            "Timeplane__c": "Week 3",
+            "Visit_Plan__c": "@Visit_Plan__cRef1"
+        },
+        {
+            "attributes": {
+                "type": "Visit__c",
+                "referenceId": "Visit__cRef4"
+            },
+            "Icons__c": "icon-blood-test;icon-brief-ph-ex;icon-x-rays;icon-ecg;icon-joint;icon-lung-test;icon-lung-check;icon-questionnaires;icon-questions;icon-vital-signs",
+            "Name": "Visit 4",
+            "Order__c": 4,
+            "Timeplane__c": "Visit 4",
+            "Visit_Plan__c": "@Visit_Plan__cRef1"
+        }
+    ]
+}
