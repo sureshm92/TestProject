@@ -79,7 +79,6 @@ public without sharing class TaskTriggerHandler {
                     continue;
                 }
             }
-            task.Action_URL__c = card.Action_Link__c;
             checkedTasks.add(task);
         }
     }

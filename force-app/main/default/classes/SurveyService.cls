@@ -4,14 +4,15 @@
 
 public with sharing class SurveyService {
 
-    public class SurveyException extends Exception {}
+    public class SurveyException extends Exception {
+    }
 
-    public class SurveyWrapper{
+    public class SurveyWrapper {
         public String name;
         public String url;
         public String studyCodeName;
 
-        public SurveyWrapper(String name, String url, String studyCodeName){
+        public SurveyWrapper(String name, String url, String studyCodeName) {
             this.name = name;
             this.url = url;
             this.studyCodeName = studyCodeName;
@@ -21,7 +22,7 @@ public with sharing class SurveyService {
     private static SurveyService instance;
 
     public static SurveyService getInstance() {
-        if(instance == null) instance = new SurveyService();
+        if (instance == null) instance = new SurveyService();
         return instance;
     }
 
@@ -29,7 +30,7 @@ public with sharing class SurveyService {
         instance = (SurveyService) Test.createStub(SurveyService.class, mock);
     }
 
-    public SurveyWrapper getSurveyWrapper(Id invitationId){
+    public SurveyWrapper getSurveyWrapper(Id invitationId) {
         try {
             SurveyInvitation invitation = [
                     SELECT
@@ -59,7 +60,7 @@ public with sharing class SurveyService {
         invitation.Survey__c = ts.Survey__c;
         invitation.Trial_Survey__c = ts.Id;
 
-        if(ts.Expires_After_Days__c != null) {
+        if (ts.Expires_After_Days__c != null) {
             Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
             Datetime expiry = Datetime.newInstanceGmt(
                     today.year(),
@@ -71,5 +72,16 @@ public with sharing class SurveyService {
         }
 
         return invitation;
+    }
+
+    public Id getSurveyInvitationId(String surveyId, String whoId) {
+        List<SurveyInvitation> invitation = [
+                SELECT Id
+                FROM SurveyInvitation
+                WHERE SurveyId = :surveyId AND ParticipantId = :whoId
+        ];
+        if(invitation.isEmpty()) return '';
+
+        return invitation.get(0).Id;
     }
 }
