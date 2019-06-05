@@ -8,7 +8,7 @@
         var actionId = event.currentTarget.id;
         switch (actionId) {
             case 'medicalRecordReview':
-                communityService.navigateToPage('medical-record-review?id=' + trialId);
+                communityService.navigateToPage('referring?id=' + trialId);
                 //communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'referToThisStudy':

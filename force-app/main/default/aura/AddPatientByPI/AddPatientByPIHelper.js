@@ -9,7 +9,7 @@
         });
         component.set('v.pe', {
             sobjectType: 'Participant_Enrollment__c',
-            Study_Site__c: component.get('v.ss.Id')
+            Study_Site__c: component.get('v.ss.Id'),
         });
     },
 
@@ -19,6 +19,7 @@
         var helper = this;
         if(pe.Participant_Status__c === 'Enrollment Success') {
             component.find('actionApprove').execute(function () {
+                pe.Informed_Consent__c = true;
                 helper.saveParticipant(component, pe, callback);
             }, function () {
                 component.find('spinner').hide();

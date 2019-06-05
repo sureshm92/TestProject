@@ -69,7 +69,7 @@ public class Alert {
             for(SObject sobj: objectsList) objectsMap.put(sobj.Id, sobj);
         }
 
-        String userName = [SELECT Name FROM Contact WHERE Id =: contactId].Name;
+        String userName = [SELECT FirstName FROM Contact WHERE Id =: contactId].FirstName;
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c WHERE Contact__c = :contactId];
             if (!participants.isEmpty()) userName = participants.get(0).First_Name__c;

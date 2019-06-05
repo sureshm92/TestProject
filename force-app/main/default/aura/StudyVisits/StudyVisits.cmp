@@ -37,7 +37,7 @@
                             <td class="sv-t-name">{!visit.Name}</td>
                             <td class="sv-t-time">{!visit.Timeplane__c}</td>
                             <td class="sv-t-icons">
-                                <c:RRIconSplitter value="{!visit.Icons__c}"/>
+                                <c:RRIconSplitter class="svl-icon" value="{!visit.Icons__c}"/>
                             </td>
                         </tr>
                     </aura:iteration>
