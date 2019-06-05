@@ -26,6 +26,7 @@
     <aura:attribute name="genders" type="List"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="markers" type="Object[]"/>
+    <aura:attribute name="accessUserLevel" type="String"/>
 
     <aura:attribute name="showMRRButton" type="Boolean"/>
 
@@ -109,7 +110,7 @@
                             {!$Label.c.BTN_Start_Pre_eligibility_Screening}
                         </button>
                     </div>
-                    <aura:if isTrue="{!!empty(v.pendingPEnrollments)}">
+                    <aura:if isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2'}">
                         <div class="between-panels">{!$Label.c.PG_Ref_L_OR}</div>
                         <div class="pe-panel padding" style="margin-bottom: 50px">
                             <c:RRIcon iconName="chart-review-sent"/>

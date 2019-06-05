@@ -66,7 +66,7 @@
 
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
-            contactEmail: delegate.delegateContact.Email
+            contactEmail: delegate.delegateContact.Email.toLowerCase()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);

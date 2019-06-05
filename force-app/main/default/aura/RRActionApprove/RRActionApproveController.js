@@ -20,5 +20,11 @@
 
     doCancel : function (component) {
         component.find('popup').cancel();
+    },
+
+    doUpdateHtmlMessage: function (component, event, helper) {
+        var message = component.get('v.message');
+        var htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
+        component.set('v.htmlMessage', htmlMessage);
     }
 })
