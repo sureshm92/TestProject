@@ -21,10 +21,12 @@
             case 'feedback':
                 type = 'Feedback';
                 text = component.get('v.textValueFeedback');
+                helper.clearFieldAfterSubmit('textValueFeedback', component);
                 break;
             case 'problem':
                 type = 'Problem';
                 text = component.get('v.textValueProblem');
+                helper.clearFieldAfterSubmit('textValueProblem', component);
                 break;
             case 'req-data':
                 type = 'Privacy';
