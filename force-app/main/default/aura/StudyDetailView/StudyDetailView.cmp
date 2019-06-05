@@ -62,7 +62,7 @@
                                 </div>
                             </aura:if>
                             <aura:if isTrue="{!empty(v.studyDetail.trial.Profile_Picture__c)}">
-                                <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Official_Title__c}</div>
+                                <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
                             </aura:if>
                         </aura:if>
                         <aura:if isTrue="{!v.state == 'ALUMNI'}">
