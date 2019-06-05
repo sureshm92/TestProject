@@ -130,6 +130,7 @@ public class ParticipantService {
     }
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
+        participant.Language_Preference_Code__c = UserInfo.getLanguage();
         Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
         if (!saveResult.isSuccess()) {
             System.debug('PARTICIPANT INSERT ERROR');
