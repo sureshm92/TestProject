@@ -32,6 +32,8 @@
     <aura:handler name="change" value="{!v.task.Reminder_Date__c}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.dayRemind}" action="{!c.doCheckFields}"/>
 
+    <aura:method name="checkFields" action="{!c.doCheckFields}"/>
+
     <!-- component body -->
     <lightning:card title="Configure your tasks parameters below">
         <c:RRSpinner aura:id="spinner" size="medium"/>
