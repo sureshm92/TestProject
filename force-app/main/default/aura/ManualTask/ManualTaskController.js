@@ -29,7 +29,7 @@
     onDaysChange: function (component, event, helper) {
         component.checkFields();
         if(!component.get('v.isValidFields')) return;
-        
+
         var startDate = component.get('v.task.Start_Date__c');
         var dueDate = component.get('v.task.ActivityDate');
         var useDaysNumber = component.get('v.showNumbersAdd') === 'true';

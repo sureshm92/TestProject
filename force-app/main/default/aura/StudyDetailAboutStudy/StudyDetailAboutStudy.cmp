@@ -162,7 +162,7 @@
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
                         <div class="title">{!$Label.c.PG_SW_F_Study_Name}</div>
-                        <div class="text">{!v.studyDetail.trial.Study_Code_Name__c}</div>
+                        <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
 
                         <div class="title">{!$Label.c.PG_SW_F_Condition}</div>
                         <div class="text">{!v.studyDetail.trial.Condition_s_Therapeutic_Area__c}</div>
