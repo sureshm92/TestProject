@@ -70,7 +70,7 @@ You have been assigned as a Delegate for ##ParticipantUser. Thank you for joinin
         <shortDescription>AL Body Welcome to PH Delegate</shortDescription>
         <value>Hi ##UserName!
 
-You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining  ##ParticipantFirstName on their journey through the ##StudyName Study.</value>
+You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining ##ParticipantFirstName on this journey through the ##StudyName Study.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -4619,7 +4619,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG FP L Show more</shortDescription>
-        <value>Show more</value>
+        <value>Show all</value>
     </labels>
     <labels>
         <fullName>PG_FP_L_Showing</fullName>
@@ -7147,7 +7147,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Task Tab No Tasks Delegate</shortDescription>
-        <value>##ParticipantFirstName does not currently have any tasks created or assigned to them at this time.</value>
+        <value>##ParticipantFirstName does not currently have any tasks created or assigned at this time.</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Acceptance_status</fullName>
@@ -7251,7 +7251,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Poput_ICF</shortDescription>
-        <value>Please confirm that your patient has signs ICF consent</value>
+        <value>Please confirm that your patient has signed ICF consent</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
@@ -7350,6 +7350,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>ReferralNetwork_SelectReferralNetwork</shortDescription>
         <value>Select Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>Referring</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Referring</shortDescription>
+        <value>Referring</value>
     </labels>
     <labels>
         <fullName>Reminder_3rd_Party_No_TA</fullName>
@@ -7538,7 +7545,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Study Documents</shortDescription>
-        <value>Content will be published shortly. Check back for updates</value>
+        <value>Content will be published shortly. Check back for updates.</value>
     </labels>
     <labels>
         <fullName>Resources_No_Therapeutic_Area</fullName>
@@ -7930,9 +7937,9 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Popup text</shortDescription>
-        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team.
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
 
-            By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be responsible for their policies, terms of use, or legal/regulatory compliance.</value>
+            By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
@@ -8297,6 +8304,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Changes made successfully</shortDescription>
         <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Contact_Inf_Not_Updated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Contact Inf Not Updated</shortDescription>
+        <value>Please update your contact information.</value>
     </labels>
     <labels>
         <fullName>Toast_ICF</fullName>

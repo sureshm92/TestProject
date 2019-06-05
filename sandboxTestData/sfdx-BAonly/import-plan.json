@@ -1,0 +1,38 @@
+[
+
+    {
+        "sobject": "Clinical_Trial_Profile__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Clinical_Trial_Profile__cs.json"
+        ]
+    },
+
+    {
+        "sobject": "Account",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "AccountsCopy.json"
+        ]
+    },
+
+    {
+        "sobject": "Contact",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "ContactsCopy.json"
+        ]
+    },
+
+    {
+        "sobject": "Study_Site__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Study_Site__cs.json"
+        ]
+    }
+]

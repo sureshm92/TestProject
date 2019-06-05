@@ -1,0 +1,758 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1000"
+      },
+      "Body__c": "This is the body of the article.",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Description__c": "Testing study specific content to ensure image message appears to IQVIA users.",
+            "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Subtitle__c": "Testing Image Message",
+      "Title__c": "Study Article - Testing Image Message"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1001"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=741598",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Diabetes_011619.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-01-16",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Onset diabetes linked to increased hospitalization for mental illness.",
+      "Therapeutic_Areas__c": "Diabetes; \r\nSurgery; \r\nCancer; \r\nAllergies; \r\nCOPD; \r\nStroke",
+      "Title__c": "STUDY S-34588 1/16/19 - Diabetes and Mental Health",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5989710273001",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1002"
+      },
+      "Body__c": "test",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Image__c": "test",
+      "Image_Title__c": "test",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Subtitle__c": "test",
+      "Title__c": "test",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1003"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=739337",
+      "Body__c": "<p>FRIDAY, Nov. 2, 2018 (American Heart Association) -- Creating art and tackling do-it-yourself projects are soothing pastimes for many people, and 37-year-old Amy Cavaliere is one of them.</p><p>The mother of three from Royersford, Pennsylvania -- about a half hour from Philadelphia -- enjoys making pallet wall art that combines hand-stenciled words and imagery on stained wood. In fact, she was planning to franchise a popular workshop that offers classes devoted to the activity.</p> <p>\"You go in with friends, drink wine and make a custom piece of wooden pallet art for your home decor,\" she said. \"It's fun.\" Unfortunately, fate had other plans.</p> <p>One morning in February 2017, while getting her children ready for school, Amy felt a heavy sensation in her chest. Her arms began to ache so badly that she couldn't finish brushing her daughter's hair. Within minutes, her skin turned pale and she started to hyperventilate. </p> <p>Although Amy had never experienced a panic attack, that was her best guess about what was happening. </p> <p>\"What else could it be?\" she said. After all, she was young, healthy and active, regularly participating in spinning classes and playing competitive tennis matches against her husband, John Paul.</p> <p>Admittedly stubborn by nature, Amy was adamant that John Paul not dial 911. He did it anyway. Her stubborn streak continued when the paramedics arrived. She insisted upon walking to the ambulance. As paramedics checked her vital signs, she tried to convince them that she was fine. </p> <p>Then her heart stopped.</p> <p>As the ambulance sped to the hospital, paramedic Dave Sauls performed CPR. \"I kept expecting her to come out of it,\" he said, \"but it wasn't happening.\"</p> <p>At the emergency room, the nurses took over chest compressions and continued to perform CPR and AED shocks for nearly 45 minutes.</p> <p>An angiogram revealed a 100 percent blockage of her left anterior descending artery. This type of heart attack is commonly known as the widow maker. Worse yet, the blockage was caused by spontaneous coronary artery dissection (SCAD), meaning a tear in the artery wall.</p> <p>SCAD is a rare event that occurs mostly in women (about 80 percent), with an average age younger than 50. Other disorders are believed to make people more likely to suffer SCAD. One of them is a disease of the blood vessels called fibromuscular dysplasia, which Amy was later diagnosed with having. </p> <p>At her local hospital, doctors decided she needed more specialized help than they could provide.</p> <p>Amy spent nine days in a medically induced coma. Once she awoke, she saw John Paul sitting at the foot of her hospital bed. She had no idea of what had happened. </p> <p>After the sedatives and other medications left her system, Amy felt so wired she couldn't sleep a wink for two straight days (\"my eyes were like saucers,\" she said). Watching the clock tick away hour by hour, she was terrified she could experience another heart attack at any moment. Any sort of chest pain causes her anxiety to this day.</p> <p>\"Since I don't remember what it felt like, I don't have a frame of reference,\" she said. \"It's terrifying -- the inner turmoil of a cardiac patient.\"</p> <p>After 21 days in the hospital, and surviving bouts of double pneumonia and a narrowing of her trachea, Amy was released. It took more than a year for her to start feeling like herself again.</p> <p>Although her heart function is permanently compromised, she is working to build strength and stamina. In the past, Amy didn't consider it a workout unless she was drenched in sweat. But that's no longer possible. Nor are the competitive tennis matches with John Paul.</p> <p>\"It's been a hard adjustment,\" Amy said. \"I had to shift my mentality a bit. It's about how much I can get done before my heart rate hits 160 bpm.\"</p> <p>One day, Dave Sauls, the paramedic, received a Facebook message from John Paul.</p> <p>Dave had heard Amy died. So, of course, he was \"flabbergasted\" by the message that said she was recovering at home.</p> <p>\"It was a gift from God in my life and something I needed at the time,\" he said. \"I sat there and cried.\"</p> <p>Since then, Dave and Amy have become close friends. He has trained many of her friends in CPR. </p> <p>Eager to raise awareness about women's heart health in general and SCAD specifically, Amy has recorded local public service announcements and attended fundraising walks.</p> <p>\"I look at it as my responsibility to warn other women that this can happen to anybody,\" Amy said. \"I didn't believe that it could happen to me, and my stubbornness almost cost my kids their mother.\"</p> <p>While it still stings that somebody else bought the home decor and art-making franchise that Amy wanted to buy into, she continues to make and sell her own pieces. She uses the name Heartwood, which her children suggested.</p> <p>\"This,\" she said, \"is my therapy.\" </p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright is owned or held by the American Heart  Association, Inc., and all rights are reserved. If you have questions or  comments about this story, please email&nbsp;<a href=\"mailto:editor@heart.org\">editor@heart.org</a>.</em>",
+            "Image__c": "https://media.healthday.com/Images/cutline/AHA1102181x_sm.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Therapeutic_Areas__c": "Stroke",
+      "Title__c": "STUDY S-34336 11/2/18 - AHA: She Refuses to Let A Heart-Stopping Moment Slow Her",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1004"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=740404",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Tamoxifen_120718.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-01",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Low-dose Tamoxifen lowers the risk of breast cancer development and recurrence in women with noninvasive breast conditions.",
+      "Therapeutic_Areas__c": "Cancer; \r\nBreastCancer; \r\nHeartFailure; \r\nKidneyDisease; \r\nObesity",
+      "Title__c": "STUDY S-34336 12/7/18 - Tamoxifen and Breast Cancer Treatment",
+      "Updated_Date__c": "2019-06-02",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5976762835001",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1005"
+      },
+      "Body__c": "<p>TUESDAY, Oct. 23, 2018 (HealthDay News) -- Children with autism or developmental delays may be at increased risk for obesity, a new study finds.</p><p>The study included nearly 2,500 2- to 5-year-olds in the United States. Of those, 668 children had autism spectrum disorder (ASD); 914 had developmental delays; and a control group of 884 children had neither.</p><p>Compared to the control group, the risk of being overweight or obese was 1.57 times higher among children with autism and 1.38 times higher among those with developmental delays.</p><p>Children with severe autism symptoms were most likely to be overweight or obese. Their risk was 1.7 times higher than those with mild autism, according to the study.</p><p>\"These findings make it clear that monitoring these children for excess weight gain at an early age is critical, and that prevention efforts should be expanded to include not just children with ASD, but those with other developmental diagnoses, as well,\" said study lead author Dr. Susan Levy. She is medical director of the Center for Autism Research at Children's Hospital of Philadelphia.</p><p>\"We need more research to understand why these children are more likely to develop obesity, and which children are at the highest risk,\" Levy said in a hospital news release.</p><p>However, the study only found an association between autism, developmental delays and obesity risk, not cause-and-effect. </p><p>Other medical factors that are common among children with autism may play a role, the researchers said.</p><p>These include endocrine and genetic disorders, gastrointestinal symptoms, medication side effects, sleep disturbances and rigid food choices.</p><p>The study authors suggested that health care providers should monitor children with autism or developmental delays for signs of excess weight gain and advise parents on how to prevent obesity. Parents whose kids show signs of excess weight gain should consult their health care provider, the researchers recommended. </p><p>The study was published online recently in <i>The Journal of Pediatrics</i>.</p><p><b>More information</b></p><p>The Autism Society has more on <a href=\"http://www.autism-society.org/what-is/\" target=\"_new\">autism</a>.</p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Image__c": "https://media.healthday.com/Images/icimages/45153.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2018-10-23",
+      "Remove_sharing__c": false,
+      "Title__c": "STUDY S-34336 10/23/18 - 0095 - Kids with Autism, Delays More Likely to be Overweight by Age 5",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1006"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=738973",
+      "Author_s_Name__c": "#NAME?",
+      "Body__c": "<p>MONDAY, Oct. 29, 2018 (HealthDay News) -- Naps have been shown to help young children learn, but researchers report they may have the opposite effect on children with Down syndrome.</p><p>\"In children with Down syndrome, there's something about having a nap right after learning that seemed to keep them from retaining information as well, which is totally different than what happened in typically developing children,\" said study author Jamie Edgin. She is an associate professor of psychology at the University of Arizona.</p><p>Edgin and her colleagues assessed 25 children with Down syndrome, average age 4.5 years, and 24 typically developing children, average age 2.5 years.</p><p>The researchers tested the children's ability to remember new words 5 minutes after they'd learned the words. The children were then tested again 4 hours after they'd learned the words and stayed awake, 4 hours after they'd learned the words and had a nap, and 24 hours later.</p><p>The typically developing children were more likely to remember the new words 4 hours and 24 hours after learning them if they took a 90-minute nap shortly after learning the word. </p><p>However, if the children with Down syndrome napped after learning the words, they were much less likely to remember them 4 hours and 24 hours later than if they didn't nap, the findings showed.</p><p>The study was published Oct. 29 in the <i>Proceedings of the National Academy of Sciences</i>.</p><p>Further research is needed to learn why naps may harm learning in children with Down syndrome, said Edgin, who noted that REM sleep is reduced in people with Down syndrome. REM is a normal stage of sleep that is characterized by rapid eye movements, more dreaming and bodily movement, and faster pulse and breathing. </p><p>\"There might be something about getting too little REM sleep and not completing that REM stage that could be related to difficulties with retention,\" Edgin said in a university news release. </p><p>\"There are some recent studies that suggest that people show poorer retention if they get just a little bit of REM than if they get a whole REM cycle,\" she explained. \"More work needs to be done, but REM sleep is definitely something to consider.\"</p><p><b>More information</b></p><p>The National Down Syndrome Society has more on <a href=\"https://www.ndss.org/\" target=\"_new\">Down syndrome</a>.</p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/icimages/down_syndrome311.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Source__c": "SOURCE: University of Arizona, news release, Oct. 29, 2018",
+      "Therapeutic_Areas__c": "Stroke",
+      "Title__c": "STUDY S-34336 10/29/18 - Naps Don't Help Down Syndrome Kids Learn: Study",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1007"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=738999",
+      "Body__c": "<p>FRIDAY, Dec. 7, 2018 (HealthDay News) -- Between the fresh air and the interesting scenery, running outdoors can be invigorating. But there are safety precautions to take when you leave a protected indoor environment.</p><p>The Road Runners Club of America has a wealth of advice.</p><p>For starters, take some precautions before you leave home. First, tell loved ones where you'll be running. Next, in addition to taking ID with you, write your name, phone number and blood type (in case of an accident) inside one of your running shoes. Also, carry your cellphone.</p><p>\"There's safety in numbers\" is an old expression that still holds true. Steer clear of unpopulated areas, deserted or unlit streets, even overgrown trails. Trust your intuition -- if a situation just doesn't feel right, stay away from it. Also get in the habit of varying your running pattern, but do run in familiar areas.</p><p>While it's easy to lose yourself in your thoughts or music, stay alert. That means skipping the headphones. You want both your eyes and ears attuned to your environment.</p><p>Whether you run on city streets or country roads, go against the flow of traffic so you can see oncoming vehicles and they can see you. This should allow you to react more quickly to a problem.</p><p>Remember mom's lessons about crossing streets -- look both ways at all intersections. Do obey traffic signals, and don't blindly assume that drivers will see you or that they'll stop for you, especially those turning into your path.</p><p>If you want to go running while traveling, ask the local running club or running store for safe routes. Stick to areas with open businesses in case of an emergency and, of course, follow all the safety steps you would at home.</p><p><b>More information</b></p><p>For more <a href=\"https://www.rrca.org/education/rrca-general-running-safety-tips\" target=\"_new\">safety tips</a> check out the website of the Road Runners Club of America.</p>",
+      "Byline__c": "<b>By Len Canter</b><br><i>HealthDay Reporter</i>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/icimages/67140.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Therapeutic_Areas__c": "BreastCancer; \nObesity; \nCancer; \nHeartFailure; \nKidneyDisease; \nStroke; \nSurgery",
+      "Title__c": "STUDY S-34336 12/7/18 - Safety First When Running Outdoors",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1008"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Diabetes_011619.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-03-12",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Onset diabetes linked to increased hospitalization for mental illness.",
+      "Title__c": "STUDY S-34541 3/12/19 - Diabetes and Mental Health",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5989710273001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1009"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2020-05-09",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Shaming_041619.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-05-10",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Celebrity fat-shaming leads to a spike in anti-fat attitudes.",
+      "Title__c": "STUDY S-34541 5/10/19 - The Impact of Fat Shaming",
+      "Updated_Date__c": "2019-05-31",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=6026454153001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1010"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Despair_041919.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2018-12-15",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "More adults entering middle age are reporting depression, alcohol abuse and drug use.",
+      "Title__c": "STUDY S-34541 12/15/18 - Gen Xers in Despair?",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=6027725532001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1011"
+      },
+      "Body__c": "This is a test",
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Article",
+            "Image__c": "/sfc/servlet.shepherd/version/download/06817000000PjMmAAK",
+      "Language__c": "en_US",
+                              "Remove_sharing__c": false,
+      "Title__c": "TEST - create article as SPNL"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1012"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-10-03",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Diabetes_011619.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-02-11",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Onset diabetes linked to increased hospitalization for mental illness.",
+      "Title__c": "STUDY S-34541 2/11/19 - Diabetes and Mental Health",
+      "Updated_Date__c": "2019-05-31",
+      "Video__c": "Enter the link to where the video is hosted.//players.brightcove.net/2766624905001/default_default/index.html?videoId=5989710273001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1013"
+      },
+      "Body__c": "<p>TUESDAY, Oct. 23, 2018 (HealthDay News) -- Children with autism or developmental delays may be at increased risk for obesity, a new study finds.</p><p>The study included nearly 2,500 2- to 5-year-olds in the United States. Of those, 668 children had autism spectrum disorder (ASD); 914 had developmental delays; and a control group of 884 children had neither.</p><p>Compared to the control group, the risk of being overweight or obese was 1.57 times higher among children with autism and 1.38 times higher among those with developmental delays.</p><p>Children with severe autism symptoms were most likely to be overweight or obese. Their risk was 1.7 times higher than those with mild autism, according to the study.</p><p>\"These findings make it clear that monitoring these children for excess weight gain at an early age is critical, and that prevention efforts should be expanded to include not just children with ASD, but those with other developmental diagnoses, as well,\" said study lead author Dr. Susan Levy. She is medical director of the Center for Autism Research at Children's Hospital of Philadelphia.</p><p>\"We need more research to understand why these children are more likely to develop obesity, and which children are at the highest risk,\" Levy said in a hospital news release.</p><p>However, the study only found an association between autism, developmental delays and obesity risk, not cause-and-effect. </p><p>Other medical factors that are common among children with autism may play a role, the researchers said.</p><p>These include endocrine and genetic disorders, gastrointestinal symptoms, medication side effects, sleep disturbances and rigid food choices.</p><p>The study authors suggested that health care providers should monitor children with autism or developmental delays for signs of excess weight gain and advise parents on how to prevent obesity. Parents whose kids show signs of excess weight gain should consult their health care provider, the researchers recommended. </p><p>The study was published online recently in <i>The Journal of Pediatrics</i>.</p><p><b>More information</b></p><p>The Autism Society has more on <a href=\"http://www.autism-society.org/what-is/\" target=\"_new\">autism</a>.</p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Image__c": "https://media.healthday.com/Images/icimages/45153.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Title__c": "JEN STUDY S-34336 10/23/18 - 0095 - Kids with Autism, Delays More Likely to be Overweight by Age 5",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1014"
+      },
+      "Body__c": "<p>(HealthDay News) -- About 80 percent of Americans will have lower back pain at some point in their lives, the U.S. National Institute of Neurological Disorders and Stroke estimates.</p><p>Lower back pain can range from a dull ache to a sharp stabbing sensation that renders a person unable to move.</p><p>The agency identifies some risk factors for lower back pain:</p><ul><li><b>Age</b>: The first instance tends to occur between ages 30 and 50, and back pain becomes more common with advancing age.</li><li><b>Fitness level</b>: Back pain occurs more often among people who aren't physically fit.</li><li><b>Pregnancy</b>: Being pregnant is commonly accompanied by low back pain, which results from changes in weight and pelvic alignment.</li><li><b>Weight gain</b>: Being overweight, obese, or gaining weight quickly can put stress on the back.</li><li><b>Genetics</b>: Some causes of back pain, such as ankylosing spondylitis (a form of arthritis), have a genetic component.</li><li><b>Occupation</b>: Having a job that requires heavy lifting, pushing or pulling can lead to injury and back pain.</li><li><b>Backpack overload</b>: A backpack overfilled with books and supplies can strain the back.</li></ul>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Image__c": "/sfc/servlet.shepherd/version/download/06817000000PkfQAAS",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Title__c": "Health Tip: Know the Risk Factors for Lower Back Pain",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1015"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=736344",
+      "Body__c": "<p>THURSDAY, Sept. 20, 2018 (HealthDay News) -- Different from osteoarthritis, which is the wear-and-tear breakdown of joint cartilage experienced over time, rheumatoid arthritis, or RA, is an autoimmune disease that causes both pain and intense fatigue.</p><p>When you're in the throes of a flare, exercise may seem like mission impossible and you might be advised to rest until it passes. But exercise is an essential part of an overall treatment plan to ease RA symptoms and improve mobility. Aim for a weekly routine that includes stretching, cardio and strength training.</p><p>Stretching boosts flexibility and range of motion. First, warm muscles with 5 minutes of light movement, then do a series of stretches to target all muscle groups. Always hold each stretch for 20 seconds. Yoga and tai chi are specific activities that increase flexibility and may even help ease the emotional stress of RA. To learn the basics, take a class or work one-on-one with an instructor, at least at first.</p><p>You can get the benefits of cardio with low-impact exercises, which are easier on your joints than a pounding activity like running. Walking is great, but swimming and water workouts put even less stress on joints because of the buoyancy of the water.</p><p>Support your joints by strengthening the muscles around them with resistance exercises. You can use stretchy resistance bands if weights are too hard to manage. Pay special attention to the muscles surrounding the joints most affected by rheumatoid arthritis, but don't neglect other muscle groups.</p><p>Work with your rheumatologist or a physical therapist familiar with RA to develop an individualized plan and ask how you should tailor your activities when a flare strikes.</p><p><b>More information</b></p><p>The Arthritis Foundation has more tips to help you find <a href=\"http://www.arthritis.org/about-arthritis/types/rheumatoid-arthritis/articles/best-exercises-for-ra.php\" target=\"_new\">the best exercises</a> when you have RA.</p>",
+      "Byline__c": "<b>By Len Canter</b><br><i>HealthDay Reporter</i>",
+      "Content_Class__c": "3rd Party",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2020-05-31",
+            "Image__c": "https://media.healthday.com/Images/icimages/67032.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-05-31",
+      "Remove_sharing__c": false,
+      "Title__c": "Exercising With Rheumatoid Arthritis",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1016"
+      },
+      "Body__c": "<p>THURSDAY, Sept. 20, 2018 (HealthDay News) -- Different from osteoarthritis, which is the wear-and-tear breakdown of joint cartilage experienced over time, rheumatoid arthritis, or RA, is an autoimmune disease that causes both pain and intense fatigue.</p><p>When you're in the throes of a flare, exercise may seem like mission impossible and you might be advised to rest until it passes. But exercise is an essential part of an overall treatment plan to ease RA symptoms and improve mobility. Aim for a weekly routine that includes stretching, cardio and strength training.</p><p>Stretching boosts flexibility and range of motion. First, warm muscles with 5 minutes of light movement, then do a series of stretches to target all muscle groups. Always hold each stretch for 20 seconds. Yoga and tai chi are specific activities that increase flexibility and may even help ease the emotional stress of RA. To learn the basics, take a class or work one-on-one with an instructor, at least at first.</p><p>You can get the benefits of cardio with low-impact exercises, which are easier on your joints than a pounding activity like running. Walking is great, but swimming and water workouts put even less stress on joints because of the buoyancy of the water.</p><p>Support your joints by strengthening the muscles around them with resistance exercises. You can use stretchy resistance bands if weights are too hard to manage. Pay special attention to the muscles surrounding the joints most affected by rheumatoid arthritis, but don't neglect other muscle groups.</p><p>Work with your rheumatologist or a physical therapist familiar with RA to develop an individualized plan and ask how you should tailor your activities when a flare strikes.</p><p><b>More information</b></p><p>The Arthritis Foundation has more tips to help you find <a href=\"http://www.arthritis.org/about-arthritis/types/rheumatoid-arthritis/articles/best-exercises-for-ra.php\" target=\"_new\">the best exercises</a> when you have RA.</p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Image__c": "https://media.healthday.com/Images/icimages/67032.jpg",
+      "Image_Subtitle__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Therapeutic_Areas__c": "Arthritis; \nRheumatoidArthritis",
+      "Title__c": "Exercising With Rheumatoid Arthritis",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1017"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-07-18",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Knee_Replacement_102218.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-03-15",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "A brisk walk each day lowers the risk of knee replacement surgery in patients with knee arthritis.",
+      "Title__c": "STUDY S-34541 3/15/19 - Preventing Knee Replacement Surgery",
+      "Updated_Date__c": "2019-05-31",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5851866049001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1018"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Back_Pain_031219.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-03-18",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "How many kids are experiencing back pain and why?",
+      "Title__c": "STUDY S-34584 3/18/19 - Back Pain Isn't Just An Adult Problem",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=6012829403001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1019"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-09-20",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Snoring_112918.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2018-11-23",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Women who have obstructive sleep apnea may be at greater risk of heart problems.",
+      "Title__c": "STUDY S-34584 11/23/18 - Snoring, Sleep Apnea and Gender",
+      "Updated_Date__c": "2019-05-31",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5972648125001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1020"
+      },
+      "Author_s_Name__c": "#NAME?",
+      "Body__c": "<p>TUESDAY, Oct. 30, 2018 (HealthDay News) -- When you're taking your blood pressure at home, a reading of 130 over 80 or above should be considered high, researchers report.</p><p>A reading of 120 over 80 is considered in the normal range.</p><p>\"Most guidelines have recommended out-of-office monitoring for diagnosis of hypertension, but the normal limits of home blood pressure have not been accurately determined in the U.S. population,\" said study leader Dr. Wanpen Vongpatanasin. She is director of the Hypertension Fellowship Program at University of Texas Southwestern Medical Center in Dallas.</p><p>In the study, the researchers analyzed data on nearly 3,700 U.S. adults, aged 30 to 65. The finding matches guidelines issued in 2017 by the American College of Cardiology and the American Heart Association.</p><p>Co-author Dr. James de Lemos is a professor of internal medicine who holds a chair in cardiology at UT. \"This study confirms the value of monitoring blood pressure at home as part of a comprehensive cardiovascular disease prevention strategy,\" he said in a university news release.</p><p>Nearly half of U.S. adults have high blood pressure. At-home blood pressure screening can better predict high blood pressure than a single measurement taken at a doctor's office, according to cardiologists.</p><p>This is due to a phenomenon called \"white-coat syndrome,\" when blood pressure readings are higher when taken at the doctor's office due to patient anxiety, Vongpatanasin explained. </p><p>\"Home blood pressure readings should be taken after resting quietly for five minutes. They should be taken multiple times, preferably twice a day over five to seven days with a minimum of two readings each time,\" Vongpatanasin said.</p><p>The study was published Oct. 29 in the journal <i>Hypertension</i>.</p><p><b>More information</b></p><p>The American Heart Association has more on <a href=\"https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings\" target=\"_new\">blood pressure readings</a>.</p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/icimages/health.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2018-12-07",
+      "Remove_sharing__c": false,
+      "Source__c": "SOURCE: University of Texas Southwestern Medical Center, news release, Oct. 29, 2018",
+      "Title__c": "STUDY S-34584 12/7/18 - Measure Your Blood Pressure at Home? New Guidelines Set Healthy Readings",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5854880997001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1021"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Fluctuating_Weight_100118.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-03-15",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Factors that increase risk of heart attack, stroke and death.",
+      "Title__c": "STUDY S-34584 3/15/19 - The Danger of Fluctuating Measurements in Key Cardiac Risk Factors",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5841663234001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1022"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Work_Stress_042919.jpg",
+      "Language__c": "en_US",
+                  "Posting_Date__c": "2019-04-06",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Stressed-out workers with high blood pressure and impaired sleep at high risk of death.",
+      "Title__c": "STUDY S-34584 4/6/19 - Work Stress and Poor Sleep a Killer?",
+      "Updated_Date__c": "2019-05-31",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=6030813660001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1023"
+      },
+      "Content_Type__c": "Study_Document",
+      "Description__c": "ICF form for Vertical study",
+      "document_type__c": "Document",
+            "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Title__c": "Informed Consent Form (ICF)"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1024"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=742226",
+      "Body__c": "<p>FRIDAY, Feb. 1, 2019 (HealthDay News) -- Instead of popping a painkiller, a little mindful yoga might go a long way toward easing longstanding pain, a new study suggests.</p><p>The review of 21 clinical trials involving nearly 2,000 people looked at the effects of two drug-free options for chronic pain: cognitive behavioral therapy (CBT) and a program called mindfulness-based stress reduction (MBSR). It combines meditation and gentle yoga postures.</p><p>In general, patients fared better with either therapy than with no treatment or with standard care, including pain medication.</p><p>Experts said the results point to the value of drug-free alternatives for dealing with chronic pain. That's especially important in the context of the current opioid crisis, said Dr. Muhammad Hassan Majeed, a psychiatrist at Natchaug Hospital in Mansfield Center, Conn.</p><p>For chronic pain that is unrelated to cancer, he said, opioids do not work well. Plus, they carry risks of addiction, overdose and even death.</p><p>Majeed, who was not involved in the new report, has published his own reviews of the evidence for mindfulness and other non-drug approaches for chronic pain.</p><p>The bottom line, he said, is that there is no \"one-size-fits-all\" treatment. Instead, there is a range of potentially effective options that people can try.</p><p>\"Medication is not the only one,\" Majeed said.</p><p>That's not a controversial message. Guidelines for managing chronic pain -- from the U.S. Centers for Disease Control and Prevention and other groups -- already discourage doctors from prescribing opioids for most people. They also stress that non-drug choices -- from physical therapy to psychological approaches like CBT -- should be among the \"preferred options.\"</p><p>Why would psychological therapies help? Because chronic pain is not purely physical, Majeed said. There is an emotional component, he explained, and the ways people perceive and respond to their pain are crucial.</p><p>CBT helps people change their habitual thought patterns and reactions around their pain, according to Majeed. Mindfulness practices, like meditation, have a similar goal: The typical definition of mindfulness is to focus on what's happening in the moment, rather than letting the mind spin off.</p><p>Right now, CBT is the most widely used psychological approach to treating chronic pain, said Wei Cheng, one of the researchers on the review.</p><p>Only one study in the review directly compared CBT with mindfulness-based stress reduction. So it's not clear whether mindfulness is as effective as CBT, said Cheng, of the Ottawa Hospital Research Institute in Ontario, Canada.</p><p>But, he added, not everyone who tries CBT for chronic pain finds it helpful. Mindful practices offer \"an alternative and potentially helpful approach,\" he said.</p><p>The review, published Jan. 31 in <i>Evidence Based Mental Health</i>, pulled together 21 clinical trials. Thirteen compared CBT against a \"control\" -- either no treatment or standard therapies like pain medication. In each study, CBT patients had eight to 12 group sessions with a therapist.</p><p>In seven trials, patients were randomly assigned to either MBSR or a control group. MBSR involved eight to 12 weekly sessions with a therapist trained in the program -- along with 45 minutes of daily home practice.</p><p>The patients had long-standing pain from conditions like arthritis, fibromyalgia and temporomandibular joint disorder (TMJ), which affects the jaw. A few trials focused on chronic low back pain.</p><p>Overall, Cheng's team found, patients who received either CBT or MBSR typically fared better than the control group. They reported more improvements in pain intensity, physical functioning and depression symptoms.</p><p>On average, those effects were \"small,\" however, the researchers noted.</p><p>But that's to be expected, according to Majeed. He said patients vary widely in how much relief they get from CBT or mindfulness -- in part, because of the motivation it takes to incorporate what they learn into daily life.</p><p>Plus, Majeed said, while these approaches can help people manage their pain and \"feel better,\" they won't erase the pain.</p><p>For any one person, the choice of whether to try CBT or MBSR will partly depend on personal preferences, according to Majeed. But there are also practical matters, he added, including availability of therapists and insurance coverage.</p><p>MBSR is a specific program. But its components -- mindfulness meditation and gentle yoga -- are available in many formats.</p><p>An important thing to keep in mind, Majeed noted, is that these approaches do not produce instant relief.</p><p>\"It takes time to heal, and to adopt a new lifestyle,\" he said.</p><p><b>More information</b></p><p>The U.S. National Center for Complementary and Integrative Health has more on <a href=\"https://nccih.nih.gov/health/pain/consumer\" target=\"_new\">pain treatment</a>.</p>",
+      "Byline__c": "<b>By Amy Norton</b><br><i>HealthDay Reporter</i>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2019 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/icimages/yoga808.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Source__c": "SOURCES: Wei Cheng, Ph.D., senior methodologist, Ottawa Hospital Research Institute, Ottawa, Ontario, Canada; Muhammad Hassan Majeed, M.D., attending psychiatrist, Natchaug Hospital, Mansfield Center, Conn.; Jan. 31, 2019, <i>Evidence Based Mental Health</i>, online",
+      "Therapeutic_Areas__c": "Pain; \nChronic Pain; \nChronicPain; \nDiabetes; \nCOPD; \nCancer; \nSurgery; \nStroke",
+      "Title__c": "'Mindfulness' Might Help Some Conquer Chronic Pain",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1025"
+      },
+      "Content_Type__c": "Study_Document",
+      "Description__c": "Phase 1 and 2 summary of known side effects from taking ASDrug.",
+      "document_type__c": "Document",
+            "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Title__c": "Side effects of ASDrug"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1026"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=738852",
+      "Author_s_Name__c": "#NAME?",
+      "Body__c": "<p>WEDNESDAY, Oct. 24, 2018 (HealthDay News) -- If you're on multiple medications and your high blood pressure is still not under control, you might want to ask your doctor to check the lead levels in your shin bones.</p><p>Researchers found a link between the two, and they noted that standard blood tests didn't spot rising lead levels while the shin bone test did.</p><p>\"Laws limiting lead exposure have been on the books for decades, but in recent years it is recognized that lead remains an environmental toxin that is still with us,\" said study lead author Sung Kyun Park. </p><p>Park is an associate professor of epidemiology and environmental health sciences at the University of Michigan's School of Public Health.</p><p>In the study, Park's team tested lead levels in the blood, shin bones and kneecaps of 475 men with high blood pressure (hypertension) at a Veterans Affairs center in Boston, including 97 who had  treatment-resistant high blood pressure.</p><p>That diagnosis is made when a patient takes three or more blood pressure medications from different drug classes and does not achieve blood pressure targets, or the patient requires four or more different medications to achieve those targets.</p><p>There was no significant association between treatment-resistant high blood pressure and lead levels found in the blood or knee caps, according to the report.</p><p>But after adjusting for age, race, smoking and other factors, the researchers found a 19 percent higher risk of treatment-resistant blood pressure for every 15-microgram per gram increase in lead levels in the shin bone. </p><p>The report was published online Oct. 24 in the <i>Journal of the American Heart Association</i>.</p><p>\"Our study demonstrates that cumulative lead burden, as measured by cortical bone in the tibia (shin bone), may be an unrecognized risk factor for drug-resistant hypertension,\" Park said in a journal news release.</p><p>Cortical bone is the hard outer shell of the bone.</p><p>\"We believe this is the first study to find this association,\" Park said, but the findings don't prove that lead in the shin bone causes treatment-resistant high blood pressure.</p><p>Still, \"this likely reflects the long after-effects of historically high lead exposures, which is what shin bone lead partly represents, but it also likely reflects continuing lead exposure from, for example, an aging infrastructure where water pipes in many urban areas are older and contain lead,\" Park added.</p><p>\"Since the lead problems in the drinking water in Flint, Mich., have surfaced, the issue has become more troubling, especially in older U.S. cities,\" he added.</p><p><b>More information</b></p><p>The U.S. National Heart, Lung, and Blood Institute has more on <a href=\"https://www.nhlbi.nih.gov/health-topics/high-blood-pressure\" target=\"_new\">high blood pressure</a>.</p>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/icimages/59071.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Source__c": "SOURCE: <i>Journal of the American Heart Association</i>, news release, Oct. 24, 2018",
+      "Therapeutic_Areas__c": "HighBloodPressure; \nStroke",
+      "Title__c": "Uncontrolled Blood Pressure? Maybe It's Time to Check Your Shins",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1027"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=740042",
+      "Body__c": "<p>THURSDAY, Nov. 29, 2018 (HealthDay News) -- The hearts of women who snore appear to become damaged more quickly than those of men who \"saw lumber\" at night, a new study suggests.</p><p>Evaluating nearly 4,500 British adults who underwent cardiac imaging, researchers also learned that obstructive sleep apnea (OSA) may be vastly underdiagnosed among snorers.</p><p>This finding surprised study author Dr. Adrian Curta, who heads  cardiac imaging at Munich University Hospital in Germany.</p><p>\"A further surprise was the different manifestation of disease according to gender,\" Curta said. \"Females show different alterations in cardiac [measures]. A possible reason for this could be that women with OSA are more vulnerable to cardiac alterations.\"</p> <p>Loud snoring is a hallmark of obstructive sleep apnea, which affects between 3 percent and 7 percent of adults in the United States, according to the U.S. National Institutes of Health. Also characterized by brief periods where breathing stops, often followed by gasping for air, sleep apnea is becoming recognized as a contributor to serious health conditions, such as high blood pressure, heart disease and poor blood sugar metabolism.</p><p>Sleep apnea treatment depends on the cause. Treatments include surgery to open narrowed upper airways or using a CPAP (continuous positive airway pressure) machine while sleeping.</p><p>Curta and his colleagues evaluated data from the UK Biobank, which follows the health and well-being of 500,000 volunteers. The researchers  looked at data from nearly 4,500 participants who underwent cardiac imaging. These study volunteers were split into three groups: 38 with obstructive sleep apnea; 1,919 who reported snoring; and 2,536 without OSA or snoring.</p><p>In both men and women, those with sleep apnea and snoring tended to have larger left ventricles of the heart, meaning the walls were enlarged and the heart was working harder to pump, Curta said.</p><p>But when the snoring group was compared to the unaffected group, a more significant difference was found in the size of the left ventricle among women compared to men. These cardiac changes in self-reported snorers suggest earlier heart impairment in women and could point to undiagnosed sleep apnea, he said.</p> <p>The findings suggest the transition from snoring to obstructive sleep apnea is an evolving process linked to a potentially dangerous enlargement of the left ventricle. But the research did not prove that sleep apnea causes heart changes, only that an association exists between the two.</p><p>Curta noted that researchers are still uncertain why snoring would remodel women's hearts more quickly than men's. More research needs to be done to understand this process, he said.</p><p>\"The most important clinical implication is that we need better prevention for OSA, such as a broader information program,\" Curta said. \"Individuals with snoring should ask someone to observe them during sleep if they show periods of breathing cessation.\"</p><p>Those who do stop breathing while sleeping should undergo a sleep study to determine how advanced their sleep apnea is and the proper treatment, Curta said.</p><p>Dr. Tetyana Kendzerska is a sleep physician at Ottawa Hospital Sleep Center in Canada, and wasn't involved in the new research. Since obesity is a known contributor to snoring and sleep apnea, Kendzerska said losing excess weight is encouraged for those with snoring or sleep apnea.</p> <p>\"We know that men and women report different symptoms for OSA, and as a result, obstructive sleep apnea is seriously underreported and underdiagnosed in women,\" she said.</p> <p>\"Given that potential cardiovascular risk associated with sleep apnea may be greater in women than in men, first we need to identify women with sleep apnea [by] increasing awareness among health care professionals,\" Kendzerska added.</p> <p>The research was to be presented Thursday at the annual meeting of the Radiological Society of North America, in Chicago. Research presented at meetings typically hasn't been peer-reviewed or published, and results are considered preliminary.</p><p><b>More information</b></p><p>The U.S. National Institute of Neurological Disorders and Stroke has more on <a href=\"https://www.ninds.nih.gov/Disorders/All-Disorders/Sleep-Apnea-Information-Page\" target=\"_new\">sleep apnea</a>.</p>",
+      "Byline__c": "<b>By Maureen Salamon</b><br><i>HealthDay Reporter</i>",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/icimages/apnea642.jpg",
+      "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Source__c": "SOURCES: Adrian Curta, M.D., head, cardiac imaging, Munich University Hospital, Germany; Tetyana Kendzerska, M.D., Ph.D., sleep physician, Ottawa Hospital Center, assistant professor, division of respirology, University of Ottawa, and associate scientist, Ottawa Hospital Research Institute, Ottawa, Canada; Nov. 29, 2018, presentation, Radiological Society of North America annual meeting, Chicago",
+      "Therapeutic_Areas__c": "Stroke",
+      "Title__c": "Snoring May Be Bigger Health Threat to Women Than Men",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1028"
+      },
+      "Body__c": "sdgoijaw9jegpW",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Language__c": "en_US",
+                  "Posting_Date__c": "2019-05-31",
+      "Remove_sharing__c": false,
+      "Title__c": "this is a test"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1029"
+      },
+      "Content_Type__c": "Study_Document",
+      "document_type__c": "Document",
+            "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Title__c": "TESTING",
+      "Version_Date__c": "2019-05-31"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1030"
+      },
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+            "Language__c": "en_US",
+                  "Posting_Date__c": "2019-05-31",
+      "Remove_sharing__c": false,
+      "Title__c": "testing testing",
+      "Video__c": "www.espn.com"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1031"
+      },
+      "Author_s_Name__c": "#NAME?",
+      "Body__c": "<p>MONDAY, Nov. 5, 2018 (HealthDay News) -- Opioid users may be putting themselves at increased risk for atrial fibrillation (\"A-fib\"), an abnormal heart rhythm that can lead to a stroke, a new study suggests.</p><p>The preliminary finding stems from an analysis of medical records of more than 850,000 military veterans. It found that opioid use increases the likelihood of A-fib by 34 percent.</p><p>\"We all know that the opioid epidemic is taking an unspeakable human toll through addiction, abuse and overdose, but our findings suggest that the toll may be even greater when we consider the cardiovascular effects opioids may have,\" said lead investigator Dr. Jonathan Stock. He's a resident at Yale New Haven Hospital in Connecticut.</p><p>The researchers said their findings are based on tracking opioid use, not abuse, and show opioids are dangerous even when the drugs are not abused or users are not addicts.</p><p>\"Our results point to the importance of prescribing opioids only as a last resort,\" Stock said. \"Opioid use, by itself, must be taken seriously and efforts should be made, not only to reduce opioid abuse and overdoses, but to ensure patients are being prescribed opioids only when absolutely necessary.\"</p><p>For the study, Stock's team analyzed medical records of more than 857,000 veterans between the ages of 25 and 51.</p><p>About 3,000 of them had been diagnosed with atrial fibrillation. Of those, nearly 29 percent had used opioids, compared with 15 percent of vets without the heart irregularity.</p><p>The risk for a-fib remained even after researchers accounted for other heart disease risk factors. </p><p>Of concern was the finding that atrial fibrillation was seen in young healthy people. The average age of those in the study was 38. The abnormality is typically more common among those 65 and older.</p><p>The researchers offered a possible reason for the link between opioid use and a-fib. They theorize that opioids may lead to or worsen breathing problems during sleep as well as obstructive sleep apnea, a known risk factor for cardiac rhythm disturbances.</p><p>The findings are to be presented Nov. 10 at a meeting of the American Heart Association in Chicago. </p><p>Research presented at meetings is typically considered preliminary until published in a peer-reviewed journal.</p><p><b>More information</b></p><p> To learn more about atrial fibrillation, visit the <a href=\"http://www.heart.org/en/health-topics/atrial-fibrillation\" target=\"_new\"> American Heart Association</a>.</p>",
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-06-03",
+            "Image__c": "https://media.healthday.com/Images/icimages/opioid920182.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2018-11-15",
+      "Remove_sharing__c": true,
+      "Source__c": "SOURCE: American Heart Association, news release, Nov. 5, 2018",
+      "Title__c": "EXPIRATION PTA - ONCO 11/5/18 - Opioid Use May Sometimes Trigger A-Fib",
+      "Updated_Date__c": "2019-05-31"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1032"
+      },
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-05-31",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Despair_041919.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-04-19",
+      "Remove_sharing__c": true,
+      "Subtitle__c": "More adults entering middle age are reporting depression, alcohol abuse and drug use.",
+      "Title__c": "EXPIRATION PTA - HEPA 4/19/19 - Gen Xers in Despair?",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=6027725532001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1033"
+      },
+      "Body__c": "https://newspunch.com/cancer-cured-by-brilliant-man-in-1934-then-he-was-killed/",
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Article",
+      "Expiration_Date__c": "2019-05-31",
+            "Image__c": "https://cdn.newspunch.com/wp-content/uploads/2015/06/the_san_diego_union_7_31_1949-550x381.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-05-23",
+      "Remove_sharing__c": true,
+      "Subtitle__c": "https://newspunch.com/cancer-cured-by-brilliant-man-in-1934-then-he-was-killed/",
+      "Title__c": "dsfghjkl;k",
+      "Updated_Date__c": "2019-06-01"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1034"
+      },
+      "Author_s_Name__c": "#NAME?",
+      "Body__c": "<p>MONDAY, Nov. 5, 2018 (HealthDay News) -- Opioid users may be putting themselves at increased risk for atrial fibrillation (\"A-fib\"), an abnormal heart rhythm that can lead to a stroke, a new study suggests.</p><p>The preliminary finding stems from an analysis of medical records of more than 850,000 military veterans. It found that opioid use increases the likelihood of A-fib by 34 percent.</p><p>\"We all know that the opioid epidemic is taking an unspeakable human toll through addiction, abuse and overdose, but our findings suggest that the toll may be even greater when we consider the cardiovascular effects opioids may have,\" said lead investigator Dr. Jonathan Stock. He's a resident at Yale New Haven Hospital in Connecticut.</p><p>The researchers said their findings are based on tracking opioid use, not abuse, and show opioids are dangerous even when the drugs are not abused or users are not addicts.</p><p>\"Our results point to the importance of prescribing opioids only as a last resort,\" Stock said. \"Opioid use, by itself, must be taken seriously and efforts should be made, not only to reduce opioid abuse and overdoses, but to ensure patients are being prescribed opioids only when absolutely necessary.\"</p><p>For the study, Stock's team analyzed medical records of more than 857,000 veterans between the ages of 25 and 51.</p><p>About 3,000 of them had been diagnosed with atrial fibrillation. Of those, nearly 29 percent had used opioids, compared with 15 percent of vets without the heart irregularity.</p><p>The risk for a-fib remained even after researchers accounted for other heart disease risk factors. </p><p>Of concern was the finding that atrial fibrillation was seen in young healthy people. The average age of those in the study was 38. The abnormality is typically more common among those 65 and older.</p><p>The researchers offered a possible reason for the link between opioid use and a-fib. They theorize that opioids may lead to or worsen breathing problems during sleep as well as obstructive sleep apnea, a known risk factor for cardiac rhythm disturbances.</p><p>The findings are to be presented Nov. 10 at a meeting of the American Heart Association in Chicago. </p><p>Research presented at meetings is typically considered preliminary until published in a peer-reviewed journal.</p><p><b>More information</b></p><p> To learn more about atrial fibrillation, visit the <a href=\"http://www.heart.org/en/health-topics/atrial-fibrillation\" target=\"_new\"> American Heart Association</a>.</p>",
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Article",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-05-31",
+            "Image__c": "https://media.healthday.com/Images/icimages/opioid920182.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2018-11-15",
+      "Remove_sharing__c": true,
+      "Source__c": "SOURCE: American Heart Association, news release, Nov. 5, 2018",
+      "Title__c": "EXPIRATION PTA - ONCO 11/5/19 - Opioid Use May Sometimes Trigger A-Fib",
+      "Updated_Date__c": "2019-05-31"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1035"
+      },
+      "Body__c": "https://www.medicalnewstoday.com/articles/324630.php",
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Article",
+            "Image__c": "https://cdn1.medicalnewstoday.com/content/images/articles/324/324630/close-up-of-grey-haired-woman-asleep-on-white-pillow.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-01",
+      "Remove_sharing__c": false,
+      "Title__c": "Testing Step be step"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1036"
+      },
+      "Body__c": "hgmxghm",
+      "Content_Class__c": "3rd Party",
+      "Content_Type__c": "Article",
+      "Expiration_Date__c": "2020-06-01",
+            "Image__c": "zjzjn",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-01",
+      "Remove_sharing__c": false,
+      "Title__c": "\"3rd Party Source\" -> HealthDay",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1037"
+      },
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+      "Expiration_Date__c": "2019-06-02",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Diabetes_011619.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-01-16",
+      "Remove_sharing__c": true,
+      "Subtitle__c": "Onset diabetes linked to increased hospitalization for mental illness.",
+      "Title__c": "PEH-397 PTA - ONCO 1/16/19 - Diabetes and Mental Health",
+      "Updated_Date__c": "2019-06-02",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5989710273001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1038"
+      },
+      "article_external_link__c": "https://www.clinicalresearch.com/potential-participants/articles/HealthDayArticle?actid=740404",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Video",
+      "Copyright__c": "Copyright &#169; 2018 <a href=\"http://www.healthday.com/\" target=\"_new\">HealthDay</a>. All rights reserved.",
+            "Image__c": "https://media.healthday.com/Images/spanishtvthumbs/Spanish_Tamoxifen_120718.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-02",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Low-dose Tamoxifen lowers the risk of breast cancer development and recurrence in women with noninvasive breast conditions.",
+      "Therapeutic_Areas__c": "Cancer; \r\nBreastCancer; \r\nHeartFailure; \r\nKidneyDisease; \r\nObesity",
+      "Title__c": "STUDY S-34336 12/7/18 - Tamoxifen and Breast Cancer Treatment",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=5976762835001",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1039"
+      },
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Video",
+            "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-03",
+      "Remove_sharing__c": false,
+      "Title__c": "76rtyfhgfg",
+      "Video__c": "76uyfg"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1040"
+      },
+      "Body__c": "abcd",
+      "Content_Class__c": "3rd Party",
+      "Content_Type__c": "Article",
+      "Expiration_Date__c": "2020-06-02",
+            "Image__c": "/resource/1559281033000/PH_Default_Image/HealthDay.png",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-02",
+      "Remove_sharing__c": false,
+      "Therapeutic_Areas__c": "Depression",
+      "Title__c": "Test Healthday",
+      "X3rd_Party_Source__c": "HealthDay"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1041"
+      },
+      "Body__c": "https://www.successconsciousness.com/happiness-articles.html",
+      "Content_Class__c": "Platform-TA",
+      "Content_Type__c": "Article",
+      "Expiration_Date__c": "2019-06-11",
+            "Image__c": "https://www.successconsciousness.com/images/happy-people.jpg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-01",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "https://www.successconsciousness.com/happiness-articles.html",
+      "Title__c": "TestCreatedResource",
+      "Updated_Date__c": "2019-06-02"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1042"
+      },
+      "Body__c": "abcd2",
+      "Content_Class__c": "3rd Party",
+      "Content_Type__c": "Article",
+      "Expiration_Date__c": "2020-06-02",
+            "Image__c": "/resource/1559281033000/PH_Default_Image/IQVIA.svg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-02",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Changed article",
+      "Therapeutic_Areas__c": "Depression",
+      "Title__c": "Test IQVIA",
+      "Updated_Date__c": "2019-06-03",
+      "X3rd_Party_Source__c": "IQVIA"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1043"
+      },
+      "Body__c": "Different Study specific info",
+      "Content_Class__c": "Study-Specific",
+      "Content_Type__c": "Article",
+            "Image__c": "/resource/1559281033000/PH_Default_Image/IQVIA.svg",
+      "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-02",
+      "Remove_sharing__c": false,
+      "Subtitle__c": "Study specific info",
+      "Title__c": "Study specific info",
+      "Updated_Date__c": "2019-06-03"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1044"
+      },
+      "Content_Type__c": "Study_Document",
+      "Description__c": "This is a test video about the study.",
+      "document_type__c": "Video",
+            "Language__c": "en_US",
+                  "Remove_sharing__c": false,
+      "Title__c": "S-34588 Video Information",
+      "Version_Date__c": "2019-04-20",
+      "Video__c": "//players.brightcove.net/2766624905001/default_default/index.html?videoId=6023013969001"
+    },
+    {
+      "attributes": {
+        "type": "Resource__c",
+        "referenceId": "Resource__cRef1045"
+      },
+      "Body__c": "something",
+      "Content_Class__c": "3rd Party",
+      "Content_Type__c": "Article",
+      "Expiration_Date__c": "2020-06-02",
+            "Language__c": "en_US",
+                              "Posting_Date__c": "2019-06-02",
+      "Remove_sharing__c": false,
+      "Title__c": "New fields",
+      "URL_Part__c": "http://www.ahealthyme.com/Library/News/Headlines/6,746893"
+    }
+  ]
+}

@@ -20,11 +20,11 @@
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mti-name">
             <div class="slds-grid">
-                <div class="slds-col slds-size--1-of-3">
+                <div class="slds-col slds-size--2-of-4">
                     {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
                 </div>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
-                    <div class="slds-col slds-size--1-of-3">
+                    <div class="slds-col slds-size--1-of-4">
                     <c:StudyDelegateLevelItem studyLevel="{!v.delegate.trialLevel}" options="{!v.options}"
                                               changedLevels="{!v.changedLevels}"
                                               refreshTrigger="{!v.refreshSDLITrigger}"
