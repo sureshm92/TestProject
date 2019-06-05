@@ -4,7 +4,7 @@
     <active>true</active>
     <label>Status based</label>
     <picklistValues>
-        <picklist>Active_on_status__c</picklist>
+        <picklist>Active_On_Status__c</picklist>
         <values>
             <fullName>Drop Out</fullName>
             <default>false</default>
