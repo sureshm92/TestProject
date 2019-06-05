@@ -86,10 +86,10 @@
                             <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}"/>
                         </div>
                     </aura:if>
-                    <div class="fp-form-element">
-                        <label>{!$Label.c.PG_FP_L_Show_entries}</label>
-                        <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>
-                    </div>
+<!--                    <div class="fp-form-element">-->
+<!--                        <label>{!$Label.c.PG_FP_L_Show_entries}</label>-->
+<!--                        <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>-->
+<!--                    </div>-->
                 </div>
             </aura:if>
         </div>

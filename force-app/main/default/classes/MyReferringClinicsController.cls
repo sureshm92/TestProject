@@ -56,6 +56,20 @@ public without sharing class MyReferringClinicsController {
     public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String studySiteId){
         try{
             List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
+            AssignmentRule ar = new AssignmentRule();
+            ar = [
+                SELECT 	id 
+            	FROM 	AssignmentRule 
+                WHERE 	SobjectType = 'Lead' AND 
+                		Active = true AND 
+                		Name = 'SPNL Assignment Rule' 
+                LIMIT 1
+            ];
+            
+            //Creating the DMLOptions for "Assign using active assignment rules" checkbox
+            Database.DMLOptions dmlOpts = new Database.DMLOptions();
+            dmlOpts.assignmentRuleHeader.assignmentRuleId= ar.id;
+            
             Lead l = new Lead();
             l.FirstName = firstName;
             l.LastName = lastName;
@@ -69,6 +83,7 @@ public without sharing class MyReferringClinicsController {
             if(invitationQueues.size() > 0){
                 l.OwnerId = invitationQueues[0].Id;
             }
+            l.setOptions(dmlOpts);
             insert l;
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

@@ -30,7 +30,7 @@
     <aura:if isTrue="{!v.initialized}">
         <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
                     backPage="study-workspace"
-                    smallTitle="TODO Study Name Here"
+                    smallTitle=""
                     bigTitle="{!$Label.c.TTL_Create_Task}">
             <aura:if isTrue="{!v.taskStatusCompleted}">
                 <!--Task Status Completed-->
