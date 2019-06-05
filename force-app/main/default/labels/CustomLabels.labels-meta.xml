@@ -1468,9 +1468,9 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
-To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-Your username is ##Username. Please click the Log In button to create your password.
+Your username is ##Username. Please click the Enroll Now button to create your password.
 
 Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -1920,7 +1920,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Patient</shortDescription>
-        <value>You have been referred to a clinical research study</value>
+        <value>Thank you for your interest in participating in a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Patient_Delegate</fullName>
@@ -2240,7 +2240,7 @@ The IQVIA Patient Portal Support Team</value>
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal Support Team</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_RH</fullName>
