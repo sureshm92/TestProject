@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "Resource__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Resource4.json"
+        ]
+    }
+]
