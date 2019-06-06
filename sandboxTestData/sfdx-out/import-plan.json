@@ -1,0 +1,63 @@
+[
+    {
+        "sobject": "Visit_Plan__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Visit_Plan__cs.json"
+        ]
+    },
+
+    {
+        "sobject": "Visit__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Visit__cs.json"
+        ]
+    },
+    {
+        "sobject": "Clinical_Trial_Profile__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Clinical_Trial_Profile__cs.json"
+        ]
+    },
+
+    {
+        "sobject": "Account",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Accounts.json"
+        ]
+    },
+
+    {
+        "sobject": "Contact",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Contacts.json"
+        ]
+    },
+
+    {
+        "sobject": "Study_Site__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Study_Site__cs.json"
+        ]
+    },
+
+    {
+        "sobject": "HCP_Enrollment__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "HCP_Enrollment__cs.json"
+        ]
+    }
+]

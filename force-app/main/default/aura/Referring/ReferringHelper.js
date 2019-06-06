@@ -120,7 +120,7 @@
         var studySiteMarkers = component.get('v.studySiteMarkers');
         for(var i = 0, j = studySiteMarkers.length; i < j; i++){
             var mark = studySiteMarkers[i];
-            if(!mark.clinic.BillingCity || !mark.clinic.BillingStreet) {
+            if(!mark.clinic.BillingCity || !mark.clinic.BillingStreet || mark.siteType == 'Virtual') {
                 continue;
             }
             markers.push({

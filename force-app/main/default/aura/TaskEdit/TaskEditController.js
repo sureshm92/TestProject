@@ -173,7 +173,11 @@
     changeReminderDate: function (component, event, helper) {
         var dueDate = new Date(component.get('v.task.ActivityDate'));
         dueDate.setUTCHours(12,0,0,0);
-        dueDate.setDate(dueDate.getDate() -1);
+        console.log(component.get('v.task.ActivityDate'));
+        console.log(component.get('v.todayDate'));
+        if(component.get('v.task.ActivityDate') != component.get('v.todayDate')) {
+            dueDate.setDate(dueDate.getDate() - 1);
+        }
         var oneDayBefore = $A.localizationService.formatDate(dueDate, 'YYYY-MM-DD');
         component.set('v.task.Reminder_Date__c', oneDayBefore);
     }
