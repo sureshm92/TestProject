@@ -59,6 +59,16 @@ public without sharing class PSETriggerHandler {
         }
     }
 
+    public class CreateStatusBasedInvitations extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createInvitations((List<Participant_Study_Enrollment__c>) newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createInvitations((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>)oldMap);
+        }
+    }
+
     public class SendDropOutEmailHandler extends TriggerHandler {
 
         protected override void onAfterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -156,5 +166,50 @@ public without sharing class PSETriggerHandler {
         }
 
         SendEmailTemplate.sendEmailMessages(messages);
+    }
+
+    @TestVisible
+    private static void createInvitations(List<Participant_Study_Enrollment__c> newList,
+            Map<Id, Participant_Study_Enrollment__c> oldMap
+    ) {
+        Map<Id, List<Participant_Study_Enrollment__c>> ctpPSE = new Map<Id, List<Participant_Study_Enrollment__c>>();
+        for (Participant_Study_Enrollment__c pse : newList) {
+            if(ctpPSE.get(pse.Clinical_Trial_Profile__c) == null) {
+                ctpPSE.put(pse.Clinical_Trial_Profile__c, new List<Participant_Study_Enrollment__c>());
+            }
+            ctpPSE.get(pse.Clinical_Trial_Profile__c).add(pse);
+        }
+
+        List<Trial_Survey__c> trialSurveys = [
+                SELECT
+                        Active_On_Status__c,
+                        Id,
+                        Clinical_Trial_Profile__c,
+                        Expires_After_Days__c,
+                        Survey__c,
+                        Survey__r.Name
+                FROM Trial_Survey__c
+                WHERE Active_On_Status__c != NULL
+                    AND Clinical_Trial_Profile__c IN: ctpPSE.keySet()
+        ];
+
+        List<SurveyInvitation> invitations = new List<SurveyInvitation>();
+        for(Trial_Survey__c ts : trialSurveys) {
+            List<Participant_Study_Enrollment__c> enrollments = ctpPSE.get(ts.Clinical_Trial_Profile__c);
+            for(Participant_Study_Enrollment__c enrollment : enrollments) {
+                if(oldMap != null) {
+                    if(oldMap.get(enrollment.Id).Status__c != enrollment.Status__c) {
+                        invitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment));
+                    }
+                } else {
+                    invitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment));
+                }
+            }
+        }
+
+        if(!invitations.isEmpty()) {
+            insert invitations;
+            TaskService.getInstance().createSurveyTasks(invitations);
+        }
     }
 }
