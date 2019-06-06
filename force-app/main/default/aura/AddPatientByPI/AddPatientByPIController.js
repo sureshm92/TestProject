@@ -15,6 +15,9 @@
             component.set('v.formData', formData);
             helper.initData(component);
             component.set('v.initialized', true);
+            var pe = component.get('v.pe');
+            var states = formData.statesByCountryMap['US'];
+            component.set('v.statesLVList', states);
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -28,7 +31,8 @@
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
         }
         component.set('v.screeningRequired', isEnrollmentSuccess);
-
+        var stateRequired = component.get('v.statesLVList')[0];
+        debugger;
         var isAllRequiredCompletedAndValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
@@ -37,13 +41,22 @@
             participant.Phone__c &&
             participant.Phone_Type__c &&
             participant.Email__c &&
-            participant.Mailing_State_Code__c &&
             participant.Mailing_Zip_Postal_Code__c &&
             pe.Participant_Status__c &&
             communityService.isValidEmail(participant.Email__c) &&
             (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
+            (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
             pe.Referred_By__c;
         component.set('v.isAllRequiredCompleted', isAllRequiredCompletedAndValid);
+    },
+
+    doCountryCodeChanged: function(component, event, helper){
+        var statesByCountryMap = component.get('v.formData.statesByCountryMap');
+        var participant = component.get('v.participant');
+        var states = component.get('v.formData.statesByCountryMap')[participant.Mailing_Country_Code__c];
+        component.set('v.statesLVList', states);
+        component.set('v.participant.Mailing_State_Code__c', null);
+        component.checkFields();
     },
 
     doCancel: function (component) {

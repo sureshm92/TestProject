@@ -31,6 +31,13 @@ public without sharing class UserTriggerHandler {
         }
     }
     
+    public class UpdateUserRoleHandler extends TriggerHandler{
+        
+        public override void beforeInsert(List<SObject> newList) {
+            updateUserRoleToSPNL(newList);
+        }
+    }
+    
     
     // Logic: ----------------------------------------------------------------------------------------------------------
     
@@ -64,6 +71,17 @@ public without sharing class UserTriggerHandler {
             }
         }
         update changeEmailContacts;
+    }
+    
+    @TestVisible
+    private static void updateUserRoleToSPNL(List<User> newList){
+        Profile profile = new Profile();
+        profile = [SELECT id FROM Profile WHERE Name = 'IQVIA SPNL'];
+        for(User us : newList){
+            if(us.ProfileId == profile.Id){
+    			us.UserRoleId=[SELECT Id FROM UserRole WHERE Name='SPNL'].Id; 
+            }
+        }
     }
     
     @TestVisible

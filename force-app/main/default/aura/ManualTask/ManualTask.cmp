@@ -5,7 +5,8 @@
 <aura:component description="Manual_Task" controller="ManualTaskRemote"
                 implements="forceCommunity:availableForAllPageTypes,force:appHostable">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes: -->
     <aura:attribute name="task" type="Task"/>
@@ -30,6 +31,8 @@
     <aura:handler name="change" value="{!v.task.ActivityDate}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.task.Reminder_Date__c}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.dayRemind}" action="{!c.doCheckFields}"/>
+
+    <aura:method name="checkFields" action="{!c.doCheckFields}"/>
 
     <!-- component body -->
     <lightning:card title="Configure your tasks parameters below">
@@ -59,11 +62,15 @@
 
                 <aura:if isTrue="{!v.showNumbersAdd}">
                     <span onkeypress="{!c.dueNumberKeyPress}">
-                        <lightning:input aura:id="field" type="number" value="{!v.dayRemind}" onchange="{!c.onDaysChange}" min="1"/>
+                        <lightning:input aura:id="field" type="number" value="{!v.dayRemind}"
+                                         onchange="{!c.onDaysChange}" min="0"/>
                     </span>
                     <aura:set attribute="else">
-                        <lightning:input aura:id="field" type="date" label="Reminder Date" value="{!v.task.Reminder_Date__c}"
-                                         onchange="{!c.onDaysChange}" min="{!v.todayDate}" max="{!v.task.ActivityDate}"/>
+                        <lightning:input aura:id="field" type="date" label="Reminder Date"
+                                         value="{!v.task.Reminder_Date__c}"
+                                         onchange="{!c.onDaysChange}"
+                                         min="{!v.task.Start_Date__c}"
+                                         max="{!v.task.ActivityDate}"/>
                     </aura:set>
                 </aura:if>
             </div>
@@ -103,7 +110,8 @@
             </div>
         </div>
         <div class="slds-text-align_right slds-p-right_small">
-            <lightning:button variant="brand" label="Create Tasks" onclick="{!c.createTask}" disabled="{!not(v.isValidFields)}"/>
+            <lightning:button variant="brand" label="Create Tasks" onclick="{!c.createTask}"
+                              disabled="{!not(v.isValidFields)}"/>
             <lightning:button label="Reset" onclick="{!c.resetClick}"/>
         </div>
     </lightning:card>

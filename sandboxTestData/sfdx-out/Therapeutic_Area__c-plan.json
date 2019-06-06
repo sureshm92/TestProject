@@ -1,0 +1,10 @@
+[
+    {
+        "sobject": "Therapeutic_Area__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "Therapeutic_Area__cs.json"
+        ]
+    }
+]
