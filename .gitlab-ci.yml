@@ -23,7 +23,7 @@ VALIDATE_DRYRUN:
   - push
   - commit
 
-  stage: VALIDATE_DRYRUN
+  stage: VALIDATE
   script:
   - echo "$SFDX_AUTH_URL_DRY_RUN" > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a DRYRUN -d
@@ -36,12 +36,57 @@ VALIDATE_DRYRUN:
   - sfdx force:mdapi:deploy -d output -u DRYRUN -c --testlevel=RunLocalTests -w 60
   - echo "validate Int success"
 
+VALIDATE_INF:
+  tags:
+  - shell
+  only:
+  - Informal
+  - merge_requests
+  except:
+  - push
+  - commit
+
+  stage: VALIDATE
+  script:
+  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - rm -rf output
+  - sfdx force:source:convert -d output
+  - sfdx force:mdapi:deploy -d output -u INF -c -w 60
+  - echo "validate Inf success"
+
+VALIDATE_INT:
+  tags:
+  - shell
+  only:
+  - merge_requests
+  except:
+  - push
+  - commit
+
+  stage: VALIDATE
+  script:
+  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
+  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
+  - sfdx --version
+  - cd Nodejs
+  - node convert.js
+  - cd ..
+  - rm -rf output
+  - sfdx force:source:convert -d output
+  - sfdx force:mdapi:deploy -d output -u INT -c -w 60
+  - echo "validate Inf success"
+
+
 DEPOLOY_DRYRUN:
   tags:
   - shell_2
   only:
   - PH_R1_Sprint
-  - Sprint
   except:
   - merge_requests
 
@@ -86,7 +131,6 @@ deployINT:
   tags:
   - shell
   only:
-  - PH_R1_Sprint
   - Sprint
   except:
   - merge_requests
@@ -153,7 +197,6 @@ runTestINT:
   tags:
   - shell
   only:
-  - PH_R1_Sprint
   - Sprint
   except:
   - merge_requests
