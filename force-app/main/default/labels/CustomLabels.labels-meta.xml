@@ -1492,14 +1492,14 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName Study. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName Study.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1836,14 +1836,14 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName Study. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName Study. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -2259,7 +2259,7 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>Email Signature Resource</shortDescription>
         <value>Sincerely,
-The IQVIA Patient Portal Support Team&quot;</value>
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
