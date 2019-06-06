@@ -78,7 +78,7 @@ public class StudyActionsHCP extends StudyActions{
                         studyNoLongerEnrollingReason
                 }
         ));
-
+        
         actions.put(ACT_REFER, new Action(
                 ACT_REFER,
                 LABEL_REFER,
@@ -214,7 +214,7 @@ public class StudyActionsHCP extends StudyActions{
 //            }
         }
 
-        studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
+        studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
 
         //Accept TC
         List<String> tcStatuses = new List<String>{

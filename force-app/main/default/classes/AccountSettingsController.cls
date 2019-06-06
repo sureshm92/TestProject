@@ -63,6 +63,16 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
+    public static void updateContact(String cont) {
+        try {
+            Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
+            update contact;
+        }  catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static void changeEmail(String newEmail) {
         try {
             Contact currentContact = getCurrentContact();
@@ -129,22 +139,30 @@ public without sharing class AccountSettingsController {
 
     public static Contact getCurrentContact() {
         return [
-                SELECT Id
-                        , FirstName
-                        , LastName
-                        , AccountId
-                        , Email
-                        , Phone
-                        , primaryContact__c
-                        , primaryContact__r.AccountId
-                        , HasOptedOutOfEmail
-                        , Participant_Opt_In_Status_Emails__c
-                        , HCP_Opt_In_Patient_Status_Emails__c
-                        , HCP_Opt_In_Study_Emails__c
-                        , HCP_Opt_In_Referral_Status_Emails__c
-                        , Delegate_Opt_In_Status_Emails__c
-                        , RRCookiesAllowedCookie__c
-                        , RRLanguageAllowedCookie__c
+                SELECT Id,
+                        FirstName,
+                        LastName,
+                        AccountId,
+                        Email,
+                        Phone,
+                        MailingAddress,
+                        MailingCity,
+                        MailingCountry,
+                        MailingCountryCode,
+                        MailingPostalCode,
+                        MailingState,
+                        MailingStateCode,
+                        MailingStreet,
+                        primaryContact__c,
+                        primaryContact__r.AccountId,
+                        HasOptedOutOfEmail,
+                        Participant_Opt_In_Status_Emails__c,
+                        HCP_Opt_In_Patient_Status_Emails__c,
+                        HCP_Opt_In_Study_Emails__c,
+                        HCP_Opt_In_Referral_Status_Emails__c,
+                        Delegate_Opt_In_Status_Emails__c,
+                        RRCookiesAllowedCookie__c,
+                        RRLanguageAllowedCookie__c
                 FROM Contact
                 WHERE Id IN (
                         SELECT ContactId

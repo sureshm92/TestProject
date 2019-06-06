@@ -20,6 +20,7 @@
             component.set("v.currentEmail", initData.myContact.Email);
             component.set('v.isDelegate', initData.isDelegate);
             component.set('v.genders', initData.gendersLVList);
+            helper.fillContactInfo(component);
             component.set('v.isInitialized', true);
         }, null, function () {
             component.set("v.showSpinner", false);
@@ -27,14 +28,27 @@
     },
 
     doUpdateParticipant: function (component, event, helper) {
+        if(!component.get('v.isUpdated')) {
+            communityService.showWarningToast('', $A.get('$Label.c.Toast_Contact_Inf_Not_Updated'));
+            return;
+        }
+
         component.set("v.showSpinner", true);
-        communityService.executeAction(component, 'updateParticipant', {
-            participantJSON : JSON.stringify(component.get("v.initData.participant"))
-        }, function () {
-            window.history.go(-1);
-        }, null, function () {
-            component.set("v.showSpinner", false);
-        })
+        if(communityService.isDelegate() || communityService.getUserMode() !== 'Participant') {
+            communityService.executeAction(component, 'updateContact', {
+                'cont' : JSON.stringify(component.get('v.initData.myContact'))
+            }, function () {
+                component.set('v.showSpinner', false);
+            });
+        } else {
+            communityService.executeAction(component, 'updateParticipant', {
+                participantJSON : JSON.stringify(component.get("v.initData.participant"))
+            }, function () {
+                window.history.go(-1);
+            }, null, function () {
+                component.set("v.showSpinner", false);
+            });
+        }
     },
 
     doChangeEmail: function (component, event, helper) {
@@ -120,5 +134,9 @@
         }, null, function () {
             component.set("v.showSpinner", false);
         })
+    },
+
+    checkUpdate : function (component, event, helper) {
+        component.set('v.isUpdated', true);
     }
 })

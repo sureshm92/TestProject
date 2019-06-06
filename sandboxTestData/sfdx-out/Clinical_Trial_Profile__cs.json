@@ -1,0 +1,67 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef1"
+            },
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Protocol_ID__c": "PID-Dunno-DX",
+            "Study_Code_Name__c": "SCN-Dunno",
+            "Study_Title__c": "ST-Dunno",
+            "Suppress_Participant_Emails__c": false,
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef2"
+            },
+            "Brief_Summary__c": "summary",
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Link_to_Medical_Record_Review__c": "https://www.surveygizmo.com/s3/4770553/ReferralHub-MRR-Test",
+            "Link_to_Pre_screening__c": "https://www.surveygizmo.com/s3/4263003/Rocket-Referral-pre-eligibility-screening",
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Protocol_ID__c": "PID_Raj_DX",
+            "Study_Code_Name__c": "SCN_02",
+            "Study_Title__c": "ST_Raj",
+            "Suppress_Participant_Emails__c": false,
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef3"
+            },
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Protocol_ID__c": "PID-5-DX",
+            "Study_Code_Name__c": "SCN-5",
+            "Study_Title__c": "ST-5",
+            "Suppress_Participant_Emails__c": false,
+            "US_FDA_Regulated_Product__c": false
+        },
+        {
+            "attributes": {
+                "type": "Clinical_Trial_Profile__c",
+                "referenceId": "Clinical_Trial_Profile__cRef4"
+            },
+            "Currency_for_Below_Amounts__c": "USD",
+            "Has_Data_Monitoring_Committee__c": false,
+            "Orientation_Required__c": false,
+            "Override_Recruitment_Status__c": "Actively Enrolling",
+            "Protocol_ID__c": "PID-6-DX",
+            "Study_Code_Name__c": "SCN-6",
+            "Study_Title__c": "St-6",
+            "Suppress_Participant_Emails__c": false,
+            "US_FDA_Regulated_Product__c": false
+        }
+    ]
+}

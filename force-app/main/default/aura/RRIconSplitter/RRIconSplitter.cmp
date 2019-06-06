@@ -6,6 +6,7 @@
 
     <!--attributes-->
     <aura:attribute name="value" type="String"/>
+    <aura:attribute name="class" type="String" description="CSS classname for the SVG element"/>
     <aura:attribute name="hideMoreThan3" type="Boolean" default="false"/>
     <aura:attribute name="icons" type="List" access="private"/>
 
@@ -13,7 +14,7 @@
 
     <div class="icons">
         <aura:iteration items="{!v.icons}" var="icon">
-            <c:RRIcon iconName="{!icon}" class="icon-item"/>
+            <c:RRIcon iconName="{!icon}" class="{!'icon-item ' + v.class}"/>
         </aura:iteration>
         <aura:if isTrue="{!v.hideMoreThan3}">
             <div class="dots">...</div>

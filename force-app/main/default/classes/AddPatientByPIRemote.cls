@@ -12,7 +12,8 @@ public class AddPatientByPIRemote {
     };
     
     public class FormData {
-        @AuraEnabled public List<LabelValueItem> statesLVList = CountryStateUtil.getStatesByCountryMap().get('US');
+        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
+        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         @AuraEnabled public List<LabelValueItem> genderLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
         @AuraEnabled public List<LabelValueItem> referredByLVList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Referred_By__c);

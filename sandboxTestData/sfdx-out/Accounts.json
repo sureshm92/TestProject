@@ -1,0 +1,85 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef1"
+            },
+            "Address_changed_by_non_integration_user__c": false,
+            "BillingCity": "Cadillac",
+            "BillingCountry": "United States",
+            "BillingCountryCode": "US",
+            "BillingGeocodeAccuracy": "Address",
+            "BillingLatitude": 44.22289,
+            "BillingLongitude": -85.4033,
+            "BillingPostalCode": "49601",
+            "BillingState": "Michigan",
+            "BillingStateCode": "MI",
+            "BillingStreet": "7985 Mackinaw Trail,",
+            "Name": "Cadillac Clinical Research, LLC-Test-DX",
+            "Org_Key__c": "5492600",
+            "ShippingCountry": "United States",
+            "ShippingCountryCode": "US"
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef2"
+            },
+            "Address_changed_by_non_integration_user__c": true,
+            "BillingCity": "New York",
+            "BillingCountry": "United States",
+            "BillingCountryCode": "US",
+            "BillingGeocodeAccuracy": "Block",
+            "BillingLatitude": 40.751337,
+            "BillingLongitude": -73.986452,
+            "BillingPostalCode": "10018",
+            "BillingState": "New York",
+            "BillingStateCode": "NY",
+            "BillingStreet": "990 6th Avenue",
+            "Name": "New York Special Hospital",
+            "Org_Key__c": "5582750234234",
+            "ShippingCountry": "United States",
+            "ShippingCountryCode": "US"
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef3"
+            },
+            "Address_changed_by_non_integration_user__c": false,
+            "BillingCity": "London",
+            "BillingCountry": "United Kingdom",
+            "BillingCountryCode": "GB",
+            "BillingGeocodeAccuracy": "Street",
+            "BillingLatitude": 51.50509197817032,
+            "BillingLongitude": -0.017755764724534613,
+            "BillingPostalCode": "E14",
+            "BillingStreet": "Canada Square",
+            "Name": "Canada Revenue Agency",
+            "ShippingCountry": "United States",
+            "ShippingCountryCode": "US",
+            "Website": "http://cra-arc.gc.ca"
+        },
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef4"
+            },
+            "Address_changed_by_non_integration_user__c": false,
+            "BillingCity": "Bridgeport",
+            "BillingCountry": "United States",
+            "BillingCountryCode": "US",
+            "BillingGeocodeAccuracy": "Address",
+            "BillingLatitude": 41.207329,
+            "BillingLongitude": -73.177772,
+            "BillingPostalCode": "06610",
+            "BillingState": "Connecticut",
+            "BillingStateCode": "CT",
+            "BillingStreet": "56 Texas Avenue",
+            "Name": "Manual",
+            "ShippingCountry": "United States",
+            "ShippingCountryCode": "US"
+        }
+    ]
+}
