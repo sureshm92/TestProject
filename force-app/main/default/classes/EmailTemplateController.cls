@@ -9,7 +9,7 @@ global without sharing class EmailTemplateController {
 
     public static final String LABEL_TITLE = 'Email_Title';
     public static final String LABEL_TITLE_PH = 'Email_Title_PH';
-    public static final String LABEL_TITLE_ALL = 'Email_Title_All';
+    public static final String LABEL_TITLE_ALL = 'Email_Title_ALL';
     
     public static final String LABEL_HEADER_INITIAL_PARTICIPANT = 'Email_Header_Initial_Patient';
     public static final String LABEL_HEADER_INITIAL_PATIENT_DELEGATE = 'Email_Header_Initial_Patient_Delegate';
@@ -29,6 +29,9 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_SIGNATURE_PATIENT_DELEGATE =  'Email_Signature_New_Participant_Delegate';
     public static final String LABEL_SIGNATURE = 'Email_Signature';
     public static final String LABEL_SIGNATURE_NEW = 'Email_Signature_New';
+    
+    public static final String LABEL_GREETING_VALUE_DEFAULT = 'Email_User_Greeting_FirstName';
+    public static final String LABEL_GREETING_VALUE_PI_HCP = 'Email_User_Greeting';
 
     public static final String PARAM_PREFIX = '##';
     
@@ -92,6 +95,8 @@ global without sharing class EmailTemplateController {
     
     global String userGreetingValue {
         get{
+            setDefaultValues();
+            System.debug(userGreetingValue);
             return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
         }
         set;
@@ -152,6 +157,7 @@ global without sharing class EmailTemplateController {
             String headerLabel;
             String titleLabel;
             String signatureLabel;
+            String userGreetingLabel = LABEL_GREETING_VALUE_DEFAULT;
             if(getDataProvider().isDelegate){
                 if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
                     bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
@@ -181,17 +187,20 @@ global without sharing class EmailTemplateController {
                 headerLabel = LABEL_HEADER_INITIAL_PI;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
+                userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
             }else if(getDataProvider().userMode == CommunityService.USER_MODE_HCP){
                 bodyLabel = LABEL_BODY_INITIAL_HCP;
                 headerLabel = LABEL_HEADER_INITIAL_HCP;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
+                userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
             }
             
             if(bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             if(headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
             if(titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
             if(signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
+            if(userGreetingLabel != null) userGreetingValue = TranslateHelper.getLabelValue(userGreetingLabel, getUserLanguageCode());
         }
     }
     
