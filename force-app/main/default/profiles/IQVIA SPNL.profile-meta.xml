@@ -4515,10 +4515,6 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>Patient16_Self_ePR_New_Referral</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
         <apexPage>RRChangePassword</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
