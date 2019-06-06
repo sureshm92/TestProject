@@ -4,58 +4,49 @@
 
 public with sharing class AdminPanelRemote {
 
-    private static final String DEFAULT_JOB_STATE = 'NOT STARTED';
+    public class BatchException extends Exception{}
 
-    private static final Map<String, String> STATE_CSS = new Map<String, String>{
-            DEFAULT_JOB_STATE => 'ad-state-not-started',
-            'WAITING' => 'ad-state-waiting',
-            'ACQUIRED' => 'ad-state-acquired',
-            'EXECUTING' => 'ad-state-executing',
-            'COMPLETE' => 'ad-state-complete',
-            'ERROR' => 'ad-state-error',
-            'DELETED' => 'ad-state-deleted',
-            'PAUSED' => 'ad-state-paused',
-            'BLOCKED' => 'ad-state-blocked',
-            'PAUSED_BLOCKED' => 'ad-state-paused-blocked'
+    public static final List<String> ASYNC_STATUSES = new List<String>{
+            'Holding',
+            'Queued',
+            'Preparing',
+            'Processing'
     };
 
     @AuraEnabled
     public static List<JobWrapper> getData() {
         try {
-            List<Batch_Executor__mdt> batchExecutors = [SELECT Id, Label FROM Batch_Executor__mdt];
+            List<Batch_Executor__mdt> batchExecutors = [SELECT Id, Label, DeveloperName FROM Batch_Executor__mdt];
 
             Map<String, Batch_Executor__mdt> batchMap = new Map<String, Batch_Executor__mdt>();
-            for (Batch_Executor__mdt be : batchExecutors) batchMap.put(be.Label, be);
+            for (Batch_Executor__mdt be : batchExecutors) batchMap.put(be.DeveloperName, be);
 
-            Map<String, JobWrapper> jobMap = new Map<String, JobWrapper>();
-            for (Batch_Executor__mdt bex : batchExecutors) {
-                jobMap.put(bex.Label, new JobWrapper(bex.Label));
-            }
+            List<AsyncApexJob> asyncApexJobs = [
+                    SELECT
+                            ApexClass.Name
+                    FROM AsyncApexJob
+                    WHERE JobType = 'BatchApex' AND Status IN: ASYNC_STATUSES
+                    AND ApexClass.Name IN: batchMap.keySet()
+            ];
+            Map<String, Id> runningBatches = new Map<String, Id>();
+            for(AsyncApexJob asyncApexJob : asyncApexJobs) runningBatches.put(asyncApexJob.ApexClass.Name, asyncApexJob.Id);
 
             List<CronTrigger> cronTriggers = [
                     SELECT
-                            CronJobDetailId,
                             CronJobDetail.Name,
-                            Id,
-                            State
+                            NextFireTime
                     FROM CronTrigger
                     WHERE CronJobDetail.Name IN:batchMap.keySet()
             ];
+            Map<String, CronTrigger> scheduledBatches = new Map<String, CronTrigger>();
+            for(CronTrigger ct : cronTriggers) scheduledBatches.put(ct.CronJobDetail.Name, ct);
 
-            if (!cronTriggers.isEmpty()) {
-                Map<String, CronTrigger> jobCron = new Map<String, CronTrigger>();
-                for (CronTrigger ct : cronTriggers) jobCron.put(ct.CronJobDetail.Name, ct);
-
-                for (JobWrapper jw : jobMap.values()) {
-                    CronTrigger cron = jobCron.get(jw.jobName);
-                    if (cron == null) continue;
-
-                    jw.state = cron.State;
-                    jw.css = STATE_CSS.get(cron.State);
-                }
+            List<JobWrapper> jobWrappers = new List<JobWrapper>();
+            for (Batch_Executor__mdt bex : batchExecutors) {
+                jobWrappers.add(new JobWrapper(bex, scheduledBatches, runningBatches));
             }
 
-            return jobMap.values();
+            return jobWrappers;
         } catch (Exception e) {
             return (List<JobWrapper>) AuraHelper.throwException(e);
         }
@@ -86,7 +77,10 @@ public with sharing class AdminPanelRemote {
     @AuraEnabled
     public static void runBatch(String jobName) {
         try {
-            BatchExecutor.run(jobName);
+            JobWrapper jobWrapper = getState(jobName);
+            if(jobWrapper.jobId == null) {
+                Database.executeBatch((Database.Batchable<SObject>) Type.forName(jobWrapper.jobName).newInstance());
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -95,7 +89,8 @@ public with sharing class AdminPanelRemote {
     @AuraEnabled
     public static void stopBatch(String jobName) {
         try {
-            BatchExecutor.stop(jobName);
+            JobWrapper jobWrapper = getState(jobName);
+            if(jobWrapper.jobId != null) System.abortJob(jobWrapper.jobId);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -111,13 +106,7 @@ public with sharing class AdminPanelRemote {
                     break;
                 }
             }
-            if(wrapper == null) throw new BatchExecutor.BatchExecutorException('No batch found!');
-
-            List<CronTrigger> cronTriggers = BatchExecutor.getCronTrigger(wrapper.jobName);
-            if (!cronTriggers.isEmpty()) {
-                wrapper.state = cronTriggers.get(0).State;
-                wrapper.css = STATE_CSS.get(wrapper.state);
-            }
+            if(wrapper == null) throw new BatchException('No batch found!');
 
             return wrapper;
         } catch (Exception e) {
@@ -126,23 +115,32 @@ public with sharing class AdminPanelRemote {
     }
 
     public class JobWrapper {
-        @AuraEnabled
-        public String jobName;
+        @AuraEnabled public String css;
+        @AuraEnabled public String label;
+        @AuraEnabled public String jobId;
+        @AuraEnabled public String jobName;
+        @AuraEnabled public Datetime nextLaunch;
+        @AuraEnabled public String state;
+        @AuraEnabled public Boolean showSpinner;
 
-        @AuraEnabled
-        public String state;
-
-        @AuraEnabled
-        public String css;
-
-        @AuraEnabled
-        public Boolean showSpinner;
-
-        public JobWrapper(String jobName) {
-            this.css = STATE_CSS.get(DEFAULT_JOB_STATE);
-            this.jobName = jobName;
+        public JobWrapper(Batch_Executor__mdt be, Map<String, CronTrigger> scheduledBatches, Map<String, Id> runningBatches) {
+            this.jobName = be.DeveloperName;
+            this.label = be.Label;
             this.showSpinner = false;
-            this.state = DEFAULT_JOB_STATE;
+
+            if(runningBatches.containsKey(jobName)) {
+                jobId = runningBatches.get(jobName);
+                state = 'RUNNING';
+                css = 'ad-state-running';
+            } else if(scheduledBatches.containsKey(jobName)) {
+                jobId = scheduledBatches.get(jobName).Id;
+                state = 'SCHEDULED';
+                css = 'ad-state-waiting';
+                nextLaunch = scheduledBatches.get(jobName).NextFireTime;
+            } else {
+                state = 'NOT STARTED';
+                css = 'ad-state-not-started';
+            }
         }
     }
 }

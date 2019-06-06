@@ -18,12 +18,15 @@
                     <div class="slds-grid ad-card">
                         <c:RRSpinner showSpinner="{!job.showSpinner}" size="small"/>
                         <div class="slds-col slds-size_1-of-3">
-                            <p class="slds-text-heading--label-medium slds-text-title_bold">{!job.jobName}</p>
+                            <p class="slds-text-heading--label-medium slds-text-title_bold">{!job.label}</p>
                         </div>
                         <div class="slds-col slds-size_2-of-3">
                             <div class="slds-grid">
                                 <div class="slds-col slds-size_1-of-3 slds-p-left--medium slds-p-right--medium">
-                                    <p class="{!'slds-text-heading--label-normal ' + job.css}">{!job.state}</p>
+                                    <span class="{!'slds-text-heading--label-normal ' + job.css}">{!job.state}</span>
+                                    <aura:if isTrue="{!!empty(job.nextLaunch)}">
+                                        <ui:outputDateTime class="ad-time" value="{!job.nextLaunch}"/>
+                                    </aura:if>
                                 </div>
                                 <div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
                                     <button class="slds-button slds-button_outline-brand"
@@ -43,7 +46,7 @@
                 </aura:iteration>
                 <div class="slds-grid ad-card">
                     <div class="slds-col slds-size_2-of-6">
-                        <p class="slds-text-heading--label-medium slds-text-title_bold">Batch_ReviewOnboardingFAQ</p>
+                        <p class="slds-text-heading--label-medium slds-text-title_bold">Review Onboarding FAQ</p>
                     </div>
                     <div class="slds-col slds-size_1-of-6">
                         <button class="slds-button slds-button_outline-brand"
