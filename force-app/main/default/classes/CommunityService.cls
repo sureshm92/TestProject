@@ -58,6 +58,19 @@ public without sharing class CommunityService {
         return CommunityService.getUserContact().Id;
     }
 
+    public String getUserAccessLevel(){
+        String accessLevel;
+        try {
+            Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+            accessLevel = [ SELECT Delegate_Level__c
+                            FROM Referring_HCP_Staff__c
+                            WHERE Contact__c = :currentContactId LIMIT 1].Delegate_Level__c;
+        } catch (Exception ex){
+            accessLevel=null;
+        }
+        return accessLevel;
+    }
+
     public Contact getUserContactImpl(){
         if (userContact == null) {
             User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
@@ -223,6 +236,7 @@ public without sharing class CommunityService {
                         primaryContact__c,
                         userCommunityMode__c,
                         userCommunytyType__c,
+                        UserCommunityIsDelegate__c,
                         HCP_DelegateAccessLevel__c,
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,

@@ -18,8 +18,13 @@
     }
 }
 
+.THIS .mrc-invite-popup{
+    max-width: 300px;
+}
+
 .THIS .rr-form-element{
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    min-width: 300px;
 }
 
 .THIS .rr-form-element .label{
@@ -28,6 +33,9 @@
 
 .THIS .rr-form-element .radio-group{
     text-align: left;
+    word-wrap: break-word;
+    padding: 0 10px 0 10px;
+    max-width: 300px;
 }
 
 .THIS .rr-form-element .radio-group .slds-form-element__label{

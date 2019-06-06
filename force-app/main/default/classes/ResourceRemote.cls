@@ -1,6 +1,6 @@
 public with sharing class ResourceRemote {
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
 
         try {

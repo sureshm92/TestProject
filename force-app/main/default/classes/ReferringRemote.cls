@@ -17,6 +17,7 @@ public without sharing class ReferringRemote {
         public List<LabelValueItem> countries;
         public List<LabelValueItem> genders;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
+        public String delegateAccessLevel;
     }
 
     public class AccountWrapper{
@@ -24,6 +25,7 @@ public without sharing class ReferringRemote {
         public String name;
         public String addrStreet;
         public String addrCity;
+        public String siteType;
     }
 
     @AuraEnabled
@@ -65,12 +67,11 @@ public without sharing class ReferringRemote {
                 else {
                     initData.studiesPending.add(siteWrapper);
                 }
-                if(siteWrapper.siteType != 'Virtual') {
                     AccountWrapper aw = new AccountWrapper();
-                    aw.clinic = siteWrapper.site.Site__r;
+                    aw.clinic = siteWrapper.site.Principal_Investigator__r.Account;
                     aw.name = siteWrapper.site.Name;
+                    aw.siteType = siteWrapper.siteType;
                     initData.markers.add(aw);
-                }
             }
         }
 //            Account site = [
@@ -88,6 +89,7 @@ public without sharing class ReferringRemote {
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
         return JSON.serialize(initData);
         /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -98,6 +100,7 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static void saveParticipant(Id trialId, Id hcpeId, String pEnrollmentJSON, String participantJSON){
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        participant.Language_Preference_Code__c = UserInfo.getLanguage();
         HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
         participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI;

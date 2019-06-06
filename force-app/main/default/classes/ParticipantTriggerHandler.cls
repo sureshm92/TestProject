@@ -53,6 +53,7 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.LastName = participant.Last_Name__c;
                 newContact.Email = participant.Email__c;
                 newContact.AccountId = participantAccountId;
+                newContact.Language__c = participant.Language_Preference_Code__c;
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactsToInsert.add(newContact);
@@ -73,12 +74,17 @@ public without sharing class ParticipantTriggerHandler {
     private static void updatePEAndContactLastName(List<Participant__c> newList){
         List<Contact> contacts = new List<Contact>();
         for(Participant__c participant : newList){
-            contacts.add(new Contact(
-                    Id = participant.Contact__c,
-                    LastName = participant.Name
-            ));
+            if(participant.Contact__c != null){
+                contacts.add(new Contact(
+                        Id = participant.Contact__c,
+                        LastName = participant.Name
+                ));
+            }
+
         }
-        update contacts;
+        if(!contacts.isEmpty()){
+            update contacts;
+        }
         update [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c IN: newList];
     }
 

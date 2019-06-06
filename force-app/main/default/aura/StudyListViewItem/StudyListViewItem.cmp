@@ -11,6 +11,7 @@
     <aura:attribute name="detailsExpanded" type="Boolean" default="false"/>
     <aura:attribute name="actionsList" type="Boolean"/>
     <aura:attribute name="searchItem" type="Boolean" default="false"/>
+    <aura:attribute name="accessUserLevel" type="String"/>
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
@@ -154,7 +155,7 @@
                                 <div style="float: left;">
                                     <c:RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/>
                                 </div>
-                                <div>Nearest site:
+                                <div>{!$Label.c.PG_MS_L_Nearest_site}
                                     <aura:unescapedHtml value="{!v.currentStudy.distance}"/>
                                 </div>
                             </aura:if>
@@ -203,7 +204,7 @@
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                         <div class="site-sub-header site-distance">
-                                            {!if(!empty(siteWrapper.siteType),siteWrapper.siteType + ' ' + $Label.c.PG_SFS_L_Site,'')}
+                                            {!if(!empty(siteWrapper.siteTypeLabel),siteWrapper.siteTypeLabel + ' ' + $Label.c.PG_SFS_L_Site,'')}
                                         </div>
                                         <div class="site-sub-header slds-m-topxx-small site-distance">
                                             <aura:unescapedHtml value="{!siteWrapper.formatedDistance}"/>
@@ -263,7 +264,7 @@
                                                             class="apollo-btn tertiary slvi-site-btn"
                                                             style="background-color: white; color: #297DFD; box-shadow: none;"
                                                             onclick="{!c.doMyPatients}">
-                                                        {!siteWrapper.hcpe.Status__c}
+                                                        {!siteWrapper.siteStatusLabel}
                                                     </button>
                                                 </div>
                                             </aura:if>
@@ -282,7 +283,10 @@
                             </div>
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                 <button class="apollo-btn primary slvi-search-site-btn"
-                                        onclick="{!c.navigateToSitesSearch}">{!$Label.c.MyStudy_Find_More_Sites}
+                                        onclick="{!c.navigateToSitesSearch}"
+                                        disabled="{!v.accessUserLevel=='Level 2'}"
+                                        title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
+                                    {!$Label.c.MyStudy_Find_More_Sites}
                                 </button>
                             </div>
                         </div>

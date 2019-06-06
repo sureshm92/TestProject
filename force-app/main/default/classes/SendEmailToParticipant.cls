@@ -55,7 +55,7 @@ public class SendEmailToParticipant {
             );
         }
         
-        if(task.Task_Type__c == null || task.Task_Type__c == 'Not Selected'){
+        if(task.Task_Type__c == 'Not Selected'){
             User user = [
                     SELECT
                             Id,

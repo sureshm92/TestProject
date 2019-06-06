@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Video__c</fullName>
     <externalId>false</externalId>
-    <inlineHelpText>Use this field to save the link to the video.</inlineHelpText>
+    <inlineHelpText>Enter the link to where the video is hosted.</inlineHelpText>
     <label>Video Link</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>

@@ -42,6 +42,7 @@
             component.set('v.studySites', initData.studies);
             component.set('v.studySitesPending', initData.studiesPending);
             component.set('v.studySiteMarkers', initData.markers);
+            component.set('v.accessUserLevel', initData.delegateAccessLevel);
             component.set('v.showMRRButton', initData.trial.Link_to_Medical_Record_Review__c && initData.trial.Link_to_Pre_screening__c);
             component.set('v.searchResult', undefined);
             component.set('v.mrrResult', 'Pending');

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Address_Update_by_Integration</fullName>
+    <active>true</active>
+    <description>Prevent Integration updating address if it was changed within a request from PI</description>
+    <errorConditionFormula>!ISNEW()&amp;&amp; (($User.FirstName + &#39; &#39; + $User.LastName) == &#39;IQVIA Integrations&#39;) &amp;&amp; ( Address_changed_by_non_integration_user__c ) &amp;&amp;(ISCHANGED(BillingCity)||ISCHANGED(BillingCountry)||ISCHANGED(BillingState)||ISCHANGED(BillingPostalCode)||ISCHANGED(BillingStreet))</errorConditionFormula>
+    <errorMessage>Address was changed by PI and thus cannot be updated by Integration</errorMessage>
+</ValidationRule>

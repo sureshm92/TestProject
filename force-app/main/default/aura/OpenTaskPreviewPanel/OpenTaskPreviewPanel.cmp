@@ -39,7 +39,7 @@
                     </aura:iteration>
                 </c:RRTable>
             </aura:if>
-            <c:EmptyListStub targetList="{!v.tasks}" iconName="none"/>
+            <c:EmptyListStub targetList="{!v.tasks}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
         </aura:if>
         <aura:set attribute="footer">
             <c:RRLink page="study-workspace?tab=tab-tasks" label="See All"/>

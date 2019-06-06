@@ -78,7 +78,7 @@ public class StudyActionsHCP extends StudyActions{
                         studyNoLongerEnrollingReason
                 }
         ));
-
+        
         actions.put(ACT_REFER, new Action(
                 ACT_REFER,
                 LABEL_REFER,
@@ -91,6 +91,17 @@ public class StudyActionsHCP extends StudyActions{
                         studyNoLongerEnrollingReason
                 }
         ));
+
+        actions.put(ACT_HCP_LINK_STUDY_SITES, new Action(
+                ACT_HCP_LINK_STUDY_SITES,
+                LABEL_HCP_LINK_STUDY_SITES,
+                'map-marker',
+                new List<DisableReason>{
+                        level2AndLowReason,
+                        studyNoLongerEnrollingReason
+                }
+        ));
+
 
         List<String> shareStatuses = new List<String>{
                 HCPEnrollmentService.HCP_S_ACTIVATED,
@@ -203,7 +214,7 @@ public class StudyActionsHCP extends StudyActions{
 //            }
         }
 
-        studyListViewItemActions.add(actions.get(ACT_REFER_TO_THIS_STUDY));
+        studyListViewItemActions.add(actions.get(ACT_MEDICAL_RECORD_REVIEW));
 
         //Accept TC
         List<String> tcStatuses = new List<String>{

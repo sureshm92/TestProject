@@ -133,6 +133,18 @@
         <template>Referral_Hub_Emails/Patient4_VT_HCP_New_C_S_Referral</template>
     </alerts>
     <alerts>
+        <fullName>Email_to_VT_PI_Patient_New_Study</fullName>
+        <description>Email to VT PI Patient- New Study</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Participant_Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Referral_Hub_Emails/Patient15_VT_PI_New_C_S_Referral</template>
+    </alerts>
+    <alerts>
         <fullName>Email_to_VT_Patient_Clinical_research_study_referral_declined</fullName>
         <description>Email to VT Patient- Clinical research study referral declined</description>
         <protected>false</protected>
@@ -353,7 +365,18 @@
         </actions>
         <active>true</active>
         <description>Patient  receives email that they have been referred to a clinical research study by HCP</description>
-        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;  NOT( ISBLANK(HCP__c)) &amp;&amp;  Is_Virtual_Study_Site__c = True &amp;&amp;   NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;  NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)  &amp;&amp;   NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)</formula>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Email to VT PI Patient- New Study</fullName>
+        <actions>
+            <name>Email_to_VT_PI_Patient_New_Study</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <description>Patient receives email that they have been referred to a clinical research study by PI</description>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  ISPICKVAL( Referral_Source__c , &quot;PI&quot;)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
@@ -386,7 +409,7 @@
         </actions>
         <active>true</active>
         <description>Patient  receives email that they have been referred to a clinical research study by eRP</description>
-        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;  ISBLANK(HCP__c)&amp;&amp;  Is_Virtual_Study_Site__c = True  &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;  NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)</formula>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;   Is_Virtual_Study_Site__c = True  &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;   NOT(ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;PI&quot;))</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
 </Workflow>

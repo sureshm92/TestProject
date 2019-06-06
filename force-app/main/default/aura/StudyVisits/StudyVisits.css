@@ -5,6 +5,10 @@
     padding-bottom: 50px;
 }
 
+.THIS.sv-body.hidden{
+    display: none;
+}
+
 .THIS .tt-title{
     font-size: 20px;
     font-weight: 500;

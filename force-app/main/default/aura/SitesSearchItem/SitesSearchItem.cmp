@@ -26,7 +26,7 @@
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <div class="ssi-site-type">
-                        {!if(!empty(v.studySiteWrapper.siteType), v.studySiteWrapper.siteType+ ' ' + $Label.c.PG_SFS_L_Site,'')}
+                        {!if(!empty(v.studySiteWrapper.siteType), v.studySiteWrapper.siteTypeLabel+ ' ' + $Label.c.PG_SFS_L_Site,'')}
                 </div>
                 <aura:if isTrue="{!and(!empty(v.studySiteWrapper.formatedDistance), v.studySiteWrapper.formatedDistance != null)}">
                     <div class="ssi-site-distance">
@@ -65,7 +65,7 @@
                                 title="{!v.studySiteWrapper.actions.refer.disableReason}"
                                 onclick="{!c.navigateToReferring}">
                             {!if(and(v.studySiteWrapper.actions.refer.disabled,
-                                    v.studySiteWrapper.actions.refer.disableReason == $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action), v.studySiteWrapper.hcpe.Status__c, $Label.c.BTN_Refer_a_Patient)}
+                                    v.studySiteWrapper.actions.refer.disableReason == $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action), v.studySiteWrapper.siteStatusLabel, $Label.c.BTN_Refer_a_Patient)}
                         </button>
                     </aura:set>
                 </aura:if>

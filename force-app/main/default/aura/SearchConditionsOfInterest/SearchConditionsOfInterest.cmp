@@ -15,12 +15,12 @@
     <aura:method name="show" action="{!c.show}"/>
     <aura:method name="hide" action="{!c.hide}"/>
 
-    <c:Popup aura:id="searchModal" title="Select Your Conditions of Interest" size="medium" showClose="false"
-             primaryButtonLabel="Save" variant=" slds-float--right">
+    <c:Popup aura:id="searchModal" title="{!$Label.c.PG_SCOI_L_Select_Your_Conditions_of_Interest}" size="medium" showClose="false"
+             primaryButtonLabel="{!$Label.c.BTN_Save}" variant=" slds-float--right">
         <lightning:input onchange="{!c.bulkSearch}" aura:id="searchInput" type="search" name="search" label=""
-                         variant="label-hidden" placeholder="Search for Condition"/>
+                         variant="label-hidden" placeholder="{!$Label.c.PG_SCOI_L_Search_for_Condition}"/>
         <div class="alert-count-condition">
-            You may only select to 5 conditions at any time.
+            {!$Label.c.PG_SCOI_L_You_may_only_select}
         </div>
         <div class="table-scroll">
             <table aria-multiselectable="true"

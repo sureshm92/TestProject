@@ -137,6 +137,7 @@ public without sharing class StudyTrialService {
         PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
 
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
+        System.debug('IS SEARCH RESUME>>>>>' + isSearchResume);
         if (isSearchResume) {
             studies = searchStudiesGlobal(filterData, sortData, paginationData);
         } else {
@@ -189,8 +190,9 @@ public without sharing class StudyTrialService {
             }
         }
 
-        List<Study_Site__c> allStudySites = Database.query(query);
 
+
+        List<Study_Site__c> allStudySites = Database.query(query);
         Map<Id, List<Study_Site__c>> trialIdToStudySites = new Map<Id, List<Study_Site__c>>();
         List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
         for (Study_Site__c currStudySite : allStudySites) {

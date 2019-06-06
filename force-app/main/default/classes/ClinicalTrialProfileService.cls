@@ -51,6 +51,7 @@ public with sharing class ClinicalTrialProfileService {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String enrollmentsQuery =
                 'SELECT Participant__c, ' +
+                        'Participant_Status__c, ' +
                         'Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c ' +
                         'FROM Participant_Enrollment__c ' +
                         'WHERE Study_Site__r.Clinical_Trial_Profile__c IN (' +
@@ -58,12 +59,14 @@ public with sharing class ClinicalTrialProfileService {
         List<Participant_Enrollment__c> enrollments = databaseProxy.query(enrollmentsQuery);
         Map<Id, Id> tAsByParticipantsIds = new Map<Id, Id>();
         for (Participant_Enrollment__c singlePE : enrollments) {
-            if (String.isNotBlank(singlePE.Participant__c) && singlePE.Study_Site__c != null &&
-                    singlePE.Study_Site__r.Clinical_Trial_Profile__c != null &&
-                    singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c != null) {
-                tAsByParticipantsIds.put(singlePE.Participant__c, singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c);
+            if (!PEStatusState.PE_STATUS_GROUP_FAILED.contains(singlePE.Participant_Status__c)) {
+                if (String.isNotBlank(singlePE.Participant__c) && singlePE.Study_Site__c != null &&
+                        singlePE.Study_Site__r.Clinical_Trial_Profile__c != null) {
+                    tAsByParticipantsIds.put(singlePE.Participant__c, singlePE.Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c);
+                }
             }
         }
+        tAsByParticipantsIds = this.removeAlumniParticipantsFromMap(tAsByParticipantsIds);
         return tAsByParticipantsIds;
     }
 
@@ -76,5 +79,25 @@ public with sharing class ClinicalTrialProfileService {
                         'FROM Participant__c ' +
                         'WHERE Id IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(participantsIds), ', ') + ')';
         return (List<Participant__c>) databaseProxy.query(participantsQuery);
+    }
+
+    private Map<Id, Id> removeAlumniParticipantsFromMap(Map<Id, Id> tAsByParticipantsIds) {
+
+        if (!tAsByParticipantsIds.isEmpty()) {
+            DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+            String pSEQuery =
+                    'SELECT Id, ' +
+                            'Status__c, ' +
+                            'Participant__c ' +
+                            'FROM Participant_Study_Enrollment__c ' +
+                            'WHERE Participant__c IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tAsByParticipantsIds.keySet()), ', ') + ')';
+            List<Participant_Study_Enrollment__c> enrollments = (List<Participant_Study_Enrollment__c>) databaseProxy.query(pSEQuery);
+            for (Participant_Study_Enrollment__c singlePSE : enrollments) {
+                if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(singlePSE.Status__c)) {
+                    tAsByParticipantsIds.remove(singlePSE.Participant__c);
+                }
+            }
+        }
+        return tAsByParticipantsIds;
     }
 }

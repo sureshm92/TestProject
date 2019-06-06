@@ -5,28 +5,21 @@
 public with sharing class Batch_PatientTaskReminder implements Database.Batchable<Task>, Database.Stateful {
 
     public static final Integer SCOPE_SIZE = 10;
-
-    public Datetime executionTime = Datetime.now();
-    public Datetime previousExecutionTime;
     public Integer intervalInMinutes;
 
     public Batch_PatientTaskReminder(Integer intervalInMinutes) {
-        previousExecutionTime = Datetime.now().addHours(-1);
-        this.intervalInMinutes = intervalInMinutes;
-    }
-
-    public Batch_PatientTaskReminder(Datetime previousExecutionTime, Integer intervalInMinutes) {
-        this.previousExecutionTime = previousExecutionTime;
         this.intervalInMinutes = intervalInMinutes;
     }
 
     public void execute(Database.BatchableContext param1, List<Task> tasks) {
         SendEmailToParticipant.sendEmailNotificationWithDelegates(tasks);
+        for(Task t : tasks) t.Is_Reminder_Sent__c = true;
+        update tasks;
     }
 
     public void finish(Database.BatchableContext param1) {
-        System.scheduleBatch(new Batch_PatientTaskReminder(
-                executionTime, intervalInMinutes), 'PatientTaskReminder', intervalInMinutes, SCOPE_SIZE);
+        System.scheduleBatch(
+                new Batch_PatientTaskReminder(intervalInMinutes), 'PatientTaskReminder', intervalInMinutes, SCOPE_SIZE);
     }
 
     public Iterable<Task> start(Database.BatchableContext param1) {
@@ -39,18 +32,27 @@ public with sharing class Batch_PatientTaskReminder implements Database.Batchabl
                         WhatId,
                         WhoId
                 FROM Task
-                WHERE Reminder_Date__c > :previousExecutionTime
-                AND Reminder_Date__c <= :executionTime
+                WHERE Reminder_Date__c <=: Datetime.now() AND Is_Reminder_Sent__c = FALSE
         ];
 
-        System.debug('Recods found: '+ tasks.size());
-        System.debug('Prev time : ' + previousExecutionTime.format());
-        System.debug('Exec time : ' + executionTime.format());
-
+        System.debug('Records found: '+ tasks.size());
         return tasks;
     }
 
     public static void run(Integer intervalInMinutes) {
         Database.executeBatch(new Batch_PatientTaskReminder(intervalInMinutes), SCOPE_SIZE);
+    }
+
+    public static void stop() {
+        List<CronTrigger> cronTriggers = [
+                SELECT Id
+                FROM CronTrigger
+                WHERE CronJobDetail.Name = 'PatientTaskReminder'
+        ];
+        if(!cronTriggers.isEmpty()) {
+            for(CronTrigger cronT : cronTriggers) {
+                System.abortJob(cronT.Id);
+            }
+        }
     }
 }

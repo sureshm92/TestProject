@@ -7,6 +7,7 @@ public class StudyDetailItem implements Comparable {
 
     public Clinical_Trial_Profile__c trial;
     public List<StudyActions.Action> studyActions;
+    public Map<String, StudyActions.Action> actionsMap;
     public String studyStatus;
     public Study_Site__c ss;
     public List<StudySiteService.StudySiteDistanceWrapper> sites = new List<StudySiteService.StudySiteDistanceWrapper>();

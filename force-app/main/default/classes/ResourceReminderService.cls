@@ -5,6 +5,7 @@ public with sharing class ResourceReminderService {
     final List<Type> reminders = new List<Type>{
             PlatformTAnoTAReminder.class,
             X3rdPartyNoTaReminder.class,
+            StudySpecificAndPlatformTAnoImageReminder.class,
             StudySpecificNoStudyReminder.class,
             StudyDocumentNoStudyReminder.class,
             StudyDocumentTypeDocumentNoFileReminder.class
@@ -17,13 +18,13 @@ public with sharing class ResourceReminderService {
         Set<String> fieldsQuery = this.getFields(allReminders);
         String queryResource = this.buildQuery(resId, fieldsQuery);
         Resource__c resource = this.getResource(queryResource);
-        System.debug('resource: ' + resource);
-        for (Reminder reminder: allReminders) {
-            if (reminder.isActive(resource)) {
-                activeReminders.add(reminder);
+        if (resource != null) {
+            for (Reminder reminder : allReminders) {
+                if (reminder.isActive(resource)) {
+                    activeReminders.add(reminder);
+                }
             }
         }
-        System.debug('activeReminders: ' + activeReminders);
         return activeReminders;
     }
 
@@ -45,7 +46,7 @@ public with sharing class ResourceReminderService {
         return allReminders;
     }
 
-    private  Set<String> getFields(List<Reminder> allReminders) {
+    private Set<String> getFields(List<Reminder> allReminders) {
         Set<String> fieldsQuery = new Set<String>();
         for (Reminder reminder : allReminders) {
             fieldsQuery.addAll(reminder.resourceFields);
@@ -62,6 +63,8 @@ public with sharing class ResourceReminderService {
         public String reminderLabel;
         @AuraEnabled
         public List<String> resourceFields;
+        @AuraEnabled
+        public String cssColor = 'red-text';
         public abstract Boolean isActive(Resource__c resource);
     }
 
@@ -97,6 +100,26 @@ public with sharing class ResourceReminderService {
             if (String.isNotBlank(resource.Content_Class__c)
                     && ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
                     && (resource.Therapeutic_Area_Assignments__r == null || resource.Therapeutic_Area_Assignments__r.isEmpty())) {
+                isActive = true;
+            }
+            return isActive;
+        }
+    }
+
+    class StudySpecificAndPlatformTAnoImageReminder extends Reminder {
+        public StudySpecificAndPlatformTAnoImageReminder() {
+            reminderLabel = Label.Reminder_Study_Specific_And_PlatformTA_No_Image;
+            resourceFields = new List<String>{
+                    'Content_Class__c',
+                    'Image__c'
+            };
+            cssColor = 'orange-text';
+        }
+        public override Boolean isActive(Resource__c resource) {
+            Boolean isActive = false;
+            if (String.isNotBlank(resource.Content_Class__c)
+                    && (ResourceService.RESOURCE_SOURCE_STUDY.equalsIgnoreCase(resource.Content_Class__c) || ResourceService.RESOURCE_SOURCE_PLATFORM.equalsIgnoreCase(resource.Content_Class__c))
+                    && String.isBlank(resource.Image__c)) {
                 isActive = true;
             }
             return isActive;
@@ -149,6 +172,7 @@ public with sharing class ResourceReminderService {
                     'document_type__c',
                     '(SELECT ContentDocument.LatestPublishedVersionId FROM ContentDocumentLinks)'
             };
+            cssColor = 'orange-text';
         }
         public override Boolean isActive(Resource__c resource) {
             Boolean isActive = false;

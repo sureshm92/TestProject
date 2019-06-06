@@ -8,12 +8,8 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
     }
     public override void afterInsert(List<SObject> newList) {
         ContentDocumentLinkService contentDocumentLinkService = (ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class);
-        contentDocumentLinkService.remindEventFire(newList);
+        PlatformEventService platformEventService = (PlatformEventService) ClassFactory.newInstance(PlatformEventService.class);
         contentDocumentLinkService.createURLsForImagesOnResources(newList);
-    }
-
-    public override void afterDelete(List<SObject> oldList) {
-        ContentDocumentLinkService contentDocumentLinkService = (ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class);
-        contentDocumentLinkService.remindEventFire(oldList);
+        platformEventService.remindEventFire((List<ContentDocumentLink>) newList);
     }
 }
