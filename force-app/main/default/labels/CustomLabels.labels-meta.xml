@@ -2111,7 +2111,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Share PH</shortDescription>
-        <value>An IQVIA™ Participant Hub user shared this with you</value>
+        <value>An IQVIA Patient Portal user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
