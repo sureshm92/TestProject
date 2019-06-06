@@ -29,6 +29,9 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_SIGNATURE_PATIENT_DELEGATE =  'Email_Signature_New_Participant_Delegate';
     public static final String LABEL_SIGNATURE = 'Email_Signature';
     public static final String LABEL_SIGNATURE_NEW = 'Email_Signature_New';
+    
+    public static final String LABEL_GREETING_VALUE_DEFAULT = 'Email_User_Greeting_FirstName';
+    public static final String LABEL_GREETING_VALUE_PI_HCP = 'Email_User_Greeting';
 
     public static final String PARAM_PREFIX = '##';
     
@@ -92,6 +95,7 @@ global without sharing class EmailTemplateController {
     
     global String userGreetingValue {
         get{
+            setDefaultValues();
             return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
         }
         set;
@@ -152,6 +156,7 @@ global without sharing class EmailTemplateController {
             String headerLabel;
             String titleLabel;
             String signatureLabel;
+            userGreetingValue = LABEL_GREETING_VALUE_DEFAULT;
             if(getDataProvider().isDelegate){
                 if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
                     bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
@@ -181,17 +186,20 @@ global without sharing class EmailTemplateController {
                 headerLabel = LABEL_HEADER_INITIAL_PI;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
+                userGreetingValue = LABEL_GREETING_VALUE_PI_HCP;
             }else if(getDataProvider().userMode == CommunityService.USER_MODE_HCP){
                 bodyLabel = LABEL_BODY_INITIAL_HCP;
                 headerLabel = LABEL_HEADER_INITIAL_HCP;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
+                userGreetingValue = LABEL_GREETING_VALUE_PI_HCP;
             }
             
             if(bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             if(headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
             if(titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
             if(signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
+            if(userGreetingValue != null) userGreetingValue = TranslateHelper.getLabelValue(userGreetingValue, getUserLanguageCode());
         }
     }
     
