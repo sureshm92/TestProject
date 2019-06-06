@@ -22,7 +22,7 @@
             <!-- open tasks: -->
             <aura:if isTrue="{!v.taskMode == 'Open'}">
                 <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
-                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">Create New Task</button>
+                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
                 </div>
                 <div class="rr-white-panel">
                     <c:RRTable>

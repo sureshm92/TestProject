@@ -468,6 +468,13 @@ You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joini
         <value>Confirm</value>
     </labels>
     <labels>
+        <fullName>BTN_Create_New_Task</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Create New Task</shortDescription>
+        <value>Create New Task</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
