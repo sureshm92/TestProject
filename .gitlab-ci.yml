@@ -5,7 +5,7 @@ stages:
 - deployINF
 - runTestINF
 - runTestINT
-- VALIDATE_DRYRUN
+- VALIDATE
 - DEPOLOY_DRYRUN
 cache:
   paths:
