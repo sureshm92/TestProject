@@ -2309,7 +2309,7 @@ IQVIA Study Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
         <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
-        </labels>
+    </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
         <language>en_US</language>
@@ -8276,6 +8276,27 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
         <value>Priority</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Ignored</shortDescription>
+        <value>Ignored</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status In Progress</shortDescription>
+        <value>In Progress</value>
     </labels>
     <labels>
         <fullName>Task_Type</fullName>

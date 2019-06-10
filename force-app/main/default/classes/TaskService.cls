@@ -237,7 +237,8 @@ public without sharing class TaskService {
                 TASK_STATUS_IGNORED,
                 TASK_STATUS_COMPLETED
         };
-        return ' Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ';
+        return ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
+               'OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
     }
 
 
