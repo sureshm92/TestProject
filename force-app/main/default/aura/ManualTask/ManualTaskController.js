@@ -20,12 +20,16 @@
 
     doCheckFields: function (component, event, helper) {
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
+            debugger;
             return validSoFar && inputCmp.get('v.validity').valid;
         }, true);
         component.set('v.isValidFields', allValid);
     },
 
     onDaysChange: function (component, event, helper) {
+        component.checkFields();
+        if(!component.get('v.isValidFields')) return;
+
         var startDate = component.get('v.task.Start_Date__c');
         var dueDate = component.get('v.task.ActivityDate');
         var useDaysNumber = component.get('v.showNumbersAdd') === 'true';
