@@ -1,11 +1,11 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Complete_Baseline_Survey}"
                          recipientType="Contact"
-                         relatedToType="Clinical_Trial_Profile__c"
+                         relatedToType="SurveyInvitation"
                          language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_CTP"
+                         parametersProvider="Email_Template_Parameters_From_SI"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Complete_Baseline_Survey}"
                          title="{!$Label.Email_Title_PH}"
@@ -13,13 +13,13 @@
                          body="{!$Label.Email_Body_Complete_Baseline_Survey}"
                          signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                              buttonURL="/s/survey"/>
+                              buttonURL="/s/survey?inv={!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_CTP"
+                             parametersProvider="Email_Template_Parameters_From_SI"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Complete_Baseline_Survey}"
                              title="{!$Label.Email_Title_PH}"
@@ -27,7 +27,7 @@
                              body="{!$Label.Email_Body_Complete_Baseline_Survey}"
                              signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                                  buttonURL="/s/survey"/>
+                                  buttonURL="/s/survey?inv={!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

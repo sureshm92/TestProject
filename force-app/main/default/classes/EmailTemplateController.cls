@@ -96,6 +96,20 @@ global without sharing class EmailTemplateController {
         }
         set;
     }
+
+    global String buttonLabelValue {
+        get {
+            return TranslateHelper.replaceParams(buttonLabelValue, PARAM_PREFIX, getDataProvider().parameters);
+        }
+        set;
+    }
+
+    global String buttonUrlValue {
+        get {
+           return TranslateHelper.replaceParams(buttonUrlValue, PARAM_PREFIX, getDataProvider().parameters);
+        }
+        set;
+    }
     
     global String outputMode {get; set;}
     private ParametersDataProvider dataProvider;

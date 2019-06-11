@@ -98,6 +98,7 @@ public without sharing class TaskEditRemote {
         Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
         List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
         for (Schema.PicklistEntry pickListValue : picklistEntry) {
+            if(pickListValue.value.equals(TaskService.TASK_TYPE_SURVEY)) continue;
             pickListValuesList.add(pickListValue.getLabel());
         }
         return pickListValuesList;
