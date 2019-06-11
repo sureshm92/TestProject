@@ -4031,9 +4031,6 @@
         <layout>Contact_Therapeutic_Area__c-Contact Therapeutic Area Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Data_Sharing_Rule__c-Data Sharing Rule Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Data_Sharing_Tem__c-Data Sharing Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4299,15 +4296,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Contact_Therapeutic_Area__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Data_Sharing_Rule__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
