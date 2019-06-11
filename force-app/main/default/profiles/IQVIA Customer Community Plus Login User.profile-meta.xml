@@ -343,18 +343,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>IntegrationPHRecordAVisit</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>IntegrationPHUpdatePatientStatusHandler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>IntegrationPHValidatePatient</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>IntegrationService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2220,31 +2208,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Log__c.Timeout__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_PH_Update_Patient_Status__c.Date_Time__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_PH_Update_Patient_Status__c.PSE_Status__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_PH_Update_Patient_Status__c.Protocol_ID__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_PH_Update_Patient_Status__c.Study_Site_Number__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_PH_Update_Patient_Status__c.Subject_ID__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4259,9 +4222,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Integration_PH_Update_Patient_Status__c-Integration PH Update Patient Status Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Patients__c-Integration Patients Layout</layout>
