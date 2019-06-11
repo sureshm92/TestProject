@@ -9,7 +9,7 @@ global without sharing class EmailTemplateController {
 
     public static final String LABEL_TITLE = 'Email_Title';
     public static final String LABEL_TITLE_PH = 'Email_Title_PH';
-    public static final String LABEL_TITLE_ALL = 'Email_Title_ALL';
+    public static final String LABEL_TITLE_ALL = 'Email_Title_All';
     
     public static final String LABEL_HEADER_INITIAL_PARTICIPANT = 'Email_Header_Initial_Patient';
     public static final String LABEL_HEADER_INITIAL_PATIENT_DELEGATE = 'Email_Header_Initial_Patient_Delegate';
