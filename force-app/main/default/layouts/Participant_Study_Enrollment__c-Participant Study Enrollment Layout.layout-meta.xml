@@ -27,6 +27,10 @@
                 <behavior>Readonly</behavior>
                 <field>IsRequestDataFromSDH__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>External_Key__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
