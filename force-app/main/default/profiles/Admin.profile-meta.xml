@@ -2349,6 +2349,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_VisitResult__c.STUDYID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_VisitResult__c.TESTCD__c</field>
         <readable>true</readable>
     </fieldPermissions>
