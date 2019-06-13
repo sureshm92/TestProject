@@ -4949,6 +4949,41 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Study Site Status Details</value>
     </labels>
     <labels>
+        <fullName>PG_L_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Open_Task_List</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Open Task List</shortDescription>
+        <value>Open Task List</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Resources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Resources</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L See All</shortDescription>
+        <value>See All</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
         <language>en_US</language>
         <protected>false</protected>
