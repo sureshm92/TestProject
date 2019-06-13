@@ -63,7 +63,8 @@ public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstr
                 SELECT
                         Id,
                         Participant_Study_Enrollment__c,
-                        Trial_Survey__c
+                        Trial_Survey__c,
+                        Trial_Survey__r.Visible_For__c
                 FROM SurveyInvitation
                 WHERE Participant_Study_Enrollment__c IN:enrollments
         ];

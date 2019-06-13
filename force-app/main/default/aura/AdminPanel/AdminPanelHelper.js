@@ -10,7 +10,7 @@
         communityService.executeAction(component, 'getState', {
             'jobName': jobName
         }, function (wrapper) {
-            if (wrapper.state === 'NOT STARTED') {
+            if (wrapper.state === 'STOPPED') {
                 setTimeout(
                     $A.getCallback(function () {
                         helper.waitStateChange(component, jobName);

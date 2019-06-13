@@ -133,17 +133,17 @@ public without sharing class TaskService {
                         InviteExpiryDateTime,
                         Name,
                         OwnerId,
-                        Participant_Study_Enrollment__c,
-                        ParticipantId,
+                        Participant_Study_Enrollment__r.Participant_Contact__c,
                         SurveyId,
                         Survey.Name,
-                        Trial_Survey__c
+                        Trial_Survey__c,
+                        Trial_Survey__r.Visible_For__c
                 FROM SurveyInvitation
                 WHERE Id IN:invitations
         ];
 
         Set<Id> contactIds = new Set<Id>();
-        for(SurveyInvitation inv : surveyInvitation) contactIds.add(inv.ParticipantId);
+        for(SurveyInvitation inv : surveyInvitation) contactIds.add(inv.Participant_Study_Enrollment__r.Participant_Contact__c);
 
         List<User> users = [
                 SELECT Id, ContactId
@@ -157,7 +157,7 @@ public without sharing class TaskService {
 
         List<Task> tasks = new List<Task>();
         for(SurveyInvitation inv : surveyInvitation) {
-            User owner =  usersMap.get(inv.ParticipantId);
+            User owner =  usersMap.get(inv.Participant_Study_Enrollment__r.Participant_Contact__c);
             if(owner != null) tasks.add(createCompleteSurveyTask(owner.Id, inv));
         }
 
@@ -182,9 +182,9 @@ public without sharing class TaskService {
                 Task_Code__c = TASK_CODE_COMPLETE_SURVEY,
                 Reminder_Date__c = showDate,
                 Task_Type__c = TASK_TYPE_SURVEY,
-                Visible_For__c = TASK_VISIBILITY_OWNER,
-                WhoId = invitation.ParticipantId
-
+                Visible_For__c = invitation.Trial_Survey__r.Visible_For__c,
+                WhoId = invitation.Participant_Study_Enrollment__r.Participant_Contact__c,
+                WhatId = invitation.Participant_Study_Enrollment__c
         );
         if (invitation.InviteExpiryDateTime != null) {
             task.ActivityDate = Date.newInstance(

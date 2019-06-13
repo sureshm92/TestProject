@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 15.05.2019.
  */
 
-public with sharing class SurveyService {
+public without sharing class SurveyService {
 
     public class SurveyException extends Exception {
     }
@@ -54,7 +54,6 @@ public with sharing class SurveyService {
         SurveyInvitation invitation = new SurveyInvitation();
         invitation.CommunityId = CommunityService.getCommunityId(null);
         invitation.Name = ts.Survey__r.Name + ':TS:' + ts.Id;
-        invitation.ParticipantId = pse.Participant_Contact__c;
         invitation.Participant_Study_Enrollment__c = pse.Id;
         invitation.SurveyId = ts.Survey__c;
         invitation.Survey__c = ts.Survey__c;
@@ -74,11 +73,12 @@ public with sharing class SurveyService {
         return invitation;
     }
 
-    public Id getSurveyInvitationId(String surveyId, String whoId) {
+    public Id getSurveyInvitationId(String surveyId, String participantContactId) {
         List<SurveyInvitation> invitation = [
                 SELECT Id
                 FROM SurveyInvitation
-                WHERE SurveyId = :surveyId AND ParticipantId = :whoId
+                WHERE SurveyId = :surveyId
+                    AND Participant_Study_Enrollment__r.Participant_Contact__c =:participantContactId
         ];
         if(invitation.isEmpty()) return '';
 

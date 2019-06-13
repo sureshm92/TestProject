@@ -9,49 +9,62 @@ public without sharing class SurveyResponseTriggerHandler {
 
     @InvocableMethod(Label='Handle Suvey Response status Change')
     public static void handleStatusChange(List<SurveyResponse> srList) {
-        Map<String, SurveyResponse> submitterResponse = new Map<String, SurveyResponse>();
-        List<Id> contactIdsForCloseTask = new List<Id>();
-        List<Id> contactIdsForPauseTask = new List<Id>();
+        Set<Id> invitationsClose = new Set<Id>();
+        Set<Id> invitationsPaused = new Set<Id>();
+
         for (SurveyResponse sr : srList) {
-            submitterResponse.put(sr.SubmitterId, sr);
             if (sr.Status == SURVEY_RESPONSE_STATUS_COMPLETED) {
-                contactIdsForCloseTask.add(sr.SubmitterId);
+                invitationsClose.add(sr.InvitationId);
             }
             if (sr.Status == SURVEY_RESPONSE_STATUS_PAUSED) {
-                contactIdsForPauseTask.add(sr.SubmitterId);
+                invitationsPaused.add(sr.InvitationId);
             }
+        }
+
+        List<SurveyInvitation> closeInv = [
+                SELECT Participant_Study_Enrollment__r.Participant_Contact__c
+                FROM SurveyInvitation
+                WHERE Id IN:invitationsClose
+        ];
+        Set<Id> closeContactsIds = new Set<Id>();
+        for(SurveyInvitation si : closeInv) {
+            closeContactsIds.add(si.Participant_Study_Enrollment__r.Participant_Contact__c);
         }
 
         List<Task> tasksForComplete = [
                 SELECT Id, Description, WhoId
                 FROM Task
-                WHERE WhoId IN:contactIdsForCloseTask
+                WHERE WhoId IN: closeContactsIds
                 AND Task_Type__c = :TaskService.TASK_TYPE_SURVEY
         ];
         for (Task t : tasksForComplete) {
-            SurveyResponse response = submitterResponse.get(t.WhoId);
-            if (t.Description == SurveyService.getInstance().getSurveyInvitationId(response.SurveyId, response.SubmitterId)) {
-                TaskService.getInstance().completeTask(t);
-            }
+            if(invitationsClose.contains(t.Description)) TaskService.getInstance().completeTask(t);
         }
 
         System.debug('FOR COMPLETE SIZE: ' + tasksForComplete.size());
         update tasksForComplete;
 
+
+        List<SurveyInvitation> pausedInv = [
+                SELECT Participant_Study_Enrollment__r.Participant_Contact__c
+                FROM SurveyInvitation
+                WHERE Id IN:invitationsPaused
+        ];
+        Set<Id> pausedContactsIds = new Set<Id>();
+        for(SurveyInvitation si : closeInv) {
+            pausedContactsIds.add(si.Participant_Study_Enrollment__r.Participant_Contact__c);
+        }
+
         List<Task> tasksForPause = [
                 SELECT Id, Description, WhoId
                 FROM Task
-                WHERE WhoId IN:contactIdsForPauseTask
+                WHERE WhoId IN: pausedContactsIds
                 AND Task_Type__c = :TaskService.TASK_TYPE_SURVEY
         ];
         for (Task t : tasksForPause) {
-            SurveyResponse response = submitterResponse.get(t.WhoId);
-            if (t.Description == SurveyService.getInstance().getSurveyInvitationId(response.SurveyId, response.SubmitterId)) {
-                t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
-            }
+            if (invitationsPaused.contains(t.Description)) t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
         }
         System.debug('FOR PAUSE SIZE: ' + tasksForComplete.size());
         update tasksForPause;
     }
-
 }

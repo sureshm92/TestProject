@@ -827,6 +827,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_AdminPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3989,11 +3993,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Trial_Survey__c.Expires_After_Days__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Trial_Survey__c.Visible_To_Delegates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
