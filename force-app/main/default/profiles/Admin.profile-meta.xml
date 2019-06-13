@@ -2237,6 +2237,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patients__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patients__c.INVNAM__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2273,6 +2278,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_VisitResult__c.DTC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_VisitResult__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2333,6 +2343,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_VisitResult__c.VISIT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Visits__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3347,16 +3362,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Patient_Visit__c.Participant_Study_Enrollment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Patient_Visit__c.Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Point_of_Contact__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4192,46 +4197,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Visit_Result_Type_Group__c.Group_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Label__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result__c.Actual_Value__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result__c.Max_Value__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result__c.Measurement__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result__c.Min_Value__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result__c.Visit_Result_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Visit__c.Icons__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4358,9 +4323,6 @@
         <layout>Patient_Delegate__c-Caregiver Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Patient_Visit__c-Patient Visit Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4466,23 +4428,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Plan__c-Visit Plan Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Vitals</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
@@ -4696,15 +4641,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Patient_Visit__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Point_of_Contact__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -4903,33 +4839,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Visit_Result_Type_Group__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Visit_Result_Type__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Visit_Result__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Visit__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -5089,14 +4998,18 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
+        <recordType>Trial_Survey__c.Status_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Visit_Result__c.Vitals</recordType>
+        <recordType>Trial_Survey__c.Time_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Admin_Panel</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
         <visibility>DefaultOn</visibility>
@@ -5604,15 +5517,7 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ManagePropositions</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>ManagePvtRptsAndDashbds</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageRecommendationStrategies</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
