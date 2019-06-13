@@ -2237,6 +2237,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patients__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patients__c.INVNAM__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2273,6 +2278,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_VisitResult__c.DTC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_VisitResult__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2333,6 +2343,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_VisitResult__c.VISIT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Visits__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3153,6 +3168,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Study_Enrollment__c.Days_After_Enrolled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Study_Enrollment__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
