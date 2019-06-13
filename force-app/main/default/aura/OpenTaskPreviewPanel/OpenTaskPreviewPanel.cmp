@@ -18,7 +18,7 @@
             <aura:if isTrue="{!!empty(v.tasks)}">
                 <c:RRTable>
                     <tr>
-                        <th>{!$Label.c.Name}</th>
+                        <th>{!$Label.c.PG_L_Name}</th>
                         <th style="width:130px">{!$Label.c.Due_Date}</th>
                     </tr>
                     <aura:iteration items="{!v.tasks}" var="task">
