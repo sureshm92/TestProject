@@ -22,7 +22,7 @@ public class TestData {
         piUser = [SELECT Id FROM User WHERE Contact.LastName = 'PI'];
         ctp = [SELECT Id, Therapeutic_Area__c FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
         ss = [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
-        pse = [SELECT Id FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
+        pse = [SELECT Id, Participant_Contact__c FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
         pe = [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c =: participant.Id];
     }
     
