@@ -77,11 +77,11 @@
                             <br/>
                             {!$Label.c.PG_SDAS_L2_please_review}
                         </div>
-                    </aura:if>
+                    </aura:if> -->
 
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <c:RRAnchor aura:id="studySiteAnchor" offset="-160"/>
-                    </aura:if>-->
+                    </aura:if>
 
                     <!-- for PI: -->
                     <aura:if isTrue="{!v.userMode == 'PI'}">
