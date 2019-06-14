@@ -1,0 +1,23 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Account",
+                "referenceId": "AccountRef427"
+            },
+            "Address_changed_by_non_integration_user__c": false,
+            "BillingCity": "Trumbull",
+            "BillingCountry": "United States",
+            "BillingCountryCode": "US",
+            "BillingGeocodeAccuracy": "Address",
+            "BillingLatitude": 41.227421,
+            "BillingLongitude": -73.242911,
+            "BillingPostalCode": "06611",
+            "BillingState": "Connecticut",
+            "BillingStateCode": "CT",
+            "BillingStreet": "5520 Park Avenue,",
+            "Name": "New England Research Associates LLC",
+            "Org_Key__c": "2121211"
+        }
+    ]
+}

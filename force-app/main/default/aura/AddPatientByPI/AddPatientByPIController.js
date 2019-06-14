@@ -43,7 +43,7 @@
             participant.Email__c &&
             participant.Mailing_Zip_Postal_Code__c &&
             pe.Participant_Status__c &&
-            communityService.isValidEmail(participant.Email__c) &&
+            component.find('emailInput').get('v.validity').valid &&
             (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
             (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
             pe.Referred_By__c;

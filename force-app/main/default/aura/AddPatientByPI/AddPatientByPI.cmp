@@ -102,7 +102,7 @@
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                             </div>
-                            <lightning:input type="email" value="{!v.participant.Email__c}" required="true"
+                            <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="true"
                                              onblur="{!c.doCheckFields}"/>
                         </div>
                     </div>

@@ -19,6 +19,7 @@
         var helper = this;
         if(pe.Participant_Status__c === 'Enrollment Success') {
             component.find('actionApprove').execute(function () {
+                pe.Informed_Consent__c = true;
                 helper.saveParticipant(component, pe, callback);
             }, function () {
                 component.find('spinner').hide();

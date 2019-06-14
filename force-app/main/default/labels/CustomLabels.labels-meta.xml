@@ -71,7 +71,16 @@ You have been assigned as a Delegate for ##ParticipantUser. Thank you for joinin
         <shortDescription>AL Body Welcome to PH Delegate</shortDescription>
         <value>Hi ##UserName!
 
-You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining  ##ParticipantFirstName on their journey through the ##StudyName Study.</value>
+You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining ##ParticipantFirstName on this journey through the ##StudyName Study.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
+        <value>Hi ##Contact!
+
+You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joining ##ParticipantUser Thank you for joining ##StudyName Study.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -457,6 +466,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for j
         <protected>false</protected>
         <shortDescription>BTN Confirm</shortDescription>
         <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Create_New_Task</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Create New Task</shortDescription>
+        <value>Create New Task</value>
     </labels>
     <labels>
         <fullName>BTN_Deactivate</fullName>
@@ -974,7 +990,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for j
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://sandbox-efficiency-java-8354-dev-ed-16a4a1ca59a.cs69.force.com</value>
+        <value>https://cp.clinicalresearch.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -1468,9 +1484,9 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
-To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-Your username is ##Username. Please click the Log In button to create your password.
+Your username is ##Username. Please click the Enroll Now button to create your password.
 
 Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -1492,14 +1508,14 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName Study. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName Study.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1811,7 +1827,7 @@ To see if other study sites are available in your area, log in to the IQVIA Refe
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is a quick email to remind you of your ##TaskName.
+        <value>This is an email to remind you of your task: ##TaskName.
 
 Please login to update the status of your task.</value>
     </labels>
@@ -1820,7 +1836,7 @@ Please login to update the status of your task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
 
 Please login to update the status of this task.</value>
     </labels>
@@ -1836,14 +1852,14 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName Study. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName Study. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -1920,7 +1936,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Patient</shortDescription>
-        <value>You have been referred to a clinical research study</value>
+        <value>Thank you for your interest in participating in a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Patient_Delegate</fullName>
@@ -2102,7 +2118,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Share PH</shortDescription>
-        <value>An IQVIA™ Participant Hub user shared this with you</value>
+        <value>An IQVIA Patient Portal user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -2240,7 +2256,7 @@ The IQVIA Patient Portal Support Team</value>
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal Support Team</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_RH</fullName>
@@ -2259,7 +2275,7 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>Email Signature Resource</shortDescription>
         <value>Sincerely,
-The IQVIA Patient Portal Support Team&quot;</value>
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -4620,7 +4636,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG FP L Show more</shortDescription>
-        <value>Show more</value>
+        <value>Show all</value>
     </labels>
     <labels>
         <fullName>PG_FP_L_Showing</fullName>
@@ -4711,7 +4727,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP HI HCP</shortDescription>
-        <value>If your concern is medical related or you want to know more about your clinical trial enrollment status, please contact the Principal Investigator.</value>
+        <value>To report a problem or share feedback with IQVIA about Referral Hub, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_HI_PI</fullName>
@@ -4931,6 +4947,41 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <protected>false</protected>
         <shortDescription>PG IM L Study Site Status Details</shortDescription>
         <value>Study Site Status Details</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Open_Task_List</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Open Task List</shortDescription>
+        <value>Open Task List</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Resources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Resources</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L See All</shortDescription>
+        <value>See All</value>
     </labels>
     <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
@@ -7148,7 +7199,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Task Tab No Tasks Delegate</shortDescription>
-        <value>##ParticipantFirstName does not currently have any tasks created or assigned to them at this time.</value>
+        <value>##ParticipantFirstName does not currently have any tasks created or assigned at this time.</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Acceptance_status</fullName>
@@ -7252,7 +7303,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Poput_ICF</shortDescription>
-        <value>Please confirm that your patient has signs ICF consent</value>
+        <value>Please confirm that your patient has signed ICF consent</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
@@ -7546,7 +7597,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Resources No Study Documents</shortDescription>
-        <value>Content will be published shortly. Check back for updates</value>
+        <value>Content will be published shortly. Check back for updates.</value>
     </labels>
     <labels>
         <fullName>Resources_No_Therapeutic_Area</fullName>
@@ -7938,9 +7989,9 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Popup text</shortDescription>
-        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team.
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
 
-            By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be responsible for their policies, terms of use, or legal/regulatory compliance.</value>
+            By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
