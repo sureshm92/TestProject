@@ -184,7 +184,7 @@
                             </aura:if>
                             <aura:if isTrue="{!!v.reminderEnabled}">
                                 <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
-                                    <option text="Disabled"></option>
+                                    <option text="{!$Label.c.Disabled}"></option>
                                 </lightning:select>
                             </aura:if>
                         </div>
