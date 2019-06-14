@@ -3,7 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        component.set('v.conditionsOfInterestTemp', component.get('v.conditionsOfInterest'));
+        debugger;
+        let copy = Object.assign([],component.get('v.conditionsOfInterest'));
+        component.set('v.conditionsOfInterestTemp', copy);
         helper.valueChange(component, event, helper);
     },
 
