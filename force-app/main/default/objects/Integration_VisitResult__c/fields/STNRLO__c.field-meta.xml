@@ -3,7 +3,7 @@
     <fullName>STNRLO__c</fullName>
     <externalId>false</externalId>
     <label>STNRLO</label>
-    <precision>18</precision>
+    <precision>6</precision>
     <required>false</required>
     <scale>2</scale>
     <trackTrending>false</trackTrending>

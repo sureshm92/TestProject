@@ -52,10 +52,12 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>Integration Visits</label>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <label>Integration Visit</label>
     <nameField>
+        <displayFormat>IV-{00000000}</displayFormat>
         <label>Integration Visits Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Integration_Visits</pluralLabel>
     <searchLayouts/>

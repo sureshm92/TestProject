@@ -52,10 +52,12 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>Integration Patients</label>
+    <externalSharingModel>Private</externalSharingModel>
+    <label>Integration Patient</label>
     <nameField>
-        <label>IntegrationPatients Name</label>
-        <type>Text</type>
+        <displayFormat>IP-{00000000}</displayFormat>
+        <label>Integration Patient Name</label>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Integration Patients</pluralLabel>
     <searchLayouts/>
