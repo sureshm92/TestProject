@@ -12,7 +12,7 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
                          signature="{!$Label.Email_Signature_PPST}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -25,7 +25,7 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Task_Reminder_Type_Not_Selected}"
                              signature="{!$Label.Email_Signature_PPST}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Home_Page}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

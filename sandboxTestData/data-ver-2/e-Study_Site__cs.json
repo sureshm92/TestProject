@@ -1,0 +1,275 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef1"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN_01",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "Auto_PID_1210__",
+            "Primary_Key__c": "SSK_01__Auto_PID_1210",
+            "Study_Site_Key__c": "SSK_01",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef1",
+            "Principal_Investigator__c": "@ContactRef482",
+            "Site__c": "@AccountRef300"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef2"
+            },
+            "Enrollment_Actual__c": 1,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "St George's Dermatology & Skin Cancer Clinic",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "IMP28861_AU_106",
+            "Primary_Key__c": "81753512_10001595006_IMP28861",
+            "Study_Site_Key__c": "81753512",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef2",
+            "Principal_Investigator__c": "@ContactRef251",
+            "Site__c": "@AccountRef6"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef3"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "Rainbow Hospital",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "IMP28861__",
+            "Primary_Key__c": "826921836193__IMP28861",
+            "Study_Site_Key__c": "826921836193",
+            "Study_Site_Type__c": "Hybrid",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef2",
+            "Principal_Investigator__c": "@ContactRef993",
+            "Site__c": "@AccountRef4"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef4"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-Canada",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "IMP28861__",
+            "Primary_Key__c": "SSK-Canada__IMP28861",
+            "Study_Site_Key__c": "SSK-Canada",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef2",
+            "Principal_Investigator__c": "@ContactRef248",
+            "Site__c": "@AccountRef30"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef5"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "Aardvark Site 5",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "IMP28861__",
+            "Primary_Key__c": "aardvark5__IMP28861",
+            "Study_Site_Key__c": "aardvark5",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef2",
+            "Principal_Investigator__c": "@ContactRef215",
+            "Site__c": "@AccountRef8"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef6"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-Poland",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-SCN3__",
+            "Primary_Key__c": "SSKP__PID-SCN3",
+            "Study_Site_Key__c": "SSKP",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Principal_Investigator__c": "@ContactRef993",
+            "Site__c": "@AccountRef944"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef7"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-Cannada3",
+            "Override_PI_Referral_Status__c": "Accepted",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-SCN3__",
+            "Primary_Key__c": "SSK-3C__PID-SCN3",
+            "Study_Site_Key__c": "SSK-3C",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Principal_Investigator__c": "@ContactRef248",
+            "Site__c": "@AccountRef30"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef8"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-US3",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-SCN3__",
+            "Primary_Key__c": "SSK-US1__PID-SCN3",
+            "Study_Site_Key__c": "SSK-US1",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Principal_Investigator__c": "@ContactRef834",
+            "Site__c": "@AccountRef36"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef9"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-PI2",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-SCN3__",
+            "Primary_Key__c": "SSK-22__PID-SCN3",
+            "Study_Site_Key__c": "SSK-22",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Principal_Investigator__c": "@ContactRef834",
+            "Site__c": "@AccountRef761"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef10"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-US3.1",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-SCN3__",
+            "Primary_Key__c": "SSK-US3.1__PID-SCN3",
+            "Study_Site_Key__c": "SSK-US3.1",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Principal_Investigator__c": "@ContactRef983",
+            "Site__c": "@AccountRef36"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef11"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-P4Ca",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-S4__",
+            "Primary_Key__c": "SSK-P4__PID-S4",
+            "Study_Site_Key__c": "SSK-P4",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Principal_Investigator__c": "@ContactRef248",
+            "Site__c": "@AccountRef36"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef12"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-P4Poland",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-S4__",
+            "Primary_Key__c": "SSK_Pol4__PID-S4",
+            "Study_Site_Key__c": "SSK_Pol4",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Principal_Investigator__c": "@ContactRef993",
+            "Site__c": "@AccountRef944"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef13"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-Virtual",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-S4__",
+            "Primary_Key__c": "SSK-V4__PID-S4",
+            "Study_Site_Key__c": "SSK-V4",
+            "Study_Site_Type__c": "Virtual",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Principal_Investigator__c": "@ContactRef834",
+            "Site__c": "@AccountRef36"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef14"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-US2",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-S2__",
+            "Primary_Key__c": "SSK-U__PID-S2",
+            "Study_Site_Key__c": "SSK-U",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef5",
+            "Principal_Investigator__c": "@ContactRef939",
+            "Site__c": "@AccountRef36"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef15"
+            },
+            "Enrollment_Actual__c": 0,
+            "Is_Virtual_Study_Site__c": false,
+            "Name": "SSN-P2",
+            "PI_Pays_for_Referral_Activity__c": "Yes",
+            "Primary_Key_ePR__c": "PID-S2__",
+            "Primary_Key__c": "SSK-P2__PID-S2",
+            "Study_Site_Key__c": "SSK-P2",
+            "Study_Site_Type__c": "Traditional",
+            "Suppress_Participant_Emails__c": false,
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef5",
+            "Principal_Investigator__c": "@ContactRef993",
+            "Site__c": "@AccountRef36"
+        }
+    ]
+}

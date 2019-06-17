@@ -21,4 +21,20 @@
     <tabs>standard-report</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>IQVIA_RR_CRM_UtilityBar</utilityBar>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>IQVIA_RR_CRM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>IQVIA SPNL</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>IQVIA_RR_CRM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
 </CustomApplication>

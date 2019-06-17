@@ -1,0 +1,190 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef1"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Email": "auto.pi@gmail.com",
+            "FirstName": "auto",
+            "Language__c": "en_US",
+            "LastName": "pi",
+            "MailingCity": "Cambridge",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US",
+            "MailingGeocodeAccuracy": "Block",
+            "MailingLatitude": 42.359256,
+            "MailingLongitude": -71.093535,
+            "MailingPostalCode": "02139",
+            "MailingState": "Massachusetts",
+            "MailingStateCode": "MA",
+            "MailingStreet": "77 Massachusetts Avenue",
+            
+            
+            "Override_Mailing_Address__c": "Bengaluru, Karnataka  560066",
+            "Salutation": "Dr.",
+            "SitesInterested__c": "TestSite",
+            "TopicsInterested__c": "TestTopic",
+            "userCommunity_ShowTour__c": "PI;HCP;Participant",
+            "UserCommunityIsDelegate__c": false,
+            "userCommunityMode__c": "HCP",
+            "userCommunytyType__c": "HCP;PI"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef534"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Delegate_Opt_In_Status_Emails__c": false,
+            "Email": "ro@gmail.com",
+            "Language__c": "en_US",
+            "LastName": "PI-CannadaA",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US",
+            
+            
+            "Override_Mailing_Address__c": ",",
+            "Participant_Opt_In_Status_Emails__c": false,
+            "Salutation": "Prof.",
+            "SitesInterested__c": "TestSite",
+            "TopicsInterested__c": "TestTopic",
+            "userCommunity_ShowTour__c": "PI;HCP;Participant",
+            "UserCommunityIsDelegate__c": false,
+            "userCommunityMode__c": "PI",
+            "userCommunytyType__c": "PI"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef126"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Delegate_Opt_In_Status_Emails__c": false,
+            "Email": "rocketreferral16@gmail.com",
+            "FirstName": "New Formal",
+            "Language__c": "en_US",
+            "LastName": "RP",
+            "MailingCity": "New York",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US",
+            "MailingGeocodeAccuracy": "Address",
+            "MailingLatitude": 40.751465,
+            "MailingLongitude": -73.990753,
+            "MailingPostalCode": "10123",
+            "MailingState": "New York",
+            "MailingStateCode": "NY",
+            "MailingStreet": "450 7th Avenue",
+            "Override_Mailing_Address__c": "450 7th Avenue\r\nNew York, New York  10123",
+            "Participant_Opt_In_Status_Emails__c": false,
+            "Salutation": "Mr.",
+            "SitesInterested__c": "TestSite",
+            "TopicsInterested__c": "TestTopic",
+            "userCommunity_ShowTour__c": "PI;HCP;Participant",
+            "UserCommunityIsDelegate__c": false,
+            "userCommunityMode__c": "HCP",
+            "userCommunytyType__c": "HCP;PI"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef313"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Email": "rocketreferral16@gmail.com",
+            "FirstName": "FN",
+            "Language__c": "en_US",
+            "LastName": "InitialHCP",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef535"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Delegate_Opt_In_Status_Emails__c": true,
+            "Email": "demoa11111@gmail.com",
+            "FirstName": "Nazz",
+            "Language__c": "en_US",
+            "LastName": "PI"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef757"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Delegate_Opt_In_Status_Emails__c": false,
+            "Email": "p@gmail.com",
+            "Language__c": "en_US",
+            "Last_Session_Id__c": "00D1700000053zy!ARMAQFHK_6ydYw3rwwLiK0gUqy5sQu0mGS7ZoSwiP5r8LXmZ8Ed0ZnP_JwRnbW6KB2kB1uvXeIujUzLsmi1Q6rUFvXrXL.ie",
+            "LastName": "PI-PolandA",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US"
+
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef740"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Email": "rockethcp666@gmail.com",
+            "FirstName": "RP",
+            "Language__c": "en_US",
+            "LastName": "Monday",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US",
+            "MailingLatitude": 37.767845,
+            "MailingGeocodeAccuracy": "Block",
+            "MailingLongitude": -122.406918,
+            "MailingPostalCode": "94103",
+            "MailingState": "California",
+            "MailingStateCode": "CA",
+            "MailingStreet": "86 Utah Street",
+            
+            
+            "Override_Mailing_Address__c": "86 Utah Street\nSan Francisco, California  94103",
+            "Salutation": "Mr.",
+            "SitesInterested__c": "TestSite",
+            "TopicsInterested__c": "TestTopic",
+            "userCommunity_ShowTour__c": "PI;HCP;Participant",
+            "UserCommunityIsDelegate__c": false,
+            "userCommunityMode__c": "HCP",
+            "userCommunytyType__c": "HCP"
+        },
+        {
+            "attributes": {
+                "type": "Contact",
+                "referenceId": "ContactRef83"
+            },
+            "Accepts_Reimbursements_for_Referrals__c": false,
+            "Email": "chloewalrus@q.com",
+            "FirstName": "Chloe",
+            "Language__c": "en_US",
+            "LastName": "Walrus",
+            "MailingCountry": "United States",
+            "MailingCountryCode": "US",
+            "MailingLatitude": 35.898332,
+            "MailingGeocodeAccuracy": "Address",
+            "MailingLongitude": -78.550669,
+            "MailingPostalCode": "27616",
+            "MailingState": "North Carolina",
+            "MailingStateCode": "NC",
+            "MailingStreet": "8887 Thornton Town Place",
+            
+            
+            "Override_Mailing_Address__c": "8887 Thornton Town Place\nRaleigh, North Carolina  27616",
+            "Salutation": "Dr.",
+            "SitesInterested__c": "Animal Network;Fruit Network",
+            "TopicsInterested__c": "Absence seizure;Melanoma",
+            "userCommunity_ShowTour__c": "PI;Participant",
+            "UserCommunityIsDelegate__c": false,
+            "userCommunityMode__c": "HCP",
+            "userCommunytyType__c": "HCP"
+        }
+    ]
+}

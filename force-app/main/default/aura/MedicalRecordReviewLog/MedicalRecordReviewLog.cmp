@@ -62,12 +62,12 @@
                 <div class="mrrl-body-filter">
                     <c:FilterPanel searchText="{!v.peFilter.searchText}"
                                    searchTextPlaceHolder="{!$Label.c.PG_MRRL_L_Search_for_a_patient}"
-                                   recordsPerPage="{!v.paginationData.pageRecordsCount}"
+                                   recordsPerPage="{!if(v.showMore &amp;&amp; v.paginationData.allRecordsCount &lt;= 5, v.paginationData.allRecordsCount, 5)}"
                                    recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
                                    sortType="{!v.peFilter.sortType}"
                                    sortVariants="{!v.peFilterData.sortVariants}"
                                    allRecordsCount="{!v.paginationData.allRecordsCount}"
-                                   currentPageCount="{!v.paginationData.currentPageCount}"
+                                   currentPageCount="{!if(v.showMore &amp;&amp; v.paginationData.allRecordsCount &lt;= 5, v.paginationData.allRecordsCount, 5)}"
                                    showMoreEnabled="true"
                                    showMore="{!v.showMore}" >
                         <aura:if isTrue="{!v.studyFilterEnabled}">
@@ -84,19 +84,25 @@
                     <c:RRSpinner aura:id="recordListSpinner" size="medium" showSpinner="false"/>
 
                     <c:EmptyListStub targetList="{!v.currentPageList}"/>
-
-                    <aura:iteration items="{!v.currentPageList}" var="item">
-                        <c:MedicalRecordReviewLogItem participantEnrollment="{!item.pe}" actions="{!item.actions}" showStudyLink="{!v.studyFilterEnabled}" parent="{!this}"/>
-                    </aura:iteration>
+                    <aura:if isTrue="{!!v.showMore}">
+                        <aura:iteration items="{!v.currentPageList}" var="item" start="0" end="5">
+                            <c:MedicalRecordReviewLogItem participantEnrollment="{!item.pe}" actions="{!item.actions}" showStudyLink="{!v.studyFilterEnabled}" parent="{!this}"/>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <aura:iteration items="{!v.currentPageList}" var="item">
+                                <c:MedicalRecordReviewLogItem participantEnrollment="{!item.pe}" actions="{!item.actions}" showStudyLink="{!v.studyFilterEnabled}" parent="{!this}"/>
+                            </aura:iteration>
+                        </aura:set>
+                    </aura:if>
                 </div>
 
             </div>
             <aura:if isTrue="{!!v.showMore}">
-            <div class="mrrl-footer">
-                    <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                                          currentPage="{!v.paginationData.currentPage}"
-                                          allRecordsCount="{!v.paginationData.allRecordsCount}"/>
-            </div>
+<!--            <div class="mrrl-footer">-->
+<!--                    <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"-->
+<!--                                          currentPage="{!v.paginationData.currentPage}"-->
+<!--                                          allRecordsCount="{!v.paginationData.allRecordsCount}"/>-->
+<!--            </div>-->
             </aura:if>
         </div>
     </aura:if>

@@ -23,7 +23,8 @@ public inherited sharing class ResourceService {
     public ResourceWrapperContainer getResources(String resourceType) {
 
         Participant__c participant = this.getParticipant(resourceType);
-        if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
+        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        if (ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty() && pState.ctp == null) {
             return new ResourceWrapperContainer((ResourceService.RESOURCE_TYPE_ARTICLE.equalsIgnoreCase(resourceType)) ? Label.Resources_No_Articles : Label.Resources_No_Videos);
         }
         List<Resource__c> resources = this.getSortedResources(participant, resourceType);
@@ -224,7 +225,7 @@ public inherited sharing class ResourceService {
     @TestVisible
     private List<Resource__c> getStudySpecificResources(Participant__c participant, String resourceType) {
 
-        Clinical_Trial_Profile__c trial = ParticipantService.getParticipantState().ctp;
+        Clinical_Trial_Profile__c trial = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState().ctp;
         if (trial == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
         }
@@ -251,24 +252,16 @@ public inherited sharing class ResourceService {
     @TestVisible
     private List<Resource__c> getSortedResources(Participant__c participant, String resourceType) {
 
-        ParticipantService pService = (ParticipantService) ClassFactory.newInstance(ParticipantService.class);
-        ParticipantService.ParticipantState pState = pService.getState();
+        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         List<Resource__c> resources = new List<Resource__c>();
-        String studyTherapeuticAreaId;
-        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = new List<Therapeutic_Area_Patient__c>();
-        for (Therapeutic_Area_Patient__c therapeuticAreaPatient : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
-            if (therapeuticAreaPatient.IsRelatedToStudy__c) {
-                studyTherapeuticAreaId = therapeuticAreaPatient.Therapeutic_Area__c;
-            }
-            therapeuticAreaPatients.add(therapeuticAreaPatient);
-        }
-        if (!String.isBlank(studyTherapeuticAreaId) && pState.value != ParticipantService.ParticipantStates.ALUMNI) {
+        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = ParticipantDecoupler.getTherapeuticAreaPatients(participant);
+        if (pState.ctp != null && pState.value != ParticipantService.ParticipantStates.ALUMNI) {
             resources.addAll(this.getStudySpecificResources(participant, resourceType));
         }
         for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
             resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_PLATFORM));
         }
-        if (String.isBlank(studyTherapeuticAreaId) || pState.value == ParticipantService.ParticipantStates.ALUMNI) {
+        if (pState.value == ParticipantService.ParticipantStates.ALUMNI) {
             for (Therapeutic_Area_Patient__c therapeuticAreaPatient : therapeuticAreaPatients) {
                 resources.addAll(this.getResources(participant, therapeuticAreaPatient.Therapeutic_Area__c, resourceType, ResourceService.RESOURCE_SOURCE_THIRD_PARTY));
             }

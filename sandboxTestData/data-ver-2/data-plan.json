@@ -1,0 +1,42 @@
+[
+  {
+    "sobject": "Clinical_Trial_Profile__c",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": [
+      "e-Clinical_Trial_Profile__cs.json"
+    ]
+  },
+  {
+    "sobject": "Account",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": [
+      "e-Accounts.json"
+    ]
+  },
+  {
+    "sobject": "Contact",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": [
+      "e-Contacts.json"
+    ]
+  },
+  {
+    "sobject": "Study_Site__c",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": [
+      "e-Study_Site__cs.json"
+    ]
+  },
+  {
+    "sobject": "HCP_Enrollment__c",
+    "saveRefs": true,
+    "resolveRefs": true,
+    "files": [
+      "e-HCP_Enrollment__cs.json"
+    ]
+  }
+]
