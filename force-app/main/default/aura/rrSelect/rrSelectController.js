@@ -32,7 +32,7 @@
         var selectList = component.find('selectList');
         component.set('v.validity', component.find('selectList').get('v.validity'));
         var changeAction = component.get('v.onchange');
-        $A.enqueueAction(changeAction);
+        if(changeAction) $A.enqueueAction(changeAction);
     },
 
     doShowHelpMessageIfInvalid: function (component) {
