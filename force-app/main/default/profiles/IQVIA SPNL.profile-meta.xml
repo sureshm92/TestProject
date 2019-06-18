@@ -3166,7 +3166,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Study_Enrollment__c.IsSubjectIDverifiedInSDH_c__c</field>
+        <field>Participant_Study_Enrollment__c.IsSubjectIDverifiedInSDH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
