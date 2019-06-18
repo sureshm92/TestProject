@@ -347,6 +347,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IntegrationPatientTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IntegrationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3166,7 +3170,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Study_Enrollment__c.IsSubjectIDverifiedInSDH_c__c</field>
+        <field>Participant_Study_Enrollment__c.IsSubjectIDverifiedInSDH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

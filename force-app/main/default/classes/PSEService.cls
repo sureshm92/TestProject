@@ -179,7 +179,9 @@ public without sharing class PSEService {
             pseMap.put(pse.Participant_Enrollment__c, pse);
         }
         for(Participant_Enrollment__c pe : newList) {
-            pseMap.get(pe.Id).Screening_ID__c = pe.Screening_ID__c;
+            if(pseMap.containsKey(pe.Id)) {
+                pseMap.get(pe.Id).Screening_ID__c = pe.Screening_ID__c;
+            }
         }
         System.debug(pseMap);
         update pseMap.values();

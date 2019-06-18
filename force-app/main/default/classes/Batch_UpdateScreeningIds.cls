@@ -1,5 +1,5 @@
 /**
- * Created by user on 14-Jun-19.
+ * Created by Denis Z
  */
 
 public class Batch_UpdateScreeningIds implements Database.Batchable<SObject>{

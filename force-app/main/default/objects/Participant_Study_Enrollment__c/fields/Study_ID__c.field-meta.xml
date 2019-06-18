@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Study_ID__c</fullName>
     <externalId>false</externalId>
-    <formula>Study_Site__r.Study_Site_Number__c</formula>
+    <formula>Clinical_Trial_Profile__r.Protocol_ID__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Study ID</label>
     <required>false</required>
