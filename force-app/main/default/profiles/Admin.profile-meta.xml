@@ -347,10 +347,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>IntegrationPatientTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>IntegrationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
