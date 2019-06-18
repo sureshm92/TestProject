@@ -7,6 +7,14 @@ public without sharing class SurveyService {
     public class SurveyException extends Exception {
     }
 
+    public static final Map<String, String> SURVEY_VISIBLE = new Map<String, String>{
+            'Patient only' => TaskService.TASK_VISIBILITY_OWNER,
+            'Each Delegate' => TaskService.TASK_VISIBILITY_OWNER,
+            'Patient or any Delegate' => TaskService.TASK_VISIBILITY_ALL,
+            'Any Delegate' => TaskService.TASK_VISIBILITY_DELEGATES,
+            'Patient and each Delegate' => TaskService.TASK_VISIBILITY_OWNER
+    };
+
     public class SurveyWrapper {
         public String name;
         public String url;
@@ -51,16 +59,47 @@ public without sharing class SurveyService {
     }
 
     public SurveyInvitation generateInvitation(Trial_Survey__c ts, Participant_Study_Enrollment__c pse) {
-        SurveyInvitation invitation = new SurveyInvitation();
-        invitation.CommunityId = CommunityService.getCommunityId(null);
-        invitation.Name = ts.Survey__r.Name + ':TS:' + ts.Id;
-        invitation.Participant_Study_Enrollment__c = pse.Id;
-        invitation.SurveyId = ts.Survey__c;
-        invitation.Survey__c = ts.Survey__c;
-        invitation.Trial_Survey__c = ts.Id;
+        SurveyInvitation invitation = new SurveyInvitation(
+                CommunityId = CommunityService.getCommunityId(null),
+                Name = ts.Survey__r.Name + ':TS:' + ts.Id,
+                Participant_Study_Enrollment__c = pse.Id,
+                Reminder_Schedule__c = ts.Reminder_Schedule__c,
+                SurveyId = ts.Survey__c,
+                Survey__c = ts.Survey__c,
+                Trial_Survey__c = ts.Id
+        );
 
         if (ts.Expires_After_Days__c != null) {
             Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+            Datetime expiry = Datetime.newInstanceGmt(
+                    today.year(),
+                    today.month(),
+                    today.day()
+            );
+
+            invitation.InviteExpiryDateTime = expiry;
+        }
+
+        return invitation;
+    }
+
+    public SurveyInvitation generateInvitation(
+            Survey survey,
+            Reminder_Schedule__c schedule,
+            Integer expiresAfterDays,
+            Participant_Study_Enrollment__c pse
+    ) {
+        SurveyInvitation invitation = new SurveyInvitation(
+                CommunityId = CommunityService.getCommunityId(null),
+                Name = survey.Name + ':PSE:' + pse.Id,
+                Participant_Study_Enrollment__c = pse.Id,
+                Reminder_Schedule__c = schedule.Id,
+                SurveyId = survey.Id,
+                Survey__c = survey.Id
+        );
+
+        if (expiresAfterDays != null) {
+            Date today = System.today().addDays(expiresAfterDays);
             Datetime expiry = Datetime.newInstanceGmt(
                     today.year(),
                     today.month(),
@@ -78,10 +117,15 @@ public without sharing class SurveyService {
                 SELECT Id
                 FROM SurveyInvitation
                 WHERE SurveyId = :surveyId
-                    AND Participant_Study_Enrollment__r.Participant_Contact__c =:participantContactId
+                AND Participant_Study_Enrollment__r.Participant_Contact__c = :participantContactId
         ];
-        if(invitation.isEmpty()) return '';
+        if (invitation.isEmpty()) return '';
 
         return invitation.get(0).Id;
+    }
+
+    public Boolean isInvitationExpired(Id invitationId) {
+        SurveyInvitation invitation = [SELECT InviteExpiryDateTime FROM SurveyInvitation WHERE Id = :invitationId];
+        return invitation.InviteExpiryDateTime <= System.now();
     }
 }

@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 29.05.2019.
  */
 
-public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract{
+public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract{
 
     public Iterable<SObject> start(Database.BatchableContext param1) {
         List<Trial_Survey__c> trialSurveys = [
@@ -39,8 +39,9 @@ public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstr
                         Survey__c,
                         Survey__r.Name,
                         Active_After_Days__c,
-                        Active_On_Status__c,
-                        Expires_After_Days__c
+                        Expires_After_Days__c,
+                        Reminder_Schedule__c,
+                        Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Clinical_Trial_Profile__c
                         IN (SELECT
@@ -48,14 +49,17 @@ public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstr
                         FROM Participant_Study_Enrollment__c
                         WHERE Id IN:enrollments)
         ];
-        Map<Id, List<Trial_Survey__c>> ctpTotsMap = new Map<Id, List<Trial_Survey__c>>();
+
+        Map<Id, String> trialWhoseResponse = new Map<Id, String>();
+        Map<Id, List<Trial_Survey__c>> ctpToTSMap = new Map<Id, List<Trial_Survey__c>>();
         for(Trial_Survey__c t : trialSurveys) {
-            List<Trial_Survey__c> tsList = ctpTotsMap.get(t.Clinical_Trial_Profile__c);
+            trialWhoseResponse.put(t.Id, t.Whose_response_needed__c);
+
+            List<Trial_Survey__c> tsList = ctpToTSMap.get(t.Clinical_Trial_Profile__c);
             if(tsList == null) {
                 tsList = new List<Trial_Survey__c>();
-                ctpTotsMap.put(t.Clinical_Trial_Profile__c, tsList);
+                ctpToTSMap.put(t.Clinical_Trial_Profile__c, tsList);
             }
-
             tsList.add(t);
         }
 
@@ -63,8 +67,7 @@ public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstr
                 SELECT
                         Id,
                         Participant_Study_Enrollment__c,
-                        Trial_Survey__c,
-                        Trial_Survey__r.Visible_For__c
+                        Trial_Survey__c
                 FROM SurveyInvitation
                 WHERE Participant_Study_Enrollment__c IN:enrollments
         ];
@@ -76,10 +79,10 @@ public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstr
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         for(Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) enrollments) {
-            List<Trial_Survey__c> surveys = ctpTotsMap.get(pse.Clinical_Trial_Profile__c);
+            List<Trial_Survey__c> surveys = ctpToTSMap.get(pse.Clinical_Trial_Profile__c);
             if(surveys != null) {
                 for(Trial_Survey__c surv : surveys) {
-                    if(surv.Active_After_Days__c == pse.Days_After_Enrolled__c || surv.Active_On_Status__c == pse.Status__c) {
+                    if(surv.Active_After_Days__c == pse.Days_After_Enrolled__c) {
                         String key = '' + pse.Id + surv.Id;
                         if(invitationMap.get(key) == null) {
                             newInvitations.add(SurveyService.getInstance().generateInvitation(surv, pse));
@@ -87,16 +90,18 @@ public with sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstr
                     }
                 }
             }
-
         }
 
         insert newInvitations;
-        TaskService.getInstance().createSurveyTasks(newInvitations);
+        Map<Id, String> invitationsVisible = new Map<Id, String>();
+        for(SurveyInvitation inv : newInvitations) {
+            invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
+        }
+
+        TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
 
     public override Type getType() {
         return Batch_PSECreateInvitation.class;
     }
-
-
 }

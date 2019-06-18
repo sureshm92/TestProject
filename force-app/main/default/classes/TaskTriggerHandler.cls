@@ -94,14 +94,23 @@ public without sharing class TaskTriggerHandler {
                 SELECT Id, ContactId
                 FROM User
                 WHERE Id IN:ownerIds
+                AND IsActive = TRUE
         ]);
 
         for (Task task : tasks) {
             if (task.Task_Code__c != null) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
+                    Id whatId = task.WhatId;
+                    if(whatId == null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+                        try {
+                            whatId = task.Description;
+                        } catch (Exception e) {
+                            System.debug('Wrong id on description');
+                        }
+                    }
                     emailMessages.add(SendEmailTemplate.createEmail(
-                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, task.WhatId));
+                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
                 }
             }
         }

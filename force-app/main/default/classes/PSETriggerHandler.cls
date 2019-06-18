@@ -65,7 +65,7 @@ public without sharing class PSETriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createInvitations((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>)oldMap);
+            createInvitations((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
         }
     }
 
@@ -169,12 +169,13 @@ public without sharing class PSETriggerHandler {
     }
 
     @TestVisible
-    private static void createInvitations(List<Participant_Study_Enrollment__c> newList,
+    private static void createInvitations(
+            List<Participant_Study_Enrollment__c> newList,
             Map<Id, Participant_Study_Enrollment__c> oldMap
     ) {
         Map<Id, List<Participant_Study_Enrollment__c>> ctpPSE = new Map<Id, List<Participant_Study_Enrollment__c>>();
         for (Participant_Study_Enrollment__c pse : newList) {
-            if(ctpPSE.get(pse.Clinical_Trial_Profile__c) == null) {
+            if (ctpPSE.get(pse.Clinical_Trial_Profile__c) == null) {
                 ctpPSE.put(pse.Clinical_Trial_Profile__c, new List<Participant_Study_Enrollment__c>());
             }
             ctpPSE.get(pse.Clinical_Trial_Profile__c).add(pse);
@@ -182,34 +183,46 @@ public without sharing class PSETriggerHandler {
 
         List<Trial_Survey__c> trialSurveys = [
                 SELECT
-                        Active_On_Status__c,
                         Id,
                         Clinical_Trial_Profile__c,
-                        Expires_After_Days__c,
                         Survey__c,
-                        Survey__r.Name
+                        Survey__r.Name,
+                        Active_On_Status__c,
+                        Expires_After_Days__c,
+                        Reminder_Schedule__c,
+                        Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
-                    AND Clinical_Trial_Profile__c IN: ctpPSE.keySet()
+                AND Clinical_Trial_Profile__c IN:ctpPSE.keySet()
         ];
 
-        List<SurveyInvitation> invitations = new List<SurveyInvitation>();
-        for(Trial_Survey__c ts : trialSurveys) {
-            List<Participant_Study_Enrollment__c> enrollments = ctpPSE.get(ts.Clinical_Trial_Profile__c);
-            for(Participant_Study_Enrollment__c enrollment : enrollments) {
-                if(oldMap != null) {
-                    if(oldMap.get(enrollment.Id).Status__c != enrollment.Status__c) {
-                        invitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment));
+        Map<Id, String> trialWhoseResponse = new Map<Id, String>();
+        List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
+        for (Trial_Survey__c ts : trialSurveys) {
+            trialWhoseResponse.put(ts.Id, ts.Whose_response_needed__c);
+            for (Participant_Study_Enrollment__c enrollment : ctpPSE.get(ts.Clinical_Trial_Profile__c)) {
+                Boolean needToAdd = false;
+                if (enrollment.Status__c == ts.Active_On_Status__c) {
+                    if (oldMap != null) {
+                        if (oldMap.get(enrollment.Id).Status__c != enrollment.Status__c) {
+                            needToAdd = true;
+                        }
+                    } else {
+                        needToAdd = true;
                     }
-                } else {
-                    invitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment));
+                }
+                if (needToAdd) {
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment));
                 }
             }
         }
 
-        if(!invitations.isEmpty()) {
-            insert invitations;
-            TaskService.getInstance().createSurveyTasks(invitations);
+        insert newInvitations;
+        Map<Id, String> invitationsVisible = new Map<Id, String>();
+        for(SurveyInvitation inv : newInvitations) {
+            invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
         }
+
+        TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
 }
