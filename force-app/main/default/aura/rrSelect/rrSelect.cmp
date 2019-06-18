@@ -20,10 +20,19 @@
     <aura:attribute name="class" type="String"/>
     <aura:attribute name="setValueAsSelected" type="Boolean" default="false"/>
     <aura:attribute name="useSentenceFont" type="Boolean" default="true"/>
+    <aura:attribute name="validity" type="Object"/>
+    <aura:attribute name="onchange" type="Aura.Action"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.options}" action="{!c.doInit}"/>
+    <!--<aura:handler name="change" value="{!v.value}" action="{!c.doValueChange}"/>-->
+
+    <!-- methods: -->
+    <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}" access="public"/>
+    <aura:method name="setCustomValidity" action="{!c.doSetCustomValidity}" access="public">
+        <aura:attribute name="message" type="String"/>
+    </aura:method>
 
     <!-- component body: -->
     <div id="{!v.id}" class="{!'rrs-container ' + v.class}" title="{!v.title}">
@@ -39,9 +48,9 @@
 
         <div class="rrs-relative">
 
-            <lightning:select class="{!if(v.errorMessage != '', ' rr-select-error','')}"
-                              name="rrs-select" aura:id="selectStatus" value="{!v.value}"
-                              variant="label-hidden" label="" disabled="{!v.disabled}">
+            <lightning:select aura:id="selectList"  class="{!if(v.errorMessage != '', ' rr-select-error','')}"
+                              name="rrs-select" value="{!v.value}" required="{!v.required}"
+                              variant="label-hidden" label="" disabled="{!v.disabled}" onchange="{!c.doValueChange}">
 
                 <aura:if isTrue="{!!empty(v.placeholder)}">
                     <option value="{!null}" style="display: none;">{!v.placeholder}</option>
