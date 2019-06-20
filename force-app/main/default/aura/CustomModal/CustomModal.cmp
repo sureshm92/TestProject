@@ -1,0 +1,41 @@
+<!--
+ - Created by AlexKetch on 6/18/2019.
+ -->
+
+<aura:component description="CustomModal">
+    <aura:attribute name="showModal" type="Boolean" default="false" description="show or hide popup"/>
+    <aura:attribute name="size" type="String" default="true" description="show or hide popup"/>
+    <aura:attribute name="footer" type="Aura.Component[]" default="true" description="show or hide popup"/>
+    <aura:method name="show" action="{!c.show}"/>
+    <aura:method name="hide" action="{!c.hide}"/>
+    <aura:if isTrue="{!v.showModal}">
+        <div style="height:640px">
+            <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content"
+                     aria-modal="true" aria-describedby="modal-content-id-1"
+                     class="{!(v.size=='small'
+                     ?'slds-modal_small':v.size=='medium'
+                     ?'slds-modal_medium':'slds-modal_large')
+                     +' '+'slds-modal slds-fade-in-open'}">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-modal__header_empty">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                title="Close">
+                            <lightning:buttonIcon iconName="utility:close"/>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    {!v.body}
+                    </div>
+                    <footer class="slds-modal__footer">
+                        {!v.footer}
+                      <!--  <button class="slds-button slds-button_neutral">Cancel</button>
+                        <button class="slds-button slds-button_brand">Save</button>-->
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+    </aura:if>
+
+</aura:component>

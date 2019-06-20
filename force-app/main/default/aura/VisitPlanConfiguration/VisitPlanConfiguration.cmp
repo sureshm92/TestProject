@@ -1,0 +1,155 @@
+<!--
+ - Created by AlexKetch on 6/18/2019.
+ -->
+
+<aura:component description="VisitPlanConfiguration"
+                implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+                controller="VisitConfigurationRemote" extends="c:LightningService">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.scriptload}"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="visits" type="Object[]"/>
+    <aura:attribute name="newTaskRecord" type="Object"/>
+    <aura:attribute name="error" type="String"/>
+    <aura:attribute name="availableIcons" type="String[]"
+                    default="['icon-brief-ph-ex','email','icon-note','check-eligibilityt']"/>
+    <aura:attribute name="selectedIcons" type="String[]"/>
+
+    <lightning:card title="Planned visits" iconName="standard:contact">
+
+        <aura:set attribute="actions">
+            <lightning:layout horizontalAlign="center" verticalAlign="end">
+                <lightning:layoutItem>
+                    <lightning:select name="Avaliable Icons" label="Avaliable Icons" required="false">
+                        <option value="">choose one...</option>
+                        <option value="1">Icons</option>
+                        <option value="2">two</option>
+                        <option value="3">three</option>
+                    </lightning:select>
+                </lightning:layoutItem>
+                <lightning:layoutItem>
+                    <lightning:button onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
+                                      label="add visit"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:set attribute="footer"><a href="javascript:void(0);" class=" slds-text-link">View All</a></aura:set>
+        <table class="slds-table slds-table_bordered slds-table_striped">
+            <thead>
+            <tr class="slds-text-title_caps">
+                <th>
+                    <div class="slds-truncate" title="Column 1">Name</div>
+                </th>
+                <th>
+                    <div class="slds-truncate" title="Column 1">visit number</div>
+                </th>
+                <th>
+                    <div class="slds-truncate" title="Column 1">Visit Schedule</div>
+                </th>
+                <th>
+                    <div class="slds-truncate" title="Column 1">visit order</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <aura:iteration var="visit" items="{!v.visits}">
+                <tr class="slds-hint-parent">
+                    <td>
+                        <a href="javascript:void(0);" class=" slds-text-link">{!visit.Name}</a>
+                    </td>
+                    <td>
+                        <div class="slds-text-title slds-text-color_default">{!visit.Visit_Number__c}</div>
+                    </td>
+                    <td>
+                        <div class="slds-text-title slds-text-color_default">{!visit.Visit_Schedule__c}</div>
+                    </td>
+                    <td>
+                        <div class="slds-text-title slds-text-color_default">{!visit.Order__c}</div>
+                    </td>
+                    <td>
+                        <lightning:button label="add icons"></lightning:button>
+                    </td>
+                    <td>
+                    <c:RRIconSplitter value="{!visit.selected_icons__c}"/>
+                    </td>
+                    <td>
+                        <lightning:buttonIcon iconName="utility:edit"/>
+                    </td>
+                    <td>
+                        <lightning:buttonIcon iconName="utility:delete"/>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </table>
+    </lightning:card>
+    <c:CustomModal aura:Id='customModal' size="medium">
+        <div class="slds-p-horizontal--small">
+            <lightning:recordEditForm
+                    onload="{!c.preload}"
+                    onsubmit="{!c.handleSubmit}"
+                    onsuccess="{!c.handleSuccess}"
+                    aura:id="editForm"
+                    objectApiName="Visit__c">
+                <!-- the messages component is for error messages -->
+                <lightning:messages/>
+
+                <lightning:inputField fieldName="Name"/>
+                <lightning:inputField fieldName="Order__c"/>
+                <lightning:inputField fieldName="Visit_Schedule__c"/>
+                <lightning:inputField fieldName="Visit_Number__c"/>
+                <lightning:inputField aura:id='splittedIcons' fieldName="selected_icons__c"/>
+                <lightning:inputField aura:id='visitPlan' fieldName="Visit_Plan__c"/>
+            </lightning:recordEditForm>
+        </div>
+
+        <div class="icons">
+            <fieldset class="slds-form-element">
+                <lightning:layout class="flex-container" verticalAlign="center" horizontalAlign="spread">
+                    <lightning:layoutItem  size="5">
+                        <legend class="slds-form-element__legend slds-form-element__label">available icons
+                        </legend>
+                        <div class="slds-form-element__control">
+                            <aura:iteration items="{!v.availableIcons}" var="icon">
+                                <c:IconsSelector aura:Id="leftIcons" selected='{!false}' name='{!icon}'>
+                                    <aura:set attribute="content">
+                                        <c:RRIcon iconName="{!icon}"/>
+                                    </aura:set>
+                                </c:IconsSelector>
+                            </aura:iteration>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="schevrons" size="2">
+                        <div class="schevron">
+                            <lightning:buttonIcon onclick="{!c.shiftLeft}" iconName="utility:chevronleft"/>
+                        </div>
+                        <div class="schevron">
+                            <lightning:buttonIcon onclick="{!c.shiftRight}" iconName="utility:chevronright"/>
+                        </div>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem  size="5">
+                        <legend class="slds-form-element__legend slds-form-element__label">selected icons
+                        </legend>
+                        <div class="slds-form-element__control">
+                            <aura:iteration items="{!v.selectedIcons}" var="icon">
+                                <c:IconsSelector aura:Id="rightIcons" selected='{!false}' name='{!icon}'>
+                                    <aura:set attribute="content">
+                                        <c:RRIcon iconName="{!icon}"/>
+                                    </aura:set>
+                                </c:IconsSelector>
+                            </aura:iteration>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </fieldset>
+        </div>
+        <aura:set attribute="footer">
+            <lightning:button variant="neutral" type="button" name="close" label="close"
+                              onclick="{!c.closeModal}"/>
+            <lightning:button variant="brand" type="button" name="save" label="Save"
+                              onclick="{!c.submitForm}"/>
+        </aura:set>
+    </c:CustomModal>
+
+</aura:component>
