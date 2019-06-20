@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Whose_response_needed__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Please select whose responses is needed for this Survey</inlineHelpText>
+    <label>Whose response needed</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Patient only</fullName>
+                <default>false</default>
+                <label>Patient only</label>
+            </value>
+            <value>
+                <fullName>Each Delegate</fullName>
+                <default>false</default>
+                <label>Each Delegate</label>
+            </value>
+            <value>
+                <fullName>Patient or any Delegate</fullName>
+                <default>false</default>
+                <label>Patient or any Delegate</label>
+            </value>
+            <value>
+                <fullName>Any Delegate</fullName>
+                <default>false</default>
+                <label>Any Delegate</label>
+            </value>
+            <value>
+                <fullName>Patient and each Delegate</fullName>
+                <default>false</default>
+                <label>Patient and each Delegate</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

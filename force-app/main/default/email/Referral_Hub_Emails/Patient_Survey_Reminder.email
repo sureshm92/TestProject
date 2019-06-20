@@ -1,0 +1,32 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Survey_Reminder}"
+                         recipientType="Contact"
+                         relatedToType="SurveyInvitation">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate recipientId="{!recipient.Id}"
+                         parametersProvider="Email_Template_Parameters_From_SI"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Complete_Baseline_Survey}"
+                         title="{!$Label.Email_Title_PH}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
+                         body="{!$Label.Email_Body_Survey_Reminder}"
+                         signature="{!$Label.Email_Signature_Survey}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
+                              buttonURL="/s/survey?inv={!relatedTo.Id}"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
+                             parametersProvider="Email_Template_Parameters_From_SI"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Complete_Baseline_Survey}"
+                             title="{!$Label.Email_Title_PH}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
+                             body="{!$Label.Email_Body_Survey_Reminder}"
+                             signature="{!$Label.Email_Signature_Survey}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
+                                  buttonURL="/s/survey?inv={!relatedTo.Id}"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+</messaging:emailTemplate>
