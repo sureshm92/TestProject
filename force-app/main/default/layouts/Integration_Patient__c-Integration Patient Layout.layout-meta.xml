@@ -7,7 +7,7 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Readonly</behavior>
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
@@ -16,27 +16,27 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>VISITNUM__c</field>
+                <field>External_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>VISIT__c</field>
+                <field>STUDYID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>SVSTDTC__c</field>
+                <field>IsDeletedInSDH__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MD5__c</field>
+                <field>MD5_Hash__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ISDELETED__c</field>
+                <field>Subject_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>External_Key__c</field>
+                <field>Subject_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

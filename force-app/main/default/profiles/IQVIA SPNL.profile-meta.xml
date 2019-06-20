@@ -103,6 +103,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateScreeningIds</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CTCService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2225,72 +2229,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.AGEU__c</field>
+        <field>Integration_Patient__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.AGE__c</field>
+        <field>Integration_Patient__c.IsDeletedInSDH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.BRTHDTC__c</field>
+        <field>Integration_Patient__c.MD5_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.COUNTRY__c</field>
+        <field>Integration_Patient__c.STUDYID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.ETHNIC__c</field>
+        <field>Integration_Patient__c.Subject_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.External_Key__c</field>
+        <field>Integration_Patient__c.Subject_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Patients__c.INVNAM__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patients__c.ISDELETED__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patients__c.MD5__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patients__c.RACE__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patients__c.SEX__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patients__c.STATUS__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patients__c.USUBJID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_VisitResult__c.DTC__c</field>
+        <field>Integration_Patient__c.USUBJID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2300,12 +2269,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_VisitResult__c.ISDELETED__c</field>
+        <field>Integration_VisitResult__c.IsDeletedInSDH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_VisitResult__c.MD5__c</field>
+        <field>Integration_VisitResult__c.MD5_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2360,37 +2329,52 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.External_Key__c</field>
+        <field>Integration_VisitResult__c.VSDTC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.ISDELETED__c</field>
+        <field>Integration_VisitResult__c.Vital_or_Lab__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.MD5__c</field>
+        <field>Integration_Visit__c.External_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.SVSTDTC__c</field>
+        <field>Integration_Visit__c.IsDeletedInSDH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.USUBJID__c</field>
+        <field>Integration_Visit__c.MD5_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.VISITNUM__c</field>
+        <field>Integration_Visit__c.STUDYID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_Visits__c.VISIT__c</field>
+        <field>Integration_Visit__c.SVSTDTC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Visit__c.USUBJID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Visit__c.VISITNUM__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Visit__c.VISIT__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3195,6 +3179,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Study_Enrollment__c.IsSubjectIDverifiedInSDH__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Motivational_Message_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3215,7 +3204,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Study_Enrollment__c.Screening_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Study_Enrollment__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Study_Enrollment__c.Study_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4344,13 +4343,13 @@
         <layout>Integration_Log__c-Integration Log Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Integration_Patients__c-Integration Patients Layout</layout>
+        <layout>Integration_Patient__c-Integration Patient Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_VisitResult__c-Integration VisitResult Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Integration_Visits__c-Integration Visits Layout</layout>
+        <layout>Integration_Visit__c-Integration Visits Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Knowledge__kav-Knowledge Layout</layout>
@@ -4909,6 +4908,16 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Trial_Survey__c.Status_based</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Trial_Survey__c.Time_based</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <default>true</default>
         <recordType>Visit_Result__c.Lab_Result</recordType>
         <visible>true</visible>
@@ -4918,6 +4927,10 @@
         <recordType>Visit_Result__c.Vitals</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Admin_Panel</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
         <visibility>DefaultOn</visibility>
