@@ -13,7 +13,6 @@ public without sharing class SendEmailToParticipant {
     public static final String EMAIL_TEMPLATE_VISIT_TASK = 'Patient_Task_Reminder_Visit';
     public static final String EMAIL_TEMPLATE_VISIT_TASK_DELEGATE = 'Patient_Task_Reminder_Visit_Del';
 
-    public static final String EMAIL_TEMPLATE_SURVEY_TASK = 'Patient_Complete_Baseline_Survey';
     public static final String EMAIL_TEMPLATE_SURVEY_REMINDER_TASK = 'Patient_Survey_Reminder';
     public static final String EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK = 'Patient_Survey_Final_Reminder';
 
@@ -138,63 +137,6 @@ public without sharing class SendEmailToParticipant {
 
         return emailMessages;
     }
-
-//    public static void sendEmailSurveyNotification(List<Task> tasks) {
-//        Map<String, Task> invIdToTasks = new Map<String, Task>();
-//        Set<Id> taskWhoIds = new Set<Id>();
-//        for (Task t : tasks) {
-//            invIdToTasks.put(t.Description, t);
-//            taskWhoIds.add(t.WhoId);
-//        }
-//
-//        Map<Id, Contact> contactMap = new Map<Id, Contact>([
-//                SELECT Id, Participant_Opt_In_Status_Emails__c
-//                FROM Contact
-//                WHERE Id IN:taskWhoIds
-//        ]);
-//
-//        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-//        for (Id invId : invIdToTasks.keySet()) {
-//            Task task = invIdToTasks.get(invId);
-//
-//            Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
-//            Datetime firstReminderDate =
-//                    Datetime.newInstance(task.Start_Date__c.addDays(firstReminderDay), Time.newInstance(0, 0, 0, 0));
-//
-//            String template;
-//            if (task.Reminder_Date__c.date() == firstReminderDate.date()) {
-//                template = EMAIL_TEMPLATE_SURVEY_REMINDER_TASK;
-//            } else {
-//                Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
-//                if (secondReminderDay != null) {
-//                    Datetime secondReminderDate =
-//                            Datetime.newInstance(task.Start_Date__c.addDays(secondReminderDay), Time.newInstance(0, 0, 0, 0));
-//                    if (task.Reminder_Date__c.date() == secondReminderDate.date()) {
-//                        template = EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK;
-//                    }
-//                }
-//            }
-//            if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
-//                addPatientToEmailListIfAvailable(
-//                        emailMessages,
-//                        contactMap.get(task.WhoId),
-//                        template,
-//                        invId
-//                );
-//            }
-//            if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-//                addMessagesForDelegates(
-//                        emailMessages,
-//                        PatientDelegateService.getDelegatedContactIds(contactMap.get(task.WhoId).Id),
-//                        template,
-//                        invId
-//                );
-//            }
-//        }
-//
-//        SendEmailTemplate.sendEmailMessages(emailMessages);
-//        System.debug('EMAIL MESSAGES: ' + emailMessages.size());
-//    }
 
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {
         if (patientContact.Participant_Opt_In_Status_Emails__c) {
