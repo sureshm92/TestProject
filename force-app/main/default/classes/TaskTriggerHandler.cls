@@ -109,8 +109,16 @@ public without sharing class TaskTriggerHandler {
                             System.debug('Wrong id on description');
                         }
                     }
-                    emailMessages.add(SendEmailTemplate.createEmail(
-                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
+                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                        emailMessages.add(SendEmailTemplate.createEmail(
+                                card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
+                    }
+                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                        for(Id delContactId : PatientDelegateService.getDelegatedContactIds(usersByIds.get(task.OwnerId).ContactId)) {
+                            emailMessages.add(SendEmailTemplate.createEmail(
+                                    card.Immediate_Email_Template__c, delContactId, whatId));
+                        }
+                    }
                 }
             }
         }
