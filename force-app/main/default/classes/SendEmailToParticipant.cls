@@ -10,10 +10,12 @@ public class SendEmailToParticipant {
     public static final String EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE = 'Patient_Task_Reminder_Medication_Del';
     public static final String EMAIL_TEMPLATE_VISIT_TASK = 'Patient_Task_Reminder_Visit';
     public static final String EMAIL_TEMPLATE_VISIT_TASK_DELEGATE = 'Patient_Task_Reminder_Visit_Del';
+    public static final String EMAIL_TEMPLATE_SURVEY_TASK = 'Patient_Complete_Baseline_Survey';
     
     public static final Map<String, String> PATIENT_EMAIL_TEMPLATES_MAP = new Map<String, String>{
             TaskService.TASK_TYPE_VISIT => EMAIL_TEMPLATE_VISIT_TASK,
-            TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK
+            TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK,
+            TaskService.TASK_TYPE_SURVEY => EMAIL_TEMPLATE_SURVEY_TASK
     };
     
     public static final Map<String, String> PATIENT_DELEGATE_EMAIL_TEMPLATES_MAP = new Map<String, String>{

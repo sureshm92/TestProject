@@ -30,7 +30,7 @@ private class Test_TaskService {
         TaskService.getInstance().ignoreTask(task.Id);
         TaskService.getInstance().completeTask(task.Id);
         TaskService.getInstance().completeTask(task);
-        TaskService.getInstance().createCompleteSurveyTask(null, null, null);
+        TaskService.getInstance().createCompleteSurveyTask(null, null);
         TaskService.getInstance().createCompleteYourProfileTask(null, null, null);
         TaskService.getInstance().getOpenTasksFilter();
         TaskService.getInstance().completeCYPTaskForParticipant();

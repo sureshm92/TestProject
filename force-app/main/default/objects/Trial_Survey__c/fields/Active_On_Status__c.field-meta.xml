@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_On_Status__c</fullName>
+    <description>Status</description>
+    <externalId>false</externalId>
+    <label>Active on PSE status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Enrolled</fullName>
+                <default>false</default>
+                <label>Enrolled</label>
+            </value>
+            <value>
+                <fullName>Treatment Period Started</fullName>
+                <default>false</default>
+                <label>Treatment Period Started</label>
+            </value>
+            <value>
+                <fullName>Follow-Up Period Started</fullName>
+                <default>false</default>
+                <label>Follow-Up Period Started</label>
+            </value>
+            <value>
+                <fullName>Participation Complete</fullName>
+                <default>false</default>
+                <label>Participation Complete</label>
+            </value>
+            <value>
+                <fullName>Trial Complete</fullName>
+                <default>false</default>
+                <label>Trial Complete</label>
+            </value>
+            <value>
+                <fullName>Drop Out</fullName>
+                <default>false</default>
+                <label>Drop Out</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
