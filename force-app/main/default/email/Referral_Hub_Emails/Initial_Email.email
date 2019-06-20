@@ -3,19 +3,17 @@
                          relatedToType="Community"
                          language="{!recipient.LanguageLocaleKey}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!recipient.Id}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}">
+                         sourceId="{!recipient.Id}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!recipient.Id}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}">
+                             sourceId="{!recipient.Id}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                                   buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplateText>

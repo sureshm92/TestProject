@@ -11,7 +11,7 @@
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="otherTask" type="Boolean" default="{!v.task.OwnerId != v.task.CreatedById}"/>
     <aura:attribute name="taskStatusCompleted" type="Boolean" default="false"/>
-    <aura:attribute name="taskTypeList" type="String[]" default="Not Selected,Visit,Medication"/>
+    <aura:attribute name="taskTypeList" type="List"/>
     <aura:attribute name="setReminderValueList" type="String[]" default="Email,Disabled"/>
     <aura:attribute name="reminderFrequencyList" type="String[]" default="Complete By Date,1 day before"/>
     <aura:attribute name="isReferral" type="Boolean"/>
@@ -153,7 +153,7 @@
                         <aura:if isTrue="{!!v.isReferral &amp;&amp; !v.createdByAdmin}">
                             <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true" value="{!v.task.Task_Type__c}">
                                 <aura:iteration items="{!v.taskTypeList}" var="type">
-                                    <option text="{!type}"></option>
+                                    <option value="{!type.value}">{!type.label}</option>
                                 </aura:iteration>
                             </lightning:select>
                         </aura:if>
@@ -184,7 +184,7 @@
                             </aura:if>
                             <aura:if isTrue="{!!v.reminderEnabled}">
                                 <lightning:select name="setReminderSelect" label="{!$Label.c.Set_Reminder}" required="true" disabled="true">
-                                    <option text="Disabled"></option>
+                                    <option text="{!$Label.c.Disabled}"></option>
                                 </lightning:select>
                             </aura:if>
                         </div>

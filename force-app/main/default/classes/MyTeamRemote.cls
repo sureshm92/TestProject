@@ -372,10 +372,13 @@ public without sharing class MyTeamRemote {
                         FROM User
                         WHERE Id = :UserInfo.getUserId()
                 ];
+                Participant__c participant = ParticipantService.getInstance().getState().participant;
                 contactDelegate.AccountId = user.Contact.AccountId;
                 contactDelegate.Language__c = UserInfo.getLanguage();
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;
+                contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
+                contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
                 insert contactDelegate;
                 insert CommunityService.createUser(contactDelegate, null, null, null);
                 sendEmailNotificationWelcome(contactDelegate);
@@ -388,7 +391,6 @@ public without sharing class MyTeamRemote {
             }
             PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
         } catch (Exception e) {
-            System.debug('ex:' + e.getMessage());
             AuraHelper.throwException(e);
         }
     }

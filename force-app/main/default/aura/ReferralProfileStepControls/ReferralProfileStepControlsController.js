@@ -16,7 +16,7 @@
 
         var notes = step.notes;
         var changePEStatusByPIAction = rootComponent.find('changePEStatusByPIAction');
-        if(status === 'Enrollment Success' && pe.Informed_Consent__c !== 'true') {
+        if(status === 'Enrollment Success' && pe.Informed_Consent__c !== true) {
             rootComponent.find('actionApprove').execute(function () {
                 changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
             }, function () {
