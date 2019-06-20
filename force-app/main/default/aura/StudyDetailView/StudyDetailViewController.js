@@ -93,6 +93,9 @@
                 var resourceMode= event.currentTarget.dataset.resourceMode;
                 component.set('v.resourceMode', resourceMode);
                 break;
+            case 'changeVisitMode':
+                component.set('v.visitMode', event.currentTarget.dataset.visitMode);
+                break;
             case 'changeTaskMode':
                 var taskMode = event.currentTarget.dataset.taskMode;
                 component.set('v.taskMode', taskMode);

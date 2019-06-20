@@ -2647,11 +2647,46 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Travel Support</value>
     </labels>
     <labels>
+        <fullName>Home_Page_StudyVisit_Completed_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Completed On</shortDescription>
+        <value>Completed On</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Reminder</shortDescription>
+        <value>Reminder</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_StudyVisit_Schedule</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Column header</shortDescription>
-        <value>Schedule</value>
+        <value>Visit Schedule</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Status</shortDescription>
+        <value>Visit Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Tab_Past_Visits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Tab Past Visits</shortDescription>
+        <value>Past Visits</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Tab_Study_Visits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Tab Study Visits</shortDescription>
+        <value>Study Visits</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Title</fullName>
@@ -2673,6 +2708,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <protected>false</protected>
         <shortDescription>Column header</shortDescription>
         <value>What to Expect</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_What_Took_Place</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit What Took Place</shortDescription>
+        <value>What Took Place</value>
     </labels>
     <labels>
         <fullName>Investigator_phone</fullName>
@@ -7864,6 +7906,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Studies_SearchPlaceholder</shortDescription>
         <value>Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Information_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Information Not Available</shortDescription>
+        <value>Information not available</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Blood</fullName>

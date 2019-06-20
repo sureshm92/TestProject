@@ -3,8 +3,12 @@
  */
 ({
     doInit : function(component, event, helper) {
-        communityService.executeAction(component, 'getParticipantVisits', null, function(response) {
-            component.set('v.visits', JSON.parse(response));
+        component.find('spinner').show();
+        component.set('v.initialized', false);
+        communityService.executeAction(component, 'getParticipantVisits', {
+            'visitMode': component.get('v.visitMode')
+        }, function(response) {
+            component.set('v.visitWrappers', response);
             component.set('v.initialized', true);
             component.find('spinner').hide();
         });
@@ -14,5 +18,9 @@
         component.find('popup').execute(function () {
             window.open($A.get('$Label.c.Travel_Support_Link'), '_blank');
         });
+    },
+
+    createEditTask : function (component, event, helper) {
+        console.log('asdasds');
     }
 })

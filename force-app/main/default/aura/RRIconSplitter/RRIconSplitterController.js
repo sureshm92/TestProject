@@ -5,13 +5,14 @@
     doInit : function (component, event, helper) {
         var splitted = component.get('v.value').split(';');
         var icons = [];
+        let numOfIconsToDisplay = component.get('v.numOfIconsToDisplay');
 
-        if(!component.get('v.hideMoreThan3')) {
+        if(numOfIconsToDisplay == 0) {
             icons = splitted;
         }
         else {
-            var size = splitted.length < 3 ? splitted.length : 3;
-            if(size < 3) component.set('v.hideMoreThan3', false);
+            var size = splitted.length < numOfIconsToDisplay ? splitted.length : numOfIconsToDisplay;
+            if(size < numOfIconsToDisplay) component.set('v.numOfIconsToDisplay', 0);
             for(var i = 0; i < size; i++) icons.push(splitted[i]);
         }
         component.set('v.icons', icons);
