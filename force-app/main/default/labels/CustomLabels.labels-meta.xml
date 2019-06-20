@@ -4991,6 +4991,41 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Study Site Status Details</value>
     </labels>
     <labels>
+        <fullName>PG_L_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Open_Task_List</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Open Task List</shortDescription>
+        <value>Open Task List</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Resources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Resources</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L See All</shortDescription>
+        <value>See All</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8034,6 +8069,27 @@ is a placehilder to show you what it would look like.</value>
         <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
 
             By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Medication</shortDescription>
+        <value>Medication</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Not Selected</shortDescription>
+        <value>Not Selected</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Visit</shortDescription>
+        <value>Visit</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>

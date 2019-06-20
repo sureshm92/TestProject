@@ -23,5 +23,20 @@
                 }
             }
         }
-    }
+        setTimeout($A.getCallback(function() {
+            component.set('v.validity', component.find('selectList').get('v.validity'));
+        }), 100);
+    },
+
+    doValueChange: function (component) {
+        var selectList = component.find('selectList');
+        component.set('v.validity', component.find('selectList').get('v.validity'));
+        var changeAction = component.get('v.onchange');
+        if(changeAction) $A.enqueueAction(changeAction);
+    },
+
+    doShowHelpMessageIfInvalid: function (component) {
+        //component.find('selectList').showHelpMessageIfInvalid();
+    },
+
 })

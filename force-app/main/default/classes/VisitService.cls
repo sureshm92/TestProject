@@ -42,6 +42,8 @@ public with sharing class VisitService {
         if (filter != null) fullFilter += filter;
         String orderBy = 'Order__c';
 
-        return (List<Visit__c>) DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter, orderBy, limitNumber);
+        List<Visit__c> visits = DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter, orderBy, limitNumber);
+	TranslateHelper.translate(visits);
+        return (visits);    
     }
 }
