@@ -18,7 +18,6 @@ private class Test_AdminPanelRemote {
     @IsTest
     static void runFAQHCPTest() {
         AdminPanelRemote.runFAQ('hcp');
-        AdminPanelRemote.runFAQ('part');
     }
 
     @IsTest

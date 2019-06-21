@@ -78,6 +78,7 @@
         <apexClass>BatchProcess</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+
     <classAccesses>
         <apexClass>Batch_PSECreateInvitation</apexClass>
         <enabled>false</enabled>
