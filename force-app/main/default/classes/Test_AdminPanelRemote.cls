@@ -6,10 +6,23 @@
 private class Test_AdminPanelRemote {
 
     @IsTest
-    static void runFAQTest() {
+    static void runFAQAllTest() {
         AdminPanelRemote.runFAQ('all');
+    }
+
+    @IsTest
+    static void runFAQPITest() {
         AdminPanelRemote.runFAQ('pi');
+    }
+
+    @IsTest
+    static void runFAQHCPTest() {
         AdminPanelRemote.runFAQ('hcp');
+        AdminPanelRemote.runFAQ('part');
+    }
+
+    @IsTest
+    static void runFAQPartTest() {
         AdminPanelRemote.runFAQ('part');
     }
 
