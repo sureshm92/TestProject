@@ -52,11 +52,11 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Read</externalSharingModel>
     <label>Patient Visit</label>
     <nameField>
-        <displayFormat>PV-{000000}</displayFormat>
         <label>Patient Visit Name</label>
-        <type>AutoNumber</type>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Patient Visits</pluralLabel>
     <searchLayouts/>

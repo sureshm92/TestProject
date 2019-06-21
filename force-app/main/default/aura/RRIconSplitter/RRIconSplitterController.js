@@ -6,7 +6,7 @@
         var value = component.get('v.value');
         let splitted = [];
         if (value) {
-            splitted = splitted.split(';');
+            splitted = value.split(';');
             let icons = component.get('v.icons');
             if (!icons || icons.length == 0) {
                 let icons = [];

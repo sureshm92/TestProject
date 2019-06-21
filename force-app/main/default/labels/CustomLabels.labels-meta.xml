@@ -2653,6 +2653,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>Completed On</value>
     </labels>
     <labels>
+        <fullName>Home_Page_StudyVisit_No_Reminder_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit No Reminder Date</shortDescription>
+        <value>Not specified</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_StudyVisit_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8070,25 +8077,11 @@ is a placehilder to show you what it would look like.</value>
             By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
     </labels>
     <labels>
-        <fullName>Task_Type_Medication</fullName>
+        <fullName>StudyVisit_Unscheduled_Visit</fullName>
         <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Task Type Medication</shortDescription>
-        <value>Medication</value>
-    </labels>
-    <labels>
-        <fullName>Task_Type_Not_Selected</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Task Type Not Selected</shortDescription>
-        <value>Not Selected</value>
-    </labels>
-    <labels>
-        <fullName>Task_Type_Visit</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Task Type Visit</shortDescription>
-        <value>Visit</value>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Unscheduled Visit</shortDescription>
+        <value>Unscheduled Visit</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
@@ -8453,6 +8446,27 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>Task Type</shortDescription>
         <value>Task Type</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Medication</shortDescription>
+        <value>Medication</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Not Selected</shortDescription>
+        <value>Not Selected</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Visit</shortDescription>
+        <value>Visit</value>
     </labels>
     <labels>
         <fullName>Test_Label</fullName>

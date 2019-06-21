@@ -15,35 +15,34 @@ public with sharing class VisitService {
         instance = (VisitService) Test.createStub(VisitService.class, mock);
     }
 
-    public List<Visit__c> getVisits(String filter) {
+    public List<Patient_Visit__c> getVisits(String filter) {
         return getVisits(filter, null);
     }
 
-    public List<Visit__c> getPreviewVisits() {
+    public List<Patient_Visit__c> getPreviewVisits() {
         return getVisits(null, 3);
     }
 
-    private List<Visit__c> getVisits(String filter, Integer limitNumber) {
+    private List<Patient_Visit__c> getVisits(String filter, Integer limitNumber) {
 
         if(!ParticipantService.getInstance().getState().showVisits) return null;
 
         List<String> fields = new List<String>{
                 'Name',
                 'Timeplane__c',
-                'Icons__c',
+                'Visit__r.Icons__c',
                 'Status__c',
                 'Completed_Date__c',
-                'Is_Adhoc__c',
-                '(SELECT Id FROM Tasks WHERE Status = \'Open\')'
+                'Is_Adhoc__c'
         };
         String visitPlan = ParticipantService.getInstance().getState().pse.Clinical_Trial_Profile__r.Visit_Plan__c;
 
-        String fullFilter = 'Visit_Plan__c = \'' + visitPlan + '\'';
+        String fullFilter = 'Visit__r.Visit_Plan__c = \'' + visitPlan + '\'';
         if (filter != null) fullFilter += filter;
         String orderBy = 'Order__c';
 
-        List<Visit__c> visits = DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter, orderBy, limitNumber);
-	TranslateHelper.translate(visits);
-        return (visits);    
+        List<Patient_Visit__c> visits = DatabaseService.getInstance().queryImpl(fields, Patient_Visit__c.getSObjectType(), fullFilter, orderBy, limitNumber);
+	    TranslateHelper.translate(visits);
+        return visits;
     }
 }

@@ -35,26 +35,27 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
-    public static void upsertTask(Task paramTask) {
+    public static void upsertTask(String paramTask) {
         try {
-            paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
+            Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
+            taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
             if(ParticipantService.getInstance().getState().isDelegate) {
-                paramTask.Originator__c = 'Delegate';
+                taskToUpsert.Originator__c = 'Delegate';
             } else {
-                paramTask.Originator__c = 'Participant';
+                taskToUpsert.Originator__c = 'Participant';
             }
-            if (paramTask.Visible_For__c == null) {
-                paramTask.Visible_For__c = 'Owner;Delegates';
+            if (taskToUpsert.Visible_For__c == null) {
+                taskToUpsert.Visible_For__c = 'Owner;Delegates';
             }
-            if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
-                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
+            if(taskToUpsert.Task_Type__c == 'Medication' || taskToUpsert.Task_Type__c == 'Visit'){
+                taskToUpsert.WhatId = ParticipantService.getInstance().getState().pse.Id;
             } else {
-                paramTask.Task_Type__c = 'Not Selected';
+                taskToUpsert.Task_Type__c = 'Not Selected';
             }
-            if (paramTask.Id != null) {
-                changeReminderDate(paramTask);
+            if (taskToUpsert.Id != null) {
+                changeReminderDate(taskToUpsert);
             }
-            upsert paramTask;
+            upsert taskToUpsert;
         } catch (Exception e) {
             System.debug(e);
             AuraHelper.throwException(e);
