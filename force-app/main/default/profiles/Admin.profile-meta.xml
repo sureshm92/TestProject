@@ -347,6 +347,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IntegrationPatientTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IntegrationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3626,6 +3630,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SDH_Status__mdt.Salesforce_Object__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SDH_Status__mdt.Salesforce_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ScheduleIntervalSettings__mdt.Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4406,6 +4420,9 @@
     <layoutAssignments>
         <layout>Resource__c-Video</layout>
         <recordType>Resource__c.Video</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SDH_Status__mdt-SDH Status Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ScheduleIntervalSettings__mdt-ScheduleIntervalSetting Layout</layout>
