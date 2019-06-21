@@ -71,10 +71,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>BatchExecutor</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>BatchHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -847,6 +843,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_AdminPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Alert</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1024,6 +1024,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_StudyActionParticipant</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_SurveyService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1930,6 +1934,11 @@
         <editable>true</editable>
         <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Reminder_Schedule__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4033,6 +4042,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Task.Reminder_Schedule__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Task.Start_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4243,11 +4257,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Trial_Survey__c.Visible_To_Delegates__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>User.First_Logon__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4451,6 +4460,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Regex__mdt-Regex Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Reminder_Schedule__c-Reminder Schedule Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>
