@@ -5219,6 +5219,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Reminder_Schedule__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Resource__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
