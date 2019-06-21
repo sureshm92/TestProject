@@ -5168,7 +5168,7 @@
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Admin_Panel</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
