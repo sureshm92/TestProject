@@ -3971,11 +3971,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Trial_Survey__c.Visible_To_Delegates__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>User.First_Logon__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4277,10 +4272,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>MyProfilePage</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>Patient16_Self_ePR_New_Referral</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
