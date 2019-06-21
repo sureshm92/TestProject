@@ -73,6 +73,15 @@ You have been assigned as a Delegate for ##ParticipantUser. Thank you for joinin
 You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining ##ParticipantFirstName on this journey through the ##StudyName Study.</value>
     </labels>
     <labels>
+        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
+        <value>Hi ##Contact!
+
+You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joining ##ParticipantUser Thank you for joining ##StudyName Study.</value>
+    </labels>
+    <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -973,7 +982,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for j
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://sandbox-efficiency-java-8354-dev-ed-16a4a1ca59a.cs69.force.com</value>
+        <value>https://cp.clinicalresearch.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -1467,7 +1476,7 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
         <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
-To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the IQVIA Patient Portal and Referral Hub.
+To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
 Your username is ##Username. Please click the Enroll Now button to create your password.
 
@@ -1933,7 +1942,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Initial Patient</shortDescription>
-        <value>You have been referred to a clinical research study</value>
+        <value>Thank you for your interest in participating in a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Patient_Delegate</fullName>
@@ -2253,7 +2262,7 @@ The IQVIA Patient Portal Support Team</value>
 
 Sincerely,
 
-The IQVIA Referral Hub and Patient Portal Support Team</value>
+The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_RH</fullName>
@@ -2272,7 +2281,7 @@ The IQVIA Referral Hub Support Team</value>
         <protected>true</protected>
         <shortDescription>Email Signature Resource</shortDescription>
         <value>Sincerely,
-The IQVIA Patient Portal Support Team&quot;</value>
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -4752,7 +4761,7 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP HI HCP</shortDescription>
-        <value>If your concern is medical related or you want to know more about your clinical trial enrollment status, please contact the Principal Investigator.</value>
+        <value>To report a problem or share feedback with IQVIA about Referral Hub, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_HI_PI</fullName>
@@ -8318,6 +8327,27 @@ is a placehilder to show you what it would look like.</value>
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
         <value>Priority</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Ignored</shortDescription>
+        <value>Ignored</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status In Progress</shortDescription>
+        <value>In Progress</value>
     </labels>
     <labels>
         <fullName>Task_Type</fullName>
