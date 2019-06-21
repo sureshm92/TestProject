@@ -43,7 +43,7 @@
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
-                                        In Progress
+                                        {!$Label.c.In_Progress}
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
                                         <aura:if isTrue="{!taskWrapper.openTask.ActivityDate}">
