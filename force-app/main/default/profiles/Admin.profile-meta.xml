@@ -4833,7 +4833,7 @@
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Admin_Panel</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>DefaultOn</visibility> 
     </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
