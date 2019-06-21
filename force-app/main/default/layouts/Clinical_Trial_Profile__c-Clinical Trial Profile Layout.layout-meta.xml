@@ -559,8 +559,9 @@
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>Survey.NAME</fields>
+        <fields>NAME</fields>
         <fields>RECORDTYPE</fields>
+        <fields>Whose_response_needed__c</fields>
         <relatedList>Trial_Survey__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -569,7 +570,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h0q000000SXEK</masterLabel>
+        <masterLabel>00h0E000001Hazb</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -10,7 +10,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
         List<Batch_Executor__mdt> batchExecutor = [
                 SELECT Relaunch_Interval__c, Scope_Size__c
                 FROM Batch_Executor__mdt
-                WHERE Label = : getType().getName()
+                WHERE DeveloperName = : getType().getName()
         ];
         if(!batchExecutor.isEmpty()) {
             Integer minutes = batchExecutor.get(0).Relaunch_Interval__c.intValue();

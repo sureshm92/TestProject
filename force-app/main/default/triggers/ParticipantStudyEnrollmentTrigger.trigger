@@ -9,4 +9,5 @@ trigger ParticipantStudyEnrollmentTrigger on Participant_Study_Enrollment__c (be
     TriggerHandlerExecutor.execute(PSETriggerHandler.DeactivateDeceasedUsersHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.CreateWelcomeToStudyAlertHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.SendDropOutEmailHandler.class);
+    TriggerHandlerExecutor.execute(PSETriggerHandler.CreateStatusBasedInvitations.class);
 }

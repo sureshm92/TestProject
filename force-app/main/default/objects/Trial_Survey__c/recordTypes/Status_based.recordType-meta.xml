@@ -30,4 +30,27 @@
             <default>false</default>
         </values>
     </picklistValues>
+    <picklistValues>
+        <picklist>Whose_response_needed__c</picklist>
+        <values>
+            <fullName>Any Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Each Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient and each Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient or any Delegate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
 </RecordType>

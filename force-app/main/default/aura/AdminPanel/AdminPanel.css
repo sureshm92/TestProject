@@ -9,22 +9,27 @@
 }
 
 .THIS .ad-card{
-    padding: 15px;
-    border: 1px solid #efefef;
-    border-radius: 10px;
     display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px;
     background: #f9f9f9;
-    margin: 5px;
-    position: relative;
 }
 
-.THIS .ad-desc{
-    display: flex;
-    justify-items: auto;
+.THIS th {
+    text-align: center;
+    width: 30px;
 }
 
-.THIS .slds-accordion__list-item {
-    border: none;
+.THIS .ad-table td{
+    padding: 5px;
+    text-align: center;
+    width: 30px;
+}
+
+.THIS .slds-form-element__icon{
+    vertical-align: super;
+    line-height: 0;
 }
 
 .THIS .slds-text-title_bold{
@@ -32,82 +37,17 @@
 }
 
 /*Status color map*/
-.THIS .ad-state-not-started {
-    color: #4078de;
-    background-color: #a8d7ff;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #83b4de;
-}
-
-.THIS .ad-state-waiting {
-    color: #b37518;
-    background-color: #fff8df;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ecdca2;
-}
-
-.THIS .ad-state-acquired {
-    color: #bd7a14;
-    background-color: #efb35a;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ce9747;
-}
-
-.THIS .ad-state-executing {
-    color: #49a981;
-    background-color: #45e4a2;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #2ba974;
-}
-
-.THIS .ad-state-complete {
-    color: #48bb61;
-    background-color: #8ff5b3;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #69d462;
-}
-
-.THIS .ad-state-error {
-    color: #980909;
-    background-color: #da4a4a;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #880000;
-}
-
-.THIS .ad-state-deleted {
+.THIS .ad-state-running,
+.THIS .ad-state-stopped {
     color: #ffffff;
-    background-color: #000000;
-    padding: 5px;
+    padding: 2px 7px;
     border-radius: 5px;
-    border: 1px solid #ffffff;
 }
 
-.THIS .ad-state-paused {
-    color: #93009c;
-    background-color: #ce4fd6;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #900698;
+.THIS .ad-state-stopped {
+    background-color: #c23934;
 }
 
-.THIS .ad-state-blocked {
-    color: #4d53ff;
-    background-color: #0308a0;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #000352;
-}
-
-.THIS .ad-state-paused-blocked {
-    color: #93009c;
-    background-color: #ce4fd6;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #900698;
+.THIS .ad-state-running {
+    background-color: #068049;
 }
