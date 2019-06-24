@@ -14,14 +14,12 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public String value;
         @AuraEnabled public String type;
         @AuraEnabled public String countryCodes;
-        @AuraEnabled public Boolean countryMode = false;
         
-        public VisitResultWrapper(String label, String value, String type, String countryCodes, Boolean countryMode){
+        public VisitResultWrapper(String label, String value, String type, String countryCodes){
             this.label = label;
             this.value = value;
             this.type = type;
             this.countryCodes = countryCodes;
-            this.countryMode = countryMode;
         }
     }
     
@@ -43,12 +41,12 @@ public without sharing class VisitResultSharingPanelRemote {
                 new LabelValueItem('Show after', 'After')
         };
         @AuraEnabled public Integer showAfterDays;
-        @AuraEnabled public String statusBasedType = 'Selected statuses';
+        @AuraEnabled public String statusBasedType = 'All statuses';
         @AuraEnabled public List<LabelValueItem> statesBasedTypeLVList = new List<LabelValueItem>{
                 new LabelValueItem('Enabled for all statuses', 'All statuses'),
                 new LabelValueItem('Enabled for selected statuses', 'Selected statuses')
         };
-        @AuraEnabled public String selectedStatuses = 'Enrolled';
+        @AuraEnabled public String selectedStatuses = '';
         @AuraEnabled public Boolean globalShareBck = true;
         
     }
@@ -83,9 +81,8 @@ public without sharing class VisitResultSharingPanelRemote {
                    resultGroupWrapper.visitResults.add(new VisitResultWrapper(
                            visitResultType.Label,
                            visitResultType.Visit_Result_Code__c,
-                           'Countries',
-                           'US;CA',
-                           true
+                           'Disabled',
+                           ''
                    ));
                }
                initData.groups.add(resultGroupWrapper);
