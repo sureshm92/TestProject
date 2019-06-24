@@ -6,26 +6,6 @@
 private class Test_AdminPanelRemote {
 
     @IsTest
-    static void runFAQAllTest() {
-        AdminPanelRemote.runFAQ('all');
-    }
-
-    @IsTest
-    static void runFAQPITest() {
-        AdminPanelRemote.runFAQ('pi');
-    }
-
-    @IsTest
-    static void runFAQHCPTest() {
-        AdminPanelRemote.runFAQ('hcp');
-    }
-
-    @IsTest
-    static void runFAQPartTest() {
-        AdminPanelRemote.runFAQ('part');
-    }
-
-    @IsTest
     static void runBatchTest() {
         List<Batch_Executor__mdt> batchExecutors = [
                 SELECT Id, Label, DeveloperName, Relaunch_Interval__c

@@ -39,6 +39,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
     private void checkReminder(List<Task> tasks) {
         for(Task t : tasks) {
             t.Is_Reminder_Sent__c = true;
+            if(t.Reminder_Schedule__c == null) continue;
             Integer secondReminder = (Integer) t.Reminder_Schedule__r.Second_Reminder_day__c;
             if(secondReminder != null) {
                 Datetime reminderDate =
