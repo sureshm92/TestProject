@@ -859,10 +859,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_Batch_PatientTaskExpire</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -4922,7 +4918,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Trial_Survey__c.Status_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

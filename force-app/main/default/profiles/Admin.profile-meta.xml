@@ -5148,7 +5148,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Trial_Survey__c.Status_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
