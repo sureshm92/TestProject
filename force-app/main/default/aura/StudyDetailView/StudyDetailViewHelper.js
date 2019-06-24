@@ -66,10 +66,10 @@
             return;
         }
         var currTab = component.get('v.currentTab');
-        for(var tab of tabs) {
-            if(tab.id === currTab) {
-                component.set('v.currentActions', tab.studyActions);
-                if (tab.id === 'tab-about-the-study') {
+        for(var i = 0; i < tabs.length; i++) {
+            if(tabs[i].id === currTab) {
+                component.set('v.currentActions', tabs[i].studyActions);
+                if (tabs[i].id === 'tab-about-the-study') {
                     component.set('v.shareButtons', component.get('v.studyDetail.shareActions'));
                 }
                 break;

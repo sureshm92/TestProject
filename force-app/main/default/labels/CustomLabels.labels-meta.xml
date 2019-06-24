@@ -467,6 +467,13 @@ You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joini
         <value>Confirm</value>
     </labels>
     <labels>
+        <fullName>BTN_Create_New_Task</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Create New Task</shortDescription>
+        <value>Create New Task</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1500,14 +1507,14 @@ Please note that enrollment in IQVIA Patient Portal is not a requirement to be e
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName Study. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName Study.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1858,14 +1865,14 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName Study. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName Study. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -2124,7 +2131,7 @@ Please login to update the status of this task.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Share PH</shortDescription>
-        <value>An IQVIA™ Participant Hub user shared this with you</value>
+        <value>An IQVIA Patient Portal user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -4983,6 +4990,41 @@ Ut mi turpis, commodo nec orci sed, placerat fermentum metus. Nam scelerisque, e
         <value>Study Site Status Details</value>
     </labels>
     <labels>
+        <fullName>PG_L_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Open_Task_List</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Open Task List</shortDescription>
+        <value>Open Task List</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_Resources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L Resources</shortDescription>
+        <value>Resources</value>
+    </labels>
+    <labels>
+        <fullName>PG_L_See_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG L See All</shortDescription>
+        <value>See All</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7501,6 +7543,34 @@ is a placehilder to show you what it would look like.</value>
         <value>Article</value>
     </labels>
     <labels>
+        <fullName>Resources_Card_Title_Articles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Card Title Articles</shortDescription>
+        <value>Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Card_Title_Articles_Favorites</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Card Title Articles Favorites</shortDescription>
+        <value>Articles - Favorites</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Card_Title_Videos</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Card Title Videos</shortDescription>
+        <value>Videos</value>
+    </labels>
+    <labels>
+        <fullName>Resources_Card_Title_Videos_Favorites</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources Card Title Videos Favorites</shortDescription>
+        <value>Videos - Favorites</value>
+    </labels>
+    <labels>
         <fullName>Resources_Content_Has_Been_Updated</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7991,6 +8061,27 @@ is a placehilder to show you what it would look like.</value>
         <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
 
             By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Medication</shortDescription>
+        <value>Medication</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Not Selected</shortDescription>
+        <value>Not Selected</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Visit</shortDescription>
+        <value>Visit</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>

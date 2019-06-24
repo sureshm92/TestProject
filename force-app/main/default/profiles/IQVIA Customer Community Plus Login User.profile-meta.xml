@@ -584,6 +584,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RRPicklistLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RRProfileController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1121,6 +1125,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultSharingCountryLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultSharingPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultSharingSSLookupRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -4239,6 +4255,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM__mdt.Visit_Result_Code__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM__mdt.Visit_Result_Group__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM__mdt.Visit_Result_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Visit_Result_Type_Group__c.Group_Name__c</field>
         <readable>true</readable>
@@ -4514,6 +4545,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Plan__c-Visit Plan Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result_GroupM__mdt-Visit Result Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result_TypeM__mdt-Visit Result Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
