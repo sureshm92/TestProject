@@ -12,14 +12,15 @@
     <div class="{!'slds-grid vr-row ' + if(v.visitResult.type == 'Disabled', 'disabled', '')}">
         <div class="slds-col slds-size_3-of-12 row-label">{!v.visitResult.label}</div>
         <div class="slds-col slds-size_9-of-12 type-cell">
-            <aura:if isTrue="{!!v.visitResult.countryMode}">
-                <lightning:select name="Visit type" label="Hidden"  variant="label-hidden" class="type-picklist" value="{!v.visitResult.type}" onchange="{!c.doTypeChanged}">
+            <aura:if isTrue="{!v.visitResult.type != 'Countries'}">
+                <lightning:select name="Visit type" label="Hidden"  variant="label-hidden" class="type-picklist"
+                                  value="{!v.visitResult.type}" onchange="{!c.doTypeChanged}">
                     <aura:iteration items="{!v.typeSelectLVList}" var="option">
                         <option text="{!option.label}" value="{!option.value}"/>
                     </aura:iteration>
                 </lightning:select>
             </aura:if>
-            <aura:if isTrue="{!v.visitResult.countryMode}">
+            <aura:if isTrue="{!v.visitResult.type == 'Countries'}">
                 <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.visitResult.countryCodes}" isMultiEntry="true"
                                                    onchange="{!c.doCountryChanged}" onblur="{!c.doCountryChanged}"
                                                    placeholder="Select country" placeholderSelected="Select another country"/>
