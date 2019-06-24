@@ -2751,6 +2751,13 @@ To review the referrals, log in to the IQVIA Referral Hub and navigate to “My 
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>In_Progress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
         <fullName>Investigator_phone</fullName>
         <language>en_US</language>
         <protected>false</protected>

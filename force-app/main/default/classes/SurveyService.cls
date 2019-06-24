@@ -4,8 +4,7 @@
 
 public without sharing class SurveyService {
 
-    public class SurveyException extends Exception {
-    }
+    public class SurveyException extends Exception {}
 
     public static final Map<String, String> SURVEY_VISIBLE = new Map<String, String>{
             'Patient only' => TaskService.TASK_VISIBILITY_OWNER,

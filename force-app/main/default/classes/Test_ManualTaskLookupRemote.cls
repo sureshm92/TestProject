@@ -212,9 +212,9 @@ private class Test_ManualTaskLookupRemote {
     }
 
     private static void assertThat(LookupSearchResult expectedResult, List<LookupSearchResult> lookupSearchResults) {
-        System.assertEquals(expectedResult.getId(), lookupSearchResults.get(0).getId());
-        System.assertEquals(expectedResult.getSObjectType(), lookupSearchResults.get(0).getSObjectType());
-        System.assertEquals(expectedResult.getTitle(), lookupSearchResults.get(0).getTitle());
-        System.assertEquals(expectedResult.getSubtitle(), lookupSearchResults.get(0).getSubtitle());
+        System.assertEquals(expectedResult.id, lookupSearchResults.get(0).id);
+        System.assertEquals(expectedResult.sObjectType, lookupSearchResults.get(0).sObjectType);
+        System.assertEquals(expectedResult.title, lookupSearchResults.get(0).title);
+        System.assertEquals(expectedResult.subtitle, lookupSearchResults.get(0).subtitle);
     }
 }

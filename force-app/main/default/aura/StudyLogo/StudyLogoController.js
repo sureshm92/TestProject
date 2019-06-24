@@ -9,7 +9,6 @@
         }, function (studyPicture) {
             component.set('v.pictureSrc', studyPicture);
             component.set('v.initialized', true);
-            debugger;
             component.find('spinner').hide();
         })
     },

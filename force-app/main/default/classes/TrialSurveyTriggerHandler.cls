@@ -5,7 +5,6 @@
 public without sharing class TrialSurveyTriggerHandler {
 
     public class ExpireSurveyTaskAndInvitations extends TriggerHandler {
-
         public override void beforeDelete(List<SObject> oldList) {
             doExpire((List<Trial_Survey__c>) oldList);
         }

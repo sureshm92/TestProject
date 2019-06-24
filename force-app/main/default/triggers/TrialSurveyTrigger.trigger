@@ -3,5 +3,6 @@
  */
 
 trigger TrialSurveyTrigger on Trial_Survey__c (before delete) {
-    TriggerHandlerExecutor.execute(TrialSurveyTriggerHandler.ExpireSurveyTaskAndInvitations.class);
+    TriggerHandlerExecutor.execute(
+            TrialSurveyTriggerHandler.ExpireSurveyTaskAndInvitations.class);
 }
