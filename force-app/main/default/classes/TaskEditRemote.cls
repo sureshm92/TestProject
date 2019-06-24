@@ -93,16 +93,13 @@ public without sharing class TaskEditRemote {
     private static Boolean checkEmailPreferencesIsOn() {
         return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
-
-    private static List<String> getTaskTypeList() {
-        List<String> pickListValuesList = new List<String>();
-        Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
-        List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
-        for (Schema.PicklistEntry pickListValue : picklistEntry) {
-            if(pickListValue.value.equals(TaskService.TASK_TYPE_SURVEY)) continue;
-            pickListValuesList.add(pickListValue.getLabel());
-        }
-        return pickListValuesList;
+    
+    private static List<LabelValueItem> getTaskTypeList() {
+        List<LabelValueItem> genders = new List<LabelValueItem>();
+        genders.add(new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'));
+        genders.add(new LabelValueItem(Label.Task_Type_Medication, 'Medication'));
+        genders.add(new LabelValueItem(Label.Task_Type_Visit, 'Visit'));
+        return genders;
     }
 
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
