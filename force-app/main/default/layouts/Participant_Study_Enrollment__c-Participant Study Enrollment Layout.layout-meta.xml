@@ -39,10 +39,6 @@
                 <behavior>Readonly</behavior>
                 <field>Study_ID__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>IsSubjectIDverifiedInSDH_c__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
