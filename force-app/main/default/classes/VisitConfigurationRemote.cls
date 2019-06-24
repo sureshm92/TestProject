@@ -13,7 +13,7 @@ public with sharing class VisitConfigurationRemote {
                         ,Visit_Plan__c
                         ,Visit_Schedule__c
                         ,Visit_Number__c
-                        ,selected_icons__c
+                        ,Icons__c
                 FROM Visit__c
                 WHERE Visit_Plan__c = :visitPlanId
         ];
