@@ -4777,7 +4777,7 @@
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Trial_Survey__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
