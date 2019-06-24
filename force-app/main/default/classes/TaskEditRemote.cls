@@ -6,7 +6,7 @@ public without sharing class TaskEditRemote {
 
     public class TaskEditDataWrapper {
         @AuraEnabled public Task task {get;set;}
-        @AuraEnabled public List<String> taskTypeList {get;set;}
+        @AuraEnabled public List<LabelValueItem> taskTypeList {get;set;}
         @AuraEnabled public Boolean isReferral {get;set;}
         @AuraEnabled public String errorMessage {get;set;}
         @AuraEnabled public Boolean reminderEnabled {get;set;}

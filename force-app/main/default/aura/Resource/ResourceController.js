@@ -24,9 +24,9 @@
 			});
 
 			if (resourceMode === "Favorite") {
-				component.set("v.resourceTitle", resourceType + "s - Favorites");
+				component.set("v.resourceTitle", resourceType === "Video" ? $A.get("$Label.c.Resources_Card_Title_Videos_Favorites") : $A.get("$Label.c.Resources_Card_Title_Articles_Favorites"));
 			} else {
-				component.set("v.resourceTitle", resourceType + 's');
+				component.set("v.resourceTitle", resourceType === "Video" ? $A.get("$Label.c.Resources_Card_Title_Videos") : $A.get("$Label.c.Resources_Card_Title_Articles"));
 			}
 		},
 	}

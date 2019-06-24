@@ -27,8 +27,9 @@ public with sharing class VisitService {
 
         String fullFilter = 'Visit_Plan__c = \'' + visitPlan + '\' ORDER BY Order__c';
         if (filter != null) fullFilter += filter;
-
-        return (List<Visit__c>) DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter);
+        List<Visit__c> visits = DatabaseService.getInstance().queryImpl(fields, Visit__c.getSObjectType(), fullFilter);
+        TranslateHelper.translate(visits);
+        return (visits);
     }
 
     public List<Visit__c> getPreviewVisits() {

@@ -32,7 +32,6 @@ public class StudyActionsHCP extends StudyActions{
                         tcAcceptanceRequiredReason,
                         hcpOnHoldReason,
                         studySiteOnHoldReason,
-                        hcpNotActiveReason,
                         studySiteNotAcceptedReason,
                         studyNoLongerEnrollingReason
                 }
