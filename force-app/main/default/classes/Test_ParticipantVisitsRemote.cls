@@ -15,10 +15,10 @@ private class Test_ParticipantVisitsRemote {
                             SELECT Id,
                                     Name,
                                     Timeplane__c,
-                                    Icons__c,
+                                    Visit__r.Icons__c,
                                     Order__c,
-                                    Visit_Plan__c
-                            FROM Visit__c
+                                    Visit__r.Visit_Plan__c
+                            FROM Patient_Visit__c
                             ORDER BY Order__c
                             LIMIT 3
                     ];
@@ -28,10 +28,10 @@ private class Test_ParticipantVisitsRemote {
                             SELECT Id,
                                     Name,
                                     Timeplane__c,
-                                    Icons__c,
+                                    Visit__r.Icons__c,
                                     Order__c,
-                                    Visit_Plan__c
-                            FROM Visit__c
+                                    Visit__r.Visit_Plan__c
+                            FROM Patient_Visit__c
                             ORDER BY Order__c
                     ];
                 }
@@ -49,7 +49,7 @@ private class Test_ParticipantVisitsRemote {
         String preview = ParticipantVisitsRemote.getVisitsPreview();
         Test.stopTest();
 
-        List<Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();
+        List<Patient_Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();
         System.assertEquals(JSON.serialize(previewVisits), preview);
     }
 
@@ -58,11 +58,11 @@ private class Test_ParticipantVisitsRemote {
         VisitService.setMock(new VisitServiceMock());
 
         Test.startTest();
-        String participantVisits = ParticipantVisitsRemote.getParticipantVisits();
+        List<ParticipantVisitsService.VisitWrapper> participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
         Test.stopTest();
 
-        List<Visit__c> visitsAll = VisitService.getInstance().getVisits(null);
-        System.assertEquals(JSON.serialize(visitsAll), participantVisits);
+        List<Patient_Visit__c> visitsAll = VisitService.getInstance().getVisits(null);
+        System.assertEquals(visitsAll.size(), participantVisits.size());
     }
 
     @IsTest

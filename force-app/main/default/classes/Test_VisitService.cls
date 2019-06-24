@@ -9,10 +9,10 @@ private class Test_VisitService {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
         ) {
-            if (stubbedMethodName == 'queryImpl' && listOfArgs.size() == 3) {
+            if (stubbedMethodName == 'queryImpl' && listOfArgs.size() == 5) {
                 SObjectType sObjectType = (SObjectType) listOfArgs[1];
-                if(sObjectType == Visit__c.getSObjectType()){
-                    String query = 'SELECT Id, Name, Timeplane__c, Icons__c, Order__c, Visit_Plan__c FROM ' + sObjectType
+                if(sObjectType == Patient_Visit__c.getSObjectType()){
+                    String query = 'SELECT Id, Name, Timeplane__c, Visit__r.Icons__c, Order__c, Visit__r.Visit_Plan__c FROM ' + sObjectType
                         + ' WHERE ' + (String) listOfArgs[2];
                     return Database.query(query);
                 }
@@ -45,31 +45,31 @@ private class Test_VisitService {
         ParticipantService.setMock(new ParticipantServiceMock());
 
         Test.startTest();
-        List<Visit__c> visits = VisitService.getInstance().getVisits(null);
+        List<Patient_Visit__c> visits = VisitService.getInstance().getVisits(null);
         Test.stopTest();
 
-        List<Visit__c> visits2 = [
+        List<Patient_Visit__c> visits2 = [
                 SELECT Id,
                         Name,
                         Timeplane__c,
-                        Icons__c,
+                        Visit__r.Icons__c,
                         Order__c,
-                        Visit_Plan__c
-                FROM Visit__c
+                        Visit__r.Visit_Plan__c
+                FROM Patient_Visit__c
                 ORDER BY Order__c
         ];
         System.assertEquals(visits2.size(), visits.size());
 
         for(Integer i = 0; i < visits2.size(); i++) {
-            Visit__c v1 = visits.get(i);
-            Visit__c v2 = visits2.get(i);
+            Patient_Visit__c v1 = visits.get(i);
+            Patient_Visit__c v2 = visits2.get(i);
 
             System.assertEquals(v1.Id, v2.Id);
             System.assertEquals(v1.Name, v2.Name);
             System.assertEquals(v1.Timeplane__c, v2.Timeplane__c);
-            System.assertEquals(v1.Icons__c, v2.Icons__c);
+            System.assertEquals(v1.Visit__r.Icons__c, v2.Visit__r.Icons__c);
             System.assertEquals(v1.Order__c, v2.Order__c);
-            System.assertEquals(v1.Visit_Plan__c, v2.Visit_Plan__c);
+            System.assertEquals(v1.Visit__r.Visit_Plan__c, v2.Visit__r.Visit_Plan__c);
         }
     }
 
@@ -79,32 +79,32 @@ private class Test_VisitService {
         ParticipantService.setMock(new ParticipantServiceMock());
 
         Test.startTest();
-        List<Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();
+        List<Patient_Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();
         Test.stopTest();
 
-        List<Visit__c> visits2 = [
+        List<Patient_Visit__c> visits2 = [
                 SELECT Id,
                         Name,
                         Timeplane__c,
-                        Icons__c,
+                        Visit__r.Icons__c,
                         Order__c,
-                        Visit_Plan__c
-                FROM Visit__c
+                        Visit__r.Visit_Plan__c
+                FROM Patient_Visit__c
                 ORDER BY Order__c
                 LIMIT 3
         ];
         System.assertEquals(visits2.size(), previewVisits.size());
 
         for(Integer i = 0; i < visits2.size(); i++) {
-            Visit__c v1 = previewVisits.get(i);
-            Visit__c v2 = visits2.get(i);
+            Patient_Visit__c v1 = previewVisits.get(i);
+            Patient_Visit__c v2 = visits2.get(i);
 
             System.assertEquals(v1.Id, v2.Id);
             System.assertEquals(v1.Name, v2.Name);
             System.assertEquals(v1.Timeplane__c, v2.Timeplane__c);
-            System.assertEquals(v1.Icons__c, v2.Icons__c);
+            System.assertEquals(v1.Visit__r.Icons__c, v2.Visit__r.Icons__c);
             System.assertEquals(v1.Order__c, v2.Order__c);
-            System.assertEquals(v1.Visit_Plan__c, v2.Visit_Plan__c);
+            System.assertEquals(v1.Visit__r.Visit_Plan__c, v2.Visit__r.Visit_Plan__c);
         }
     }
 
