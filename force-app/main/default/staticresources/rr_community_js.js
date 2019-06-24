@@ -104,9 +104,10 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
-        getParticipantState(){
+        getParticipantState: function(){
             return participantState;
         },
+
         getLanguage: function(){
             return language;
         },
@@ -122,8 +123,8 @@ window.communityService = (function () {
         setUserMode: function (userMode) {
             communityMode = userMode;
         },
-        isDelegate(){
-          return isDelegate;
+        isDelegate: function(){
+            return isDelegate;
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix

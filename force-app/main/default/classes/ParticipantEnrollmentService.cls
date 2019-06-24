@@ -280,8 +280,6 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Detailed_Description__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Brief_Summary__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Survey__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Survey__r.Name',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',

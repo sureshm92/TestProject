@@ -7,7 +7,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="ctp" type="Clinical_Trial_Profile__c"/>
+    <aura:attribute name="codeName" type="String"/>
     <aura:attribute name="link" type="String"/>
     <aura:attribute name="surveyName" type="String"/>
 
@@ -19,7 +19,7 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
     <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
                 backPage="{!'study-workspace?tab=tab-tasks'}"
-                smallTitle="{!v.ctp.Study_Code_Name__c}"
+                smallTitle="{!v.codeName}"
                 bigTitle="{!v.surveyName}">
     </c:RRTopBar>
 

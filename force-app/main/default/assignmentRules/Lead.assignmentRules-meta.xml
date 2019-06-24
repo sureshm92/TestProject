@@ -4,7 +4,7 @@
         <fullName>SPNL Assignment Rule</fullName>
         <active>true</active>
         <ruleEntry>
-            <assignedTo>SPNL_Users</assignedTo>
+            <assignedTo>Referring_provider_invited_by_PI</assignedTo>
             <assignedToType>Queue</assignedToType>
             <formula>INCLUDES(CreatedBy.Contact.userCommunytyType__c, &#39;PI&#39;)</formula>
         </ruleEntry>

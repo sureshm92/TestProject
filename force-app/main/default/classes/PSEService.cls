@@ -155,5 +155,48 @@ public without sharing class PSEService {
         }
     }
 
+    public static void updateExternalKey(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        Set<Id> peIds = new Set<Id>();
+        for(Participant_Enrollment__c pe : newList){
+            if(oldMap == null || pe.Screening_ID__c != oldMap.get(pe.Id).Screening_ID__c) {
+                peIds.add(pe.Id);
+            }
+        }
+        System.debug(peIds);
+        List<Participant_Study_Enrollment__c> pseList = [
+                SELECT
+                        Id,
+                        Participant_Enrollment__r.Screening_ID__c,
+                        Screening_ID__c,
+                        Participant_Enrollment__c
+                FROM    Participant_Study_Enrollment__c
+                WHERE   Participant_Enrollment__c IN :peIds
+                LIMIT   10000
+        ];
+        System.debug(pseList);
+        Map<Id, Participant_Study_Enrollment__c> pseMap = new Map<Id, Participant_Study_Enrollment__c>();
+        for(Participant_Study_Enrollment__c pse : pseList){
+            pseMap.put(pse.Participant_Enrollment__c, pse);
+        }
+        for(Participant_Enrollment__c pe : newList) {
+            if(pseMap.containsKey(pe.Id)) {
+                pseMap.get(pe.Id).Screening_ID__c = pe.Screening_ID__c;
+            }
+        }
+        System.debug(pseMap);
+        update pseMap.values();
+    }
 
+    public static List<Participant_Study_Enrollment__c> getPSEListByExternalIds(List<String> externalKeys){
+        return [
+                SELECT
+                        Id,
+                        External_Key__c,
+                        Status__c,
+                        IsSubjectIDverifiedInSDH__c
+                FROM    Participant_Study_Enrollment__c
+                WHERE   External_Key__c IN : externalKeys
+                LIMIT   10000
+        ];
+    }
 }

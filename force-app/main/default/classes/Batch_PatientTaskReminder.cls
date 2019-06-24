@@ -2,33 +2,26 @@
  * Created by Igor Malyuta on 15.05.2019.
  */
 
-public with sharing class Batch_PatientTaskReminder implements Database.Batchable<Task>, Database.Stateful {
+public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAbstract{
 
-    public static final Integer SCOPE_SIZE = 10;
-    public Integer intervalInMinutes;
-
-    public Batch_PatientTaskReminder(Integer intervalInMinutes) {
-        this.intervalInMinutes = intervalInMinutes;
-    }
-
-    public void execute(Database.BatchableContext param1, List<Task> tasks) {
+    public void execute(Database.BatchableContext param1, List<SObject> tasks) {
         SendEmailToParticipant.sendEmailNotificationWithDelegates(tasks);
-        for(Task t : tasks) t.Is_Reminder_Sent__c = true;
+        checkReminder(tasks);
         update tasks;
     }
 
-    public void finish(Database.BatchableContext param1) {
-        System.scheduleBatch(
-                new Batch_PatientTaskReminder(intervalInMinutes), 'PatientTaskReminder', intervalInMinutes, SCOPE_SIZE);
-    }
-
-    public Iterable<Task> start(Database.BatchableContext param1) {
+    public Iterable<SObject> start(Database.BatchableContext param1) {
         List<Task> tasks = [
                 SELECT Id,
+                        Description,
                         OwnerId,
                         Subject,
+                        Start_Date__c,
                         Task_Type__c,
                         Reminder_Date__c,
+                        Reminder_Schedule__r.First_Reminder_day__c,
+                        Reminder_Schedule__r.Second_Reminder_day__c,
+                        Visible_For__c,
                         WhatId,
                         WhoId
                 FROM Task
@@ -39,19 +32,21 @@ public with sharing class Batch_PatientTaskReminder implements Database.Batchabl
         return tasks;
     }
 
-    public static void run(Integer intervalInMinutes) {
-        Database.executeBatch(new Batch_PatientTaskReminder(intervalInMinutes), SCOPE_SIZE);
+    public override Type getType() {
+        return Batch_PatientTaskReminder.class;
     }
 
-    public static void stop() {
-        List<CronTrigger> cronTriggers = [
-                SELECT Id
-                FROM CronTrigger
-                WHERE CronJobDetail.Name = 'PatientTaskReminder'
-        ];
-        if(!cronTriggers.isEmpty()) {
-            for(CronTrigger cronT : cronTriggers) {
-                System.abortJob(cronT.Id);
+    private void checkReminder(List<Task> tasks) {
+        for(Task t : tasks) {
+            t.Is_Reminder_Sent__c = true;
+            Integer secondReminder = (Integer) t.Reminder_Schedule__r.Second_Reminder_day__c;
+            if(secondReminder != null) {
+                Datetime reminderDate =
+                        Datetime.newInstance(t.Start_Date__c.addDays(secondReminder), Time.newInstance(0, 0, 0, 0));
+                if(t.Reminder_Date__c.date() < reminderDate.date()) {
+                    t.Reminder_Date__c = reminderDate;
+                    t.Is_Reminder_Sent__c = false;
+                }
             }
         }
     }

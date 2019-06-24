@@ -16,7 +16,7 @@
 
     <!--COMPONENT BODY-->
 
-    <div class="rr-white-panel">
+    <div class="rr-white-panel" style="margin-top: 32px">
         <div class="resource-table">
             <div class="resource-title">
                 {!$Label.c.Resource_Tab_Study_Documents}

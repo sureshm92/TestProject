@@ -15,7 +15,7 @@
                 cois: coiList
             }, function (returnValue) {
                 let coiSaveWrapperList = [];
-                returnValue.forEach(e => {
+                returnValue.forEach(function (e) {
                     let coiSave = {};
                     coiSave.isSelected = true;
                     coiSave.coi = e;
@@ -30,7 +30,9 @@
 
     swapElement: function (component, index1, index2) {
         let conditionOfInterestList = component.get('v.conditionOfInterestList');
-        [conditionOfInterestList[index1], conditionOfInterestList[index2]] = [conditionOfInterestList[index2], conditionOfInterestList[index1]];
+        var temCoi = conditionOfInterestList[index1];
+        conditionOfInterestList[index1] = conditionOfInterestList[index2];
+        conditionOfInterestList[index2] = temCoi;
         component.set('v.conditionOfInterestList', conditionOfInterestList);
         component.set('v.isSaveList', !component.get('v.isSaveList'));
     },
@@ -43,7 +45,7 @@
             communityService.executeAction(component, 'deleteCOI', {
                 coiIds: coiIds
             }, function () {
-                conditionOfInterestList = conditionOfInterestList.filter((el) => {
+                conditionOfInterestList = conditionOfInterestList.filter(function (el) {
                     return el.coi.Id !== idCOI;
                 });
                 component.set('v.conditionOfInterestList', conditionOfInterestList);

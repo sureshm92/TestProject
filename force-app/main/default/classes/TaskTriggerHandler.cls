@@ -54,7 +54,15 @@ public without sharing class TaskTriggerHandler {
                 continue;
             }
 
-            if (task.WhatId == null && card.Parameters__c != null) {
+            Id whatId = task.WhatId;
+            if(whatId == null) {
+                try {
+                    whatId = task.Description;
+                } catch (Exception e) {
+                    System.debug('Wrong id on description');
+                }
+            }
+            if (whatId == null && card.Parameters__c != null) {
                 task.WhatId.addError('What Id can not be null');
                 continue;
             }
@@ -71,7 +79,6 @@ public without sharing class TaskTriggerHandler {
                     continue;
                 }
             }
-            task.Action_URL__c = card.Action_Link__c;
             checkedTasks.add(task);
         }
     }
@@ -87,14 +94,31 @@ public without sharing class TaskTriggerHandler {
                 SELECT Id, ContactId
                 FROM User
                 WHERE Id IN:ownerIds
+                AND IsActive = TRUE
         ]);
 
         for (Task task : tasks) {
             if (task.Task_Code__c != null) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
-                    emailMessages.add(SendEmailTemplate.createEmail(
-                            card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, task.WhatId));
+                    Id whatId = task.WhatId;
+                    if(whatId == null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+                        try {
+                            whatId = task.Description;
+                        } catch (Exception e) {
+                            System.debug('Wrong id on description');
+                        }
+                    }
+                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                        emailMessages.add(SendEmailTemplate.createEmail(
+                                card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
+                    }
+                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                        for(Id delContactId : PatientDelegateService.getDelegatedContactIds(usersByIds.get(task.OwnerId).ContactId)) {
+                            emailMessages.add(SendEmailTemplate.createEmail(
+                                    card.Immediate_Email_Template__c, delContactId, whatId));
+                        }
+                    }
                 }
             }
         }
@@ -114,7 +138,20 @@ public without sharing class TaskTriggerHandler {
             Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
             if (card == null) continue;
             if (card.Source_Object_Type__c == null) continue;
-            if (task.WhatId == null) continue;
+
+            if (task.WhatId == null && card.Parameters__c != null) {
+                if(task.Task_Code__c == TaskService.TASK_CODE_COMPLETE_SURVEY && task.Description != null) {
+                    try {
+                        task.WhatId = task.Description;
+                    } catch (Exception e) {
+                        System.debug('Wrong id on description field');
+                    }
+                } else {
+                    task.WhatId.addError('What Id can not be null');
+                    continue;
+                }
+            }
+
             if (String.isEmpty(card.Parameters__c)) continue;
             Map<String, String> cardParametersMap = CatalogParametersHelper.getParamsMap(card.Parameters__c);
 
