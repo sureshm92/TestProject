@@ -186,4 +186,17 @@ public without sharing class PSEService {
         System.debug(pseMap);
         update pseMap.values();
     }
+
+    public static List<Participant_Study_Enrollment__c> getPSEListByExternalIds(List<String> externalKeys){
+        return [
+                SELECT
+                        Id,
+                        External_Key__c,
+                        Status__c,
+                        IsSubjectIDverifiedInSDH__c
+                FROM    Participant_Study_Enrollment__c
+                WHERE   External_Key__c IN : externalKeys
+                LIMIT   10000
+        ];
+    }
 }
