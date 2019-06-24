@@ -10,12 +10,7 @@ public without sharing class AccountSettingsController {
             initData.myContact = getCurrentContact();
             initData.cookieSettings = getCookieSettings();
 
-            if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-                initData.myContact = fillParticipantContact(initData.myContact);
-            }
-
             if (initData.myContact.primaryContact__c == null) {
-        
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT
                         && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
@@ -44,7 +39,7 @@ public without sharing class AccountSettingsController {
             }
             initData.userName = UserInfo.getUserName();
             initData.isDelegate = PatientDelegateService.getInstance().isDelegate();
-            return JSON.serialize(initData);
+            return JSON.serialize(initData, false);
         } catch (Exception e) {
             System.debug(e);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -268,6 +263,8 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public String message;
         @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
+        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
+        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         @AuraEnabled public List<CookieSettings> cookieSettings;
     }
 

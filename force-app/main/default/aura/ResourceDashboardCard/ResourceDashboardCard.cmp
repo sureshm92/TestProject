@@ -15,7 +15,7 @@
     <div class="rr-white-panel resource-card">
 
         <header class="resource-card-title">
-            Resources
+            {!$Label.c.PG_L_Resources}
         </header>
 
         <aura:if isTrue="{!v.noTAMessage != null}">

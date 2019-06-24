@@ -189,9 +189,6 @@ public without sharing class StudyTrialService {
                 query += 'ORDER BY DISTANCE(Principal_Investigator__r.Account.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
             }
         }
-
-
-
         List<Study_Site__c> allStudySites = Database.query(query);
         Map<Id, List<Study_Site__c>> trialIdToStudySites = new Map<Id, List<Study_Site__c>>();
         List<Clinical_Trial_Profile__c> trials = new List<Clinical_Trial_Profile__c>();
