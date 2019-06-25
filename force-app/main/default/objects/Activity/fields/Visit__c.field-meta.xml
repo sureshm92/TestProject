@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Patient_Visit__c</fullName>
+    <fullName>Visit__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Patient Visit</label>
-    <referenceTo>Patient_Visit__c</referenceTo>
+    <label>Visit</label>
+    <referenceTo>Visit__c</referenceTo>
     <relationshipLabel>Reminders</relationshipLabel>
-    <relationshipName>Reminders</relationshipName>
+    <relationshipName>Activities</relationshipName>
     <required>false</required>
     <type>Lookup</type>
 </CustomField>

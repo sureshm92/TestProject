@@ -571,6 +571,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PatientVisitService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PlatformEventService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1951,11 +1955,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event.Patient_Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1982,6 +1981,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Visible_For__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Visit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3436,11 +3440,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Patient_Visit__c.Timeplane__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Patient_Visit__c.Visit_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3722,12 +3721,12 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>SDH_Status__mdt.Salesforce_Object__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>SDH_Status__mdt.Salesforce_Status__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4081,11 +4080,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.Patient_Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Task.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4112,6 +4106,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Visible_For__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Visit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4386,7 +4385,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Visit__c.Timeplane__c</field>
+        <field>Visit__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

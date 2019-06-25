@@ -43,7 +43,7 @@
                     <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
                         <tr>
                             <td class="sv-t-name">{!visitWrapper.name}</td>
-                            <td class="sv-t-time">{!visitWrapper.timeplane}</td>
+                            <td class="sv-t-time">{!visitWrapper.schedule}</td>
                             <td class="{!visitWrapper.isAdhoc ? 'invisible' : 'sv-t-icons'}">
                                 <c:RRIconSplitter numOfIconsToDisplay="5" class="svl-icon"
                                                   value="{!visitWrapper.icons}"/>
@@ -51,7 +51,7 @@
                             <td class="{!visitWrapper.isAdhoc ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Unscheduled_Visit}</td>
                             <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-status' : 'invisible'}">{!visitWrapper.status}</td>
                             <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-reminder' : 'invisible'}"
-                                data-visit-id="{!visitWrapper.visit.Id}"
+                                data-visit-id="{!visitWrapper.visitId}"
                                 data-task-id="{!visitWrapper.task.Id}"
                                 onclick="{!c.createEditTask}">
                                 {!visitWrapper.task == null ? 'Create' : visitWrapper.reminderDate}
