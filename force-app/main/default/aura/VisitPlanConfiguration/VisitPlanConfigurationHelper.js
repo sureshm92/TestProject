@@ -184,12 +184,6 @@
             console.log('error:', err[0].message);
         })
     },
-    shiftRight: function (component, event, helper) {
-        component.find('editForm').submit();
-    },
-    shiftLeft: function (component, event, helper) {
-        component.find('editForm').submit();
-    },
 
 
 })
