@@ -27,5 +27,14 @@
                 communityService.showSuccessToast('', 'Batch launched successfully!');
             }
         });
+    },
+
+    getData : function (component) {
+        var spinner = component.find('spinner');
+        spinner.show();
+        communityService.executeAction(component, 'getData', null, function (response) {
+            component.set('v.jobs', response);
+            spinner.hide();
+        });
     }
 });
