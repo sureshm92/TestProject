@@ -97,13 +97,8 @@ public class ParticipantService {
         if (participantState.value == ParticipantStates.ALUMNI) return false;
 
         if (participantState.ctp.Visit_Plan__c != null) {
-            List<Visit__c> visitsList = (List<Visit__c>) DatabaseService.query(
-                    new List<String>{
-                            'Id'
-                    },
-                    Visit__c.getSObjectType(),
-                    DatabaseService.fieldEqual('Visit_Plan__c', participantState.ctp.Visit_Plan__c)
-            );
+            List<Visit__c> visitsList = (List<Visit__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                    .query('SELECT Id FROM Visit__c WHERE Visit_Plan__c = \'' + participantState.ctp.Visit_Plan__c + '\'', true);
             return !visitsList.isEmpty();
         }
 

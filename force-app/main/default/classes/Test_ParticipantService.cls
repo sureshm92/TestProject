@@ -74,7 +74,7 @@ public class Test_ParticipantService {
             if(stubbedMethodName == 'queryImpl' && listOfArgs.size() > 1) {
                 SObjectType sObjectType = (SObjectType) listOfArgs[1];
                 if (sObjectType == Visit__c.getSObjectType()) {
-                    return new Visit__c(Name = 'TestVisit', Timeplane__c = 'Week 1', Icons__c = '');
+                    return new Visit__c(Name = 'TestVisit', Visit_Schedule__c = 'Week 1', Icons__c = '');
                 }
             }
             return null;

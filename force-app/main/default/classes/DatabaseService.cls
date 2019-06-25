@@ -21,8 +21,14 @@ public class DatabaseService {
     }
     
     public List<SObject> queryImpl(List<String> fields, SObjectType objectType, String filter){
+        return queryImpl(fields, objectType, filter, null, null);
+    }
+
+    public List<SObject> queryImpl(List<String> fields, SObjectType objectType, String filter, String orderBy, Integer limitNumber){
         String queryString = 'SELECT ' + String.join(fields, ',') + ' FROM ' + objectType;
         if(filter != null) queryString += ' WHERE ' + filter;
+        if(orderBy != null) queryString += ' ORDER BY ' + orderBy;
+        if(limitNumber != null) queryString += ' LIMIT ' + limitNumber;
         return queryImpl(queryString);
     }
     

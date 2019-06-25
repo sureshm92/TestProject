@@ -28,7 +28,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Reminder_Schedule__c</field>
+                <field>Patient_Visit__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
