@@ -9,7 +9,6 @@ public with sharing class VisitConfigurationRemote {
         return [
                 SELECT Id,Name
                         ,Order__c
-                        ,Timeplane__c
                         ,Visit_Plan__c
                         ,Visit_Schedule__c
                         ,Visit_Number__c

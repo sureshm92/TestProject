@@ -34,7 +34,7 @@
             }
             let visitId = communityService.getUrlParameter('visitId');
             if(visitId){
-                component.set('v.task.Patient_Visit__c', visitId);
+                component.set('v.task.Visit__c', visitId);
             }
             component.set('v.createdByAdmin', wrapper.createdByAdmin);
             component.set('v.errorMessage', wrapper.errorMessage);
