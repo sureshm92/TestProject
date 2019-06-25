@@ -1947,11 +1947,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event.Patient_Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3432,11 +3427,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Patient_Visit__c.Timeplane__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Patient_Visit__c.Visit_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4064,11 +4054,6 @@
         <editable>false</editable>
         <field>Task.Originator__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Task.Patient_Visit__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
