@@ -4,12 +4,10 @@
 
 ({
     doInit: function (component, event, helper) {
-        var spinner = component.find('spinner');
-        spinner.show();
-        communityService.executeAction(component, 'getData', null, function (response) {
-            component.set('v.jobs', response);
-            spinner.hide();
-        });
+        helper.getData(component);
+        setInterval($A.getCallback(function () {
+            helper.getData(component)
+        }), 5000);
     },
 
     clickRun: function (component, event, helper) {
