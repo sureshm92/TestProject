@@ -39,7 +39,7 @@ public with sharing class IntegrationPatientTriggerHandler {
         for(Integration_Patient__c patient : newList){
             if(pseMap.containsKey(patient.External_ID__c)) {
                 pseMap.get(patient.External_ID__c).Status__c = getPSEStatus(sdhStatusMap, patient);
-                if (!patient.IsDeletedInSDH__c) {
+                if (patient.IsDeletedInSDH__c == 'N') {
                     pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = true;
                 } else {
                     pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = false;
