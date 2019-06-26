@@ -46,7 +46,8 @@ public without sharing class TaskService {
             'Visible_For__c',
             'Action_URL__c',
             'Reminder_Date__c',
-            'Originator__c'
+            'Originator__c',
+            'Visit__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{

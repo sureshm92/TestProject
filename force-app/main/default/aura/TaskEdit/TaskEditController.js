@@ -32,6 +32,10 @@
             if(!component.get('v.initialized')) {
                 component.set('v.task', wrapper.task);
             }
+            let visitId = communityService.getUrlParameter('visitId');
+            if(visitId){
+                component.set('v.task.Visit__c', visitId);
+            }
             component.set('v.createdByAdmin', wrapper.createdByAdmin);
             component.set('v.errorMessage', wrapper.errorMessage);
             component.set('v.reminderDateEnabled', wrapper.reminderEnabled);
@@ -80,7 +84,7 @@
         }
         component.find('spinner').show();
         communityService.executeAction(component, 'upsertTask', {
-            'paramTask': component.get('v.task')
+            'paramTask': JSON.stringify(component.get('v.task'))
         }, function () {
             window.history.go(-1);
         }, null, function () {

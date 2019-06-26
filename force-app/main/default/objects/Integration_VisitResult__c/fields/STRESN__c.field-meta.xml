@@ -3,10 +3,9 @@
     <fullName>STRESN__c</fullName>
     <externalId>false</externalId>
     <label>STRESN</label>
-    <precision>5</precision>
+    <length>255</length>
     <required>false</required>
-    <scale>2</scale>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>

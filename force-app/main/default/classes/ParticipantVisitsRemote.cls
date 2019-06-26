@@ -27,13 +27,14 @@ public with sharing class ParticipantVisitsRemote {
         }
     }
 
-    @AuraEnabled
-    public static String getParticipantVisits() {
+    @AuraEnabled(cacheable=true)
+    public static List<ParticipantVisitsService.VisitWrapper> getParticipantVisits(String visitMode) {
         try{
-            return JSON.serialize(VisitService.getInstance().getVisits(null));
+            return ((ParticipantVisitsService) ClassFactory.newInstance(ParticipantVisitsService.class)).getVisitWrappers(visitMode);
         }catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            AuraHelper.throwException(e);
         }
+        return null;
     }
 
     @AuraEnabled

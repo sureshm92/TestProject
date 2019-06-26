@@ -1,0 +1,29 @@
+<!--
+ - Created by AlexKetch on 6/19/2019.
+ -->
+
+<aura:component description="IconsSelector">
+    <aura:attribute name="name" type="String" description="ID for the SVG element"/>
+    <aura:attribute name="content" type="Aura.component[]" description="block element to be iterated over"/>
+    <aura:attribute name="selected" type="Boolean" />
+            <div onclick="{!c.select}"  class="slds-visual-picker slds-visual-picker_medium">
+                <input type="checkbox" id="{!v.title}" value="visual-picker-98" name="options"/>
+                <label for="{!v.title}">
+                        <span aura:id="selector" class="slds-visual-picker__figure slds-visual-picker__icon slds-align_absolute-center">
+                          <span class="slds-is-selected">
+                            <span class="slds-icon_container">
+                                {!v.content}
+                            </span>
+                          </span>
+                          <span class="slds-is-not-selected">
+                            <span class="slds-icon_container">
+                                {!v.content}
+                            </span>
+                          </span>
+                        </span>
+                    <span class="slds-visual-picker__body">
+                          <span class="slds-text-title">{!v.name}</span>
+                    </span>
+                </label>
+            </div>
+</aura:component>
