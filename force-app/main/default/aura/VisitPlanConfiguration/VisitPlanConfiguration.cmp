@@ -16,10 +16,9 @@
     <aura:attribute name="error" type="String"/>
     <aura:attribute name="allIcons" type="String[]"
                     default="[
-                    'email','icon-note',
-                    'check-eligibilityt',
-                    'con-blood-test',
+                    'icon-blood-test',
                     'icon-brief-ph-ex',
+                    'icon-x-rays',
                     'icon-ecg',
                     'icon-joint',
                     'icon-lung-test',
@@ -28,7 +27,7 @@
                     'icon-questionnaires',
                     'icon-questions',
                     'icon-vital-signs',
-                    'icon-x-rays']"/>
+                   ]"/>
     <aura:attribute name="availableIcons" type="String[]"/>
     <aura:attribute name="selectedIcons" type="String[]"/>
     <aura:attribute name="visitId" type="String"/>
@@ -37,7 +36,7 @@
     <aura:attribute name="CTPrecord" type="Object" default='Object'/>
     <aura:attribute name="recordLoadError" type="Object" default='Object'/>
     <aura:attribute name="fields" type="String[]" default="['Name']" />
-    <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.IconsPackPath}" access="private"/><aura:attribute name="summaryContainers" type="List" access="private"/>
+     <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.IconsPackPath}" access="private"/><aura:attribute name="summaryContainers" type="List" access="private"/>
     <force:recordData aura:id="CTPLoader"
                       recordId="{!v.recordId}"
                       fields="Name,Visit_Plan__c"
@@ -49,17 +48,17 @@
         <aura:set attribute="actions">
             <lightning:layout horizontalAlign="center" verticalAlign="end">
                 <lightning:layoutItem>
-                    <aura:if isTrue="{!v.visitPlanId!=null}">
+                        <aura:if isTrue="{!v.visitPlanId!=null}">
                         <lightning:button onclick="{!c.onEditIcon}" class="slds-theme_neutral" variant="neutral"
                                           label="Edit Icons"/>
-                    </aura:if>
+                        </aura:if>
                 </lightning:layoutItem>
                 <lightning:layoutItem>
                     <aura:if isTrue="{!v.visitPlanId!=null}">
                         <lightning:button onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
                                           label="add visit"/>
                         <aura:set attribute="else">
-                            <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral" variant="neutral"
+                        <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral" variant="neutral"
                                               label="create VisitPlan"/>
                         </aura:set>
                     </aura:if>
@@ -78,7 +77,7 @@
                     <thead>
                     <tr class="slds-text-title_caps">
                         <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Name}</div>
+                            <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
                         </th>
                         <th>
                             <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
@@ -182,10 +181,10 @@
                 mode="edit"
                 onsuccess="{!c.handleSuccessVP}"
                 oncancel="{!c.onCancelVisitPlan}"
-        />
+                />
 
         <aura:set attribute="footer">
-            {!null}
+          {!null}
         </aura:set>
 
     </c:CustomModal>
