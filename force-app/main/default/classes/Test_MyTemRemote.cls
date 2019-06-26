@@ -9,8 +9,9 @@ public class Test_MyTemRemote {
     static void testCreatePatientDelegate(){
         TestData.loadTestData();
         Test.startTest();
-        TestData testData = new TestData();
-        System.runAs(testData.participantUser){
+        TestData testDatanstance = new TestData();
+        testDatanstance.createPSE();
+        System.runAs(testDatanstance.participantUser){
             Contact delegateContact = new Contact(
                     FirstName = 'Del',
                     LastName = 'Del',

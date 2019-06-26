@@ -3,15 +3,15 @@
  */
 
 @IsTest
-private class Test_AddPatientByPIRemote {
+private without sharing class Test_AddPatientByPIRemote {
     
     @IsTest
     static void testGetInitData() {
         TestData.loadTestData();
         Test.startTest();
-        TestData testData = new TestData();
-        System.runAs(testData.piUser){
-            AddPatientByPIRemote.getInitData(testData.ctp.Id);
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.piUser){
+            AddPatientByPIRemote.getInitData(testDataInstance.ctp.Id);
         }
         Test.stopTest();
     }

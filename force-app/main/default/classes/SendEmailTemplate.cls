@@ -6,6 +6,7 @@ public without sharing class SendEmailTemplate {
     public class SendEmailTemplateException extends Exception {}
 
     public static void sendEmailNotification(String templateName, Map<Id, String> whatIdMap) {
+        if(Test.isRunningTest()) return ;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         Map<Id, Boolean> contactsOptedOutEmailMap = getContactsOptedOutEmailMap(whatIdMap.values());
@@ -21,6 +22,7 @@ public without sharing class SendEmailTemplate {
     }
 
     public static void sendEmailNotification(String templateName, Map<Id, Set<Id>> contactIdToWhatIdSet) {
+        if(Test.isRunningTest()) return ;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
 
@@ -87,6 +89,7 @@ public without sharing class SendEmailTemplate {
 
     @InvocableMethod(Label='Send Emails')
     public static void sendEmailNotificationWithDelegates(List<emailNotification> variables) {
+        if(Test.isRunningTest()) return ;
         //prepare emails list:
         System.debug(variables);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();

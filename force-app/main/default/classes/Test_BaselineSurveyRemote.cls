@@ -29,8 +29,9 @@ private class Test_BaselineSurveyRemote {
 
         TestData.loadTestData();
         Test.startTest();
-        TestData testData = new TestData();
-        System.runAs(testData.participantUser){
+        TestData testDataInstance = new TestData();
+        testDataInstance.createPSE();
+        System.runAs(testDataInstance.participantUser){
             BaselineSurveyRemote.getBaselineSurveyURL(CommunityService.USER_MODE_PARTICIPANT,
                     SurveyService.getInstance().getSurveyInvitationId('000', '111'));
         }
