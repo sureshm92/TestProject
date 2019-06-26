@@ -12,6 +12,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
     <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>
+    <aura:attribute name="iconNames" type="String" default=""/>
 
     <!--HANDLERS-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
@@ -68,6 +69,8 @@
             <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"/>
         </ui:scrollerWrapper>
 
-        <c:StudyVisitsLegend/>
+        <aura:if isTrue="{!v.initialized}">
+            <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+        </aura:if>
     </div>
 </aura:component>

@@ -3,8 +3,10 @@
  */
 
 public with sharing class VisitConfigurationRemote {
-    @auraEnabled
+
+    @AuraEnabled
     public static List<Visit__c> getRelatedPlannedVisits(String ctpId) {
+
         try {
             List<Clinical_Trial_Profile__c> ctps = [
                     SELECT Visit_Plan__c
@@ -15,11 +17,10 @@ public with sharing class VisitConfigurationRemote {
                 return [
                         SELECT Id,Name
                                 ,Order__c
-                                ,Timeplane__c
                                 ,Visit_Plan__c
                                 ,Visit_Schedule__c
                                 ,Visit_Number__c
-                                ,icons__c
+                                ,Icons__c
                         FROM Visit__c
                         WHERE Visit_Plan__c = :ctps[0].Visit_Plan__c
                 ];
@@ -31,25 +32,26 @@ public with sharing class VisitConfigurationRemote {
             AuraHelper.throwException(e);
         }
         return null;
-
     }
-    @auraEnabled
+
+    @AuraEnabled
     public static List<Visit__c> updateCtp(String visitPlanId, String ctpId) {
+
         try {
             Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
                     Id = ctpId,
-                    Visit_plan__c = visitPlanId
+                    Visit_Plan__c = visitPlanId
             );
             update ctp;
-
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
-
     }
-    @auraEnabled
+
+    @AuraEnabled
     public static void deleteVisit(String visitId) {
+
         try {
             Visit__c v = new Visit__c(Id = visitId);
             delete v;
@@ -57,6 +59,4 @@ public with sharing class VisitConfigurationRemote {
             AuraHelper.throwException(e);
         }
     }
-
-
 }

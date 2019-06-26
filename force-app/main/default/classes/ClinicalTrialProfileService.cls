@@ -55,7 +55,7 @@ public with sharing class ClinicalTrialProfileService {
                         'Study_Site__r.Clinical_Trial_Profile__r.Therapeutic_Area__c ' +
                         'FROM Participant_Enrollment__c ' +
                         'WHERE Study_Site__r.Clinical_Trial_Profile__c IN (' +
-                        String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(new Map<Id, Clinical_Trial_Profile__c>(cTPs).keySet()), ', ') + ')';
+                        String.join(CollectionUtil.wrapInApostrophes(new Map<Id, Clinical_Trial_Profile__c>(cTPs).keySet()), ', ') + ')';
         List<Participant_Enrollment__c> enrollments = databaseProxy.query(enrollmentsQuery);
         Map<Id, Id> tAsByParticipantsIds = new Map<Id, Id>();
         for (Participant_Enrollment__c singlePE : enrollments) {
@@ -77,7 +77,7 @@ public with sharing class ClinicalTrialProfileService {
                 'SELECT Id, ' +
                         '(SELECT Id FROM Therapeutic_Area_Patients__r WHERE IsRelatedToStudy__c = TRUE) ' +
                         'FROM Participant__c ' +
-                        'WHERE Id IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(participantsIds), ', ') + ')';
+                        'WHERE Id IN (' + String.join(CollectionUtil.wrapInApostrophes(participantsIds), ', ') + ')';
         return (List<Participant__c>) databaseProxy.query(participantsQuery);
     }
 
@@ -90,7 +90,7 @@ public with sharing class ClinicalTrialProfileService {
                             'Status__c, ' +
                             'Participant__c ' +
                             'FROM Participant_Study_Enrollment__c ' +
-                            'WHERE Participant__c IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tAsByParticipantsIds.keySet()), ', ') + ')';
+                            'WHERE Participant__c IN (' + String.join(CollectionUtil.wrapInApostrophes(tAsByParticipantsIds.keySet()), ', ') + ')';
             List<Participant_Study_Enrollment__c> enrollments = (List<Participant_Study_Enrollment__c>) databaseProxy.query(pSEQuery);
             for (Participant_Study_Enrollment__c singlePSE : enrollments) {
                 if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(singlePSE.Status__c)) {

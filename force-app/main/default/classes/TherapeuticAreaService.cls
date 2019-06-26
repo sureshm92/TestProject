@@ -48,7 +48,7 @@ public with sharing class TherapeuticAreaService {
                 'Name ' +
                 'FROM Therapeutic_Area__c ' +
                 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.TA_RT_NAME + '\' AND ' +
-                'Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(therapeuticAreasNames), ', ') + ')';
+                'Name IN (' + String.join(CollectionUtil.wrapInApostrophes(therapeuticAreasNames), ', ') + ')';
         return (List<Therapeutic_Area__c>) databaseProxy.query(therapeuticAreasQuery);
     }
 
@@ -64,7 +64,7 @@ public with sharing class TherapeuticAreaService {
                 '(SELECT Id, COI__c FROM CTC_Third_Party_COIs__r) ' +
                 'FROM Therapeutic_Area__c ' +
                 'WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.THIRD_PARTY_COI_RT_NAME +
-                '\' AND Name IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(tANames), ', ') + ')';
+                '\' AND Name IN (' + String.join(CollectionUtil.wrapInApostrophes(tANames), ', ') + ')';
         List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) databaseProxy.query(tAsQuery);
         if (!createIfNotExist) {
             return therapeuticAreas;
