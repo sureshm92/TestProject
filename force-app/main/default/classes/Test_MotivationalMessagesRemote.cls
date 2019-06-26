@@ -9,8 +9,9 @@ private class Test_MotivationalMessagesRemote {
     static void test1() {
         TestData.loadTestData();
         Test.startTest();
-        TestData testData = new TestData();
-        System.runAs(testData.participantUser){
+        TestData testDataInstance = new TestData();
+        testDataInstance.createPSE();
+        System.runAs(testDataInstance.participantUser){
             MotivationalMessagesRemote.getMotivationalMessage(CommunityService.USER_MODE_PARTICIPANT);
         }
         Test.stopTest();
