@@ -5,7 +5,7 @@
 
     doInit: function (component, event, helper) {
         helper.getRelatedVisitPlans(component, event, helper);
-       /* helper.getIconsNames(component, event, helper);*/
+        /*helper.getIconsNames(component, event, helper);*/
     },
     addVisit: function (component, event, helper) {
         helper.addVisit(component, event, helper);
