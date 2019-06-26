@@ -11,15 +11,17 @@
     <div class="rr-white-panel">
         <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
         <div class="inner-panel slds-scrollable_y" style="height:260px;">
-            <table class="svl-table">
+            <div class="svl-table">
                 <aura:iteration items="{!v.legends}" var="legend">
-                    <tr>
-                        <td class="svl-icon"><c:RRIcon iconName="{!legend.iconId}"/></td>
-                        <td class="svl-label">{!legend.iconLabel}</td>
-                        <td class="svl-desc">{!legend.iconLegend}</td>
-                    </tr>
+                    <div class="svl-row">
+                        <div class="svl-icon-label">
+                            <div class="svl-icon"><c:RRIcon iconName="{!legend.iconId}"/></div>
+                            <div class="svl-label">{!legend.iconLabel}</div>
+                        </div>
+                        <div class="svl-desc">{!legend.iconLegend}</div>
+                    </div>
                 </aura:iteration>
-            </table>
+            </div>
         </div>
     </div>
 

@@ -3,7 +3,7 @@
     <fullName>STRESN__c</fullName>
     <externalId>false</externalId>
     <label>STRESN</label>
-    <precision>5</precision>
+    <precision>16</precision>
     <required>false</required>
     <scale>2</scale>
     <trackTrending>false</trackTrending>

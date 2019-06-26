@@ -14,10 +14,11 @@ private class Test_ParticipantVisitsRemote {
                     return [
                             SELECT Id,
                                     Name,
-                                    Timeplane__c,
+                                    Visit_Schedule__c,
                                     Icons__c,
                                     Order__c,
-                                    Visit_Plan__c
+                                    Visit_Plan__c,
+                                    Status__c
                             FROM Visit__c
                             ORDER BY Order__c
                             LIMIT 3
@@ -27,10 +28,11 @@ private class Test_ParticipantVisitsRemote {
                     return [
                             SELECT Id,
                                     Name,
-                                    Timeplane__c,
+                                    Visit_Schedule__c,
                                     Icons__c,
                                     Order__c,
-                                    Visit_Plan__c
+                                    Visit_Plan__c,
+                                    Status__c
                             FROM Visit__c
                             ORDER BY Order__c
                     ];
@@ -58,11 +60,11 @@ private class Test_ParticipantVisitsRemote {
         VisitService.setMock(new VisitServiceMock());
 
         Test.startTest();
-        String participantVisits = ParticipantVisitsRemote.getParticipantVisits();
+        List<ParticipantVisitsService.VisitWrapper> participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
         Test.stopTest();
 
         List<Visit__c> visitsAll = VisitService.getInstance().getVisits(null);
-        System.assertEquals(JSON.serialize(visitsAll), participantVisits);
+        System.assertEquals(visitsAll.size(), participantVisits.size());
     }
 
     @IsTest
@@ -100,7 +102,7 @@ private class Test_ParticipantVisitsRemote {
         for(Integer i = 0; i < 5; i++) {
             visits.add(new Visit__c(
                     Name = 'TestVisit'+i,
-                    Timeplane__c = 'Week'+i,
+                    Visit_Schedule__c = 'Week'+i,
                     Icons__c = iconsApiName.get(i),
                     Order__c = i,
                     Visit_Plan__c = vp.Id
