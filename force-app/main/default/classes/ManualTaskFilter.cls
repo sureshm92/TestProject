@@ -32,23 +32,12 @@ public with sharing class ManualTaskFilter {
 
     public static final String SEPARATOR = '\',\'';
 
-    @AuraEnabled
-    public List<String> statuses = new List<String>();
-
-    @AuraEnabled
-    public List<LookupSearchResult> areas = new List<LookupSearchResult>();
-
-    @AuraEnabled
-    public List<LookupSearchResult> sponsors = new List<LookupSearchResult>();
-
-    @AuraEnabled
-    public List<LookupSearchResult> studies = new List<LookupSearchResult>();
-
-    @AuraEnabled
-    public List<LookupSearchResult> countries = new List<LookupSearchResult>();
-
-    @AuraEnabled
-    public List<LookupSearchResult> sites = new List<LookupSearchResult>();
+    @AuraEnabled public List<String> statuses = new List<String>();
+    @AuraEnabled public List<LookupSearchResult> areas = new List<LookupSearchResult>();
+    @AuraEnabled public List<LookupSearchResult> sponsors = new List<LookupSearchResult>();
+    @AuraEnabled public List<LookupSearchResult> studies = new List<LookupSearchResult>();
+    @AuraEnabled public List<LookupSearchResult> countries = new List<LookupSearchResult>();
+    @AuraEnabled public List<LookupSearchResult> sites = new List<LookupSearchResult>();
 
     public List<User> getUsers() {
         Set<Participant__c> participants = new Set<Participant__c>();
@@ -132,22 +121,17 @@ public with sharing class ManualTaskFilter {
     @TestVisible
     private String getFiltersQuery() {
         List<String> filters = new List<String>();
-
         if (!areas.isEmpty()) filters.add(filterTherapeutic());
-
         if (!sponsors.isEmpty()) filters.add(fieldJoin('Study_Site__r.Site__c', sponsors));
-
         if (!studies.isEmpty()) filters.add(fieldJoin('Clinical_Trial_Profile__c', studies));
-
         if (!sites.isEmpty()) filters.add(fieldJoin('Study_Site__c', sites));
-
         return filters.isEmpty() ? '' : ' AND ' + String.join(filters, ' AND ');
     }
 
     @TestVisible
     private String fieldJoin(String fieldName, List<LookupSearchResult> items) {
         List<String> ids = new List<String>();
-        for (LookupSearchResult result : items) ids.add(result.getId());
+        for (LookupSearchResult result : items) ids.add(result.id);
 
         return fieldName + ' IN (\'' + String.join(ids, SEPARATOR) + '\') ';
     }
@@ -160,7 +144,7 @@ public with sharing class ManualTaskFilter {
     @TestVisible
     private List<String> getCountryCode() {
         List<String> countryCodes = new List<String>();
-        for (LookupSearchResult searchResult : countries) countryCodes.add(searchResult.getId());
+        for (LookupSearchResult searchResult : countries) countryCodes.add(searchResult.id);
 
         return countryCodes;
     }

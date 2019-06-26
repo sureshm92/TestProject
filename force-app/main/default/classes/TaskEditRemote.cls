@@ -6,7 +6,7 @@ public without sharing class TaskEditRemote {
 
     public class TaskEditDataWrapper {
         @AuraEnabled public Task task {get;set;}
-        @AuraEnabled public List<String> taskTypeList {get;set;}
+        @AuraEnabled public List<LabelValueItem> taskTypeList {get;set;}
         @AuraEnabled public Boolean isReferral {get;set;}
         @AuraEnabled public String errorMessage {get;set;}
         @AuraEnabled public Boolean reminderEnabled {get;set;}
@@ -35,26 +35,27 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
-    public static void upsertTask(Task paramTask) {
+    public static void upsertTask(String paramTask) {
         try {
-            paramTask.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
+            Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
+            taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
             if(ParticipantService.getInstance().getState().isDelegate) {
-                paramTask.Originator__c = 'Delegate';
+                taskToUpsert.Originator__c = 'Delegate';
             } else {
-                paramTask.Originator__c = 'Participant';
+                taskToUpsert.Originator__c = 'Participant';
             }
-            if (paramTask.Visible_For__c == null) {
-                paramTask.Visible_For__c = 'Owner;Delegates';
+            if (taskToUpsert.Visible_For__c == null) {
+                taskToUpsert.Visible_For__c = 'Owner;Delegates';
             }
-            if(paramTask.Task_Type__c == 'Medication' || paramTask.Task_Type__c == 'Visit'){
-                paramTask.WhatId = ParticipantService.getInstance().getState().pse.Id;
+            if(taskToUpsert.Task_Type__c == 'Medication' || taskToUpsert.Task_Type__c == 'Visit'){
+                taskToUpsert.WhatId = ParticipantService.getInstance().getState().pse.Id;
             } else {
-                paramTask.Task_Type__c = 'Not Selected';
+                taskToUpsert.Task_Type__c = 'Not Selected';
             }
-            if (paramTask.Id != null) {
-                changeReminderDate(paramTask);
+            if (taskToUpsert.Id != null) {
+                changeReminderDate(taskToUpsert);
             }
-            upsert paramTask;
+            upsert taskToUpsert;
         } catch (Exception e) {
             System.debug(e);
             AuraHelper.throwException(e);
@@ -92,16 +93,13 @@ public without sharing class TaskEditRemote {
     private static Boolean checkEmailPreferencesIsOn() {
         return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
-
-    private static List<String> getTaskTypeList() {
-        List<String> pickListValuesList = new List<String>();
-        Schema.DescribeFieldResult fieldResult = Task.Task_Type__c.getDescribe();
-        List<Schema.PicklistEntry> picklistEntry = fieldResult.getPicklistValues();
-        for (Schema.PicklistEntry pickListValue : picklistEntry) {
-            if(pickListValue.value.equals(TaskService.TASK_TYPE_SURVEY)) continue;
-            pickListValuesList.add(pickListValue.getLabel());
-        }
-        return pickListValuesList;
+    
+    private static List<LabelValueItem> getTaskTypeList() {
+        List<LabelValueItem> genders = new List<LabelValueItem>();
+        genders.add(new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'));
+        genders.add(new LabelValueItem(Label.Task_Type_Medication, 'Medication'));
+        genders.add(new LabelValueItem(Label.Task_Type_Visit, 'Visit'));
+        return genders;
     }
 
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {

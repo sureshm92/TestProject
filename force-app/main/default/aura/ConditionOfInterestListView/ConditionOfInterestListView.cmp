@@ -13,6 +13,7 @@
     <c:RRSpinner aura:id="spinner" showSpinner="{!v.showSpinner}"/>
     <div class="slds-size--1-of-2 slds-max-small-size--1-of-1 slds-medium-size--1-of-1 slds-x-small-size--1-of-1 size slds-large-size--1-of-2 slds-p-right--small">
         <div class="slds-grid slds-wrap">
+            <div style="width: 100%">
             <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
                 <aura:iteration items="{!v.conditionOfInterestList}" var="coi" indexVar="arrayInd">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
@@ -50,7 +51,7 @@
                     </div>
                 </aura:set>
             </aura:if>
-
+            </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                 <button class="apollo-btn primary slds-float--right slds-m-top--medium slds-p-bottom--medium" id="0"
                         onclick="{!c.doSelect}">

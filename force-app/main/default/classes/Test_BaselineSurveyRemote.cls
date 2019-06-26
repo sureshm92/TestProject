@@ -12,8 +12,12 @@ private class Test_BaselineSurveyRemote {
         ) {
             if (stubbedMethodName == 'getSurveyLinkForCTP') {
                 return new SurveyService.SurveyWrapper('some', 'url', 'SCN');
-            } else if(stubbedMethodName == 'getSurveyInvitationId') {
+            }
+            if(stubbedMethodName == 'getSurveyInvitationId') {
                 return TestDataFactory.getFakeId(SurveyInvitation.getSObjectType());
+            }
+            if(stubbedMethodName == 'isInvitationExpired') {
+                return false;
             }
             return null;
         }
@@ -31,6 +35,5 @@ private class Test_BaselineSurveyRemote {
                     SurveyService.getInstance().getSurveyInvitationId('000', '111'));
         }
         Test.stopTest();
-
     }
 }
