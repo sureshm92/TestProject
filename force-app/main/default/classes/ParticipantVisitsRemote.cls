@@ -19,18 +19,19 @@ public with sharing class ParticipantVisitsRemote {
     };
 
     @AuraEnabled
-    public static String getVisitsPreview() {
+    public static List<PatientVisitService.VisitWrapper> getVisitsPreview() {
         try{
-            return JSON.serialize(VisitService.getInstance().getPreviewVisits());
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 3);
         }catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            AuraHelper.throwException(e);
         }
+        return null;
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<ParticipantVisitsService.VisitWrapper> getParticipantVisits(String visitMode) {
+    @AuraEnabled
+    public static List<PatientVisitService.VisitWrapper> getParticipantVisits(String visitMode) {
         try{
-            return ((ParticipantVisitsService) ClassFactory.newInstance(ParticipantVisitsService.class)).getVisitWrappers(visitMode);
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(visitMode);
         }catch (Exception e) {
             AuraHelper.throwException(e);
         }

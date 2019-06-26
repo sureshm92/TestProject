@@ -7,8 +7,8 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes-->
-    <aura:attribute name="visitWrappers" type="ParticipantVisitsService.VisitWrapper[]"/>
-    <aura:attribute name="currentVisits" type="ParticipantVisitsService.VisitWrapper[]"/>
+    <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
+    <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
     <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>

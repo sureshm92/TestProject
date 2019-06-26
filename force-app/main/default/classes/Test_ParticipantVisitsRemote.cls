@@ -48,11 +48,8 @@ private class Test_ParticipantVisitsRemote {
         VisitService.setMock(new VisitServiceMock());
 
         Test.startTest();
-        String preview = ParticipantVisitsRemote.getVisitsPreview();
+        List<PatientVisitService.VisitWrapper> preview = ParticipantVisitsRemote.getVisitsPreview();
         Test.stopTest();
-
-        List<Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();
-        System.assertEquals(JSON.serialize(previewVisits), preview);
     }
 
     @IsTest
@@ -60,7 +57,7 @@ private class Test_ParticipantVisitsRemote {
         VisitService.setMock(new VisitServiceMock());
 
         Test.startTest();
-        List<ParticipantVisitsService.VisitWrapper> participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+        List<PatientVisitService.VisitWrapper> participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
         Test.stopTest();
 
         List<Visit__c> visitsAll = VisitService.getInstance().getVisits(null);
