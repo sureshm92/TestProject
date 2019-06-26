@@ -9,9 +9,10 @@ private class Test_PSEStatusHistoryRemote {
     static void test1() {
         TestData.loadTestData();
         Test.startTest();
-        TestData testData = new TestData();
-        System.runAs(testData.participantUser){
-            PSEStatusHistoryRemote.getPSEStatusHistory(testData.pse.Id);
+        TestData testDataInstance = new TestData();
+        testDataInstance.createPSE();
+        System.runAs(testDataInstance.participantUser){
+            PSEStatusHistoryRemote.getPSEStatusHistory(testDataInstance.pse.Id);
         }
         Test.stopTest();
     }

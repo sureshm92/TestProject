@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class StudyActionsHCP extends StudyActions{
+public without sharing class StudyActionsHCP extends StudyActions{
 
     public StudyActionsHCP(HCP_Enrollment__c hcpEnrollment){
         this(
