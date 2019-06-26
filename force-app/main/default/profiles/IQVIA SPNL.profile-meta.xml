@@ -343,6 +343,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IntegrationPatientTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IntegrationService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1139,6 +1143,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisitResultSharingService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1560,6 +1568,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Availability_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Availability_Timing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Participant_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1651,6 +1674,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Verification_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Visit_Data_Shareback__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1856,6 +1884,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.UserCommunityIsDelegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Visit_Results_Opt_In__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3665,6 +3698,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SDH_Status__mdt.Salesforce_Object__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SDH_Status__mdt.Salesforce_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ScheduleIntervalSettings__mdt.Days__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3974,6 +4017,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Visit_Results_Sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>SurveyInvitation.Participant_Study_Enrollment__c</field>
         <readable>true</readable>
@@ -4275,6 +4323,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Sharing_Countries__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4479,6 +4542,9 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>SDH_Status__mdt-SDH Status Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ScheduleIntervalSettings__mdt-ScheduleIntervalSetting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4560,6 +4626,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result_Type_Sharing__c-Visit Result Type Sharing Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>

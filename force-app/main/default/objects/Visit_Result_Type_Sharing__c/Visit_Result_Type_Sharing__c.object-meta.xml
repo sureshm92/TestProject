@@ -42,25 +42,24 @@
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
-    <deploymentStatus>InDevelopment</deploymentStatus>
-    <enableActivities>true</enableActivities>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
-    <enableReports>true</enableReports>
+    <enableReports>false</enableReports>
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Visit Result</label>
+    <externalSharingModel>Private</externalSharingModel>
+    <label>Visit Result Type Sharing</label>
     <nameField>
-        <displayFormat>VR-{0000000}</displayFormat>
-        <label>Visit_Result Name</label>
-        <type>AutoNumber</type>
+        <label>Visit Result Type Sharing Name</label>
+        <type>Text</type>
     </nameField>
-    <pluralLabel>Visit_Results</pluralLabel>
+    <pluralLabel>Visit Result Type Sharings</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
