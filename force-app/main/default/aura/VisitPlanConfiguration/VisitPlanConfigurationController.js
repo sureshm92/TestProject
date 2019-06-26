@@ -5,7 +5,7 @@
 
     doInit: function (component, event, helper) {
         helper.getRelatedVisitPlans(component, event, helper);
-       /* helper.getIconsNames(component, event, helper);*/
+        /*helper.getIconsNames(component, event, helper);*/
     },
     addVisit: function (component, event, helper) {
         helper.addVisit(component, event, helper);
@@ -19,7 +19,7 @@
         component.find('visitPlan').set('v.value', recId);
     },
     deleteRecord: function (component, event, helper) {
-       helper.deleteRecord(component, event, helper);
+        helper.deleteRecord(component, event, helper);
     },
     createVisitplan: function (component, event, helper) {
         component.find('createVisitPlan').show();
@@ -28,10 +28,10 @@
         component.find('createVisitPlan').hide();
     },
     handleRecordUpdated: function(component, event, helper) {
-       helper.handleRecordUpdated(component, event, helper);
+        helper.handleRecordUpdated(component, event, helper);
     },
     handleSuccessVP: function (component, event, helper) {
-       helper.handleSuccessVP(component, event, helper);
+        helper.handleSuccessVP(component, event, helper);
     },
 
     editMode: function (component, event, helper) {
@@ -50,7 +50,7 @@
         component.find('editForm').submit();
     },
     shiftRight: function (component, event, helper) {
-      helper.shiftRight(component, event, helper);
+        helper.shiftRight(component, event, helper);
     },
     shiftLeft: function (component, event, helper) {
         helper.shiftLeft(component, event, helper);
