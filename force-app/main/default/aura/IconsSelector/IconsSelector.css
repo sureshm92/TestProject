@@ -1,0 +1,55 @@
+/**
+ * Created by AlexKetch on 6/19/2019.
+ */
+.THIS.selected {
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: rgba(0, 68, 135, 1) 0 0 0 1.3px inset;
+
+}
+
+.THIS.slds-visual-picker_medium .slds-visual-picker__figure {
+    height: 4rem;
+}
+
+.THIS.slds-visual-picker_medium .slds-visual-picker__figure {
+    width: 4rem;
+}
+
+.THIS.slds-visual-picker_medium .slds-visual-picker__body {
+    width: 4rem;
+}
+
+.THIS.static {
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+
+}
+
+.THIS.slds-align_absolute-center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    /* margin: auto; */
+    margin-left: 1rem;
+}
+
+.THIS.slds-align--absolute-center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    /* margin: auto; */
+    margin-left: 1rem;
+}
+
+.THIS.slds-visual-picker_medium .slds-visual-picker__body {
+    width: 5.7rem;
+}
+
+.THIS .selected {
+    background-color: rgb(252, 253, 254);
+    border: 2px solid rgb(21, 137, 238);
+}

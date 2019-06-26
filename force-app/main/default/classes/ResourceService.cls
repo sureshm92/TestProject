@@ -294,7 +294,7 @@ public inherited sharing class ResourceService {
                         '(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true' + ' AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
                         'FROM Participant__c ' +
                         'WHERE Id = \'' + participantId + '\'';
-        return ((List<Participant__c>) databaseProxy.query(participantQuery))[0];
+        return ((List<Participant__c>) databaseProxy.query(participantQuery, true))[0];
     }
 
     @TestVisible
