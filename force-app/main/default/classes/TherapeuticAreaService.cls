@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-public with sharing class TherapeuticAreaService {
+public without sharing class TherapeuticAreaService {
     public static final String COI_RT_NAME = 'Condition_of_Interests';
     public static final String TA_RT_NAME = 'Therapeutic_Area';
     public static final String THIRD_PARTY_COI_RT_NAME = 'Third_Party_Condition_of_Interests';

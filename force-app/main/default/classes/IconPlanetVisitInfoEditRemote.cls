@@ -35,7 +35,7 @@ public with sharing class IconPlanetVisitInfoEditRemote {
                 det.Name = entry.value;
                 iconDetails.add(det);
             }
-
+            insert iconDetails;
             return iconDetails;
         } catch (Exception e) {
             AuraHelper.throwException(e);

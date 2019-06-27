@@ -17,17 +17,32 @@ public class TestData {
     
     public TestData(){
         participant = [SELECT Id, Name FROM Participant__c WHERE Last_Name__c = 'Participant'];
-        participantUser = [SELECT Id FROM User WHERE Contact.LastName = :participant.Name];
-        hcpUser = [SELECT Id FROM User WHERE Contact.LastName = 'HCP'];
-        piUser = [SELECT Id FROM User WHERE Contact.LastName = 'PI'];
+        List<String> contactLastNames = new List<String>{
+                participant.Name,
+                'HCP',
+                'PI'
+        };
+        List<User> users = [SELECT Id, LastName FROM User WHERE Contact.LastName IN: contactLastNames];
+        for(User user : users){
+            if(user.LastName == 'PI') piUser = user;
+            if(user.LastName == 'HCP') hcpUser = user;
+            if(user.LastName == participant.Name) participantUser = user;
+        }
         ctp = [SELECT Id, Therapeutic_Area__c FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
         ss = [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
-        pse = [SELECT Id, Participant_Contact__c FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
         pe = [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c =: participant.Id];
+    }
+    
+    public void createPSE(){
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update pe;
+        pse = [SELECT Id, Participant_Contact__c FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
     }
     
     
     public static void loadTestData(){
+        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
@@ -158,10 +173,7 @@ public class TestData {
                 Participant__c = participant.Id
         );
         insert pe;
-    
-        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update pe;
-
+        
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
         );
