@@ -3,7 +3,6 @@
  */
 ({
     doSearchByTerm: function (component, event, helper) {
-        debugger;
         const params = event.getParam('arguments');
         communityService.executeAction(component, 'searchSSByTerm', {
             ctpId: component.get('v.ctpId'),
@@ -22,5 +21,4 @@
             params.callback(selection);
         })
     }
-
 })
