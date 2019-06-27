@@ -2027,11 +2027,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Event.Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Guides_Setting__mdt.HCP_Quick_Reference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4182,11 +4177,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Task.Visit__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Task_Catalog__mdt.Action_Link__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4483,21 +4473,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Visit__c.Visit_Schedule__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>icons_detail__c.Icons_package__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>icons_detail__c.description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>icons_detail__c.label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
