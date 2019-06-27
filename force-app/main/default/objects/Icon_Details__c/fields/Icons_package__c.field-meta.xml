@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <label>Icons package</label>
     <referenceTo>Icons_package__c</referenceTo>
+    <relationshipLabel>Icon Details</relationshipLabel>
     <relationshipName>Icon_Details</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
