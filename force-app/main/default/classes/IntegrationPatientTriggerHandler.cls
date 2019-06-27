@@ -50,7 +50,7 @@ public with sharing class IntegrationPatientTriggerHandler {
     }
 
     private static String getPSEStatus(Map<String, SDH_Status__mdt> sdhStatusMap, Integration_Patient__c patient){
-        if(sdhStatusMap.containsKey(patient.Subject_Status__c)){
+        if(sdhStatusMap.containsKey(patient.Subject_Status__c) && sdhStatusMap.get(patient.Subject_Status__c).Salesforce_Object__c == 'Participant Study Enrollment'){
             return sdhStatusMap.get(patient.Subject_Status__c).Salesforce_Status__c;
         }
         return null;

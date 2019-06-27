@@ -3,7 +3,9 @@
  */
 ({
     doInit : function (component, event, helper) {
-        communityService.executeAction(component, 'getVisitsLegend', null, function (response) {
+        communityService.executeAction(component, 'getVisitsLegend', {
+            'iconNames' : component.get('v.iconNames')
+        }, function (response) {
             component.set('v.legends', JSON.parse(response));
         });
     }

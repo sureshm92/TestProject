@@ -21,7 +21,7 @@ public inherited sharing class ResourceContentClassService {
                         '(SELECT Id FROM Therapeutic_Area_Assignments__r), ' +
                         '(SELECT Id FROM Study__r) ' +
                         'FROM Resource__c ' +
-                        'WHERE Id IN (' + String.join(CollectionUtil.getListOfIdsWrappedInApostrophes(resourcesIds), ', ') + ')';
+                        'WHERE Id IN (' + String.join(CollectionUtil.wrapInApostrophes(resourcesIds), ', ') + ')';
         List<Resource__c> resources = (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resourcesQuery);
         List<SObject> objectsToDelete = new List<SObject>();
         for (Resource__c singleResource : resources) {

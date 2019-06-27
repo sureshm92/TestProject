@@ -18,40 +18,47 @@ public with sharing class ParticipantVisitsRemote {
             'Questions' => Label.StudyVisit_Legend_Questions2
     };
 
-    @AuraEnabled
-    public static String getVisitsPreview() {
-        try{
-            return JSON.serialize(VisitService.getInstance().getPreviewVisits());
-        }catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
 
-    @AuraEnabled(cacheable=true)
-    public static List<ParticipantVisitsService.VisitWrapper> getParticipantVisits(String visitMode) {
-        try{
-            return ((ParticipantVisitsService) ClassFactory.newInstance(ParticipantVisitsService.class)).getVisitWrappers(visitMode);
-        }catch (Exception e) {
+    @AuraEnabled
+    public static List<PatientVisitService.VisitWrapper> getVisitsPreview() {
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 3);
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
     }
 
     @AuraEnabled
-    public static String getVisitsLegend() {
-        try{
-            List<PicklistEntry> picklistEntries = Visit__c.Icons__c.getDescribe().picklistValues;
-            List<Legend> legends = new List<ParticipantVisitsRemote.Legend>();
-            for(PicklistEntry entry : picklistEntries) {
+    public static List<PatientVisitService.VisitWrapper> getParticipantVisits(String visitMode) {
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(visitMode);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
+    public static String getVisitsLegend(String iconNames) {
+        try {
+            String query = 'SELECT Id, ' +
+                    'Name, ' +
+                    'Label__c, ' +
+                    'Description__c ' +
+                    'FROM Icon_Details__c ' +
+                    'WHERE Name IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(iconNames.split(';'))) + ')';
+            List<Icon_Details__c> iconsDetails = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
+            List<Legend> legends = new List<Legend>();
+            for (Icon_Details__c iconDetails : iconsDetails) {
                 Legend leg = new Legend();
-                leg.iconId = entry.value;
-                leg.iconLabel = entry.label;
-                leg.iconLegend = LABELS_MAP.get(entry.label);
+                leg.iconId = iconDetails.Name;
+                leg.iconLabel = iconDetails.Label__c;
+                leg.iconLegend = iconDetails.Description__c;
                 legends.add(leg);
             }
-
             return JSON.serialize(legends);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
