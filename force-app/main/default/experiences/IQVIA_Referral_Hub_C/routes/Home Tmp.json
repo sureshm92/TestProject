@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "home-tmp",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "custom-home-tmp",
+  "pageAccess" : "UseParent",
+  "label" : "Home Tmp",
+  "id" : "b0b7601e-988b-4f7d-bc10-456799301565",
+  "type" : "route"
+}

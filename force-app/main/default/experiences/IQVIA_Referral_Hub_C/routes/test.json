@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "test",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "custom-test",
+  "pageAccess" : "UseParent",
+  "label" : "test",
+  "id" : "6534c87b-d54d-4a71-a8de-cd1b2000ef46",
+  "type" : "route"
+}

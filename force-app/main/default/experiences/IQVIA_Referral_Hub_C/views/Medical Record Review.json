@@ -1,0 +1,40 @@
+{
+  "themeLayoutType" : "O3BaUt1WFPg1Lbs4TSli1UrNxJ1ZUS",
+  "viewType" : "custom-Medical Record Review",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "label" : "Medical Record Review",
+  "id" : "abfecd60-2059-439e-a5de-fcb9322a2863",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "column1",
+    "id" : "b3a4f7e7-7d12-4689-b6a7-3f280b1dcf16",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:MedicalRecordReview",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "ba3db1ac-f4e6-42af-9e78-2da725b9c695",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "4175aef4-7141-4389-baa4-0b44eee20a88",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "Medical Record Review"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "7e9e6864-59b8-404b-ac7d-b0f0cf297e37",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "task-reminder-detail",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "custom-task-reminder-detail",
+  "pageAccess" : "UseParent",
+  "label" : "Task Reminder Detail",
+  "id" : "a5fc90ac-1e59-427f-b3b4-dff69389f1e4",
+  "type" : "route"
+}

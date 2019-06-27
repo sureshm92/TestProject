@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "sfdcpage",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "sfdcpage",
+  "pageAccess" : "UseParent",
+  "label" : "Sfdc Page",
+  "id" : "d04b523f-d40d-4273-aeb9-4448f0f88975",
+  "type" : "route"
+}

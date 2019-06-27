@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "clinic-profile",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "custom-Clinic Profile",
+  "pageAccess" : "UseParent",
+  "label" : "Clinic Profile",
+  "id" : "c72e4904-5179-42d6-8d4d-2f736e814508",
+  "type" : "route"
+}

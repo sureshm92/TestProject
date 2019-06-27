@@ -1,0 +1,40 @@
+{
+  "themeLayoutType" : "O3BaUt1WFPg1Lbs4TSli1UrNxJ1ZUS",
+  "viewType" : "custom-Referring",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "label" : "Referring",
+  "id" : "834b0de6-380e-4465-8739-c128205ae4d0",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "column1",
+    "id" : "57767a66-856e-4d6f-b22a-4ccadf3c267e",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:Referring",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "17c781fb-b512-45c1-96db-737e2240d3b4",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "c58ac871-18d9-41d7-9e95-1f26e2a67a67",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "Referring"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "08d91714-fe50-4865-be47-5b0cdf40fa74",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

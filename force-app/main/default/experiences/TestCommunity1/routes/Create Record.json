@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "createrecord",
+  "appPageId" : "0f8fd990-4dc0-4445-ad9b-f85e8c559726",
+  "routeType" : "createrecord",
+  "pageAccess" : "UseParent",
+  "label" : "Create Record",
+  "id" : "1854e6e9-7694-4629-a762-5d799e971fb2",
+  "type" : "route"
+}

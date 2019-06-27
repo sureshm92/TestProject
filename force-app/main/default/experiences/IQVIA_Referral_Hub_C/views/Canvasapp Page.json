@@ -1,0 +1,46 @@
+{
+  "themeLayoutType" : "Inner",
+  "viewType" : "canvasapp",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "label" : "Canvasapp Page",
+  "id" : "3d056fa8-5e29-4518-b6ed-554bcd327ab6",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "header",
+    "id" : "c9feac3b-40c2-445c-addd-b239dcd011de",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "content",
+    "id" : "567074e6-3610-4bf0-b416-22455245a15d",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "force:canvasApp",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "8980ee6f-3af6-459f-af39-1af60498a43c",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "footer",
+    "id" : "c98c3c22-fb12-4300-ae7b-0d6b64b08de1",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "4a2bb8be-fff8-4c69-a783-027a84f04a6e",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "613936d2-c788-4456-8b97-94b250600fe6",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

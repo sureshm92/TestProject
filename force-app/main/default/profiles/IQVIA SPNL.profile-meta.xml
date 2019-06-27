@@ -5025,14 +5025,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>CTE__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Clinical_Trial_Profile__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
         <visibility>DefaultOff</visibility>
     </tabVisibilities>
@@ -5082,10 +5074,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Site_Staff__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Study_Site__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

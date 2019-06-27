@@ -1,0 +1,40 @@
+{
+  "themeLayoutType" : "Inner",
+  "viewType" : "custom-Patient Profile",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "label" : "Patient Profile",
+  "id" : "8c5c6bfb-2109-40b5-a84f-558aa458ac28",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "column1",
+    "id" : "4789b2b9-7614-407c-b299-60a0b2571f71",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:ViewPatient",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "71ed9a5f-c7c0-4652-9768-b90f0e41de51",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "3b8b54a1-fe13-441e-95a4-9ce9203d4851",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "Patient Profile"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "4deffd26-9a18-4312-a191-aec64a57073e",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

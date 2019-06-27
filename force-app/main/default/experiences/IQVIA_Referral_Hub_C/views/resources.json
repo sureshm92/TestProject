@@ -1,0 +1,40 @@
+{
+  "themeLayoutType" : "O3BaUt1WFPg1Lbs4TSli1UrNxJ1ZUS",
+  "viewType" : "custom-resources",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "label" : "resources",
+  "id" : "8a4d1641-3b7f-424b-8f67-d54c973bd382",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "column1",
+    "id" : "6164b930-7408-4d46-b530-3dc4cc52e5f1",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:ResourcesDetailContainer",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "b5b33a82-351e-4a0c-bcc7-d012365eeac9",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "eba0a9bf-c2d1-42c1-91f0-bff73aa0bf50",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "resources"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "7d59ea90-6e46-4fa7-a47d-94a0fa8ece63",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

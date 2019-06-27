@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "my-study-sites",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "custom-My Study Sites",
+  "pageAccess" : "UseParent",
+  "label" : "My Study Sites",
+  "id" : "fd624b2d-f90f-4ab5-964d-ae3b5cd0878f",
+  "type" : "route"
+}

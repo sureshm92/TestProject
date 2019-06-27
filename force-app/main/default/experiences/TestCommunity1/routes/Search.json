@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "global-search",
+  "appPageId" : "0f8fd990-4dc0-4445-ad9b-f85e8c559726",
+  "routeType" : "global-search",
+  "pageAccess" : "UseParent",
+  "label" : "Search",
+  "id" : "6f4e2286-61e7-4af3-88a5-819238d51a00",
+  "type" : "route"
+}

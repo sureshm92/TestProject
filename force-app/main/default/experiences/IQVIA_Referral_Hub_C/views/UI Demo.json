@@ -1,0 +1,40 @@
+{
+  "themeLayoutType" : "Ryj4DNh6R0Gvs7s1lRnv4H9xp2QdME",
+  "viewType" : "custom-ui-demo",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "label" : "UI Demo",
+  "id" : "ad5a0f9c-6514-4d0f-9b5a-96c7a0a518eb",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "column1",
+    "id" : "4e055c6b-116a-4e22-880d-21d801cda339",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:RRIconTable",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "fd981f4a-cb88-4f87-9f61-24c9375cbb31",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "d2ca350d-7403-4f6e-a3af-775ef6c1524f",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "UI Demo"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "5f924b25-780e-4188-b5e9-7d422a3f75fb",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

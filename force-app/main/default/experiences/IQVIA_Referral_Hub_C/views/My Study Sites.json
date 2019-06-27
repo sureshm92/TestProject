@@ -1,0 +1,63 @@
+{
+  "themeLayoutType" : "Inner",
+  "viewType" : "custom-My Study Sites",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:OneColumnLayout",
+  "label" : "My Study Sites",
+  "id" : "8176c60a-7c5e-4f00-a756-29309549754c",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "header",
+    "id" : "3a2640c6-995d-444d-923b-0c93e271c1b0",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "content",
+    "id" : "7ef7be10-4f5b-4d5a-8220-cc44a637e501",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:MyStudySites",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "9dad0085-4d2b-450d-821d-2ee01be66b9a",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "footer",
+    "id" : "62cb9b62-3b11-4118-910b-25dd778e9632",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "11ae7280-ad2f-46e0-910e-c424a367746e",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "My Study Sites"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "69ccf179-47f5-42cb-a4e4-7933d8d04e4a",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "column1",
+    "id" : "1058c383-a1c3-4d2a-99bb-645255932230",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:MyStudySites",
+      "componentAttributes" : { },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "d0ad10b3-69e6-4646-8ed7-612ebe51b97a",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

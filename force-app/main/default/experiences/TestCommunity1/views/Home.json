@@ -1,0 +1,52 @@
+{
+  "themeLayoutType" : "Inner",
+  "viewType" : "home",
+  "appPageId" : "0f8fd990-4dc0-4445-ad9b-f85e8c559726",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "label" : "Home",
+  "id" : "5999c895-b54e-4593-af18-4da3f08fc330",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "header",
+    "id" : "b9f6b9bf-7696-4679-9876-cd16f0da9ca7",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "content",
+    "id" : "a383f1af-eb81-423a-943f-2abd2d8425f3",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:richTextInline",
+      "componentAttributes" : {
+        "richTextValue" : "<div>     <p><span style='font-size: 48px;'>Let's get started!</span></p>     <ol>         <li><span style='font-size: 18px;'>Unfamiliar with Build Your Own? Click Take a Tour in the Help menu.</span></li>         <li><span style='font-size: 18px;'>Want to add more pages? Take a look at the Pages menu.</span></li>         <li><span style='font-size: 18px;'>Want more components on your page? Drag and drop components from the Components panel.</span></li>         <li><span style='font-size: 18px;'>Want your users to see your company logo? Head on over to the Branding panel.</span></li>         <li><span style='font-size: 18px;'>Refine the look of your community with a custom theme layout. See the Lightning Communities Developer Guide.</span></li>     </ol> </div>"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "bf3b28d6-bf58-42fd-8861-03d8c7ad0f58",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "footer",
+    "id" : "ff18fc1e-1fd7-4675-9576-45c258ebef59",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "2ca38f5c-e418-49ce-bd7a-78caa27a38c8",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "Home"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "ef4b60cc-6a9e-45c0-a18b-1a5b8ff9b698",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

@@ -10,8 +10,6 @@
     <label>IQVIA Referral Hub</label>
     <navType>Standard</navType>
     <tabs>standard-home</tabs>
-    <tabs>Clinical_Trial_Profile__c</tabs>
-    <tabs>Study_Site__c</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>HCP_Enrollment__c</tabs>
     <tabs>Participant_Enrollment__c</tabs>

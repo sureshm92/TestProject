@@ -1,0 +1,31 @@
+{
+  "values" : {
+    "TextTransformStyle" : "uppercase",
+    "_brandNavigationBarBackgroundColor" : "rgba(128,128,128,.75)",
+    "BorderColor" : "#D4D4D4",
+    "DetailTextColor" : "#696969",
+    "HeaderFonts" : "Montserrat",
+    "CardBackgroundColor" : "rgba(255, 255, 255, 0)",
+    "LoginBackgroundColor" : "#F4F4F4",
+    "ActionColor" : "#2574A9",
+    "CompanyLogo" : "",
+    "_ActionColorTrans" : "rgba(25, 124, 190, 0.9)",
+    "LoginBackgroundImage" : "../../../../sfsites/picasso/core/external/salesforceIdentity/images/background.jpg?v=1",
+    "brandNavigationColorText" : "#FFFFFF",
+    "_LinkColorDarker" : "#135F90",
+    "_ActionColorDarker" : "#135F90",
+    "_brandNavigationItemBackgroundColorHover" : "rgba(0,0,0,.2)",
+    "_HoverColor" : "rgba(25, 124, 190, 0.05)",
+    "ErrorFontColor" : "#ff9e9e",
+    "OverlayTextColor" : "#FFFFFF",
+    "TextColor" : "#333",
+    "brandNavigationBackgroundColor" : "rgb(128,128,128)",
+    "PrimaryFont" : "Lato",
+    "LinkColor" : "#2574A9",
+    "_brandNavigationItemDividerColor" : "rgba(255, 255, 255, 0.2)"
+  },
+  "definitionName" : "starter:branding-starter",
+  "label" : "CRCP_Community_Template_v3",
+  "id" : "42d2eb4a-79cc-4802-ba47-f79529f83ba0",
+  "type" : "brandingSet"
+}

@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "referring",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "custom-Referring",
+  "pageAccess" : "UseParent",
+  "label" : "Referring",
+  "id" : "ce267378-c44c-4493-9fb2-2868b5467a9d",
+  "type" : "route"
+}

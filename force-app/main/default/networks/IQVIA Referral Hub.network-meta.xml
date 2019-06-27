@@ -13,6 +13,7 @@
     <enableGuestFileAccess>true</enableGuestFileAccess>
     <enableInvitation>false</enableInvitation>
     <enableKnowledgeable>false</enableKnowledgeable>
+    <enableMemberVisibility>true</enableMemberVisibility>
     <enableNicknameDisplay>false</enableNicknameDisplay>
     <enablePrivateMessages>false</enablePrivateMessages>
     <enableReputation>false</enableReputation>
@@ -26,119 +27,9 @@
     <gatherCustomerSentimentData>false</gatherCustomerSentimentData>
     <lockoutTemplate>Referral_Hub_Emails/User_Lockout_Email</lockoutTemplate>
     <logoutUrl>https://fmlsvtv3-iqviaconnect.cs14.force.com/secur/logout.jsp</logoutUrl>
-    <navigationLinkSet>
-        <navigationMenuItem>
-            <label>PI</label>
-            <position>1</position>
-            <publiclyAvailable>false</publiclyAvailable>
-            <subMenu>
-                <navigationMenuItem>
-                    <label>Dashboard</label>
-                    <position>0</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/dashboard</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>My Referrals</label>
-                    <position>1</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/my-referrals</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>My Referring Clinics</label>
-                    <position>2</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/my-referring-clinics</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>Reports</label>
-                    <position>3</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/reports</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>Help</label>
-                    <position>4</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/help</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-            </subMenu>
-            <type>MenuLabel</type>
-        </navigationMenuItem>
-        <navigationMenuItem>
-            <label>HCP</label>
-            <position>2</position>
-            <publiclyAvailable>false</publiclyAvailable>
-            <subMenu>
-                <navigationMenuItem>
-                    <label>Dashboard</label>
-                    <position>0</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/dashboard</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>My Patients</label>
-                    <position>1</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/my-patients</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>Medical Record Review Log</label>
-                    <position>2</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/medical-record-review-log</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>My Study Sites</label>
-                    <position>3</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/my-study-sites</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>Reports</label>
-                    <position>4</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/reports</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-                <navigationMenuItem>
-                    <label>Help</label>
-                    <position>5</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/help</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-            </subMenu>
-            <type>MenuLabel</type>
-        </navigationMenuItem>
-        <navigationMenuItem>
-            <label>Participant</label>
-            <position>3</position>
-            <publiclyAvailable>false</publiclyAvailable>
-            <subMenu>
-                <navigationMenuItem>
-                    <label>Help</label>
-                    <position>0</position>
-                    <publiclyAvailable>false</publiclyAvailable>
-                    <target>/help</target>
-                    <type>InternalLink</type>
-                </navigationMenuItem>
-            </subMenu>
-            <type>MenuLabel</type>
-        </navigationMenuItem>
-    </navigationLinkSet>
     <networkMemberGroups>
-        <profile>iqvia customer community plus login user</profile>
         <profile>Admin</profile>
+        <profile>iqvia customer community plus login user</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>VisualForce</changePasswordPageOverrideSetting>

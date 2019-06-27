@@ -1,0 +1,58 @@
+{
+  "themeLayoutType" : "Ryj4DNh6R0Gvs7s1lRnv4H9xp2QdME",
+  "viewType" : "custom-Trial Terms And Conditions",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "componentName" : "c:EmptyLayout",
+  "label" : "Trial Terms And Conditions",
+  "id" : "5bf1f6fd-310d-4d49-9c9e-cedab6f677d0",
+  "type" : "view",
+  "regions" : [ {
+    "regionName" : "header",
+    "id" : "7fd66b63-27f4-407c-945c-e78f80e7a238",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "content",
+    "id" : "627c7948-4690-4c34-83b6-080937b91573",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "footer",
+    "id" : "06fdd747-9efb-4c26-9051-1b6f115bc94b",
+    "type" : "region",
+    "components" : [ ]
+  }, {
+    "regionName" : "sfdcHiddenRegion",
+    "id" : "b28f8367-f64f-48be-a2d2-643034e4d79d",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "forceCommunity:seoAssistant",
+      "componentAttributes" : {
+        "metaTags" : "",
+        "description" : "",
+        "title" : "Trial Terms And Conditions"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "071c464e-5448-45eb-b062-488334bdade6",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  }, {
+    "regionName" : "column1",
+    "id" : "56f97895-3fce-4dfb-90d9-1aafb029e316",
+    "type" : "region",
+    "components" : [ {
+      "componentName" : "c:TermsAndConditions",
+      "componentAttributes" : {
+        "privacyPolicyId" : "",
+        "isPortalTC" : "false"
+      },
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "id" : "0f0a3378-7f27-4611-bcbb-462a13430f58",
+      "type" : "component",
+      "renditions" : [ ]
+    } ]
+  } ]
+}

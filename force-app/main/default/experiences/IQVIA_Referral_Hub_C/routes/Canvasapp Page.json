@@ -1,0 +1,9 @@
+{
+  "urlPrefix" : "canvasapp",
+  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
+  "routeType" : "canvasapp",
+  "pageAccess" : "UseParent",
+  "label" : "Canvasapp Page",
+  "id" : "5417727c-416e-409f-b77c-0289b77f2b8b",
+  "type" : "route"
+}
