@@ -16,10 +16,9 @@
     <aura:attribute name="error" type="String"/>
     <aura:attribute name="allIcons" type="String[]"
                     default="[
-                    'email','icon-note',
-                    'check-eligibilityt',
-                    'con-blood-test',
+                    'icon-blood-test',
                     'icon-brief-ph-ex',
+                    'icon-x-rays',
                     'icon-ecg',
                     'icon-joint',
                     'icon-lung-test',
@@ -28,7 +27,7 @@
                     'icon-questionnaires',
                     'icon-questions',
                     'icon-vital-signs',
-                    'icon-x-rays']"/>
+                   ]"/>
     <aura:attribute name="availableIcons" type="String[]"/>
     <aura:attribute name="selectedIcons" type="String[]"/>
     <aura:attribute name="visitId" type="String"/>
@@ -78,7 +77,7 @@
                     <thead>
                     <tr class="slds-text-title_caps">
                         <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Name}</div>
+                            <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
                         </th>
                         <th>
                             <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>

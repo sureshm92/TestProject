@@ -9,9 +9,9 @@ private class Test_StudyActionParticipant {
     static void test1() {
         TestData.loadTestData();
         Test.startTest();
-        TestData testData = new TestData();
-        System.runAs(testData.participantUser){
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.participantUser){
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testDataInstance.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
             StudyActions studyActions = new StudyActionsParticipant(pe);
         }
         Test.stopTest();

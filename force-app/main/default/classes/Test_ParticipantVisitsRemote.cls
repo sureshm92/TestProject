@@ -66,21 +66,21 @@ private class Test_ParticipantVisitsRemote {
 
     @IsTest
     static void getVisitsLegendTest() {
-//        List<PicklistEntry> picklistEntries = Visit__c.Icons__c.getDescribe().picklistValues;
-//        List<ParticipantVisitsRemote.Legend> legends = new List<ParticipantVisitsRemote.Legend>();
-//        for(PicklistEntry entry : picklistEntries) {
-//            ParticipantVisitsRemote.Legend leg = new ParticipantVisitsRemote.Legend();
-//            leg.iconId = entry.value;
-//            leg.iconLabel = entry.label;
-//            leg.iconLegend = ParticipantVisitsRemote.LABELS_MAP.get(entry.label);
-//            legends.add(leg);
-//        }
-//
-//        Test.startTest();
-//        String legend = ParticipantVisitsRemote.getVisitsLegend();
-//        Test.stopTest();
-//
-//        System.assertEquals(JSON.serialize(legends), legend);
+        List<PicklistEntry> picklistEntries = Visit__c.Icons__c.getDescribe().picklistValues;
+        List<ParticipantVisitsRemote.Legend> legends = new List<ParticipantVisitsRemote.Legend>();
+        for(PicklistEntry entry : picklistEntries) {
+            ParticipantVisitsRemote.Legend leg = new ParticipantVisitsRemote.Legend();
+            leg.iconId = entry.value;
+            leg.iconLabel = entry.label;
+            leg.iconLegend = ParticipantVisitsRemote.LABELS_MAP.get(entry.label);
+            legends.add(leg);
+        }
+
+        Test.startTest();
+        String legend = ParticipantVisitsRemote.getVisitsLegend('dummy');
+        Test.stopTest();
+
+        /*System.assertEquals(JSON.serialize(legends), legend);*/
     }
 
     @TestSetup
