@@ -7,11 +7,12 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes-->
-    <aura:attribute name="visitWrappers" type="ParticipantVisitsService.VisitWrapper[]"/>
-    <aura:attribute name="currentVisits" type="ParticipantVisitsService.VisitWrapper[]"/>
+    <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
+    <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
     <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>
+    <aura:attribute name="iconNames" type="String" default=""/>
 
     <!--HANDLERS-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
@@ -68,6 +69,8 @@
             <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"/>
         </ui:scrollerWrapper>
 
-        <c:StudyVisitsLegend/>
+        <aura:if isTrue="{!v.initialized}">
+            <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+        </aura:if>
     </div>
 </aura:component>
