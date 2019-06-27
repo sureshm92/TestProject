@@ -13,7 +13,7 @@ public inherited sharing class PatientVisitService {
     }
     
     public List<Patient_Visit__c> getVisits(String filter) {
-        return null;
+         return null;
     }
 
     private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
