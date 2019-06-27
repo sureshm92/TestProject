@@ -2,9 +2,11 @@
  * Created by D.Yasinskyi on 21.02.2018
  */
 public without sharing class CommunityService {
-
-    public static String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
-    public static Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
+    
+    public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
+    public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
+    public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
+    public static final Id SPNL_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name =: SPNL_USER_PROFILE_NAME].Id;
     public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
