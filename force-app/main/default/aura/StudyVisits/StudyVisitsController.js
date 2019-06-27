@@ -9,6 +9,11 @@
             'visitMode': component.get('v.visitMode')
         }, function(response) {
             component.set('v.visitWrappers', response);
+            let iconNames = '';
+            for(let i = 0; i < response.length; i++) {
+                iconNames += response[i].icons + ';';
+            }
+            component.set('v.iconNames', iconNames);
             component.set('v.initialized', true);
             component.find('spinner').hide();
         });

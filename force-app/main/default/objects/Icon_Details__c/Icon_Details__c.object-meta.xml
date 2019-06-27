@@ -54,12 +54,12 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>icons detail</label>
+    <label>Icon Details</label>
     <nameField>
-        <label>icons detail Name</label>
+        <label>Icon Details Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>icons detail</pluralLabel>
+    <pluralLabel>Icons Details</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

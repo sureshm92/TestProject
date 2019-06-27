@@ -38,7 +38,8 @@
             let ctp  = JSON.stringify(component.get('v.CTPrecord'));
             let ctpCLear  = JSON.parse(ctp);
             if(!ctpCLear.Visit_Plan__c){
-                component.set('v.visits')
+
+                component.set('v.visits',[]);
             }
             component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
         } else if(eventParams.changeType === "REMOVED") {
