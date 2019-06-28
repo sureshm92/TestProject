@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "dashborad",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-Dashborad",
-  "pageAccess" : "UseParent",
-  "label" : "Dashborad",
-  "id" : "6fca81a0-bbff-48d7-8b30-14f20ad1c988",
-  "type" : "route"
-}

@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "help",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-Help",
-  "pageAccess" : "UseParent",
-  "label" : "Help",
-  "id" : "6da44498-bd5a-4478-a1fb-92b0ed3a883f",
-  "type" : "route"
-}

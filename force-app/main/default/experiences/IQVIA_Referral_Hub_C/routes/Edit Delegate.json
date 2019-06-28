@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "edit-delegate",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-edit-delegate",
-  "pageAccess" : "UseParent",
-  "label" : "Edit Delegate",
-  "id" : "3bcdf9e8-5a29-4c1e-953c-4b40a8d5ff0d",
-  "type" : "route"
-}

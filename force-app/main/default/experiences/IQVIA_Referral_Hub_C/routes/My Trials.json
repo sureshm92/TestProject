@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "my-trials",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-My Trials",
-  "pageAccess" : "UseParent",
-  "label" : "My Trials",
-  "id" : "f34a928b-0ff7-4d3b-9093-917b3f71d4ac",
-  "type" : "route"
-}

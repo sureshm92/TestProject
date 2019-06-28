@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "studydetail",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-StudyDetail",
-  "pageAccess" : "UseParent",
-  "label" : "StudyDetail",
-  "id" : "30e9fcee-2cce-497c-984b-148ae2aac797",
-  "type" : "route"
-}

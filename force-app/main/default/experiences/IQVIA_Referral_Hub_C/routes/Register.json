@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "SelfRegister",
-  "appPageId" : "8bce2459-b04e-4576-b6c0-8a039c2a4575",
-  "routeType" : "self-register",
-  "pageAccess" : "UseParent",
-  "label" : "Register",
-  "id" : "fb4c7390-ecab-40b8-ab0b-20a37bb23071",
-  "type" : "route"
-}

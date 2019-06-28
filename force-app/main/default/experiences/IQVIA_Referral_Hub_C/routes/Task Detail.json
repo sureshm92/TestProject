@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "edit-task",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-create-task",
-  "pageAccess" : "UseParent",
-  "label" : "Task Detail",
-  "id" : "86c5dbf3-2733-4372-a356-713996e0145b",
-  "type" : "route"
-}

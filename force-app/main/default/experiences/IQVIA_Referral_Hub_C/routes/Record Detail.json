@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "detail",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "detail",
-  "pageAccess" : "UseParent",
-  "label" : "Record Detail",
-  "id" : "6e2f86ac-06f8-4926-8257-2d6d8be235f4",
-  "type" : "route"
-}

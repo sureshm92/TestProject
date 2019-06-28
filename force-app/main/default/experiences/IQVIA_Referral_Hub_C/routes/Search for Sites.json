@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "sites-search",
-  "appPageId" : "f7dbe0ac-e464-4120-9569-94d8d9fac739",
-  "routeType" : "custom-sites-search",
-  "pageAccess" : "UseParent",
-  "label" : "Search for Sites",
-  "id" : "1b7dc585-3a5d-4796-97ee-5d25f1eaf6ba",
-  "type" : "route"
-}
