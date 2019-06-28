@@ -5,4 +5,12 @@
 package.xml
 AppSwitcher.appMenu
 FlowInterview.All
-#force-app/main/default/experiences
+force-app/main/default/email/unfiled$public
+force-app/main/default/siteDotComSites
+
+
+#unpackaged/main/default/experiences
+#unpackaged/main/default/networks
+#unpackaged/main/default/sites
+#unpackaged/main/default/networkBranding
+

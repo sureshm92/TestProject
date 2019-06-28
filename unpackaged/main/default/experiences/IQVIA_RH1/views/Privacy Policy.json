@@ -1,42 +1,42 @@
 {
-  "themeLayoutType" : "FOKAmrh4bMx7BMAYJ7Zrx89AAX8evN",
-  "viewType" : "custom-cookie-policy",
+  "themeLayoutType" : "Inner",
+  "viewType" : "custom-privacy-policy",
   "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
   "componentName" : "c:EmptyLayout",
-  "label" : "Cookie Policy",
-  "id" : "ba905fe2-3242-48f5-a455-3190e3036f03",
+  "label" : "Privacy Policy",
+  "id" : "fa086b9e-7787-4d5e-a8f8-5ae4674414f7",
   "type" : "view",
   "regions" : [ {
     "regionName" : "column1",
-    "id" : "8b526e7d-16dd-4c4c-bd91-739e92a04415",
+    "id" : "33a9a7a6-9df8-41bf-af61-e2de6606e4cb",
     "type" : "region",
     "components" : [ {
       "componentName" : "c:TermsAndConditions",
       "componentAttributes" : {
-        "privacyPolicyId" : "",
         "isPortalTC" : "true",
-        "titleCode" : "CookiePolicy"
+        "privacyPolicyId" : "",
+        "titleCode" : "PrivacyPolicy"
       },
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
-      "id" : "069493d4-2153-475e-bf3b-68d629772e6d",
+      "id" : "ec38dfed-3fcf-4149-b5fe-af61aa92c25f",
       "type" : "component",
       "renditions" : [ ]
     } ]
   }, {
     "regionName" : "sfdcHiddenRegion",
-    "id" : "5812cf07-6503-4c3f-9266-604ef2c54bbc",
+    "id" : "17dc145f-7b15-4e21-a93a-04ce37195e09",
     "type" : "region",
     "components" : [ {
       "componentName" : "forceCommunity:seoAssistant",
       "componentAttributes" : {
         "metaTags" : "",
         "description" : "",
-        "title" : "Cookie Policy"
+        "title" : "Privacy Policy"
       },
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
-      "id" : "cf38f102-e575-4a6e-91d7-85ec07008363",
+      "id" : "f43152f7-ee50-4781-b898-6824ab44a9a8",
       "type" : "component",
       "renditions" : [ ]
     } ]

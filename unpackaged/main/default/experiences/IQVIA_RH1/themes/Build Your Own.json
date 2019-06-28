@@ -1,12 +1,12 @@
 {
   "developerName" : "starter",
   "layouts" : {
-    "Login" : "fcddbb62-1dbc-485d-9818-e023b0d85a7d",
-    "Inner" : "c30b6948-9327-4b24-aa2e-b99cab065c65",
-    "dw9j7GwmWNUcm6oRs2tqMSIl50wALx" : "ae6261c4-e63d-4b28-a521-86b7ab0ee189",
-    "FOKAmrh4bMx7BMAYJ7Zrx89AAX8evN" : "06bb01a6-2411-47ab-a078-5077a537c817",
     "J8RSQtEi52fnqIBO5XQqSmHxYgwo8h" : "f7283e32-0403-40a3-91b3-56484166dcf2",
-    "RRT7KP7OuYCykFK9T10KoZal0f6LW2" : "2c4d1c17-98ce-4cb2-a06f-4c9bf64150b4"
+    "dw9j7GwmWNUcm6oRs2tqMSIl50wALx" : "ae6261c4-e63d-4b28-a521-86b7ab0ee189",
+    "Login" : "fcddbb62-1dbc-485d-9818-e023b0d85a7d",
+    "RRT7KP7OuYCykFK9T10KoZal0f6LW2" : "2c4d1c17-98ce-4cb2-a06f-4c9bf64150b4",
+    "FOKAmrh4bMx7BMAYJ7Zrx89AAX8evN" : "06bb01a6-2411-47ab-a078-5077a537c817",
+    "Inner" : "c30b6948-9327-4b24-aa2e-b99cab065c65"
   },
   "customCSS" : "",
   "activeBrandingSetId" : "2793f3b6-45e1-43f0-829b-27cfecbc1341",
@@ -14,96 +14,6 @@
   "id" : "f10e9bf1-c581-4b9d-84c5-b9c743f17baf",
   "type" : "theme",
   "views" : [ {
-    "componentName" : "salesforceIdentity:loginBody2",
-    "label" : "Login",
-    "id" : "2634e53a-3d7c-45be-b4be-215f0ac0d74d",
-    "type" : "view",
-    "regions" : [ {
-      "regionName" : "header",
-      "id" : "5637487b-f3f1-436b-9cc1-17dc4cc49994",
-      "type" : "region",
-      "components" : [ ]
-    }, {
-      "regionName" : "content",
-      "id" : "5057ccba-f4e0-4f66-8224-61be18ff83c6",
-      "type" : "region",
-      "components" : [ ]
-    }, {
-      "regionName" : "footer",
-      "id" : "f10067bb-3348-4fe8-b15d-745e30be4cbc",
-      "type" : "region",
-      "components" : [ ]
-    } ]
-  }, {
-    "componentName" : "siteforce:starterBody",
-    "label" : "Default",
-    "id" : "3bf251bd-1639-4d72-8e94-394dc8afe724",
-    "type" : "view",
-    "regions" : [ {
-      "regionName" : "search",
-      "id" : "e1f947a5-2752-44b4-b21d-0e9a6bc4bf5a",
-      "type" : "region",
-      "components" : [ {
-        "componentName" : "forceCommunity:globalSearchInput",
-        "componentAttributes" : {
-          "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
-        },
-        "renderPriority" : "NEUTRAL",
-        "renditionMap" : { },
-        "id" : "3e433787-5c4e-4dc3-a722-91ef245c20b8",
-        "type" : "component",
-        "renditions" : [ ]
-      } ]
-    }, {
-      "regionName" : "profileMenu",
-      "id" : "5f974d77-f44c-482e-a094-915709a52c43",
-      "type" : "region",
-      "components" : [ {
-        "componentName" : "selfService:userProfileMenu",
-        "componentAttributes" : {
-          "userSettingsLabel" : "My Settings",
-          "includeContactSupport" : "true",
-          "accountManagementLabel" : "Account Management",
-          "showAccountManagement" : "false",
-          "filterName" : "MyCases",
-          "communitySetupLabel" : "Community Setup",
-          "loginLabel" : "Login",
-          "contactSupportLabel" : "Contact Support",
-          "logoutLabel" : "Logout",
-          "showUserSettings" : "true",
-          "myAccountLabel" : "My Account",
-          "homeLabel" : "Home",
-          "includeMessages" : "false",
-          "communityBuilderLabel" : "Community Builder",
-          "viewProfileLabel" : "My Profile"
-        },
-        "renderPriority" : "NEUTRAL",
-        "renditionMap" : { },
-        "id" : "697e3bfe-c60e-40e0-9838-47fa663e729b",
-        "type" : "component",
-        "renditions" : [ ]
-      } ]
-    }, {
-      "regionName" : "navBar",
-      "id" : "93184ae1-4b2f-41fc-9c25-c4d324d0df13",
-      "type" : "region",
-      "components" : [ {
-        "componentName" : "forceCommunity:globalNavigation",
-        "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
-          "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
-        },
-        "renderPriority" : "NEUTRAL",
-        "renditionMap" : { },
-        "id" : "e0fffec3-7e7e-4940-b3e4-aa855c9b336f",
-        "type" : "component",
-        "renditions" : [ ]
-      } ]
-    } ]
-  }, {
     "componentName" : "c:CustomThemeLayout",
     "label" : "Default",
     "id" : "c30b6948-9327-4b24-aa2e-b99cab065c65",
@@ -115,9 +25,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalSearchInput",
         "componentAttributes" : {
+          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]",
           "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
+          "maxAutoCompleteResults" : "5"
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -161,9 +71,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalNavigation",
         "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
           "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
+          "hideHomeText" : "true",
+          "NavigationMenuEditorRefresh" : ""
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -189,9 +99,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalSearchInput",
         "componentAttributes" : {
+          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]",
           "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
+          "maxAutoCompleteResults" : "5"
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -235,9 +145,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalNavigation",
         "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
           "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
+          "hideHomeText" : "true",
+          "NavigationMenuEditorRefresh" : ""
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -263,9 +173,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalSearchInput",
         "componentAttributes" : {
+          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]",
           "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
+          "maxAutoCompleteResults" : "5"
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -309,9 +219,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalNavigation",
         "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
           "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
+          "hideHomeText" : "true",
+          "NavigationMenuEditorRefresh" : ""
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -337,9 +247,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalSearchInput",
         "componentAttributes" : {
+          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]",
           "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
+          "maxAutoCompleteResults" : "5"
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -383,9 +293,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalNavigation",
         "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
           "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
+          "hideHomeText" : "true",
+          "NavigationMenuEditorRefresh" : ""
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -411,9 +321,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalSearchInput",
         "componentAttributes" : {
+          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]",
           "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
+          "maxAutoCompleteResults" : "5"
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -457,9 +367,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalNavigation",
         "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
           "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
+          "hideHomeText" : "true",
+          "NavigationMenuEditorRefresh" : ""
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -485,9 +395,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalSearchInput",
         "componentAttributes" : {
+          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]",
           "searchLabel" : "Search...",
-          "maxAutoCompleteResults" : "5",
-          "searchObjects" : "[{\"name\":\"Account\", \"isPublic\":true}]"
+          "maxAutoCompleteResults" : "5"
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },
@@ -531,9 +441,9 @@
       "components" : [ {
         "componentName" : "forceCommunity:globalNavigation",
         "componentAttributes" : {
-          "NavigationMenuEditorRefresh" : "",
           "hideAppLauncher" : "true",
-          "hideHomeText" : "true"
+          "hideHomeText" : "true",
+          "NavigationMenuEditorRefresh" : ""
         },
         "renderPriority" : "NEUTRAL",
         "renditionMap" : { },

@@ -13,8 +13,8 @@
     "components" : [ {
       "componentName" : "c:TermsAndConditions",
       "componentAttributes" : {
-        "privacyPolicyId" : "",
         "isPortalTC" : "false",
+        "privacyPolicyId" : "",
         "titleCode" : ""
       },
       "renderPriority" : "NEUTRAL",

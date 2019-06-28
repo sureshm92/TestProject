@@ -20,8 +20,8 @@
       "componentAttributes" : {
         "showTopResults" : "true",
         "topicId" : "{!topicId}",
-        "term" : "{!searchString}",
         "searchTerm" : "{!searchString}",
+        "term" : "{!searchString}",
         "scopes" : "[{\"name\":\"FeedPost\",\"isPublic\":true},{\"name\":\"KnowledgeArticleVersion\",\"isPublic\":true},{\"name\":\"Case\",\"isPublic\":false}, {\"name\":\"CollaborationGroup\",\"isPublic\":true}]",
         "searchResultFiltering" : "true"
       },

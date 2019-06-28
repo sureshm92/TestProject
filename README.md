@@ -26,6 +26,7 @@ sfdx force:org:open
 ```
 - go to **State and Territory Picklists** and follow instruction for enable (temporary)
 - go to **Survey Settings** and enable 
+- go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
 
 ##### 4) Push project to Scratch org:
 
