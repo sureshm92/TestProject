@@ -4377,28 +4377,28 @@ The site you have selected will contact you directly to discuss next steps.</val
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Providers waiting for approval and activation</shortDescription>
-        <value>Providers waiting for approval and activation</value>
+        <value>Providers Waiting For Approval And Activation</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_for_acceptance</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI L Referrals waiting for acceptance</shortDescription>
-        <value>Referrals waiting for acceptance</value>
+        <shortDescription>PG DBPI L Referrals Waiting For Acceptance</shortDescription>
+        <value>Referrals Waiting For Acceptance</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals waiting to be contacted</shortDescription>
-        <value>Referrals waiting to be contacted</value>
+        <value>Referrals Waiting to be Contacted</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referring_clinics</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referring clinics</shortDescription>
-        <value>Referring clinics</value>
+        <value>Referring Clinics</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_completed_for</fullName>
