@@ -1,100 +1,194 @@
 /**
  * Created by Leonid Bartenev
+ * Edited by Igor Malyuta
  */
 
 public without sharing class VisitResultSharingPanelRemote {
-    
-    public class VisitResultGroupWrapper{
+
+    private static final String TYPE_DISABLED = 'Disabled';
+    private static final String TYPE_ALL = 'All';
+    private static final String TYPE_COUNTRIES = 'Countries';
+
+    public class VisitResultGroupWrapper {
         @AuraEnabled public String label;
         @AuraEnabled public List<VisitResultWrapper> visitResults;
     }
-    
-    public class VisitResultWrapper{
+
+    public class VisitResultWrapper {
         @AuraEnabled public String label;
         @AuraEnabled public String value;
         @AuraEnabled public String type;
         @AuraEnabled public String countryCodes;
-        
-        public VisitResultWrapper(String label, String value, String type, String countryCodes){
+
+        public VisitResultWrapper(String label, String value, String type, String countryCodes) {
             this.label = label;
             this.value = value;
             this.type = type;
             this.countryCodes = countryCodes;
         }
     }
-    
-    public class OptionsWrapper{
-        @AuraEnabled public String ssSelectionType;
-        @AuraEnabled public List<LabelValueItem> ssSelectionTypeLVList = new List<LabelValueItem>{
-                new LabelValueItem('Enabled for all study sites', 'All'),
-                new LabelValueItem('Enabled for selected study sites', 'Study Sites')
-        };
+
+    public class OptionsWrapper {
+        @AuraEnabled public Boolean globalShareBck;
+        @AuraEnabled public String participantDefault;
+        @AuraEnabled public String selectedStatuses = '';
         @AuraEnabled public String selectedSSIds;
-        @AuraEnabled public String participantDefault = 'Opt in';
+        @AuraEnabled public String ssSelectionType;
+        @AuraEnabled public Integer showAfterDays;
+        @AuraEnabled public String whenToShow;
+    }
+
+    public class InitData {
+        @AuraEnabled public List<VisitResultGroupWrapper> groups;
+        @AuraEnabled public List<LabelValueItem> typeSelectLVList = new List<LabelValueItem>{
+                new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
+                new LabelValueItem('Enabled for all countries', TYPE_ALL),
+                new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES)
+        };
         @AuraEnabled public List<LabelValueItem> participantDefaultLVList = new List<LabelValueItem>{
                 new LabelValueItem('Opt in', 'Opt in'),
                 new LabelValueItem('Opt out', 'Opt out')
         };
-        @AuraEnabled public String whenToShow = 'Immediate';
+        @AuraEnabled public List<LabelValueItem> ssSelectionTypeLVList = new List<LabelValueItem>{
+                new LabelValueItem('Enabled for all study sites', TYPE_ALL),
+                new LabelValueItem('Enabled for selected study sites', 'Study Sites')
+        };
         @AuraEnabled public List<LabelValueItem> whenToShowLVList = new List<LabelValueItem>{
                 new LabelValueItem('Immediate', 'Immediate'),
                 new LabelValueItem('Show after', 'After')
         };
-        @AuraEnabled public Integer showAfterDays;
-        @AuraEnabled public String statusBasedType = 'All statuses';
-        @AuraEnabled public List<LabelValueItem> statesBasedTypeLVList = new List<LabelValueItem>{
-                new LabelValueItem('Enabled for all statuses', 'All statuses'),
-                new LabelValueItem('Enabled for selected statuses', 'Selected statuses')
-        };
-        @AuraEnabled public String selectedStatuses = '';
-        @AuraEnabled public Boolean globalShareBck = true;
-        
-    }
-    
-    public class InitData{
-        @AuraEnabled public List<VisitResultGroupWrapper> groups;
-        @AuraEnabled public List<LabelValueItem> typeSelectLVList = new List<LabelValueItem>{
-                new LabelValueItem('Disabled for all countries', 'Disabled'),
-                new LabelValueItem('Enabled for all countries', 'All'),
-                new LabelValueItem('Enabled for selected countries', 'Countries')
-        };
+
         @AuraEnabled public OptionsWrapper options;
     }
-    
+
     @AuraEnabled
-    public static InitData getInitData(){
-       try{
-           InitData initData = new InitData();
-           initData.groups = new List<VisitResultGroupWrapper>();
-           
-           
-           List<Visit_Result_GroupM__mdt> resultGroups = [
-                   SELECT Id, Label, (SELECT Id, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
-                   FROM Visit_Result_GroupM__mdt
-           ];
-           
-           for(Visit_Result_GroupM__mdt resultGroup : resultGroups){
-               VisitResultGroupWrapper resultGroupWrapper = new VisitResultGroupWrapper();
-               resultGroupWrapper.label = resultGroup.label;
-               resultGroupWrapper.visitResults = new List<VisitResultWrapper>();
-               for(Visit_Result_TypeM__mdt visitResultType : resultGroup.Visit_Result_Types__r){
-                   resultGroupWrapper.visitResults.add(new VisitResultWrapper(
-                           visitResultType.Label,
-                           visitResultType.Visit_Result_Code__c,
-                           'Disabled',
-                           ''
-                   ));
-               }
-               initData.groups.add(resultGroupWrapper);
-           }
-           
-           initData.options = new OptionsWrapper();
-           initData.options.ssSelectionType = 'All';
-           initData.options.showAfterDays = 1;
-           return initData;
-       }catch (Exception e){
-           return (InitData)AuraHelper.throwException(e);
-       }
+    public static InitData getInitData(Id ctpId) {
+        try {
+            Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(ctpId);
+            Map<String, Visit_Result_Type_Sharing__c> typeVRSharingMap = VisitResultSharingService.getTypeVRSharingMap(ctp);
+
+            InitData initData = new InitData();
+            initData.groups = new List<VisitResultGroupWrapper>();
+
+            List<Visit_Result_GroupM__mdt> resultGroups = [
+                    SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
+                    FROM Visit_Result_GroupM__mdt
+            ];
+
+            for (Visit_Result_GroupM__mdt resultGroup : resultGroups) {
+                VisitResultGroupWrapper resultGroupWrapper = new VisitResultGroupWrapper();
+                resultGroupWrapper.label = resultGroup.Label;
+                resultGroupWrapper.visitResults = new List<VisitResultWrapper>();
+                for (Visit_Result_TypeM__mdt visitResultType : resultGroup.Visit_Result_Types__r) {
+                    String type = TYPE_DISABLED;
+                    String countryCodes = '';
+                    if (typeVRSharingMap.containsKey(visitResultType.DeveloperName)) {
+                        Visit_Result_Type_Sharing__c sharing = typeVRSharingMap.get(visitResultType.DeveloperName);
+                        if (!String.isEmpty(sharing.Sharing_Countries__c)) {
+                            if (sharing.Sharing_Countries__c == TYPE_ALL) {
+                                type = TYPE_ALL;
+                            } else {
+                                countryCodes = sharing.Sharing_Countries__c;
+                                type = TYPE_COUNTRIES;
+                            }
+                        }
+                    }
+                    resultGroupWrapper.visitResults.add(new VisitResultWrapper(
+                            visitResultType.Label,
+                            visitResultType.DeveloperName,
+                            type,
+                            countryCodes
+                    ));
+                }
+                initData.groups.add(resultGroupWrapper);
+            }
+
+            List<Study_Site__c> studySites = [
+                    SELECT Visit_Results_Sharing__c
+                    FROM Study_Site__c
+                    WHERE Clinical_Trial_Profile__c = :ctpId
+            ];
+            Set<Id> withSharingSiteIds = new Set<Id>();
+            for (Study_Site__c ss : studySites) if (ss.Visit_Results_Sharing__c) withSharingSiteIds.add(ss.Id);
+
+            initData.options = new OptionsWrapper();
+            initData.options.globalShareBck = ctp.Visit_Data_Shareback__c;
+            initData.options.participantDefault = ctp.Shareback_Settings_On_Participant_Level__c ? 'Opt in' : 'Opt out';
+            initData.options.selectedSSIds = String.join(new List<Id>(withSharingSiteIds), ';');
+            initData.options.selectedStatuses = ctp.Shareback_Availability_Status__c;
+            initData.options.ssSelectionType = studySites.size() == withSharingSiteIds.size() ? TYPE_ALL : 'Study Sites';
+            initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
+            initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
+
+            return initData;
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
     }
 
+    @AuraEnabled
+    public static void saveSharingRules(String options, String groups, String ctpId) {
+        try {
+            List<VisitResultGroupWrapper> groupsList =
+                    (List<VisitResultGroupWrapper>) JSON.deserialize(groups, List<VisitResultGroupWrapper>.class);
+            OptionsWrapper optionsWrapper = (OptionsWrapper) JSON.deserialize(options, OptionsWrapper.class);
+
+            Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(ctpId);
+
+            ctp.Visit_Data_Shareback__c = optionsWrapper.globalShareBck;
+            List<String> ssIds;
+            if (!ctp.Visit_Data_Shareback__c) {
+                VisitResultSharingService.disableShareback(ctp);
+                ssIds = new List<String>();
+            } else {
+                ctp.Shareback_Availability_Timing__c = optionsWrapper.showAfterDays;
+                ctp.Shareback_Availability_Status__c = optionsWrapper.selectedStatuses;
+                ctp.Shareback_Settings_On_Participant_Level__c = optionsWrapper.participantDefault.equals('Opt in');
+
+                ssIds = optionsWrapper.selectedSSIds.split(';');
+                updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
+            }
+
+            VisitResultSharingService.updateStudySitesSharing(ctpId, ssIds);
+
+            update ctp;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    private static void updateVRTSharing(List<VisitResultGroupWrapper> groups,
+            Map<String, Visit_Result_Type_Sharing__c> typeVRSharingMap, String ctpId) {
+        List<Visit_Result_Type_Sharing__c> forDeletionSharings = new List<Visit_Result_Type_Sharing__c>();
+        for (VisitResultGroupWrapper groupWrapper : groups) {
+            for (VisitResultWrapper vrWrapper : groupWrapper.visitResults) {
+                String countries = '';
+                if (vrWrapper.type == TYPE_COUNTRIES) {
+                    countries = vrWrapper.countryCodes;
+                } else if (vrWrapper.type == TYPE_ALL) {
+                    countries = TYPE_ALL;
+                }
+
+                if (!typeVRSharingMap.containsKey(vrWrapper.value)) {
+                    if (vrWrapper.type != TYPE_DISABLED) {
+                        typeVRSharingMap.put(vrWrapper.value, new Visit_Result_Type_Sharing__c(
+                                Clinical_Trial_Profile__c = ctpId,
+                                Type__c = vrWrapper.value,
+                                Sharing_Countries__c = countries
+                        ));
+                    }
+                } else {
+                    Visit_Result_Type_Sharing__c sharing = typeVRSharingMap.get(vrWrapper.value);
+                    if (vrWrapper.type == TYPE_DISABLED) {
+                        forDeletionSharings.add(typeVRSharingMap.remove(vrWrapper.value));
+                    } else if (vrWrapper.type == TYPE_COUNTRIES) {
+                        sharing.Sharing_Countries__c = vrWrapper.countryCodes;
+                        typeVRSharingMap.put(vrWrapper.value, sharing);
+                    }
+                }
+            }
+        }
+        if (!forDeletionSharings.isEmpty()) delete forDeletionSharings;
+        upsert typeVRSharingMap.values();
+    }
 }

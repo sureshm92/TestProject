@@ -29,7 +29,7 @@ public class VisitResultSharingCountryLookupRemote {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchCountries(String searchTerm, String value, Boolean includeStates) {
+    public static List<LookupSearchResult> searchCountries(String searchTerm, String value, Boolean includeStates, String ctpId) {
         try {
             List<String> selectedIds = new List<String>();
             if(!String.isEmpty(value)) selectedIds = value.split(';');
@@ -42,15 +42,14 @@ public class VisitResultSharingCountryLookupRemote {
                     for(LabelValueItem state : states) allCountryStatesMap.put(country.label + ',' + state.label, new CountryStateWrapper(country, state));
                 }
             }
-            
+
+            List<String> availableCountyStateCodes = getAvailableCountyStateCodes(ctpId, includeStates);
             List<LookupSearchResult> results = new List<LookupSearchResult>();
             for (String label : allCountryStatesMap.keySet()) {
                 CountryStateWrapper countryStateWrapper = allCountryStatesMap.get(label);
                 if (selectedIds.contains(countryStateWrapper.getKey())) continue;
-                if (String.isBlank(searchTerm) ||label.containsIgnoreCase(searchTerm) || countryStateWrapper.getKey().containsIgnoreCase(searchTerm)
-                        /*&& !selectedIds.contains(countryStateWrapper.country.value)*/) {
-                    if((searchTerm.length() < 2 && DEFAULT_COUNTRIES.contains(countryStateWrapper.country.value) && countryStateWrapper.state == null) ||
-                            searchTerm.length() >= 2){
+                if (String.isBlank(searchTerm) || label.containsIgnoreCase(searchTerm) || countryStateWrapper.getKey().containsIgnoreCase(searchTerm)) {
+                    if(availableCountyStateCodes.contains(countryStateWrapper.getKey())){
                         results.add(new LookupSearchResult(
                                 countryStateWrapper.getKey(),
                                 'Country',
@@ -60,8 +59,7 @@ public class VisitResultSharingCountryLookupRemote {
                         ));
                     }
                 }
-                if(searchTerm.length() < 2)
-                if (results.size() >= 50) break;
+                if(searchTerm.length() < 2 && results.size() >= 50) break;
             }
             return results;
         } catch (Exception e) {
@@ -96,4 +94,23 @@ public class VisitResultSharingCountryLookupRemote {
         }
     }
 
+    private static List<String> getAvailableCountyStateCodes(String ctpId, Boolean includeStates) {
+        List<Study_Site__c> studySites = [
+                SELECT
+                        Site__r.BillingCountryCode,
+                        Site__r.BillingState
+                FROM Study_Site__c
+                WHERE Clinical_Trial_Profile__c = :ctpId
+        ];
+
+        List<String> codes = new List<String>();
+        for(Study_Site__c ss : studySites) {
+            String code = ss.Site__r.BillingCountryCode;
+            if(!codes.contains(code)) codes.add(code);
+            if(includeStates) code += '-' + ss.Site__r.BillingState;
+            codes.add(code);
+        }
+
+        return codes;
+    }
 }

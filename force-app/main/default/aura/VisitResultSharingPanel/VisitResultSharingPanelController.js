@@ -3,10 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getInitData', null, function (initData) {
+        communityService.executeAction(component, 'getInitData', {
+            'ctpId' : component.get('v.recordId')
+        }, function (initData) {
+            component.set('v.initData', initData);
             component.set('v.groups', initData.groups);
             component.set('v.typeSelectLVList', initData.typeSelectLVList);
             component.set('v.options', initData.options);
+            component.set('v.dataSnapshot', helper.takeSnapshot(component));
             component.find('spinner').hide();
         })
     },
@@ -17,24 +21,27 @@
             options.ssSelectionType = 'All';
             component.set('v.options', options);
         }
+        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doSelectedStatusesChanged: function (component, event, helper) {
         var options = component.get('v.options');
         if(!options.selectedStatuses){
-            options.statusBasedType = 'All statuses';
+            options.statusBasedType = '';
             component.set('v.options', options);
         }
+        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doSSSelectionTypeChanged: function (component, event, helper){
         var options = component.get('v.options');
-        if(options.ssSelectionType != 'All'){
+        if(options.ssSelectionType !== 'All'){
             component.find('ssSelectLookup').focus();
         }else{
             options.selectedSSIds = '';
             component.set('v.options', options);
         }
+        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doAfterDaysBlur: function (component, event, helper) {
@@ -43,24 +50,43 @@
             options.showAfterDays = 1;
             component.set('v.options', options);
         }
+        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doWhenToShowChanged: function(component, event, helper){
         var options = component.get('v.options');
-        if(options.whenToShow == 'After'){
+        if(options.whenToShow === 'After'){
             setTimeout(
                 $A.getCallback(function () {
                     component.find('whenToShowDaysInput').focus();
                 }), 100
             );
         }
+        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
-    doChangeStatusBaseType: function (component, event, helper) {
-        var options = component.get('v.options');
-        if(options.statusBasedType === 'Selected statuses'){
-            component.find('statusSelectLookup').focus();
+    onChangeGlobal : function (component, event, helper) {
+        if(!component.get('v.options.globalShareBck')) {
+            communityService.showInfoToast('', 'For the changes to take effect, do not forget to click Save!');
         }
+        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
+    saveOptions : function (component, event, helper) {
+        if(!helper.compareSnapshots(component, helper)) {
+            communityService.showWarningToast('', 'Not found changes!');
+            return;
+        }
+
+        component.find('spinner').show();
+        communityService.executeAction(component, 'saveSharingRules', {
+            'options' : JSON.stringify(component.get('v.options')),
+            'groups' : JSON.stringify(component.get('v.groups')),
+            'ctpId' : component.get('v.recordId')
+        }, function () {
+            component.find('spinner').hide();
+            communityService.showSuccessToast('Success', 'Visit Result Sharing setting saved!');
+            if(!component.get('v.options.globalShareBck')) component.refresh();
+        });
+    }
 })

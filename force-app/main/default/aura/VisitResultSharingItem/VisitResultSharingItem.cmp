@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="visitResult" type="Object"/>
     <aura:attribute name="typeSelectLVList" type="List"/>
+    <aura:attribute name="ctpId" type="String"/>
 
     <!-- component body: -->
     <div class="{!'slds-grid vr-row ' + if(v.visitResult.type == 'Disabled', 'disabled', '')}">
@@ -23,7 +24,8 @@
             <aura:if isTrue="{!v.visitResult.type == 'Countries'}">
                 <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.visitResult.countryCodes}" isMultiEntry="true"
                                                    onchange="{!c.doCountryChanged}" onblur="{!c.doCountryChanged}"
-                                                   placeholder="Select country" placeholderSelected="Select another country"/>
+                                                   placeholder="Select country" placeholderSelected="Select another country"
+                                                   ctpId="{!v.ctpId}" includeStates="true"/>
             </aura:if>
         </div>
     </div>

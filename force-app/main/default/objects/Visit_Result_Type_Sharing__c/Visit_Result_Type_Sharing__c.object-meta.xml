@@ -43,23 +43,23 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>true</enableActivities>
+    <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
-    <enableReports>true</enableReports>
+    <enableReports>false</enableReports>
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>Visit Result Type</label>
+    <externalSharingModel>Private</externalSharingModel>
+    <label>Visit Result Type Sharing</label>
     <nameField>
-        <displayFormat>VRT-{000000}</displayFormat>
-        <label>Visit Result Type Name</label>
-        <type>AutoNumber</type>
+        <label>Visit Result Type Sharing Name</label>
+        <type>Text</type>
     </nameField>
-    <pluralLabel>Visit Result Types</pluralLabel>
+    <pluralLabel>Visit Result Type Sharings</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

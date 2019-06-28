@@ -8,7 +8,8 @@
         communityService.executeAction(component, 'searchCountries', {
             searchTerm: component.get('v.searchTerm'),
             value: component.get('v.value'),
-            includeStates: component.get('v.includeStates')
+            includeStates: component.get('v.includeStates'),
+            ctpId : component.get('v.ctpId')
         }, function (searchResults) {
             params.callback(searchResults);
         })
