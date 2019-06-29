@@ -2,13 +2,20 @@
 # More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
 #
 
+#misc:
 package.xml
 AppSwitcher.appMenu
 FlowInterview.All
 force-app/main/default/email/unfiled$public
 force-app/main/default/siteDotComSites
+force-app/main/default/settings/Address.settings-meta.xml
 
+#profiles:
+force-app/main/default/profiles/Custom%3A Marketing Profile.profile-meta.xml
+force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
+force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
 
+#community:
 #unpackaged/main/default/experiences
 #unpackaged/main/default/networks
 #unpackaged/main/default/sites

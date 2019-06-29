@@ -14,12 +14,12 @@
       "componentName" : "c:RRLoginForm",
       "componentAttributes" : {
         "startUrl" : "",
-        "forgotPasswordUrl" : "/ForgotPassword",
         "selfRegisterUrl" : "/SelfRegister",
+        "forgotPasswordUrl" : "/ForgotPassword",
         "forgotPasswordLabel" : "Forgot your password?",
         "selfRegisterLabel" : "Not a member?",
-        "usernameLabel" : "Email",
         "loginButtonLabel" : "Log in",
+        "usernameLabel" : "Email",
         "passwordLabel" : "Password"
       },
       "renderPriority" : "NEUTRAL",
