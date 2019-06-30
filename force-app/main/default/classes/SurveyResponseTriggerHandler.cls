@@ -49,6 +49,7 @@ public without sharing class SurveyResponseTriggerHandler {
                 SELECT
                         Id,
                         Description,
+                        Status,
                         Visible_For__c,
                         WhoId
                 FROM Task
@@ -61,7 +62,7 @@ public without sharing class SurveyResponseTriggerHandler {
                     if(t.WhoId == submitterId) {
                         if(forFinish) {
                             TaskService.getInstance().completeTask(t);
-                        } else {
+                        } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
                         break;
@@ -70,7 +71,7 @@ public without sharing class SurveyResponseTriggerHandler {
                             if(forFinish) {
                                 TaskService.getInstance().completeTask(t);
                                 invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
-                            } else {
+                            } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                                 t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                             }
                             break;
