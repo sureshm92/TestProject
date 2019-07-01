@@ -692,7 +692,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailTemplate</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailToParticipant</apexClass>
@@ -800,7 +800,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyResponseTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyService</apexClass>
@@ -1072,6 +1072,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UserService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -4102,6 +4106,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SurveyInvitation.Participant_Enrollment__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>SurveyInvitation.Participant_Study_Enrollment__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4434,6 +4443,11 @@
         <editable>true</editable>
         <field>Visit_Result__c.Min_Value__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result__c.Result_Type__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
