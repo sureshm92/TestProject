@@ -5149,7 +5149,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>

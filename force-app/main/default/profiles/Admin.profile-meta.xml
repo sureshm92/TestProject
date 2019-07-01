@@ -5375,7 +5375,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
