@@ -4,7 +4,6 @@
     <externalId>false</externalId>
     <label>Patient Visit</label>
     <referenceTo>Patient_Visit__c</referenceTo>
-    <relationshipLabel>Visit_Results</relationshipLabel>
     <relationshipName>Visit_Results</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

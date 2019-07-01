@@ -6,7 +6,7 @@
     <inlineHelpText>This field should map to the &quot;Has Data Monitoring Committee&quot; field in clinicaltrials.gov</inlineHelpText>
     <label>Has Data Monitoring Committee</label>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

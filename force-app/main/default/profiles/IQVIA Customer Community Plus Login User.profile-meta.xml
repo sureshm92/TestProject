@@ -343,7 +343,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>InfoModalController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationPatientTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -560,6 +568,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientVisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -919,6 +931,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_IntegrationPatientTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1051,6 +1067,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_UserService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1144,6 +1164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitResultSharingSSLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultSharingService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1568,6 +1592,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Availability_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Availability_Timing__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Participant_Level__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1660,6 +1699,11 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Verification_Date__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Visit_Data_Shareback__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1868,6 +1912,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Visit_Results_Opt_In__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.primaryContact__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1939,6 +1988,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Event.Originator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Patient_Visit__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2184,6 +2238,26 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>HCP_Enrollment__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icon_Details__c.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icon_Details__c.Icons_package__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icon_Details__c.Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icons_package__c.Visit_Plan__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3703,6 +3777,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SDH_Status__mdt.Salesforce_Object__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SDH_Status__mdt.Salesforce_Status__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>ScheduleIntervalSettings__mdt.Days__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4013,6 +4097,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Visit_Results_Sharing__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>SurveyInvitation.Participant_Study_Enrollment__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4049,6 +4138,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Originator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Patient_Visit__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4312,6 +4406,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_Type_Sharing__c.Sharing_Countries__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_Type_Sharing__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
         <readable>true</readable>
@@ -4342,13 +4451,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result__c.Visit_Result_Type__c</field>
-        <readable>true</readable>
+        <editable>false</editable>
+        <field>Visit__c.Icons__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Visit__c.Icons__c</field>
+        <field>Visit__c.Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4380,6 +4489,13 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact-Contact Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Contact-Contact Layout</layout>
+        <recordType>Contact.MASTER</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact_Referral_Network__c-Contact Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4405,6 +4521,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>HCP_Enrollment__c-HCP Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Icon_Details__c-icons detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>
@@ -4515,6 +4634,9 @@
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>SDH_Status__mdt-SDH Status Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ScheduleIntervalSettings__mdt-ScheduleIntervalSetting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -4596,6 +4718,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result_Type_Sharing__c-Visit Result Type Sharing Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
@@ -5036,7 +5161,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>

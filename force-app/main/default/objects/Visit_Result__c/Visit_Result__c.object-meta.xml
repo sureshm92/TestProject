@@ -42,7 +42,7 @@
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
-    <deploymentStatus>Deployed</deploymentStatus>
+    <deploymentStatus>InDevelopment</deploymentStatus>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -52,7 +52,8 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <label>Visit_Result</label>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <label>Visit Result</label>
     <nameField>
         <displayFormat>VR-{0000000}</displayFormat>
         <label>Visit_Result Name</label>

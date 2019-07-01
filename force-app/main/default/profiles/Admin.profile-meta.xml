@@ -1167,6 +1167,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisitResultSharingService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1588,6 +1592,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Availability_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Availability_Timing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Participant_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1679,6 +1698,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Verification_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Visit_Data_Shareback__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1884,6 +1908,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.UserCommunityIsDelegate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Visit_Results_Opt_In__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3442,17 +3471,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Patient_Visit__c.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Patient_Visit__c.Is_Adhoc__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Patient_Visit__c.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3462,17 +3491,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Patient_Visit__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Patient_Visit__c.Visit_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Patient_Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4067,6 +4096,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Visit_Results_Sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>SurveyInvitation.Participant_Study_Enrollment__c</field>
         <readable>true</readable>
@@ -4373,6 +4407,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Sharing_Countries__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4403,7 +4452,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Visit_Result__c.Visit_Result_Type__c</field>
+        <field>Visit_Result__c.Result_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4412,17 +4461,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Visit__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Visit__c.Visit_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4670,6 +4719,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result_Type_Sharing__c-Visit Result Type Sharing Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
@@ -5140,6 +5192,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Visit_Result_Type_Sharing__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Visit_Result_Type__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -5159,6 +5220,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Visit__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>icons_detail__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
@@ -5345,7 +5415,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
@@ -5353,10 +5423,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Knowledge__kav</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -5385,7 +5451,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Patient_Visit__c</tab>
-        <visibility>DefaultOff</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Referral_Network__c</tab>
@@ -5547,6 +5613,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateContentSpace</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -5854,7 +5924,15 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>ManagePropositions</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>ManagePvtRptsAndDashbds</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageRecommendationStrategies</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -6055,6 +6133,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewEventLogFiles</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewFlowUsageAndFlowEventData</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

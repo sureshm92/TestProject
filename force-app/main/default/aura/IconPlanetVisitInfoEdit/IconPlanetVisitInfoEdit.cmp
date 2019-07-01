@@ -27,10 +27,10 @@
                         </div>
                     </td>
                     <td style="width: 30%">
-                        <lightning:input label="" name="{!icon.label__c}" value="{!icon.label__c}"/>
+                        <lightning:input label="" name="{!icon.label__c}" value="{!icon.Label__c}"/>
                     </td>
                     <td>
-                        <lightning:input label="" name="{!icon.description__c}" value="{!icon.description__c}"/>
+                        <lightning:input label="" name="{!icon.description__c}" value="{!icon.Description__c}"/>
                     </td>
                 </tr>
             </aura:iteration>
