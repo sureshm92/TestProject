@@ -29,7 +29,7 @@ public class TestData {
             if(user.LastName == participant.Name) participantUser = user;
         }
         ctp = [SELECT Id, Therapeutic_Area__c FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
-        ss = [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
+        ss = [SELECT Id, Visit_Results_Sharing__c FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
         pe = [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c =: participant.Id];
     }
     
