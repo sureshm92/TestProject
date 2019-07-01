@@ -4368,11 +4368,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Visit_Result_Type_Group__c.Group_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4661,9 +4656,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_TypeM__mdt-Visit Result Type Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
