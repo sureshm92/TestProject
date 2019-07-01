@@ -212,7 +212,7 @@ public without sharing class PSETriggerHandler {
                     }
                 }
                 if (needToAdd) {
-                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment));
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment.Participant_Enrollment__c));
                 }
             }
         }

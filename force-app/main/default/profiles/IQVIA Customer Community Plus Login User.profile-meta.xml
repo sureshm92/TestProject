@@ -800,7 +800,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyResponseTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyService</apexClass>
@@ -4102,6 +4102,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Visit_Results_Sharing__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SurveyInvitation.Participant_Enrollment__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
