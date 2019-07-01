@@ -4417,16 +4417,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Label__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Visit_Result__c.Actual_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4714,9 +4704,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_Type_Sharing__c-Visit Result Type Sharing Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
@@ -5176,15 +5163,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Visit_Result_Type_Sharing__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Visit_Result_Type__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
