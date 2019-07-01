@@ -14,6 +14,15 @@ public without sharing class SurveyService {
             'Patient and each Delegate' => TaskService.TASK_VISIBILITY_OWNER
     };
 
+    public static List<String> getAvailableStatuses() {
+        List<String> statuses = new List<String>();
+        statuses.addAll(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD);
+        statuses.add(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+        statuses.addAll(PSEService.PSE_STATUS_GROUP_ALL);
+
+        return statuses;
+    }
+
     public class SurveyWrapper {
         public String name;
         public String url;
@@ -43,7 +52,7 @@ public without sharing class SurveyService {
                     SELECT
                             InvitationLink,
                             Survey.Name,
-                            Participant_Study_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                     FROM SurveyInvitation
                     WHERE Id = :invitationId
             ];
@@ -51,17 +60,17 @@ public without sharing class SurveyService {
             return new SurveyWrapper(
                     invitation.Survey.Name,
                     invitation.InvitationLink,
-                    invitation.Participant_Study_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
+                    invitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
         } catch (Exception e) {
-            throw new SurveyException(e.getCause() + '\n' + e.getMessage());
+            throw new SurveyService.SurveyException(e.getCause() + '\n' + e.getMessage());
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Participant_Study_Enrollment__c pse) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId) {
         SurveyInvitation invitation = new SurveyInvitation(
                 CommunityId = CommunityService.getCommunityId(null),
                 Name = ts.Survey__r.Name + ':TS:' + ts.Id,
-                Participant_Study_Enrollment__c = pse.Id,
+                Participant_Enrollment__c = peId,
                 Reminder_Schedule__c = ts.Reminder_Schedule__c,
                 SurveyId = ts.Survey__c,
                 Survey__c = ts.Survey__c,
@@ -86,12 +95,12 @@ public without sharing class SurveyService {
             Survey survey,
             Reminder_Schedule__c schedule,
             Integer expiresAfterDays,
-            Participant_Study_Enrollment__c pse
+            Id peId
     ) {
         SurveyInvitation invitation = new SurveyInvitation(
                 CommunityId = CommunityService.getCommunityId(null),
-                Name = survey.Name + ':PSE:' + pse.Id,
-                Participant_Study_Enrollment__c = pse.Id,
+                Name = survey.Name + ':PE:' + peId,
+                Participant_Enrollment__c = peId,
                 Reminder_Schedule__c = schedule.Id,
                 SurveyId = survey.Id,
                 Survey__c = survey.Id
@@ -116,7 +125,7 @@ public without sharing class SurveyService {
                 SELECT Id
                 FROM SurveyInvitation
                 WHERE SurveyId = :surveyId
-                AND Participant_Study_Enrollment__r.Participant_Contact__c = :participantContactId
+                AND Participant_Enrollment__r.Participant_Contact__c = :participantContactId
         ];
         if (invitation.isEmpty()) return '';
 

@@ -35,13 +35,13 @@ public without sharing class SurveyResponseTriggerHandler {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
                         InviteExpiryDateTime,
-                        Participant_Study_Enrollment__r.Participant_Contact__c
+                        Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Id IN:invitationSubmitter.keySet()
         ]);
         Set<Id> contactsIds = new Set<Id>();
         for(SurveyInvitation si : invitationMap.values()) {
-            contactsIds.add(si.Participant_Study_Enrollment__r.Participant_Contact__c);
+            contactsIds.add(si.Participant_Enrollment__r.Participant_Contact__c);
             contactsIds.addAll(invitationSubmitter.get(si.Id));
         }
 
@@ -67,7 +67,7 @@ public without sharing class SurveyResponseTriggerHandler {
                         }
                         break;
                     } else if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
-                        if(t.WhoId == invitationMap.get(t.Description).Participant_Study_Enrollment__r.Participant_Contact__c) {
+                        if(t.WhoId == invitationMap.get(t.Description).Participant_Enrollment__r.Participant_Contact__c) {
                             if(forFinish) {
                                 TaskService.getInstance().completeTask(t);
                                 invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
