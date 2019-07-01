@@ -2,6 +2,5 @@
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
     <auraComponent>AdminPanel</auraComponent>
     <label>Admin Panel</label>
-    <mobileReady>false</mobileReady>
     <motif>Custom87: Safe</motif>
 </CustomTab>
