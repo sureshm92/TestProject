@@ -51,11 +51,6 @@
                 <label>Enrollment Success</label>
             </value>
             <value>
-                <fullName>Enrolled</fullName>
-                <default>false</default>
-                <label>Enrolled</label>
-            </value>
-            <value>
                 <fullName>Treatment Period Started</fullName>
                 <default>false</default>
                 <label>Treatment Period Started</label>
@@ -79,6 +74,12 @@
                 <fullName>Drop Out</fullName>
                 <default>false</default>
                 <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Enrolled</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Enrolled</label>
             </value>
         </valueSetDefinition>
     </valueSet>

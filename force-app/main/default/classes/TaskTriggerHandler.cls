@@ -91,7 +91,10 @@ public without sharing class TaskTriggerHandler {
         Set<Id> ownerIds = new Set<Id>();
         for (Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks]) ownerIds.add(t.OwnerId);
         Map<Id, User> usersByIds = new Map<Id, User>([
-                SELECT Id, ContactId
+                SELECT
+                        Id,
+                        ContactId,
+                        Contact.Participant_Opt_In_Status_Emails__c
                 FROM User
                 WHERE Id IN:ownerIds
                 AND IsActive = TRUE
@@ -109,12 +112,13 @@ public without sharing class TaskTriggerHandler {
                             System.debug('Wrong id on description');
                         }
                     }
-                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)
+                            && usersByIds.get(task.OwnerId).Contact.Participant_Opt_In_Status_Emails__c) {
                         emailMessages.add(SendEmailTemplate.createEmail(
                                 card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
                     }
                     if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                        for(Id delContactId : PatientDelegateService.getDelegatedContactIds(usersByIds.get(task.OwnerId).ContactId)) {
+                        for(Id delContactId : PatientDelegateService.getDelegatedContactIdsEmailOptIn(usersByIds.get(task.OwnerId).ContactId)) {
                             emailMessages.add(SendEmailTemplate.createEmail(
                                     card.Immediate_Email_Template__c, delContactId, whatId));
                         }
