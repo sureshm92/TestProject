@@ -6,15 +6,15 @@
         const callback = event.getParam('arguments').callback;
         var searchTerm = component.get('v.searchTerm');
         var value = component.get('v.value');
-        var serachResults = [];
+        var searchResults = [];
         helper.getAllItems(component, function (allItems) {
             for(var i = 0; i < allItems.length; i++){
                 var item = allItems[i];
                 if(item.id.toLowerCase().indexOf(searchTerm.toLocaleString()) !== -1 && value.indexOf(item.id) === -1){
-                    serachResults.push(item);
+                    searchResults.push(item);
                 }
             }
-            callback(serachResults);
+            callback(searchResults);
         })
     },
 

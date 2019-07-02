@@ -31,7 +31,7 @@ public without sharing class VisitResultSharingPanelRemote {
     public class OptionsWrapper {
         @AuraEnabled public Boolean globalShareBck;
         @AuraEnabled public String participantDefault;
-        @AuraEnabled public String selectedStatuses = '';
+        @AuraEnabled public String selectedStatuses;
         @AuraEnabled public String selectedSSIds;
         @AuraEnabled public String ssSelectionType;
         @AuraEnabled public Integer showAfterDays;
@@ -115,7 +115,7 @@ public without sharing class VisitResultSharingPanelRemote {
             initData.options.globalShareBck = ctp.Visit_Data_Shareback__c;
             initData.options.participantDefault = ctp.Shareback_Settings_On_Participant_Level__c ? 'Opt in' : 'Opt out';
             initData.options.selectedSSIds = String.join(new List<Id>(withSharingSiteIds), ';');
-            initData.options.selectedStatuses = ctp.Shareback_Availability_Status__c;
+            initData.options.selectedStatuses = ctp.Shareback_Availability_Status__c != null ? ctp.Shareback_Availability_Status__c : '';
             initData.options.ssSelectionType = studySites.size() == withSharingSiteIds.size() ? TYPE_ALL : 'Study Sites';
             initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';

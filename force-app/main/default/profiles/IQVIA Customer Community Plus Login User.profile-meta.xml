@@ -692,7 +692,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailTemplate</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailToParticipant</apexClass>
@@ -1072,6 +1072,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UserService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
