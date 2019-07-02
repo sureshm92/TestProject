@@ -16,7 +16,6 @@ public class VisitResultSharingSSLookupRemote {
                     FROM Study_Site__c
                     WHERE Name LIKE: term
                     AND Clinical_Trial_Profile__c =: ctpId AND Id NOT IN: selectedIds
-                    AND Visit_Results_Sharing__c = FALSE
             ];
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             for(Study_Site__c ss : ssList){
