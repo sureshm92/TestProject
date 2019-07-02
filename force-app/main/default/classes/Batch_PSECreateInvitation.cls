@@ -49,6 +49,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                                 Clinical_Trial_Profile__c
                         FROM Participant_Enrollment__c
                         WHERE Id IN:enrollments)
+                    AND Survey__r.ActiveVersionId != NULL
         ];
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
