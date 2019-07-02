@@ -1,49 +1,7 @@
 ({
     doInit: function (component, event, helper) {
-        if (!communityService.isInitialized()) return;
-        component.set("v.showSpinner", true);
-        let userMode = communityService.getUserMode();
-        component.set('v.userMode', userMode);
-        if (userMode === 'HCP') {
-            window.addEventListener('resize', $A.getCallback(function () {
-                helper.doUpdateStudyTitle(component);
-                // helper.doUpdateStudyDescription(component);
-            }));
-            communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
-                let initData = JSON.parse(returnValue);
-                console.log('in getHCPInitData');
-                console.log(initData);
-                component.set("v.paginationData", initData.paginationData);
-                component.set("v.filterData", initData.filterData);
-                component.set("v.sortData", initData.sortData);
-                component.set("v.accessUserLevel", initData.delegateAccessLevel);
-                helper.prepareIcons(initData.currentPageList);
-                component.set("v.currentPageList", initData.currentPageList);
-                component.set("v.showSpinner", false);
-                component.set('v.isInitialized', true);
-                setTimeout($A.getCallback(function () {
-                    helper.doUpdateStudyTitle(component);
-                    // helper.doUpdateStudyDescription(component);
-                }), 10);
-            });
-        } else {
-            communityService.executeAction(component, 'getStudyTrialList', {
-                userMode: userMode
-            }, function (returnValue) {
-                let initData = JSON.parse(returnValue);
-                console.log('in getStudyTrialList');
-                component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
-                component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
-                component.set("v.showSpinner", false);
-                component.set('v.isInitialized', true);
-                component.set('v.peStatusesPathList', initData.peStatusesPathList);
-                component.set('v.peStatusStateMap', initData.peStatusStateMap);
-                if (communityService.getUserMode() === 'Participant') {
-                    component.set('v.currentlyRecruitingTrials', initData.peList);
-                    component.set('v.trialsNoLongerRecruiting', initData.peListNoLongerRecr);
-                }
-            });
-        }
+        helper.init(component,event,helper);
+
     },
 
     doUpdateRecords: function (cmp, event, helper) {
@@ -64,5 +22,28 @@
         cmp.set("v.isSearchResume", true);
         cmp.set("v.searchResumeChanged", true);
         helper.searchForRecords(cmp, helper);
+    },
+
+    saveSSDetails: function (component, event, helper){
+        var param = event.getParam('arguments');
+        var currentSS = param.currentSS;
+       communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
+            if(returnValue == 'SUCCESS'){
+                helper.init(component,event,helper);
+                communityService.showToast(returnValue, 'success', $A.get("$Label.c.SS_Success_Save_Message"));
+            }
+       });
+    },
+
+    saveSSAddress: function (component,event,helper) {
+        var param = event.getParam('arguments');
+        var newAddress = param.newAddress;
+        communityService.executeAction(component, 'saveSSAddress', {newAddress: JSON.stringify(newAddress)}, function (returnValue) {
+            if(returnValue == 'SUCCESS'){
+                this.doInit(component,event,helper);
+                communityService.showToast(returnValue, 'success', $A.get("$Label.c.SS_Success_Save_Message"));
+            }
+        });
     }
+
 });

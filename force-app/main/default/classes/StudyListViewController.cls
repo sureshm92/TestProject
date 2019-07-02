@@ -4,6 +4,8 @@
 
 public without sharing class StudyListViewController {
 
+    private static final String UPDATE_SUCCESS_STATUS = 'SUCCESS';
+
     class StudiesGroup {
         String name;
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
@@ -20,6 +22,9 @@ public without sharing class StudyListViewController {
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         List<ParticipantItem> peList = new List<ParticipantItem>();
         List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
+        List<AccountContactRelation> contactAccounts = new List<AccountContactRelation>();
+        List<LabelValueItem> delegatePicklist = new List<LabelValueItem>();
+        List<LabelValueItem> countryPicklist = new List<LabelValueItem>();
     }
 
     @TestVisible
@@ -42,6 +47,9 @@ public without sharing class StudyListViewController {
             } else if (userMode == CommunityService.USER_MODE_PI) {
                 studies = getStudiesForPI();
                 groupTrials(initData, studies, userMode);
+                initData.contactAccounts = getPIAccounts();
+                initData.delegatePicklist =  StudyTrialService.getDelegatePicklistValues();
+                initData.countryPicklist = getCountries();
                 loadStatistics(studies);
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
@@ -122,9 +130,14 @@ public without sharing class StudyListViewController {
 
     public static List<StudyDetailItem> getStudiesForPI() {
         // prepare map trialId -> StudySite
-        Map<Id, Study_Site__c> trialStudySiteMap = new Map<Id, Study_Site__c>();
+        Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
         for (Study_Site__c studySite : StudySiteService.getStudySitesForPI()) {
-            trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, studySite);
+            if(!trialStudySiteMap.keySet().contains(studySite.Clinical_Trial_Profile__c)) {
+                trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, new List<Study_Site__c>{studySite});
+            }
+            else{
+                trialStudySiteMap.get(studySite.Clinical_Trial_Profile__c).add(studySite);
+            }
         }
         // get trials and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialStudySiteMap.keySet());
@@ -133,13 +146,15 @@ public without sharing class StudyListViewController {
         // prepare result list:
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
-            Study_Site__c ss = trialStudySiteMap.get(trial.Id);
+            List<Study_Site__c> ss = trialStudySiteMap.get(trial.Id);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
-            studyDetailItem.studyStatus = ss.Override_PI_Referral_Status__c;
-            studyDetailItem.ss = ss;
+            studyDetailItem.studyStatus = ss[0].Override_PI_Referral_Status__c;
+            studyDetailItem.ssList = ss;
 
-            studyDetailItem.studyActions = new StudyActionsPI(trialStudySiteMap.get(trial.Id)).studyListViewItemActions;
+            for(Study_Site__c studSite : trialStudySiteMap.get(trial.Id)) {
+                studyDetailItem.studyActions = new StudyActionsPI(studSite).studyListViewItemActions;
+            }
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }
@@ -196,4 +211,50 @@ public without sharing class StudyListViewController {
         }
     }
 
+    public static List<AccountContactRelation> getPIAccounts(){
+        List<AccountContactRelation> accounts = StudyTrialService.getAccounts();
+        return accounts;
+    }
+
+    @AuraEnabled
+    public static String saveSSChanges(String studySiteInfo) {
+        String status;
+        try {
+            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            Study_Site__c ssToUpdate = [SELECT Id, Site_Staff__c, Study_Site_Email__c,Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :ss.Id LIMIT 1];
+            ssToUpdate.Study_Site_Phone__c = ss.Study_Site_Phone__c;
+            ssToUpdate.Study_Site_Email__c = ss.Study_Site_Email__c;
+            ssToUpdate.Site_Staff__c = ss.Site_Staff__c;
+            ssToUpdate.Site__c = ss.Site__c;
+            ssToUpdate.Name = ss.Name;
+            update ssToUpdate;
+            status = UPDATE_SUCCESS_STATUS;
+            return status;
+        } catch (Exception e) {
+            status = (String) AuraHelper.throwException(e);
+            return status;
+        }
+    }
+
+    @AuraEnabled
+    public static String saveSSAddress(String newAddress){
+        String status;
+        try {
+            Account account = (Account) JSON.deserialize(newAddress, Account.class);
+            System.debug('Account'+ account);
+            status = UPDATE_SUCCESS_STATUS;
+            return status;
+        } catch (Exception e) {
+            status = (String) AuraHelper.throwException(e);
+            return status;
+        }
+    }
+
+    public static List<LabelValueItem> getCountries(){
+        List<LabelValueItem> countries = new List<LabelValueItem>{new LabelValueItem('None','')};
+        for( Schema.PicklistEntry field :  User.CountryCode.getDescribe().getPicklistValues()){
+            countries.add(new LabelValueItem(field.getLabel(),field.getLabel()));
+        }
+        return countries;
+    }
 }

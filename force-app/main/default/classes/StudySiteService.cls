@@ -166,6 +166,8 @@ public without sharing class StudySiteService {
             'Override_PI_Referral_Status__c',
             'Is_Virtual_Study_Site__c',
             'Study_Site_Type__c',
+            'Study_Site_Phone__c',
+            'Study_Site_Email__c',
             'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
@@ -176,6 +178,8 @@ public without sharing class StudySiteService {
             'Site__r.BillingStreet',
             'Site__r.BillingLatitude',
             'Site__r.BillingLongitude',
+            'Site__r.Driving_Directions__c',
+            'Site__r.Parking_Instructions__c',
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Id',
             'Clinical_Trial_Profile__r.Study_Title__c',
@@ -206,7 +210,8 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingCountry',
             'Principal_Investigator__r.Account.BillingLatitude',
             'Principal_Investigator__r.Account.BillingLongitude',
-            'Principal_Investigator__r.Account.BillingAddress'
+            'Principal_Investigator__r.Account.BillingAddress',
+            'Site_Staff__r.Site_Contact__c'
     };
 
 

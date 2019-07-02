@@ -22,7 +22,9 @@
     <aura:attribute name="searchResumeChanged" type="Boolean" default="false" access="private"/>
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
-
+    <aura:attribute name="delegatesPicklist" type="List"/>
+    <aura:attribute name="contactAccountsList" type="List"/>
+    <aura:attribute name="countryPicklist" type="Object[]"/>
     <aura:attribute name="paginationData" type="Object"/>
     <aura:attribute name="filterData" type="Object"/>
     <aura:attribute name="sortData" type="Object"/>
@@ -43,6 +45,12 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
     <aura:method name="showOpenNoTanksModal" action="{!c.showNoThanksDialog}" access="public">
         <aura:attribute name="trialId" type="String"/>
+    </aura:method>
+    <aura:method name="saveSSDetails" action="{!c.saveSSDetails}" access="public">
+        <aura:attribute name="currentSS" type="Object"/>
+    </aura:method>
+    <aura:method name="saveSSAddress" action="{!c.saveSSAddress}" access="public">
+        <aura:attribute name="newAddress" type="Object"/>
     </aura:method>
 
     <!-- component body: -->
@@ -134,7 +142,12 @@
                     <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">
                         <div class="slv-category">{!trialsSubList.name}</div>
                         <aura:iteration items="{!trialsSubList.studies}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                            <c:StudyListViewItem currentStudy="{!trial}"
+                                                 delegatePicklist="{!v.delegatesPicklist}"
+                                                 userMode="{!v.userMode}"
+                                                 parent="{!this}"
+                                                 contactAccounts="{!v.contactAccountsList}"
+                                                 countryPicklist = "{!v.countryPicklist}"/>
                         </aura:iteration>
                     </aura:iteration>
                 </aura:if>
@@ -145,7 +158,7 @@
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
                         <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"/>
                         </aura:iteration>
                     </aura:if>
                 </aura:if>

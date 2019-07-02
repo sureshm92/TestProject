@@ -23,6 +23,7 @@
     <aura:attribute name="isStudySitesTabInitialized" type="Boolean"/>
     <aura:attribute name="isMRRTabInitialized" type="Boolean"/>
     <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean"/>
+    <aura:attribute name="ssId" type="String"/>
 
     <!--change-->
     <aura:attribute name="resourceImagePath" type="String" access="private"/>
@@ -191,7 +192,7 @@
 
                     <aura:if isTrue="{!v.isReferringClinicsTabInitialized}">
                         <div class="{!if(v.currentTab == 'tab-referred-clinics', 'visible-tab', 'invisible-tab')}">
-                            <c:MyReferringClinics/>
+                            <c:MyReferringClinics ssId="{!v.ssId}"/>
                         </div>
                     </aura:if>
 
@@ -215,7 +216,7 @@
 
                     <aura:if isTrue="{!v.isReferralsTabInitialized}">
                         <div class="{!if(v.currentTab == 'tab-referrals', 'visible-tab', 'invisible-tab')}">
-                            <c:ViewPatientsReferred trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
+                            <c:ViewPatientsReferred  ssId="{!v.ssId}" trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
                         </div>
                     </aura:if>
 

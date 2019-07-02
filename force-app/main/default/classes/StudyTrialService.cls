@@ -461,6 +461,7 @@ public without sharing class StudyTrialService {
                         , Study_Code_Name__c
                         , Official_Title__c
                         , Sponsor_Pays_for_Referral_Activity__c
+                        , NCT_Number__c
 
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
@@ -572,5 +573,46 @@ public without sharing class StudyTrialService {
         });
         if (trials.size() > 0) return trials[0];
         return null;
+    }
+
+    public static List<AccountContactRelation> getAccounts() {
+        try {
+            List<AccountContactRelation> piAccounts= [SELECT Id,
+                                                             Contact.Id,
+                                                             Contact.Name,
+                                                             Contact.primaryContact__c,
+                                                             Account.Name,
+                                                             Account.BillingAddress,
+                                                             Account.Driving_Directions__c,
+                                                             Account.Parking_Instructions__c
+                                                             FROM AccountContactRelation
+                                                             WHERE ContactId = : CommunityService.getInstance().getCurrentContactId()
+                                                     ];
+            return piAccounts;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static List<LabelValueItem> getDelegatePicklistValues(){
+        try {
+            Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
+            for(Site_Staff__c delegatesSites : [SELECT Id,
+                                                 Site_Contact__r.Name,
+                                                 Site_Contact__c
+                                            FROM Site_Staff__c
+                                            WHERE Study_Site__r.Principal_Investigator__c =: CommunityService.getInstance().getCurrentContactId()
+                                            ]){
+                    delegates.put(delegatesSites.Site_Contact__c,new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
+            }
+            List<LabelValueItem> labelList = new List<LabelValueItem>();
+            if(!delegates.isEmpty()){
+                labelList.add(new LabelValueItem('None', ' '));
+                labelList.addAll(delegates.values());
+            }
+            return labelList;
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
