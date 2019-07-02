@@ -25,6 +25,7 @@ public inherited sharing class VisitService {
 
     public static Patient_Visit__c createPatientVisit(Visit__c visit, Id pseId){
         return new Patient_Visit__c(
+                Name = visit.Name,
                 Visit__c = visit.Id,
                 Visit_Schedule__c = visit.Visit_Schedule__c,
                 Visit_Number__c = visit.Visit_Number__c,

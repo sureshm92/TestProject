@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class VisitTriggerHandler {
+public without sharing class VisitTriggerHandler {
     
     public class DeletePatientVisitOnVisitDeletionHandler extends TriggerHandler {
         
@@ -38,6 +38,7 @@ public class VisitTriggerHandler {
             for(Participant_Study_Enrollment__c pse : pseList){
                 List<Participant_Study_Enrollment__c> vpPseList = pseListByVisitPlanIdMap.get(pse.Clinical_Trial_Profile__r.Visit_Plan__c);
                 if(vpPseList == null) vpPseList = new List<Participant_Study_Enrollment__c>();
+                vpPseList.add(pse);
                 pseListByVisitPlanIdMap.put(pse.Clinical_Trial_Profile__r.Visit_Plan__c, vpPseList);
             }
             List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();

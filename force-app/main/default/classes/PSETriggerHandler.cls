@@ -245,7 +245,7 @@ public without sharing class PSETriggerHandler {
         Set<Id> visitPlanIds = new Set<Id>();
         for(Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
         Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id,Visit_Plan__c>([
-                SELECT Id, (SELECT Id, Visit_Number__c, Visit_Schedule__c FROM Visits__r)
+                SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c FROM Visits__r)
                 FROM Visit_Plan__c
                 WHERE Id IN: visitPlanIds
         ]);
