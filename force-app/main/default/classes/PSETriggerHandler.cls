@@ -89,10 +89,16 @@ public without sharing class PSETriggerHandler {
     private static void setDefaultFieldsBeforeUpsert(List<Participant_Study_Enrollment__c> newList) {
         Set<Id> ssIds = new Set<Id>();
         Set<Id> participantIds = new Set<Id>();
+        Set<Id> peIds = new Set<Id>();
         for (Participant_Study_Enrollment__c pse : newList) {
             ssIds.add(pse.Study_Site__c);
             participantIds.add(pse.Participant__c);
+            peIds.add(pse.Participant_Enrollment__c);
         }
+        Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>([
+                SELECT Id, Screening_ID__c FROM Participant_Enrollment__c WHERE Id IN: peIds
+        ]);
+            
         Map<Id, Study_Site__c> studySitesMap = new Map<Id, Study_Site__c>([
                 SELECT Id, Principal_Investigator__c
                 FROM Study_Site__c
@@ -110,6 +116,8 @@ public without sharing class PSETriggerHandler {
             if (pse.Participant__c != null) {
                 pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
             }
+            Participant_Enrollment__c pe = peMap.get(pse.Participant_Enrollment__c);
+            if(pe != null) pse.Screening_ID__c = pe.Screening_ID__c;
         }
     }
 
@@ -252,7 +260,9 @@ public without sharing class PSETriggerHandler {
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         for(Participant_Study_Enrollment__c pse : pseList){
             Clinical_Trial_Profile__c ctp = ctpMap.get(pse.Clinical_Trial_Profile__c);
+            if(ctp == null) continue;
             Visit_Plan__c vp = visitPlansMap.get(ctp.Visit_Plan__c);
+            if(vp == null) continue;
             for(Visit__c visit : vp.Visits__r){
                 patientVisits.add(VisitService.createPatientVisit(visit, pse.Id));
             }
