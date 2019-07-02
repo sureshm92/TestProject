@@ -35,6 +35,13 @@ public without sharing class PSETriggerHandler {
         }
 
     }
+    
+    public class CreateVisitsScheduleHandler extends TriggerHandler{
+        
+        public override void afterInsert(List<SObject> newList){
+            createVisitsSchedule(newList);
+        }
+    }
 
     public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
 
@@ -82,10 +89,16 @@ public without sharing class PSETriggerHandler {
     private static void setDefaultFieldsBeforeUpsert(List<Participant_Study_Enrollment__c> newList) {
         Set<Id> ssIds = new Set<Id>();
         Set<Id> participantIds = new Set<Id>();
+        Set<Id> peIds = new Set<Id>();
         for (Participant_Study_Enrollment__c pse : newList) {
             ssIds.add(pse.Study_Site__c);
             participantIds.add(pse.Participant__c);
+            peIds.add(pse.Participant_Enrollment__c);
         }
+        Map<Id, Participant_Enrollment__c> peMap = new Map<Id, Participant_Enrollment__c>([
+                SELECT Id, Screening_ID__c FROM Participant_Enrollment__c WHERE Id IN: peIds
+        ]);
+            
         Map<Id, Study_Site__c> studySitesMap = new Map<Id, Study_Site__c>([
                 SELECT Id, Principal_Investigator__c
                 FROM Study_Site__c
@@ -103,6 +116,8 @@ public without sharing class PSETriggerHandler {
             if (pse.Participant__c != null) {
                 pse.Participant_Contact__c = participantsMap.get(pse.Participant__c).Contact__c;
             }
+            Participant_Enrollment__c pe = peMap.get(pse.Participant_Enrollment__c);
+            if(pe != null) pse.Screening_ID__c = pe.Screening_ID__c;
         }
     }
 
@@ -225,4 +240,34 @@ public without sharing class PSETriggerHandler {
 
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
+    
+    @TestVisible
+    private static void createVisitsSchedule(List<Participant_Study_Enrollment__c> pseList){
+        Set<Id> ctpIds = new Set<Id>();
+        for(Participant_Study_Enrollment__c pse : pseList) ctpIds.add(pse.Clinical_Trial_Profile__c);
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>([
+                SELECT Id, Visit_Plan__c
+                FROM Clinical_Trial_Profile__c
+                WHERE Id IN: ctpIds
+        ]);
+        Set<Id> visitPlanIds = new Set<Id>();
+        for(Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
+        Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id,Visit_Plan__c>([
+                SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c FROM Visits__r)
+                FROM Visit_Plan__c
+                WHERE Id IN: visitPlanIds
+        ]);
+        List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
+        for(Participant_Study_Enrollment__c pse : pseList){
+            Clinical_Trial_Profile__c ctp = ctpMap.get(pse.Clinical_Trial_Profile__c);
+            if(ctp == null) continue;
+            Visit_Plan__c vp = visitPlansMap.get(ctp.Visit_Plan__c);
+            if(vp == null) continue;
+            for(Visit__c visit : vp.Visits__r){
+                patientVisits.add(VisitService.createPatientVisit(visit, pse.Id));
+            }
+        }
+        if(patientVisits.size() > 0) insert patientVisits;
+    }
+    
 }

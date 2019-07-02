@@ -4,7 +4,7 @@
 
 ({
     takeSnapshot: function (component) {
-        return JSON.stringify(component.get('v.options'));
+        return JSON.stringify(component.get('v.options')) + ' ' + JSON.stringify(component.get('v.groups'));
     },
 
     compareSnapshots : function (component, helper) {

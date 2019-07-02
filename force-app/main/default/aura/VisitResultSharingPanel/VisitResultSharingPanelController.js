@@ -21,7 +21,6 @@
             options.ssSelectionType = 'All';
             component.set('v.options', options);
         }
-        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doSelectedStatusesChanged: function (component, event, helper) {
@@ -30,7 +29,6 @@
             options.statusBasedType = '';
             component.set('v.options', options);
         }
-        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doSSSelectionTypeChanged: function (component, event, helper){
@@ -41,7 +39,6 @@
             options.selectedSSIds = '';
             component.set('v.options', options);
         }
-        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doAfterDaysBlur: function (component, event, helper) {
@@ -50,7 +47,6 @@
             options.showAfterDays = 1;
             component.set('v.options', options);
         }
-        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     doWhenToShowChanged: function(component, event, helper){
@@ -62,18 +58,16 @@
                 }), 100
             );
         }
-        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     onChangeGlobal : function (component, event, helper) {
         if(!component.get('v.options.globalShareBck')) {
             communityService.showInfoToast('', 'For the changes to take effect, do not forget to click Save!');
         }
-        component.set('v.dataSnapshot', helper.takeSnapshot(component));
     },
 
     saveOptions : function (component, event, helper) {
-        if(!helper.compareSnapshots(component, helper)) {
+        if(helper.compareSnapshots(component, helper)) {
             communityService.showWarningToast('', 'Not found changes!');
             return;
         }

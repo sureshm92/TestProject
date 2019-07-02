@@ -1075,6 +1075,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitResultSharingService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
