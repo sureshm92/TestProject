@@ -56,18 +56,15 @@ public without sharing class SurveyResponseTriggerHandler {
                 WHERE WhoId IN:contactsIds
                 AND Task_Type__c =: TaskService.TASK_TYPE_SURVEY
         ];
-
-        Map<Id, Integer> invitationViewsByOwner = new Map<Id, Integer>();
         for(Task t : tasks) {
             if(invitationSubmitter.containsKey(t.Description)) {
                 for(Id submitterId : invitationSubmitter.get(t.Description)) {
                     if(t.WhoId == submitterId) {
                         if(forFinish) {
                             TaskService.getInstance().completeTask(t);
-                            if(!invitationViewsByOwner.containsKey(t.Description)) {
-                                invitationViewsByOwner.put(t.Description, 0);
+                            if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                                invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
                             }
-                            invitationViewsByOwner.put(t.Description, invitationViewsByOwner.get(t.Description)+1);
                         } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
@@ -86,14 +83,7 @@ public without sharing class SurveyResponseTriggerHandler {
                 }
             }
         }
-        if(forFinish) {
-            for(SurveyInvitation sinv : invitationMap.values()) {
-                if(invitationViewsByOwner.containsKey(sinv.Id) && invitationViewsByOwner.get(sinv.Id) > 1) {
-                    sinv.InviteExpiryDateTime = System.now();
-                }
-            }
-            update invitationMap.values();
-        }
+        if(forFinish) update invitationMap.values();
 
         System.debug('FOR ' + (forFinish ? 'COMPLETE' : 'PAUSE') + ' SIZE: ' + tasks.size());
         update tasks;
