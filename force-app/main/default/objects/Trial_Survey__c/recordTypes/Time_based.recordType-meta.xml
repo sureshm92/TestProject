@@ -10,10 +10,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Enrolled</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Follow-Up Period Started</fullName>
             <default>false</default>
         </values>
