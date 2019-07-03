@@ -32,7 +32,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>AddPatientByPIRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AdminPanelRemote</apexClass>
@@ -540,7 +540,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
@@ -2858,6 +2858,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Contacted__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Days_After_Referred__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

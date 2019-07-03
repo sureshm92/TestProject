@@ -62,6 +62,7 @@ public without sharing class SurveyResponseTriggerHandler {
                     if(t.WhoId == submitterId) {
                         if(forFinish) {
                             TaskService.getInstance().completeTask(t);
+                            invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
                         } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
