@@ -8644,6 +8644,41 @@
         <value>Visit Order</value>
     </labels>
     <labels>
+        <fullName>Visit_Results_Tab_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Expected Range</shortDescription>
+        <value>Expected Range</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Labs</shortDescription>
+        <value>Labs</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date</shortDescription>
+        <value>Results from</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Vitals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Vitals</shortDescription>
+        <value>Vitals</value>
+    </labels>
+    <labels>
         <fullName>Visit_Schedule</fullName>
         <categories>visit configuration</categories>
         <language>en_US</language>

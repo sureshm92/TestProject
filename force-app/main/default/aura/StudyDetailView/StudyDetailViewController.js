@@ -96,6 +96,9 @@
             case 'changeVisitMode':
                 component.set('v.visitMode', event.currentTarget.dataset.visitMode);
                 break;
+            case 'changeLabResultsMode':
+                component.set('v.labResultsMode', event.currentTarget.dataset.labResultsMode);
+                break;
             case 'changeTaskMode':
                 var taskMode = event.currentTarget.dataset.taskMode;
                 component.set('v.taskMode', taskMode);

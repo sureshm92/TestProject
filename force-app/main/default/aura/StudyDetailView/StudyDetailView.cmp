@@ -29,6 +29,7 @@
     <aura:attribute name="resourceMode" type="String" default="Default"/>
     <aura:attribute name="visitMode" type="String" default="Current"/>
     <aura:attribute name="taskMode" type="String" default="Open"/>
+    <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
     <aura:attribute name="isShare" type="Boolean"/>
     <aura:attribute type="String" name="shareMessage"/>
 
@@ -182,6 +183,15 @@
                                 onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
                     </div>
 
+                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}">
+                        <button id="changeLabResultsMode" data-lab-results-mode="Vitals"
+                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Vitals', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Vitals}</button>
+                        <button id="changeLabResultsMode" data-lab-results-mode="Labs"
+                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Labs}</button>
+                    </div>
+
                 </div>
                 <!-- Stub visible only when sticky bar fixed-->
                 <div>
@@ -246,7 +256,7 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
-                        {!v.currentTab}
+                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}"/>
                     </aura:if>
                 </div>
             </div>

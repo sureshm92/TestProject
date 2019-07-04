@@ -1,0 +1,31 @@
+<!--
+  - Created by Dmytro Pokutnii
+  -->
+<aura:component description="VisitResultsItem">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
+    <aura:attribute name="isVitals" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+
+    <!-- COMPONENT BODY -->
+
+    <div class="visit-result-item-panel">
+        <div class="visit-result-name">
+            {!v.wrapper.name}
+        </div>
+        <div class="visit-result-slider">
+            <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"
+                        showFilledTrack="{!!v.isVitals}"/>
+            <div class="{!v.isVitals ? 'hidden' : 'visit-result-range'}">
+                {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.wrapper.minValue + '-' + v.wrapper.maxValue + ' ' + v.wrapper.measurement}
+            </div>
+        </div>
+        <div class="visit-result-item-description">
+            i
+        </div>
+    </div>
+
+</aura:component>

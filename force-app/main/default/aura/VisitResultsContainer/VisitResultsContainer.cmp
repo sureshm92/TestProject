@@ -1,0 +1,35 @@
+<!--
+  - Created by Dmytro Pokutnii
+  -->
+<aura:component controller="VisitResultsRemote" description="VisitResultsContainer">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
+
+    <aura:attribute name="visitResultsGroupNames" type="String[]" access="private"/>
+    <aura:attribute name="labResultModeVitals" type="String" access="private" default="Vitals"/>
+    <aura:attribute name="initialized" type="Boolean" access="private" default="false"/>
+
+    <!-- HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.labResultsMode}" action="{!c.doInit}"/>
+
+    <!-- COMPONENT BODY -->
+
+    <div class="visit-results-content">
+        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
+        <aura:if isTrue="{!v.initialized}">
+            <div class="visit-results-disclaimer">
+                {!$Label.c.Visit_Results_Tab_Disclaimer}
+            </div>
+            <aura:iteration items="{!v.visitResultsGroupNames}" var="visitResultsGroupName">
+                <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}"
+                                     isVitals="{!v.labResultsMode == v.labResultModeVitals}"
+                />
+            </aura:iteration>
+        </aura:if>
+    </div>
+
+</aura:component>

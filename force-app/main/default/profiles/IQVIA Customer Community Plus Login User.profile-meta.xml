@@ -1171,6 +1171,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisitResultsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultsService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -4401,11 +4409,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type_Group__c.Group_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
         <readable>false</readable>
@@ -4419,16 +4422,6 @@
         <editable>false</editable>
         <field>Visit_Result_Type_Sharing__c.Type__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Label__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4717,13 +4710,7 @@
         <layout>Visit_Result_TypeM__mdt-Visit Result Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit_Result_Type_Sharing__c-Visit Result Type Sharing Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
