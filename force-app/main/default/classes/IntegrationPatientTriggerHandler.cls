@@ -25,12 +25,13 @@ public with sharing class IntegrationPatientTriggerHandler {
         List<SDH_Status__mdt> sdhStatuses = [
             SELECT
                     Label,
-                    Salesforce_Status__c
+                    Salesforce_Status__c,
+                    Salesforce_Object__c
             FROM    SDH_Status__mdt
         ];
         Map<String, SDH_Status__mdt> sdhStatusMap = new Map<String, SDH_Status__mdt>();
         for(SDH_Status__mdt sdhStatus : sdhStatuses){
-            sdhStatusMap.put(sdhStatus.Label, sdhStatus);
+            sdhStatusMap.put(sdhStatus.Label.remove(' '), sdhStatus);
         }
         Map<String, Participant_Study_Enrollment__c> pseMap = new Map<String, Participant_Study_Enrollment__c>();
         for(Participant_Study_Enrollment__c pse : pseList){
@@ -50,8 +51,8 @@ public with sharing class IntegrationPatientTriggerHandler {
     }
 
     private static String getPSEStatus(Map<String, SDH_Status__mdt> sdhStatusMap, Integration_Patient__c patient){
-        if(sdhStatusMap.containsKey(patient.Subject_Status__c) && sdhStatusMap.get(patient.Subject_Status__c).Salesforce_Object__c == 'Participant Study Enrollment'){
-            return sdhStatusMap.get(patient.Subject_Status__c).Salesforce_Status__c;
+        if(sdhStatusMap.containsKey(patient.Subject_Status__c.remove(' ')) && sdhStatusMap.get(patient.Subject_Status__c.remove(' ')).Salesforce_Object__c == 'Participant Study Enrollment'){
+            return sdhStatusMap.get(patient.Subject_Status__c.remove(' ')).Salesforce_Status__c;
         }
         return null;
     }
