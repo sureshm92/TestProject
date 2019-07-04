@@ -14,4 +14,8 @@
         <field>Visit_Result_Label__c</field>
         <value xsi:type="xsd:string">Haemoglobin</value>
     </values>
+    <values>
+        <field>Visit_Result_Type__c</field>
+        <value xsi:type="xsd:string">Lab</value>
+    </values>
 </CustomMetadata>
