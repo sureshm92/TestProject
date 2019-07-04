@@ -8,7 +8,7 @@ private class Test_SurveyService {
 
     @IsTest
     static void generateInvitationTest() {
-        List<Survey> survey = [SELECT Id, Name FROM Survey LIMIT 1];
+        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL  LIMIT 1];
         if(survey.isEmpty()) return;
 
         TestData.loadTestData();
@@ -23,7 +23,7 @@ private class Test_SurveyService {
         TestData testData = new TestData();
 
         ts = new Trial_Survey__c(
-                Active_On_Status__c = PSEService.PSE_STATUS_ENROLLED,
+                Active_On_Status__c = PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 5,
                 Reminder_Schedule__c = schedule.Id,
@@ -42,7 +42,7 @@ private class Test_SurveyService {
 
     @IsTest
     static void generateInvitationWithoutTSTest() {
-        List<Survey> survey = [SELECT Id, Name FROM Survey LIMIT 1];
+        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if(survey.isEmpty()) return;
 
         TestData.loadTestData();
@@ -65,7 +65,7 @@ private class Test_SurveyService {
 
     @IsTest
     static void getSurveyInvitationIdTest() {
-        List<Survey> survey = [SELECT Id, Name FROM Survey LIMIT 1];
+        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL  LIMIT 1];
         if(survey.isEmpty()) return;
 
         TestData.loadTestData();
@@ -79,7 +79,7 @@ private class Test_SurveyService {
         TestData testData = new TestData();
 
         ts = new Trial_Survey__c(
-                Active_On_Status__c = PSEService.PSE_STATUS_ENROLLED,
+                Active_On_Status__c = PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 5,
                 Reminder_Schedule__c = schedule.Id,

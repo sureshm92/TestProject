@@ -141,7 +141,10 @@ public class TestData {
                 Therapeutic_Area__c = area.Id,
                 Participating_in_Digital_Recruitment__c = 'YES',
                 Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes'
+                Participating_in_Patient_Portal__c = 'Yes',
+                Shareback_Settings_On_Participant_Level__c = true,
+                Shareback_Availability_Timing__c = 1,
+                Visit_Data_Shareback__c = true
         );
         insert study;
     

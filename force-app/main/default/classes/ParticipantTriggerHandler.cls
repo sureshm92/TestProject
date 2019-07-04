@@ -42,19 +42,6 @@ public without sharing class ParticipantTriggerHandler {
 
     @TestVisible
     private static void createContactsForParticipants(List<Participant__c> newList){
-        List<Participant_Enrollment__c> enrollments = [
-                SELECT
-                        Id,
-                        Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
-                        Participant__c
-                FROM Participant_Enrollment__c
-                WHERE Participant__c IN:newList
-        ];
-        Map<Id, Boolean> pContantShareOpt = new Map<Id, Boolean>();
-        for(Participant_Enrollment__c pe : enrollments) {
-            pContantShareOpt.put(pe.Participant__c, pe.Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c);
-        }
-
         Id participantAccountId = getParticipantAccountId();
         Map<String, Participant__c> participantsByEmail = new Map<String, Participant__c>();
         List<Contact> contactsToInsert = new List<Contact>();
@@ -69,9 +56,7 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.Language__c = participant.Language_Preference_Code__c;
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
-                if(pContantShareOpt.containsKey(participant.Id)) {
-                    newContact.Visit_Results_Opt_In__c = pContantShareOpt.get(participant.Id);
-                }
+
                 contactsToInsert.add(newContact);
                 participantsByEmail.put(participant.Email__c, participant);
 
