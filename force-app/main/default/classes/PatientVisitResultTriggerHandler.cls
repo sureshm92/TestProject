@@ -24,20 +24,21 @@ public without sharing class PatientVisitResultTriggerHandler {
         Map<String, Patient_Visit__c> visitMap = getPatientVisitsMap(externalIds, visitNames, visitDates);
         Map<String, Visit_Result__c> resultMap = getVisitResultsMap(externalIds, visitNames, visitDates);
         Map<String, Id> recordTypesMap = getRecordTypeMap();
+        Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
             String key = result.External_Key__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
             if(resultMap.containsKey(key)){
-                populateVisitResult(resultMap.get(key), result, recordTypesMap);
+                populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
             } else if(visitMap.containsKey(key.removeEnd(result.TESTCD__c))){
-                newResults.add(createNewResult(visitMap.get(key.removeEnd(result.TESTCD__c)),result,recordTypesMap));
+                newResults.add(createNewResult(visitMap.get(key.removeEnd(result.TESTCD__c)),result,recordTypesMap, resultTypesMap));
             }
         }
     }
 
-    private static Visit_Result__c createNewResult(Patient_Visit__c visit, Integration_VisitResult__c externalResult, Map<String, Id> recordTypesMap){
+    private static Visit_Result__c createNewResult(Patient_Visit__c visit, Integration_VisitResult__c externalResult, Map<String, Id> recordTypesMap, Map<String, Visit_Result_TypeM__mdt> resultTypesMap){
         Visit_Result__c result = new Visit_Result__c();
-        populateVisitResult(result, externalResult, recordTypesMap);
+        populateVisitResult(result, externalResult, recordTypesMap, resultTypesMap);
         result.Patient_Visit__c = visit.Id;
         return result;
     }
@@ -72,14 +73,30 @@ public without sharing class PatientVisitResultTriggerHandler {
         }
     }
 
-    private static void populateVisitResult(Visit_Result__c result, Integration_VisitResult__c integrationVisitResult, Map<String,Id> recordTypesMap){
+    private static Map<String,Visit_Result_TypeM__mdt> getVisitResultTypesMap(){
+        List<Visit_Result_TypeM__mdt> resultTypes = [
+            SELECT
+                    Label,
+                    Visit_Result_Code__c
+            FROM    Visit_Result_TypeM__mdt
+        ];
+        Map<String,Visit_Result_TypeM__mdt> resultTypeMap = new Map<String,Visit_Result_TypeM__mdt>();
+        for(Visit_Result_TypeM__mdt resultType : resultTypes){
+            resultTypeMap.put(resultType.Visit_Result_Code__c, resultType);
+        }
+        return resultTypeMap;
+    }
+
+    private static void populateVisitResult(Visit_Result__c result, Integration_VisitResult__c integrationVisitResult, Map<String,Id> recordTypesMap, Map<String, Visit_Result_TypeM__mdt> resultTypesMap){
         //Confirm
         result.Actual_Value__c = integrationVisitResult.STRESN__c;
         result.Max_Value__c = integrationVisitResult.STNRHI__c;
         result.Measurement__c = integrationVisitResult.STRESU__c;
         result.Min_Value__c = integrationVisitResult.STNRLO__c;
         result.RecordTypeId = recordTypesMap.get(integrationVisitResult.Vital_or_Lab__c);
-        result.Result_Type__c = integrationVisitResult.TESTCD__c;
+        if(resultTypesMap.containsKey(integrationVisitResult.TESTCD__c)){
+            result.Result_Type__c = resultTypesMap.get(integrationVisitResult.TESTCD__c).Label;
+        }
     }
 
     private static Map<String, Visit_Result__c> getVisitResultsMap(Set<String> externalIds, Set<String> visitNames, Set<Date> visitDates){
