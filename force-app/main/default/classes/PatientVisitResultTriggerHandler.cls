@@ -82,7 +82,9 @@ public without sharing class PatientVisitResultTriggerHandler {
         ];
         Map<String,Visit_Result_TypeM__mdt> resultTypeMap = new Map<String,Visit_Result_TypeM__mdt>();
         for(Visit_Result_TypeM__mdt resultType : resultTypes){
-            resultTypeMap.put(resultType.Visit_Result_Code__c, resultType);
+            for(String code : resultType.Visit_Result_Code__c.split(',')) {
+                resultTypeMap.put(resultType.Visit_Result_Code__c, resultType);
+            }
         }
         return resultTypeMap;
     }
