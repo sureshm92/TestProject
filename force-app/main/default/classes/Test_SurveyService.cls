@@ -89,7 +89,8 @@ private class Test_SurveyService {
         insert ts;
         insert SurveyService.getInstance().generateInvitation(ts, testData.pe.Id);
 
-        SurveyService.getInstance().getSurveyInvitationId(survey.get(0).Id, testData.pe.Participant_Contact__c);
+        SurveyService.getInstance().isInvitationExpired(
+                SurveyService.getInstance().getSurveyInvitationId(survey.get(0).Id, testData.pe.Participant_Contact__c));
         Test.stopTest();
     }
 }
