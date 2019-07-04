@@ -17,19 +17,6 @@ private class Test_VisitResultSharingService {
         );
         insert vrts;
 
-        Clinical_Trial_Profile__c ctp = [
-                SELECT
-                        Id,
-                        Shareback_Availability_Timing__c,
-                        Shareback_Settings_On_Participant_Level__c,
-                        Visit_Data_Shareback__c
-                FROM Clinical_Trial_Profile__c
-        ];
-        ctp.Shareback_Availability_Timing__c = 1;
-        ctp.Visit_Data_Shareback__c = true;
-        ctp.Shareback_Settings_On_Participant_Level__c = true;
-        update ctp;
-
         testData.ss.Visit_Results_Sharing__c = true;
         update testData.ss;
 
