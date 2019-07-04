@@ -173,7 +173,12 @@
         setTimeout($A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }), 1);
-        component.find('manage-location')[popupIndex].show();
+        var popUps = component.find('manage-location');
+        if(popUps.length) {
+            popUps[popupIndex].show();
+        } else {
+            popUps.show();
+        }
     },
 
     changeRadioMarker: function (component,event,helper) {
@@ -182,6 +187,7 @@
             radioBtns[i].set('v.checked',false);
         }
         component.set('v.checkedAccount',event.getSource().get('v.value'));
+        component.set('v.locationWasChanged',true);
     },
 
     changeStudySiteAddress: function (component,event,helper) {
@@ -191,6 +197,7 @@
         var checkedAccount = component.get('v.checkedAccount');
         currentSS.Site__c = checkedAccount.Id;
         var parent = component.get('v.parent');
+        component.set('v.locationWasChanged',false);
         parent.saveSSDetails(currentSS);
     },
 
@@ -200,8 +207,11 @@
         var ssIndex = event.target.dataset.index;
         var cmp;
         if(editIndx) {
-            cmp = component.get('v.contactAccounts')[editIndx].Account;
-        } else{
+            cmp = component.get('v.contactAccounts')[editIndx];
+        } else if(!editIndx && !ssIndex){
+            cmp = new Object({'Id': null});
+        }
+        else{
             cmp = component.get('v.currentStudy.ssList')[ssIndex].Site__r;
         }
         component.set('v.editedAccount', cmp);
@@ -213,13 +223,28 @@
         component.find('manage-location')[index].hide();
     },
     backToTheChoice: function(component,event,helper){
-        component.set('v.editedAccount',null);
         component.set('v.editAddress',false);
+        component.set('v.editedAccount',null);
         setTimeout($A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }), 1);
     },
     saveNewAccount:function(component,event,helper){
+        var ssIndex = event.currentTarget.value;
+        var newAccount = component.get('v.editedAccount');
+        var element = component.get('v.currentStudy.ssList');
+        var currentSS = element[ssIndex];
+        currentSS.Site__r = newAccount;
+        var isDefault = component.get('v.makeDefault');
+        currentSS.makeDefault = isDefault;
+        var parent = component.get('v.parent');
+        component.set('v.addressWasChanged',false);
+        parent.saveSSnewAddress(currentSS);
+    },
+    showChecked: function (component,event,helper) {
+        component.set('v.makeDefault',event.getSource().get('v.checked'));
+    },
+    recordWasUpdated:function (component,event,helper) {
+        component.set('v.addressWasChanged',true);
     }
-
 })

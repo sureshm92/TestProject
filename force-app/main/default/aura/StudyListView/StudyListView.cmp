@@ -49,8 +49,8 @@
     <aura:method name="saveSSDetails" action="{!c.saveSSDetails}" access="public">
         <aura:attribute name="currentSS" type="Object"/>
     </aura:method>
-    <aura:method name="saveSSAddress" action="{!c.saveSSAddress}" access="public">
-        <aura:attribute name="newAddress" type="Object"/>
+    <aura:method name="saveSSnewAddress" action="{!c.saveSSnewAddress}" access="public">
+        <aura:attribute name="currentSS" type="Object"/>
     </aura:method>
 
     <!-- component body: -->

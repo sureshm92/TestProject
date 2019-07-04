@@ -21,6 +21,9 @@
     <aura:attribute name="editAddress" type="Boolean" default="false"/>
     <aura:attribute name="editedAccount" type="Object"/>
     <aura:attribute name="countryPicklist" type="Object[]"/>
+    <aura:attribute name="makeDefault" type="Boolean" default="false"/>
+    <aura:attribute name="locationWasChanged" type="Boolean" default="false"/>
+    <aura:attribute name="addressWasChanged" type="Boolean" default="false"/>
 
     <aura:handler name="change" value="{!v.detailsExpanded}" action="{!c.clampDrivingInstuctions}"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -211,61 +214,22 @@
 
 
                             <div class="mrc-invite-popup">
-                                <c:Popup aura:id="manage-location" title="Manage Location Details" size="large"
+                                <c:Popup aura:id="manage-location" title="{!$Label.c.SS_Manage_Location_Details}"
+                                         size="large"
                                          showScroll="{!true}">
                                     <aura:if isTrue="{!!v.editAddress}">
                                         <div class="slds-grid slds-grid_vertical">
                                             <div class="slds-grid slds-wrap">
-                                                <div class="slds-col slds-size--1-of-5 my-location-label">My Locations
+                                                <div class="slds-col slds-size--1-of-5 my-location-label">{!$Label.c.SS_My_Locations}
                                                 </div>
                                                 <div class="slds-col slds-size--5-of-5 slds-grid slds-grid_align-end">
                                                     <button data-site-id="{!siteWrapper.site.Id}" id="addNewLocation"
                                                             value="{!siteWrappIndx}"
                                                             class="apollo-btn primary"
                                                             style="background-color: white; color: #297DFD;	border: 1px solid #D9D9D9; box-shadow: none; display: inline-block; font-size: 16px;"
-                                                            onclick="{!c.doAction}"><span>+</span> New Location
+                                                            onclick="{!c.editAccountAddress}">
+                                                        <span>+</span> {!$Label.c.SS_New_Location}
                                                     </button>
-                                                </div>
-                                            </div>
-                                            <div class="slds-grid slds-wrap">
-                                                <div class="slds-grid slds-col slds-size--1-of-1">
-                                                    <div class="locationContainer slds-grid slds-wrap">
-                                                        <div class="slds-col slds-size--1-of-12 slds-grid slds-grid--vertical-align-center slds-grid--align-center"
-                                                             style="height:100%;" data-index="{!siteWrappIndx}">
-                                                            <lightning:input aura:id="radioBtn" class="slds-grid"
-                                                                             type="radio" value="{!siteWrapper.Site__r}"
-                                                                             checked="true"
-                                                                             onfocus="{!c.changeRadioMarker}"/>
-                                                        </div>
-                                                        <div class="slds-col slds-size--11-of-12 slds-grid slds-wrap"
-                                                             style="height:100%;">
-                                                            <div class="slds-col-size--1-of-1 slds-grid slds-wrap popup-account-name">
-                                                                <div class="slds-col slds-size--1-of-2 slds-grid">
-                                                            {!siteWrapper.Site__r.Name + ' Location'}
-                                                        </div>
-                                                                <div class="slds-col slds-size--1-of-2 slds-grid slds-grid_align-end edit-btn"
-                                                                     data-index="{!siteWrappIndx}"
-                                                                     onclick="{!c.editAccountAddress}">
-                                                                    Edit
-                                                                </div>
-                                                            </div>
-                                                            <div class="slds-col slds-size--3-of-12 manage-location-info">
-                                                                <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
-                                                                <div class="ss-info-address">{!siteWrapper.Site__r.BillingAddress.street}</div>
-                                                                <div class="ss-info-address">{!if(siteWrapper.Site__r.BillingAddress.city!=null, siteWrapper.Site__r.BillingAddress.city + ', ', '') +siteWrapper.Site__r.BillingAddress.stateCode + ' ' + siteWrapper.Site__r.BillingAddress.postalCode}</div>
-                                                            </div>
-                                                            <div class="slds-col slds-size_4-of-12 manage-location-info">
-                                                                <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
-                                                                <div aura:id="driving-instructions"
-                                                                     class="driving-instructions">{!siteWrapper.Site__r.Driving_Directions__c}</div>
-                                                            </div>
-                                                            <div class="slds-col slds-size_4-of-12 manage-location-info">
-                                                                <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
-                                                                <div aura:id="driving-instructions"
-                                                                     class="driving-instructions">{!siteWrapper.Site__r.Parking_Instructions__c}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <aura:if isTrue="{!v.contactAccounts}">
@@ -278,37 +242,37 @@
                                                                      style="height:100%;" data-index="{!siteWrappIndx}">
                                                                     <lightning:input aura:id="radioBtn"
                                                                                      class="slds-grid" type="radio"
-                                                                                     value="{!accounts.Account}"
-                                                                                     checked="false"
+                                                                                     value="{!accounts}"
+                                                                                     checked="{!accounts.Id==siteWrapper.Site__c}"
                                                                                      onfocus="{!c.changeRadioMarker}"/>
                                                                 </div>
                                                                 <div class="slds-col slds-size--11-of-12 slds-grid slds-wrap"
                                                                      style="height:100%;">
                                                                     <div class="slds-col-size--1-of-1 slds-grid slds-wrap popup-account-name">
                                                                         <div class="slds-col slds-size--1-of-2 slds-grid">
-                                                            {!accounts.Account.Name + ' Location'}
-                                                        </div>
+                                                                            {!accounts.Name + ' ' + $Label.c.SS_Location}
+                                                                        </div>
                                                                         <div class="slds-col slds-size--1-of-2 slds-grid slds-grid_align-end edit-btn"
                                                                              data-indx="{!accIndex}"
                                                                              data-index="{!siteWrappIndx}"
                                                                              onclick="{!c.editAccountAddress}">
-                                                                            Edit
+                                                                            {!$Label.c.SS_Btn_Edit}
                                                                         </div>
                                                                     </div>
                                                                     <div class="slds-col slds-size--3-of-12 manage-location-info">
                                                                         <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
-                                                                        <div class="ss-info-address">{!accounts.Account.BillingAddress.street}</div>
-                                                                        <div class="ss-info-address">{!if(accounts.Account.BillingAddress.city!=null, accounts.Account.BillingAddress.city + ', ', '') +accounts.Account.BillingAddress.stateCode + ' ' + accounts.Account.BillingAddress.postalCode}</div>
+                                                                        <div class="ss-info-address">{!accounts.BillingStreet}</div>
+                                                                        <div class="ss-info-address">{!if(accounts.BillingCity!=null, accounts.BillingCity + ', ', '') +accounts.BillingStateCode + ' ' + accounts.BillingPostalCode}</div>
                                                                     </div>
                                                                     <div class="slds-col slds-size_4-of-12 manage-location-info">
                                                                         <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                                                         <div aura:id="driving-instructions"
-                                                                             class="driving-instructions">{!accounts.Account.Driving_Directions__c}</div>
+                                                                             class="driving-instructions">{!accounts.Driving_Directions__c}</div>
                                                                     </div>
                                                                     <div class="slds-col slds-size_4-of-12 manage-location-info">
                                                                         <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
                                                                         <div aura:id="driving-instructions"
-                                                                             class="driving-instructions">{!accounts.Account.Parking_Instructions__c}</div>
+                                                                             class="driving-instructions">{!accounts.Parking_Instructions__c}</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -317,167 +281,100 @@
                                                 </div>
                                             </aura:if>
                                         </div>
-                                </aura:if>
+                                    </aura:if>
                                     <aura:if isTrue="{!v.editAddress}">
-                                    <div class="slds-grid slds-grid_vertical">
-                                        <div class="slds-grid slds-wrap slds-col slds-size--1-of-1">
-                                            <div class="slds-col slds-size--1-of-2 popup-address-inputs">
-                                                <div class="input-fields-labels">Location name</div>
-                                                <div class="rr-form-element">
-                                                    <lightning:input aura:id="emailInput"
-                                                                    value="{!v.editedAccount.Name}"/>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                        <div class="slds-grid slds-grid_vertical">
+                                            <div class="slds-grid slds-wrap slds-col slds-size--1-of-1">
                                                 <div class="slds-col slds-size--1-of-2 popup-address-inputs">
-                                                    <div class="input-fields-labels">Address</div>
                                                     <div class="rr-form-element">
                                                         <lightning:input aura:id="emailInput"
-                                                                         value="{!v.editedAccount.BillingAddress.street}"/>
+                                                                         class="ss-lightning-input"
+                                                                         value="{!v.editedAccount.Name}"
+                                                                         label="{!$Label.c.SS_Location_Name}"
+                                                                         required="true"
+                                                                        onchange="{!c.recordWasUpdated}"/>
                                                     </div>
                                                 </div>
-                                                <div class="slds-col slds-size--1-of-2 popup-address-inputs">
-                                                    <div class="input-fields-labels">Country</div>
-                                                    <c:rrSelect id="delegatesPicklist" options="{!v.countryPicklist}"
-                                                                value="{!v.editedAccount.BillingAddress.country}"
-                                                                class="delegate-select"/>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
-                                                <div class="slds-col slds-size--1-of-2 popup-address-inputs">
-                                                    <div class="input-fields-labels">City</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:input aura:id="emailInput"
-                                                                         value="{!v.editedAccount.BillingAddress.city}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="slds-col slds-size--1-of-2 slds-grid slds-wrap">
-                                                    <div class="slds-col slds-size--1-of-6 popup-address-inputs">
-                                                        <div class="input-fields-labels">State</div>
+                                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Address}</div>
                                                         <div class="rr-form-element">
                                                             <lightning:input aura:id="emailInput"
-                                                                             value="{!v.editedAccount.BillingAddress.stateCode}"/>
+                                                                             value="{!v.editedAccount.BillingStreet}" onchange="{!c.recordWasUpdated}"/>
                                                         </div>
                                                     </div>
-                                                    <div class="slds-col slds-size--2-of-6 popup-address-inputs">
-                                                        <div class="input-fields-labels">Postal Code</div>
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Country}</div>
+                                                        <c:rrSelect id="delegatesPicklist"
+                                                                    options="{!v.countryPicklist}"
+                                                                    value="{!v.editedAccount.BillingCountry}"
+                                                                    class="delegate-select" onchange="{!c.recordWasUpdated}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_City}</div>
                                                         <div class="rr-form-element">
                                                             <lightning:input aura:id="emailInput"
-                                                                             value="{!v.editedAccount.BillingAddress.postalCode}"/>
+                                                                             value="{!v.editedAccount.BillingCity}" onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size--1-of-2 slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size--1-of-6 popup-address-inputs">
+                                                            <div class="input-fields-labels">{!$Label.c.SS_State}</div>
+                                                            <div class="rr-form-element">
+                                                                <lightning:input aura:id="emailInput"
+                                                                                 value="{!v.editedAccount.BillingStateCode}" onchange="{!c.recordWasUpdated}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                                            <div class="input-fields-labels">{!$Label.c.SS_Postal_Code}</div>
+                                                            <div class="rr-form-element">
+                                                                <lightning:input aura:id="emailInput"
+                                                                                 value="{!v.editedAccount.BillingPostalCode}" onchange="{!c.recordWasUpdated}"/>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap popup-address-inputs">
-                                                <c:RRIcon class="{!v.editedAccount.BillingAddress.latitude &amp;&amp; v.editedAccount.BillingAddress.longitude ? 'check-icon-style' : 'close-icon-style'}" iconName="{!v.editedAccount.BillingAddress.latitude &amp;&amp; v.editedAccount.BillingAddress.longitude ?'icon-check':'icon-close'}"/>
-                                                <div class="input-fields-labels">{!v.editedAccount.BillingAddress.latitude &amp;&amp; v.editedAccount.BillingAddress.longitude ? 'Geolocation Found' : 'Geolocation Wasn\'t Found'}</div>
-                                            </div>
-                                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
-                                                <div class="slds-col slds-size--1-of-2 popup-address-inputs">
-                                                    <div class="input-fields-labels">Driving Directions</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:textarea aura:id="emailInput"
-                                                                            class="text-area-height"
-                                                                         value="{!v.editedAccount.Driving_Directions__c}"/>
-                                                    </div>
+                                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap popup-address-inputs">
+                                                    <c:RRIcon
+                                                            class="{!v.editedAccount.BillingLatitude &amp;&amp; v.editedAccount.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
+                                                            iconName="{!v.editedAccount.BillingLatitude &amp;&amp; v.editedAccount.BillingLongitude ?'icon-check':'icon-close'}"/>
+                                                    <div class="input-fields-labels">{!v.editedAccount.BillingLatitude &amp;&amp; v.editedAccount.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
                                                 </div>
-                                                <div class="slds-col slds-size--1-of-2 popup-address-inputs">
-                                                    <div class="input-fields-labels">Parking Instructions</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:textarea aura:id="emailInput"
-                                                                            class="text-area-height"
-                                                                         value="{!v.editedAccount.Parking_Instructions__c}"/>
+                                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Driving_Instructions}</div>
+                                                        <div class="rr-form-element">
+                                                            <lightning:textarea aura:id="emailInput"
+                                                                                class="text-area-height"
+                                                                                value="{!v.editedAccount.Driving_Directions__c}" onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Parking_Instructions}</div>
+                                                        <div class="rr-form-element">
+                                                            <lightning:textarea aura:id="emailInput"
+                                                                                class="text-area-height"
+                                                                                value="{!v.editedAccount.Parking_Instructions__c}" onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </aura:if>
                                     <aura:set attribute="footerButtons">
                                         <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
-                                        <button class="apollo-btn secondary" onclick="{!v.editAddress ? c.backToTheChoice :  c.closeModal}">{!$Label.c.BTN_Cancel}</button>
-                                        <button class="apollo-btn primary" onclick="{!v.editAddress ? c.saveNewAccount : c.changeStudySiteAddress}" value="{!siteWrappIndx}">{!v.editAddress ? 'Save New Account' : 'Use This Address'}</button>
+                                        <button class="apollo-btn secondary"
+                                                onclick="{!v.editAddress ? c.backToTheChoice :  c.closeModal}">{!$Label.c.BTN_Cancel}</button>
+                                        <button class="apollo-btn primary"
+                                                onclick="{!v.editAddress ? c.saveNewAccount : c.changeStudySiteAddress}"
+                                                disabled="{!v.editAddress ? !v.addressWasChanged : !v.locationWasChanged}"
+                                                title="{!v.editAddress ? !v.addressWasChanged ? 'You made no changes' : 'Press button to save' : !v.locationWasChanged ? 'You made no changes' : 'Press button to save'}"
+                                                value="{!siteWrappIndx}">{!v.editAddress ? $Label.c.SS_Save_New_Account : $Label.c.SS_Use_This_Address}</button>
                                     </aura:set>
                                 </c:Popup>
                             </div>
-                            <!--<div class="mrc-invite-popup">
-                                <aura:if isTrue="{!v.editedAccount}">
-                                <c:Popup aura:id="edit-account-location" title="Manage Location Details" size="large"
-                                         showScroll="{!true}">
-                                    <div class="slds-grid">
-                                        <div class="slds-grid slds-wrap">
-                                            <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                <div class="input-fields-labels">Location name</div>
-                                                <div class="rr-form-element">
-                                                    <lightning:input aura:id="emailInput"
-                                                                     value="{!editedAccount.Name}"/>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col slds-size&#45;&#45;1-of-1">
-                                                <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                    <div class="input-fields-labels">Address</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:input aura:id="emailInput"
-                                                                         value="{!editedAccount.BillingAddress.street}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                    <div class="input-fields-labels">Geolocation</div>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col slds-size&#45;&#45;1-of-1">
-                                                <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                    <div class="input-fields-labels">City</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:input aura:id="emailInput"
-                                                                         value="{!editedAccount.BillingAddress.city}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                    <div class="slds-col slds-size&#45;&#45;1-of-6">
-                                                        <div class="input-fields-labels">State</div>
-                                                        <div class="rr-form-element">
-                                                            <lightning:input aura:id="emailInput"
-                                                                             value="{!editedAccount.BillingAddress.stateCode}"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size&#45;&#45;2-of-6">
-                                                        <div class="input-fields-labels">Postal Code</div>
-                                                        <div class="rr-form-element">
-                                                            <lightning:input aura:id="emailInput"
-                                                                             value="{!editedAccount.BillingAddress.postalCode}"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="slds-col slds-size&#45;&#45;1-of-1">
-                                                <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                    <div class="input-fields-labels">Driving Directions</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:input aura:id="emailInput"
-                                                                         value="{!editedAccount.Driving_Directions__c}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="slds-col slds-size&#45;&#45;1-of-2">
-                                                    <div class="input-fields-labels">Parking Instructions</div>
-                                                    <div class="rr-form-element">
-                                                        <lightning:input aura:id="emailInput"
-                                                                         value="{!editedAccount.Parking_Instructions__c}"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <aura:set attribute="footerButtons">
-                                        <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
-                                        <button class="apollo-btn secondary" onclick="{!c.doClearInviteAndHide}">{!$Label.c.BTN_Cancel}</button>
-                                        <button class="apollo-btn primary" onclick="{!c.changeStudySiteAddress}" value="{!siteWrappIndx}">Use This Address</button>
-                                    </aura:set>
-                                </c:Popup>
-                                </aura:if>
-                            </div>-->
-
-
                             <div style="box-sizing: border-box; border-right: 1px solid #F2F2F2;border-left: 1px solid #F2F2F2;border-bottom: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
                                 <div id="ssInformation">
                                     <div id="contactInformation"
@@ -493,7 +390,7 @@
                                             </div>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type">
-                                            {!(siteWrapper.Study_Site_Type__c) + ' Site'}
+                                            {!(siteWrapper.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
                                              data-index="{!siteWrappIndx}">
@@ -502,7 +399,7 @@
                                                 <c:rrSelect id="delegatesPicklist" options="{!v.delegatePicklist}"
                                                             value="{!siteWrapper.Site_Staff__c}"
                                                             class="delegate-select"
-                                                            placeholder="{!if(v.delegatePicklist.length>0,$Label.c.PG_AC_Select,'Please, add a memer to your team')}"
+                                                            placeholder="{!if(v.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
                                                             onchange="{!c.changeUpdatedStatus}"/>
                                             </div>
                                         </div>
@@ -541,11 +438,14 @@
                                             <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3 other-ss-info-height-control">
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                                     <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
-                                                    <div class="ss-info-address">{!siteWrapper.Site__r.BillingAddress.street}</div>
-                                                    <div class="ss-info-address">{!if(siteWrapper.Site__r.BillingAddress.city!=null, siteWrapper.Site__r.BillingAddress.city + ', ', '') +siteWrapper.Site__r.BillingAddress.stateCode + ' ' + siteWrapper.Site__r.BillingAddress.postalCode}</div>
-                                                    <c:RRIcon class="{!siteWrapper.Site__r.BillingAddress.latitude &amp;&amp; siteWrapper.Site__r.BillingAddress.longitude ? 'check-icon-style' : 'close-icon-style'}" iconName="{!siteWrapper.Site__r.BillingAddress.latitude &amp;&amp; siteWrapper.Site__r.BillingAddress.longitude ?'icon-check':'icon-close'}"/>
-                                                    <div style = "display:inline-block;" class="input-fields-labels">{!siteWrapper.Site__r.BillingAddress.latitude &amp;&amp; siteWrapper.Site__r.BillingAddress.longitude ? 'Geolocation Found' : 'Geolocation Wasn\'t Found'}</div>
-                                                   </div>
+                                                    <div class="ss-info-address">{!siteWrapper.Site__r.BillingStreet}</div>
+                                                    <div class="ss-info-address">{!if(siteWrapper.Site__r.BillingCity!=null, siteWrapper.Site__r.BillingCity + ', ', '') +siteWrapper.Site__r.BillingStateCode + ' ' + siteWrapper.Site__r.BillingPostalCode}</div>
+                                                    <c:RRIcon
+                                                            class="{!siteWrapper.Site__r.BillingLatitude &amp;&amp; siteWrapper.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
+                                                            iconName="{!siteWrapper.Site__r.BillingLatitude &amp;&amp; siteWrapper.Site__r.BillingLongitude ?'icon-check':'icon-close'}"/>
+                                                    <div style="display:inline-block;"
+                                                         class="input-fields-labels">{!siteWrapper.Site__r.BillingLatitude &amp;&amp; siteWrapper.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                                </div>
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                                     <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                                     <div aura:id="driving-instructions"
@@ -563,12 +463,12 @@
                                                             id="manageReferralsBySS" value="{!siteWrappIndx}"
                                                             class="apollo-btn primary slds-align-bottom"
                                                             style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
-                                                            onclick="{!c.doAction}">{!$Label.c.SS_Btn_View_Referrals}</button>
+                                                            onclick="{!c.doAction}">{!$Label.c.SS_Btn_Manage_Referrals}</button>
                                                     <button data-site-id="{!siteWrapper.site.Id}"
                                                             id="manageReferringClinicsBySS" value="{!siteWrappIndx}"
                                                             class="apollo-btn primary slds-align-bottom"
                                                             style="background-color: white; color: #297DFD; box-shadow: none; display: inline;"
-                                                            onclick="{!c.doAction}">{!$Label.c.SS_Btn_View_Referring_Providers}</button>
+                                                            onclick="{!c.doAction}">{!$Label.c.SS_Btn_Manage_Referring_Providers}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -590,8 +490,8 @@
                                             onclick="{!c.navigateToSitesSearch}"
                                             disabled="{!v.accessUserLevel=='Level 2'}"
                                             title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
-                                    {!$Label.c.MyStudy_Find_More_Sites}
-                                </button>
+                                        {!$Label.c.MyStudy_Find_More_Sites}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -680,7 +580,7 @@
                                         </div>
                                         <div class="site-sub-header slds-m-top--x-small">
                                             {!(siteWrapper.site.Principal_Investigator__r.Salutation + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
-                                    </div>
+                                        </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                         <div class="site-sub-header site-distance">
@@ -695,10 +595,10 @@
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                                         <div class="site-address">
                                             {!siteWrapper.site.Principal_Investigator__r.Account.BillingStreet}
-                                    </div>
+                                        </div>
                                         <div class="site-address slds-m-top--xx-small">
                                             {!(if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingCity),siteWrapper.site.Principal_Investigator__r.Account.BillingCity+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingState),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,''))}
-                                    </div>
+                                        </div>
                                     </div>
 
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
@@ -770,45 +670,4 @@
 
     <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
 
-
-    <!--<section role="dialog"
-              tabindex="-1"
-              aria-labelledby="modal-heading-01"
-              aria-modal="true"
-              aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-     <div class="slds-modal__container">
-         &lt;!&ndash; ###### MODAL BOX HEADER Start ######&ndash;&gt;
-         <header class="slds-modal__header">
-             <lightning:buttonIcon iconName="utility:close"
-                                   onclick="{! c.closeModel }"
-                                   alternativeText="close"
-                                   variant="bare-inverse"
-                                   class="slds-modal__close"/>
-             <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Title</h2>
-         </header>
-         &lt;!&ndash;###### MODAL BOX BODY Part Start######&ndash;&gt;
-         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-             <p><b>The goal of this blog is to provide tips and tricks/workarounds for salesforce developer and admins.
-                     Many of us face the same issues and have the same questions when using and implementing Salesforce.
-                     As a community of users and developers, it is important for us to share our experiences.
-                     I try to reach out to other users and help the Salesforce community in general.
-                     Much of this blog will focus on Lightning(code &amp; config.) but I will also
-                     cover some of the more basic topics in salesforce.
-                 </b>
-             </p>
-         </div>
-         &lt;!&ndash;###### MODAL BOX FOOTER Part Start ######&ndash;&gt;
-         <footer class="slds-modal__footer">
-             <lightning:button variant="neutral"
-                               label="Cancel"
-                               title="Cancel"
-                               onclick="{! c.closeModel }"/>
-             <lightning:button variant="brand"
-                               label="Like and Close"
-                               title="Like and Close"
-                               onclick="{! c.likenClose }"/>
-         </footer>
-     </div>
-     </section>
-     <div class="slds-backdrop slds-backdrop_open"></div>-->
 </aura:component>

@@ -231,6 +231,15 @@
     line-height: 21px;
 }
 
+.THIS .ss-lightning-input label{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
 .THIS .manage-location-details{
     height: 24px;
     color: #297DFD;
@@ -471,6 +480,10 @@
         padding-bottom: 0px;
     }
 
+    .THIS .other-ss-info{
+        padding-left:0px;
+    }
+
     .THIS .ss-container-border{
         border-right: none;
     }
@@ -582,5 +595,9 @@
     line-height: unset;
     text-align: unset;
     font-weight: unset;
+}
+
+.THIS #addNewLocation .plus-location-icon{
+    fill: #297DFD;
 }
 

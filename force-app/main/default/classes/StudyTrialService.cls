@@ -575,22 +575,47 @@ public without sharing class StudyTrialService {
         return null;
     }
 
-    public static List<AccountContactRelation> getAccounts() {
+    public static List<Account> getAccounts(List<StudyDetailItem> studies) {
         try {
-            List<AccountContactRelation> piAccounts= [SELECT Id,
+            Map<Id,Account> accountMap = new Map<Id,Account>();
+            for (AccountContactRelation piAccounts : [SELECT Id,
                                                              Contact.Id,
                                                              Contact.Name,
                                                              Contact.primaryContact__c,
+                                                             Account.Id,
                                                              Account.Name,
-                                                             Account.BillingAddress,
+                                                             Account.ParentId,
+                                                             Account.BillingCountry,
+                                                             Account.BillingCity,
+                                                             Account.BillingStreet,
+                                                             Account.BillingPostalCode,
+                                                             Account.BillingStateCode,
+                                                             Account.BillingLatitude,
+                                                             Account.BillingLongitude,
                                                              Account.Driving_Directions__c,
                                                              Account.Parking_Instructions__c
                                                              FROM AccountContactRelation
-                                                             WHERE ContactId = : CommunityService.getInstance().getCurrentContactId()
-                                                     ];
-            return piAccounts;
+                                                             WHERE ContactId = : CommunityService.getInstance().getCurrentContactId()]) {
+                accountMap.put(piAccounts.Account.Id,piAccounts.Account);
+            }
+                    for(StudyDetailItem sdi : studies){
+                        for(Study_Site__c ss : sdi.ssList) {
+                            if(!ss.Account_Was_Changed__c) {
+                                accountMap.put(ss.Site__r.Id,ss.Site__r);
+                            }
+                        }
+                    }
+            return accountMap.values();
         } catch (Exception ex) {
             return null;
+        }
+    }
+
+    private static String checkIfNull(String value){
+        if(value==null){
+            return '';
+        } else{
+            return value;
         }
     }
 

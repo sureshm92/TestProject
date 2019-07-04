@@ -3,7 +3,7 @@
  */
 
 ({
-    init: function(component,event,helper){
+    init: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         component.set("v.showSpinner", true);
         let userMode = communityService.getUserMode();
@@ -43,8 +43,9 @@
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
                 component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
                 component.set('v.delegatesPicklist', initData.delegatePicklist);
-                console.log('INIT DATA>>>>>>>>',JSON.parse(JSON.stringify(initData)));
-                component.set('v.contactAccountsList',initData.contactAccounts);
+                console.log('INIT DATA>>>>>>>>', JSON.parse(JSON.stringify(initData)));
+                component.set('v.contactAccountsList', initData.contactAccounts);
+                console.log('initData.contactAccounts>>>', initData.contactAccounts);
                 helper.prepareIconsForPI(initData);
                 component.set('v.countryPicklist', initData.countryPicklist);
                 component.set("v.showSpinner", false);
@@ -146,7 +147,7 @@
         };
         if (initData.currentlyRecruitingTrials) {
             for (var i = 0; i < initData.currentlyRecruitingTrials.length; i++) {
-                for(var j = 0; j<initData.currentlyRecruitingTrials[i].studies.length;j++) {
+                for (var j = 0; j < initData.currentlyRecruitingTrials[i].studies.length; j++) {
                     initData.currentlyRecruitingTrials[i].studies[j].trial.statusIcon = iconMap[initData.currentlyRecruitingTrials[i].studies[j].trial.Override_Recruitment_Status__c];
                     initData.currentlyRecruitingTrials[i].studies[j].trial.iconStyle = styleMap[initData.currentlyRecruitingTrials[i].studies[j].trial.Override_Recruitment_Status__c];
                 }
@@ -154,8 +155,8 @@
         }
         if (initData.trialsNoLongerRecruiting) {
             for (var i = 0; i < initData.trialsNoLongerRecruiting.length; i++) {
-                    initData.trialsNoLongerRecruiting[i].trial.statusIcon = iconMap[initData.trialsNoLongerRecruiting[i].trial.Override_Recruitment_Status__c];
-                    initData.trialsNoLongerRecruiting[i].trial.iconStyle = styleMap[initData.trialsNoLongerRecruiting[i].trial.Override_Recruitment_Status__c];
+                initData.trialsNoLongerRecruiting[i].trial.statusIcon = iconMap[initData.trialsNoLongerRecruiting[i].trial.Override_Recruitment_Status__c];
+                initData.trialsNoLongerRecruiting[i].trial.iconStyle = styleMap[initData.trialsNoLongerRecruiting[i].trial.Override_Recruitment_Status__c];
             }
         }
     },
@@ -172,7 +173,7 @@
                     }
                 }
             }
-            if(component.get('v.userMode')=='PI') {
+            if (component.get('v.userMode') == 'PI') {
                 var instructions = document.getElementsByClassName("driving-instructions");
                 for (var i = 0; i < instructions.length; i++) {
                     var instruction = instructions.item(i);
@@ -184,10 +185,10 @@
         }
     },
 
-    clampLine:function(studyTitle,numberOfRows){
+    clampLine: function (studyTitle, numberOfRows) {
         var width = studyTitle.style.width;
-        if(width === '0' || !width){
-            width=studyTitle.parentNode.offsetWidth;
+        if (width === '0' || !width) {
+            width = studyTitle.parentNode.offsetWidth;
         }
         var innerText = studyTitle.innerText.replace(/\n/g, ' ');
         studyTitle.innerHTML = '';
@@ -195,26 +196,26 @@
         var currentWord = 0;
         if (numberOfRows > 1) {
             parentLoop:
-            for (let i = 0; i < numberOfRows - 1; i++) {
-                var measure = document.createElement('span');
-                measure.style.whiteSpace='nowrap';
-                measure.style.display='inline-block';
-                studyTitle.appendChild(measure);
-                for (let j = currentWord; j < text.length; j++) {
-                    measure.appendChild(document.createTextNode(text[j] + " "));
-                    if (measure.getBoundingClientRect().width > width) {
-                        measure.removeChild(measure.lastChild);
-                        continue parentLoop;
+                for (let i = 0; i < numberOfRows - 1; i++) {
+                    var measure = document.createElement('span');
+                    measure.style.whiteSpace = 'nowrap';
+                    measure.style.display = 'inline-block';
+                    studyTitle.appendChild(measure);
+                    for (let j = currentWord; j < text.length; j++) {
+                        measure.appendChild(document.createTextNode(text[j] + " "));
+                        if (measure.getBoundingClientRect().width > width) {
+                            measure.removeChild(measure.lastChild);
+                            continue parentLoop;
+                        }
+                        currentWord++;
                     }
-                    currentWord++;
                 }
-            }
         }
         var lastElement = document.createElement('span');
         for (let i = currentWord; i < text.length; i++) {
             lastElement.appendChild(document.createTextNode(text[i] + " "));
         }
-        lastElement.style.display='inline-block';
+        lastElement.style.display = 'inline-block';
         lastElement.style.overflow = 'hidden';
         lastElement.style.textOverflow = 'ellipsis';
         lastElement.style.whiteSpace = 'nowrap';
@@ -246,9 +247,9 @@
     },
 
     addCheckAttributes: function (trails) {
-        for (var i=0; i<trails.length;i++){
-            for(var j=0;j<trails[i].studies.length;j++){
-                for(var s=0; s<trails[i].studies[j].ssList.length; s++){
+        for (var i = 0; i < trails.length; i++) {
+            for (var j = 0; j < trails[i].studies.length; j++) {
+                for (var s = 0; s < trails[i].studies[j].ssList.length; s++) {
                     trails[i].studies[j].ssList[s].isRecordUpdated = false;
                     trails[i].studies[j].ssList[s].isEmailValid = true;
                 }
@@ -256,9 +257,9 @@
         }
     },
 
-    addCheckNoLongerAttributes: function (trails){
-        for (var i = 0; i <trails.length ; i++) {
-            for (var j = 0; j <trails[i].ssList.length ; j++) {
+    addCheckNoLongerAttributes: function (trails) {
+        for (var i = 0; i < trails.length; i++) {
+            for (var j = 0; j < trails[i].ssList.length; j++) {
                 trails[i].ssList[j].isRecordUpdated = false
                 trails[i].ssList[j].isEmailValid = true;
             }

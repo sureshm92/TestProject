@@ -35,15 +35,14 @@
        });
     },
 
-    saveSSAddress: function (component,event,helper) {
+    saveSSnewAddress:function (component,event,helper) {
         var param = event.getParam('arguments');
-        var newAddress = param.newAddress;
-        communityService.executeAction(component, 'saveSSAddress', {newAddress: JSON.stringify(newAddress)}, function (returnValue) {
+        var currentSS = param.currentSS;
+        communityService.executeAction(component, 'saveSSAddress', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
             if(returnValue == 'SUCCESS'){
-                this.doInit(component,event,helper);
+                helper.init(component,event,helper);
                 communityService.showToast(returnValue, 'success', $A.get("$Label.c.SS_Success_Save_Message"));
             }
         });
     }
-
 });
