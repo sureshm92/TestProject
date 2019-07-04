@@ -4,6 +4,17 @@
 
 public without sharing class PatientVisitResultTriggerHandler {
 
+    public class UpdateVisitResults extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            updateVisitResults(newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateVisitResults(newList);
+        }
+    }
+
     private static void updateVisitResults(List<Integration_VisitResult__c> results){
         //If USUBJID, STUDYID, VISIT, VSDTC AND TESTCD ARE PRIMARY KEYS Exclude record if blank or NULL
         Set<String> externalIds = new Set<String>();
