@@ -22,6 +22,8 @@ public class StudyDetailItem implements Comparable {
     public String therapeuticArea;
     public Datetime maxHCPCreatedDate;
     public Boolean hasPatients;
+    public List<Study_Site__c> ssList;
+    public String primaryContactName;
 
     public Integer compareTo(Object compareTo) {
         StudyDetailItem compareItem = (StudyDetailItem) compareTo;

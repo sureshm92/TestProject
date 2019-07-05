@@ -6,6 +6,7 @@
     <aura:attribute name="showEnrollments"              type="Boolean" default="{!true}"/>
     <!--===========================================PI================================================================-->
     <aura:attribute name="filterByStudy"                type="Boolean" default="{!false}"/>
+    <aura:attribute name="ssId"                         type="String"/>
     <!--=============================================================================================================-->
     <aura:attribute name="isInitialized"                type="Boolean" default="{!false}"   access="private"/>
     <aura:attribute name="child"                        type="Aura.Component"               access="private"/>

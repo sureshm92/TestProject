@@ -18,6 +18,7 @@
     <aura:attribute name="rpData" type="Object" access="private"/>
     <aura:attribute name="studySitesForInvitation" type="List" access="private"/>
     <aura:attribute name="reqFieldsFilled" type="Boolean" default="true"/>
+    <aura:attribute name="ssId" type="String"/>
     <!--=============================================================================================================-->
     <aura:handler name="change" value="{!v.filterInfo.isActive}" action="{!c.showPendingPhysicans}"/>
     <aura:handler name="change" value="{!v.rpData}" action="{!c.checkReqFields}"/>
@@ -97,7 +98,7 @@
             <div class="slds-is-relative">
                 <c:RRSpinner aura:id="recordListSpinner" size="medium" showSpinner="false"/>
                 <c:MyReferredZone workspaceWrapper="{!v.filteredReferringClinics}" userMode="{!v.userMode}"
-                                  showEnrollments="{!v.showFilterByStudy}"/>
+                                  showEnrollments="{!v.showFilterByStudy}" ssId="{!v.ssId}"/>
             </div>
         </div>
     </aura:if>

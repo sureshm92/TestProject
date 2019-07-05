@@ -199,6 +199,179 @@
     line-height: 18px;
 }
 
+.THIS .clinic-pi-name {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    font-weight: 600;
+    display: inline-block;
+    padding-right: 5px;
+    margin-bottom: 8px;
+    border-right: 1px solid #E9E9E9;
+}
+
+.THIS .driving-instructions{
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .ss-info-address{
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .input-fields-labels{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS .ss-lightning-input label{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS .manage-location-details{
+    height: 24px;
+    color: #297DFD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: right;
+    margin: 24px 0 0 auto;
+    padding:6px 10px 0 0;
+    background-color: #F2F2F2;
+    border-top: 1px solid #F2F2F2;
+    border-left: 1px solid #F2F2F2;
+    border-right: 1px solid #F2F2F2;
+    cursor: pointer;
+}
+
+.THIS .ss-info-container{
+     display: inline-block;
+     vertical-align: top;
+    margin-left: 24px;
+ }
+
+.THIS .popup-account-name{
+    width:100%;
+    margin-bottom:1%;
+}
+
+.THIS .popup-account-name:first-child{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.THIS .ss-info-details{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 8px;
+}
+
+.THIS .other-ss-info-container{
+    display: inline-block;
+    padding-right:5%;
+}
+
+.THIS .other-ss-info-container:first-child{
+    vertical-align: top;
+}
+
+.THIS #contactInformation .ss-info-details:nth-child(4){
+        margin-left: 16px;
+}
+
+.THIS #contactInformation .ss-info-details:last-child{
+    margin-left: 16px;
+    padding-top: 24px;
+}
+
+.THIS #ssInformation .ss-info-container:first-child{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: auto;
+}
+
+.THIS .delegate-select{
+    width: 100%;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .input-fields{
+    margin-top:3px;
+}
+
+.THIS .pi-save-btn{
+    width: 100%;
+    min-width: 100%;
+}
+
+.THIS .ss-info-buttons{
+    margin-top:6%;
+}
+
+@media (max-width: 925px) {
+    .THIS .ss-info-headers {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .THIS .ss-info-buttons{
+        margin-top:10%;
+    }
+}
+
+
+
+.THIS .other-ss-info{
+    display: inline-block;
+    padding-top: 3.3%;
+    padding-left: 24px;
+}
+
+.THIS .other-ss-info-height-control{
+    min-height: 107px;
+}
+
+.THIS .ss-container-border{
+    border-right: 1px solid #E9E9E9;
+}
+
+.THIS .ss-info-headers {
+    height: 24px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom:5px;
+    vertical-align: top;
+}
+
+.THIS .clinic-type{
+    color: #4A4A4A;
+    font-family: "Proxima Nova";
+    font-size: 15px;
+    display: inline-block;
+    padding-left: 16px;
+    padding-bottom: 11px;
+    vertical-align: bottom;
+}
+
 .THIS .site-sub-header {
     color: #999999;
     font-family: "Proxima Nova";
@@ -230,10 +403,105 @@
     color: #297DFD;
 }
 
+.THIS #addNewLocation span{
+    font-size: 32px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.THIS .locationContainer{
+    box-sizing: border-box;
+    border: 1px solid #F2F2F2;
+    background-color: #F2F2F2;
+    min-height: 100px;
+    margin-top: 14px;
+    padding: 8px 11px 13px 0px;
+    width: 100%;
+}
+
+.THIS .edit-btn{
+    color: #2E7CEB;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.THIS .check-icon-style{
+    width: 16px;
+    height: 16px;
+    fill: #00C221;
+}
+
+.THIS .close-icon-style{
+    width: 16px;
+    height: 16px;
+    fill: #E20000;
+}
+
+.THIS .text-area-height textarea{
+    min-height: 158px;
+}
+
+.THIS  .popup-address-inputs{
+    padding: 16px 8px;
+}
+
+.THIS .manage-location-info{
+    text-align: left;
+    font-weight: 500;
+    padding-right:5%;
+}
+
+.THIS .manage-location-details + .p-content{
+    line-height: unset;
+    font-weight: unset;
+}
+
+.THIS .my-location-label{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .THIS .slvi-status-item {
     /*text-align: right; */
     font-size: 14px;
     color: #666666;
+}
+
+@media (max-width: 768px) {
+    .THIS .ss-info-buttons{
+        margin-top:5%;
+    }
+
+    .THIS .clinic-type{
+        padding-left: 0px;
+        padding-bottom: 0px;
+    }
+
+    .THIS .other-ss-info{
+        padding-left:0px;
+    }
+
+    .THIS .ss-container-border{
+        border-right: none;
+    }
+
+    .THIS #contactInformation .ss-info-details:nth-child(4){
+        margin-left: 0px;
+    }
+
+    .THIS #contactInformation .ss-info-details:last-child{
+        margin-left: 0px;
+        padding-top: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .THIS .slvi-buttons .slvi-btn + .slvi-btn {
+        border-top: 1px solid #F2F2F2;
+    }
 }
 
 @media (max-width: 768px) {
@@ -262,6 +530,8 @@
     fill: #005587;
 }
 
+
+
 @media all and (min-width: 768px) {
     .THIS .slvi-padded-panel-left {
         padding-left: 9rem;
@@ -273,6 +543,11 @@
         padding-right: 9rem;
     }
 }
+
+ .THIS .rri-icon-pi svg{
+     height: 16px;
+     width: 16px;
+ }
 
 @media all and (max-width: 767px) {
     .THIS .slvi-header-item + .slvi-header-item {
@@ -293,6 +568,7 @@
     }
 }
 
+
 @media all and (min-width: 768px) {
     .THIS .site-distance {
         text-align: right;
@@ -311,4 +587,17 @@
     width: 100%;
 }
 
+.THIS .btn-pi-border{
+    border-right: 1px solid #F2F2F2;
+}
+
+.THIS .p-container .p-content{
+    line-height: unset;
+    text-align: unset;
+    font-weight: unset;
+}
+
+.THIS #addNewLocation .plus-location-icon{
+    fill: #297DFD;
+}
 
