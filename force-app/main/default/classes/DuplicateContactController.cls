@@ -53,7 +53,7 @@ public class DuplicateContactController {
                         System.debug('BirthDate__c Check Match');
                         if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match' + contactRecords[i].id);
-                            contactRecords[i].Phone = record.phone__c;
+                            //contactRecords[i].Phone = record.phone__c;
                             processedDuplicate(contactRecords[i].id, record);
 							break;
                         }else if(recordsContactCount == (i + 1)){
@@ -65,7 +65,7 @@ public class DuplicateContactController {
                        if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match');
                            	contactRecords[i].BirthDate = Date.newInstance(Integer.valueOf(record.BirthYear__c), 1, 1);
-                           	contactRecords[i].Phone = record.phone__c;
+                           	//contactRecords[i].Phone = record.phone__c;
                             processedDuplicate(contactRecords[i].id, record);
 							break;
                         }else if(recordsContactCount == (i + 1)){
