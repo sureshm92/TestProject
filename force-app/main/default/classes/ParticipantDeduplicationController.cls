@@ -96,9 +96,9 @@ public class ParticipantDeduplicationController {
     }
     
     public static void checkPER(Integration_Patient_Referral__c referralRecord){
-        changeLastName = false;
+        //changeLastName = false;
     	Contact newContact = new Contact(
-        	FirstName 				= 	referralRecord.firstName__c,
+        	//FirstName 				= 	referralRecord.firstName__c,
             LastName 				=	referralRecord.lastName__c,
             userCommunytyType__c	=	'Participant',
             userCommunityMode__c	=	'Participant',
