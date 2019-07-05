@@ -227,6 +227,7 @@ public without sharing class StudyListViewController {
             ssToUpdate.Study_Site_Email__c = ss.Study_Site_Email__c;
             ssToUpdate.Site_Staff__c = ss.Site_Staff__c;
             ssToUpdate.Name = ss.Name;
+            ssToUpdate.Site__c = ss.Site__c;
             update ssToUpdate;
             status = UPDATE_SUCCESS_STATUS;
             return status;

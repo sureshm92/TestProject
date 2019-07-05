@@ -284,11 +284,9 @@
 .THIS .other-ss-info-container{
     display: inline-block;
     padding-right:5%;
-}
-
-.THIS .other-ss-info-container:first-child{
     vertical-align: top;
 }
+
 
 .THIS #contactInformation .ss-info-details:nth-child(4){
         margin-left: 16px;
