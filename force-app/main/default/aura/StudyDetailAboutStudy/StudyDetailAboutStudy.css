@@ -316,3 +316,102 @@
     margin-bottom: 5px;
     min-width: 100px;
 }
+
+.THIS .slvi-btn {
+    text-align: center;
+    color: #297DFD;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-collapse: collapse;
+    flex-basis: 0;
+}
+
+
+.THIS .slvi-btn + .slvi-btn {
+    border-left: 1px solid #F2F2F2;
+}
+
+
+.THIS .slvi-btn.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.THIS .slvi-btn .rr-icon-default {
+    height: 24px;
+    width: 20px;
+    margin: auto;
+    fill: #297DFD;
+}
+
+.THIS .slvi-btn .btn-content {
+    display: flex;
+    flex-flow: column;
+    user-select: none;
+    position: relative;
+    float: right;
+    margin-bottom: 10px;
+}
+
+.THIS .slvi-btn .btn-content:active {
+    top: 1px;
+}
+
+
+.THIS .slvi-btn:hover {
+    cursor: pointer;
+    background-color: #F8F9FB;
+}
+
+.THIS .slvi-btn:active {
+    /*box-shadow: inset 0 0 7px rgba(0,0,0,0.25);*/
+    box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, 0.35);
+}
+
+.THIS .slvi-btn:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .slvi-btn:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+.THIS .btn-wrapper {
+    flex-basis: 0;
+}
+
+.THIS .slvi-section + .slvi-section {
+    border-top: 1px solid #F2F2F2;
+}
+
+@media all and (max-width: 767px) {
+    .THIS .slvi-header-item + .slvi-header-item {
+        margin-top: 16px;
+    }
+
+    .THIS .site-distance {
+        margin-top: .5rem;
+    }
+
+    .THIS .rri-icon svg {
+        height: 16px;
+        width: 13px;
+    }
+
+    .THIS .rri-icon span {
+        margin: .125rem !important;
+    }
+}
+
+.THIS .socialnetworks-section {
+    position: relative;
+}
+
+.THIS .socialnetworks {
+    position: absolute;
+    bottom: 0;
+    float: right;
+    right: 0;
+    margin-bottom: 10px;
+}

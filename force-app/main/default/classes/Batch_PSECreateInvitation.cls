@@ -10,7 +10,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         Active_After_Days__c
                 FROM Trial_Survey__c
                 WHERE Clinical_Trial_Profile__r.Override_Recruitment_Status__c = :TrialService.STATUS_ACTIVELY_ENROLLING
-                 AND (Active_After_Days__c != NULL OR Active_On_Status__c IN: PSEService.PSE_STATUS_GROUP_ALL)
+                 AND Active_After_Days__c != NULL
 
         ];
 
@@ -21,12 +21,13 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
-                        Days_After_Enrolled__c,
-                        Participant_Contact__c,
-                        Status__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Status__c IN: PSEService.PSE_STATUS_GROUP_ALL
-                AND (Days_After_Enrolled__c IN: daysSet OR Days_After_Enrolled__c NOT IN: daysSet)
+                        Days_After_Referred__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Status__c IN: SurveyService.getAvailableStatuses()
+                AND (Participant_Study_Enrollment__c = NULL
+                    OR Participant_Study_Enrollment__r.Status__c IN: SurveyService.getAvailableStatuses())
+                AND Days_After_Referred__c IN: daysSet
                 AND Participant_Contact__c IN (SELECT ContactId FROM User WHERE IsActive = TRUE)
         ];
     }
@@ -46,8 +47,9 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE Clinical_Trial_Profile__c
                         IN (SELECT
                                 Clinical_Trial_Profile__c
-                        FROM Participant_Study_Enrollment__c
+                        FROM Participant_Enrollment__c
                         WHERE Id IN:enrollments)
+                    AND Survey__r.ActiveVersionId != NULL
         ];
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
@@ -66,26 +68,26 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         List<SurveyInvitation> surveyInvitation = [
                 SELECT
                         Id,
-                        Participant_Study_Enrollment__c,
+                        Participant_Enrollment__c,
                         Trial_Survey__c
                 FROM SurveyInvitation
-                WHERE Participant_Study_Enrollment__c IN:enrollments
+                WHERE Participant_Enrollment__c IN:enrollments
         ];
 
         Map<String, SurveyInvitation> invitationMap = new Map<String, SurveyInvitation>();
         for(SurveyInvitation inv : surveyInvitation) {
-            invitationMap.put('' + inv.Participant_Study_Enrollment__c + inv.Trial_Survey__c, inv);
+            invitationMap.put('' + inv.Participant_Enrollment__c + inv.Trial_Survey__c, inv);
         }
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-        for(Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) enrollments) {
-            List<Trial_Survey__c> surveys = ctpToTSMap.get(pse.Clinical_Trial_Profile__c);
+        for(Participant_Enrollment__c pe : (List<Participant_Enrollment__c>) enrollments) {
+            List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if(surveys != null) {
                 for(Trial_Survey__c surv : surveys) {
-                    if(surv.Active_After_Days__c == pse.Days_After_Enrolled__c) {
-                        String key = '' + pse.Id + surv.Id;
+                    if(surv.Active_After_Days__c == pe.Days_After_Referred__c) {
+                        String key = '' + pe.Id + surv.Id;
                         if(invitationMap.get(key) == null) {
-                            newInvitations.add(SurveyService.getInstance().generateInvitation(surv, pse));
+                            newInvitations.add(SurveyService.getInstance().generateInvitation(surv, pe.Id));
                         }
                     }
                 }
@@ -104,4 +106,5 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
     public override Type getType() {
         return Batch_PSECreateInvitation.class;
     }
+
 }

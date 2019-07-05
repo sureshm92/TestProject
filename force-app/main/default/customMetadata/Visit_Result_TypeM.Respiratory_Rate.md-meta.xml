@@ -18,4 +18,8 @@
         <field>Visit_Result_Label__c</field>
         <value xsi:type="xsd:string">Respiratory Rate</value>
     </values>
+    <values>
+        <field>Visit_Result_Type__c</field>
+        <value xsi:type="xsd:string">Vital</value>
+    </values>
 </CustomMetadata>

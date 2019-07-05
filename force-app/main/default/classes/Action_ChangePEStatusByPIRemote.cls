@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class Action_ChangePEStatusByPIRemote {
+public without sharing class Action_ChangePEStatusByPIRemote {
 
     @AuraEnabled
     public static String getReferralDeclineReasons() {
@@ -19,7 +19,6 @@ public class Action_ChangePEStatusByPIRemote {
 
     @AuraEnabled
     public static void updatePE(String peId, String status, String reason, String notes) {
-        Savepoint sp = Database.setSavepoint();
         try {
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     Id = peId,
@@ -34,8 +33,7 @@ public class Action_ChangePEStatusByPIRemote {
             }
             update pe;
         } catch (Exception e) {
-            Database.rollback(sp);
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
     }
 

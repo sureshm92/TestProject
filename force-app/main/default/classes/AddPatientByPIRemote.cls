@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class AddPatientByPIRemote {
+public without sharing class AddPatientByPIRemote {
     
     public static final List<String> PE_STATUSES = new List<String>{
             PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,

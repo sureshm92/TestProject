@@ -461,6 +461,7 @@ public without sharing class StudyTrialService {
                         , Study_Code_Name__c
                         , Official_Title__c
                         , Sponsor_Pays_for_Referral_Activity__c
+                        , NCT_Number__c
 
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
@@ -572,5 +573,71 @@ public without sharing class StudyTrialService {
         });
         if (trials.size() > 0) return trials[0];
         return null;
+    }
+
+    public static List<Account> getAccounts(List<StudyDetailItem> studies) {
+        try {
+            Map<Id,Account> accountMap = new Map<Id,Account>();
+            for (AccountContactRelation piAccounts : [SELECT Id,
+                                                             Contact.Id,
+                                                             Contact.Name,
+                                                             Contact.primaryContact__c,
+                                                             Account.Id,
+                                                             Account.Name,
+                                                             Account.ParentId,
+                                                             Account.BillingCountry,
+                                                             Account.BillingCity,
+                                                             Account.BillingStreet,
+                                                             Account.BillingPostalCode,
+                                                             Account.BillingStateCode,
+                                                             Account.BillingLatitude,
+                                                             Account.BillingLongitude,
+                                                             Account.Driving_Directions__c,
+                                                             Account.Parking_Instructions__c
+                                                             FROM AccountContactRelation
+                                                             WHERE ContactId = : CommunityService.getInstance().getCurrentContactId()]) {
+                accountMap.put(piAccounts.Account.Id,piAccounts.Account);
+            }
+                    for(StudyDetailItem sdi : studies){
+                        for(Study_Site__c ss : sdi.ssList) {
+                            if(!ss.Account_Was_Changed__c) {
+                                accountMap.put(ss.Site__r.Id,ss.Site__r);
+                            }
+                        }
+                    }
+            return accountMap.values();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    private static String checkIfNull(String value){
+        if(value==null){
+            return '';
+        } else{
+            return value;
+        }
+    }
+
+    public static List<LabelValueItem> getDelegatePicklistValues(){
+        try {
+            Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
+            for(Site_Staff__c delegatesSites : [SELECT Id,
+                                                 Site_Contact__r.Name,
+                                                 Site_Contact__c
+                                            FROM Site_Staff__c
+                                            WHERE Study_Site__r.Principal_Investigator__c =: CommunityService.getInstance().getCurrentContactId()
+                                            ]){
+                    delegates.put(delegatesSites.Site_Contact__c,new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
+            }
+            List<LabelValueItem> labelList = new List<LabelValueItem>();
+            if(!delegates.isEmpty()){
+                labelList.add(new LabelValueItem('None', ' '));
+                labelList.addAll(delegates.values());
+            }
+            return labelList;
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

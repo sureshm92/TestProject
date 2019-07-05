@@ -27,6 +27,7 @@
     <aura:attribute name="showStatistics" type="Boolean" default="false"/>
     <aura:attribute name="header"   type="String" default=""   access="public"/>
     <aura:attribute name="studyFilterEnabled"       type="Boolean" default="false"                    access="public"/>
+    <aura:attribute name="ssId" type="String"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -91,12 +92,22 @@
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:iteration items="{!v.pageList}" var="item">
+                    <aura:if isTrue="{!v.ssId &amp;&amp; item.pItem.pe.Study_Site__c == v.ssId}">
                     <c:ParticipantCard participantItem="{!item.pItem}"
                                        actions="{!item.actions}"
                                        singlePatientView="false"
                                        changeStatusBtnList="{!v.changeStatusBtnList}"
                                        parent="{!this}"
                                        userMode="{!v.userMode}"/>
+                </aura:if>
+                    <aura:if isTrue="{!!v.ssId}">
+                        <c:ParticipantCard participantItem="{!item.pItem}"
+                                           actions="{!item.actions}"
+                                           singlePatientView="false"
+                                           changeStatusBtnList="{!v.changeStatusBtnList}"
+                                           parent="{!this}"
+                                           userMode="{!v.userMode}"/>
+                    </aura:if>
                 </aura:iteration>
             </div>
 
