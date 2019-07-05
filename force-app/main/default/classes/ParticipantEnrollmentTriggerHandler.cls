@@ -87,6 +87,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Clinical_Trial_Profile__c,
                         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
+                        Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
                         Clinical_Trial_Profile__r.NCT_Number__c
                 FROM Study_Site__c
                 WHERE Id IN: ssIds
@@ -109,9 +110,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private void prepareAdditionalFields(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        List<Contact> participantContacts = new List<Contact>();
         for(Participant_Enrollment__c pe : newList){
             String nctNumber;
             String participantName;
+            Boolean visitOpt = false;
 
             if(pe.Study_Site__c != null){
                 Study_Site__c ss = ssMap.get(pe.Study_Site__c);
@@ -119,6 +122,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     pe.PI_Contact__c = ss.Principal_Investigator__c;
                     pe.Clinical_Trial_Profile__c = ss.Clinical_Trial_Profile__c;
                     nctNumber = ss.Clinical_Trial_Profile__r.NCT_Number__c;
+                    visitOpt = ss.Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c;
                 }
             }
             if(pe.HCP__c != null){
@@ -129,6 +133,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 Participant__c participant = participantMap.get(pe.Participant__c);
                 if(participant != null) {
                     pe.Participant_Contact__c = participant.Contact__c;
+                    if(oldMap == null) {
+                        participant.Contact__r.Visit_Results_Opt_In__c = visitOpt;
+                        participantContacts.add(participant.Contact__r);
+                    }
                     participantName = participant.Name;
                 }
             }
@@ -143,6 +151,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
         }
+
+        if(!participantContacts.isEmpty()) update participantContacts;
     }
 
     @TestVisible

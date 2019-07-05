@@ -22,10 +22,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Enrolled</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Enrollment Success</fullName>
             <default>false</default>
         </values>

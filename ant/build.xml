@@ -99,7 +99,7 @@
                 <include name="staticresources/*.*"/>
             </fileset>
         </copy>
-        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
         </xmltask>
         <copy todir="${dist.dir}/part2">
@@ -108,7 +108,7 @@
                 <exclude name="translations/*.*"/>
             </fileset>
         </copy>
-        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part1.zip">
@@ -128,7 +128,7 @@
     <!-- filter metadata files before deploy: -->
     <target name="prepare-metadata" depends="convert-project">
         <echo message="Start metadata filtration" level="info"/>
-        <xmltask todir="${source.dir}/profiles">
+        <xmltask todir="${source.dir}/profiles" encoding="UTF-8">
             <fileset dir="${source.dir}/profiles"/>
             <remove path="/:Profile/:userPermissions[:name[text()='EnableCommunityAppLauncher']]"/>
             <remove path="/:Profile/:userPermissions[:name[text()='FieldServiceAccess']]"/>
@@ -136,7 +136,7 @@
             <remove path="/:Profile/:applicationVisibilities[:application[text()='Developer']]"/>
         </xmltask>
         <echo message="Profiles filtered" level="info"/>
-        <xmltask todir="${source.dir}/translations">
+        <xmltask todir="${source.dir}/translations" encoding="UTF-8">
             <fileset dir="${source.dir}/translations"/>
             <remove path="/:Translations/:customApplications"/>
             <remove path="/:Translations/:customTabs"/>
@@ -145,14 +145,14 @@
         </xmltask>
         <echo message="Translations filtered" level="info"/>
         <!-- temporary fix for deployment of Contact (remove Master record type from metadata): -->
-        <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object">
+        <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object" encoding="UTF-8">
             <remove path="/:CustomObject/:recordTypes[:fullName[text()='MASTER']]"/>
         </xmltask>
-        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels">
+        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels" encoding="UTF-8">
             <remove path="/:CustomLabels/:labels[:fullName[text()='CommunityURL']]"/>
         </xmltask>
 
-        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
             <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
             <!-- temporary remove SiteDotCom file from deployment -->
@@ -161,7 +161,7 @@
     </target>
 
     <target name="skip-community">
-        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
         </xmltask>
     </target>

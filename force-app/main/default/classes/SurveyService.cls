@@ -17,7 +17,6 @@ public without sharing class SurveyService {
     public static List<String> getAvailableStatuses() {
         List<String> statuses = new List<String>();
         statuses.addAll(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD);
-        statuses.add(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
         statuses.addAll(PSEService.PSE_STATUS_GROUP_ALL);
 
         return statuses;
