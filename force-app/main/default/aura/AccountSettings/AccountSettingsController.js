@@ -201,6 +201,10 @@
             component.set('v.showSpinner', false);
         })
     },
+    
+    checkUpdate : function (component, event, helper) {
+        component.set('v.isUpdated', true);
+    },
 
     doSwitchOptInVisitResults: function (component, event, helper) {
         communityService.executeAction(component, 'changeOptInVisitResults', {}, function (returnValue) {
