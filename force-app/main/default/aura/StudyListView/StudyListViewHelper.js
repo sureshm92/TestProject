@@ -60,7 +60,7 @@
         }
     },
 
-    chForRecords: function (cmp, helper, fromFirstPage) {
+    searchForRecords: function (cmp, helper, fromFirstPage) {
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
