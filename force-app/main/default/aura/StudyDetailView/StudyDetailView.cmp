@@ -30,6 +30,7 @@
     <aura:attribute name="resourceMode" type="String" default="Default"/>
     <aura:attribute name="visitMode" type="String" default="Current"/>
     <aura:attribute name="taskMode" type="String" default="Open"/>
+    <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
     <aura:attribute name="isShare" type="Boolean"/>
     <aura:attribute type="String" name="shareMessage"/>
 
@@ -86,7 +87,7 @@
                     </aura:if>
                 </div>
 
-<!--                <div class="rr-all-content sticky-bar" id="stickyPositionTarget">-->
+                <!--                <div class="rr-all-content sticky-bar" id="stickyPositionTarget">-->
 <!--                    <c:RRAnchor aura:id="tabsTarget"/>-->
 <!--                    <aura:if isTrue="{!!empty(v.studyDetail.tabs)}">-->
 <!--                        <div class="tabs">-->
@@ -141,7 +142,7 @@
 <!--                        &lt;!&ndash;<aura:if isTrue="{!v.userMode == 'HCP'}">-->
 <!--                            <button class="apollo-btn text" data-anchor="studySitesAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>-->
 
-<!--                        </aura:if> &ndash;&gt;-->
+<!--                        </aura:if> -->
 <!--                        <aura:if isTrue="{!v.userMode == 'Participant'}">-->
 <!--                            <button class="apollo-btn text" data-anchor="studySiteAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_site}</button>-->
 <!--                        </aura:if>-->
@@ -149,6 +150,15 @@
 <!--                        <aura:if isTrue="{!v.userMode == 'PI'}">-->
 <!--                            <button class="apollo-btn text" data-anchor="referringClinicsAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>-->
 <!--                        </aura:if>-->
+<!--                    </div>-->
+
+<!--                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}">-->
+<!--                        <button id="changeVisitMode" data-visit-mode="Current"-->
+<!--                                class="{!'apollo-btn text ' + if(v.visitMode == 'Current', ' current', '')}"-->
+<!--                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}</button>-->
+<!--                        <button id="changeVisitMode" data-visit-mode="Past"-->
+<!--                                class="{!'apollo-btn text ' + if(v.visitMode == 'Past', ' current', '')}"-->
+<!--                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Past_Visits}</button>-->
 <!--                    </div>-->
 
 <!--                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-tasks', '', ' collapsed')}">-->
@@ -172,6 +182,15 @@
 <!--                        <button id="changeResourceMode" data-resource-mode="Favorite"-->
 <!--                                class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"-->
 <!--                                onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>-->
+<!--                    </div>-->
+
+<!--                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}">-->
+<!--                        <button id="changeLabResultsMode" data-lab-results-mode="Vitals"-->
+<!--                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Vitals', ' current', '')}"-->
+<!--                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Vitals}</button>-->
+<!--                        <button id="changeLabResultsMode" data-lab-results-mode="Labs"-->
+<!--                                class="{!'apollo-btn text ' + if(v.labResultsMode == 'Labs', ' current', '')}"-->
+<!--                                onclick="{!c.doAction}">{!$Label.c.Visit_Results_Tab_Labs}</button>-->
 <!--                    </div>-->
 
 <!--                </div>-->
@@ -238,7 +257,7 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
-                        {!v.currentTab}
+                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}"/>
                     </aura:if>
                 </div>
             </div>
