@@ -11,7 +11,7 @@
 
     <!-- component body: -->
     <div class="rr-white-panel padding first-panel">
-        <div class="db-header"><c:RRIcon iconName="referrals"/>{!$Label.c.PG_DBPI_Referrals}</div>
+        <div class="db-header"><!--<c:RRIcon iconName="referrals"/>-->{!$Label.c.PG_DBPI_Referrals}</div>
 
         <!-- PI referral acceptance section -->
         <div class="slds-grid slds-wrap db-section" style="margin-bottom: 20px">
@@ -65,7 +65,7 @@
 
     <!-- referring clinics section -->
     <div class="rr-white-panel padding">
-        <div class="db-header"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>
+        <div class="db-header"><!--<c:RRIcon iconName="referring-clinic"/>-->{!$Label.c.PG_DBPI_L_Referring_clinics}</div>
         <div class="slds-grid slds-wrap db-section" style="margin-bottom: 20px">
             <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
                 <div class="db-list-item header">

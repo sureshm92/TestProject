@@ -6,3 +6,7 @@
     padding: 0 16px;
     line-height: 15px;
 }
+
+.THIS .list-item-site-name{
+    font-weight: 600;
+}

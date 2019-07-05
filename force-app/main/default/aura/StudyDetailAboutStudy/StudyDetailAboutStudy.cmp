@@ -31,7 +31,7 @@
                 <div id="info-left" class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
                     <!-- about title -->
                     <c:RRAnchor aura:id="aboutAnchor" offset="-160"/>
-                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>
+<!--                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>-->
 
                     <!-- objectiove section: -->
                     <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Objective}</div>
@@ -42,11 +42,11 @@
                         <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>
                         <div class="sdas-text">{!v.studyDetail.trial.Override_Description__c}</div>
                     </aura:if>
-                    <div class="sdas-separator"></div>
 
                     <!-- inclusion exclusion: -->
+                    <div class="sdas-sub-category">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>
                     <c:RRAnchor aura:id="inclusionExclusionAnchor" offset="-160"/>
-                    <div class="sdas-category"><c:RRIcon iconName="people"/>{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>
+<!--                    <div class="sdas-category"><c:RRIcon iconName="people"/>{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>-->
                     <div class="sdas-text">
                         <aura:if isTrue="{!v.userMode == 'Participant'}">
                             {!$Label.c.PG_SW_T_1}
@@ -59,12 +59,11 @@
                             <div class="criteria-body">{!v.studyDetail.trial.Override_Inclusion_Criteria__c}</div>
                         </c:RRCollapse>
                     </div>
-                    <div class="collapse-wrapper">
+                    <div class="collapse-wrapper slds-m-bottom--medium">
                         <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Exclusion_Criteria}">
                             <div class="criteria-body">{!v.studyDetail.trial.Override_Exclusion_Criteria__c}</div>
                         </c:RRCollapse>
                     </div>
-                    <div class="sdas-separator"></div>
 
                     <!-- map section: -->
 
@@ -85,18 +84,19 @@
 
                     <!-- for PI: -->
                     <aura:if isTrue="{!v.userMode == 'PI'}">
+                        <div class="sdas-sub-category">{!$Label.c.PG_SRP_L_Referring_Providers}</div>
                         <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160"/>
-                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>
+<!--                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>-->
                         <aura:if isTrue="{!empty(v.studyDetail.accountEnrollmentsList)}">
                             <c:EmptyListStub iconName="sad"
                                              message="{!$Label.c.PG_SDAS_L_No_items}"/>
                         </aura:if>
 
                         <aura:if isTrue="{!v.studyDetail.isSSAccepted}">
-                            <div class="sdas-text">
-                                {!$Label.c.PG_SDAS_L_list_referring_clinics + ' '}
-                                <c:RRLink page="my-referring-clinics?" label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/> {!' ' + $Label.c.PG_SDAS_L2_list_referring_clinics}
-                            </div>
+<!--                            <div class="sdas-text">-->
+<!--                                {!$Label.c.PG_SDAS_L_list_referring_clinics + ' '}-->
+<!--                                <c:RRLink page="my-referring-clinics?" label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/> {!' ' + $Label.c.PG_SDAS_L2_list_referring_clinics}-->
+<!--                            </div>-->
                             <aura:set attribute="else">
                                 <div class="sdas-text">
                                     {!$Label.c.PG_SDAS_T_steps}
@@ -159,9 +159,56 @@
 
                 <!-- right info section -->
                 <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
+
+
+                    <div class="slds-grid slds-wrap socialnetworks-section">
+                        <!-- terms and conditions action -->
+                        <div class="slds-col slds-size_1-of-2">
+                            <aura:if isTrue="{!and(v.studyDetail.trial.Terms_And_Conditions_ID__c, v.studyDetail.isTCAccepted)}">
+                                <div class="slds-grid slvi-section">
+                                    <div class="slds-col btn-wrapper">
+                                        <div id="{!v.studyDetail.ACT_VIEW_TC}" class="slvi-btn" onclick="{!c.doAction}">
+                                            <div class="btn-content">
+                                                <c:RRIcon iconName="paper-many"/>
+                                                {!$Label.c.BTN_View_terms_and_conditions}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <!-- social networks icons -->
+                        <div class="slds-col slds-size_1-of-2 socialnetworks">
+                            <aura:if isTrue="{!!empty(v.studyDetail.trial.NCT_Number__c)}">
+                                <div class="rri-icon slds-float_right">
+                                    <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
+                                        <span class="slds-m-around_x-small">
+                                            <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
+                                        <span class="slds-m-around_x-small">
+                                            <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
+                                        <span class="slds-m-around_x-small">
+                                            <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
+                                        </span>
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
+                                        <span class="slds-m-around_x-small">
+                                            <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
+                                        </span>
+                                    </a>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
-                        <div class="title">{!$Label.c.PG_SW_F_Study_Name}</div>
+                        <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>
                         <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
 
                         <div class="title">{!$Label.c.PG_SW_F_Condition}</div>
