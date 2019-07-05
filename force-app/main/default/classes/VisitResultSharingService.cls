@@ -99,6 +99,7 @@ public without sharing class VisitResultSharingService {
     public static Clinical_Trial_Profile__c getCTP(String ctpId) {
         return [
                 SELECT
+                        Participating_in_Patient_Portal__c,
                         Shareback_Availability_Status__c,
                         Shareback_Availability_Timing__c,
                         Shareback_Settings_On_Participant_Level__c,

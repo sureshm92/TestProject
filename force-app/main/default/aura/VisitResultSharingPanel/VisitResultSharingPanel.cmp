@@ -19,7 +19,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
     <div>
-        <aura:if isTrue="{!!empty(v.groups)}">
+        <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">
             <div class="vrs-panel">
                 <div class="group-container">
                     <div class="group-title">Global Data Shareback</div>
@@ -122,6 +122,9 @@
                     </div>
                 </aura:iteration>
             </div>
+        </aura:if>
+        <aura:if isTrue="{!not(v.options.inPatientPortal)}">
+            <c:EmptyListStub message="{!$Label.c.Empty_Visits_tab}"/>
         </aura:if>
     </div>
 
