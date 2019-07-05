@@ -4475,28 +4475,28 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Providers waiting for approval and activation</shortDescription>
-        <value>Providers waiting for approval and activation</value>
+        <value>Providers Waiting For Approval And Activation</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_for_acceptance</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI L Referrals waiting for acceptance</shortDescription>
-        <value>Referrals waiting for acceptance</value>
+        <shortDescription>PG DBPI L Referrals Waiting For Acceptance</shortDescription>
+        <value>Referrals Waiting For Acceptance</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals waiting to be contacted</shortDescription>
-        <value>Referrals waiting to be contacted</value>
+        <value>Referrals Waiting to be Contacted</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referring_clinics</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referring clinics</shortDescription>
-        <value>Referring clinics</value>
+        <value>Referring Clinics</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_completed_for</fullName>
@@ -7857,6 +7857,223 @@
         <protected>false</protected>
         <shortDescription>SGT Pending Your Action</shortDescription>
         <value>Pending Your Action</value>
+    </labels>
+    <labels>
+        <fullName>SS_Add_A_Member</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Add A Member</shortDescription>
+        <value>Please, Add a Member  To Your Team</value>
+    </labels>
+    <labels>
+        <fullName>SS_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Address</shortDescription>
+        <value>Address</value>
+    </labels>
+    <labels>
+        <fullName>SS_Address_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Address Found</shortDescription>
+        <value>Address Found</value>
+    </labels>
+    <labels>
+        <fullName>SS_Address_Not_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Address Not Found</shortDescription>
+        <value>Address Not Found</value>
+    </labels>
+    <labels>
+        <fullName>SS_Btn_Edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Btn Edit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>SS_Btn_Manage_Referrals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Btn Manage Referrals</shortDescription>
+        <value>Manage Referrals</value>
+    </labels>
+    <labels>
+        <fullName>SS_Btn_Manage_Referring_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Btn Manage Referring Providers</shortDescription>
+        <value>Manage Referring Providers</value>
+    </labels>
+    <labels>
+        <fullName>SS_Btn_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Btn Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>SS_City</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS City</shortDescription>
+        <value>City</value>
+    </labels>
+    <labels>
+        <fullName>SS_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>SS_Driving_Instructions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Driving Instructions</shortDescription>
+        <value>Driving Instructions</value>
+    </labels>
+    <labels>
+        <fullName>SS_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>SS_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Location</shortDescription>
+        <value>Location</value>
+    </labels>
+    <labels>
+        <fullName>SS_Location_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Location Name</shortDescription>
+        <value>Location Name</value>
+    </labels>
+    <labels>
+        <fullName>SS_Manage_Location_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Manage Location Details</shortDescription>
+        <value>Manage Location Details</value>
+    </labels>
+    <labels>
+        <fullName>SS_My_Locations</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS My Locations</shortDescription>
+        <value>My Locations</value>
+    </labels>
+    <labels>
+        <fullName>SS_New_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS New Location</shortDescription>
+        <value>New Location</value>
+    </labels>
+    <labels>
+        <fullName>SS_No_Changes_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS No Changes Message</shortDescription>
+        <value>You have made no changes</value>
+    </labels>
+    <labels>
+        <fullName>SS_Parking_Instructions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Parking Instructions</shortDescription>
+        <value>Parking Instructions</value>
+    </labels>
+    <labels>
+        <fullName>SS_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>SS_Postal_Code</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Postal Code</shortDescription>
+        <value>Postal Code</value>
+    </labels>
+    <labels>
+        <fullName>SS_Primary_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Primary Contact</shortDescription>
+        <value>Primary Contact</value>
+    </labels>
+    <labels>
+        <fullName>SS_Save_Changes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Save Changes</shortDescription>
+        <value>Press to save changes</value>
+    </labels>
+    <labels>
+        <fullName>SS_Save_New_Account</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Save New Account</shortDescription>
+        <value>Save New Account</value>
+    </labels>
+    <labels>
+        <fullName>SS_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Site</shortDescription>
+        <value>Site</value>
+    </labels>
+    <labels>
+        <fullName>SS_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS State</shortDescription>
+        <value>State</value>
+    </labels>
+    <labels>
+        <fullName>SS_Study_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Study Site Name</shortDescription>
+        <value>Study Site Name</value>
+    </labels>
+    <labels>
+        <fullName>SS_Success_Save_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Success Save Message</shortDescription>
+        <value>Study Site information was successfully saved</value>
+    </labels>
+    <labels>
+        <fullName>SS_Use_This_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Use This Address</shortDescription>
+        <value>Use This Address</value>
+    </labels>
+    <labels>
+        <fullName>SS_View_Sites</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS View Sites</shortDescription>
+        <value>View Sites</value>
+    </labels>
+    <labels>
+        <fullName>SS_invalidEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS invalidEmail</shortDescription>
+        <value>Please make sure that you entered valid email address</value>
     </labels>
     <labels>
         <fullName>STP_Chart_review_Completions</fullName>
