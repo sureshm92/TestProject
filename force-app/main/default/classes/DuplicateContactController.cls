@@ -39,10 +39,11 @@ public class DuplicateContactController {
 					)
             FROM	Contact
             WHERE 	(Email = :email OR
-            		Phone = :phone)
+            		Phone = :phone OR Id IN:contactsIds)
         ];
 
-		
+		System.debug('All Records:' + participantRecords);
+		System.debug('Filtered:' + contactRecords);
         
 		Integer recordsContactCount = contactRecords.size();
 		if(recordsContactCount != 0){
@@ -83,7 +84,7 @@ public class DuplicateContactController {
                 for(Integer i = 0; i < recordsContactCount; i++){
                     if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                         System.debug('FirstName Check Match');
-                        if(record.lastName__c == contactRecords[i].LastName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].Last_Name__c == record.firstName__c)){
+                        if(record.lastName__c == contactRecords[i].LastName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].Last_Name__c == record.lastName__c)){
                             System.debug('LastName Check Match');
                             if(!contactRecords[i].userCommunytyType__c.contains('Participant')){
                                 ParticipantDeduplicationController.checkPER(contactRecords[i].id, record);
