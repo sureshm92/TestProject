@@ -60,9 +60,9 @@ public class QualityCheckController {
             WHERE 	Protocol_Id__c = :record.protocolId__c
         ];
         if(checkRecords.size() == 0){
-            return 'Study: XXX not found;';
+            return 'Study: ' + record.protocolId__c +  ' not found;';
         }else if(checkRecords[0].Override_Recruitment_Status__c != 'Actively Enrolling'){
-			return 'Study not accepting referrals;';
+			return 'Study is not accepting referrals;';
 		}  
          return '';
     }
@@ -77,7 +77,7 @@ public class QualityCheckController {
             WHERE 	Primary_Key_ePR__c  = :studySiteNumber
         ];
         if(checkRecords.size() == 0){
-            return 'Study Site: XXX not found;';
+            return 'Study Site: ' + studySiteNumber + ' not found;';
         }else if(checkRecords[0].Override_PI_Referral_Status__c != 'Accepted'){
 			return 'StudySite is not accepting referrals;';
 		}
