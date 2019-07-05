@@ -4,7 +4,7 @@
 
             component.set('v.initialized', false);
             component.set('v.displayPanel', true);
-            var spinner = component.find('mainSpinner');
+            let spinner = component.find('mainSpinner');
             if(spinner) {
                 spinner.show();
             }
@@ -16,10 +16,10 @@
                     } else {
                         component.set('v.visitResultsContainer', returnValue);
                         component.set('v.initialized', true);
-                        var spinner = component.find('mainSpinner');
-                        if(spinner) {
-                            spinner.hide();
-                        }
+                    }
+                    let spinner = component.find('mainSpinner');
+                    if(spinner) {
+                        spinner.hide();
                     }
                 }
             );

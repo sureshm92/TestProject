@@ -4,21 +4,22 @@
         doInit : function(component, event, helper) {
 
             component.set('v.initialized', false);
-            var spinner = component.find('mainSpinner');
+            let spinner = component.find('mainSpinner');
             if(spinner) {
                 spinner.show();
             }
-            communityService.executeAction(component, 'getVisitResultsGroupNames', {
-                    visitResultsMode: component.get('v.labResultsMode')
-                }, function (returnValue) {
-                    component.set('v.visitResultsGroupNames', returnValue);
+            if (communityService.isInitialized()) {
+                communityService.executeAction(component, 'getInitData', {
+                        visitResultsMode: component.get('v.labResultsMode')
+                    }, function (returnValue) {
+                    component.set('v.initData', returnValue);
                     component.set('v.initialized', true);
-                    var spinner = component.find('mainSpinner');
+                    let spinner = component.find('mainSpinner');
                     if(spinner) {
                         spinner.hide();
                     }
-                }
-            );
+                });
+            }
         },
 
     }

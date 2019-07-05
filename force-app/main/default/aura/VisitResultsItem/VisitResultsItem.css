@@ -7,10 +7,18 @@
     border-radius: 5px;
     background-color: #FFFFFF;
     position: relative;
+    align-items: baseline;
+}
+
+.THIS .visit-result-name-container {
+    width: 32%;
+    display: flex;
+    align-self: center;
+    align-items: center;
 }
 
 .THIS .visit-result-name {
-    width: 25%;
+    width: 100%;
     align-self: center;
     text-align: center;
     padding: 0 10px;
@@ -21,7 +29,7 @@
 }
 
 .THIS .visit-result-slider {
-    width: 75%;
+    width: 68%;
     margin-top: 10px;
 }
 
@@ -31,9 +39,9 @@
     font-family: "Proxima Nova";
     font-size: 13px;
     line-height: 16px;
-    position: sticky;
-    top: 100%;
-    margin: 0 0 5px 10px;
+    position: absolute;
+    bottom: 5px;
+    margin-left: 10px;
 }
 
 .THIS .visit-result-item-description {

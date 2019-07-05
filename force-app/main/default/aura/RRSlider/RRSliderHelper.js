@@ -5,7 +5,18 @@
             let value = component.get('v.value'),
                 minValue = component.get('v.minValue'),
                 maxValue = component.get('v.maxValue');
-
+            if(!value) {
+                component.set('v.showFilledTrackPrivate', false);
+                component.set('v.showValueBox', false);
+                component.set('v.showKnob', false);
+                return;
+            }
+            if(!minValue || !maxValue) {
+                minValue = value - 10;
+                maxValue = value + 10;
+            }
+            component.set('v.showFilledTrackPrivate', component.get('v.showFilledTrack'));
+            component.set('v.valueInBox', value);
             value = helper.getValidValue(value, minValue, maxValue);
             component.set('v.value', value);
 

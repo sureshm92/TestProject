@@ -10,28 +10,8 @@ public inherited sharing class VisitResultsService {
         return this.metadataService.getVisitResultGroupNames(visitResultsMode);
     }
 
-    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
-
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || !pState.showVisits) {
-            return null;
-        }
-
-        String visitsQuery = 'SELECT ' +
-                'Name, ' +
-                'Completed_Date__c ' +
-                'FROM Patient_Visit__c ' +
-                'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
-                ' AND Status__c = \'Completed\'' +
-                ' ORDER BY Completed_Date__c NULLS LAST' +
-                ' LIMIT 1';
-
-        List<Patient_Visit__c> visits = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
-        if (visits.isEmpty()) {
-            return null;
-        }
-        List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
-        List<Visit_Result__c> visitResults = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(
+    public List<Visit_Result__c> getVisitResults(Id visitId, List<Visit_Result_TypeM__mdt> visitResultTypes) {
+        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(
                 'SELECT Id, ' +
                         'Name, ' +
                         'Actual_Value__c, ' +
@@ -41,12 +21,47 @@ public inherited sharing class VisitResultsService {
                         'Patient_Visit__r.Completed_Date__c, ' +
                         'Result_Type__c ' +
                         ' FROM Visit_Result__c ' +
-                        ' WHERE Patient_Visit__c = \'' + visits[0].Id + '\'' +
-                        ' AND Result_Type__c IN (' + CollectionUtil.joinByComa(
-                        CollectionUtil.wrapInApostrophes(
-                                this.metadataService.getVisitResultTypeDeveloperNames(visitResultTypes)
+                        ' WHERE Patient_Visit__c = \'' + visitId + '\'' +
+                        ((visitResultTypes != null && !visitResultTypes.isEmpty()) ?
+                                (' AND Result_Type__c IN (' + CollectionUtil.joinByComa(
+                                        CollectionUtil.wrapInApostrophes(
+                                                this.metadataService.getVisitResultTypeDeveloperNames(visitResultTypes)
+                                        )) + ')'
+                                ) : ''
                         )
-                ) + ')', true);
+                , true);
+    }
+
+    public List<Patient_Visit__c> getPatientVisits() {
+
+        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || !pState.showVisits || pState.pse == null) {
+            return null;
+        }
+
+        String visitsQuery = 'SELECT ' +
+                'Name, ' +
+                'Completed_Date__c, ' +
+                'Participant_Study_Enrollment__r.Participant__r.Contact__r.Visit_Results_Opt_In__c, ' +
+                'Participant_Study_Enrollment__r.Participant__r.Contact__r.Id ' +
+                'FROM Patient_Visit__c ' +
+                'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
+                ' AND Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
+                ' AND Status__c = \'Completed\'' +
+                ' ORDER BY Completed_Date__c NULLS LAST' +
+                ' LIMIT 1';
+
+        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
+    }
+
+    public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
+
+        List<Patient_Visit__c> visits = this.getPatientVisits();
+        if (visits.isEmpty()) {
+            return null;
+        }
+        List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
+        List<Visit_Result__c> visitResults = this.getVisitResults(visits[0].Id, visitResultTypes);
         if (visitResults.isEmpty()) {
             return null;
         }
@@ -57,6 +72,8 @@ public inherited sharing class VisitResultsService {
             Visit_Result__c singleVisitResult = visitResultsByTypeDeveloperNames.get(singleVisitResultType.DeveloperName);
             if (singleVisitResult != null && uniqueIds.add(singleVisitResult.Id)) {
                 wrappers.add(new VisitResultWrapper(singleVisitResult, singleVisitResultType.Label));
+            } else {
+                wrappers.add(new VisitResultWrapper(singleVisitResultType.Label));
             }
         }
         return new VisitResultsContainer(visitResults[0].Patient_Visit__r, wrappers, visitResultsGroupName);
@@ -104,6 +121,10 @@ public inherited sharing class VisitResultsService {
             this.maxValue = visitResult.Max_Value__c;
             this.name = name;
             this.measurement = visitResult.Measurement__c;
+        }
+
+        public VisitResultWrapper(String name) {
+            this.name = name;
         }
     }
 }

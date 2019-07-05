@@ -1,7 +1,10 @@
 (
     {
         doRender : function(component, event, helper) {
-            helper.changeValue(component, event, helper);
+            if(!component.get('v.rendered')) {
+                helper.changeValue(component, event, helper);
+                component.set('v.rendered', true);
+            }
         },
 
         changeValue : function(component, event, helper) {
