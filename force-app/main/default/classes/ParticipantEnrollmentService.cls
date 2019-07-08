@@ -271,6 +271,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Contact__c',
             'Participant__r.Conditions__c',
             'Participant__r.Contact__r.Language__c',
+            'Participant__r.Contact__r.Visit_Results_Opt_In__c',
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
