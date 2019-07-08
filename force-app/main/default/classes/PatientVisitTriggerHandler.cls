@@ -48,8 +48,6 @@ public with sharing class PatientVisitTriggerHandler {
             if(visit.Status__c == 'Completed'){
                 visitMap.put(visit.Participant_Study_Enrollment__r.External_Key__c, visit);
             }
-            System.debug(visitMap.get(visit.Participant_Study_Enrollment__r.External_Key__c).Visit_Number__c);
-            System.debug(visit.Visit_Number__c);
             if(visitMap.containsKey(visit.Participant_Study_Enrollment__r.External_Key__c) && visitMap.get(visit.Participant_Study_Enrollment__r.External_Key__c).Visit_Number__c > visit.Visit_Number__c
                     && visit.Status__c != 'Completed' && visit.Status__c != 'Missed'){
                 visit.Status__c = 'Missed';
