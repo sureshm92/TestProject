@@ -26,7 +26,7 @@ public class TestData {
                 'HCP',
                 'PI'
         };
-        List<User> users = [SELECT Id, LastName FROM User WHERE Contact.LastName IN: contactLastNames];
+        List<User> users = [SELECT Id, ContactId, LastName FROM User WHERE Contact.LastName IN: contactLastNames];
         for(User user : users){
             if(user.LastName == 'PI') piUser = user;
             if(user.LastName == 'HCP') hcpUser = user;
