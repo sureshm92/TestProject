@@ -39,10 +39,11 @@ public class DuplicateContactController {
 					)
             FROM	Contact
             WHERE 	(Email = :email OR
-            		Phone = :phone)
+            		Phone = :phone OR Id IN:contactsIds)
         ];
 
-		
+		System.debug('All Records:' + participantRecords);
+		System.debug('Filtered:' + contactRecords);
         
 		Integer recordsContactCount = contactRecords.size();
 		if(recordsContactCount != 0){
@@ -53,7 +54,7 @@ public class DuplicateContactController {
                         System.debug('BirthDate__c Check Match');
                         if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match' + contactRecords[i].id);
-                            contactRecords[i].Phone = record.phone__c;
+                            //contactRecords[i].Phone = record.phone__c;
                             processedDuplicate(contactRecords[i].id, record);
 							break;
                         }else if(recordsContactCount == (i + 1)){
@@ -65,7 +66,7 @@ public class DuplicateContactController {
                        if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match');
                            	contactRecords[i].BirthDate = Date.newInstance(Integer.valueOf(record.BirthYear__c), 1, 1);
-                           	contactRecords[i].Phone = record.phone__c;
+                           	//contactRecords[i].Phone = record.phone__c;
                             processedDuplicate(contactRecords[i].id, record);
 							break;
                         }else if(recordsContactCount == (i + 1)){
@@ -83,7 +84,7 @@ public class DuplicateContactController {
                 for(Integer i = 0; i < recordsContactCount; i++){
                     if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                         System.debug('FirstName Check Match');
-                        if(record.lastName__c == contactRecords[i].LastName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].Last_Name__c == record.firstName__c)){
+                        if(record.lastName__c == contactRecords[i].LastName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].Last_Name__c == record.lastName__c)){
                             System.debug('LastName Check Match');
                             if(!contactRecords[i].userCommunytyType__c.contains('Participant')){
                                 ParticipantDeduplicationController.checkPER(contactRecords[i].id, record);
