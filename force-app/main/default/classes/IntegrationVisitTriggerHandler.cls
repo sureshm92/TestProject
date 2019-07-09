@@ -18,8 +18,10 @@ public with sharing class IntegrationVisitTriggerHandler {
 
     private static void updateVisits(List<Integration_Visit__c> visits){
         Set<String> externalKeys = new Set<String>();
+        Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
             externalKeys.add(visit.External_Key__c);
+            patientVisitMap.put(visit.External_Key__c, new List<Patient_Visit__c>());
         }
         List<Patient_Visit__c> patientVisits = [
             SELECT
@@ -48,13 +50,8 @@ public with sharing class IntegrationVisitTriggerHandler {
             pseIdsMap.put(pse.External_Key__c, pse.Id);
         }
         //
-        Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Patient_Visit__c visit : patientVisits){
-            if(patientVisitMap.containsKey(visit.Participant_Study_Enrollment__r.External_Key__c)){
-                patientVisitMap.get(visit.Participant_Study_Enrollment__r.External_Key__c).add(visit);
-            } else {
-                patientVisitMap.put(visit.Participant_Study_Enrollment__r.External_Key__c, new List<Patient_Visit__c>{visit});
-            }
+            patientVisitMap.get(visit.Participant_Study_Enrollment__r.External_Key__c).add(visit);
         }
         List<Patient_Visit__c> newVisits = new List<Patient_Visit__c>();
         for(Integration_Visit__c externalVisit : visits) {
