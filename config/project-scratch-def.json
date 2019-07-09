@@ -4,6 +4,7 @@
     "language": "en_US",
     "features": [
         "Communities",
+        "ContactsToMultipleAccounts",
         "SiteDotCom",
         "SiteForceContributor",
         "Sites",
