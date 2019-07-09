@@ -326,12 +326,12 @@ public without sharing class StudyDetailViewController {
                         Label.PG_SW_Tab_Resources,
                         backHomeAction
                 ));
-                /*tabs.add(new StudyTab(
+                tabs.add(new StudyTab(
                         'tab-lab-results',
                         'reports',
                         Label.PG_SW_Tab_Lab_Results,
                         backHomeAction
-                ));*/
+                ));
             } else {
                 tabs.add(new StudyTab(
                         'tab-tasks',

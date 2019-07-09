@@ -4302,6 +4302,13 @@
         <value>updates about your referral status</value>
     </labels>
     <labels>
+        <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS L Opt In Visit Results</shortDescription>
+        <value>Display my data</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_L_Select_Conditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8866,6 +8873,79 @@
         <protected>true</protected>
         <shortDescription>Visit Order</shortDescription>
         <value>Visit Order</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Expected Range</shortDescription>
+        <value>Expected Range</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Empty_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Empty_Body</shortDescription>
+        <value>Visit assessment information is not available for this clinical research study.
+If you have questions or concerns, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. 
+                  If you would like to view your data {0}.  You can opt-out at any time.Once data becomes available it will begin to display. If you
+questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Labs</shortDescription>
+        <value>Labs</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Linked_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Linked_Text</shortDescription>
+        <value>click here to opt-in</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Modal_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Modal_Body</shortDescription>
+        <value>Do you consent to opt-in to viewing your data?</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Modal_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Modal_Title</shortDescription>
+        <value>Opt-in to view data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date</shortDescription>
+        <value>Results from</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Vitals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Vitals</shortDescription>
+        <value>Vitals</value>
     </labels>
     <labels>
         <fullName>Visit_Schedule</fullName>

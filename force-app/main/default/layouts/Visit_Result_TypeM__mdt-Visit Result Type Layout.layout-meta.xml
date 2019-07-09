@@ -27,6 +27,10 @@
                 <field>Visit_Result_Group__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Display_Order__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Visit_Result_Type__c</field>
             </layoutItems>
