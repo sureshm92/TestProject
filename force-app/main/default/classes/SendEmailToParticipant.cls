@@ -105,7 +105,11 @@ public without sharing class SendEmailToParticipant {
 
         String template;
         if (task.Reminder_Date__c.date() == firstReminderDate.date()) {
-            template = EMAIL_TEMPLATE_SURVEY_REMINDER_TASK;
+            if(task.Reminder_Schedule__r.Use_Final_Template__c) {
+                template = EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK;
+            } else {
+                template = EMAIL_TEMPLATE_SURVEY_REMINDER_TASK;
+            }
         } else {
             Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
             if (secondReminderDay != null) {
