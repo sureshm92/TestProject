@@ -174,6 +174,7 @@ public without sharing class ResourceService {
         return new ResourceService.ResourceWrapperContainer(this.getResourceWrappers(resources));
     }
 
+    @TestVisible
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
         List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
         Set<Resource__c> resourcesSet = new Set<Resource__c>();
