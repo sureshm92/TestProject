@@ -52,22 +52,6 @@ public inherited sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static String getLinkForModalWindow() {
-
-        try {
-            String message = '<p class="white-space visit-assessment-inf">' + Label.Visit_Results_Tab_If_Is_Not_Opt_In + '</p>';
-            String goToModal = '<span class="to-modal-link">' + Label.Visit_Results_Tab_Linked_Text + '</span>';
-            message = String.format(message, new List<String>{
-                    goToModal
-            });
-            return message;
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
-
-    @AuraEnabled
     public static void changeOptInOnTrue(Id contactId) {
 
         try {
