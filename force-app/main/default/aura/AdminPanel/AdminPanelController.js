@@ -4,10 +4,10 @@
 
 ({
     doInit: function (component, event, helper) {
-        helper.getData(component);
+        helper.getData(component, true);
         setInterval($A.getCallback(function () {
-            helper.getData(component)
-        }), 5000);
+            helper.getData(component, false)
+        }), 2500);
     },
 
     clickRun: function (component, event, helper) {
