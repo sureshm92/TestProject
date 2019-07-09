@@ -21,6 +21,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                         Reminder_Date__c,
                         Reminder_Schedule__r.First_Reminder_day__c,
                         Reminder_Schedule__r.Second_Reminder_day__c,
+                        Reminder_Schedule__r.Use_Final_Template__c,
                         Visible_For__c,
                         WhatId,
                         WhoId

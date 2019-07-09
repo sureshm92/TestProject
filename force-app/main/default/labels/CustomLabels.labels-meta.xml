@@ -2605,6 +2605,13 @@
             To review the referrals, log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
     <labels>
+        <fullName>Empty_Visits_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty Visits tab</shortDescription>
+        <value>This feature is not available for Studies not participating in Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>

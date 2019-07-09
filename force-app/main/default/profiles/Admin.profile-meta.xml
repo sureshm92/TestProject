@@ -639,6 +639,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceArticleVideoService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceBasicService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceContentClassService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -652,6 +660,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceExpirationBatchHandlerImpl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceFavoriteService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -672,6 +684,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyDocumentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyRelatedService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceTARelatedService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -884,6 +908,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_BaseCRCPCommunity</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_BasePPCommunity</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3625,6 +3653,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Reminder_Schedule__c.Second_Reminder_day__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Reminder_Schedule__c.Use_Final_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
