@@ -4,7 +4,9 @@
         var spinner = component.find('mainSpinner');
         spinner.show();
         var recId = communityService.getUrlParameter('id');
+        var ssId = communityService.getUrlParameter('ssId');
         var tabId = communityService.getUrlParameter('tab');
+        if(ssId) component.set('v.ssId', ssId);
         if(tabId === undefined) tabId = 'tab-about-the-study'; //tab by default;
         var resourceMode = communityService.getUrlParameter('resourcemode');
         if(!resourceMode) resourceMode = 'Default';
@@ -95,6 +97,9 @@
                 break;
             case 'changeVisitMode':
                 component.set('v.visitMode', event.currentTarget.dataset.visitMode);
+                break;
+            case 'changeLabResultsMode':
+                component.set('v.labResultsMode', event.currentTarget.dataset.labResultsMode);
                 break;
             case 'changeTaskMode':
                 var taskMode = event.currentTarget.dataset.taskMode;

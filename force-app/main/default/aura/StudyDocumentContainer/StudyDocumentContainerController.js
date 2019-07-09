@@ -5,10 +5,7 @@
             let spinner = component.find('spinner');
             if(spinner){ spinner.show(); }
             let resourceMode = component.get("v.resourceMode");
-            communityService.executeAction(component, 'getResources', {
-                resourceType: null,
-                resourceMode: resourceMode
-            }, function (returnValue) {
+            communityService.executeAction(component, 'getStudyDocuments', null, function (returnValue) {
                 if(!returnValue.errorMessage) {
                     component.set("v.resourceWrappers", returnValue.wrappers);
                     component.set("v.errorMessage", "");

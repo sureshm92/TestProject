@@ -22,6 +22,11 @@
     <aura:attribute name="statesByCountryMap" type="Map" access="private"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="isUpdated" type="Boolean"/>
+    <aura:attribute name="okButtonClicked" type="Boolean" default="false"
+                    description="if primary(Ok) button clicked, this value will change"/>
+    <aura:attribute name="cancelButtonClicked" type="Boolean" default="false"
+                    description="if primary(Cancel) button clicked, this value will change"/>
+    <aura:attribute name="showModal" type="Boolean" default="false"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -29,6 +34,8 @@
     <aura:handler name="change" value="{!v.contact}" action="{!c.doContactChanged}"/>
     <aura:handler name="change" value="{!v.participant.Mailing_Country_Code__c}" action="{!c.doCountryCodeChanged}"/>
     <aura:handler name="change" value="{!v.contact.MailingCountryCode}" action="{!c.doCountryCodeChanged}"/>
+    <aura:handler name="change" value="{!v.okButtonClicked}" action="{!c.doSwitchOptInVisitResults}"/>
+    <aura:handler name="change" value="{!v.cancelButtonClicked}" action="{!c.closeVisitResultsOptInModal}"/>
 
     <!-- methods: -->
     <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}" access="public"/>
@@ -432,6 +439,15 @@
                 <!--</div>-->
                 <!--</div>-->
                 <div class="as-sub-title">{!$Label.c.PG_AS_T_Privacy_Rights}</div>
+                <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                    <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                     variant="label-hidden"
+                                     messageToggleInactive="{!$Label.c.BTN_Off}"
+                                     class="slds-col ah-toggle"
+                                     checked="{!v.initData.myContact.Visit_Results_Opt_In__c}"
+                                     onchange="{!c.openVisitResultsOptInModal}"/>
+                    {!$Label.c.PG_AS_L_Opt_In_Visit_Results}
+                </div>
                 <div class="as-privacy-form slds-grid slds-wrap slds-grid_vertical-align-end">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4">
                         <div class="slds-grid slds-wrap">
@@ -448,6 +464,9 @@
                         </div>
                     </div>
                 </div>
+                <c:Popup title="{!$Label.c.Visit_Results_Tab_Modal_Title}" showModal="{!v.showModal}" size="small"
+                         headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}" primaryButtonClicked="{!v.okButtonClicked}"
+                         secondaryButtonClicked="{!v.cancelButtonClicked}" closeButtonClicked="{!v.cancelButtonClicked}"/>
             </div>
         </aura:if>
     </div>

@@ -5,7 +5,6 @@
         component.set('v.userMode', communityService.getUserMode());
         var isFilterActive = (communityService.getUrlParameter('showPending') === 'true');
         var trialId = communityService.getUrlParameter('id');
-
         communityService.executeAction(component, 'getClinicDetail', {
             trialId: trialId ? trialId : '',
             userMode: component.get('v.userMode')

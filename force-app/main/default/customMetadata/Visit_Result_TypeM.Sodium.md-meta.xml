@@ -3,6 +3,10 @@
     <label>Sodium</label>
     <protected>false</protected>
     <values>
+        <field>Display_Order__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
         <field>Visit_Result_Code__c</field>
         <value xsi:type="xsd:string">CSODC,SODIUN</value>
     </values>
@@ -13,5 +17,9 @@
     <values>
         <field>Visit_Result_Label__c</field>
         <value xsi:type="xsd:string">Sodium</value>
+    </values>
+    <values>
+        <field>Visit_Result_Type__c</field>
+        <value xsi:type="xsd:string">Lab</value>
     </values>
 </CustomMetadata>
