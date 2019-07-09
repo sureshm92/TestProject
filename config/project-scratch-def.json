@@ -3,6 +3,7 @@
     "edition": "Developer",
     "language": "en_US",
     "features": [
+        "ContactsToMultipleAccounts",
         "Communities",
         "SiteDotCom",
         "SiteForceContributor",
