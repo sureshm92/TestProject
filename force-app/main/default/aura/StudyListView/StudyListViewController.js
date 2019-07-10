@@ -24,25 +24,46 @@
         helper.searchForRecords(cmp, helper);
     },
 
+    clampTitle:function(component,event,helper){
+        setTimeout($A.getCallback(function () {
+            helper.doUpdateStudyTitle(component);
+        }), 10);
+    },
+
     saveSSDetails: function (component, event, helper){
         var param = event.getParam('arguments');
         var currentSS = param.currentSS;
+        if (!communityService.isInitialized()) return;
+        component.set("v.showSpinner", true);
        communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
-            if(returnValue == 'SUCCESS'){
-                helper.init(component,event,helper);
-                communityService.showToast(returnValue, 'success', $A.get("$Label.c.SS_Success_Save_Message"));
-            }
+           communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
+           helper.init(component,event,helper);
        });
     },
 
     saveSSnewAddress:function (component,event,helper) {
         var param = event.getParam('arguments');
         var currentSS = param.currentSS;
+        if (!communityService.isInitialized()) return;
+        component.set("v.showSpinner", true);
         communityService.executeAction(component, 'saveSSAddress', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
-            if(returnValue == 'SUCCESS'){
-                helper.init(component,event,helper);
-                communityService.showToast(returnValue, 'success', $A.get("$Label.c.SS_Success_Save_Message"));
-            }
+            communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
+            helper.init(component,event,helper);
+        });
+    },
+
+    insertAccountForCheck: function(component,event,helper){
+        var param = event.getParam('arguments');
+        var currentAccount = param.currentAccount;
+        communityService.executeAction(component, 'checkAccountGeolocation', {account: JSON.stringify(currentAccount)}, function (returnValue) {
+            component.set('v.checkedAccountWasCreated',true);
+        });
+    },
+
+    removeCheckAccount: function(component,event,helper){
+        communityService.executeAction(component, 'returnAndRemoveAccount', null, function (returnValue) {
+            component.set('v.accountWithCheckedLocation',JSON.parse(returnValue));
+            component.set('v.showPopUpSpinner',false);
         });
     }
 });
