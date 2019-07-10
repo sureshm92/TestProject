@@ -4388,11 +4388,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Visit_Result__c.Result_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Visit__c.Icons__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4652,11 +4647,11 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
+        <recordType>Visit_Result__c.Lab</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Vitals</recordType>
+        <recordType>Visit_Result__c.Vital</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
@@ -4827,12 +4822,12 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
+        <recordType>Visit_Result__c.Lab</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
-        <recordType>Visit_Result__c.Vitals</recordType>
+        <recordType>Visit_Result__c.Vital</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
