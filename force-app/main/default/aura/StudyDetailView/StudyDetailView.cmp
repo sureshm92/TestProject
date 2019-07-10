@@ -17,6 +17,8 @@
         <c:PPStudyWorkspace parent="{!this}"/>
     </aura:if>
 
-    <!-- TODO ADD RH STUDY WORKSPACE COMPONENT HERE -->
+    <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'PI')}">
+        <c:RHStudyWorkspace parent="{!this}"/>
+    </aura:if>
 
 </aura:component>
