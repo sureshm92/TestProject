@@ -911,6 +911,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_BasePPCommunity</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_BaselineSurveyRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3649,6 +3653,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Reminder_Schedule__c.Second_Reminder_day__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Reminder_Schedule__c.Use_Final_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
