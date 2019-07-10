@@ -16,7 +16,6 @@
     <aura:if isTrue="{!v.userMode == 'Participant'}">
         <c:PPStudyWorkspace parent="{!this}"/>
     </aura:if>
-
     <aura:if isTrue="{!or(v.userMode == 'HCP', v.userMode == 'PI')}">
         <c:RHStudyWorkspace parent="{!this}"/>
     </aura:if>
