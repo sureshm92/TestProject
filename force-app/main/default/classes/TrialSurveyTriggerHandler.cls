@@ -15,7 +15,7 @@ public without sharing class TrialSurveyTriggerHandler {
         Map<Id, SurveyInvitation> surveyInvitations = new Map<Id, SurveyInvitation>([
                 SELECT
                         Id,
-                        Participant_Study_Enrollment__r.Participant_Contact__c
+                        Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Trial_Survey__c IN:oldTrialSurveys
         ]);
@@ -24,7 +24,7 @@ public without sharing class TrialSurveyTriggerHandler {
         for(SurveyInvitation inv : surveyInvitations.values()) {
             inv.InviteExpiryDateTime = System.now();
 
-            Id participantCId = inv.Participant_Study_Enrollment__r.Participant_Contact__c;
+            Id participantCId = inv.Participant_Enrollment__r.Participant_Contact__c;
             contactIds.add(participantCId);
             contactIds.addAll(PatientDelegateService.getDelegatedContactIds(participantCId));
         }

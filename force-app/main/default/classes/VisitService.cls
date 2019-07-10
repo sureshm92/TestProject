@@ -23,6 +23,15 @@ public inherited sharing class VisitService {
         return getVisits(null, 3);
     }
 
+    public static Patient_Visit__c createPatientVisit(Visit__c visit, Id pseId){
+        return new Patient_Visit__c(
+                Name = visit.Name,
+                Visit__c = visit.Id,
+                Visit_Schedule__c = visit.Visit_Schedule__c,
+                Visit_Number__c = visit.Visit_Number__c,
+                Participant_Study_Enrollment__c =  pseId
+        );
+    }
     private List<Visit__c> getVisits(String filter, Integer limitNumber) {
 
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();

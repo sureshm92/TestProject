@@ -7,11 +7,11 @@ public with sharing class PatientVisitTriggerHandler {
     public class UpdateMissedVisits extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            updateMissedVisits(newList);
+            //updateMissedVisits(newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateMissedVisits(newList);
+            //updateMissedVisits(newList);
         }
     }
 

@@ -10,7 +10,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         Active_After_Days__c
                 FROM Trial_Survey__c
                 WHERE Clinical_Trial_Profile__r.Override_Recruitment_Status__c = :TrialService.STATUS_ACTIVELY_ENROLLING
-                 AND (Active_After_Days__c != NULL OR Active_On_Status__c IN: PSEService.PSE_STATUS_GROUP_ALL)
+                 AND Active_After_Days__c != NULL
 
         ];
 
@@ -23,11 +23,11 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         Clinical_Trial_Profile__c,
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
-                        Status__c
+                        Participant_Enrollment__c
                 FROM Participant_Study_Enrollment__c
                 WHERE Status__c IN: PSEService.PSE_STATUS_GROUP_ALL
-                AND (Days_After_Enrolled__c IN: daysSet OR Days_After_Enrolled__c NOT IN: daysSet)
-                AND Participant_Contact__c IN (SELECT ContactId FROM User WHERE IsActive = TRUE)
+                    AND Days_After_Enrolled__c IN: daysSet
+                    AND Participant_Contact__c IN (SELECT ContactId FROM User WHERE IsActive = TRUE)
         ];
     }
 
@@ -48,6 +48,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                                 Clinical_Trial_Profile__c
                         FROM Participant_Study_Enrollment__c
                         WHERE Id IN:enrollments)
+                    AND Survey__r.ActiveVersionId != NULL
         ];
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
@@ -63,29 +64,17 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             tsList.add(t);
         }
 
-        List<SurveyInvitation> surveyInvitation = [
-                SELECT
-                        Id,
-                        Participant_Study_Enrollment__c,
-                        Trial_Survey__c
-                FROM SurveyInvitation
-                WHERE Participant_Study_Enrollment__c IN:enrollments
-        ];
-
-        Map<String, SurveyInvitation> invitationMap = new Map<String, SurveyInvitation>();
-        for(SurveyInvitation inv : surveyInvitation) {
-            invitationMap.put('' + inv.Participant_Study_Enrollment__c + inv.Trial_Survey__c, inv);
-        }
+        Map<String, SurveyInvitation> invitationMap = getInvitationMap((List<Participant_Study_Enrollment__c>) enrollments);
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         for(Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) enrollments) {
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pse.Clinical_Trial_Profile__c);
             if(surveys != null) {
-                for(Trial_Survey__c surv : surveys) {
-                    if(surv.Active_After_Days__c == pse.Days_After_Enrolled__c) {
-                        String key = '' + pse.Id + surv.Id;
+                for(Trial_Survey__c ts : surveys) {
+                    if(ts.Active_After_Days__c == pse.Days_After_Enrolled__c) {
+                        String key = '' + pse.Participant_Enrollment__c + ts.Id;
                         if(invitationMap.get(key) == null) {
-                            newInvitations.add(SurveyService.getInstance().generateInvitation(surv, pse));
+                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pse.Participant_Enrollment__c));
                         }
                     }
                 }
@@ -99,6 +88,26 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         }
 
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
+    }
+
+    private Map<String, SurveyInvitation> getInvitationMap(List<Participant_Study_Enrollment__c> enrollments) {
+        List<Id> peIds = new List<Id>();
+        for (Participant_Study_Enrollment__c pse : enrollments) peIds.add(pse.Participant_Enrollment__c);
+
+        List<SurveyInvitation> surveyInvitation = [
+                SELECT
+                        Id,
+                        Participant_Enrollment__c,
+                        Trial_Survey__c
+                FROM SurveyInvitation
+                WHERE Participant_Enrollment__c IN:peIds
+        ];
+
+        Map<String, SurveyInvitation> invitationMap = new Map<String, SurveyInvitation>();
+        for (SurveyInvitation inv : surveyInvitation) {
+            invitationMap.put('' + inv.Participant_Enrollment__c + inv.Trial_Survey__c, inv);
+        }
+        return invitationMap;
     }
 
     public override Type getType() {

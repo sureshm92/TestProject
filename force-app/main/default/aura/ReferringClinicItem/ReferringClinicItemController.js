@@ -1,6 +1,5 @@
 ({
     doInit: function (component, event, helper) {
-
         if(component.get("v.filterByStudy")){
             
             var wrapper = component.get("v.clinicWrapper");

@@ -24,7 +24,7 @@ Get-ChildItem $currDirectory -Filter *.txt | Foreach-Object {
             # /script variables
             Write-Host "$taskName processing..."
             # get all relevant commits and convert it to PowerShell object
-            $gitHist = (git log --all --grep=$taskName --format="%ai`t%H`t%an`t%ae`t%s" --all) | ConvertFrom-Csv -Delimiter "`t" -Header ("Date","CommitId","Author","Email","Subject")
+            $gitHist = (git log --all --grep="$taskName" --format="%ai`t%H`t%an`t%ae`t%s" --all) | ConvertFrom-Csv -Delimiter "`t" -Header ("Date","CommitId","Author","Email","Subject")
             $commitsCounts = 0;
             foreach ($commit in $gitHist){
                 $commitsCounts++

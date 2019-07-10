@@ -139,8 +139,7 @@ public without sharing class TaskService {
                 SELECT
                         Id,
                         InviteExpiryDateTime,
-                        Participant_Study_Enrollment__c,
-                        Participant_Study_Enrollment__r.Participant_Contact__c,
+                        Participant_Enrollment__r.Participant_Contact__c,
                         Reminder_Schedule__c,
                         Reminder_Schedule__r.First_Reminder_day__c,
                         Survey.Name
@@ -151,7 +150,7 @@ public without sharing class TaskService {
         Set<Id> contactIds = new Set<Id>();
         Set<Id> delContactIds = new Set<Id>();
         for (SurveyInvitation inv : surveyInvitation) {
-            Id partContactId = inv.Participant_Study_Enrollment__r.Participant_Contact__c;
+            Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             contactIds.add(partContactId);
             delContactIds.addAll(PatientDelegateService.getDelegatedContactIds(partContactId));
         }
@@ -162,7 +161,7 @@ public without sharing class TaskService {
 
         List<TaskConfig> taskConfigs = new List<TaskConfig>();
         for (SurveyInvitation inv : surveyInvitation) {
-            Id partContactId = inv.Participant_Study_Enrollment__r.Participant_Contact__c;
+            Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             Id partUserId = participantContactUser.get(partContactId);
             userContact.put(partUserId, partContactId);
             List<Id> patientDelContactIds = PatientDelegateService.getDelegatedContactIds(partContactId);

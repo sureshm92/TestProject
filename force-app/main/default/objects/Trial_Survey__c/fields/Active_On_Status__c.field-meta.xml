@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Active_On_Status__c</fullName>
-    <description>Status</description>
     <externalId>false</externalId>
-    <label>Active on PSE status</label>
+    <label>Active on status</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -12,9 +11,44 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Enrolled</fullName>
+                <fullName>Referral Sent to PI</fullName>
                 <default>false</default>
-                <label>Enrolled</label>
+                <label>Referral Sent to PI</label>
+            </value>
+            <value>
+                <fullName>Referral Accepted</fullName>
+                <default>false</default>
+                <label>Referral Accepted</label>
+            </value>
+            <value>
+                <fullName>Contact Attempt In Progress</fullName>
+                <default>false</default>
+                <label>Contact Attempt In Progress</label>
+            </value>
+            <value>
+                <fullName>Contact Successful</fullName>
+                <default>false</default>
+                <label>Contact Successful</label>
+            </value>
+            <value>
+                <fullName>Eligibility Passed</fullName>
+                <default>false</default>
+                <label>Eligibility Passed</label>
+            </value>
+            <value>
+                <fullName>Screening In Progress</fullName>
+                <default>false</default>
+                <label>Screening In Progress</label>
+            </value>
+            <value>
+                <fullName>Screening Complete</fullName>
+                <default>false</default>
+                <label>Screening Complete</label>
+            </value>
+            <value>
+                <fullName>Enrollment Success</fullName>
+                <default>false</default>
+                <label>Enrollment Success</label>
             </value>
             <value>
                 <fullName>Treatment Period Started</fullName>
@@ -40,6 +74,12 @@
                 <fullName>Drop Out</fullName>
                 <default>false</default>
                 <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Enrolled</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Enrolled</label>
             </value>
         </valueSetDefinition>
     </valueSet>

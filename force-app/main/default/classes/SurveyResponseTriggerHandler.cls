@@ -31,17 +31,18 @@ public without sharing class SurveyResponseTriggerHandler {
         taskStatusChanger(invitationSubmitterClose, true);
     }
 
+    @TestVisible
     private static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
                         InviteExpiryDateTime,
-                        Participant_Study_Enrollment__r.Participant_Contact__c
+                        Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Id IN:invitationSubmitter.keySet()
         ]);
         Set<Id> contactsIds = new Set<Id>();
         for(SurveyInvitation si : invitationMap.values()) {
-            contactsIds.add(si.Participant_Study_Enrollment__r.Participant_Contact__c);
+            contactsIds.add(si.Participant_Enrollment__r.Participant_Contact__c);
             contactsIds.addAll(invitationSubmitter.get(si.Id));
         }
 
@@ -62,12 +63,15 @@ public without sharing class SurveyResponseTriggerHandler {
                     if(t.WhoId == submitterId) {
                         if(forFinish) {
                             TaskService.getInstance().completeTask(t);
+                            if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                                invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
+                            }
                         } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
                         break;
                     } else if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
-                        if(t.WhoId == invitationMap.get(t.Description).Participant_Study_Enrollment__r.Participant_Contact__c) {
+                        if(t.WhoId == invitationMap.get(t.Description).Participant_Enrollment__r.Participant_Contact__c) {
                             if(forFinish) {
                                 TaskService.getInstance().completeTask(t);
                                 invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
