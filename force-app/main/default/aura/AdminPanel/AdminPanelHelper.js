@@ -29,12 +29,10 @@
         });
     },
 
-    getData : function (component, withSpin) {
-        var spinner = component.find('spinner');
-        if(withSpin) spinner.show();
+    getData : function (component, callback) {
         communityService.executeAction(component, 'getData', null, function (response) {
             component.set('v.jobs', response);
-            if(withSpin) spinner.hide();
         });
+        if(callback) callback();
     }
 });

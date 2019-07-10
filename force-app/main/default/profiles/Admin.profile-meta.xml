@@ -363,6 +363,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IntegrationVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IntegrationVisitTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -531,6 +535,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantEnrollmentFactory</apexClass>
         <apexClass>ParticipantDeduplicationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -971,7 +976,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_IntegrationReferralTrigger</apexClass>
+        <apexClass>Test_IntegrationVisitResultHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationVisitTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1024,6 +1033,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PatientDelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientVisitResultTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
