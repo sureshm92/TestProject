@@ -3,7 +3,7 @@
  */
 ({
     doInit: function (component, event, hepler) {
-        debugger;
+        console.log('ss ID = ',component.get('v.ssId'));
         if (!communityService.isInitialized()) return;
         component.set('v.userMode', communityService.getUserMode());
         var trialId = component.get('v.trialId');
@@ -22,6 +22,7 @@
             var initData = JSON.parse(returnValue);
             component.set('v.piBtnFilter', paramFilter);
             component.set('v.skipUpdate', true);
+            console.log('INIT DATA>>>>>>', initData);
             component.set('v.pageList', initData.currentPageList);
             component.set('v.peFilterData', initData.peFilterData);
             component.set('v.paginationData', initData.paginationData);

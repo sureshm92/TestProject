@@ -14,14 +14,6 @@ public without sharing class SurveyService {
             'Patient and each Delegate' => TaskService.TASK_VISIBILITY_OWNER
     };
 
-    public static List<String> getAvailableStatuses() {
-        List<String> statuses = new List<String>();
-        statuses.addAll(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD);
-        statuses.addAll(PSEService.PSE_STATUS_GROUP_ALL);
-
-        return statuses;
-    }
-
     public class SurveyWrapper {
         public String name;
         public String url;
@@ -78,12 +70,11 @@ public without sharing class SurveyService {
 
         if (ts.Expires_After_Days__c != null) {
             Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
-            Datetime expiry = Datetime.newInstanceGmt(
+            Datetime expiry = Datetime.newInstance(
                     today.year(),
                     today.month(),
                     today.day()
             );
-
             invitation.InviteExpiryDateTime = expiry;
         }
 
@@ -112,7 +103,6 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-
             invitation.InviteExpiryDateTime = expiry;
         }
 
@@ -134,5 +124,29 @@ public without sharing class SurveyService {
     public Boolean isInvitationExpired(Id invitationId) {
         SurveyInvitation invitation = [SELECT InviteExpiryDateTime FROM SurveyInvitation WHERE Id = :invitationId];
         return invitation.InviteExpiryDateTime <= System.now();
+    }
+
+    public Boolean expireInvitation(List<String> invitationIds) {
+        for(String invId : invitationIds){
+            if(invId == null || Id.valueOf(invId).getSobjectType() != SurveyInvitation.getSObjectType()) {
+                return false;
+            }
+        }
+
+        List<SurveyInvitation> invitations = [
+                SELECT Id, InviteExpiryDateTime FROM SurveyInvitation WHERE Id IN: invitationIds
+        ];
+
+        if(!invitations.isEmpty()) {
+            for(SurveyInvitation inv : invitations) {
+                if(inv.InviteExpiryDateTime != null && inv.InviteExpiryDateTime > System.now()) {
+                    inv.InviteExpiryDateTime = System.now();
+                }
+            }
+            update invitations;
+            return true;
+        }
+
+        return false;
     }
 }

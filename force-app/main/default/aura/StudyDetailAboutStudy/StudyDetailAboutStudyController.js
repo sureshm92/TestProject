@@ -42,4 +42,24 @@
         }
     },
 
+    onShareClick : function (component, event, helper) {
+        let url = component.get('v.studyDetail').trial.Share_URL__c + 'none';
+        let text = 'A clinical study of interest';
+        let id = event.currentTarget.dataset.id;
+        switch (id) {
+            case 'email':
+                helper.onEmailClick(component);
+                break;
+            case 'facebook':
+                helper.onFacebookClick(component, url, text);
+                break;
+            case 'twitter':
+                helper.onTwitterClick(component, url, text);
+                break;
+            case 'linkedin':
+                helper.onLinkedInClick(component, url);
+                break;
+        }
+    },
+
 })

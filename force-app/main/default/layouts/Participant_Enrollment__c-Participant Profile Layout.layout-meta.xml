@@ -29,7 +29,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Days_After_Referred__c</field>
+                <field>IsRequestDataFromSDH__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Study_ID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>External_Key__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

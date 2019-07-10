@@ -1,0 +1,42 @@
+<!--
+  - Created by Dmytro Pokutnii
+  -->
+<aura:component controller="VisitResultsRemote" description="VisitResultsPanel">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="visitResultGroupName" type="String"/>
+    <aura:attribute name="isVitals" type="Boolean" default="false"/>
+
+    <aura:attribute name="visitResultsContainer" type="VisitResultsService.VisitResultsContainer" access="private"/>
+    <aura:attribute name="displayPanel" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+
+    <!-- HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- COMPONENT BODY -->
+
+    <aura:if isTrue="{!v.displayPanel}">
+        <div class="rr-white-panel visit-result-panel">
+            <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="false"/>
+            <aura:if isTrue="{!v.initialized}">
+                <div class="visit-result-panel-title">
+                    {!v.visitResultsContainer.groupName}
+                </div>
+                <div class="visit-result-panel-date">
+                    {!$Label.c.Visit_Results_Tab_Result_Date + '  ' + v.visitResultsContainer.visitDate}
+                </div>
+                <div class="visit-result-items-container">
+                    <aura:iteration items="{!v.visitResultsContainer.wrappers}" var="wrapper">
+                        <div class="visit-result-item-container">
+                            <c:VisitResultsItem wrapper="{!wrapper}" isVitals="{!v.isVitals}"/>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+        </div>
+    </aura:if>
+
+</aura:component>

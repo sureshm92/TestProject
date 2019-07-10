@@ -1,0 +1,19 @@
+<!--
+ - Created by Dmytro Pokutnii
+ -->
+<aura:component description="VisitResultsDashboardCard">
+
+    <!-- ATTRIBUTES -->
+
+    <!-- HANDLERS -->
+
+    <!-- COMPONENT BODY -->
+
+    <c:RRPanel >
+        <!--<aura:set attribute="header">{!$Label.c.Visit_Results_Dashboard_My_Results}</aura:set>-->
+        <div>
+            
+        </div>
+    </c:RRPanel>
+
+</aura:component>
