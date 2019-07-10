@@ -98,6 +98,7 @@ public with sharing class IntegrationVisitTriggerHandler {
         newVisit.Name = externalVisit.Visit__c;
         newVisit.Status__c = 'Completed';
         newVisit.Completed_Date__c = externalVisit.SVSTDTC__c;
+        newVisit.Visit_Number__c = externalVisit.VISITNUM__c;
         newVisit.Participant_Study_Enrollment__c = pseIdsMap.get(externalVisit.External_Key__c);
         return newVisit;
     }
