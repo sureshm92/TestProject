@@ -14,14 +14,6 @@ public without sharing class SurveyService {
             'Patient and each Delegate' => TaskService.TASK_VISIBILITY_OWNER
     };
 
-    public static List<String> getAvailableStatuses() {
-        List<String> statuses = new List<String>();
-        statuses.addAll(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD);
-        statuses.addAll(PSEService.PSE_STATUS_GROUP_ALL);
-
-        return statuses;
-    }
-
     public class SurveyWrapper {
         public String name;
         public String url;
