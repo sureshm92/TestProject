@@ -1,10 +1,7 @@
 ({
     doInit: function (component, event, helper) {
-        if (component.get('v.userMode') == 'PI') {
-            setTimeout($A.getCallback(function () {
-                helper.doUpdateStudyTitle(component);
-                component.set("v.detailsExpanded", true);
-            }), 10);
+        if(component.get('v.userMode')=='PI') {
+            component.set("v.detailsExpanded", true);
         }
     },
 
@@ -122,10 +119,10 @@
         }
     },
     clampDrivingInstuctions: function (component, event, helper) {
-        setTimeout($A.getCallback(function () {
+       /* setTimeout($A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
             // helper.doUpdateStudyDescription(component);
-        }), 10);
+        }), 10);*/
     },
 
     saveChanges: function (component, event, helper) {
@@ -168,17 +165,31 @@
 
     showManageLocationDetails: function (component, event, helper) {
         component.set('v.editAddress',false);
+        component.set('v.checkedAccount',null);
+        component.set('v.locationWasChanged',false);
+        component.set('v.currentCountry',null);
+        component.set('v.editedAccount',null);
+        var accounts = component.get('v.contactAccounts');
         var popupIndex = event.currentTarget.dataset.index;
         component.set('v.popupIndex', popupIndex);
-        setTimeout($A.getCallback(function () {
-            helper.doUpdateStudyTitle(component);
-        }), 1);
         var popUps = component.find('manage-location');
         if(popUps.length) {
             popUps[popupIndex].show();
+            component.set('v.contactAccounts',null);
+            component.set('v.contactAccounts',accounts);
+            setTimeout($A.getCallback(function () {
+                helper.doUpdateStudyTitle(component);
+            }), 5);
         } else {
             popUps.show();
+
+            component.set('v.contactAccounts',null);
+            component.set('v.contactAccounts',accounts);
+            setTimeout($A.getCallback(function () {
+                helper.doUpdateStudyTitle(component);
+            }), 5);
         }
+
     },
 
     changeRadioMarker: function (component,event,helper) {
@@ -203,16 +214,25 @@
 
 
     editAccountAddress: function(component,event,helper){
+        component.set('v.addressChecked',false);
         var editIndx = event.target.dataset.indx;
         var ssIndex = event.target.dataset.index;
+        component.set('v.states',[]);
         var cmp;
         if(editIndx) {
-            cmp = component.get('v.contactAccounts')[editIndx];
+            cmp = JSON.parse(JSON.stringify(component.get('v.contactAccounts')[editIndx]));
         } else if(!editIndx && !ssIndex){
-            cmp = new Object({'Id': null});
+            cmp = new Object({'Id': null, 'BillingCountry':null});
         }
         else{
-            cmp = component.get('v.currentStudy.ssList')[ssIndex].Site__r;
+            cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].Site__r));
+        }
+        if(cmp.BillingCountry){
+            var countryCodeByName = component.get('v.countryCodesMap');
+            var statesMapByCountry = component.get('v.statesByCountryMap');
+            component.set('v.currentCountry',countryCodeByName[cmp.BillingCountry]);
+            var states = statesMapByCountry[countryCodeByName[cmp.BillingCountry]];
+            component.set('v.states', states);
         }
         component.set('v.editedAccount', cmp);
         component.set('v.editAddress',true);
@@ -225,20 +245,39 @@
     backToTheChoice: function(component,event,helper){
         component.set('v.editAddress',false);
         component.set('v.editedAccount',null);
+        component.set('v.showPopUpSpinner',false);
         setTimeout($A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
-        }), 1);
+        }), 10);
+        component.set('v.currentCountry',null);
+        component.set('v.states',[]);
+        component.set('v.addressChecked',false);
     },
     saveNewAccount:function(component,event,helper){
         var ssIndex = event.currentTarget.value;
+        component.set('v.addressChecked',false);
         var newAccount = component.get('v.editedAccount');
         var element = component.get('v.currentStudy.ssList');
         var currentSS = element[ssIndex];
         currentSS.Site__r = newAccount;
-        var isDefault = component.get('v.makeDefault');
-        currentSS.makeDefault = isDefault;
+        var states = component.get('v.states');
+        if(states){
+            for (let i = 0; i < states.length ; i++) {
+                if(states[i].value == currentSS.Site__r.BillingStateCode){
+                    currentSS.Site__r.BillingState = states[i].label;
+                    break;
+                }
+            }
+        }
         var parent = component.get('v.parent');
         component.set('v.addressWasChanged',false);
+        var popUps = component.find('manage-location');
+        var popupIndex = component.get('v.popupIndex');
+        if(popUps.length) {
+            popUps[popupIndex].hide();
+        } else {
+            popUps.hide();
+        }
         parent.saveSSnewAddress(currentSS);
     },
     showChecked: function (component,event,helper) {
@@ -246,5 +285,62 @@
     },
     recordWasUpdated:function (component,event,helper) {
         component.set('v.addressWasChanged',true);
+    },
+
+    trimChanges:function(component,event,helper){
+        var val = event.getSource().get('v.value');
+        event.getSource().set('v.value',val.trim());
+    },
+
+    doCountryChange: function (component, event, helper) {
+        component.set('v.addressWasChanged',true);
+        component.set('v.addressChecked',false);
+        var statesMapByCountry = component.get('v.statesByCountryMap');
+        var acc = component.get('v.editedAccount');
+        if(acc) {
+            var countryNameByCode = component.get('v.countriesMap');
+            var countryCode = component.get('v.currentCountry');
+            component.set('v.editedAccount.BillingCountry', countryNameByCode[countryCode]);
+            var states = statesMapByCountry[countryCode];
+            if (states) {
+                component.set('v.states', states);
+            } else {
+                component.set('v.editedAccount.BillingState','');
+                component.set('v.states', []);
+            }
+        }
+    },
+
+    checkAddress:function(component,event,helper){
+        component.set('v.showPopUpSpinner',true);
+        var currentAccount = component.get('v.editedAccount');
+        var parent = component.get('v.parent');
+        parent.insertAccountForCheck(currentAccount);
+    },
+
+    removeCreatedAccount:function(component,event,helper) {
+        var check = component.get('v.checkedAccountWasCreated');
+        if (check) {
+            component.set('v.checkedAccountWasCreated', false);
+            window.setTimeout($A.getCallback(function () {
+                var parent = component.get('v.parent');
+                parent.removeCheckAccount();
+            }), 5000);
+        }
+    },
+
+    checkAccountWithLocation:function(component,event,helper){
+        var newAcc = component.get('v.accountWithCheckedLocation');
+        if(newAcc) {
+            var editAcc = component.get('v.editedAccount');
+            if(newAcc.BillingLongitude && newAcc.BillingLatitude) {
+                editAcc.BillingLongitude = newAcc.BillingLongitude;
+                editAcc.BillingLatitude = newAcc.BillingLatitude;
+                editAcc.BillingCity = newAcc.BillingCity;
+                component.set('v.editedAccount', editAcc);
+            }
+            component.set('v.showPopUpSpinner',false);
+            component.set('v.accountWithCheckedLocation', null);
+        }
     }
 })
