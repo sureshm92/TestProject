@@ -6,7 +6,7 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
 
     public Iterable<SObject> start(Database.BatchableContext param1) {
         List<Task> tasks = [
-                SELECT Id
+                SELECT Id, Description
                 FROM Task
                 WHERE ActivityDate <=: System.today()
                     AND Status IN: TaskService.TASK_STATUS_GROUP_EXPIRE_AVAILABLE
@@ -17,12 +17,17 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
     }
 
     public void execute(Database.BatchableContext param1, List<Task> tasks) {
-        for(Task t : tasks) t.Status = TaskService.TASK_STATUS_EXPIRED;
+        List<String> invitationIds = new List<String>();
+        for(Task t : tasks) {
+            t.Status = TaskService.TASK_STATUS_EXPIRED;
+            if(t.Description != null) invitationIds.add(t.Description);
+        }
         update tasks;
+
+        SurveyService.getInstance().expireInvitation(invitationIds);
     }
 
     public override Type getType() {
         return Batch_PatientTaskExpire.class;
     }
-
 }
