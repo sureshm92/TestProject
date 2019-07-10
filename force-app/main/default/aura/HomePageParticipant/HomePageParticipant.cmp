@@ -59,6 +59,7 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
+<!--                        <c:VisitResultsDashboardCard/>-->
                         <!--Hidden until the next release-->
 <!--                        <c:RRPanel>-->
 <!--                            <aura:set attribute="header">My Results</aura:set>-->
