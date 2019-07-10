@@ -4748,14 +4748,6 @@
         <layout>Visit_Result__c-Visit_Result Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Lab</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Vital</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
     </layoutAssignments>
     <loginIpRanges>
@@ -5141,16 +5133,6 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Trial_Survey__c.Time_based</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Visit_Result__c.Lab</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Visit_Result__c.Vital</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
