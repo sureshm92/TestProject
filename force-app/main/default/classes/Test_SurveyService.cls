@@ -37,6 +37,7 @@ private class Test_SurveyService {
 
         SurveyService.getInstance().getSurveyWrapper(invitation.Id);
         SurveyService.getAvailableStatuses();
+        SurveyService.getInstance().expireInvitation(new List<String>{invitation.Id});
         Test.stopTest();
     }
 

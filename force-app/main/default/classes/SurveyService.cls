@@ -146,7 +146,11 @@ public without sharing class SurveyService {
         ];
 
         if(!invitations.isEmpty()) {
-            for(SurveyInvitation inv : invitations) inv.InviteExpiryDateTime = System.now();
+            for(SurveyInvitation inv : invitations) {
+                if(inv.InviteExpiryDateTime != null && inv.InviteExpiryDateTime > System.now()) {
+                    inv.InviteExpiryDateTime = System.now();
+                }
+            }
             update invitations;
             return true;
         }
