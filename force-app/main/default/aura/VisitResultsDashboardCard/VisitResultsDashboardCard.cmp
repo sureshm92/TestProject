@@ -10,7 +10,7 @@
     <!-- COMPONENT BODY -->
 
     <c:RRPanel >
-        <aura:set attribute="header">{!$Label.c.Visit_Results_Dashboard_My_Results}</aura:set>
+        <!--<aura:set attribute="header">{!$Label.c.Visit_Results_Dashboard_My_Results}</aura:set>-->
         <div>
             
         </div>
