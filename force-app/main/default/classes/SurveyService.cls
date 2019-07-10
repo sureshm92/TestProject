@@ -78,7 +78,7 @@ public without sharing class SurveyService {
 
         if (ts.Expires_After_Days__c != null) {
             Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
-            Datetime expiry = Datetime.newInstanceGmt(
+            Datetime expiry = Datetime.newInstance(
                     today.year(),
                     today.month(),
                     today.day()

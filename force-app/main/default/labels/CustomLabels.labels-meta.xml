@@ -2605,6 +2605,13 @@
             To review the referrals, log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
     <labels>
+        <fullName>Empty_Visits_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty Visits tab</shortDescription>
+        <value>This feature is not available for Studies not participating in Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8893,10 +8900,17 @@ If you have questions or concerns, please contact the Principal Investigator at 
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In</shortDescription>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
         <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. 
-                  If you would like to view your data {0}.  You can opt-out at any time.Once data becomes available it will begin to display. If you
-questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+                  If you would like to view your data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
+        <value>.You can opt-out at any time.Once data becomes available it will begin to display. If you
+have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Labs</fullName>

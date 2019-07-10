@@ -13,7 +13,6 @@
 
     <!-- HANDLERS -->
 
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.okButtonClicked}" action="{!c.changeOptIn}"/>
 
     <!-- COMPONENT BODY -->
@@ -32,13 +31,15 @@
 
             <aura:set attribute="else">
                 <aura:if isTrue="{!!v.isOptIn}">
-                        <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
-                            <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
-                                <div aura:id="opt-in-body" onclick="{!c.openOptInModal}">
-                                    <aura:unescapedHtml  value="{!v.optInBody}"/>
-                                </div>
-                            </lightning:layoutItem>
-                        </lightning:layout>
+                    <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
+                        <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
+                            <div aura:id="opt-in-body" style="white-space: pre" >
+                                <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' '}
+                                    <span class="to-modal-link" onclick="{!c.openOptInModal}"> {!$Label.c.Visit_Results_Tab_Linked_Text}</span>
+                                    {!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_2}  </p>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
                 </aura:if>
             </aura:set>
         </aura:if>
