@@ -8,8 +8,10 @@ public without sharing class VisitResultSharingService {
     private static Boolean havePSE;
 
     static {
-        state = ParticipantService.getParticipantState();
-        havePSE = state.pse != null;
+        if([SELECT Id, ContactId FROM User WHERE Id =: UserInfo.getUserId()].ContactId != null){
+            state = ParticipantService.getParticipantState();
+            havePSE = state.pse != null;
+        }
     }
 
     public static Boolean isVisitResultAvailable() {
