@@ -26,7 +26,9 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                         WhatId,
                         WhoId
                 FROM Task
-                WHERE Reminder_Date__c <=: Datetime.now() AND Is_Reminder_Sent__c = FALSE
+                WHERE Reminder_Date__c <=: Datetime.now()
+                    AND Is_Reminder_Sent__c = FALSE
+                    AND (Status =: TaskService.TASK_STATUS_OPEN OR Status =: TaskService.TASK_STATUS_IN_PROGRESS)
         ];
 
         System.debug('Records found: '+ tasks.size());

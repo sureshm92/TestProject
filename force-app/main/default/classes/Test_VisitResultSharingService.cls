@@ -42,9 +42,10 @@ private class Test_VisitResultSharingService {
         );
         insert vr;
 
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults(new List<Visit_Result__c>{
-                vr
-        });
+        List<Visit_Result__c> visitResults;
+        System.runAs(testData.participantUser){
+            visitResults = VisitResultSharingService.processResults();
+        }
         Test.stopTest();
 
         System.assertEquals(1, visitResults.size());
@@ -56,11 +57,16 @@ private class Test_VisitResultSharingService {
 
         Test.startTest();
         TestData testData = new TestData();
+        testData.createPSE();
 
-        VisitResultSharingService.getCTP(testData.ctp.Id);
-        VisitResultSharingService.disableShareback(testData.ctp);
-        VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
-        VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<String>{testData.ss.Id});
+        System.runAs(testData.participantUser) {
+            VisitResultSharingService.isVisitResultAvailable();
+            VisitResultSharingService.getCTP(testData.ctp.Id);
+            VisitResultSharingService.disableShareback(testData.ctp);
+            VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
+            VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<String>{testData.ss.Id});
+        }
+
         Test.stopTest();
     }
 }

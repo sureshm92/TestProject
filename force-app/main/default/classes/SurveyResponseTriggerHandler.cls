@@ -31,6 +31,7 @@ public without sharing class SurveyResponseTriggerHandler {
         taskStatusChanger(invitationSubmitterClose, true);
     }
 
+    @TestVisible
     private static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
