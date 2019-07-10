@@ -83,7 +83,6 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-
             invitation.InviteExpiryDateTime = expiry;
         }
 
@@ -112,7 +111,6 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-
             invitation.InviteExpiryDateTime = expiry;
         }
 
@@ -134,5 +132,25 @@ public without sharing class SurveyService {
     public Boolean isInvitationExpired(Id invitationId) {
         SurveyInvitation invitation = [SELECT InviteExpiryDateTime FROM SurveyInvitation WHERE Id = :invitationId];
         return invitation.InviteExpiryDateTime <= System.now();
+    }
+
+    public Boolean expireInvitation(List<String> invitationIds) {
+        for(String invId : invitationIds){
+            if(invId == null || Id.valueOf(invId).getSobjectType() != SurveyInvitation.getSObjectType()) {
+                return false;
+            }
+        }
+
+        List<SurveyInvitation> invitations = [
+                SELECT Id, InviteExpiryDateTime FROM SurveyInvitation WHERE Id IN: invitationIds
+        ];
+
+        if(!invitations.isEmpty()) {
+            for(SurveyInvitation inv : invitations) inv.InviteExpiryDateTime = System.now();
+            update invitations;
+            return true;
+        }
+
+        return false;
     }
 }
