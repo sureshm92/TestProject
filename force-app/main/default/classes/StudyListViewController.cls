@@ -4,6 +4,8 @@
 
 public without sharing class StudyListViewController {
 
+    private static final String DUMMY_ACCOUNT_NAME='Dummy Account For Location Check';
+
     class StudiesGroup {
         String name;
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
@@ -20,6 +22,12 @@ public without sharing class StudyListViewController {
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         List<ParticipantItem> peList = new List<ParticipantItem>();
         List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
+        List<Account> contactAccounts = new List<Account>();
+        List<LabelValueItem> delegatePicklist = new List<LabelValueItem>();
+        List<LabelValueItem> countries = new List<LabelValueItem>{new LabelValueItem('None',null)};
+        Map<String, List<LabelValueItem>> statesByCountryMap;
+        Map<String,String> countriesMap;
+        Map<String,String> countryCodesMap;
     }
 
     @TestVisible
@@ -34,6 +42,7 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static String getStudyTrialList(String userMode) {
         try {
+            returnAndRemoveAccount();
             InitData initData = new InitData();
             List<StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
@@ -41,8 +50,13 @@ public without sharing class StudyListViewController {
                 groupTrials(initData, studies, userMode);
             } else if (userMode == CommunityService.USER_MODE_PI) {
                 studies = getStudiesForPI();
+                initData.contactAccounts = getPIAccounts(studies);
                 groupTrials(initData, studies, userMode);
-                loadStatistics(studies);
+                initData.delegatePicklist = StudyTrialService.getDelegatePicklistValues();
+                initData.countries.addAll(CountryStateUtil.getCountries());
+                initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+                initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
+                initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 for (Participant_Enrollment__c pe : peList) {
@@ -122,9 +136,15 @@ public without sharing class StudyListViewController {
 
     public static List<StudyDetailItem> getStudiesForPI() {
         // prepare map trialId -> StudySite
-        Map<Id, Study_Site__c> trialStudySiteMap = new Map<Id, Study_Site__c>();
+        Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
         for (Study_Site__c studySite : StudySiteService.getStudySitesForPI()) {
-            trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, studySite);
+            if (!trialStudySiteMap.keySet().contains(studySite.Clinical_Trial_Profile__c)) {
+                trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, new List<Study_Site__c>{
+                        studySite
+                });
+            } else {
+                trialStudySiteMap.get(studySite.Clinical_Trial_Profile__c).add(studySite);
+            }
         }
         // get trials and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialStudySiteMap.keySet());
@@ -133,13 +153,15 @@ public without sharing class StudyListViewController {
         // prepare result list:
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
-            Study_Site__c ss = trialStudySiteMap.get(trial.Id);
+            List<Study_Site__c> ss = trialStudySiteMap.get(trial.Id);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
-            studyDetailItem.studyStatus = ss.Override_PI_Referral_Status__c;
-            studyDetailItem.ss = ss;
+            studyDetailItem.studyStatus = ss[0].Override_PI_Referral_Status__c;
+            studyDetailItem.ssList = ss;
 
-            studyDetailItem.studyActions = new StudyActionsPI(trialStudySiteMap.get(trial.Id)).studyListViewItemActions;
+            for (Study_Site__c studSite : trialStudySiteMap.get(trial.Id)) {
+                studyDetailItem.studyActions = new StudyActionsPI(studSite).studyListViewItemActions;
+            }
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }
@@ -196,4 +218,54 @@ public without sharing class StudyListViewController {
         }
     }
 
+    public static List<Account> getPIAccounts(List<StudyDetailItem> studies) {
+        List<Account> accounts = StudyTrialService.getAccounts(studies);
+        return accounts;
+    }
+
+    @AuraEnabled
+    public static String saveSSChanges(String studySiteInfo) {
+        try {
+            StudyTrialService.saveSSChanges(studySiteInfo);
+            String newInitData = getStudyTrialList(CommunityService.USER_MODE_PI);
+            return newInitData;
+        } catch (Exception e) {
+            String status = (String) AuraHelper.throwException(e);
+            return status;
+        }
+    }
+
+
+    @AuraEnabled
+    public static String saveSSAddress(String studySiteInfo) {
+        try {
+            StudyTrialService.saveSSAddress(studySiteInfo);
+            String newInitData = getStudyTrialList(CommunityService.USER_MODE_PI);
+            return newInitData;
+        } catch (Exception e) {
+            String status = (String) AuraHelper.throwException(e);
+            return status;
+        }
+    }
+
+    @AuraEnabled
+    public static void checkAccountGeolocation(String account) {
+           Account newAccount = (Account) JSON.deserialize(account,Account.class);
+                Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME,
+                        BillingStreet = newAccount.BillingStreet,
+                        BillingCountry = newAccount.BillingCountry,
+                        BillingCity = newAccount.BillingCity);
+                insert accForCheck;
+    }
+
+    @AuraEnabled
+    public static String returnAndRemoveAccount(){
+        List<Account> acc = [SELECT Id,Name,BillingLongitude,BillingCity,BillingLatitude FROM Account WHERE Name =: DUMMY_ACCOUNT_NAME];
+        String valueToReturn;
+        if(acc.size()>0) {
+            valueToReturn = JSON.serialize(acc[0]);
+            delete acc;
+        }
+        return valueToReturn;
+    }
 }

@@ -1,5 +1,6 @@
 ({
     doInit: function (component, event, helper) {
+        console.log('currentObjects>>>',JSON.parse(JSON.stringify(component.get('v.currentObjects'))));
         helper.setFilterOptions(component);
         helper.setLabels(component);
         helper.setFilters(component);
@@ -16,7 +17,6 @@
     },
 
     doSearch: function (component, event, helper) {
-
         helper.setFilters(component);
         var text = component.get("v.searchText");
         var userMode = component.get("v.userMode");

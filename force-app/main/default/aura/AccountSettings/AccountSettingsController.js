@@ -201,8 +201,31 @@
             component.set('v.showSpinner', false);
         })
     },
-
+    
     checkUpdate : function (component, event, helper) {
         component.set('v.isUpdated', true);
-    }
+    },
+
+    doSwitchOptInVisitResults: function (component, event, helper) {
+        communityService.executeAction(component, 'changeOptInVisitResults', {}, function (returnValue) {
+            component.set("v.initData.myContact.Visit_Results_Opt_In__c", returnValue);
+            component.set("v.showModal", false);
+        });
+    },
+
+    closeVisitResultsOptInModal: function (component, event, helper) {
+        component.set("v.initData.myContact.Visit_Results_Opt_In__c", false);
+        component.set("v.showModal", false);
+
+    },
+
+    openVisitResultsOptInModal: function (component, event, helper) {
+        if (component.get("v.initData.myContact.Visit_Results_Opt_In__c")) {
+            component.set("v.showModal", true);
+        } else {
+            communityService.executeAction(component, 'changeOptInVisitResults', {}, function (returnValue) {
+                component.set("v.initData.myContact.Visit_Results_Opt_In__c", returnValue);
+            });
+        }
+    },
 })

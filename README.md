@@ -26,6 +26,8 @@ sfdx force:org:open
 ```
 - go to **State and Territory Picklists** and follow instruction for enable (temporary)
 - go to **Survey Settings** and enable 
+- go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
+- go to **Account Settings** and check "Allow users to relate a contact to multiple accounts"
 
 ##### 4) Push project to Scratch org:
 

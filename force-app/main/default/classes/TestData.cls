@@ -16,27 +16,51 @@ public class TestData {
     public Participant_Enrollment__c pe;
     
     public TestData(){
-        participant = [SELECT Id, Name FROM Participant__c WHERE Last_Name__c = 'Participant'];
+        participant = [
+                SELECT Id, Name
+                FROM Participant__c
+                WHERE Last_Name__c = 'Participant'
+        ];
         List<String> contactLastNames = new List<String>{
                 participant.Name,
                 'HCP',
                 'PI'
         };
-        List<User> users = [SELECT Id, LastName FROM User WHERE Contact.LastName IN: contactLastNames];
+        List<User> users = [SELECT Id, ContactId, LastName FROM User WHERE Contact.LastName IN: contactLastNames];
         for(User user : users){
             if(user.LastName == 'PI') piUser = user;
             if(user.LastName == 'HCP') hcpUser = user;
             if(user.LastName == participant.Name) participantUser = user;
         }
-        ctp = [SELECT Id, Therapeutic_Area__c FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
-        ss = [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctp.Id];
-        pe = [SELECT Id FROM Participant_Enrollment__c WHERE Participant__c =: participant.Id];
+        ctp = [
+                SELECT Id, Therapeutic_Area__c
+                FROM Clinical_Trial_Profile__c
+                WHERE NCT_Number__c = 'NCT00000001'
+        ];
+        ss = [
+                SELECT Id, Visit_Results_Sharing__c
+                FROM Study_Site__c
+                WHERE Clinical_Trial_Profile__c =: ctp.Id
+        ];
+        pe = [
+                SELECT Id,
+                        Participant_Contact__c,
+                        Screening_ID__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c =: participant.Id
+        ];
     }
     
     public void createPSE(){
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
-        pse = [SELECT Id, Participant_Contact__c FROM Participant_Study_Enrollment__c WHERE Participant__c =: participant.Id];
+        pse = [
+                SELECT Id,
+                        Participant_Contact__c,
+                        Screening_ID__c
+                FROM Participant_Study_Enrollment__c
+                WHERE Participant__c =: participant.Id
+        ];
     }
     
     
@@ -117,7 +141,10 @@ public class TestData {
                 Therapeutic_Area__c = area.Id,
                 Participating_in_Digital_Recruitment__c = 'YES',
                 Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes'
+                Participating_in_Patient_Portal__c = 'Yes',
+                Shareback_Settings_On_Participant_Level__c = true,
+                Shareback_Availability_Timing__c = 1,
+                Visit_Data_Shareback__c = true
         );
         insert study;
     
@@ -170,7 +197,8 @@ public class TestData {
                 Patient_ID__c = 'SomePatientId1',
                 Referral_Source__c = 'HCP',
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
-                Participant__c = participant.Id
+                Participant__c = participant.Id,
+                Screening_ID__c = 'TestScrId12345'
         );
         insert pe;
         

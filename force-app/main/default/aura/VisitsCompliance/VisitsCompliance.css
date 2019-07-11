@@ -1,0 +1,32 @@
+.THIS.visit-compliance-panel {
+    margin-top: 40px;
+}
+
+.THIS .visit-assessment-inf {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.THIS .to-modal-link{
+    color: #00a1e0;
+    text-decoration: underline;
+}
+
+.THIS .to-modal-link:hover{
+    color: blue;
+    cursor: pointer;
+}
+
+.THIS .white-space{
+    white-space: pre;
+}
+
+@media (max-width: 1100px) {
+    .THIS .white-space {
+        white-space: normal;
+    }
+}

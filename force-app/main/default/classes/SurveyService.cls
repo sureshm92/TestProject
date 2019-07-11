@@ -43,7 +43,7 @@ public without sharing class SurveyService {
                     SELECT
                             InvitationLink,
                             Survey.Name,
-                            Participant_Study_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                            Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
                     FROM SurveyInvitation
                     WHERE Id = :invitationId
             ];
@@ -51,17 +51,17 @@ public without sharing class SurveyService {
             return new SurveyWrapper(
                     invitation.Survey.Name,
                     invitation.InvitationLink,
-                    invitation.Participant_Study_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
+                    invitation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
         } catch (Exception e) {
-            throw new SurveyException(e.getCause() + '\n' + e.getMessage());
+            throw new SurveyService.SurveyException(e.getCause() + '\n' + e.getMessage());
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Participant_Study_Enrollment__c pse) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId) {
         SurveyInvitation invitation = new SurveyInvitation(
                 CommunityId = CommunityService.getCommunityId(null),
                 Name = ts.Survey__r.Name + ':TS:' + ts.Id,
-                Participant_Study_Enrollment__c = pse.Id,
+                Participant_Enrollment__c = peId,
                 Reminder_Schedule__c = ts.Reminder_Schedule__c,
                 SurveyId = ts.Survey__c,
                 Survey__c = ts.Survey__c,
@@ -70,12 +70,11 @@ public without sharing class SurveyService {
 
         if (ts.Expires_After_Days__c != null) {
             Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
-            Datetime expiry = Datetime.newInstanceGmt(
+            Datetime expiry = Datetime.newInstance(
                     today.year(),
                     today.month(),
                     today.day()
             );
-
             invitation.InviteExpiryDateTime = expiry;
         }
 
@@ -86,12 +85,12 @@ public without sharing class SurveyService {
             Survey survey,
             Reminder_Schedule__c schedule,
             Integer expiresAfterDays,
-            Participant_Study_Enrollment__c pse
+            Id peId
     ) {
         SurveyInvitation invitation = new SurveyInvitation(
                 CommunityId = CommunityService.getCommunityId(null),
-                Name = survey.Name + ':PSE:' + pse.Id,
-                Participant_Study_Enrollment__c = pse.Id,
+                Name = survey.Name + ':PE:' + peId,
+                Participant_Enrollment__c = peId,
                 Reminder_Schedule__c = schedule.Id,
                 SurveyId = survey.Id,
                 Survey__c = survey.Id
@@ -104,7 +103,6 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-
             invitation.InviteExpiryDateTime = expiry;
         }
 
@@ -116,7 +114,7 @@ public without sharing class SurveyService {
                 SELECT Id
                 FROM SurveyInvitation
                 WHERE SurveyId = :surveyId
-                AND Participant_Study_Enrollment__r.Participant_Contact__c = :participantContactId
+                AND Participant_Enrollment__r.Participant_Contact__c = :participantContactId
         ];
         if (invitation.isEmpty()) return '';
 
@@ -126,5 +124,29 @@ public without sharing class SurveyService {
     public Boolean isInvitationExpired(Id invitationId) {
         SurveyInvitation invitation = [SELECT InviteExpiryDateTime FROM SurveyInvitation WHERE Id = :invitationId];
         return invitation.InviteExpiryDateTime <= System.now();
+    }
+
+    public Boolean expireInvitation(List<String> invitationIds) {
+        for(String invId : invitationIds){
+            if(invId == null || Id.valueOf(invId).getSobjectType() != SurveyInvitation.getSObjectType()) {
+                return false;
+            }
+        }
+
+        List<SurveyInvitation> invitations = [
+                SELECT Id, InviteExpiryDateTime FROM SurveyInvitation WHERE Id IN: invitationIds
+        ];
+
+        if(!invitations.isEmpty()) {
+            for(SurveyInvitation inv : invitations) {
+                if(inv.InviteExpiryDateTime != null && inv.InviteExpiryDateTime > System.now()) {
+                    inv.InviteExpiryDateTime = System.now();
+                }
+            }
+            update invitations;
+            return true;
+        }
+
+        return false;
     }
 }

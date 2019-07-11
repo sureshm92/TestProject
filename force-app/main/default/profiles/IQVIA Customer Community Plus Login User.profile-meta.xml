@@ -32,7 +32,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>AddPatientByPIRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AdminPanelRemote</apexClass>
@@ -343,6 +343,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>InfoModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -536,7 +540,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
@@ -564,6 +568,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientVisitService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -619,6 +627,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceArticleVideoService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceBasicService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceContentClassService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -632,6 +648,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceExpirationBatchHandlerImpl</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceFavoriteService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -652,6 +672,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyDocumentService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyRelatedService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceTARelatedService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -684,7 +716,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailTemplate</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailToParticipant</apexClass>
@@ -792,7 +824,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyResponseTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyService</apexClass>
@@ -920,6 +952,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationPatientTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1055,7 +1091,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_UserService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1139,6 +1183,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisitResultMService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitResultSharingCountryLookupRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1152,6 +1200,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitResultSharingService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultsService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1975,6 +2031,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Patient_Visit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Event.Reminder_Date__c</field>
         <readable>true</readable>
@@ -2217,6 +2278,26 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>HCP_Enrollment__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icon_Details__c.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icon_Details__c.Icons_package__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icon_Details__c.Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Icons_package__c.Visit_Plan__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2813,6 +2894,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Contacted__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Days_After_Referred__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4061,6 +4147,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SurveyInvitation.Participant_Enrollment__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>SurveyInvitation.Participant_Study_Enrollment__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4097,6 +4188,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Originator__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Patient_Visit__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4355,11 +4451,6 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type_Group__c.Group_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
         <readable>false</readable>
@@ -4373,16 +4464,6 @@
         <editable>false</editable>
         <field>Visit_Result_Type_Sharing__c.Type__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Code__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type__c.Visit_Result_Label__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4406,7 +4487,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Visit_Result__c.Result_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Visit__c.Icons__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit__c.Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4470,6 +4561,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>HCP_Enrollment__c-HCP Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Icon_Details__c-icons detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>
@@ -4663,24 +4757,10 @@
         <layout>Visit_Result_TypeM__mdt-Visit Result Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result_Type_Group__c-Visit Result Type Group Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit_Result_Type_Sharing__c-Visit Result Type Sharing Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result_Type__c-Visit Result Type Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Vitals</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
@@ -5083,16 +5163,6 @@
         <recordType>Trial_Survey__c.Time_based</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Visit_Result__c.Vitals</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Admin_Panel</tab>
         <visibility>Hidden</visibility>
@@ -5107,7 +5177,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>

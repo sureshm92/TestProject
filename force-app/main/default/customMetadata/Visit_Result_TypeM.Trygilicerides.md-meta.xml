@@ -3,8 +3,12 @@
     <label>Trygilicerides</label>
     <protected>false</protected>
     <values>
+        <field>Display_Order__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:type="xsd:string">TRIRC</value>
+        <value xsi:type="xsd:string">TRIRC,TRIG</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>
@@ -13,5 +17,9 @@
     <values>
         <field>Visit_Result_Label__c</field>
         <value xsi:type="xsd:string">Trygilicerides</value>
+    </values>
+    <values>
+        <field>Visit_Result_Type__c</field>
+        <value xsi:type="xsd:string">Lab</value>
     </values>
 </CustomMetadata>

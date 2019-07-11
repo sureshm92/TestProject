@@ -461,9 +461,11 @@ public without sharing class StudyTrialService {
                         , Study_Code_Name__c
                         , Official_Title__c
                         , Sponsor_Pays_for_Referral_Activity__c
+                        , NCT_Number__c
 
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
+                ORDER BY Study_Code_Name__c
         ];
     }
 
@@ -572,5 +574,148 @@ public without sharing class StudyTrialService {
         });
         if (trials.size() > 0) return trials[0];
         return null;
+    }
+
+    public static List<Account> getAccounts(List<StudyDetailItem> studies) {
+        try {
+            Map<Id,Account> accountMap = new Map<Id,Account>();
+            for (AccountContactRelation piAccounts : [SELECT Id,
+                                                             Contact.Id,
+                                                             Contact.Name,
+                                                             Contact.primaryContact__c,
+                                                             Account.Id,
+                                                             Account.Name,
+                                                             Account.ParentId,
+                                                             Account.BillingCountry,
+                                                             Account.BillingCity,
+                                                             Account.BillingStreet,
+                                                             Account.BillingPostalCode,
+                                                             Account.BillingState,
+                                                             Account.BillingStateCode,
+                                                             Account.BillingLatitude,
+                                                             Account.BillingLongitude,
+                                                             Account.Driving_Directions__c,
+                                                             Account.Parking_Instructions__c
+                                                             FROM AccountContactRelation
+                                                             WHERE ContactId = : CommunityService.getInstance().getCurrentContactId()]) {
+                accountMap.put(piAccounts.Account.Id,piAccounts.Account);
+            }
+                    for(StudyDetailItem sdi : studies){
+                        for(Study_Site__c ss : sdi.ssList) {
+                            if(!ss.Account_Was_Changed__c) {
+                                accountMap.put(ss.Site__r.Id,ss.Site__r);
+                            }
+                        }
+                    }
+            return accountMap.values();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    private static String checkIfNull(String value){
+        if(value==null){
+            return '';
+        } else{
+            return value;
+        }
+    }
+
+    public static List<LabelValueItem> getDelegatePicklistValues(){
+        try {
+            Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
+            for(Site_Staff__c delegatesSites : [SELECT Id,
+                                                 Site_Contact__r.Name,
+                                                 Site_Contact__c
+                                            FROM Site_Staff__c
+                                            WHERE Study_Site__r.Principal_Investigator__c =: CommunityService.getInstance().getCurrentContactId()
+                                            ]){
+                    delegates.put(delegatesSites.Site_Contact__c,new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
+            }
+            List<LabelValueItem> labelList = new List<LabelValueItem>();
+            if(!delegates.isEmpty()){
+                labelList.add(new LabelValueItem('None', ' '));
+                labelList.addAll(delegates.values());
+            }
+            return labelList;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static void saveSSChanges(String studySiteInfo) {
+        try {
+            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            Study_Site__c ssToUpdate = [SELECT Id, Site_Staff__c, Study_Site_Email__c,Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :ss.Id LIMIT 1];
+            ssToUpdate.Study_Site_Phone__c = ss.Study_Site_Phone__c;
+            ssToUpdate.Study_Site_Email__c = ss.Study_Site_Email__c;
+            ssToUpdate.Site_Staff__c = ss.Site_Staff__c;
+            ssToUpdate.Name = ss.Name;
+            ssToUpdate.Site__c = ss.Site__c;
+            update ssToUpdate;
+        } catch (Exception e) {
+            String status = (String) AuraHelper.throwException(e);
+        }
+    }
+
+    public static void saveSSAddress(String studySiteInfo) {
+        try {
+            Id contactId = CommunityService.getInstance().getCurrentContactId();
+            Contact currentContact = [SELECT Id, OwnerId, AccountId FROM Contact WHERE Id = :contactId];
+            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            Map<String, Object> acc = (Map<String, Object>) JSON.deserializeUntyped(studySiteInfo);
+            String accString = JSON.serialize(acc.get('Site__r'));
+            Account newAccount = (Account) JSON.deserialize(accString, Account.class);
+            Account createAccount = new Account();
+            if (newAccount.Id == null) {
+                createAccount = setFields(newAccount,currentContact,false);
+                insert createAccount;
+                currentContact.AccountId = createAccount.Id;
+                update currentContact;
+            } else {
+                if (newAccount.ParentId == null) {
+                    createAccount = setFields(newAccount,currentContact,false);
+                    insert createAccount;
+                    List<AccountContactRelation> removeAccContRelation = [
+                            SELECT Id,
+                                    IsDirect
+                            FROM AccountContactRelation
+                            WHERE AccountId = :newAccount.Id AND ContactId = :contactId
+                            LIMIT 1
+                    ];
+                    currentContact.AccountId = createAccount.Id;
+                    update currentContact;
+                    if (!removeAccContRelation.isEmpty()) {
+                        delete removeAccContRelation[0];
+                    }
+                } else {
+                    createAccount = setFields(newAccount,currentContact,true);
+                    update createAccount;
+                    if (currentContact.AccountId != createAccount.Id) {
+                        currentContact.AccountId = createAccount.Id;
+                        update currentContact;
+                    }
+                }
+            }
+            Study_Site__c updSS = new Study_Site__c(Id = ss.Id, Account_Was_Changed__c = true, Site__c = createAccount.Id);
+            update updSS;
+        } catch (Exception e) {
+            String status = (String) AuraHelper.throwException(e);
+        }
+    }
+
+    private static Account setFields(Account newAccount,Contact currentContact,Boolean setId){
+        Account acc =  new Account(  Id = setId ? newAccount.Id : null,
+                Name = newAccount.Name,
+                ParentId = newAccount.ParentId,
+                BillingCountry = newAccount.BillingCountry,
+                BillingStreet = newAccount.BillingStreet,
+                BillingCity = newAccount.BillingCity,
+                BillingPostalCode = newAccount.BillingPostalCode,
+                Driving_Directions__c = newAccount.Driving_Directions__c,
+                Parking_Instructions__c = newAccount.Parking_Instructions__c,
+                BillingState = newAccount.BillingState,
+                OwnerId = currentContact.OwnerId);
+        return acc;
     }
 }

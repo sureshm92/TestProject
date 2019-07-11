@@ -56,6 +56,7 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.Language__c = participant.Language_Preference_Code__c;
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+
                 contactsToInsert.add(newContact);
                 participantsByEmail.put(participant.Email__c, participant);
 

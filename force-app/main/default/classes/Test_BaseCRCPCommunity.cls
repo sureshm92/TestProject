@@ -809,4 +809,69 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
+
+    @IsTest
+    static void testSaveNewAddress() {
+        init();
+        Test.startTest();
+        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
+        Account testAccount = new Account(Name = 'Test Name', BillingStreet = 'BillingStreet');
+        insert testAccount;
+        studySite.Site__c = testAccount.Id;
+        update studySite;
+        studySite = [SELECT Id, Name, Site__r.ParentId, Site__r.Name,Site__r.Id,Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
+        String ssId;
+        System.runAs(piUser) {
+            studySite.Site__r.BillingStreet = 'Test Street';
+            ssId = studySite.Site__r.Id;
+            studySite.Site__r.Id = null;
+            String status = StudyListViewController.saveSSAddress(JSON.serialize(studySite));
+        }
+        Study_Site__c testStudySite = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
+        System.assertNotEquals(ssId, testStudySite.Site__r.Id);
+        System.runAs(piUser) {
+            testStudySite.Site__r.BillingStreet = 'Test Street 2';
+            String status2 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite));
+        }
+        Study_Site__c testStudySite2 = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 2'];
+        System.assertEquals(testStudySite2.Site__r.ParentId, testStudySite.Site__r.Id);
+        System.runAs(piUser) {
+            testStudySite2.Site__r.BillingStreet = 'Test Street 3';
+            String status3 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite2));
+        }
+        Study_Site__c testStudySite3 = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
+        System.assertEquals(testStudySite2.Site__r.Id, testStudySite3.Site__r.Id);
+        Test.stopTest();
+    }
+
+
+    @IsTest
+    static void testSaveSSDetails() {
+        init();
+        Test.startTest();
+        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
+        studySite = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
+        System.runAs(piUser) {
+            studySite.Study_Site_Phone__c = '123456789';
+            String status = StudyListViewController.saveSSChanges(JSON.serialize(studySite));
+        }
+            Study_Site__c updatedSS = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
+            System.assertEquals(studySite.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void checkDummyAccountsTest(){
+        Account acc = new Account(BillingStreet = 'Test Street',
+                                  BillingCountry = 'United States',
+                                  BillingCity = 'Test City');
+        Test.startTest();
+            StudyListViewController.checkAccountGeolocation(JSON.serialize(acc));
+            List<Account> accListForCheck = [SELECT Id FROM Account WHERE Name='Dummy Account For Location Check'];
+            System.assertEquals(1,accListForCheck.size());
+            StudyListViewController.returnAndRemoveAccount();
+            List<Account> accListForCheckAfterDel = [SELECT Id FROM Account WHERE Name='Dummy Account For Location Check'];
+            System.assertEquals(0,accListForCheckAfterDel.size());
+        Test.stopTest();
+    }
 }
