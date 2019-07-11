@@ -54,31 +54,6 @@
             <!-- top bar -->
             <div class="{!if(or(v.userMode == 'HCP', v.userMode == 'PI'), 'sdv-top-bar sdv-top-bar-pi-rp ', 'sdv-top-bar ') + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
                 <div class="navigation rr-width-limiter side-padding">
-                    <aura:if isTrue="{!v.userMode == 'Participant'}">
-                        <aura:if isTrue="{!v.state != 'ALUMNI'}">
-                            <c:RRNavigationPath>
-                                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                                <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
-                            </c:RRNavigationPath>
-                            <aura:if isTrue="{!!empty(v.studyDetail.trial.Profile_Picture__c)}">
-                                <div class="rr-width-limiter">
-                                    <img class="contrast-logo" src="{!v.studyDetail.trial.Profile_Picture__c}"/>
-                                </div>
-                            </aura:if>
-                            <aura:if isTrue="{!empty(v.studyDetail.trial.Profile_Picture__c)}">
-                                <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
-                            </aura:if>
-                        </aura:if>
-                        <aura:if isTrue="{!v.state == 'ALUMNI'}">
-                            <c:RRNavigationPath>
-                                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                                <c:RRNPathItem label="{!$Label.c.PG_RW_Title}"/>
-                            </c:RRNavigationPath>
-                            <div class="rr-width-limiter">
-                                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
-                            </div>
-                        </aura:if>
-                    </aura:if>
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <c:RRNavigationPath>
                             <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
@@ -96,54 +71,10 @@
                                                          parent="{!this}"/>
                     </div>
 
-                    <aura:if isTrue="{!v.isReferringClinicsTabInitialized}">
-                        <div class="{!if(v.currentTab == 'tab-referred-clinics', 'visible-tab', 'invisible-tab')}">
-                            <c:MyReferringClinics ssId="{!v.ssId}"/>
-                        </div>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.isStudySitesTabInitialized}">
-                        <div class="{!if(v.currentTab == 'tab-referred-study-sites', 'visible-tab', 'invisible-tab')}">
-                            <c:MyStudySites/>
-                        </div>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.isReferredPatientsTabInitialized}">
-                        <div class="{!if(v.currentTab == 'tab-referred-patients', 'visible-tab', 'invisible-tab')}">
-                            <c:ViewPatients trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
-                        </div>
-                    </aura:if>
-
-                    <!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
-                    <!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
-                    <!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
-                    <!--                        </div>-->
-                    <!--                    </aura:if>-->
-
                     <aura:if isTrue="{!v.isReferralsTabInitialized}">
                         <div class="{!if(v.currentTab == 'tab-referrals', 'visible-tab', 'invisible-tab')}">
                             <c:ViewPatientsReferred  ssId="{!v.ssId}" trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
                         </div>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-reports'}">
-                        <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-visits'}">
-                        <c:StudyVisits visitMode="{!v.visitMode}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
-                        <c:TasksTab taskMode="{!v.taskMode}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
-                        <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
-                    </aura:if>
-
-                    <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
-                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}"/>
                     </aura:if>
                 </div>
             </div>

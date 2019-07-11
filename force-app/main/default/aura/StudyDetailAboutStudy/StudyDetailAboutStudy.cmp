@@ -160,51 +160,52 @@
                 <!-- right info section -->
                 <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
 
-
-                    <div class="slds-grid slds-wrap socialnetworks-section">
-                        <!-- terms and conditions action -->
-                        <div class="slds-col slds-size_1-of-2">
-                            <aura:if isTrue="{!and(v.studyDetail.trial.Terms_And_Conditions_ID__c, v.studyDetail.isTCAccepted)}">
-                                <div class="slds-grid slvi-section">
-                                    <div class="slds-col btn-wrapper">
-                                        <div id="{!v.studyDetail.ACT_VIEW_TC}" class="slvi-btn" onclick="{!c.doAction}">
-                                            <div class="btn-content">
-                                                <c:RRIcon iconName="paper-many"/>
-                                                {!$Label.c.BTN_View_terms_and_conditions}
+                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                        <div class="slds-grid slds-wrap socialnetworks-section">
+                            <!-- terms and conditions action -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <aura:if isTrue="{!and(v.studyDetail.trial.Terms_And_Conditions_ID__c, v.studyDetail.isTCAccepted)}">
+                                    <div class="slds-grid slvi-section">
+                                        <div class="slds-col btn-wrapper">
+                                            <div id="{!v.studyDetail.ACT_VIEW_TC}" class="slvi-btn" onclick="{!c.doAction}">
+                                                <div class="btn-content">
+                                                    <c:RRIcon iconName="paper-many"/>
+                                                    {!$Label.c.BTN_View_terms_and_conditions}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </aura:if>
-                        </div>
-                        <!-- social networks icons -->
-                        <div class="slds-col slds-size_1-of-2 socialnetworks">
-                            <aura:if isTrue="{!!empty(v.studyDetail.trial.NCT_Number__c)}">
-                                <div class="rri-icon slds-float_right">
-                                    <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
+                                </aura:if>
+                            </div>
+                            <!-- social networks icons -->
+                            <div class="slds-col slds-size_1-of-2 socialnetworks">
+                                <aura:if isTrue="{!!empty(v.studyDetail.trial.NCT_Number__c)}">
+                                    <div class="rri-icon slds-float_right">
+                                        <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
                                         <span class="slds-m-around_x-small">
                                             <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
                                         </span>
-                                    </a>
-                                    <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
+                                        </a>
+                                        <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
                                         <span class="slds-m-around_x-small">
                                             <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
                                         </span>
-                                    </a>
-                                    <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
+                                        </a>
+                                        <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
                                         <span class="slds-m-around_x-small">
                                             <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
                                         </span>
-                                    </a>
-                                    <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
+                                        </a>
+                                        <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
                                         <span class="slds-m-around_x-small">
                                             <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
                                         </span>
-                                    </a>
-                                </div>
-                            </aura:if>
+                                        </a>
+                                    </div>
+                                </aura:if>
+                            </div>
                         </div>
-                    </div>
+                    </aura:if>
 
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
