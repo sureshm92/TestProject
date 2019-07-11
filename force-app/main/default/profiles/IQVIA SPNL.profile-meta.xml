@@ -627,6 +627,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceArticleVideoService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceBasicService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceContentClassService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -640,6 +648,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceExpirationBatchHandlerImpl</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceFavoriteService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -660,6 +672,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyDocumentService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyRelatedService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceTARelatedService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1160,6 +1184,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitConfigurationRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitResultMService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>

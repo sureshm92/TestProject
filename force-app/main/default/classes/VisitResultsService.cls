@@ -56,13 +56,9 @@ public inherited sharing class VisitResultsService {
 
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
 
-        List<Patient_Visit__c> visits = this.getPatientVisits();
-        if (visits.isEmpty()) {
-            return null;
-        }
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
-        List<Visit_Result__c> visitResults = this.getVisitResults(visits[0].Id, visitResultTypes);
-        if (visitResults.isEmpty()) {
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
+        if(visitResults.isEmpty()) {
             return null;
         }
         Map<String, Visit_Result__c> visitResultsByTypeDeveloperNames = this.getVisitResultsByTypeDeveloperNames(visitResults);

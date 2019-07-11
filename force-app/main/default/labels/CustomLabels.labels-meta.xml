@@ -8882,6 +8882,13 @@
         <value>Visit Order</value>
     </labels>
     <labels>
+        <fullName>Visit_Results_Dashboard_My_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Dashboard My Results</shortDescription>
+        <value>My Results</value>
+    </labels>
+    <labels>
         <fullName>Visit_Results_Tab_Disclaimer</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8946,6 +8953,13 @@ have questions or concerns about this data, please contact the Principal Investi
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_Modal_Title</shortDescription>
         <value>Opt-in to view data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_No_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab No Results</shortDescription>
+        <value>Check back periodically to view visit assessment information.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Result_Date</fullName>
