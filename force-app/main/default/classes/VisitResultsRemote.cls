@@ -7,21 +7,16 @@ public inherited sharing class VisitResultsRemote {
     public static InitDataWrapper getInitData(String visitResultsMode) {
 
         try {
-            InitDataWrapper wrapper = new InitDataWrapper();
-            VisitResultsService service = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
-            ParticipantService.ParticipantState state = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();            wrapper.visitResultsGroupNames = service.getVisitResultsGroupNames(visitResultsMode);
-            List<Patient_Visit__c> visits = service.getPatientVisits();
-            if (state.participant != null && state.participant.Contact__c != null) {
-                wrapper.contact = state.participant.Contact__r;
-            }
-            if(visits != null & !visits.isEmpty()) {
-                List<Visit_Result__c> visitResults = service.getVisitResults(visits[0].Id, null);
-                if (visitResults != null) {
-                    wrapper.isDataMissed = visitResults.isEmpty();
-                }
+            InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(InitDataWrapper.class);
+            wrapper.isVisitResultsAvailable = VisitResultSharingService.isVisitResultAvailable();
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
+            if (peList.size() > 0 && peList[0].Participant__r != null && peList[0].Participant__r.Contact__c != null) {
+                wrapper.contact = peList[0].Participant__r.Contact__r;
             } else {
-                wrapper.isDataMissed = true;
+                throw new AuraHandledException('Contact is not defined.');
             }
+            wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
+            wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
             return wrapper;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -67,7 +62,9 @@ public inherited sharing class VisitResultsRemote {
         @AuraEnabled
         public Contact contact;
         @AuraEnabled
-        public Boolean isDataMissed;
+        public Boolean isVisitResultsAvailable;
+        @AuraEnabled
+        public Boolean isResultsExist;
         @AuraEnabled
         public List<String> visitResultsGroupNames;
     }

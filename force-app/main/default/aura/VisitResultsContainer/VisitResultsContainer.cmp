@@ -24,7 +24,8 @@
 
         <aura:if isTrue="{!v.initialized}">
 
-            <aura:if isTrue="{!and(v.initData.contact.Visit_Results_Opt_In__c, !v.initData.isDataMissed)}">
+            <aura:if
+                    isTrue="{!and(v.initData.contact.Visit_Results_Opt_In__c, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
                 <div class="visit-results-disclaimer">
                     {!$Label.c.Visit_Results_Tab_Disclaimer}
                 </div>
@@ -37,7 +38,9 @@
                 <aura:set attribute="else">
                     <c:VisitsCompliance contactId="{!v.initData.contact.Id}"
                                         isOptIn="{!v.initData.contact.Visit_Results_Opt_In__c}"
-                                        isEmpty="{!v.initData.isDataMissed}"/>
+                                        isVisitResultsExist="{!v.initData.isResultsExist}"
+                                        isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
+                    />
                 </aura:set>
             </aura:if>
 
