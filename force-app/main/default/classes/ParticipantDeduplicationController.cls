@@ -103,7 +103,8 @@ public class ParticipantDeduplicationController {
             userCommunytyType__c	=	'Participant',
             userCommunityMode__c	=	'Participant',
 			Email					=	referralRecord.email__c,
-			Phone					=	referralRecord.phone__c
+			Phone					=	referralRecord.phone__c,
+			AccountId					=	[SELECT id FROM Account WHERE Name = 'Participant'].id
         );
         insert newContact;
         System.debug('Limit' + Limits.getQueries());
@@ -127,7 +128,7 @@ public class ParticipantDeduplicationController {
         String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c; 
         Participant_Enrollment__c newPER = new Participant_Enrollment__c(
         	Clinical_Trial_Profile__c	= 	[SELECT id FROM Clinical_Trial_Profile__c WHERE Protocol_ID__c  = :referralRecord.protocolId__c].id,
-            Participant__c				=	newParticipant.id,
+            //Participant__c				=	newParticipant.id,
             Participant_Contact__c		=	newContact.id,
             Study_Site__c				= 	[SELECT id FROM Study_Site__c WHERE Primary_Key_ePR__c  = :studySiteNumber].id,
 			Pre_Eligibility__c = referralRecord.Pass_Fail__c,
@@ -137,7 +138,35 @@ public class ParticipantDeduplicationController {
 			Participant_Status__c = 'Referral Sent to PI'
         );
         insert newPer;
+		newPER.Participant__c = newParticipant.id;
+		update newPer;
         System.debug('Limit' + Limits.getQueries());
+		//Check type of site
+		//createNewUser(referralRecord, newContact.Id);
+		//Check email type
+		//sendInvitationEmail();
     }
+
+	private static void createNewUser(Integration_Patient_Referral__c referralRecord, Id contactId){
+		if(referralRecord.Email__c != null && referralRecord.Email__c != ''){
+			User newUser = new User(
+				LastName = referralRecord.lastName__c,
+				FirstName = referralRecord.firstName__c,
+				Email = referralRecord.Email__c,
+				Alias = 'alias',
+				UserName = referralRecord.Email__c,
+				LocaleSidKey = 'en_US',
+				TimeZoneSidKey = 'GMT',
+				ProfileId = 'insert profile',
+				LanguageLocaleKey = 'en_US',
+				ContactId = contactId
+			);
+			insert newUser;
+		}
+	}
+
+	private static void sendInvitationEmail(){
+		//Send Email to Participants
+	}
     
 }
