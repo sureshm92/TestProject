@@ -5,64 +5,80 @@
 public with sharing class IconPlanetVisitInfoEditRemote {
 
     @AuraEnabled
-    public static void saveIconInfo(List<Icon_details__c> iconsDetails) {
-        update iconsDetails;
+    public static void saveIconInfo(
+            List<Icon_details__c> iconsDetails,
+            String iconPackageId,
+            String visitPlanId) {
+        List<VisitPackage__c> packages = [
+                SELECT Id
+                FROM VisitPackage__c
+                WHERE
+                Icons_package__c = :iconPackageId AND Visit_Plan__c = :visitPlanId
+        ];
+        if (packages.isEmpty()) {
+            VisitPackage__c visitPack = new VisitPackage__c();
+            visitPack.Visit_Plan__c = visitPlanId;
+            visitPack.Icons_package__c = iconPackageId;
+            insert visitPack;
+        }
+        for (Icon_details__c d : iconsDetails) {
+            d.Icons_package__c = iconPackageId;
+        }
+        upsert iconsDetails;
     }
     @AuraEnabled
-    public static List<Icon_details__c> getIconsDescription(String visitPlanId) {
-        List<Icons_package__c> iconPackage =   [SELECT Id From Icons_package__c Where Visit_plan__c = :visitPlanId];
-        if (iconPackage.isEmpty()) {
-            List<Icons_package__c> iconPackageDefault =   [SELECT Id From Icons_package__c Where Name = 'default'];
-            if(iconPackageDefault.isEmpty()){
-                Icons_package__c packageMew = new Icons_package__c();
-                packageMew.Name = 'default';
-                packageMew.Visit_Plan__c = visitPlanId;
-                insert packageMew;
-                return createDefaultIconDetails(packageMew.Id);
-            }else {
-                return [
-                        SELECT Id
-                                ,Name
-                                ,description__c
-                                ,Icons_package__c
-                                ,label__c
-                        FROM Icon_details__c
-                        WHERE Icons_package__c =: iconPackageDefault[0].Id
-                ];
-            }
-        }
-        List<Icon_details__c> icondetails = [
-                SELECT Id
-                        ,Name
-                        ,description__c
-                        ,Icons_package__c
-                        ,label__c
-                FROM Icon_details__c
-                WHERE Icons_package__c IN: [SELECT Id From Icons_package__c Where Visit_plan__c = :visitPlanId]
-        ];
-        if (!icondetails.isEmpty()) {
-            return icondetails;
-        }else {
-            return createDefaultIconDetails(visitPlanId);
-        }
-
-    }
-    private static List<Icon_details__c> createDefaultIconDetails( String ipackage) {
+    public static List<Icon_details__c> createVisitPackage(String iconPackageId, String visitPlanId) {
         try {
-            List<PicklistEntry> picklistEntries = Visit__c.Icons__c.getDescribe().picklistValues;
-            List<Icon_details__c> iconDetails = new List<Icon_details__c>();
-            for (PicklistEntry entry : picklistEntries) {
-                Icon_details__c det = new Icon_details__c();
-                det.Name = entry.value;
-                det.Icons_package__c=ipackage;
-                iconDetails.add(det);
-            }
-            insert iconDetails;
-            return iconDetails;
+            List<Icon_Details__c> defaultIconsDetails = VisitIconsConfiguration.getDefaultIcons();
+            VisitPackage__c visitPack = new VisitPackage__c();
+            visitPack.Visit_Plan__c = visitPlanId;
+            visitPack.Icons_package__c = iconPackageId;
+            insert visitPack;
+            return defaultIconsDetails;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
+    }
+    @AuraEnabled
+    public static List<Icon_details__c> geCustomIcons(String visitPlanId) {
+        return null;
+    }
+    @AuraEnabled
+    public static List<Icon_details__c> getExistingLegend(String iconPackageId) {
+        System.debug('Icons pack Id' + iconPackageId);
+        List<Icon_Details__c> details = [
+                SELECT Id
+                        ,Name
+                        ,Label__c
+                        ,Description__c
+                FROM Icon_Details__c
+                WHERE Icons_package__c = :iconPackageId
+        ];
+        System.debug('details' + details);
+        return VisitIconsConfiguration.getPopulateIconDetails(details);
+    }
+    @AuraEnabled
+    public static List<Icon_Details__c> getThisLegend(String visitPlanId) {
+        List<VisitPackage__c> visitPackages = [SELECT ID,Icons_package__c FROM VisitPackage__c WHERE Visit_Plan__c = :visitPlanId];
+        if (visitPackages.isEmpty()) {
+            return new List<Icon_Details__c>();
+        } else {
+            set<Id> iconsPackIds = new Set<Id>();
+            for (VisitPackage__c p : visitPackages) {
+                iconsPackIds.add(p.Icons_package__c);
+            }
+            List<Icon_Details__c> details = [
+                    SELECT Id
+                            ,Name
+                            ,Label__c
+                            ,Description__c
+                    FROM Icon_Details__c
+                    WHERE Icons_package__c In:iconsPackIds
+            ];
+
+            return VisitIconsConfiguration.getPopulateIconDetails(details);
+        }
 
     }
 
