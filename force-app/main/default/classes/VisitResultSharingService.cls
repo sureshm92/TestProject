@@ -33,6 +33,7 @@ public without sharing class VisitResultSharingService {
                             Measurement__c,
                             Min_Value__c,
                             Patient_Visit__c,
+                            Patient_Visit__r.Completed_Date__c,
                             Patient_Visit__r.Visit__c,
                             Patient_Visit__r.Visit__r.Order__c,
                             Result_Type__c
