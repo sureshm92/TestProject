@@ -88,6 +88,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
                         Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
+                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c,
                         Clinical_Trial_Profile__r.NCT_Number__c
                 FROM Study_Site__c
                 WHERE Id IN: ssIds
@@ -214,7 +215,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Contact__c = participant.Contact__c,
                             Alert_Code__c = 'Welcome_To_The_PH'
                     ));
-
                 }else{
                     System.debug('NOTIFY USER');
                     if(hcpe != null){
