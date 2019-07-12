@@ -84,7 +84,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         ];
         Map<String,Visit_Result_TypeM__mdt> resultTypeMap = new Map<String,Visit_Result_TypeM__mdt>();
         for(Visit_Result_TypeM__mdt resultType : resultTypes){
-            for(String code : resultType.Visit_Result_Code__c.split(',')) {
+            for(String code : resultType.Visit_Result_Code__c.split(';')) {
                 resultTypeMap.put(code, resultType);
             }
         }
