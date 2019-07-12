@@ -211,12 +211,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     Id hcpContact;
                     if(hcpe != null) hcpContact = hcpe.HCP_Contact__c;
                     toCreateUser.put(participant.Contact__c, hcpContact);
-                    if(ss.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes'){
-                        alertsForInsert.add(new Alert__c(
-                                Contact__c = participant.Contact__c,
-                                Alert_Code__c = 'Welcome_To_The_PH'
-                        ));
-                    }
+                    alertsForInsert.add(new Alert__c(
+                            Contact__c = participant.Contact__c,
+                            Alert_Code__c = 'Welcome_To_The_PH'
+                    ));
                 }else{
                     System.debug('NOTIFY USER');
                     if(hcpe != null){
