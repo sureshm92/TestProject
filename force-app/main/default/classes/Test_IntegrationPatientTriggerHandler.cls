@@ -1,9 +1,9 @@
 @IsTest
 private class Test_IntegrationPatientTriggerHandler {
 
-    @TestSetup
+    /*@TestSetup
     static void setup() {
-        ParticipantEnrollmentFactory.createParticipantStudyEnrollmentRecords('1',2,3,3);
+        ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1',2,3,3);
     }
 
     @IsTest
@@ -29,5 +29,5 @@ private class Test_IntegrationPatientTriggerHandler {
                 WHERE   External_Key__c = '1~2~3'
         ];
         return pse.Status__c;
-    }
+    }*/
 }

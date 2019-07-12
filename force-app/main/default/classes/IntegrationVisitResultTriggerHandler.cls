@@ -7,16 +7,18 @@ public without sharing class IntegrationVisitResultTriggerHandler {
     public class UpdateVisitResults extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            updateVisitResults(newList);
+            updateVisitResults(JSON.serialize(newList));
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisitResults(newList);
+            updateVisitResults(JSON.serialize(newList));
         }
     }
 
-    private static void updateVisitResults(List<Integration_VisitResult__c> results){
+    @future
+    private static void updateVisitResults(String jsonString){
         //If USUBJID, STUDYID, VISIT, VSDTC AND TESTCD ARE PRIMARY KEYS Exclude record if blank or NULL
+        List<Integration_VisitResult__c> results = (List<Integration_VisitResult__c>) JSON.deserialize(jsonString, List<Integration_Visit__c>.class);
         Set<String> externalIds = new Set<String>();
         Set<String> visitNames = new Set<String>();
         Set<Date> visitDates = new Set<Date>();

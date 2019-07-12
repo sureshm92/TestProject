@@ -8,15 +8,17 @@ public with sharing class IntegrationVisitTriggerHandler {
     public class UpdateVisits extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            updateVisits(newList);
+            updateVisits(JSON.serialize(newList));
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisits(newList);
+            updateVisits(JSON.serialize(newList));
         }
     }
 
-    private static void updateVisits(List<Integration_Visit__c> visits){
+    @future
+    private static void updateVisits(String jsonString){
+        List<Integration_Visit__c> visits = (List<Integration_Visit__c>) JSON.deserialize(jsonString, List<Integration_Visit__c>.class);
         Set<String> externalKeys = new Set<String>();
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){

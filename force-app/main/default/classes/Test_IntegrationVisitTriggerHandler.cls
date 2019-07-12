@@ -5,7 +5,7 @@
 @IsTest
 private class Test_IntegrationVisitTriggerHandler {
 
-    @TestSetup
+    /*@TestSetup
     static void setup() {
         ParticipantEnrollmentFactory.createParticipantStudyEnrollmentRecords('1',2,3,3);
     }
@@ -44,5 +44,5 @@ private class Test_IntegrationVisitTriggerHandler {
                 WHERE   Participant_Study_Enrollment__r.External_Key__c = '1~2~3'
         ];
         return visits;
-    }
+    }*/
 }

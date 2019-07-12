@@ -5,7 +5,7 @@
 @IsTest
 private class Test_IntegrationVisitResultHandler {
 
-    @TestSetup
+    /*@TestSetup
     static void setup() {
         ParticipantEnrollmentFactory.createParticipantStudyEnrollmentRecords('1',2,3,3);
     }
@@ -33,6 +33,6 @@ private class Test_IntegrationVisitResultHandler {
         externalVisitResult.Vital_or_Lab__c = 'Vital';
         insert externalVisitResult;
         update externalVisitResult;
-    }
+    }*/
 
 }
