@@ -1,0 +1,85 @@
+<!--
+ - Created by Stanislav Shaban on 09-Jul-19.
+ -->
+
+<aura:component controller="StudyDetailViewController" implements="forceCommunity:availableForAllPageTypes"
+                description="StudyDetailView">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail"/>
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
+    <aura:attribute name="state" type="String" description="ALUMNI, PROSPECT, REFERRAL, PARTICIPANT"/>
+    <aura:attribute name="currentTab" type="String" default="tab-about-the-study"/>
+    <aura:attribute name="currentActions" type="List"/>
+    <aura:attribute name="shareButtons" type="List"/>
+    <aura:attribute name="multiMode" type="Boolean"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+
+    <aura:attribute name="isReportsTabInitialized" type="Boolean"/>
+    <aura:attribute name="isReferralsTabInitialized" type="Boolean"/>
+    <aura:attribute name="isReferringClinicsTabInitialized" type="Boolean"/>
+    <aura:attribute name="isStudySitesTabInitialized" type="Boolean"/>
+    <aura:attribute name="isMRRTabInitialized" type="Boolean"/>
+    <aura:attribute name="isReferredPatientsTabInitialized" type="Boolean"/>
+    <aura:attribute name="ssId" type="String"/>
+
+    <!--change-->
+    <aura:attribute name="resourceImagePath" type="String" access="private"/>
+    <aura:attribute name="resourceMode" type="String" default="Default"/>
+    <aura:attribute name="visitMode" type="String" default="Current"/>
+    <aura:attribute name="taskMode" type="String" default="Open"/>
+    <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
+    <aura:attribute name="isShare" type="Boolean"/>
+    <aura:attribute type="String" name="shareMessage"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.currentTab}" action="{!c.doTabChanged}"/>
+    <aura:handler name="change" value="{!v.taskMode}" action="{!c.doTabChanged}"/>
+    <aura:handler name="change" value="{!v.resourceMode}" action="{!c.doTabChanged}"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+
+    <!-- component body -->
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true"/>
+    <div>
+        <aura:if isTrue="{!v.isInitialized}">
+            <!-- Share dialog -->
+            <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
+            <!-- top bar -->
+            <div class="{!if(or(v.userMode == 'HCP', v.userMode == 'PI'), 'sdv-top-bar sdv-top-bar-pi-rp ', 'sdv-top-bar ') + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+                <div class="navigation rr-width-limiter side-padding">
+                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                        <c:RRNavigationPath>
+                            <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
+                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
+                        </c:RRNavigationPath>
+                        <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
+                    </aura:if>
+                </div>
+            </div>
+
+            <div id="sd-selected-tab-container" style="position: relative">
+                <div class="rr-width-limiter side-padding rr-min-body-height">
+                    <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
+                        <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
+                                                         parent="{!this}"/>
+                    </div>
+
+                    <aura:if isTrue="{!v.isReferralsTabInitialized}">
+                        <div class="{!if(v.currentTab == 'tab-referrals', 'visible-tab', 'invisible-tab')}">
+                            <c:ViewPatientsReferred  ssId="{!v.ssId}" trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+
+        </aura:if>
+    </div>
+
+</aura:component>
