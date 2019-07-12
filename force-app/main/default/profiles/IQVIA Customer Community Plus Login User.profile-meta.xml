@@ -2384,7 +2384,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_VisitResult__c.MD5_Hash__c</field>
+        <field>Integration_VisitResult__c.MD5__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
