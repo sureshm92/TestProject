@@ -57,17 +57,6 @@ public inherited sharing class VisitResultsRemote {
         }
     }
 
-    @AuraEnabled
-    public static List<VisitResultsService.VisitResultWrapper> getVisitResultWrappersForDashboard() {
-
-        try {
-            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultWrappersForDashboard();
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
-
     public class InitDataWrapper {
 
         @AuraEnabled

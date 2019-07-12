@@ -74,6 +74,13 @@
                             </div>
                         </aura:if>
                     </aura:if>
+                    <aura:if isTrue="{!v.userMode != 'Participant'}">
+                        <c:RRNavigationPath>
+                            <c:RRNPathItem label="{!$Label.c.Home_Page_Label}" page=""/>
+                            <c:RRNPathItem label="{!$Label.c.PG_SW_Title}"/>
+                        </c:RRNavigationPath>
+                        <div class="title rr-width-limiter side-padding">{!v.studyDetail.trial.Study_Code_Name__c}</div>
+                    </aura:if>
                 </div>
 
                 <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
@@ -127,8 +134,17 @@
                                 onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_About_The_Study}</button>
                         <button class="apollo-btn text" data-anchor="inclusionExclusionAnchor"
                                 onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</button>
+                        <!-- HCP -->
+                        <!--<aura:if isTrue="{!v.userMode == 'HCP'}">
+                            <button class="apollo-btn text" data-anchor="studySitesAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_sites}</button>
+
+                        </aura:if> -->
                         <aura:if isTrue="{!v.userMode == 'Participant'}">
                             <button class="apollo-btn text" data-anchor="studySiteAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_site}</button>
+                        </aura:if>
+                        <!-- PI -->
+                        <aura:if isTrue="{!v.userMode == 'PI'}">
+                            <button class="apollo-btn text" data-anchor="referringClinicsAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_DBPI_L_Referring_clinics}</button>
                         </aura:if>
                     </div>
 
@@ -189,11 +205,37 @@
                         <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
                                                  parent="{!this}"/>
                     </div>
+
+                    <aura:if isTrue="{!v.isReferringClinicsTabInitialized}">
+                        <div class="{!if(v.currentTab == 'tab-referred-clinics', 'visible-tab', 'invisible-tab')}">
+                            <c:MyReferringClinics/>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.isStudySitesTabInitialized}">
+                        <div class="{!if(v.currentTab == 'tab-referred-study-sites', 'visible-tab', 'invisible-tab')}">
+                            <c:MyStudySites/>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.isReferredPatientsTabInitialized}">
+                        <div class="{!if(v.currentTab == 'tab-referred-patients', 'visible-tab', 'invisible-tab')}">
+                            <c:ViewPatients trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
+                        </div>
+                    </aura:if>
+
                     <!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
                     <!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
                     <!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
                     <!--                        </div>-->
                     <!--                    </aura:if>-->
+
+                    <aura:if isTrue="{!v.isReferralsTabInitialized}">
+                        <div class="{!if(v.currentTab == 'tab-referrals', 'visible-tab', 'invisible-tab')}">
+                            <c:ViewPatientsReferred trialId="{!v.studyDetail.trial.Id}" parent="{!this}"/>
+                        </div>
+                    </aura:if>
+
                     <aura:if isTrue="{!v.currentTab == 'tab-reports'}">
                         <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
                     </aura:if>
@@ -218,4 +260,5 @@
 
         </aura:if>
     </div>
+
 </aura:component>

@@ -7085,9 +7085,9 @@
     <labels>
         <fullName>PG_SW_F_Official_Title</fullName>
         <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG SW F Official Title</shortDescription>
-        <value>Study Official Title</value>
+        <protected>true</protected>
+        <shortDescription>PG_SW_F_Official_Title</shortDescription>
+        <value>Official Title</value>
     </labels>
     <labels>
         <fullName>PG_SW_F_Phase</fullName>
