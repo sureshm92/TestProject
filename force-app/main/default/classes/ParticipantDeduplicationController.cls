@@ -4,7 +4,7 @@ public class ParticipantDeduplicationController {
         return changeLastName;
     }
     
-    public static void checkPER(String contactId, String participantId, Integration_Patient_Referral__c referralRecord){
+    public static Participant__c checkPER(String contactId, String participantId, Integration_Patient_Referral__c referralRecord){
         List<Study_Site__c> listOfStudySite = new List<Study_Site__c>();
         String erpKey = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c;
         String study = '';
@@ -42,7 +42,7 @@ public class ParticipantDeduplicationController {
                 FROM	Participant_Enrollment__c
                 WHERE 	Participant__c =:participantId
             ];
-            if(listOfEnrollments2.size() != 0){
+            if(listOfEnrollments2.size() != 0 && !DuplicateContactController.isPERCreated){
                 String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c; 
                 Participant_Enrollment__c newPER = new Participant_Enrollment__c(
                     Clinical_Trial_Profile__c	= 	[SELECT id FROM Clinical_Trial_Profile__c WHERE Protocol_ID__c  = :referralRecord.protocolId__c].id,
@@ -60,10 +60,11 @@ public class ParticipantDeduplicationController {
                 //Error Message
             }
         }
+        return null;
     }
     
-    public static void checkPER(String contactId, Integration_Patient_Referral__c referralRecord){
-        //changeLastName = false;
+    public static Participant__c checkPER(String contactId, Integration_Patient_Referral__c referralRecord){
+        changeLastName = false;
         Participant__c newParticipant = new Participant__c(
         	Contact__c	= 	contactId,
 			First_Name__c = referralRecord.firstName__c,
@@ -79,38 +80,43 @@ public class ParticipantDeduplicationController {
 			Condition_of_Interest_s__c = referralRecord.Condition_of_Interests__c
         );
         insert newParticipant;
-        String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c; 
-        Participant_Enrollment__c newPER = new Participant_Enrollment__c(
-        	Clinical_Trial_Profile__c	= 	[SELECT id FROM Clinical_Trial_Profile__c WHERE Protocol_ID__c  = :referralRecord.protocolId__c].id,
-            Participant__c				=	newParticipant.id,
-            Participant_Contact__c		=	contactId,
-            Study_Site__c				= 	[SELECT id FROM Study_Site__c WHERE Primary_Key_ePR__c  = :studySiteNumber].id,
-			Pre_Eligibility__c = referralRecord.Pass_Fail__c,
-			Referral_Source__c = referralRecord.Data_Source__c,
-			Participant_ID_randomized_ID__c = referralRecord.ePRPatient_ID_Number__c,
-			Referral_ID__c = referralRecord.referralID__c,
-			Participant_Status__c = 'Referral Sent to PI'
-        );
-        insert newPer;
-
+        String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c;
+        if(!DuplicateContactController.isPERCreated){ 
+            Participant_Enrollment__c newPER = new Participant_Enrollment__c(
+        	    Clinical_Trial_Profile__c	= 	[SELECT id FROM Clinical_Trial_Profile__c WHERE Protocol_ID__c  = :referralRecord.protocolId__c].id,
+                Participant__c				=	newParticipant.id,
+                Participant_Contact__c		=	contactId,
+                Study_Site__c				= 	[SELECT id FROM Study_Site__c WHERE Primary_Key_ePR__c  = :studySiteNumber].id,
+			    Pre_Eligibility__c = referralRecord.Pass_Fail__c,
+			    Referral_Source__c = referralRecord.Data_Source__c,
+			    Participant_ID_randomized_ID__c = referralRecord.ePRPatient_ID_Number__c,
+			    Referral_ID__c = referralRecord.referralID__c,
+			    Participant_Status__c = 'Referral Sent to PI'
+            );
+            insert newPer;
+        }
+        changeLastName =true;
+        return newParticipant;
     }
     
-    public static void checkPER(Integration_Patient_Referral__c referralRecord){
+    public static Participant__c checkPER(Integration_Patient_Referral__c referralRecord){
         //changeLastName = false;
-    	Contact newContact = new Contact(
-        	//FirstName 				= 	referralRecord.firstName__c,
-            LastName 				=	referralRecord.lastName__c,
-            userCommunytyType__c	=	'Participant',
-            userCommunityMode__c	=	'Participant',
-			Email					=	referralRecord.email__c,
-			Phone					=	referralRecord.phone__c,
-			AccountId					=	[SELECT id FROM Account WHERE Name = 'Participant'].id
-        );
-        insert newContact;
-        System.debug('Limit' + Limits.getQueries());
-        
+         Contact newContact;
+         if(!DuplicateContactController.isPERCreated){ 
+            newContact = new Contact(
+        	    //FirstName 				= 	referralRecord.firstName__c,
+                LastName 				=	referralRecord.lastName__c,
+                userCommunytyType__c	=	'Participant',
+                userCommunityMode__c	=	'Participant',
+			    Email					=	referralRecord.email__c,
+			    Phone					=	referralRecord.phone__c,
+			    AccountId					=	[SELECT id FROM Account WHERE Name = 'Participant'].id
+            );
+            insert newContact;
+            System.debug('Limit' + Limits.getQueries());
+        }
         Participant__c newParticipant = new Participant__c(
-        	Contact__c	= 	newContact.id,
+        	Contact__c	= 	(DuplicateContactController.isPERCreated) ? null : newContact.id,
 			First_Name__c = referralRecord.firstName__c,
 			Last_Name__c = referralRecord.lastName__c,
 			Email__c = referralRecord.email__c,
@@ -125,48 +131,22 @@ public class ParticipantDeduplicationController {
         );
         insert newParticipant;
         System.debug('Limit' + Limits.getQueries());
-        String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c; 
-        Participant_Enrollment__c newPER = new Participant_Enrollment__c(
-        	Clinical_Trial_Profile__c	= 	[SELECT id FROM Clinical_Trial_Profile__c WHERE Protocol_ID__c  = :referralRecord.protocolId__c].id,
-            //Participant__c				=	newParticipant.id,
-            Participant_Contact__c		=	newContact.id,
-            Study_Site__c				= 	[SELECT id FROM Study_Site__c WHERE Primary_Key_ePR__c  = :studySiteNumber].id,
-			Pre_Eligibility__c = referralRecord.Pass_Fail__c,
-			Referral_Source__c = referralRecord.Data_Source__c,
-			Participant_ID_randomized_ID__c = referralRecord.ePRPatient_ID_Number__c,
-			Referral_ID__c = referralRecord.referralID__c,
-			Participant_Status__c = 'Referral Sent to PI'
-        );
-        insert newPer;
-		newPER.Participant__c = newParticipant.id;
-		update newPer;
-        System.debug('Limit' + Limits.getQueries());
-		//Check type of site
-		//createNewUser(referralRecord, newContact.Id);
-		//Check email type
-		//sendInvitationEmail();
+        String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c;
+        if(!DuplicateContactController.isPERCreated){ 
+            Participant_Enrollment__c newPER = new Participant_Enrollment__c(
+        	    Clinical_Trial_Profile__c	= 	[SELECT id FROM Clinical_Trial_Profile__c WHERE Protocol_ID__c  = :referralRecord.protocolId__c].id,
+                Participant__c				=	newParticipant.id,
+                Participant_Contact__c		=	newContact.id,
+                Study_Site__c				= 	[SELECT id FROM Study_Site__c WHERE Primary_Key_ePR__c  = :studySiteNumber].id,
+			    Pre_Eligibility__c = referralRecord.Pass_Fail__c,
+			    Referral_Source__c = referralRecord.Data_Source__c,
+			    Participant_ID_randomized_ID__c = referralRecord.ePRPatient_ID_Number__c,
+			    Referral_ID__c = referralRecord.referralID__c,
+			    Participant_Status__c = 'Referral Sent to PI'
+            );
+            insert newPer;
+        }
+		return newParticipant;
     }
 
-	private static void createNewUser(Integration_Patient_Referral__c referralRecord, Id contactId){
-		if(referralRecord.Email__c != null && referralRecord.Email__c != ''){
-			User newUser = new User(
-				LastName = referralRecord.lastName__c,
-				FirstName = referralRecord.firstName__c,
-				Email = referralRecord.Email__c,
-				Alias = 'alias',
-				UserName = referralRecord.Email__c,
-				LocaleSidKey = 'en_US',
-				TimeZoneSidKey = 'GMT',
-				ProfileId = 'insert profile',
-				LanguageLocaleKey = 'en_US',
-				ContactId = contactId
-			);
-			insert newUser;
-		}
-	}
-
-	private static void sendInvitationEmail(){
-		//Send Email to Participants
-	}
-    
 }
