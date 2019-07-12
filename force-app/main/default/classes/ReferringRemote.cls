@@ -108,7 +108,7 @@ public without sharing class ReferringRemote {
             participantEnrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
         }
 
-        Database.SaveResult saveResult = Database.insert(participant, false);
+        /*Database.SaveResult saveResult = Database.insert(participant, false);
         if (!saveResult.isSuccess()) {
             System.debug('PARTICIPANT INSERT ERROR');
             for (Database.Error error : saveResult.getErrors()) {
@@ -129,7 +129,10 @@ public without sharing class ReferringRemote {
                     if(!Test.isRunningTest()) throw new AuraHandledException(error.getMessage());
                 }
             }
-        }
+        }*/
+
+        DuplicateContactController.isPERCreated = true;
+        participant = DuplicateContactController.communityReffering(participant, participantEnrollment);
 
         if(participant.Id != null){
             participantEnrollment.Participant__c = participant.Id;

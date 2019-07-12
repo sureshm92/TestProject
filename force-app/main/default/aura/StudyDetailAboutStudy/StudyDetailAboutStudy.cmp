@@ -38,10 +38,8 @@
                     <div class="sdas-text">{!v.studyDetail.trial.Brief_Summary__c}</div>
 
                     <!-- study overview: -->
-                    <aura:if isTrue="{!!empty(v.studyDetail.trial.Override_Description__c)}">
-                        <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>
-                        <div class="sdas-text">{!v.studyDetail.trial.Override_Description__c}</div>
-                    </aura:if>
+                    <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Study_Overview}</div>
+                    <div class="sdas-text">{!v.studyDetail.trial.Override_Description__c}</div>
 
                     <!-- inclusion exclusion: -->
                     <div class="sdas-sub-category">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>
@@ -167,7 +165,7 @@
                                 <aura:if isTrue="{!and(v.studyDetail.trial.Terms_And_Conditions_ID__c, v.studyDetail.isTCAccepted)}">
                                     <div class="slds-grid slvi-section">
                                         <div class="slds-col btn-wrapper">
-                                            <div id="{!v.studyDetail.ACT_VIEW_TC}" class="slvi-btn" onclick="{!c.doAction}">
+                                            <div id="viewTermsAndConditions" class="slvi-btn" onclick="{!c.doAction}">
                                                 <div class="btn-content">
                                                     <c:RRIcon iconName="paper-many"/>
                                                     {!$Label.c.BTN_View_terms_and_conditions}
