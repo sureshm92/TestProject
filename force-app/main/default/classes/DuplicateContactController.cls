@@ -1,7 +1,19 @@
-public class DuplicateContactController {
+public with sharing class DuplicateContactController {
     public static void checkDuplicates(Integration_Patient_Referral__c record){
         primaryPhoneEmailCheck(record);
     }
+
+	public static void communityReffering(Participant__c participant, Participant_Enrollment__c participantEnrollment){
+		Integration_Patient_Referral__c tempRecord = new Integration_Patient_Referral__c(
+			firstName__c = participant.First_Name__c,
+			lastName__c = participant.Last_Name__c,
+			email__c = participant.email__c,
+			phone__c = participant.phone__c,
+			protocolId__c = [SELECT id, Protocol_ID__c FROM Clinical_Trial_Profile__c WHERE id = :participantEnrollment.Clinical_Trial_Profile__c].Protocol_ID__c,
+			siteSelected__c = [SELECT id, Primary_Key_ePR__c FROM Study_Site__c WHERE id = :participantEnrollment.Study_Site__c].Primary_Key_ePR__c
+		);
+		primaryPhoneEmailCheck(tempRecord);
+	}
     
     private static void primaryPhoneEmailCheck(Integration_Patient_Referral__c record){
         System.debug('Check Record');
@@ -62,7 +74,7 @@ public class DuplicateContactController {
                             createNewRecords(record);
 							break;
                         }
-                    }else if(contactRecords[i].BirthDate == null){
+                    }else if(contactRecords[i].BirthDate == null && !checkBirthDate(record.BirthYear__c)){
                        if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match');
                            	contactRecords[i].BirthDate = Date.newInstance(Integer.valueOf(record.BirthYear__c), 1, 1);
@@ -113,12 +125,12 @@ public class DuplicateContactController {
         update contactRecords;
     }
     
-    public static void createNewRecords(Integration_Patient_Referral__c record){
+    private static void createNewRecords(Integration_Patient_Referral__c record){
         System.debug('Create New Records');
         ParticipantDeduplicationController.checkPER(record);
     }
     
-    public static void processedDuplicate(String contactId, Integration_Patient_Referral__c record){
+    private static void processedDuplicate(String contactId, Integration_Patient_Referral__c record){
         System.debug('Duplicate');
         List<Participant__c> listOfParticipants = new List<Participant__c>();
         listOfParticipants = [SELECT id FROM Participant__c WHERE Contact__c = :contactId];
@@ -127,5 +139,16 @@ public class DuplicateContactController {
         }else{
             ParticipantDeduplicationController.checkPER(contactId, record);
         }
+    }
+
+    private static boolean checkBirthDate(String birthYear){
+        Integer referralDateYear =Integer.valueOf(birthYear);
+        Integer currentYear = Date.today().year();
+        if((currentYear - referralDateYear) > 18){
+            return false;
+        }else{
+            return true;
+        }
+
     }
 }
