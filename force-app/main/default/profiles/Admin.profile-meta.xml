@@ -639,14 +639,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ResourceArticleVideoService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ResourceBasicService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ResourceContentClassService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -660,10 +652,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceExpirationBatchHandlerImpl</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ResourceFavoriteService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -684,18 +672,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ResourceStudyDocumentService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ResourceStudyRelatedService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ResourceTARelatedService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1011,6 +987,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantStateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1199,10 +1179,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>VisitResultMService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>VisitResultSharingCountryLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1216,14 +1192,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitResultSharingService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitResultsRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>VisitResultsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2942,11 +2910,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Enrollment__c.External_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Enrollment__c.HCP_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2988,11 +2951,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Interested__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.IsRequestDataFromSDH__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3248,11 +3206,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Study_Hub_Log__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Study_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3653,11 +3606,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Reminder_Schedule__c.Second_Reminder_day__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Reminder_Schedule__c.Use_Final_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4808,14 +4756,6 @@
         <layout>Visit_Result__c-Visit_Result Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Lab</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Vital</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
     </layoutAssignments>
     <loginIpRanges>
@@ -5446,16 +5386,6 @@
         <recordType>Trial_Survey__c.Time_based</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>true</default>
-        <recordType>Visit_Result__c.Lab</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Visit_Result__c.Vital</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Admin_Panel</tab>
         <visibility>DefaultOn</visibility>
@@ -5664,6 +5594,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateContentSpace</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -6180,6 +6114,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewEventLogFiles</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewFlowUsageAndFlowEventData</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

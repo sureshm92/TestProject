@@ -16,6 +16,7 @@ public without sharing class VisitResultSharingService {
         if(!havePSE) return false;
 
         return state.pse.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
+                state.ctp.Participating_in_Patient_Portal__c == 'Yes' &&
                 state.pse.Study_Site__r.Visit_Results_Sharing__c;
     }
 
