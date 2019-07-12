@@ -20,7 +20,6 @@
     },
 
     doUpdateStudyTitle: function (component, helper) {
-        console.log('CLAMP LINE!!!');
         var t0 = performance.now();
         if (component.isValid()) {
             var studyTitles = document.getElementsByClassName("study-title");

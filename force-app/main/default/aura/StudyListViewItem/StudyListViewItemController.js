@@ -1,5 +1,6 @@
 ({
     doInit: function (component, event, helper) {
+        console.log('currentStudy',component.get('v.currentStudy'));
         if(component.get('v.userMode')=='PI') {
             component.set("v.detailsExpanded", true);
         }
@@ -11,6 +12,7 @@
         var trialId = trial.Id;
         var parent = component.get('v.parent');
         var actionId = event.currentTarget.id;
+        if(!actionId) actionId = event.getSource().getLocalId();
         switch (actionId) {
             case 'medicalRecordReview':
                 communityService.navigateToPage('referring?id=' + trialId);
@@ -42,14 +44,14 @@
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referrals");
                 break;
             case 'manageReferralsBySS':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].Id;
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referrals");
                 break;
             case 'manageReferringClinics':
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");
                 break;
             case 'manageReferringClinicsBySS':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].Id;
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referred-clinics");
                 break;
             case 'openToReceiveReferrals':
@@ -128,7 +130,7 @@
     saveChanges: function (component, event, helper) {
         var ctarget = event.currentTarget.value;
         var element = component.get('v.currentStudy.ssList');
-        var currentSS = element[ctarget];
+        var currentSS = element[ctarget].studySite;
         var parent = component.get('v.parent');
         parent.saveSSDetails(currentSS);
         currentSS.isRecordUpdated = false;
@@ -140,12 +142,12 @@
         if (event === undefined) {
             var index = component.get('v.itemIndex');
             var el = component.get('v.currentStudy.ssList');
-            el[index].isRecordUpdated = true;
+            el[index].studySite.isRecordUpdated = true;
             component.set('v.currentStudy.ssList', el);
         } else {
             var targetIndex = event.target.parentElement.dataset.index;
             var el = component.get('v.currentStudy.ssList');
-            el[targetIndex].isRecordUpdated = true;
+            el[targetIndex].studySite.isRecordUpdated = true;
             component.set('v.currentStudy.ssList', el);
         }
     },
@@ -154,7 +156,7 @@
         var isValid = communityService.isValidEmail(event.getSource().get('v.value'));
         var elIndex = event.target.parentElement.dataset.index;
         var cmp = component.get('v.currentStudy.ssList');
-        cmp[elIndex].isEmailValid = isValid;
+        cmp[elIndex].studySite.isEmailValid = isValid;
         component.set('v.currentStudy.ssList', cmp);
     },
 
@@ -204,7 +206,7 @@
     changeStudySiteAddress: function (component,event,helper) {
         var ctarget = event.currentTarget.value;
         var element = component.get('v.currentStudy.ssList');
-        var currentSS = element[ctarget];
+        var currentSS = element[ctarget].studySite;
         var checkedAccount = component.get('v.checkedAccount');
         currentSS.Site__c = checkedAccount.Id;
         var parent = component.get('v.parent');
@@ -225,7 +227,7 @@
             cmp = new Object({'Id': null, 'BillingCountry':null});
         }
         else{
-            cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].Site__r));
+            cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].studySite.Site__r));
         }
         if(cmp.BillingCountry){
             var countryCodeByName = component.get('v.countryCodesMap');
@@ -240,7 +242,13 @@
 
     closeModal: function(component, event, helper){
         var index = component.get('v.popupIndex');
-        component.find('manage-location')[index].hide();
+        var popUps = component.find('manage-location');
+        if(popUps.length){
+            popUps[index].hide();
+        } else{
+            popUps.hide();
+        }
+
     },
     backToTheChoice: function(component,event,helper){
         component.set('v.editAddress',false);
@@ -258,7 +266,7 @@
         component.set('v.addressChecked',false);
         var newAccount = component.get('v.editedAccount');
         var element = component.get('v.currentStudy.ssList');
-        var currentSS = element[ssIndex];
+        var currentSS = element[ssIndex].studySite;
         currentSS.Site__r = newAccount;
         var states = component.get('v.states');
         if(states){

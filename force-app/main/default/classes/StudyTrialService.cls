@@ -462,6 +462,7 @@ public without sharing class StudyTrialService {
                         , Official_Title__c
                         , Sponsor_Pays_for_Referral_Activity__c
                         , NCT_Number__c
+                        ,Share_URL__c
 
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
@@ -601,13 +602,16 @@ public without sharing class StudyTrialService {
                 accountMap.put(piAccounts.Account.Id,piAccounts.Account);
             }
                     for(StudyDetailItem sdi : studies){
-                        for(Study_Site__c ss : sdi.ssList) {
-                            if(!ss.Account_Was_Changed__c) {
-                                accountMap.put(ss.Site__r.Id,ss.Site__r);
+                        for(StudyDetailItem.StudySiteWithActions ss : sdi.ssList) {
+                            if(!ss.studySite.Account_Was_Changed__c) {
+                                accountMap.put(ss.studySite.Site__r.Id,ss.studySite.Site__r);
                             }
                         }
                     }
-            return accountMap.values();
+            List<Account> accountsToReturn = accountMap.values();
+
+            //accountsToReturn.sort();
+            return accountsToReturn;
         } catch (Exception ex) {
             return null;
         }
@@ -621,19 +625,46 @@ public without sharing class StudyTrialService {
         }
     }
 
-    public static List<LabelValueItem> getDelegatePicklistValues(){
+    public static List<LabelValueItem> getDelegatePicklistValues() {
         try {
             Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
-            for(Site_Staff__c delegatesSites : [SELECT Id,
-                                                 Site_Contact__r.Name,
-                                                 Site_Contact__c
-                                            FROM Site_Staff__c
-                                            WHERE Study_Site__r.Principal_Investigator__c =: CommunityService.getInstance().getCurrentContactId()
-                                            ]){
-                    delegates.put(delegatesSites.Site_Contact__c,new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
+            List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
+            piDelegates = [
+                    SELECT Id,
+                            Site_Contact__r.Name,
+                            Site_Contact__c
+                    FROM Site_Staff__c
+                    WHERE Study_Site__r.Principal_Investigator__c = :CommunityService.getInstance().getCurrentContactId()
+            ];
+            if (piDelegates.isEmpty()) {
+                Set<Id> piSet = new Set<Id>();
+                for (Site_Staff__c delegatesSites : [
+                        SELECT Id,
+                                Study_Site__r.Principal_Investigator__c,
+                                Site_Contact__r.Name,
+                                Site_Contact__c
+                        FROM Site_Staff__c
+                        WHERE Site_Contact__c = :CommunityService.getInstance().getCurrentContactId()
+                ]) {
+                    piSet.add(delegatesSites.Study_Site__r.Principal_Investigator__c);
+                }
+                if (!piSet.isEmpty()) {
+                    piDelegates = [
+                            SELECT Id,
+                                    Site_Contact__r.Name,
+                                    Site_Contact__c
+                            FROM Site_Staff__c
+                            WHERE Study_Site__r.Principal_Investigator__c IN :piSet
+                    ];
+                }
+            }
+            if (!piDelegates.isEmpty()) {
+                for (Site_Staff__c delegatesSites : piDelegates) {
+                    delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
+                }
             }
             List<LabelValueItem> labelList = new List<LabelValueItem>();
-            if(!delegates.isEmpty()){
+            if (!delegates.isEmpty()) {
                 labelList.add(new LabelValueItem('None', ' '));
                 labelList.addAll(delegates.values());
             }

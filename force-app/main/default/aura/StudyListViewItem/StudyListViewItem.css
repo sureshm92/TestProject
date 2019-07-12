@@ -570,6 +570,10 @@
         margin-top: 16px;
     }
 
+    .THIS .apollo-btn.primary{
+        font-size:12px;
+    }
+
     .THIS .site-distance {
         margin-top: .5rem;
     }
@@ -580,6 +584,14 @@
     }
 
     .THIS .rri-icon span {
+        margin: .125rem !important;
+    }
+    .THIS .rri-icon-pi svg {
+        height: 16px;
+        width: 13px;
+    }
+
+    .THIS .rri-icon-pi span {
         margin: .125rem !important;
     }
 }
