@@ -1,19 +1,49 @@
 <!--
  - Created by Dmytro Pokutnii
  -->
-<aura:component description="VisitResultsDashboardCard">
+<aura:component description="VisitResultsDashboardCard" controller="VisitResultsRemote">
 
     <!-- ATTRIBUTES -->
 
+    <aura:attribute name="ctpId" type="String" required="true"/>
+
+    <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
+
     <!-- HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- COMPONENT BODY -->
 
-    <c:RRPanel >
-        <!--<aura:set attribute="header">{!$Label.c.Visit_Results_Dashboard_My_Results}</aura:set>-->
-        <div>
+    <aura:if isTrue="{!and(v.visitResultWrappers.length != 0, v.ctpId != null)}">
+        <c:RRPanel>
 
-        </div>
-    </c:RRPanel>
+            <aura:set attribute="header">
+                <div>{!$Label.c.Visit_Results_Dashboard_My_Results}</div>
+                <div class="visit-results-disclaimer">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
+            </aura:set>
+
+            <aura:set attribute="body">
+                <div class="visit-results-body">
+                    <div class="visit-results-title">{!$Label.c.Visit_Results_Tab_Vitals}</div>
+                    <div class="visit-results-container">
+                        <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
+                            <div class="visit-results-item">
+                                <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.value}</span>
+                                <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </div>
+            </aura:set>
+
+            <aura:set attribute="footer">
+                <div class="visit-results-footer" onclick="{!c.navigateToPage}">
+                    {!$Label.c.Resources_See_All}
+                </div>
+            </aura:set>
+
+        </c:RRPanel>
+    </aura:if>
 
 </aura:component>
