@@ -11,4 +11,5 @@ trigger ParticipantStudyEnrollmentTrigger on Participant_Study_Enrollment__c (be
     TriggerHandlerExecutor.execute(PSETriggerHandler.SendDropOutEmailHandler.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.CreateStatusBasedInvitations.class);
     TriggerHandlerExecutor.execute(PSETriggerHandler.CreateVisitsScheduleHandler.class);
+    TriggerHandlerExecutor.execute(PSETriggerHandler.HideSurveyTasks.class);
 }
