@@ -77,7 +77,7 @@ public without sharing class VisitResultSharingService {
                 FROM Visit_Result__c
                 WHERE Patient_Visit__r.Participant_Study_Enrollment__c =: state.pse.Id
                     AND Patient_Visit__r.Participant_Study_Enrollment__r.Participant_Contact__c
-                        = :CommunityService.getUserContact().Id
+                        = :state.participant.Contact__c
         ];
     }
 
