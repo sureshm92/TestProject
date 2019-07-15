@@ -859,4 +859,20 @@ private class Test_BaseCRCPCommunity {
             System.assertEquals(studySite.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
         Test.stopTest();
     }
+
+    @IsTest
+    static void checkDummyAccountsTest(){
+        String accountName = 'Dummy Account For Location Check '+ UserInfo.getUserId();
+        Account acc = new Account(BillingStreet = 'Test Street',
+                                  BillingCountry = 'United States',
+                                  BillingCity = 'Test City');
+        Test.startTest();
+            StudyListViewController.checkAccountGeolocation(JSON.serialize(acc));
+            List<Account> accListForCheck = [SELECT Id FROM Account WHERE Name=:accountName];
+            System.assertEquals(1,accListForCheck.size());
+            StudyListViewController.returnAndRemoveAccount();
+            List<Account> accListForCheckAfterDel = [SELECT Id FROM Account WHERE Name=:accountName];
+            System.assertEquals(0,accListForCheckAfterDel.size());
+        Test.stopTest();
+    }
 }

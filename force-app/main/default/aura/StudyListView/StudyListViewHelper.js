@@ -8,12 +8,11 @@
         component.set("v.showSpinner", true);
         let userMode = communityService.getUserMode();
         component.set('v.userMode', userMode);
+        window.addEventListener('resize', $A.getCallback(function () {
+            helper.doUpdateStudyTitle(component);
+        }));
 
         if (userMode === 'HCP') {
-            window.addEventListener('resize', $A.getCallback(function () {
-                helper.doUpdateStudyTitle(component);
-                // helper.doUpdateStudyDescription(component);
-            }));
             communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 component.set("v.paginationData", initData.paginationData);
@@ -22,36 +21,47 @@
                 component.set("v.accessUserLevel", initData.delegateAccessLevel);
                 helper.prepareIcons(initData.currentPageList);
                 component.set("v.currentPageList", initData.currentPageList);
-                component.set("v.showSpinner", false);
                 component.set('v.isInitialized', true);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
-                    // helper.doUpdateStudyDescription(component);
-                }), 10);
+                    component.set("v.showSpinner", false);
+                }), 1);
             });
         } else {
-            window.addEventListener('resize', $A.getCallback(function () {
-                helper.doUpdateStudyTitle(component);
-                // helper.doUpdateStudyDescription(component);
-            }));
             communityService.executeAction(component, 'getStudyTrialList', {
                 userMode: userMode
             }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                helper.addCheckAttributes(initData.currentlyRecruitingTrials);
+                console.log('INIT DATA>>>>>>>>', JSON.parse(JSON.stringify(initData)));
+                helper.addCheckNoLongerAttributes(initData.currentlyRecruitingTrials);
                 component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
                 component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
                 component.set('v.delegatesPicklist', initData.delegatePicklist);
-                console.log('INIT DATA>>>>>>>>', JSON.parse(JSON.stringify(initData)));
-                component.set('v.contactAccountsList', initData.contactAccounts);
-                console.log('initData.contactAccounts>>>', initData.contactAccounts);
+                component.set('v.contactAccountsList', initData.contactAccounts.sort(function(a, b) {
+                    var nameA = a.Name.toUpperCase();
+                    var nameB = b.Name.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                }));
                 helper.prepareIconsForPI(initData);
-                component.set('v.countryPicklist', initData.countryPicklist);
-                component.set("v.showSpinner", false);
-                component.set('v.isInitialized', true);
+                component.set('v.countryPicklist', initData.countries);
+                component.set('v.statesByCountryMap',initData.statesByCountryMap);
+                component.set('v.countriesMap',initData.countriesMap);
+                component.set('v.countryCodesMap',initData.countryCodesMap);
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
+                //component.set("v.showSpinner", false);
+                setTimeout($A.getCallback(function () {
+                    helper.doUpdateStudyTitle(component);
+                    component.set("v.showSpinner", false);
+                }), 1);
+                component.set('v.isInitialized', true);
                 if (communityService.getUserMode() === 'Participant') {
                     component.set('v.currentlyRecruitingTrials', initData.peList);
                     component.set('v.trialsNoLongerRecruiting', initData.peListNoLongerRecr);
@@ -64,7 +74,6 @@
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
-
         let spinner = cmp.find('recordsSpinner');
         spinner.show();
         let filter = cmp.get('v.filterData');
@@ -73,12 +82,10 @@
             filter.therapeuticArea = null;
         }
         let searchText = filter.searchText;
-
         let paginationData = cmp.get('v.paginationData');
         if (fromFirstPage === true) {
             paginationData.currentPage = 1;
         }
-
         let filterJSON = JSON.stringify(filter);
         let paginationJSON = JSON.stringify(paginationData);
         let sortJSON = JSON.stringify(cmp.get('v.sortData'));
@@ -91,9 +98,7 @@
             isSearchResume: isSearch
         }, function (returnValue) {
             if (cmp.get('v.filterData').searchText !== searchText) return;
-
             let result = JSON.parse(returnValue);
-
             cmp.set('v.skipUpdate', true);
             helper.prepareIcons(result.records);
             cmp.set('v.currentPageList', result.records);
@@ -102,10 +107,8 @@
             pagination.currentPageCount = result.paginationData.currentPageCount;
             pagination.currentPage = result.paginationData.currentPage;
             cmp.set('v.paginationData', pagination);
-
             filter.therapeuticAreas = result.therapeuticAreas;
             cmp.set('v.filterData', filter);
-
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(cmp);
             }), 10);
@@ -147,10 +150,8 @@
         };
         if (initData.currentlyRecruitingTrials) {
             for (var i = 0; i < initData.currentlyRecruitingTrials.length; i++) {
-                for (var j = 0; j < initData.currentlyRecruitingTrials[i].studies.length; j++) {
-                    initData.currentlyRecruitingTrials[i].studies[j].trial.statusIcon = iconMap[initData.currentlyRecruitingTrials[i].studies[j].trial.Override_Recruitment_Status__c];
-                    initData.currentlyRecruitingTrials[i].studies[j].trial.iconStyle = styleMap[initData.currentlyRecruitingTrials[i].studies[j].trial.Override_Recruitment_Status__c];
-                }
+                initData.currentlyRecruitingTrials[i].trial.statusIcon = iconMap[initData.currentlyRecruitingTrials[i].trial.Override_Recruitment_Status__c];
+                initData.currentlyRecruitingTrials[i].trial.iconStyle = styleMap[initData.currentlyRecruitingTrials[i].trial.Override_Recruitment_Status__c];
             }
         }
         if (initData.trialsNoLongerRecruiting) {
@@ -186,7 +187,7 @@
     },
 
     clampLine: function (studyTitle, numberOfRows) {
-        var width = studyTitle.style.width;
+        var width = studyTitle.offsetWidth;
         if (width === '0' || !width) {
             width = studyTitle.parentNode.offsetWidth;
         }
@@ -250,8 +251,8 @@
         for (var i = 0; i < trails.length; i++) {
             for (var j = 0; j < trails[i].studies.length; j++) {
                 for (var s = 0; s < trails[i].studies[j].ssList.length; s++) {
-                    trails[i].studies[j].ssList[s].isRecordUpdated = false;
-                    trails[i].studies[j].ssList[s].isEmailValid = true;
+                    trails[i].studies[j].ssList[s].studySite.isRecordUpdated = false;
+                    trails[i].studies[j].ssList[s].studySite.isEmailValid = true;
                 }
             }
         }
@@ -260,8 +261,8 @@
     addCheckNoLongerAttributes: function (trails) {
         for (var i = 0; i < trails.length; i++) {
             for (var j = 0; j < trails[i].ssList.length; j++) {
-                trails[i].ssList[j].isRecordUpdated = false
-                trails[i].ssList[j].isEmailValid = true;
+                trails[i].ssList[j].studySite.isRecordUpdated = false
+                trails[i].ssList[j].studySite.isEmailValid = true;
             }
         }
     }

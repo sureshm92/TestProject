@@ -1,10 +1,26 @@
 public class DuplicateContactController {
+
+    public static Boolean isPERCreated = false;
     public static void checkDuplicates(Integration_Patient_Referral__c record){
         primaryPhoneEmailCheck(record);
     }
+
+	public static Participant__c communityReffering(Participant__c participant, Participant_Enrollment__c participantEnrollment){
+        Integration_Patient_Referral__c tempRecord = new Integration_Patient_Referral__c(
+			firstName__c = participant.First_Name__c,
+			lastName__c = participant.Last_Name__c,
+			email__c = participant.email__c,
+			phone__c = participant.phone__c,
+            birthYear__c = participant.Date_of_Birth__c != null ?  participant.Date_of_Birth__c.substring(0,4) : ''
+		);
+        Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
+        isPERCreated = false;
+		return participantRecord;
+	}
     
-    private static void primaryPhoneEmailCheck(Integration_Patient_Referral__c record){
+    private static Participant__c primaryPhoneEmailCheck(Integration_Patient_Referral__c record){
         System.debug('Check Record');
+        Participant__c participant = new Participant__c();
         List<Contact> contactRecords = new List<Contact>();
 		List<Participant__c> participantRecords = new List<Participant__c>();
 		List<Id> contactsIds = new List<Id>();
@@ -52,80 +68,98 @@ public class DuplicateContactController {
 				for(Integer i = 0; i < recordsContactCount; i++){
                     if((contactRecords[i].BirthDate != null && record.BirthYear__c == String.valueOf(contactRecords[i].BirthDate.year()))){
                         System.debug('BirthDate__c Check Match');
-                        if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
+                        if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r.size() != 0 && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match' + contactRecords[i].id);
                             //contactRecords[i].Phone = record.phone__c;
-                            processedDuplicate(contactRecords[i].id, record);
+                            participant = processedDuplicate(contactRecords[i].id, record);
 							break;
                         }else if(recordsContactCount == (i + 1)){
                             System.debug('New Records Done');
-                            createNewRecords(record);
+                            participant = createNewRecords(record);
 							break;
                         }
-                    }else if(contactRecords[i].BirthDate == null){
-                       if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
+                    }else if(contactRecords[i].BirthDate == null && !checkBirthDate(record.BirthYear__c)){
+                       if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r.size() != 0 && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                             System.debug('FirstName Check Match');
                            	contactRecords[i].BirthDate = Date.newInstance(Integer.valueOf(record.BirthYear__c), 1, 1);
                            	//contactRecords[i].Phone = record.phone__c;
-                            processedDuplicate(contactRecords[i].id, record);
+                            participant = processedDuplicate(contactRecords[i].id, record);
 							break;
                         }else if(recordsContactCount == (i + 1)){
                             System.debug('New Records Done');
-                            createNewRecords(record);
+                            participant = createNewRecords(record);
 							break;
                         } 	
                     }else if(recordsContactCount == (i + 1)){
                         System.debug('New Records Done');
-                        createNewRecords(record);
+                        participant = createNewRecords(record);
 						break;
                     }
                 }
             }else{
                 for(Integer i = 0; i < recordsContactCount; i++){
-                    if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
+                    if(record.firstName__c  == contactRecords[i].FirstName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r.size() != 0 && contactRecords[i].Participants__r[0].First_Name__c == record.firstName__c)){
                         System.debug('FirstName Check Match');
-                        if(record.lastName__c == contactRecords[i].LastName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r[0].Last_Name__c == record.lastName__c)){
+                        if(record.lastName__c == contactRecords[i].LastName || (contactRecords[i].Participants__r != null && contactRecords[i].Participants__r.size() != 0 && contactRecords[i].Participants__r[0].Last_Name__c == record.lastName__c)){
                             System.debug('LastName Check Match');
-                            if(!contactRecords[i].userCommunytyType__c.contains('Participant')){
-                                ParticipantDeduplicationController.checkPER(contactRecords[i].id, record);
+                            if(contactRecords[i].userCommunytyType__c == null  || !contactRecords[i].userCommunytyType__c.contains('Participant')){
+                                participant = ParticipantDeduplicationController.checkPER(contactRecords[i].id, record);
 								break;
 							}else{
-                             	processedDuplicate(contactRecords[i].id, record);  
+                             	participant = processedDuplicate(contactRecords[i].id, record);  
 								break;
 						    }
                             
                         }else if(recordsContactCount == (i + 1)){
                             System.debug('New Records');
-                            createNewRecords(record);
+                            participant = createNewRecords(record);
 							break;
                         }
                     }else if(recordsContactCount == (i + 1)){
                          System.debug('New Records Done');
-                         createNewRecords(record);
+                         participant = createNewRecords(record);
 						 break;
                     }
                 }
             }
         }else{
             System.debug('New Records Done');
-            createNewRecords(record);
+            participant = createNewRecords(record);
         }
-        update contactRecords;
+        if(!isPERCreated){
+            update contactRecords;
+        }
+        return participant;
     }
     
-    public static void createNewRecords(Integration_Patient_Referral__c record){
+    private static Participant__c createNewRecords(Integration_Patient_Referral__c record){
         System.debug('Create New Records');
-        ParticipantDeduplicationController.checkPER(record);
+        return ParticipantDeduplicationController.checkPER(record);
     }
     
-    public static void processedDuplicate(String contactId, Integration_Patient_Referral__c record){
+    private static Participant__c processedDuplicate(String contactId, Integration_Patient_Referral__c record){
         System.debug('Duplicate');
         List<Participant__c> listOfParticipants = new List<Participant__c>();
         listOfParticipants = [SELECT id FROM Participant__c WHERE Contact__c = :contactId];
         if(listOfParticipants.size() != 0){
-        	ParticipantDeduplicationController.checkPER(contactId, listOfParticipants[0].id, record);
+            if(!isPERCreated){
+                return ParticipantDeduplicationController.checkPER(contactId, listOfParticipants[0].id, record);
+            }else{
+                return listOfParticipants[0];
+            }
         }else{
-            ParticipantDeduplicationController.checkPER(contactId, record);
+            return ParticipantDeduplicationController.checkPER(contactId, record);
         }
+    }
+
+    private static boolean checkBirthDate(String birthYear){
+        Integer referralDateYear =Integer.valueOf(birthYear);
+        Integer currentYear = Date.today().year();
+        if((currentYear - referralDateYear) > 18){
+            return false;
+        }else{
+            return true;
+        }
+
     }
 }

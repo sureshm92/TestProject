@@ -8,14 +8,17 @@ public without sharing class VisitResultSharingService {
     private static Boolean havePSE;
 
     static {
-        state = ParticipantService.getParticipantState();
-        havePSE = state.pse != null;
+        if([SELECT Id, ContactId FROM User WHERE Id =: UserInfo.getUserId()].ContactId != null){
+            state = ParticipantService.getParticipantState();
+            havePSE = state.pse != null;
+        }
     }
 
     public static Boolean isVisitResultAvailable() {
         if(!havePSE) return false;
 
         return state.pse.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
+                state.ctp.Participating_in_Patient_Portal__c == 'Yes' &&
                 state.pse.Study_Site__r.Visit_Results_Sharing__c;
     }
 
@@ -31,6 +34,7 @@ public without sharing class VisitResultSharingService {
                             Measurement__c,
                             Min_Value__c,
                             Patient_Visit__c,
+                            Patient_Visit__r.Completed_Date__c,
                             Patient_Visit__r.Visit__c,
                             Patient_Visit__r.Visit__r.Order__c,
                             Result_Type__c
