@@ -23,7 +23,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         Clinical_Trial_Profile__c,
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
-                        Participant_Enrollment__c
+                        Participant_Enrollment__c,
+                        Status__c
                 FROM Participant_Study_Enrollment__c
                 WHERE Status__c IN: PSEService.PSE_STATUS_GROUP_ALL
                     AND Days_After_Enrolled__c IN: daysSet
@@ -40,6 +41,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         Survey__r.Name,
                         Active_After_Days__c,
                         Expires_After_Days__c,
+                        Is_Midpoint__c,
                         Reminder_Schedule__c,
                         Whose_response_needed__c
                 FROM Trial_Survey__c
@@ -72,6 +74,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             if(surveys != null) {
                 for(Trial_Survey__c ts : surveys) {
                     if(ts.Active_After_Days__c == pse.Days_After_Enrolled__c) {
+                        if(ts.Is_Midpoint__c && PSEService.PSE_STATUS_GROUP_COMPLETE.contains(pse.Status__c)) continue;
                         String key = '' + pse.Participant_Enrollment__c + ts.Id;
                         if(invitationMap.get(key) == null) {
                             newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pse.Participant_Enrollment__c));
