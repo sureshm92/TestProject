@@ -58,6 +58,7 @@ public without sharing class StudySiteService {
         SS_CHANGE_STATUS_MAP.put(PI_S_ON_HOLD_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_DEACTIVATED_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_DECLINED_ACCEPTANCE, new Map<String, String>());
+       // SS_CHANGE_STATUS_MAP.get(PI_S_INVITATION_SENT).put('decline', PI_S_DECLINED_ACCEPTANCE);
 
     }
 
@@ -153,6 +154,25 @@ public without sharing class StudySiteService {
         studySite.Override_PI_Referral_Status__c = newStatus;
         update studySite;
         return newStatus;
+    }
+
+    public static void changeStatus(Set<Id> studySiteId, String userMod, String newStatusType) {
+        List<Study_Site__c> studySite = [
+                SELECT Id, Override_PI_Referral_Status__c
+                FROM Study_Site__c
+                WHERE Id IN :studySiteId
+        ];
+        if(!studySite.isEmpty()) {
+            for (Integer i = 0; i < studySite.size(); i++) {
+                String oldStatus = studySite[i].Override_PI_Referral_Status__c;
+                String newStatus = SS_CHANGE_STATUS_MAP.get(oldStatus).get(newStatusType);
+                if (newStatus == null) {
+                    throw new AuraHandledException('Invalid action! Can`t change this status to status = ' + newStatusType);
+                }
+                studySite[i].Override_PI_Referral_Status__c = newStatus;
+            }
+            update studySite;
+        }
     }
 
     public static List<Study_Site__c> getStudySitesForPI() {

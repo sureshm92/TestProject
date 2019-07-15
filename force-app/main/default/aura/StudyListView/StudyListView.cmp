@@ -150,9 +150,10 @@
                 <!-- Output currently recruiting trials -->
                 <aura:if isTrue="{!v.currentTab == 'recruiting'}">
                     <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
-                    <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">
-                        <div class="slv-category">{!trialsSubList.name}</div>
-                        <aura:iteration items="{!trialsSubList.studies}" var="trial">
+                    <!--<aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">-->
+                        <!--<div class="slv-category">{!trialsSubList.name}</div>-->
+                        <div class="slv-category"></div>
+                        <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">
                             <c:StudyListViewItem currentStudy="{!trial}"
                                                  delegatePicklist="{!v.delegatesPicklist}"
                                                  userMode="{!v.userMode}"
@@ -165,14 +166,14 @@
                                                  checkedAccountWasCreated= "{!v.checkedAccountWasCreated}"
                                                  accountWithCheckedLocation="{!v.accountWithCheckedLocation}"/>
                         </aura:iteration>
-                    </aura:iteration>
+                    <!--</aura:iteration>-->
                 </aura:if>
 
                 <!-- Trials no longer recruiting -->
                 <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
                     <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                        <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
+                       <!-- <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>-->
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
                             <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
                                                  countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"

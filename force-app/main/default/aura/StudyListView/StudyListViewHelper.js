@@ -32,13 +32,23 @@
                 userMode: userMode
             }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                helper.addCheckAttributes(initData.currentlyRecruitingTrials);
+                console.log('INIT DATA>>>>>>>>', JSON.parse(JSON.stringify(initData)));
+                helper.addCheckNoLongerAttributes(initData.currentlyRecruitingTrials);
                 component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
                 component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
                 component.set('v.delegatesPicklist', initData.delegatePicklist);
-                console.log('INIT DATA>>>>>>>>', JSON.parse(JSON.stringify(initData)));
-                component.set('v.contactAccountsList', initData.contactAccounts);
+                component.set('v.contactAccountsList', initData.contactAccounts.sort(function(a, b) {
+                    var nameA = a.Name.toUpperCase();
+                    var nameB = b.Name.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                }));
                 helper.prepareIconsForPI(initData);
                 component.set('v.countryPicklist', initData.countries);
                 component.set('v.statesByCountryMap',initData.statesByCountryMap);
@@ -140,10 +150,8 @@
         };
         if (initData.currentlyRecruitingTrials) {
             for (var i = 0; i < initData.currentlyRecruitingTrials.length; i++) {
-                for (var j = 0; j < initData.currentlyRecruitingTrials[i].studies.length; j++) {
-                    initData.currentlyRecruitingTrials[i].studies[j].trial.statusIcon = iconMap[initData.currentlyRecruitingTrials[i].studies[j].trial.Override_Recruitment_Status__c];
-                    initData.currentlyRecruitingTrials[i].studies[j].trial.iconStyle = styleMap[initData.currentlyRecruitingTrials[i].studies[j].trial.Override_Recruitment_Status__c];
-                }
+                initData.currentlyRecruitingTrials[i].trial.statusIcon = iconMap[initData.currentlyRecruitingTrials[i].trial.Override_Recruitment_Status__c];
+                initData.currentlyRecruitingTrials[i].trial.iconStyle = styleMap[initData.currentlyRecruitingTrials[i].trial.Override_Recruitment_Status__c];
             }
         }
         if (initData.trialsNoLongerRecruiting) {
@@ -243,8 +251,8 @@
         for (var i = 0; i < trails.length; i++) {
             for (var j = 0; j < trails[i].studies.length; j++) {
                 for (var s = 0; s < trails[i].studies[j].ssList.length; s++) {
-                    trails[i].studies[j].ssList[s].isRecordUpdated = false;
-                    trails[i].studies[j].ssList[s].isEmailValid = true;
+                    trails[i].studies[j].ssList[s].studySite.isRecordUpdated = false;
+                    trails[i].studies[j].ssList[s].studySite.isEmailValid = true;
                 }
             }
         }
@@ -253,8 +261,8 @@
     addCheckNoLongerAttributes: function (trails) {
         for (var i = 0; i < trails.length; i++) {
             for (var j = 0; j < trails[i].ssList.length; j++) {
-                trails[i].ssList[j].isRecordUpdated = false
-                trails[i].ssList[j].isEmailValid = true;
+                trails[i].ssList[j].studySite.isRecordUpdated = false
+                trails[i].ssList[j].studySite.isEmailValid = true;
             }
         }
     }
