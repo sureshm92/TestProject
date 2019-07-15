@@ -17,7 +17,7 @@ public without sharing class StudyListViewController {
 
     class InitData {
         List<StudyDetailItem> trialsNoLongerRecruiting = new List<StudyDetailItem>();
-        List<StudiesGroup> currentlyRecruitingTrials = new List<StudiesGroup>();
+        List<StudyDetailItem> currentlyRecruitingTrials = new List<StudyDetailItem>();
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         List<ParticipantItem> peList = new List<ParticipantItem>();
@@ -50,9 +50,9 @@ public without sharing class StudyListViewController {
                 groupTrials(initData, studies, userMode);
             } else if (userMode == CommunityService.USER_MODE_PI) {
                 studies = getStudiesForPI();
-                initData.contactAccounts = getPIAccounts(studies);
                 groupTrials(initData, studies, userMode);
                 initData.delegatePicklist = StudyTrialService.getDelegatePicklistValues();
+                initData.contactAccounts = getPIAccounts(studies);
                 initData.countries.addAll(CountryStateUtil.getCountries());
                 initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
                 initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
@@ -156,12 +156,31 @@ public without sharing class StudyListViewController {
             List<Study_Site__c> ss = trialStudySiteMap.get(trial.Id);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
-            studyDetailItem.studyStatus = ss[0].Override_PI_Referral_Status__c;
-            studyDetailItem.ssList = ss;
-
-            for (Study_Site__c studSite : trialStudySiteMap.get(trial.Id)) {
-                studyDetailItem.studyActions = new StudyActionsPI(studSite).studyListViewItemActions;
+            Study_Site__c initionSS = new Study_Site__c();
+            Map<String,Study_Site__c> statusMap = new Map<String,Study_Site__c>();
+            for (Integer i = 0; i <ss.size() ; i++) {
+                studyDetailItem.ssList.add(new StudyDetailItem.StudySiteWithActions(ss[i],new StudyActionsPI(ss[i]).studySitePiActions));
+                if(ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT){
+                    statusMap.put(StudySiteService.PI_S_INVITATION_SENT,ss[i]);
+                } else if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DECLINED_ACCEPTANCE || ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_NON_RESPONCIVE_A){
+                    statusMap.put(StudySiteService.PI_S_DECLINED_ACCEPTANCE,ss[i]);
+                } else if(ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DEACTIVATED_A){
+                    statusMap.put(StudySiteService.PI_S_DEACTIVATED_A,ss[i]);
+                }
+                else{
+                    statusMap.put(StudySiteService.PI_S_ACCEPTED,ss[i]);
+                }
             }
+            if(statusMap.containsKey(StudySiteService.PI_S_INVITATION_SENT)){
+                initionSS = statusMap.get(StudySiteService.PI_S_INVITATION_SENT);
+            } else if(statusMap.containsKey(StudySiteService.PI_S_DECLINED_ACCEPTANCE)){
+                initionSS = statusMap.get(StudySiteService.PI_S_DECLINED_ACCEPTANCE);
+            } else if (statusMap.size() == 1 && statusMap.containsKey(StudySiteService.PI_S_DEACTIVATED_A)){
+                initionSS = statusMap.get(StudySiteService.PI_S_DEACTIVATED_A);
+            } else{
+                initionSS = statusMap.get(StudySiteService.PI_S_ACCEPTED);
+            }
+            studyDetailItem.studyActions = new StudyActionsPI(initionSS).studyListViewItemActions;
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }
@@ -180,7 +199,14 @@ public without sharing class StudyListViewController {
             TranslateHelper.translate(item.trial);
             if (item.trial.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
                 initData.trialsNoLongerRecruiting.add(item);
-            } else if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')) {
+            } else {
+                initData.currentlyRecruitingTrials.add(item);
+            }
+        }
+        StudyDetailItem.sortType = 'Name';
+        initData.currentlyRecruitingTrials.sort();
+        initData.trialsNoLongerRecruiting.sort();
+         /*if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')) {
                 activated.studies.add(item);
             } else if (item.studyStatus == StudySiteService.PI_S_INVITATION_SENT) {
                 pendingYourAction.studies.add(item);
@@ -202,7 +228,7 @@ public without sharing class StudyListViewController {
         if (onHold.studies.size() > 0) initData.currentlyRecruitingTrials.add(onHold);
         if (declined.studies.size() > 0) initData.currentlyRecruitingTrials.add(declined);
         if (declinedOther.studies.size() > 0) initData.currentlyRecruitingTrials.add(declinedOther);
-        if (deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);
+        if (deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);*/
     }
 
 
@@ -251,7 +277,7 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static void checkAccountGeolocation(String account) {
            Account newAccount = (Account) JSON.deserialize(account,Account.class);
-                Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME,
+                Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId(),
                         BillingStreet = newAccount.BillingStreet,
                         BillingCountry = newAccount.BillingCountry,
                         BillingCity = newAccount.BillingCity);
@@ -260,7 +286,7 @@ public without sharing class StudyListViewController {
 
     @AuraEnabled
     public static String returnAndRemoveAccount(){
-        List<Account> acc = [SELECT Id,Name,BillingLongitude,BillingCity,BillingLatitude FROM Account WHERE Name =: DUMMY_ACCOUNT_NAME];
+        List<Account> acc = [SELECT Id,Name,BillingLongitude,BillingCity,BillingLatitude FROM Account WHERE Name =: DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId()];
         String valueToReturn;
         if(acc.size()>0) {
             valueToReturn = JSON.serialize(acc[0]);

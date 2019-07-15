@@ -227,7 +227,7 @@
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
                 <div class="slds-p-horizontal_medium slds-p-bottom_small">
                     <aura:iteration items="{!v.currentStudy.ssList}" var="siteWrapper" indexVar="siteWrappIndx">
-                        <aura:if isTrue="{!siteWrapper}">
+                        <aura:if isTrue="{!siteWrapper.studySite}">
                             <div class="manage-location-details" data-index="{!siteWrappIndx}"
                                  onclick="{!c.showManageLocationDetails}">{!$Label.c.SS_Manage_Location_Details}</div>
 
@@ -241,7 +241,7 @@
                                                 <div class="slds-col slds-size--1-of-5 my-location-label">{!$Label.c.SS_My_Locations}
                                                 </div>
                                                 <div class="slds-col slds-size--5-of-5 slds-grid slds-grid_align-end">
-                                                    <button data-site-id="{!siteWrapper.site.Id}" id="addNewLocation"
+                                                    <button data-site-id="{!siteWrapper.studySite.site.Id}" id="addNewLocation"
                                                             value="{!siteWrappIndx}"
                                                             class="apollo-btn primary"
                                                             style="background-color: white; color: #297DFD;	border: 1px solid #D9D9D9; box-shadow: none; display: inline-block; font-size: 16px;"
@@ -256,14 +256,6 @@
                                                                     indexVar="accIndex">
                                                         <div class="slds-grid slds-col slds-size--1-of-1">
                                                             <div class="locationContainer slds-grid slds-wrap">
-                                                                <!--<div class="slds-col slds-size&#45;&#45;1-of-12 slds-grid slds-grid&#45;&#45;vertical-align-center slds-grid&#45;&#45;align-center"
-                                                                     style="height:100%;" data-index="{!siteWrappIndx}">
-                                                                    <lightning:input aura:id="radioBtn"
-                                                                                     class="slds-grid" type="radio"
-                                                                                     value="{!accounts}"
-                                                                                     checked="{!accounts.Id==siteWrapper.Site__c}"
-                                                                                     onfocus="{!c.changeRadioMarker}"/>
-                                                                </div>-->
                                                                 <div class="slds-col slds-size--12-of-12 slds-grid slds-wrap"
                                                                      style="height:100%;">
                                                                     <div class="slds-col-size--1-of-1 slds-grid slds-wrap popup-account-name">
@@ -282,7 +274,7 @@
                                                                         <lightning:input aura:id="radioBtn"
                                                                                          class="slds-grid" type="radio"
                                                                                          value="{!accounts}"
-                                                                                         checked="{!accounts.Id==siteWrapper.Site__c}"
+                                                                                         checked="{!accounts.Id==siteWrapper.studySite.Site__c}"
                                                                                          onfocus="{!c.changeRadioMarker}"/>
                                                                     </div>
                                                                     <div class="slds-col slds-size--3-of-12 manage-location-info">
@@ -373,13 +365,15 @@
                                                         <div class="slds-col slds-size--2-of-6 popup-address-inputs">
                                                             <div class="rr-form-element">
                                                                 <button class="apollo-btn primary check-address-btn"
-                                                                        disabled="{!!v.editedAccount.BillingStreet ? true :
+                                                                        disabled="{!v.showPopUpSpinner ? v.showPopUpSpinner :
+                                                                                    !v.editedAccount.BillingStreet ? true :
                                                                                     !v.editedAccount.BillingCountry ? true :
                                                                                     !v.editedAccount.BillingCity ? true : false}"
-                                                                        title="{!!v.editedAccount.BillingStreet ? 'Fill Address' :
-                                                                                 !v.editedAccount.BillingCountry ? 'Choose Country' :
-                                                                                 !v.editedAccount.BillingCity ? 'Fill City' : 'Press to Check'}"
-                                                                        onclick="{!c.checkAddress}">Check Address</button>
+                                                                        title="{!v.showPopUpSpinner ? $Label.c.SS_Address_Is_Checking :
+                                                                                 !v.editedAccount.BillingStreet ? $Label.c.SS_Fill_Address :
+                                                                                 !v.editedAccount.BillingCountry ? $Label.c.SS_Choose_Country :
+                                                                                 !v.editedAccount.BillingCity ? $Label.c.SS_Fill_City : $Label.c.SS_Press_To_Check}"
+                                                                        onclick="{!c.checkAddress}">{!$Label.c.SS_Btn_Check_Address}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -406,7 +400,7 @@
                                                             <div class="slds-spinner__dot-a"></div>
                                                             <div class="slds-spinner__dot-b"></div>
                                                         </div>
-                                                        <div class="input-fields-labels address-indicator-label">Address is checking</div>
+                                                        <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Is_Checking}</div>
                                                     </div>
                                                 </aura:if>
                                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
@@ -437,7 +431,7 @@
                                         <button class="apollo-btn primary"
                                                 onclick="{!v.editAddress ? c.saveNewAccount : c.changeStudySiteAddress}"
                                                 disabled="{!v.editAddress ? (!v.addressWasChanged ? !v.addressWasChanged  : !v.editedAccount.Name ): !v.locationWasChanged}"
-                                                title="{!v.editAddress ? !v.addressWasChanged ? $Label.c.SS_No_Changes_Message : !v.editedAccount.Name  ? 'Fill Location Name' : $Label.c.SS_Save_Changes : !v.locationWasChanged ?  $Label.c.SS_No_Changes_Message : $Label.c.SS_Save_Changes}"
+                                                title="{!v.editAddress ? !v.addressWasChanged ? $Label.c.SS_No_Changes_Message : !v.editedAccount.Name  ? $Label.c.SS_Fill_Location_Name : $Label.c.SS_Save_Changes : !v.locationWasChanged ?  $Label.c.SS_No_Changes_Message : $Label.c.SS_Save_Changes}"
                                                 value="{!siteWrappIndx}">{!v.editAddress ? $Label.c.SS_Save_New_Account : $Label.c.SS_Use_This_Address}</button>
                                     </aura:set>
                                 </c:Popup>
@@ -452,19 +446,19 @@
                                                  style="display: inline-block">{!$Label.c.SS_Study_Site_Name}</div>
                                             <div class="rr-form-element">
                                                 <lightning:input aura:id="emailInput"
-                                                                 value="{!siteWrapper.Name}"
+                                                                 value="{!siteWrapper.studySite.Name}"
                                                                  onchange="{!c.changeUpdatedStatus}"/>
                                             </div>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type">
-                                            {!(siteWrapper.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}
+                                            {!(siteWrapper.studySite.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
                                              data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
                                             <div data-index="{!siteWrappIndx}" onclick="{!c.changeItemIndex}">
                                                 <c:rrSelect id="delegatesPicklist" options="{!v.delegatePicklist}"
-                                                            value="{!siteWrapper.Site_Staff__c}"
+                                                            value="{!siteWrapper.studySite.Site_Staff__c}"
                                                             class="delegate-select"
                                                             placeholder="{!if(v.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
                                                             onchange="{!c.changeUpdatedStatus}"/>
@@ -476,7 +470,7 @@
                                                  style="display: inline-block;">{!$Label.c.SS_Phone}</div>
                                             <div class="rr-form-element">
                                                 <lightning:input aura:id="emailInput"
-                                                                 value="{!siteWrapper.Study_Site_Phone__c}"
+                                                                 value="{!siteWrapper.studySite.Study_Site_Phone__c}"
                                                                  onchange="{!c.changeUpdatedStatus}"/>
                                             </div>
                                         </div>
@@ -485,7 +479,7 @@
                                             <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
                                             <div class="rr-form-element">
                                                 <lightning:input aura:id="emailInput"
-                                                                 value="{!siteWrapper.Study_Site_Email__c}"
+                                                                 value="{!siteWrapper.studySite.Study_Site_Email__c}"
                                                                  onchange="{!c.changeUpdatedStatus}"
                                                                  onblur="{!c.checkValidEmail}"/>
                                             </div>
@@ -494,8 +488,8 @@
                                             <button class="apollo-btn pi-save-btn primary"
                                                     onclick="{!c.saveChanges}"
                                                     value="{!siteWrappIndx}"
-                                                    disabled="{!or(!siteWrapper.isEmailValid,!siteWrapper.isRecordUpdated)}"
-                                                    title="{!if(siteWrapper.isRecordUpdated,if(siteWrapper.isEmailValid,$Label.c.SS_Save_Changes,$Label.c.SS_invalidEmail),$Label.c.SS_No_Changes_Message)}">
+                                                    disabled="{!or(!siteWrapper.studySite.isEmailValid,!siteWrapper.studySite.isRecordUpdated)}"
+                                                    title="{!if(siteWrapper.studySite.isRecordUpdated,if(siteWrapper.studySite.isEmailValid,$Label.c.SS_Save_Changes,$Label.c.SS_invalidEmail),$Label.c.SS_No_Changes_Message)}">
                                                 {!$Label.c.SS_Btn_Save}
                                             </button>
                                         </div>
@@ -505,37 +499,51 @@
                                             <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3 other-ss-info-height-control">
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                                     <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
-                                                    <div class="ss-info-address">{!siteWrapper.Site__r.BillingStreet}</div>
-                                                    <div class="ss-info-address">{!if(siteWrapper.Site__r.BillingCity!=null, siteWrapper.Site__r.BillingCity + ', ', '') +siteWrapper.Site__r.BillingStateCode + ' ' + siteWrapper.Site__r.BillingPostalCode}</div>
+                                                    <div class="ss-info-address">{!siteWrapper.studySite.Site__r.BillingStreet}</div>
+                                                    <div class="ss-info-address">{!if(siteWrapper.studySite.Site__r.BillingCity!=null, siteWrapper.studySite.Site__r.BillingCity + ', ', '') +siteWrapper.studySite.Site__r.BillingStateCode + ' ' + siteWrapper.studySite.Site__r.BillingPostalCode}</div>
                                                     <c:RRIcon
-                                                            class="{!siteWrapper.Site__r.BillingLatitude &amp;&amp; siteWrapper.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
-                                                            iconName="{!siteWrapper.Site__r.BillingLatitude &amp;&amp; siteWrapper.Site__r.BillingLongitude ?'icon-check':'icon-close'}"/>
+                                                            class="{!siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
+                                                            iconName="{!siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ?'icon-check':'icon-close'}"/>
                                                     <div style="display:inline-block;"
-                                                         class="input-fields-labels">{!siteWrapper.Site__r.BillingLatitude &amp;&amp; siteWrapper.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                                         class="input-fields-labels">{!siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
                                                 </div>
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                                     <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                                     <div aura:id="driving-instructions"
-                                                         class="driving-instructions">{!siteWrapper.Site__r.Driving_Directions__c}</div>
+                                                         class="driving-instructions">{!siteWrapper.studySite.Site__r.Driving_Directions__c}</div>
                                                 </div>
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                                     <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
                                                     <div aura:id="driving-instructions"
-                                                         class="driving-instructions">{!siteWrapper.Site__r.Parking_Instructions__c}</div>
+                                                         class="driving-instructions">{!siteWrapper.studySite.Site__r.Parking_Instructions__c}</div>
                                                 </div>
                                             </div>
                                             <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3">
                                                 <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
-                                                    <button data-site-id="{!siteWrapper.site.Id}"
+                                                    <aura:iteration items="{!siteWrapper.actions}" var="action">
+                                                        <button id="{!action.id}"
+                                                                value="{!siteWrappIndx}"
+                                                                class="apollo-btn primary slds-align-bottom"
+                                                                disabled = "{!action.disabled}"
+                                                                title="{!action.disableReason}"
+                                                                style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
+                                                                onclick="{!c.doAction}">{!action.label}</button>
+
+                                                    </aura:iteration>
+                                                    <!--<button data-site-id="{!siteWrapper.studySite.site.Id}"
                                                             id="manageReferralsBySS" value="{!siteWrappIndx}"
                                                             class="apollo-btn primary slds-align-bottom"
+                                                            disabled = "{!siteWrapper.studySite.Override_PI_Referral_Status__c != 'Accepted' &amp;&amp; siteWrapper.studySite.Override_PI_Referral_Status__c != 'Accepted (Admin)'&amp;&amp;
+                                                                              siteWrapper.studySite.Override_PI_Referral_Status__c != 'On Hold'&amp;&amp; siteWrapper.studySite.Override_PI_Referral_Status__c != 'On Hold (Admin)'}"
                                                             style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
                                                             onclick="{!c.doAction}">{!$Label.c.SS_Btn_Manage_Referrals}</button>
-                                                    <button data-site-id="{!siteWrapper.site.Id}"
+                                                    <button data-site-id="{!siteWrapper.studySite.site.Id}"
                                                             id="manageReferringClinicsBySS" value="{!siteWrappIndx}"
                                                             class="apollo-btn primary slds-align-bottom"
+                                                            disabled = "{!siteWrapper.studySite.Override_PI_Referral_Status__c != 'Accepted' &amp;&amp; siteWrapper.studySite.Override_PI_Referral_Status__c != 'Accepted (Admin)' &amp;&amp;
+                                                                              siteWrapper.studySite.Override_PI_Referral_Status__c != 'On Hold' &amp;&amp; siteWrapper.studySite.Override_PI_Referral_Status__c != 'On Hold (Admin)'}"
                                                             style="background-color: white; color: #297DFD; box-shadow: none; display: inline;"
-                                                            onclick="{!c.doAction}">{!$Label.c.SS_Btn_Manage_Referring_Providers}</button>
+                                                            onclick="{!c.doAction}">{!$Label.c.SS_Btn_Manage_Referring_Providers}</button>-->
                                                 </div>
                                             </div>
                                         </div>
