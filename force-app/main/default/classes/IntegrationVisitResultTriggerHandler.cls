@@ -18,7 +18,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
     @future
     private static void updateVisitResults(String jsonString){
         //If USUBJID, STUDYID, VISIT, VSDTC AND TESTCD ARE PRIMARY KEYS Exclude record if blank or NULL
-        List<Integration_VisitResult__c> results = (List<Integration_VisitResult__c>) JSON.deserialize(jsonString, List<Integration_Visit__c>.class);
+        List<Integration_VisitResult__c> results = (List<Integration_VisitResult__c>) JSON.deserialize(jsonString, List<Integration_VisitResult__c>.class);
         Set<String> externalIds = new Set<String>();
         Set<String> visitNames = new Set<String>();
         Set<Date> visitDates = new Set<Date>();
@@ -86,8 +86,10 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         ];
         Map<String,Visit_Result_TypeM__mdt> resultTypeMap = new Map<String,Visit_Result_TypeM__mdt>();
         for(Visit_Result_TypeM__mdt resultType : resultTypes){
-            for(String code : resultType.Visit_Result_Code__c.split(';')) {
-                resultTypeMap.put(code, resultType);
+            if(resultType.Visit_Result_Code__c != null) {
+                for (String code : resultType.Visit_Result_Code__c.split(';')) {
+                    resultTypeMap.put(code, resultType);
+                }
             }
         }
         return resultTypeMap;

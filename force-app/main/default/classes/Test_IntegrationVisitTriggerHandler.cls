@@ -5,9 +5,12 @@
 @IsTest
 private class Test_IntegrationVisitTriggerHandler {
 
-    /*@TestSetup
+    @TestSetup
     static void setup() {
-        ParticipantEnrollmentFactory.createParticipantStudyEnrollmentRecords('1',2,3,3);
+        Account acc = new Account();
+        acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
+        insert acc;
+        ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1',2,3,3);
     }
 
     @IsTest
@@ -19,18 +22,15 @@ private class Test_IntegrationVisitTriggerHandler {
         visit.VISITNUM__c = 1;
         Test.startTest();
         insert visit;
-        System.assertEquals('New Visit', getVisits()[0].Name);
         visit.SVSTDTC__c = Date.today().addDays(-1);
         update visit;
-        System.assertEquals(Date.today().addDays(-1), getVisits()[0].Completed_Date__c);
         visit.VISIT__c = 'New Visit01';
         update visit;
-        System.assertEquals(1, getVisits().size());
         visit.VISIT__c = 'New Visit02';
         visit.VISITNUM__c = 2;
         update visit;
-        System.assertEquals(2, getVisits().size());
         Test.stopTest();
+        System.assertEquals(2, getVisits().size());
     }
 
     private static List<Patient_Visit__c> getVisits(){
@@ -44,5 +44,5 @@ private class Test_IntegrationVisitTriggerHandler {
                 WHERE   Participant_Study_Enrollment__r.External_Key__c = '1~2~3'
         ];
         return visits;
-    }*/
+    }
 }
