@@ -5,7 +5,9 @@
 public class VisitResultSharingCountryLookupRemote {
     
     private final static List<String> DEFAULT_COUNTRIES = new List<String>{'US', 'CA'};
-    
+    private static final String INCLUDE_ICON = 'standard:task2';
+    private static final String EXCLUDE_ICON = 'standard:first_non_empty';
+
     private class CountryStateWrapper{
         
         LabelValueItem country;
@@ -29,8 +31,11 @@ public class VisitResultSharingCountryLookupRemote {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchCountries(String searchTerm, String value, Boolean includeStates, String ctpId) {
+    public static List<LookupSearchResult> searchCountries(String searchTerm, String value, Boolean includeStates,
+            Boolean isInclude,String ctpId) {
         try {
+            String icon = isInclude ? INCLUDE_ICON : EXCLUDE_ICON;
+
             List<String> selectedIds = new List<String>();
             if(!String.isEmpty(value)) selectedIds = value.split(';');
             if(searchTerm == null) searchTerm = '';
@@ -53,7 +58,7 @@ public class VisitResultSharingCountryLookupRemote {
                         results.add(new LookupSearchResult(
                                 countryStateWrapper.getKey(),
                                 'Country',
-                                'custom:custom68',
+                                icon,
                                 countryStateWrapper.country.label,
                                 countryStateWrapper.getStateLabel()
                         ));
@@ -68,8 +73,10 @@ public class VisitResultSharingCountryLookupRemote {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchResultsByValue(String value){
+    public static List<LookupSearchResult> searchResultsByValue(String value, Boolean isInclude){
         try{
+            String icon = isInclude ? INCLUDE_ICON : EXCLUDE_ICON;
+
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             if(String.isBlank(value)) return resList;
             List<String> items = value.split(';');
@@ -83,7 +90,7 @@ public class VisitResultSharingCountryLookupRemote {
                 resList.add(new LookupSearchResult(
                         item,
                         'Country',
-                        'custom:custom68',
+                        icon,
                         countryLabel,
                         stateLabel
                 ));
