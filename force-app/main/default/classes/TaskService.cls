@@ -56,6 +56,11 @@ public without sharing class TaskService {
             TASK_STATUS_IN_PROGRESS
     };
 
+    public static final List<String> TASK_STATUS_GROUP_AVAILABLE = new List<String>{
+            TASK_STATUS_OPEN,
+            TASK_STATUS_IN_PROGRESS
+    };
+
     private static TaskService instance;
 
     public static TaskService getInstance() {
@@ -159,6 +164,11 @@ public without sharing class TaskService {
         Map<Id, Id> delContactUser = getContactUserIdsMap(delContactIds);
         Map<Id, Id> userContact = new Map<Id, Id>();
 
+        Set<Id> allContacts = new Set<Id>();
+        allContacts.addAll(contactIds);
+        allContacts.addAll(delContactIds);
+        Map<Id, TimeZone> userTimezoneMap = getUserTimezoneMap(allContacts);
+
         List<TaskConfig> taskConfigs = new List<TaskConfig>();
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
@@ -189,21 +199,20 @@ public without sharing class TaskService {
 
             String subject = Label.Task_Subject_Complete_Survey.replace('##SurveyName', inv.Survey.Name);
             for (TaskConfig tsc : tmpConfigs) {
-                if (inv.InviteExpiryDateTime != null) {
-                    tsc.activityDate = Date.newInstance(
-                            inv.InviteExpiryDateTime.year(),
-                            inv.InviteExpiryDateTime.month(),
-                            inv.InviteExpiryDateTime.day()
-                    );
-                }
                 tsc.code = TASK_CODE_COMPLETE_SURVEY;
                 tsc.description = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
+                tsc.startDate = getUserDatetime(userTimezoneMap.get(tsc.ownerId)).date();
+                if (inv.InviteExpiryDateTime != null) {
+                    Date expiryDate= inv.InviteExpiryDateTime.date();
+                    Integer daysBetween = expiryDate.daysBetween(Date.today());
+                    tsc.activityDate = tsc.startDate.addDays(daysBetween);
+                }
+
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime =
-                            Datetime.newInstance(System.today().addDays(firstReminderDay), Time.newInstance(0, 0, 0, 0));
+                    tsc.reminderDatetime = getUserDatetime(userTimezoneMap.get(tsc.ownerId)).addDays(firstReminderDay);
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
@@ -224,7 +233,6 @@ public without sharing class TaskService {
         Task task = new Task(
                 OwnerId = taskConfig.ownerId,
                 Priority = taskConfig.priority,
-                Start_Date__c = taskConfig.startDate,
                 Status = taskConfig.status,
                 Subject = taskConfig.subject,
                 Visible_For__c = taskConfig.visibility
@@ -236,6 +244,7 @@ public without sharing class TaskService {
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
         if (taskConfig.reminderDatetime != null) task.Reminder_Date__c = taskConfig.reminderDatetime;
         if (taskConfig.reminderSchedule != null) task.Reminder_Schedule__c = taskConfig.reminderSchedule;
+        if (taskConfig.startDate != null) task.Start_Date__c = taskConfig.startDate;
         if (taskConfig.type != null) task.Task_Type__c = taskConfig.type;
         if (taskConfig.whatId != null) task.WhatId = taskConfig.whatId;
         if (taskConfig.whoId != null) task.WhoId = taskConfig.whoId;
@@ -300,6 +309,24 @@ public without sharing class TaskService {
         return contactUserMap;
     }
 
+    public static Map<Id, TimeZone> getUserTimezoneMap(Set<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, TimeZoneSidKey
+                FROM User
+                WHERE ContactId IN:contactIds
+                AND IsActive = TRUE
+        ];
+        Map<Id, TimeZone> userMap = new Map<Id, TimeZone>();
+        for (User u : users) userMap.put(u.Id, TimeZone.getTimeZone(u.TimeZoneSidKey));
+
+        return userMap;
+    }
+
+    public static Datetime getUserDatetime(TimeZone timezone) {
+        String nowFormat = Datetime.now().format('YYYY-MM-dd HH:mm:ss', timezone.toString());
+        return Datetime.valueOfGmt(nowFormat);
+    }
+
     public class TaskConfig {
         public Date activityDate;
         public String code;
@@ -322,7 +349,6 @@ public without sharing class TaskService {
 
             priority = TASK_PRIORITY_NORMAL;
             status = TASK_STATUS_OPEN;
-            startDate = System.today();
             subject = 'Empty';
             visibility = TASK_VISIBILITY_OWNER;
         }

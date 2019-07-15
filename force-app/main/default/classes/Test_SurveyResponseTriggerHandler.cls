@@ -6,7 +6,7 @@
 private class Test_SurveyResponseTriggerHandler {
 
     @IsTest
-    static void taskStatusChangerTest() {
+    static void taskStatusChangerPauseTest() {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if(survey.isEmpty()) return;
 
@@ -18,7 +18,6 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert schedule;
 
-        //Patient or any Delegate---------------------------------------------------------------------------------------
         Trial_Survey__c tsAllSee = new Trial_Survey__c(
                 Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
@@ -36,7 +35,30 @@ private class Test_SurveyResponseTriggerHandler {
                 invitationAll.Id => 'Patient or any Delegate'
         });
 
-        //Any Delegate--------------------------------------------------------------------------------------------------
+        Test.startTest();
+        Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
+                invitationAll.Id => new List<Id>{
+                        testData.pe.Participant_Contact__c
+                }
+        };
+
+        SurveyResponseTriggerHandler.taskStatusChanger(invitationSubmitter, false);
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void taskStatusChangerFinishTest() {
+        List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
+        if(survey.isEmpty()) return;
+
+        TestData.loadTestData();
+        TestData testData = new TestData();
+
+        Reminder_Schedule__c schedule = new Reminder_Schedule__c(
+                First_Reminder_day__c = 1
+        );
+        insert schedule;
+
         Trial_Survey__c tsOnlyDelegates = new Trial_Survey__c(
                 Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
@@ -63,15 +85,11 @@ private class Test_SurveyResponseTriggerHandler {
 
         Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
-                invitationAll.Id => new List<Id>{
-                        testData.pe.Participant_Contact__c
-                },
                 invitationDelegates.Id => new List<Id>{
                         delegateContact.Id
                 }
         };
 
-        SurveyResponseTriggerHandler.taskStatusChanger(invitationSubmitter, false);
         SurveyResponseTriggerHandler.taskStatusChanger(invitationSubmitter, true);
         Test.stopTest();
     }

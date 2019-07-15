@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public without sharing class ParticipantService {
+public class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
 
@@ -126,7 +126,7 @@ public without sharing class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
+       /* Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
         if (!saveResult.isSuccess()) {
             System.debug('PARTICIPANT INSERT ERROR');
             for (Database.Error error : saveResult.getErrors()) {
@@ -147,7 +147,10 @@ public without sharing class ParticipantService {
                     throw new ParticipantServiceException(error.getMessage());
                 }
             }
-        }
+        }*/
+
+        DuplicateContactController.isPERCreated = true;
+        participant = DuplicateContactController.communityReffering(participant, pe);
 
         if (participant.Id != null) {
             pe.Participant__c = participant.Id;

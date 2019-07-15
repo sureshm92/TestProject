@@ -23,7 +23,13 @@ public without sharing class NoTanksModalController {
 
     private static void deactivateStudySite(Id trialId, String userMode) {
         List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+        Set<Id> ssIdSet = new Set<Id>();
         if(studySites.isEmpty()) throw new AuraHandledException('incorrect Data');
-        StudySiteService.changeStatus(studySites[0].Id, userMode, 'decline');
+        for (Integer i = 0; i <studySites.size(); i++) {
+            if(studySites[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
+                ssIdSet.add(studySites[i].Id);
+            }
+        }
+        StudySiteService.changeStatus(ssIdSet, userMode, 'decline');
     }
 }

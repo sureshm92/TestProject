@@ -7,6 +7,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Is_Midpoint__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -82,5 +83,67 @@
                 <label>Enrolled</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Referral Sent to PI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Referral Accepted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Contact Attempt In Progress</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Contact Successful</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Eligibility Passed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Screening In Progress</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Screening Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Enrollment Success</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Treatment Period Started</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Follow-Up Period Started</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <valueName>Participation Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <valueName>Trial Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <valueName>Drop Out</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

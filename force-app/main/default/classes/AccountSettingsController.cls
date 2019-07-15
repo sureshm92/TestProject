@@ -89,12 +89,15 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static Boolean changeOptInVisitResults() {
+    public static Boolean changeOptInVisitResults(String contactId, Boolean isOptIn) {
         try {
-            Contact currentContact = getCurrentContact();
-            currentContact.Visit_Results_Opt_In__c = !currentContact.Visit_Results_Opt_In__c;
-            update currentContact;
-            return currentContact.Visit_Results_Opt_In__c;
+            if(!PatientDelegateService.getInstance().isDelegate()) {
+                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                        .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = isOptIn), true);
+                return isOptIn;
+            } else {
+                return !isOptIn;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
