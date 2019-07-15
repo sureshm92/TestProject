@@ -244,7 +244,7 @@ public without sharing class ResourceService {
             } else {
                 resourceFieldApis = getResourceFieldApis(null, resource.RecordType.DeveloperName);
             }
-            if ((RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) && X_3PARTY_HEALTH_DAY.equalsIgnoreCase(resource.X3rd_Party_Source__c)) && !String.isBlank(resource.article_external_link__c)) {
+            if (RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c) && !String.isBlank(resource.article_external_link__c)) {
                 shareMessage = this.getShareMessage();
                 this.isShareable = true;
             }
