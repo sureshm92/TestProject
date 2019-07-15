@@ -207,7 +207,10 @@
     },
 
     doSwitchOptInVisitResults: function (component, event, helper) {
-        communityService.executeAction(component, 'changeOptInVisitResults', {}, function (returnValue) {
+        communityService.executeAction(component, 'changeOptInVisitResults', {
+            contactId: component.get('v.initData.myContact.Id'),
+            isOptIn: component.get('v.initData.myContact.Visit_Results_Opt_In__c')
+        }, function (returnValue) {
             component.set("v.initData.myContact.Visit_Results_Opt_In__c", returnValue);
             component.set("v.showModal", false);
         });
@@ -223,7 +226,10 @@
         if (component.get("v.initData.myContact.Visit_Results_Opt_In__c")) {
             component.set("v.showModal", true);
         } else {
-            communityService.executeAction(component, 'changeOptInVisitResults', {}, function (returnValue) {
+            communityService.executeAction(component, 'changeOptInVisitResults', {
+                     contactId: component.get('v.initData.myContact.Id'),
+                     isOptIn: component.get('v.initData.myContact.Visit_Results_Opt_In__c')
+                 }, function (returnValue) {
                 component.set("v.initData.myContact.Visit_Results_Opt_In__c", returnValue);
             });
         }
