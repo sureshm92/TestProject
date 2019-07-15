@@ -82,6 +82,10 @@ public inherited sharing class VisitResultsService {
         singleWrapper.value = visitResultValuesByNames.get('Diastolic Blood Pr.');
         wrappers.add(singleWrapper);
 
+        if(wrappers[0].value == null && wrappers[1].value == null && wrappers[2].value == null && wrappers[3].value == null) {
+            return new List<VisitResultWrapper>();
+        }
+
         return wrappers;
     }
 
