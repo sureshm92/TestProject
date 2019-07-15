@@ -4404,11 +4404,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>SurveyInvitation.Is_Midpoint__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>SurveyInvitation.Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4679,11 +4674,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trial_Survey__c.Is_Midpoint__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Trial_Survey__c.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4725,6 +4715,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Result_Type_Sharing__c.Include_Countries__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
