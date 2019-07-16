@@ -34,6 +34,7 @@ public with sharing class ParticipantVisitsRemote {
                     'FROM Icon_Details__c ' +
                     'WHERE Name IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(iconNames.split(';'))) + ')';
             List<Icon_Details__c> iconsDetails = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
+            TranslateHelper.translate(iconsDetails);
             List<Legend> legends = new List<Legend>();
             for (Icon_Details__c iconDetails : iconsDetails) {
                 Legend leg = new Legend();
