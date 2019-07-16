@@ -27,13 +27,23 @@ public inherited sharing class VisitResultMService {
                 (visitResultGroupName != null ? ' WHERE Visit_Result_Group__r.Label = \'' + visitResultGroupName + '\'' : '') +
                 ' ORDER BY Display_Order__c';
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitResultTypesQuery, true);
+    }
 
+    public List<Visit_Result_TypeM_Dashboard_Config__mdt> getVisitResultTypeDashboardConfigs() {
+
+        String query = 'SELECT Id, ' +
+                'Visit_Result_Type__r.DeveloperName, ' +
+                'Display_Order__c, ' +
+                'Dashboard_Name__c ' +
+                'FROM Visit_Result_TypeM_Dashboard_Config__mdt ' +
+        'WHERE Dashboard_Type__c = \'' + VisitResultsService.DASHBOARD_TYPE_HOME_PAGE + '\'' +
+        'ORDER BY Display_Order__c';
+        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
     }
 
     public List<String> getVisitResultGroupNames(String visitResultMode) {
 
         List<Visit_Result_GroupM__mdt> visitResultGroups = this.getVisitResultGroups(false, visitResultMode);
-        System.debug(visitResultGroups);
         List<String> visitResultGroupNames = new List<String>();
         for(Visit_Result_GroupM__mdt singleVisitResultGroup : visitResultGroups) {
             visitResultGroupNames.add(singleVisitResultGroup.Label);
