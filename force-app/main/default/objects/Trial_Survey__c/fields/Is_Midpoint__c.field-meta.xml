@@ -4,7 +4,7 @@
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
     <inlineHelpText>Survey task needs to expire when PSE status is changed to: Drop Out, Trial Complete or Participation Complete.</inlineHelpText>
-    <label>Is Midpoint</label>
+    <label>Expire in Alumni View</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
