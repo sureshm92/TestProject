@@ -9,21 +9,25 @@
     <aura:attribute name="legends" type="List"/>
     <aura:attribute name="iconNames" type="String"/>
 
-    <div class="rr-white-panel">
-        <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
-        <div class="inner-panel slds-scrollable_y" style="height:260px;">
-            <div class="svl-table">
-                <aura:iteration items="{!v.legends}" var="legend">
-                    <div class="svl-row">
-                        <div class="svl-icon-label">
-                            <div class="svl-icon"><c:RRIcon iconName="{!legend.iconId}"/></div>
-                            <div class="svl-label">{!legend.iconLabel}</div>
+    <aura:if isTrue="{!v.legends.length != 0}">
+        <div class="rr-white-panel">
+            <p class="title">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
+            <div class="inner-panel slds-scrollable_y" style="height:260px;">
+                <div class="svl-table">
+                    <aura:iteration items="{!v.legends}" var="legend">
+                        <div class="svl-row">
+                            <div class="svl-icon-label">
+                                <div class="svl-icon">
+                                    <c:RRIcon iconName="{!legend.iconId}"/>
+                                </div>
+                                <div class="svl-label">{!legend.iconLabel}</div>
+                            </div>
+                            <div class="svl-desc">{!legend.iconLegend}</div>
                         </div>
-                        <div class="svl-desc">{!legend.iconLegend}</div>
-                    </div>
-                </aura:iteration>
+                    </aura:iteration>
+                </div>
             </div>
         </div>
-    </div>
+    </aura:if>
 
 </aura:component>

@@ -4694,6 +4694,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Visit_Result_TypeM__mdt.Visit_Result_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5022,6 +5027,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_GroupM__mdt-Visit Result Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result_TypeM_Dashboard_Config__mdt-Visit Result Type Dashboard Config Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result_TypeM__mdt-Visit Result Type Layout</layout>
