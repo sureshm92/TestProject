@@ -67,7 +67,8 @@ public without sharing class PSEService {
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Site__r.Name',
-            'Motivational_Message_Id__c'
+            'Motivational_Message_Id__c',
+            'CreatedDate'
     };
     
     private static PSEService instance;

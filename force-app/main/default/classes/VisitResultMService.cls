@@ -27,11 +27,14 @@ public inherited sharing class VisitResultMService {
         String visitResultGroupsQuery =
                 'SELECT Id, ' +
                         'Label, ' +
-                        'Display_Order__c ' +
+                        'Display_Order__c, ' +
+                        'DeveloperName, ' +
+                        'Visit_Results_Mode__c ' +
                         (withTypes ? ', (SELECT Id, Label, DeveloperName FROM Visit_Result_Types__r) ' : '') +
                         ' FROM Visit_Result_GroupM__mdt ' +
                         (visitResultsMode != null ? ' WHERE Visit_Results_Mode__c = \'' + visitResultsMode + '\'' : '') +
-                        ' ORDER BY Display_Order__c ASC';
+                        ' ORDER BY Visit_Results_Mode__c ASC, ' +
+                        'Display_Order__c  ASC';
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitResultGroupsQuery, true);
     }
 

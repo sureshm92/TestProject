@@ -9,7 +9,8 @@ public inherited sharing class VisitResultsRemote {
         try {
             InitDataWrapper wrapper = new InitDataWrapper();
             VisitResultsService service = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
-            ParticipantService.ParticipantState state = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();            wrapper.visitResultsGroupNames = service.getVisitResultsGroupNames(visitResultsMode);
+            ParticipantService.ParticipantState state = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+            wrapper.visitResultsGroupNames = service.getVisitResultsGroupNames(visitResultsMode);
             List<Patient_Visit__c> visits = service.getPatientVisits();
             if (state.participant != null && state.participant.Contact__c != null) {
                 wrapper.contact = state.participant.Contact__r;
