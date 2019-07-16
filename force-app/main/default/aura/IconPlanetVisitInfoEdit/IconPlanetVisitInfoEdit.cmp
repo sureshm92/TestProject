@@ -9,20 +9,26 @@
     <aura:attribute name="visitPlanId" type="Id"/>
     <aura:attribute name="createNewPackage" type="Boolean" default="false"/>
     <aura:attribute name="iconPackageId" type="Id"/>
+    <aura:attribute name="errorMessage" type="String"/>
     <aura:attribute name="existingIconsPackage" type="Id"/>
     <aura:attribute name="packageId" type="Id"/>
     <aura:attribute name="visitPackageId" type="Id"/>
     <aura:attribute name="allIcons" type="String[]"/>
     <aura:attribute name="iconsPackPath" type="String" default="/icons.svg"/>
-    <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.iconsPackPath}" access="private"/><aura:attribute name="summaryContainers" type="List" access="private"/>
+    <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.iconsPackPath}"/>
     <aura:method name="show" action="{!c.show}"/>
     <aura:method name="hide" action="{!c.hide}"/>
     <aura:method name="loadIconsDescription" action="{!c.loadIconsDescription}"/>
-
+    <aura:method name="getIconsPackageId" action="{!c.getIconsPackageId}"/>
     <lightning:notificationsLibrary aura:id="notifLib"/>
+
     <c:CustomModal aura:Id='customModal' size="medium">
-        <lightning:spinner class="slds-hide" aura:Id="spinner" size="medium"/>
-        <lightning:layout verticalAlign="end">
+        <!--SPINNER-->
+        <lightning:spinner aura:Id="spinner" size="medium"/>
+        <!--SPINNER-->
+
+        <!--MAIN COMPONENT-->
+        <lightning:layout class="custom-horizontal-align" horizontalAlign="end" verticalAlign="end">
             <lightning:layoutItem flexibility="auto">
                 <lightning:recordEditForm
                         aura:id="editFormVisitPackage"
@@ -31,10 +37,12 @@
 
                     <lightning:messages/>
                     <div class="slds-form-element">
-                        <label class="slds-form-element__label" for="form-element-01">Existing visit legends</label>
+                        <label class="slds-form-element__label" for="form-element-01">Existing visit
+                            legends</label>
                         <div class="slds-form-element__control">
                     <span id="form-element-01">
-                     <lightning:inputField disabled="{!empty(v.detailIcons)}" variant="label-hidden" onchange="{!c.onInputChange}" aura:id="nameId"
+                     <lightning:inputField disabled="{!empty(v.iconPackageId)}" variant="label-hidden"
+                                           onchange="{!c.onInputChange}" aura:id="nameId"
                                            fieldName="Icons_package__c"/>
                     </span>
                         </div>
@@ -42,8 +50,9 @@
                 </lightning:recordEditForm>
             </lightning:layoutItem>
             <lightning:layoutItem flexibility="auto">
-                <aura:if isTrue="{!empty(v.detailIcons)}">
-                    <lightning:button variant="brand" type="button" name="Create new legend" label="Create new legend"
+                <aura:if isTrue="{!empty(v.iconPackageId)}">
+                    <lightning:button variant="brand" type="button" name="Create new legend"
+                                      label="Create new legend"
                                       onclick="{!c.openLegendCreation}"/>
                 </aura:if>
             </lightning:layoutItem>
@@ -65,10 +74,19 @@
             <aura:set attribute="footer">
                 <lightning:button variant="neutral" type="button" name="close" label="close"
                                   onclick="{!c.cansel}"/>
-                <lightning:button onclick="{!c.submitIcon}" variant="brand" type="button" name="save" label="Save"/>
+                <lightning:button onclick="{!c.submitIcon}" variant="brand" type="button" name="save"
+                                  label="Save"/>
             </aura:set>
         </c:CustomModal>
-        <aura:if isTrue="{!empty(v.detailIcons)==false}">
+        <!--DEFAULT ICONS HEADER-->
+        <aura:if isTrue="{!and(empty(v.detailIcons)==false,empty(v.iconPackageId)==false)}">
+            <!--DEFAULT ICONS HEADER-->
+            <div class="slds-panel__header">
+                <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="Panel Header">
+                    Default Icons
+                </h2>
+            </div>
+            <!--DEFAULT ICONS HEADER-->
             <c:RRTable>
                 <tr>
                     <th class="slds-text-align_center">Icon</th>
@@ -86,33 +104,55 @@
                             <lightning:input label="" name="{!icon.label__c}" value="{!icon.Label__c}"/>
                         </td>
                         <td>
-                            <lightning:input label="" name="{!icon.description__c}" value="{!icon.Description__c}"/>
+                            <lightning:input label="" name="{!icon.description__c}"
+                                             value="{!icon.Description__c}"/>
                         </td>
                     </tr>
                 </aura:iteration>
             </c:RRTable>
-            <c:RRTable>
-                <tr>
-                    <th>Icon</th>
-                    <th class="priority">Icon Label</th>
-                    <th class="completed-by">Description</th>
-                </tr>
-                <aura:iteration items="{!v.customIconDetails}" var="icon">
-                    <tr>
-                        <td>
-                            <div class="icon-title">
-                                <c:RRIcon iconName="{!icon.Name}"/>
-                            </div>
-                        </td>
-                        <td style="width: 30%">
-                            <lightning:input label="" name="{!icon.label__c}" value="{!icon.Label__c}"/>
-                        </td>
-                        <td>
-                            <lightning:input label="" name="{!icon.description__c}" value="{!icon.Description__c}"/>
-                        </td>
-                    </tr>
-                </aura:iteration>
-            </c:RRTable>
+        </aura:if>
+
+        <div class="slds-panel__header">
+            <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" title="Panel Header">
+                Custom Icons
+            </h2>
+        </div>
+        <aura:if isTrue="{!empty(v.errorMessage)==false}">
+            <div class="slds-text-heading_medium slds-text-align_center">
+                {!v.errorMessage}
+                    </div>
+            <!--CUSTOM ICONS -->
+            <aura:set attribute="else">
+                <!--CUSTOM ICONS -->
+                <aura:if isTrue="{!and(empty(v.customIconDetails)==false,empty(v.iconPackageId)==false)}">
+                    <!--CUSTOM ICONS HEADER-->
+                    <c:RRTable>
+                        <tr>
+                            <th>Icon</th>
+                            <th class="priority">Icon Label</th>
+                            <th class="completed-by">Description</th>
+                        </tr>
+                        <aura:iteration items="{!v.customIconDetails}" var="icon">
+                            <tr>
+                                <td>
+                                    <div class="icon-title">
+                                        <c:RRIcon iconName="{!icon.Name}"/>
+                                    </div>
+                                </td>
+                                <td style="width: 30%">
+                                    <lightning:input label="" name="{!icon.label__c}" value="{!icon.Label__c}"/>
+                                </td>
+                                <td>
+                                    <lightning:input label="" name="{!icon.description__c}"
+                                                     value="{!icon.Description__c}"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </c:RRTable>
+                </aura:if>
+
+            </aura:set>
+            <!--MAIN COMPONENT-->
         </aura:if>
 
         <aura:set attribute="footer">

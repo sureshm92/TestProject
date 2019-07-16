@@ -15,6 +15,9 @@ public with sharing class IconPlanetVisitInfoEditRemote {
                 WHERE
                 Icons_package__c = :iconPackageId AND Visit_Plan__c = :visitPlanId
         ];
+        System.debug('iconsDetails' + iconsDetails);
+        System.debug('iconPackageId' + iconPackageId);
+        System.debug('visitPlanId' + visitPlanId);
         if (packages.isEmpty()) {
             VisitPackage__c visitPack = new VisitPackage__c();
             visitPack.Visit_Plan__c = visitPlanId;
@@ -25,6 +28,20 @@ public with sharing class IconPlanetVisitInfoEditRemote {
             d.Icons_package__c = iconPackageId;
         }
         upsert iconsDetails;
+    }
+    @AuraEnabled
+    public static Id getPackageId(String visitPlanId) {
+        List<VisitPackage__c> vp = [
+                SELECT Icons_package__c
+                FROM VisitPackage__c
+                WHERE Visit_Plan__c = :visitPlanId
+        ];
+
+        if (vp.isEmpty()) {
+            return null;
+        } else {
+            return vp[0].Icons_package__c;
+        }
     }
     @AuraEnabled
     public static List<Icon_details__c> createVisitPackage(String iconPackageId, String visitPlanId) {
@@ -52,33 +69,42 @@ public with sharing class IconPlanetVisitInfoEditRemote {
                         ,Name
                         ,Label__c
                         ,Description__c
+                        ,Custom_Icon__c
                 FROM Icon_Details__c
-                WHERE Icons_package__c = :iconPackageId
+                WHERE Icons_package__c = :iconPackageId AND Custom_Icon__c = :false
         ];
         System.debug('details' + details);
         return VisitIconsConfiguration.getPopulateIconDetails(details);
     }
     @AuraEnabled
     public static List<Icon_Details__c> getThisLegend(String visitPlanId) {
-        List<VisitPackage__c> visitPackages = [SELECT ID,Icons_package__c FROM VisitPackage__c WHERE Visit_Plan__c = :visitPlanId];
-        if (visitPackages.isEmpty()) {
-            return new List<Icon_Details__c>();
-        } else {
+        List<Icon_Details__c> details = new List<Icon_Details__c>();
+        List<VisitPackage__c> visitPackages = [
+                SELECT Id
+                        ,
+                        Icons_package__c
+                FROM VisitPackage__c
+                WHERE Visit_Plan__c = :visitPlanId
+        ];
+        if (!visitPackages.isEmpty()) {
             set<Id> iconsPackIds = new Set<Id>();
             for (VisitPackage__c p : visitPackages) {
                 iconsPackIds.add(p.Icons_package__c);
             }
-            List<Icon_Details__c> details = [
+            details = [
                     SELECT Id
                             ,Name
                             ,Label__c
                             ,Description__c
+                            ,Custom_Icon__c
                     FROM Icon_Details__c
                     WHERE Icons_package__c In:iconsPackIds
             ];
-
-            return VisitIconsConfiguration.getPopulateIconDetails(details);
         }
+        for (Icon_Details__c d : details) {
+            System.debug('detail>>' + d);
+        }
+        return VisitIconsConfiguration.getPopulateIconDetails(details);
 
     }
 

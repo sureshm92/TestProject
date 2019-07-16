@@ -4,8 +4,12 @@
 ({
 
     doInit: function (component, event, helper) {
+        debugger;
         helper.getRelatedVisitPlans(component, event, helper);
-        /*helper.getIconsNames(component, event, helper);*/
+        let staticResName = component.get('v.IconsPackageName');
+        let path = component.get('v.IconsPackageFIlePath');
+        let iconsStaticURL = $A.get('$Resource.' + staticResName) + path;
+        component.set('v.iconsURL', iconsStaticURL);
     },
     addVisit: function (component, event, helper) {
         helper.addVisit(component, event, helper);
@@ -27,7 +31,7 @@
     onCancelVisitPlan: function (component, event, helper) {
         component.find('createVisitPlan').hide();
     },
-    handleRecordUpdated: function(component, event, helper) {
+    handleRecordUpdated: function (component, event, helper) {
         helper.handleRecordUpdated(component, event, helper);
     },
     handleSuccessVP: function (component, event, helper) {

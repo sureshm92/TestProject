@@ -2,12 +2,13 @@
  * Created by Yehor Dobrovolskyi
  */
 ({
-    onInit: function (component, event, helper) {
+    getIconsPackageId: function (component, event, helper) {
+        helper.getPackageId(component, event, helper);
     },
     loadIconsDescription: function (component, event, helper) {
-        debugger;
+       /* $A.util.toggleClass(component.find('spinner'), 'slds-hide');
+        $A.util.toggleClass(component.find('spinner'), 'slds-hide');*/
         helper.getThisLegends(component, event, helper);
-      /*  helper.getCustomIconsNames(component, event, helper);*/
     },
     openLegendCreation: function (component, event, helper) {
         component.find('createLegendModal').show();
