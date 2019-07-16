@@ -158,6 +158,8 @@ public class ParticipantService {
                 DatabaseService.getInstance().upsertToDB(pe);
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
+                System.debug('STACK TRACE:' + e.getStackTraceString());
+                System.debug('MESSAGE:' + e.getMessage());
                 if (errorMsg.contains('DUPLICATE')) {
                     errorMsg = Label.Error_Message_Participant_Duplicate;
                 }

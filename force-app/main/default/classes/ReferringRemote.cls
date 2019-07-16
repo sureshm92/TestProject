@@ -147,6 +147,8 @@ public without sharing class ReferringRemote {
                 upsert participantEnrollment;
             }catch (Exception e){
                 String errorMsg = e.getMessage();
+                System.debug('STACK TRACE:' + e.getStackTraceString());
+                System.debug('MESSAGE:' + e.getMessage());
                 if(errorMsg.contains('DUPLICATE')) {
                     errorMsg = 'This patient has already been referred to this study. A patient can only be referred to one trial at a time';
                 }
