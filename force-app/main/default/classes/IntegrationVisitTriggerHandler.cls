@@ -7,20 +7,23 @@ public with sharing class IntegrationVisitTriggerHandler {
 
     public class UpdateVisits extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
-            updateVisits(newList);
+        public override void beforeInsert(List<SObject> newList) {
+            updateVisits(JSON.serialize(newList));
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisits(newList);
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateVisits(JSON.serialize(newList));
         }
     }
 
-    private static void updateVisits(List<Integration_Visit__c> visits){
+    @future
+    private static void updateVisits(String jsonString){
+        List<Integration_Visit__c> visits = (List<Integration_Visit__c>) JSON.deserialize(jsonString, List<Integration_Visit__c>.class);
         Set<String> externalKeys = new Set<String>();
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
             externalKeys.add(visit.External_Key__c);
+            visit.Work_Status__c = 'Failed';
             patientVisitMap.put(visit.External_Key__c, new List<Patient_Visit__c>());
         }
         List<Patient_Visit__c> patientVisits = [
@@ -66,6 +69,7 @@ public with sharing class IntegrationVisitTriggerHandler {
                 if(!matchFound){
                     newVisits.add(createAdhockVisit(externalVisit, pseIdsMap));
                 }
+                externalVisit.Work_Status__c = 'Success';
             }
         }
         update patientVisits;

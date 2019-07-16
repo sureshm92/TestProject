@@ -64,11 +64,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MD5_Hash__c</field>
+                <field>MD5__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>IsDeletedInSDH__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Work_Status__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
