@@ -37,3 +37,7 @@
     height: 47px!important;
     width: 30px!important;
 }
+
+.THIS .slds-visual-picker+.slds-visual-picker {
+    margin-left: 0;
+}

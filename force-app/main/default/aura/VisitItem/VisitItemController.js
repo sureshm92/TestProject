@@ -13,11 +13,19 @@
     },
     deleteRecord: function (component, event, helper) {
         debugger;
-        const currentRec = component.getEvent('onDeleteRecord');
+        let currentRec = component.getEvent('onDeleteRecord');
         currentRec.setParams({
             record:component.get('v.visit')
         });
         currentRec.fire();
+    },
+
+    navToRecord : function (component, event, helper) {
+        let navEvt = $A.get("e.force:navigateToSObject");
+        navEvt.setParams({
+            "recordId": component.get("v.visit.Id")
+        });
+        navEvt.fire();
     },
 
 })
