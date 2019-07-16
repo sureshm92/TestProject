@@ -6,11 +6,11 @@ public with sharing class IntegrationPatientTriggerHandler {
 
     public class UpdatePatientsHandler extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
+        public override void beforeInsert(List<SObject> newList) {
             updatePatients(newList);
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updatePatients(newList);
         }
     }
@@ -20,6 +20,7 @@ public with sharing class IntegrationPatientTriggerHandler {
         List<String> externalKeys = new List<String>();
         for(Integration_Patient__c patient : newList){
             externalKeys.add(patient.External_ID__c);
+            patient.Work_Status__c = 'Failed';
         }
         List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListByExternalIds(externalKeys);
         List<SDH_Status__mdt> sdhStatuses = [
@@ -45,6 +46,7 @@ public with sharing class IntegrationPatientTriggerHandler {
                 history.Status__c = getPSEStatus(sdhStatusMap, patient);
                 history.PSE__c = pseMap.get(patient.External_ID__c).Id;
                 historyList.add(history);
+                patient.Work_Status__c = 'Success';
                 if (patient.IsDeletedInSDH__c == 'N') {
                     pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = true;
                 } else {

@@ -7,11 +7,11 @@ public with sharing class IntegrationVisitTriggerHandler {
 
     public class UpdateVisits extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
+        public override void beforeInsert(List<SObject> newList) {
             updateVisits(JSON.serialize(newList));
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateVisits(JSON.serialize(newList));
         }
     }
@@ -23,6 +23,7 @@ public with sharing class IntegrationVisitTriggerHandler {
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
             externalKeys.add(visit.External_Key__c);
+            visit.Work_Status__c = 'Failed';
             patientVisitMap.put(visit.External_Key__c, new List<Patient_Visit__c>());
         }
         List<Patient_Visit__c> patientVisits = [
@@ -68,6 +69,7 @@ public with sharing class IntegrationVisitTriggerHandler {
                 if(!matchFound){
                     newVisits.add(createAdhockVisit(externalVisit, pseIdsMap));
                 }
+                externalVisit.Work_Status__c = 'Success';
             }
         }
         update patientVisits;

@@ -18,18 +18,22 @@ public without sharing class ParticipantEnrollmentFactory {
         Integer tmp = startValue;
         List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
         List<Contact> contacts = new List<Contact>();
+        Id participantAccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
         for(; startValue <= endValue; startValue++){
-            Contact con = new Contact();
-            con.LastName = '' + startValue;
-            con.Email = 'dz@hp.com';
-            contacts.add(con);
+            Contact contact = new Contact();
+            contact.LastName = '' + startValue;
+            contact.Email = 'dz@hp.com';
+            contact.AccountId = participantAccountId;
+            contacts.add(contact);
         }
         insert contacts;
         List<Participant__c> participants = new List<Participant__c>();
         for(Contact con : contacts){
-            Participant__c p = new Participant__c();
-            p.Contact__c = con.Id;
-            participants.add(p);
+            Participant__c participant = new Participant__c();
+            participant.Contact__c = con.Id;
+            participant.Mailing_Country_Code__c = 'US';
+            participant.Mailing_Country__c = 'United States';
+            participants.add(participant);
         }
         System.debug(participants);
         insert participants;
@@ -47,6 +51,14 @@ public without sharing class ParticipantEnrollmentFactory {
         }
         System.debug(peList);
         insert peList;
+        update changeStatusToSent(peList);
+    }
+
+    private static List<Participant_Enrollment__c> changeStatusToSent(List<Participant_Enrollment__c> peList){
+        for(Participant_Enrollment__c pe: peList){
+            pe.Participant_Status__c  = 'Referral Sent to PI';
+        }
+        return peList;
     }
 
 

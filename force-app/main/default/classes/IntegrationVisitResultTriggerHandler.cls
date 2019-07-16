@@ -6,11 +6,11 @@ public without sharing class IntegrationVisitResultTriggerHandler {
 
     public class UpdateVisitResults extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
+        public override void beforeInsert(List<SObject> newList) {
             updateVisitResults(JSON.serialize(newList));
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        public override void beforeInsert(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateVisitResults(JSON.serialize(newList));
         }
     }
@@ -29,6 +29,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
+            result.Work_Status__c = 'Failed';
             String key = result.External_Key__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
             if(resultMap.containsKey(key)){
                 populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
