@@ -54,6 +54,29 @@ public inherited sharing class VisitResultsService {
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
     }
 
+    public List<Patient_Visit__c> getPatientVisitsForReport() {
+
+        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || pState.pse == null) {
+            return null;
+        }
+
+        String visitsQuery = 'SELECT ' +
+                'Name, ' +
+                'Completed_Date__c, ' +
+                'Participant_Study_Enrollment__r.Participant__r.Contact__r.Visit_Results_Opt_In__c, ' +
+                'Participant_Study_Enrollment__r.Participant__r.Full_Name__c, ' +
+                'Participant_Study_Enrollment__r.Participant__r.Last_Name__c, ' +
+                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c FROM Visit_Results__r) ' +
+                'FROM Patient_Visit__c ' +
+                'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
+                ' AND Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
+                ' AND Status__c = \'Completed\'' +
+                ' ORDER BY Completed_Date__c NULLS LAST';
+
+        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
+    }
+
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
 
         List<Patient_Visit__c> visits = this.getPatientVisits();
