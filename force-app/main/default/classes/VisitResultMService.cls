@@ -3,25 +3,6 @@
  */
 public inherited sharing class VisitResultMService {
 
-    public List<String> getVisitResultTypeDeveloperNames(List<Visit_Result_TypeM__mdt> visitResultTypes) {
-        List<String> visitResultTypeDeveloperNames = new List<String>();
-        for (Visit_Result_TypeM__mdt singleVisitResultType : visitResultTypes) {
-            visitResultTypeDeveloperNames.add(singleVisitResultType.DeveloperName);
-        }
-        return visitResultTypeDeveloperNames;
-    }
-
-    public Map<String, List<Visit_Result_TypeM__mdt>> getVisitResultTypesByGroupNames(String visitResultsMode) {
-
-        Map<String, List<Visit_Result_TypeM__mdt>> result = new Map<String, List<Visit_Result_TypeM__mdt>>();
-        List<Visit_Result_GroupM__mdt> visitResultGroups = this.getVisitResultGroups(true, visitResultsMode);
-
-        for (Visit_Result_GroupM__mdt singleVisitResultGroup : visitResultGroups) {
-            result.put(singleVisitResultGroup.Label, singleVisitResultGroup.Visit_Result_Types__r);
-        }
-        return result;
-    }
-
     public List<Visit_Result_GroupM__mdt> getVisitResultGroups(Boolean withTypes, String visitResultsMode) {
 
         String visitResultGroupsQuery =

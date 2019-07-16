@@ -66,27 +66,25 @@ public inherited sharing class VisitResultsService {
         for(VisitResultWrapper singleWrapper : container.wrappers) {
             visitResultValuesByNames.put(singleWrapper.name, singleWrapper.value);
         }
-        VisitResultWrapper singleWrapper = new VisitResultWrapper('Weight');
-        singleWrapper.value = visitResultValuesByNames.get('Weight');
-        wrappers.add(singleWrapper);
+        wrappers.add(new VisitResultWrapper('Weight', visitResultValuesByNames.get('Weight')));
+        wrappers.add(new VisitResultWrapper('Pulse', visitResultValuesByNames.get('Pulse')));
+        wrappers.add(new VisitResultWrapper('Systolic', visitResultValuesByNames.get('Systolic Blood Pr.')));
+        wrappers.add(new VisitResultWrapper('Diastolic', visitResultValuesByNames.get('Diastolic Blood Pr.')));
 
-        singleWrapper = new VisitResultWrapper('Pulse');
-        singleWrapper.value = visitResultValuesByNames.get('Pulse');
-        wrappers.add(singleWrapper);
+        Boolean listIsNotEmpty = false;
 
-        singleWrapper = new VisitResultWrapper('Systolic');
-        singleWrapper.value = visitResultValuesByNames.get('Systolic Blood Pr.');
-        wrappers.add(singleWrapper);
-
-        singleWrapper = new VisitResultWrapper('Diastolic');
-        singleWrapper.value = visitResultValuesByNames.get('Diastolic Blood Pr.');
-        wrappers.add(singleWrapper);
-
-        if(wrappers[0].value == null && wrappers[1].value == null && wrappers[2].value == null && wrappers[3].value == null) {
-            return new List<VisitResultWrapper>();
+        for(VisitResultWrapper singleWrapper : wrappers) {
+            if(singleWrapper.value != null) {
+                listIsNotEmpty = true;
+                break;
+            }
         }
 
-        return wrappers;
+        if(listIsNotEmpty) {
+            return wrappers;
+        } else {
+            return new List<VisitResultWrapper>();
+        }
     }
 
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
@@ -133,6 +131,7 @@ public inherited sharing class VisitResultsService {
             this.groupName = groupName;
         }
     }
+
     public class VisitResultWrapper {
 
         @AuraEnabled
@@ -156,6 +155,11 @@ public inherited sharing class VisitResultsService {
 
         public VisitResultWrapper(String name) {
             this.name = name;
+        }
+
+        public VisitResultWrapper(String name, Double value) {
+            this.name = name;
+            this.value = value;
         }
     }
 }
