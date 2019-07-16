@@ -311,6 +311,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
+                        Is_Midpoint__c,
                         Survey__c,
                         Survey__r.Name,
                         Active_On_Status__c,
