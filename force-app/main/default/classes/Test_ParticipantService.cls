@@ -75,6 +75,8 @@ public class Test_ParticipantService {
                 SObjectType sObjectType = (SObjectType) listOfArgs[1];
                 if (sObjectType == Visit__c.getSObjectType()) {
                     return new Visit__c(Name = 'TestVisit', Visit_Schedule__c = 'Week 1', Icons__c = '');
+                } else if (SObjectType == Account.getSObjectType()){
+                    return new List<Account>{new Account(Id = TestDataFactory.getFakeId(Account.getSObjectType()))};
                 }
             }
             return null;

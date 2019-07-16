@@ -78,7 +78,10 @@ public class QualityCheckController {
         ];
         if(checkRecords.size() == 0){
             return 'Study Site: ' + studySiteNumber + ' not found;';
-        }else if(checkRecords[0].Override_PI_Referral_Status__c != 'Accepted'){
+        }else if(   checkRecords[0].Override_PI_Referral_Status__c != 'Accepted' && 
+                    checkRecords[0].Override_PI_Referral_Status__c != 'Invitation Sent' && 
+                    checkRecords[0].Override_PI_Referral_Status__c != 'Accepted (Admin)'
+                ){
 			return 'StudySite is not accepting referrals;';
 		}
         return '';
