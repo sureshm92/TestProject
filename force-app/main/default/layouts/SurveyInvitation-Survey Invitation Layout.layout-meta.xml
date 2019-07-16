@@ -58,6 +58,10 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Enrollment__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Midpoint__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>

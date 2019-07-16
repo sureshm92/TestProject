@@ -5,6 +5,7 @@
 <aura:component description="VisitResultSharingCountryLookup" controller="VisitResultSharingCountryLookupRemote" extends="c:RRSearchAbstract">
 
     <!-- attributes -->
+    <aura:attribute name="isInclude" type="Boolean" default="true"/>
     <aura:attribute name="includeStates" type="Boolean" default="false"/>
     <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
     <aura:attribute name="minTermLength" type="Integer" default="0"/>

@@ -46,8 +46,15 @@ public without sharing class PSETriggerHandler {
     public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
+            List<Participant_Study_Enrollment__c> pseWithParticipating = [
+                    SELECT Id, Participant_Contact__c, Participant_Enrollment__c
+                    FROM Participant_Study_Enrollment__c
+                    WHERE Id IN: newList
+                            AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+            ];
+
             List<Alert__c> alerts = new List<Alert__c>();
-            for (Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) newList) {
+            for (Participant_Study_Enrollment__c pse : pseWithParticipating) {
                 alerts.add(new Alert__c(
                         Contact__c = pse.Participant_Contact__c,
                         Alert_Code__c = 'Welcome_to_the_Study',
@@ -73,6 +80,12 @@ public without sharing class PSETriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createInvitations((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class HideSurveyTasks extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            hideSurveyTaskForCompletedStatuses((List<Participant_Study_Enrollment__c>) newList, (Map<Id, Participant_Study_Enrollment__c>) oldMap);
         }
     }
 
@@ -124,6 +137,7 @@ public without sharing class PSETriggerHandler {
     @TestVisible
     private static void processStatusHistory(List<Participant_Study_Enrollment__c> newList, Map<Id, Participant_Study_Enrollment__c> oldMap) {
         List<PSE_Status_History__c> pseStatusHistories = new List<PSE_Status_History__c>();
+        Map<Id, Id> pePse = new Map<Id, Id>();
         for (Participant_Study_Enrollment__c pse : newList) {
             if (oldMap == null || (oldMap != null && pse.Status__c != oldMap.get(pse.Id).Status__c)) {
                 if (pse.Status__c == PSEService.PSE_STATUS_ENROLLED) {
@@ -132,10 +146,22 @@ public without sharing class PSETriggerHandler {
                             Status__c = pse.Status__c,
                             Changed_Date__c = Datetime.now()
                     ));
+                    pePse.put(pse.Participant_Enrollment__c, pse.Id);
                 }
             }
         }
         if (pseStatusHistories.size() > 0) insert pseStatusHistories;
+
+        if(!pePse.isEmpty()) {
+            List<Participant_Enrollment__c> participantEnrollments = [
+                    SELECT Id, Participant_Study_Enrollment__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id IN:pePse.keySet()
+            ];
+            for(Participant_Enrollment__c pe : participantEnrollments) pe.Participant_Study_Enrollment__c = pePse.get(pe.Id);
+
+            update participantEnrollments;
+        }
     }
 
     @TestVisible
@@ -204,11 +230,13 @@ public without sharing class PSETriggerHandler {
                         Survey__r.Name,
                         Active_On_Status__c,
                         Expires_After_Days__c,
+                        Is_Midpoint__c,
                         Reminder_Schedule__c,
                         Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
                 AND Clinical_Trial_Profile__c IN:ctpPSE.keySet()
+                AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
         ];
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
@@ -218,6 +246,7 @@ public without sharing class PSETriggerHandler {
             for (Participant_Study_Enrollment__c enrollment : ctpPSE.get(ts.Clinical_Trial_Profile__c)) {
                 Boolean needToAdd = false;
                 if (enrollment.Status__c == ts.Active_On_Status__c) {
+                    if(PSEService.PSE_STATUS_GROUP_COMPLETE.contains(enrollment.Status__c) && ts.Is_Midpoint__c) continue;
                     if (oldMap != null) {
                         if (oldMap.get(enrollment.Id).Status__c != enrollment.Status__c) {
                             needToAdd = true;
@@ -269,5 +298,47 @@ public without sharing class PSETriggerHandler {
         }
         if(patientVisits.size() > 0) insert patientVisits;
     }
-    
+
+    @TestVisible
+    private static void hideSurveyTaskForCompletedStatuses(
+            List<Participant_Study_Enrollment__c> newList,
+            Map<Id, Participant_Study_Enrollment__c> oldMap
+    ) {
+        List<Participant_Study_Enrollment__c> completedPSEs = new List<Participant_Study_Enrollment__c>();
+        for(Participant_Study_Enrollment__c pse : newList) {
+            if(pse.Status__c != oldMap.get(pse.Id).Status__c && PSEService.PSE_STATUS_GROUP_COMPLETE.contains(pse.Status__c)) {
+                completedPSEs.add(pse);
+            }
+        }
+
+        List<Task> tasks = [
+                SELECT Id, Description
+                FROM Task
+                WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
+                    AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+        ];
+
+        Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
+                SELECT Id, InviteExpiryDateTime
+                FROM SurveyInvitation
+                WHERE Participant_Enrollment__r.Participant_Study_Enrollment__c IN:completedPSEs
+                AND Is_Midpoint__c = TRUE
+        ]);
+
+        List<Task> tasksForExpire = new List<Task>();
+        for(Task task : tasks) {
+            if(task.Description != null && invitationMap.containsKey(task.Description)) {
+                task.Status = TaskService.TASK_STATUS_EXPIRED;
+                tasksForExpire.add(task);
+            }
+        }
+        update tasksForExpire;
+
+        System.debug('>>>completedPSEs.size = '+ completedPSEs.size());
+        System.debug('>>>tasks.size = '+ tasks.size());
+        System.debug('>>>invitationMap.size = '+ invitationMap.size());
+        System.debug('>>>tasksForExpire.size = '+ tasksForExpire.size());
+
+        SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
+    }
 }

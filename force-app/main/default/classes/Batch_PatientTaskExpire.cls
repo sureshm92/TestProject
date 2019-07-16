@@ -17,10 +17,10 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
     }
 
     public void execute(Database.BatchableContext param1, List<Task> tasks) {
-        List<String> invitationIds = new List<String>();
+        List<Id> invitationIds = new List<Id>();
         for(Task t : tasks) {
             t.Status = TaskService.TASK_STATUS_EXPIRED;
-            if(t.Description != null) invitationIds.add(t.Description);
+            if(t.Description != null) invitationIds.add(Id.valueOf(t.Description));
         }
         update tasks;
 

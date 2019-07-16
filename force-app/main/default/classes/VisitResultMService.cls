@@ -3,25 +3,6 @@
  */
 public inherited sharing class VisitResultMService {
 
-    public List<String> getVisitResultTypeDeveloperNames(List<Visit_Result_TypeM__mdt> visitResultTypes) {
-        List<String> visitResultTypeDeveloperNames = new List<String>();
-        for (Visit_Result_TypeM__mdt singleVisitResultType : visitResultTypes) {
-            visitResultTypeDeveloperNames.add(singleVisitResultType.DeveloperName);
-        }
-        return visitResultTypeDeveloperNames;
-    }
-
-    public Map<String, List<Visit_Result_TypeM__mdt>> getVisitResultTypesByGroupNames(String visitResultsMode) {
-
-        Map<String, List<Visit_Result_TypeM__mdt>> result = new Map<String, List<Visit_Result_TypeM__mdt>>();
-        List<Visit_Result_GroupM__mdt> visitResultGroups = this.getVisitResultGroups(true, visitResultsMode);
-
-        for (Visit_Result_GroupM__mdt singleVisitResultGroup : visitResultGroups) {
-            result.put(singleVisitResultGroup.Label, singleVisitResultGroup.Visit_Result_Types__r);
-        }
-        return result;
-    }
-
     public List<Visit_Result_GroupM__mdt> getVisitResultGroups(Boolean withTypes, String visitResultsMode) {
 
         String visitResultGroupsQuery =
@@ -46,13 +27,23 @@ public inherited sharing class VisitResultMService {
                 (visitResultGroupName != null ? ' WHERE Visit_Result_Group__r.Label = \'' + visitResultGroupName + '\'' : '') +
                 ' ORDER BY Display_Order__c';
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitResultTypesQuery, true);
+    }
 
+    public List<Visit_Result_TypeM_Dashboard_Config__mdt> getVisitResultTypeDashboardConfigs() {
+
+        String query = 'SELECT Id, ' +
+                'Visit_Result_Type__r.DeveloperName, ' +
+                'Display_Order__c, ' +
+                'Dashboard_Name__c ' +
+                'FROM Visit_Result_TypeM_Dashboard_Config__mdt ' +
+        'WHERE Dashboard_Type__c = \'' + VisitResultsService.DASHBOARD_TYPE_HOME_PAGE + '\'' +
+        'ORDER BY Display_Order__c';
+        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
     }
 
     public List<String> getVisitResultGroupNames(String visitResultMode) {
 
         List<Visit_Result_GroupM__mdt> visitResultGroups = this.getVisitResultGroups(false, visitResultMode);
-        System.debug(visitResultGroups);
         List<String> visitResultGroupNames = new List<String>();
         for(Visit_Result_GroupM__mdt singleVisitResultGroup : visitResultGroups) {
             visitResultGroupNames.add(singleVisitResultGroup.Label);

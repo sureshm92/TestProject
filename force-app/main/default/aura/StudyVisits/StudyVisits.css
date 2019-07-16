@@ -69,3 +69,7 @@
 .THIS .invisible {
     display: none;
 }
+
+.THIS .no-visits-message {
+    margin-bottom: 1.5em;
+}

@@ -12,7 +12,9 @@
 
     doTypeChanged: function (component, event, helper) {
         var visitResult = component.get('v.visitResult');
-        if(visitResult.type === 'Countries') component.find('countryLookup').focus();
+        if(visitResult.type === 'Countries' || visitResult.type === 'Countries_Disabled') {
+            component.find('countryLookup').focus();
+        }
     },
 
     doCloseCountryMode: function (component, event, helper) {

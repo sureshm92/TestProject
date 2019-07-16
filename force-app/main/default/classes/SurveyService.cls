@@ -60,6 +60,7 @@ public without sharing class SurveyService {
     public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId) {
         SurveyInvitation invitation = new SurveyInvitation(
                 CommunityId = CommunityService.getCommunityId(null),
+                Is_Midpoint__c = ts.Is_Midpoint__c,
                 Name = ts.Survey__r.Name + ':TS:' + ts.Id,
                 Participant_Enrollment__c = peId,
                 Reminder_Schedule__c = ts.Reminder_Schedule__c,
@@ -85,10 +86,12 @@ public without sharing class SurveyService {
             Survey survey,
             Reminder_Schedule__c schedule,
             Integer expiresAfterDays,
+            Boolean isMidpoint,
             Id peId
     ) {
         SurveyInvitation invitation = new SurveyInvitation(
                 CommunityId = CommunityService.getCommunityId(null),
+                Is_Midpoint__c = isMidpoint,
                 Name = survey.Name + ':PE:' + peId,
                 Participant_Enrollment__c = peId,
                 Reminder_Schedule__c = schedule.Id,
@@ -126,9 +129,9 @@ public without sharing class SurveyService {
         return invitation.InviteExpiryDateTime <= System.now();
     }
 
-    public Boolean expireInvitation(List<String> invitationIds) {
-        for(String invId : invitationIds){
-            if(invId == null || Id.valueOf(invId).getSobjectType() != SurveyInvitation.getSObjectType()) {
+    public Boolean expireInvitation(List<Id> invitationIds) {
+        for(Id invId : invitationIds){
+            if(invId == null || invId.getSobjectType() != SurveyInvitation.getSObjectType()) {
                 return false;
             }
         }
