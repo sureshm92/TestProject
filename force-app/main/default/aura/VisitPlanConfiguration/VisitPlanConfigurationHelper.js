@@ -133,19 +133,14 @@
             console.log('error:', err[0].message);
         })
     },
+
     deleteRecord: function (component, event, helper) {
         $A.util.toggleClass(component.find('spinner'));
         let record = event.getParam('record');
         component.set('v.visitId', record.Id);
-        helper.deleteRecord(component, event, helper)
+        helper.deleteVisitRecord(component, event, helper)
     },
-    createVisitPlan: function (component, event, helper) {
-        var createRecordEvent = $A.get("e.force:createRecord");
-        createRecordEvent.setParams({
-            "entityApiName": "Contact"
-        });
-        createRecordEvent.fire();
-    },
+
     getIconsNames: function (component, event, helper) {
         debugger;
         var x = new XMLHttpRequest();
@@ -161,7 +156,7 @@
         };
         x.send(null);
     },
-    deleteRecord: function (component, event, helper) {
+    deleteVisitRecord: function (component, event, helper) {
         debugger;
         let vId = component.get('v.visitId');
         helper.enqueue(component, 'c.deleteVisit', {
