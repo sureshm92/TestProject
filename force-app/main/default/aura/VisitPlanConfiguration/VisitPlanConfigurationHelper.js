@@ -34,6 +34,8 @@
             let ctp  = JSON.stringify(component.get('v.CTPrecord'));
             let ctpCLear  = JSON.parse(ctp);
             component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
+            component.find('iconEdit').getIconsPackageId();
+
         } else if(eventParams.changeType === "CHANGED") {
             let ctp  = JSON.stringify(component.get('v.CTPrecord'));
             let ctpCLear  = JSON.parse(ctp);
@@ -42,6 +44,7 @@
                 component.set('v.visits',[]);
             }
             component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
+            component.find('iconEdit').getIconsPackageId();
         } else if(eventParams.changeType === "REMOVED") {
             // record is deleted
         } else if(eventParams.changeType === "ERROR") {

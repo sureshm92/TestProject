@@ -10,6 +10,8 @@
     <aura:handler name="onDeleteRecord" event="c:sendRecord" action="{!c.deleteRecord}"/>
     <aura:attribute name="recordId" type="Id"/>
     <aura:attribute name="visitPlanId" type="Id"/>
+    <aura:attribute name="IconsPackageName" type="String"/>
+    <aura:attribute name="IconsPackageFIlePath" type="String"/>
     <aura:attribute name="visits" type="Object[]"/>
     <aura:attribute name="currentVisits" type="Object[]"/>
     <aura:attribute name="newTaskRecord" type="Object"/>
@@ -31,12 +33,14 @@
     <aura:attribute name="availableIcons" type="String[]"/>
     <aura:attribute name="selectedIcons" type="String[]"/>
     <aura:attribute name="visitId" type="String"/>
-    <aura:attribute name="IconsPackName" type="String" default="$Resource.rr_community_icons"/>
-    <aura:attribute name="IconsPackPath" type="String" default='/icons.svg'/>
     <aura:attribute name="CTPrecord" type="Object" default='Object'/>
     <aura:attribute name="recordLoadError" type="Object" default='Object'/>
-    <aura:attribute name="fields" type="String[]" default="['Name']" />
-    <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.IconsPackPath}" access="private"/><aura:attribute name="summaryContainers" type="List" access="private"/>
+    <aura:attribute name="fields" type="String[]" default="['Name']"/>
+    <!--<aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.IconsPackageFIlePath}"
+                    access="private"/>-->
+    <aura:attribute name="summaryContainers" type="List" access="private"/>
+    <aura:attribute name="iconsURL" type="String"/>
+                    access="private"/>
     <force:recordData aura:id="CTPLoader"
                       recordId="{!v.recordId}"
                       fields="Name,Visit_Plan__c"
@@ -58,7 +62,8 @@
                         <lightning:button onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
                                           label="add visit"/>
                         <aura:set attribute="else">
-                            <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral" variant="neutral"
+                            <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral"
+                                              variant="neutral"
                                               label="create VisitPlan"/>
                         </aura:set>
                     </aura:if>
@@ -114,7 +119,7 @@
                 <!-- the messages component is for error messages -->
                 <lightning:messages/>
 
-                <lightning:inputField  aura:id="nameId" fieldName="Name"/>
+                <lightning:inputField aura:id="nameId" fieldName="Name"/>
                 <lightning:inputField aura:id="Order__c" fieldName="Order__c"/>
                 <lightning:inputField aura:id="Visit_Schedule__c" fieldName="Visit_Schedule__c"/>
                 <lightning:inputField aura:id="Visit_Number__c" fieldName="Visit_Number__c"/>
@@ -172,7 +177,7 @@
                               onclick="{!c.submitForm}"/>
         </aura:set>
     </c:CustomModal>
-    <c:CustomModal aura:Id='createVisitPlan' size="medium" >
+    <c:CustomModal aura:Id='createVisitPlan' size="medium">
         <lightning:recordForm
                 recordId="{!v.visitPlanId}"
                 objectApiName="Visit_Plan__c"
@@ -188,5 +193,5 @@
         </aura:set>
 
     </c:CustomModal>
-    <c:IconPlanetVisitInfoEdit visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>
+    <c:IconPlanetVisitInfoEdit iconsURL="{!v.iconsURL}" visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>
 </aura:component>
