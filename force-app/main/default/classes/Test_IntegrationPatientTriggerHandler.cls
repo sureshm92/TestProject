@@ -6,7 +6,7 @@ private class Test_IntegrationPatientTriggerHandler {
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
-        ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1',2,3,3);
+        ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1','2','3');
     }
 
     @IsTest

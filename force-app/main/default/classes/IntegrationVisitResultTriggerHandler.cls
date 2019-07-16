@@ -1,5 +1,5 @@
 /**
- * Created by user on 08-Jul-19.
+ * Created by Denis Z on 08-Jul-19.
  */
 
 public without sharing class IntegrationVisitResultTriggerHandler {
@@ -10,7 +10,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
             updateVisitResults(JSON.serialize(newList));
         }
 
-        public override void beforeInsert(List<SObject> newList, Map<Id, SObject> oldMap) {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateVisitResults(JSON.serialize(newList));
         }
     }

@@ -8,59 +8,32 @@ public without sharing class ParticipantEnrollmentFactory {
     //2nd Study_Site__r.Study_Site_Number__c
     //3rd Screening ID - startValue, endValue
 
-    public static void createParticipantEnrollmentRecords(String protocolId, Integer siteNumber, Integer startValue, Integer endValue){
-        System.debug('Here');
+    public static void createParticipantEnrollmentRecords(String protocolId, String siteNumber, String screeningId){
         Clinical_Trial_Profile__c ctp = getClinicalTrialProfile(protocolId);
-        createParticipantEnrollment(ctp, getStudySite(siteNumber, ctp), startValue, endValue);
+        createParticipantEnrollment(ctp, getStudySite(siteNumber, ctp), screeningId);
     }
 
-    private static void createParticipantEnrollment(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, Integer startValue, Integer endValue){
-        Integer tmp = startValue;
-        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-        List<Contact> contacts = new List<Contact>();
-        Id participantAccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
-        for(; startValue <= endValue; startValue++){
-            Contact contact = new Contact();
-            contact.LastName = '' + startValue;
-            contact.Email = 'dz@hp.com';
-            contact.AccountId = participantAccountId;
-            contacts.add(contact);
-        }
-        insert contacts;
-        List<Participant__c> participants = new List<Participant__c>();
-        for(Contact con : contacts){
-            Participant__c participant = new Participant__c();
-            participant.Contact__c = con.Id;
-            participant.Mailing_Country_Code__c = 'US';
-            participant.Mailing_Country__c = 'United States';
-            participants.add(participant);
-        }
-        System.debug(participants);
-        insert participants;
-        startValue = tmp;
-        Integer i = 0;
-        for(; startValue <= endValue; startValue++){
-            Participant_Enrollment__c pe = new Participant_Enrollment__c();
-            pe.Clinical_Trial_Profile__c = ctp.Id;
-            pe.Study_Site__c = studySite.Id;
-            pe.Screening_ID__c = '' + startValue;
-            pe.Participant__c = participants[i].Id;
-            i++;
-            pe.Participant_Status__c  = 'Enrollment Success';
-            peList.add(pe);
-        }
-        System.debug(peList);
-        insert peList;
-        update changeStatusToSent(peList);
+    private static void createParticipantEnrollment(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
+        Contact contact = new Contact();
+        contact.LastName = screeningId;
+        contact.Email = 'dz@hp.com';
+        contact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
+        insert contact;
+        Participant__c participant = new Participant__c();
+        participant.Contact__c = contact.Id;
+        participant.Mailing_Country_Code__c = 'US';
+        participant.Mailing_Country__c = 'United States';
+        insert participant;
+        Participant_Enrollment__c pe = new Participant_Enrollment__c();
+        pe.Clinical_Trial_Profile__c = ctp.Id;
+        pe.Study_Site__c = studySite.Id;
+        pe.Screening_ID__c =screeningId;
+        pe.Participant__c = participant.Id;
+        pe.Participant_Status__c  = 'Enrollment Success';
+        insert pe;
+        pe.Participant_Status__c  = 'Referral Sent to PI';
+        update pe;
     }
-
-    private static List<Participant_Enrollment__c> changeStatusToSent(List<Participant_Enrollment__c> peList){
-        for(Participant_Enrollment__c pe: peList){
-            pe.Participant_Status__c  = 'Referral Sent to PI';
-        }
-        return peList;
-    }
-
 
     private static Clinical_Trial_Profile__c getClinicalTrialProfile(String protocolId){
         List<Clinical_Trial_Profile__c> ctpList = [
@@ -84,13 +57,13 @@ public without sharing class ParticipantEnrollmentFactory {
         return ctp;
     }
 
-    private static Study_Site__c getStudySite(Integer siteNumber, Clinical_Trial_Profile__c ctp){
+    private static Study_Site__c getStudySite(String siteNumber, Clinical_Trial_Profile__c ctp){
         List<Study_Site__c> siteList = [
                 SELECT
                         Id,
                         Study_Site_Number__c
                 FROM    Study_Site__c
-                WHERE   Study_Site_Number__c = : String.valueOf(siteNumber)
+                WHERE   Study_Site_Number__c = : siteNumber
         ];
         if(siteList.isEmpty()){
             return createStudySite(siteNumber, ctp);
@@ -98,9 +71,9 @@ public without sharing class ParticipantEnrollmentFactory {
         return siteList[0];
     }
 
-    private static Study_Site__c createStudySite(Integer siteNumber, Clinical_Trial_Profile__c ctp){
+    private static Study_Site__c createStudySite(String siteNumber, Clinical_Trial_Profile__c ctp){
         Study_Site__c study = new Study_Site__c();
-        study.Study_Site_Number__c = '' + siteNumber;
+        study.Study_Site_Number__c = siteNumber;
         study.Site__c = getSite().Id;
         study.Clinical_Trial_Profile__c = ctp.Id;
         study.Principal_Investigator__c = createPI().Id;

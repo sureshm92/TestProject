@@ -1,5 +1,5 @@
 /**
- * Created by user on 09-Jul-19.
+ * Created by Denis Z on 09-Jul-19.
  */
 
 @IsTest
@@ -10,7 +10,7 @@ private class Test_IntegrationVisitResultHandler {
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
-        ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1',2,3,3);
+        ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1','2','3');
     }
 
     @IsTest
