@@ -133,9 +133,15 @@
             this.allPagesMap['help']
         ];
 
+        var participantAlumniDelegateTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['resources'],
+            this.allPagesMap['help']
+        ];
+
         this.itemsMap = {
 
-            Participant: communityService.getParticipantState() === 'ALUMNI' ? participantAlumniTabs : participantTabs,
+            Participant: communityService.getParticipantState() !== 'ALUMNI' ? participantTabs : communityService.isDelegate() ? participantAlumniDelegateTabs : participantAlumniTabs,
 
             PI: [
                 this.allPagesMap[''],
