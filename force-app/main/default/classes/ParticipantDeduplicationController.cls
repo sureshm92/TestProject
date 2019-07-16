@@ -21,8 +21,7 @@ public without sharing class ParticipantDeduplicationController {
         	SELECT	id,
             		Clinical_Trial_Profile__c,
             		Participant__c,
-            		Participant_Status__c,
-                    Secondary_Source__c
+            		Participant_Status__c
             FROM	Participant_Enrollment__c
             WHERE 	Clinical_Trial_Profile__c = :study AND
             		Participant__c =:participant.Id
