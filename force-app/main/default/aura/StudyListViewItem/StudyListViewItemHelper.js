@@ -20,15 +20,31 @@
     },
 
     doUpdateStudyTitle: function (component, helper) {
+        var t0 = performance.now();
         if (component.isValid()) {
-            var instructions = document.getElementsByClassName("driving-instructions");
-            for (var i = 0; i < instructions.length; i++) {
-                var instruction = instructions.item(i);
-                if (instruction != null) {
-                    this.clampLine(instruction, 3);
+            var studyTitles = document.getElementsByClassName("study-title");
+            for (var i = 0; i < studyTitles.length; i++) {
+                var studyTitle = studyTitles.item(i);
+                if (studyTitle != null) {
+                    if (window.innerWidth < 768) {
+                        this.clampLine(studyTitle, 3);
+                    } else {
+                        this.clampLine(studyTitle, 1);
+                    }
+                }
+            }
+            if (component.get('v.userMode') == 'PI') {
+                var instructions = document.getElementsByClassName("driving-instructions");
+                for (var i = 0; i < instructions.length; i++) {
+                    var instruction = instructions.item(i);
+                    if (instruction != null) {
+                        this.clampLine(instruction, 3);
+                    }
                 }
             }
         }
+        var t1 = performance.now();
+        console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
     },
 
     clampLine: function (studyTitle, numberOfRows) {

@@ -14,6 +14,7 @@ public class TestData {
     public Study_Site__c ss;
     public Participant_Study_Enrollment__c pse;
     public Participant_Enrollment__c pe;
+    public HCP_Enrollment__c hcpEnrollment;
     
     public TestData(){
         participant = [
@@ -26,7 +27,11 @@ public class TestData {
                 'HCP',
                 'PI'
         };
-        List<User> users = [SELECT Id, LastName FROM User WHERE Contact.LastName IN: contactLastNames];
+        List<User> users = [
+                SELECT Id, ContactId, LastName
+                FROM User
+                WHERE Contact.LastName IN: contactLastNames
+        ];
         for(User user : users){
             if(user.LastName == 'PI') piUser = user;
             if(user.LastName == 'HCP') hcpUser = user;
@@ -48,6 +53,11 @@ public class TestData {
                         Screening_ID__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: participant.Id
+        ];
+        hcpEnrollment = [
+                SELECT Id
+                FROM HCP_Enrollment__c
+                WHERE HCP_Contact__r.LastName = 'HCP' LIMIT 1
         ];
     }
     

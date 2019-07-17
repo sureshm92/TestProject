@@ -4,7 +4,7 @@
 
 public without sharing class StudyListViewController {
 
-    private static final String UPDATE_SUCCESS_STATUS = 'SUCCESS';
+    private static final String DUMMY_ACCOUNT_NAME='Dummy Account For Location Check';
 
     class StudiesGroup {
         String name;
@@ -17,14 +17,17 @@ public without sharing class StudyListViewController {
 
     class InitData {
         List<StudyDetailItem> trialsNoLongerRecruiting = new List<StudyDetailItem>();
-        List<StudiesGroup> currentlyRecruitingTrials = new List<StudiesGroup>();
+        List<StudyDetailItem> currentlyRecruitingTrials = new List<StudyDetailItem>();
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         List<ParticipantItem> peList = new List<ParticipantItem>();
         List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
         List<Account> contactAccounts = new List<Account>();
         List<LabelValueItem> delegatePicklist = new List<LabelValueItem>();
-        List<LabelValueItem> countryPicklist = new List<LabelValueItem>();
+        List<LabelValueItem> countries = new List<LabelValueItem>{new LabelValueItem('None',null)};
+        Map<String, List<LabelValueItem>> statesByCountryMap;
+        Map<String,String> countriesMap;
+        Map<String,String> countryCodesMap;
     }
 
     @TestVisible
@@ -39,6 +42,7 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static String getStudyTrialList(String userMode) {
         try {
+            returnAndRemoveAccount();
             InitData initData = new InitData();
             List<StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
@@ -46,11 +50,13 @@ public without sharing class StudyListViewController {
                 groupTrials(initData, studies, userMode);
             } else if (userMode == CommunityService.USER_MODE_PI) {
                 studies = getStudiesForPI();
-                initData.contactAccounts = getPIAccounts(studies);
                 groupTrials(initData, studies, userMode);
                 initData.delegatePicklist = StudyTrialService.getDelegatePicklistValues();
-                initData.countryPicklist = getCountries();
-                loadStatistics(studies);
+                initData.contactAccounts = getPIAccounts(studies);
+                initData.countries.addAll(CountryStateUtil.getCountries());
+                initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+                initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
+                initData.countryCodesMap = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP;
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 Participant_Enrollment__c[] peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 for (Participant_Enrollment__c pe : peList) {
@@ -150,12 +156,31 @@ public without sharing class StudyListViewController {
             List<Study_Site__c> ss = trialStudySiteMap.get(trial.Id);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
-            studyDetailItem.studyStatus = ss[0].Override_PI_Referral_Status__c;
-            studyDetailItem.ssList = ss;
-
-            for (Study_Site__c studSite : trialStudySiteMap.get(trial.Id)) {
-                studyDetailItem.studyActions = new StudyActionsPI(studSite).studyListViewItemActions;
+            Study_Site__c initionSS = new Study_Site__c();
+            Map<String,Study_Site__c> statusMap = new Map<String,Study_Site__c>();
+            for (Integer i = 0; i <ss.size() ; i++) {
+                studyDetailItem.ssList.add(new StudyDetailItem.StudySiteWithActions(ss[i],new StudyActionsPI(ss[i]).studySitePiActions));
+                if(ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT){
+                    statusMap.put(StudySiteService.PI_S_INVITATION_SENT,ss[i]);
+                } else if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DECLINED_ACCEPTANCE || ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_NON_RESPONCIVE_A){
+                    statusMap.put(StudySiteService.PI_S_DECLINED_ACCEPTANCE,ss[i]);
+                } else if(ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DEACTIVATED_A){
+                    statusMap.put(StudySiteService.PI_S_DEACTIVATED_A,ss[i]);
+                }
+                else{
+                    statusMap.put(StudySiteService.PI_S_ACCEPTED,ss[i]);
+                }
             }
+            if(statusMap.containsKey(StudySiteService.PI_S_INVITATION_SENT)){
+                initionSS = statusMap.get(StudySiteService.PI_S_INVITATION_SENT);
+            } else if(statusMap.containsKey(StudySiteService.PI_S_DECLINED_ACCEPTANCE)){
+                initionSS = statusMap.get(StudySiteService.PI_S_DECLINED_ACCEPTANCE);
+            } else if (statusMap.size() == 1 && statusMap.containsKey(StudySiteService.PI_S_DEACTIVATED_A)){
+                initionSS = statusMap.get(StudySiteService.PI_S_DEACTIVATED_A);
+            } else{
+                initionSS = statusMap.get(StudySiteService.PI_S_ACCEPTED);
+            }
+            studyDetailItem.studyActions = new StudyActionsPI(initionSS).studyListViewItemActions;
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }
@@ -174,7 +199,14 @@ public without sharing class StudyListViewController {
             TranslateHelper.translate(item.trial);
             if (item.trial.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
                 initData.trialsNoLongerRecruiting.add(item);
-            } else if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')) {
+            } else {
+                initData.currentlyRecruitingTrials.add(item);
+            }
+        }
+        StudyDetailItem.sortType = 'Name';
+        initData.currentlyRecruitingTrials.sort();
+        initData.trialsNoLongerRecruiting.sort();
+         /*if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')) {
                 activated.studies.add(item);
             } else if (item.studyStatus == StudySiteService.PI_S_INVITATION_SENT) {
                 pendingYourAction.studies.add(item);
@@ -196,7 +228,7 @@ public without sharing class StudyListViewController {
         if (onHold.studies.size() > 0) initData.currentlyRecruitingTrials.add(onHold);
         if (declined.studies.size() > 0) initData.currentlyRecruitingTrials.add(declined);
         if (declinedOther.studies.size() > 0) initData.currentlyRecruitingTrials.add(declinedOther);
-        if (deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);
+        if (deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);*/
     }
 
 
@@ -219,20 +251,12 @@ public without sharing class StudyListViewController {
 
     @AuraEnabled
     public static String saveSSChanges(String studySiteInfo) {
-        String status;
         try {
-            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
-            Study_Site__c ssToUpdate = [SELECT Id, Site_Staff__c, Study_Site_Email__c,Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :ss.Id LIMIT 1];
-            ssToUpdate.Study_Site_Phone__c = ss.Study_Site_Phone__c;
-            ssToUpdate.Study_Site_Email__c = ss.Study_Site_Email__c;
-            ssToUpdate.Site_Staff__c = ss.Site_Staff__c;
-            ssToUpdate.Name = ss.Name;
-            ssToUpdate.Site__c = ss.Site__c;
-            update ssToUpdate;
-            status = UPDATE_SUCCESS_STATUS;
-            return status;
+            StudyTrialService.saveSSChanges(studySiteInfo);
+            String newInitData = getStudyTrialList(CommunityService.USER_MODE_PI);
+            return newInitData;
         } catch (Exception e) {
-            status = (String) AuraHelper.throwException(e);
+            String status = (String) AuraHelper.throwException(e);
             return status;
         }
     }
@@ -240,93 +264,34 @@ public without sharing class StudyListViewController {
 
     @AuraEnabled
     public static String saveSSAddress(String studySiteInfo) {
-        String status;
         try {
-            Id contactId = CommunityService.getInstance().getCurrentContactId();
-            Contact currentContact = [SELECT Id, OwnerId, AccountId FROM Contact WHERE Id = :contactId];
-            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
-            Map<String, Object> acc = (Map<String, Object>) JSON.deserializeUntyped(studySiteInfo);
-            String accString = JSON.serialize(acc.get('Site__r'));
-            Account newAccount = (Account) JSON.deserialize(accString, Account.class);
-            Account createAccount = new Account();
-            if (newAccount.Id == null) {
-                createAccount = new Account(Name = newAccount.Name,
-                        ParentId = newAccount.ParentId,
-                        BillingCountry = newAccount.BillingCountry,
-                        BillingStreet = newAccount.BillingStreet,
-                        BillingCity = newAccount.BillingCity,
-                        BillingPostalCode = newAccount.BillingPostalCode,
-                        Driving_Directions__c = newAccount.Driving_Directions__c,
-                        Parking_Instructions__c = newAccount.Parking_Instructions__c,
-                        OwnerId = currentContact.OwnerId);
-                insert createAccount;
-                createAccount.BillingStateCode = newAccount.BillingStateCode;
-                update createAccount;
-                currentContact.AccountId = createAccount.Id;
-                update currentContact;
-            } else {
-                if (newAccount.ParentId == null) {
-                    createAccount = new Account(Name = newAccount.Name,
-                            ParentId = newAccount.Id,
-                            BillingCountry = newAccount.BillingCountry,
-                            BillingStreet = newAccount.BillingStreet,
-                            BillingCity = newAccount.BillingCity,
-                            BillingPostalCode = newAccount.BillingPostalCode,
-                            Driving_Directions__c = newAccount.Driving_Directions__c,
-                            Parking_Instructions__c = newAccount.Parking_Instructions__c,
-                            OwnerId = currentContact.OwnerId);
-                    insert createAccount;
-                    createAccount.BillingStateCode = newAccount.BillingStateCode;
-                    update createAccount;
-                    List<AccountContactRelation> removeAccContRelation = [
-                            SELECT Id,
-                                    IsDirect
-                            FROM AccountContactRelation
-                            WHERE AccountId = :newAccount.Id AND ContactId = :contactId
-                            LIMIT 1
-                    ];
-                    currentContact.AccountId = createAccount.Id;
-                    update currentContact;
-                    if (!removeAccContRelation.isEmpty()) {
-                        delete removeAccContRelation[0];
-                    }
-                } else {
-                    createAccount = new Account(
-                            Id = newAccount.Id,
-                            Name = newAccount.Name,
-                            ParentId = newAccount.ParentId,
-                            BillingCountry = newAccount.BillingCountry,
-                            BillingStreet = newAccount.BillingStreet,
-                            BillingCity = newAccount.BillingCity,
-                            BillingPostalCode = newAccount.BillingPostalCode,
-                            Driving_Directions__c = newAccount.Driving_Directions__c,
-                            Parking_Instructions__c = newAccount.Parking_Instructions__c,
-                            OwnerId = currentContact.OwnerId);
-                   createAccount.BillingStateCode = newAccount.BillingStateCode;
-                    update createAccount;
-                    if(currentContact.AccountId != createAccount.Id) {
-                        currentContact.AccountId = createAccount.Id;
-                        update currentContact;
-                    }
-                }
-            }
-            Study_Site__c updSS = new Study_Site__c(Id = ss.Id, Account_Was_Changed__c=true, Site__c = createAccount.Id);
-            update updSS;
-            status = UPDATE_SUCCESS_STATUS;
-            return status;
+            StudyTrialService.saveSSAddress(studySiteInfo);
+            String newInitData = getStudyTrialList(CommunityService.USER_MODE_PI);
+            return newInitData;
         } catch (Exception e) {
-            status = (String) AuraHelper.throwException(e);
+            String status = (String) AuraHelper.throwException(e);
             return status;
         }
     }
 
-    public static List<LabelValueItem> getCountries() {
-        List<LabelValueItem> countries = new List<LabelValueItem>{
-                new LabelValueItem('None', '')
-        };
-        for (Schema.PicklistEntry field : User.CountryCode.getDescribe().getPicklistValues()) {
-            countries.add(new LabelValueItem(field.getLabel(), field.getLabel()));
+    @AuraEnabled
+    public static void checkAccountGeolocation(String account) {
+           Account newAccount = (Account) JSON.deserialize(account,Account.class);
+                Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId(),
+                        BillingStreet = newAccount.BillingStreet,
+                        BillingCountry = newAccount.BillingCountry,
+                        BillingCity = newAccount.BillingCity);
+                insert accForCheck;
+    }
+
+    @AuraEnabled
+    public static String returnAndRemoveAccount(){
+        List<Account> acc = [SELECT Id,Name,BillingLongitude,BillingCity,BillingLatitude FROM Account WHERE Name =: DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId()];
+        String valueToReturn;
+        if(acc.size()>0) {
+            valueToReturn = JSON.serialize(acc[0]);
+            delete acc;
         }
-        return countries;
+        return valueToReturn;
     }
 }

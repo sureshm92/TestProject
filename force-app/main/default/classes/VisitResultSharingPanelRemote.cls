@@ -1,3 +1,4 @@
+
 /**
  * Created by Leonid Bartenev
  * Edited by Igor Malyuta
@@ -6,8 +7,9 @@
 public without sharing class VisitResultSharingPanelRemote {
 
     private static final String TYPE_DISABLED = 'Disabled';
-    private static final String TYPE_ALL = 'All';
+    private static String TYPE_ALL = 'All';
     private static final String TYPE_COUNTRIES = 'Countries';
+    private static final String TYPE_COUNTRIES_DISABLED = 'Countries_Disabled';
 
     public class VisitResultGroupWrapper {
         @AuraEnabled public String label;
@@ -36,6 +38,7 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public String ssSelectionType;
         @AuraEnabled public Integer showAfterDays;
         @AuraEnabled public String whenToShow;
+        @AuraEnabled public Boolean inPatientPortal;
     }
 
     public class InitData {
@@ -43,7 +46,8 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public List<LabelValueItem> typeSelectLVList = new List<LabelValueItem>{
                 new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
                 new LabelValueItem('Enabled for all countries', TYPE_ALL),
-                new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES)
+                new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES),
+                new LabelValueItem('Disabled for selected countries', TYPE_COUNTRIES_DISABLED)
         };
         @AuraEnabled public List<LabelValueItem> participantDefaultLVList = new List<LabelValueItem>{
                 new LabelValueItem('Opt in', 'Opt in'),
@@ -89,7 +93,11 @@ public without sharing class VisitResultSharingPanelRemote {
                                 type = TYPE_ALL;
                             } else {
                                 countryCodes = sharing.Sharing_Countries__c;
-                                type = TYPE_COUNTRIES;
+                                if(sharing.Include_Countries__c) {
+                                    type = TYPE_COUNTRIES;
+                                } else {
+                                    type = TYPE_COUNTRIES_DISABLED;
+                                }
                             }
                         }
                     }
@@ -119,6 +127,9 @@ public without sharing class VisitResultSharingPanelRemote {
             initData.options.ssSelectionType = studySites.size() == withSharingSiteIds.size() ? TYPE_ALL : 'Study Sites';
             initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
+            initData.options.inPatientPortal =
+                    (ctp.Participating_in_Patient_Portal__c != null && ctp.Participating_in_Patient_Portal__c == 'Yes')
+                            ? true : false;
 
             return initData;
         } catch (Exception e) {
@@ -163,7 +174,7 @@ public without sharing class VisitResultSharingPanelRemote {
         for (VisitResultGroupWrapper groupWrapper : groups) {
             for (VisitResultWrapper vrWrapper : groupWrapper.visitResults) {
                 String countries = '';
-                if (vrWrapper.type == TYPE_COUNTRIES) {
+                if (vrWrapper.type == TYPE_COUNTRIES || vrWrapper.type == TYPE_COUNTRIES_DISABLED) {
                     countries = vrWrapper.countryCodes;
                 } else if (vrWrapper.type == TYPE_ALL) {
                     countries = TYPE_ALL;
@@ -173,6 +184,7 @@ public without sharing class VisitResultSharingPanelRemote {
                     if (vrWrapper.type != TYPE_DISABLED) {
                         typeVRSharingMap.put(vrWrapper.value, new Visit_Result_Type_Sharing__c(
                                 Clinical_Trial_Profile__c = ctpId,
+                                Include_Countries__c = vrWrapper.type == TYPE_COUNTRIES,
                                 Type__c = vrWrapper.value,
                                 Sharing_Countries__c = countries
                         ));
@@ -181,8 +193,9 @@ public without sharing class VisitResultSharingPanelRemote {
                     Visit_Result_Type_Sharing__c sharing = typeVRSharingMap.get(vrWrapper.value);
                     if (vrWrapper.type == TYPE_DISABLED) {
                         forDeletionSharings.add(typeVRSharingMap.remove(vrWrapper.value));
-                    } else if (vrWrapper.type == TYPE_COUNTRIES) {
-                        sharing.Sharing_Countries__c = vrWrapper.countryCodes;
+                    } else {
+                        sharing.Sharing_Countries__c = countries;
+                        sharing.Include_Countries__c = vrWrapper.type == TYPE_COUNTRIES;
                         typeVRSharingMap.put(vrWrapper.value, sharing);
                     }
                 }

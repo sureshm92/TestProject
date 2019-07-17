@@ -108,7 +108,7 @@ public without sharing class ReferringRemote {
             participantEnrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
         }
 
-        Database.SaveResult saveResult = Database.insert(participant, false);
+        /*Database.SaveResult saveResult = Database.insert(participant, false);
         if (!saveResult.isSuccess()) {
             System.debug('PARTICIPANT INSERT ERROR');
             for (Database.Error error : saveResult.getErrors()) {
@@ -129,7 +129,10 @@ public without sharing class ReferringRemote {
                     if(!Test.isRunningTest()) throw new AuraHandledException(error.getMessage());
                 }
             }
-        }
+        }*/
+
+        DuplicateContactController.isPERCreated = true;
+        participant = DuplicateContactController.communityReffering(participant, participantEnrollment);
 
         if(participant.Id != null){
             participantEnrollment.Participant__c = participant.Id;
@@ -144,6 +147,8 @@ public without sharing class ReferringRemote {
                 upsert participantEnrollment;
             }catch (Exception e){
                 String errorMsg = e.getMessage();
+                System.debug('STACK TRACE:' + e.getStackTraceString());
+                System.debug('MESSAGE:' + e.getMessage());
                 if(errorMsg.contains('DUPLICATE')) {
                     errorMsg = 'This patient has already been referred to this study. A patient can only be referred to one trial at a time';
                 }

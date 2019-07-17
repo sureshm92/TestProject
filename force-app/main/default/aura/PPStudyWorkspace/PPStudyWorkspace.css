@@ -1,3 +1,6 @@
+/**
+ * Created by Leonid Bartenev
+ */
 .THIS div {
     /*overflow: hidden;
     white-space: nowrap;
@@ -125,8 +128,8 @@
 
 .THIS .sdv-top-bar{
     padding-top: 30px;
-    /*background-color: white;*/
-    /*box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);*/
+    background-color: white;
+    box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);
     z-index: 1250;
     position: relative;
 }

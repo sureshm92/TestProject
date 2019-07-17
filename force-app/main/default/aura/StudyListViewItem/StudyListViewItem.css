@@ -18,6 +18,23 @@
     padding-right: 17px;
 }
 
+.THIS .slds-spinner{
+    position: unset;
+}
+
+.THIS .slds-spinner_xx-small{
+    width:10px;
+    margin-top:1.4%;
+}
+
+.THIS .address-indicator-label{
+    margin-left:5px;
+}
+
+.THIS .address-spinner-indicator-container{
+    margin-left:10px;
+}
+
 
 .THIS .slvi-name-section,
 .THIS .slvi-objective-section {
@@ -266,6 +283,7 @@
 .THIS .popup-account-name{
     width:100%;
     margin-bottom:1%;
+    padding-left:1%;
 }
 
 .THIS .popup-account-name:first-child{
@@ -441,7 +459,7 @@
 }
 
 .THIS  .popup-address-inputs{
-    padding: 16px 8px;
+    padding: 16px 8px 0px 8px;
 }
 
 .THIS .manage-location-info{
@@ -552,6 +570,10 @@
         margin-top: 16px;
     }
 
+    .THIS .apollo-btn.primary{
+        font-size:12px;
+    }
+
     .THIS .site-distance {
         margin-top: .5rem;
     }
@@ -562,6 +584,14 @@
     }
 
     .THIS .rri-icon span {
+        margin: .125rem !important;
+    }
+    .THIS .rri-icon-pi svg {
+        height: 16px;
+        width: 13px;
+    }
+
+    .THIS .rri-icon-pi span {
         margin: .125rem !important;
     }
 }
@@ -597,5 +627,11 @@
 
 .THIS #addNewLocation .plus-location-icon{
     fill: #297DFD;
+}
+
+.THIS .check-address-btn{
+    margin-top:25px;
+    padding:9px 7px;
+    max-height: 44px;
 }
 

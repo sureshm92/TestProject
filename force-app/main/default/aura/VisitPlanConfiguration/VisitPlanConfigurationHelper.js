@@ -20,6 +20,7 @@
             console.log('error:', err[0].message);
         })
     },
+
     addVisit: function (component, event, helper) {
         let copy = [];
         Object.assign(copy, component.get('v.allIcons'));
@@ -28,6 +29,7 @@
         component.set('v.visitId', null);
         component.find('customModal').show();
     },
+
     handleRecordUpdated: function(component, event, helper) {
         var eventParams = event.getParams();
         if(eventParams.changeType === "LOADED") {
@@ -48,6 +50,7 @@
             // there’s an error while loading, saving, or deleting the record
         }
     },
+
     shiftRight: function (component, event, helper) {
         debugger;
         const elements = component.find('leftIcons');
@@ -67,6 +70,7 @@
         component.set('v.selectedIcons', selectedIcons);
         component.set('v.availableIcons', newLeft);
     },
+
     shiftLeft: function (component, event, helper) {
         debugger;
         const elements = component.find('rightIcons');
@@ -87,6 +91,7 @@
         component.set('v.availableIcons', availableIcons);
 
     },
+
     fireEditMode: function (component, event, helper) {
         debugger;
         let record = event.getParam('record');
@@ -107,6 +112,7 @@
         component.set('v.availableIcons', icons);
         component.set('v.selectedIcons', splittedIcons);
     },
+
     handleSuccessVP: function (component, event, helper) {
         debugger;
         const recId  = event.getParam("id");
@@ -133,12 +139,14 @@
             console.log('error:', err[0].message);
         })
     },
+
     deleteRecord: function (component, event, helper) {
         $A.util.toggleClass(component.find('spinner'));
         let record = event.getParam('record');
         component.set('v.visitId', record.Id);
         helper.deleteRecord(component, event, helper)
     },
+
     createVisitPlan: function (component, event, helper) {
         var createRecordEvent = $A.get("e.force:createRecord");
         createRecordEvent.setParams({
@@ -146,6 +154,7 @@
         });
         createRecordEvent.fire();
     },
+
     getIconsNames: function (component, event, helper) {
         var x = new XMLHttpRequest();
         x.open("GET", component.get('v.iconsURL'), true);
@@ -160,6 +169,7 @@
         };
         x.send(null);
     },
+
     deleteRecord: function (component, event, helper) {
         debugger;
         let vId = component.get('v.visitId');
@@ -187,7 +197,5 @@
             }
             console.log('error:', err[0].message);
         })
-    },
-
-
+    }
 })

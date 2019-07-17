@@ -4,10 +4,14 @@
 
 ({
     doInit: function (component, event, helper) {
-        helper.getData(component);
+        var spinner = component.find('spinner');
+        spinner.show();
+        helper.getData(component, function () {
+            spinner.hide();
+        });
         setInterval($A.getCallback(function () {
-            helper.getData(component)
-        }), 5000);
+            helper.getData(component);
+        }), 1500);
     },
 
     clickRun: function (component, event, helper) {

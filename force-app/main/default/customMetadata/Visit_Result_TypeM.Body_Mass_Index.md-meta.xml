@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">BMI</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>

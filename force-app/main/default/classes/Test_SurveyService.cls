@@ -36,7 +36,7 @@ private class Test_SurveyService {
         insert invitation;
 
         SurveyService.getInstance().getSurveyWrapper(invitation.Id);
-        SurveyService.getAvailableStatuses();
+        SurveyService.getInstance().expireInvitation(new List<Id>{invitation.Id});
         Test.stopTest();
     }
 
@@ -57,7 +57,7 @@ private class Test_SurveyService {
         TestData testData = new TestData();
 
         SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(
-                survey.get(0), schedule, 5, testData.pe.Id
+                survey.get(0), schedule, 5, true, testData.pe.Id
         );
         insert invitation;
         Test.stopTest();

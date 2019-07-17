@@ -16,6 +16,7 @@ public class Batch_UpdateRecords implements Database.Batchable<SObject>{
     
     public void execute(Database.BatchableContext bc, List<SObject> records) {
         //for Clinical Trial Profile records:
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.class);
         if(records[0].getSObjectType() == Clinical_Trial_Profile__c.getSObjectType()){
             for(Clinical_Trial_Profile__c ctp : (List<Clinical_Trial_Profile__c>)records){
                 if(ctp.Study_Code_Name__c == null && ctp.Study_Title__c != null){

@@ -6,11 +6,11 @@ public with sharing class IntegrationPatientTriggerHandler {
 
     public class UpdatePatientsHandler extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
+        public override void beforeInsert(List<SObject> newList) {
             updatePatients(newList);
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updatePatients(newList);
         }
     }
@@ -20,6 +20,7 @@ public with sharing class IntegrationPatientTriggerHandler {
         List<String> externalKeys = new List<String>();
         for(Integration_Patient__c patient : newList){
             externalKeys.add(patient.External_ID__c);
+            patient.Work_Status__c = 'Failed';
         }
         List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListByExternalIds(externalKeys);
         List<SDH_Status__mdt> sdhStatuses = [
@@ -34,12 +35,18 @@ public with sharing class IntegrationPatientTriggerHandler {
             sdhStatusMap.put(sdhStatus.Label.remove(' '), sdhStatus);
         }
         Map<String, Participant_Study_Enrollment__c> pseMap = new Map<String, Participant_Study_Enrollment__c>();
+        List<PSE_Status_History__c> historyList = new List<PSE_Status_History__c>();
         for(Participant_Study_Enrollment__c pse : pseList){
             pseMap.put(pse.External_Key__c, pse);
         }
         for(Integration_Patient__c patient : newList){
             if(pseMap.containsKey(patient.External_ID__c)) {
-                pseMap.get(patient.External_ID__c).Status__c = getPSEStatus(sdhStatusMap, patient);
+                PSE_Status_History__c history = new PSE_Status_History__c();
+                history.Changed_Date__c = patient.Subject_Date__c;
+                history.Status__c = getPSEStatus(sdhStatusMap, patient);
+                history.PSE__c = pseMap.get(patient.External_ID__c).Id;
+                historyList.add(history);
+                patient.Work_Status__c = 'Success';
                 if (patient.IsDeletedInSDH__c == 'N') {
                     pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = true;
                 } else {
@@ -48,6 +55,7 @@ public with sharing class IntegrationPatientTriggerHandler {
             }
         }
         update pseMap.values();
+        insert historyList;
     }
 
     private static String getPSEStatus(Map<String, SDH_Status__mdt> sdhStatusMap, Integration_Patient__c patient){

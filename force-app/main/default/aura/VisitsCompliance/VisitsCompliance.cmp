@@ -3,7 +3,8 @@
     <!-- ATTRIBUTES -->
 
     <aura:attribute name="contactId" type="Id" required="true"/>
-    <aura:attribute name="isEmpty" type="Boolean" default="false" required="true"/>
+    <aura:attribute name="isVisitResultsExist" type="Boolean" default="false" required="true"/>
+    <aura:attribute name="isVisitResultsAvailable" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isOptIn" type="Boolean" default="false" required="true"/>
 
     <aura:attribute name="optInBody" type="String" access="private"/>
@@ -13,14 +14,15 @@
 
     <!-- HANDLERS -->
 
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.okButtonClicked}" action="{!c.changeOptIn}"/>
 
     <!-- COMPONENT BODY -->
 
     <div class="rr-white-panel visit-compliance-panel">
+        <aura:if isTrue="{!!v.isVisitResultsAvailable}">
 
-        <aura:if isTrue="{!v.isEmpty}">
+            <!-- shareback set to opt-out at the Study or Site levels -->
+
             <div>
                 <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start"
                                   multipleRows="true">
@@ -30,15 +32,42 @@
                 </lightning:layout>
             </div>
 
+            <!-- -->
+
             <aura:set attribute="else">
                 <aura:if isTrue="{!!v.isOptIn}">
-                        <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
-                            <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
-                                <div aura:id="opt-in-body" onclick="{!c.openOptInModal}">
-                                    <aura:unescapedHtml  value="{!v.optInBody}"/>
-                                </div>
-                            </lightning:layoutItem>
-                        </lightning:layout>
+
+                    <!-- shareback set to opt-out at the Patient level -->
+
+                    <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
+                        <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
+                            <div aura:id="opt-in-body" style="white-space: pre" >
+                                <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' '}
+                                    <span class="to-modal-link" onclick="{!c.openOptInModal}"> {!$Label.c.Visit_Results_Tab_Linked_Text}</span>
+                                    {!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_2}  </p>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <!-- -->
+
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!!v.isVisitResultsExist}">
+
+                            <!-- there are not visit results available -->
+
+                            <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start"
+                                              multipleRows="true">
+                                <lightning:layoutItem size="12" class="cen visit-assessment-inf">
+                                    <p class="white-space visit-assessment-inf">{!$Label.c.Visit_Results_Tab_No_Results}</p>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+
+                            <!-- -->
+
+                        </aura:if>
+                    </aura:set>
+
                 </aura:if>
             </aura:set>
         </aura:if>

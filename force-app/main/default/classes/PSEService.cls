@@ -49,6 +49,7 @@ public without sharing class PSEService {
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Visit_Plan__c',
+            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -61,12 +62,14 @@ public without sharing class PSEService {
             'Participant__r.Mailing_Country_Code__c',
             'Participant__r.Mailing_Zip_Postal_Code__c',
             'Participant__r.Contact__c',
+            'Participant_Contact__r.Visit_Results_Opt_In__c',
             'Participant_Enrollment__c',
             'Status__c',
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Site__r.Name',
+            'Study_Site__r.Visit_Results_Sharing__c',
             'Motivational_Message_Id__c',
             'CreatedDate'
     };

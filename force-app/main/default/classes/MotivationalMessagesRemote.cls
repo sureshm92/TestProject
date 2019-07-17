@@ -11,7 +11,7 @@ public without sharing class MotivationalMessagesRemote {
         try{
             if(userMode != CommunityService.USER_MODE_PARTICIPANT) return null;
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-            if(participantState.value != ParticipantService.ParticipantStates.PARTICIPANT) return null;
+            if(participantState.value != ParticipantService.ParticipantStates.PARTICIPANT || !participantState.isPremium) return null;
             PSE_Status_History__c[] enrolledHistoryList = [
                     SELECT Id, Changed_Date__c
                     FROM PSE_Status_History__c
