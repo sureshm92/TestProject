@@ -2484,7 +2484,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Address_ZipCode__c</field>
-        <field>Integration_Patient_Referral__c.BirthDate__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2643,11 +2642,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient__c.Work_Status__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_VisitResult__c.External_Key__c</field>
         <readable>true</readable>
@@ -2659,7 +2653,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_VisitResult__c.MD5__c</field>
+        <field>Integration_VisitResult__c.MD5_Hash__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2723,11 +2717,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_VisitResult__c.Work_Status__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Visit__c.External_Key__c</field>
         <readable>true</readable>
@@ -2766,11 +2755,6 @@
         <editable>true</editable>
         <field>Integration_Visit__c.VISIT__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Visit__c.Work_Status__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3638,11 +3622,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Birth_Year__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
@@ -3763,11 +3742,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Marketing_Flag__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Middle_Name__c</field>
         <readable>true</readable>
@@ -3786,11 +3760,6 @@
         <editable>false</editable>
         <field>Participant__c.Phone__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Secondary_Source__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3896,6 +3865,11 @@
         <editable>false</editable>
         <field>Reminder_Event__e.ResourceId__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Reminder_Schedule__c.First_Reminder_day__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4439,11 +4413,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>SurveyInvitation.Is_Midpoint__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>SurveyInvitation.Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4714,11 +4683,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trial_Survey__c.Is_Midpoint__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Trial_Survey__c.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4754,11 +4718,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Visit_Result_TypeM__mdt.Visit_Result_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4780,11 +4739,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type_Sharing__c.Include_Countries__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5100,9 +5054,6 @@
         <layout>Visit_Result_GroupM__mdt-Visit Result Group Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result_TypeM_Dashboard_Config__mdt-Visit Result Type Dashboard Config Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit_Result_TypeM__mdt-Visit Result Type Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5117,7 +5068,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
-<<<<<<< HEAD
         <recordType>Visit_Result__c.Lab_Result</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -5129,11 +5079,6 @@
         <recordType>Visit_Result__c.Vitals</recordType>
     </layoutAssignments>
     <layoutAssignments>
-=======
-        <recordType>Visit_Result__c.Vital</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
->>>>>>> Sprint
         <layout>Visit__c-Visit Layout</layout>
     </layoutAssignments>
     <loginIpRanges>
@@ -5193,15 +5138,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>HCP_Enrollment__c</object>
-        <viewAllRecords>false</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <object>Integration_Patient_Referral__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -5538,8 +5474,6 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Visit_Result__c.Lab_Result</recordType>
-        <default>true</default>
-        <recordType>Visit_Result__c.Lab</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
