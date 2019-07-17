@@ -47,14 +47,30 @@ public inherited sharing class VisitResultsRemote {
     }
 
     @AuraEnabled
-    public static void changeOptInOnTrue(Id contactId) {
-
+    public static Boolean changeOptInOnTrue(Id contactId) {
         try {
-            ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                    .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = true), true);
+            if(!PatientDelegateService.getInstance().isDelegate()) {
+                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                        .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = true), true);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+        return null;
+    }
+
+    @AuraEnabled
+    public static List<VisitResultsService.VisitResultWrapper> getVisitResultWrappersForDashboard() {
+
+        try {
+            return ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultWrappersForDashboard();
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
     }
 
     public class InitDataWrapper {

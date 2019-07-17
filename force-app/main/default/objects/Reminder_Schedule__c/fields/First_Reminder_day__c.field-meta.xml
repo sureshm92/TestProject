@@ -5,7 +5,7 @@
     <inlineHelpText>Define how many days should pass before 1st reminder email is sent to a Participant in case Survey Task is still pending</inlineHelpText>
     <label>First Reminder day</label>
     <precision>18</precision>
-    <required>false</required>
+    <required>true</required>
     <scale>0</scale>
     <trackTrending>false</trackTrending>
     <type>Number</type>

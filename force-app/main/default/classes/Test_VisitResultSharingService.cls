@@ -12,6 +12,7 @@ private class Test_VisitResultSharingService {
         Test.startTest();
         Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
                 Clinical_Trial_Profile__c = testData.ctp.Id,
+                Include_Countries__c = true,
                 Type__c = 'Calcium',
                 Sharing_Countries__c = 'US'
         );

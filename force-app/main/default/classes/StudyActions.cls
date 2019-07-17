@@ -75,7 +75,9 @@ public abstract class StudyActions {
     public static final String ACT_MY_PATIENTS = 'myPatients';
 
     public static final String ACT_MANAGE_REFERRALS = 'manageReferrals';
+    public static final String ACT_MANAGE_REFERRALS_BY_SS = 'manageReferralsBySS';
     public static final String ACT_MANAGE_REFERRING_CLINICS = 'manageReferringClinics';
+    public static final String ACT_MANAGE_REFERRING_CLINICS_BY_SS = 'manageReferringClinicsBySS';
     public static final String ACT_OPEN_TO_RECEIVE_REFERRALS = 'openToReceiveReferrals';
     public static final String ACT_CHANGE_PE_STATUS_BY_PI = 'changePEStatusByPI';
     public static final String ACT_HCP_ON_HOLD = 'hcpOnHold';
@@ -111,6 +113,8 @@ public abstract class StudyActions {
 
     public static final String LABEL_MANAGE_REFERRALS = Label.BTN_Manage_referrals;
     public static final String LABEL_MANAGE_REFERRING_CLINICS = Label.BTN_Manage_referring_clinics;
+    public static final String LABEL_MANAGE_REFERRALS_BY_SS = Label.SS_Btn_Manage_Referrals;
+    public static final String LABEL_MANAGE_REFERRING_CLINICS_BY_SS = Label.SS_Btn_Manage_Referring_Providers;
     public static final String LABEL_OPEN_TO_RECEIVE_REFERRALS = Label.BTN_I_m_open_to_receive_referrals;
     public static final String LABEL_HCP_ON_HOLD = Label.BTN_On_hold;
     public static final String LABEL_HCP_DECLINE = Label.BTN_Decline;
@@ -132,6 +136,7 @@ public abstract class StudyActions {
 
 
     public List<Action> studyListViewItemActions = new List<Action>();
+    public List<Action> studySitePiActions = new List<Action>();
     public List<Action> studyDetailActions =  new List<Action>();
     public List<Action> studyDetailBottomBarActions =  new List<Action>();
     public Map<String, Action> actions = new Map<String, Action>();

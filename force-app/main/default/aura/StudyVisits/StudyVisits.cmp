@@ -66,7 +66,7 @@
                                     entriesOnPage="4"/>
                 </div>
             </aura:if>
-            <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"/>
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"/>
         </ui:scrollerWrapper>
 
         <aura:if isTrue="{!v.initialized}">

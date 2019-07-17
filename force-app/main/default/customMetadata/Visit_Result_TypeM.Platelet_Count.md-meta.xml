@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:type="xsd:string">PLT,PLAT</value>
+        <value xsi:type="xsd:string">PLT;PLAT</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>

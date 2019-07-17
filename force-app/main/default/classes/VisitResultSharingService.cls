@@ -18,6 +18,7 @@ public without sharing class VisitResultSharingService {
         if(!havePSE) return false;
 
         return state.pse.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
+                state.ctp.Participating_in_Patient_Portal__c == 'Yes' &&
                 state.pse.Study_Site__r.Visit_Results_Sharing__c;
     }
 
@@ -51,7 +52,9 @@ public without sharing class VisitResultSharingService {
                 for (Visit_Result_Type_Sharing__c resultTypeSharing : ctp.Visit_Result_Type_Sharings__r) {
                     if (resultTypeSharing.Type__c == result.Result_Type__c) {
                         if (resultTypeSharing.Sharing_Countries__c == 'All' ||
-                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode)) {
+                                (resultTypeSharing.Include_Countries__c &&
+                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                           ) {
                             filteredResults.add(result);
                             break;
                         }
@@ -74,7 +77,7 @@ public without sharing class VisitResultSharingService {
                 FROM Visit_Result__c
                 WHERE Patient_Visit__r.Participant_Study_Enrollment__c =: state.pse.Id
                     AND Patient_Visit__r.Participant_Study_Enrollment__r.Participant_Contact__c
-                        = :CommunityService.getUserContact().Id
+                        = :state.participant.Contact__c
         ];
     }
 
@@ -118,7 +121,7 @@ public without sharing class VisitResultSharingService {
                         Shareback_Availability_Timing__c,
                         Shareback_Settings_On_Participant_Level__c,
                         Visit_Data_Shareback__c, (
-                        SELECT Id, Type__c, Sharing_Countries__c
+                        SELECT Id, Include_Countries__c, Type__c, Sharing_Countries__c
                         FROM Visit_Result_Type_Sharings__r
                 )
                 FROM Clinical_Trial_Profile__c
