@@ -14,25 +14,28 @@ public without sharing class ParticipantEnrollmentFactory {
     }
 
     private static void createParticipantEnrollment(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
-        Contact contact = new Contact();
-        contact.LastName = screeningId;
-        contact.Email = 'dz@hp.com';
-        contact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
-        insert contact;
         Participant__c participant = new Participant__c();
-        participant.Contact__c = contact.Id;
         participant.Mailing_Country_Code__c = 'US';
         participant.Mailing_Country__c = 'United States';
+        participant.Email__c = 'dz@hp.com';
+        participant.First_Name__c = screeningId;
+        participant.Last_Name__c = screeningId;
         insert participant;
         Participant_Enrollment__c pe = new Participant_Enrollment__c();
         pe.Clinical_Trial_Profile__c = ctp.Id;
         pe.Study_Site__c = studySite.Id;
-        pe.Screening_ID__c =screeningId;
+        pe.Screening_ID__c = screeningId;
         pe.Participant__c = participant.Id;
-        pe.Participant_Status__c  = 'Enrollment Success';
-        insert pe;
         pe.Participant_Status__c  = 'Referral Sent to PI';
-        update pe;
+        insert pe;
+        Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c();
+        pse.Clinical_Trial_Profile__c = ctp.Id;
+        pse.Study_Site__c = studySite.Id;
+        pse.Screening_ID__c = screeningId;
+        pse.Status__c = 'Enrolled';
+        pse.Participant_Enrollment__c = pe.Id;
+        pse.Participant__c = participant.Id;
+        insert pse;
     }
 
     private static Clinical_Trial_Profile__c getClinicalTrialProfile(String protocolId){
