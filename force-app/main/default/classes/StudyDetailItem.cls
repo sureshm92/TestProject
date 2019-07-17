@@ -2,7 +2,7 @@
  * Created by RAMukhamadeev on 2019-04-16.
  */
 
-public class StudyDetailItem implements Comparable {
+public without sharing class StudyDetailItem implements Comparable {
     public static String sortType;
 
     public Clinical_Trial_Profile__c trial;

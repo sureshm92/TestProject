@@ -15,7 +15,7 @@
             let coiWrappers = returnValue;
             coiWrappers.forEach(function (coiWrapper) {
                 if (coiList.some(function (coiEl) {
-                    coiEl.coi.Therapeutic_Area__r.Id === coiWrapper.coi.Therapeutic_Area__r.Id
+                    return coiEl.coi.Therapeutic_Area__c === coiWrapper.coi.Therapeutic_Area__c
                 })) {
                     coiWrapper.isSelected = true;
                 }

@@ -111,7 +111,7 @@ public without sharing class ParticipantDeduplicationController {
             Secondary_Source__c = referralRecord.Data_Source__c,
             Date_of_Birth__c = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c)
         );
-        newParticipant.Birth_Year__c = newParticipant.Date_of_Birth__c != null ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
+        newParticipant.Birth_Year__c = newParticipant.Date_of_Birth__c != null && newParticipant.Date_of_Birth__c !='' ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
 
         insert newParticipant;
         return newParticipant;

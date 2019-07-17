@@ -3,6 +3,14 @@
     <label>Total Cholesterol</label>
     <protected>false</protected>
     <values>
+        <field>Description_Label_Api_Name__c</field>
+        <value xsi:type="xsd:string">Total_Cholesterol_Description</value>
+    </values>
+    <values>
+        <field>Display_Order__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
         <field>Visit_Result_Code__c</field>
         <value xsi:type="xsd:string">CHOLC;CHOL</value>
     </values>
