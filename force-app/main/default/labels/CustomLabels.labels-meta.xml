@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>ALT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ALT</shortDescription>
+        <value>ALT</value>
+    </labels>
+    <labels>
         <fullName>AL_Body_Assigned_as_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -94,6 +101,13 @@
         <protected>false</protected>
         <shortDescription>AL Title Welcome To The PH</shortDescription>
         <value>Welcome to the Patient Portal!</value>
+    </labels>
+    <labels>
+        <fullName>AST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AST</shortDescription>
+        <value>AST</value>
     </labels>
     <labels>
         <fullName>About_the_Study</fullName>
@@ -374,6 +388,20 @@
         <protected>true</protected>
         <shortDescription>Admin</shortDescription>
         <value>IQVIA Admin</value>
+    </labels>
+    <labels>
+        <fullName>Albumin</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Albumin</shortDescription>
+        <value>Albumin</value>
+    </labels>
+    <labels>
+        <fullName>Alkaline_Phosphatase</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Alkaline Phosphatase</shortDescription>
+        <value>Alkaline Phosphatase</value>
     </labels>
     <labels>
         <fullName>Avaliable_Icons</fullName>
@@ -930,6 +958,20 @@
         <value>Yes, decline</value>
     </labels>
     <labels>
+        <fullName>BUN</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BUN</shortDescription>
+        <value>BUN</value>
+    </labels>
+    <labels>
+        <fullName>Body_Mass_Index</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Body Mass Index</shortDescription>
+        <value>Body Mass Index</value>
+    </labels>
+    <labels>
         <fullName>Button_Edit_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -970,6 +1012,13 @@
         <protected>false</protected>
         <shortDescription>CTL L Patricipant MODE</shortDescription>
         <value>View as a Participant</value>
+    </labels>
+    <labels>
+        <fullName>Calcium</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Calcium</shortDescription>
+        <value>Calcium</value>
     </labels>
     <labels>
         <fullName>Can_Not_Edit_Mapping</fullName>
@@ -1027,6 +1076,13 @@
         <protected>true</protected>
         <shortDescription>Created Date</shortDescription>
         <value>Created Date</value>
+    </labels>
+    <labels>
+        <fullName>Creatinine</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Creatinine</shortDescription>
+        <value>Creatinine</value>
     </labels>
     <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
@@ -1314,6 +1370,13 @@
         <protected>true</protected>
         <shortDescription>Disabled</shortDescription>
         <value>Disabled</value>
+    </labels>
+    <labels>
+        <fullName>Distolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Distolic Blood Pr</shortDescription>
+        <value>Distolic Blood Pr</value>
     </labels>
     <labels>
         <fullName>Doc_L_Oh_no_there_are_no_items_here</fullName>
@@ -2668,6 +2731,41 @@
         <value>Male</value>
     </labels>
     <labels>
+        <fullName>Glucose</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Glucose</shortDescription>
+        <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>Haematocrit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haematocrit</shortDescription>
+        <value>Haematocrit</value>
+    </labels>
+    <labels>
+        <fullName>Haemoglobin</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haemoglobin</shortDescription>
+        <value>Haemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>Height</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>High_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>High-density Lipoprotein</shortDescription>
+        <value>High-density Lipoprotein</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Label</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2813,6 +2911,13 @@
         <protected>false</protected>
         <shortDescription>Link Interactive Advertising Bureau</shortDescription>
         <value>Interactive Advertising Bureau</value>
+    </labels>
+    <labels>
+        <fullName>Low_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Low-density Lipoprotein</shortDescription>
+        <value>Low-density Lipoprotein</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_1</fullName>
@@ -7404,11 +7509,25 @@
         <value>Patient</value>
     </labels>
     <labels>
+        <fullName>Platelet_Count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Platelet Count</shortDescription>
+        <value>Platelet Count</value>
+    </labels>
+    <labels>
         <fullName>Poput_ICF</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Poput_ICF</shortDescription>
         <value>Please confirm that your patient has signed ICF consent</value>
+    </labels>
+    <labels>
+        <fullName>Potassium</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Potassium</shortDescription>
+        <value>Potassium</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
@@ -7423,6 +7542,13 @@
         <protected>false</protected>
         <shortDescription>Profile Menu Log Out</shortDescription>
         <value>Log Out</value>
+    </labels>
+    <labels>
+        <fullName>RBC_Count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RBC Count</shortDescription>
+        <value>RBC Count</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -7570,6 +7696,88 @@
         <protected>true</protected>
         <shortDescription>Reminder_Study_Specific_No_Study</shortDescription>
         <value>Remember to add a Study</value>
+    </labels>
+    <labels>
+        <fullName>Report_Dates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Dates</shortDescription>
+        <value>Dates</value>
+    </labels>
+    <labels>
+        <fullName>Report_Fasting_Lipid_Profile_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Fasting Lipid Profile header</shortDescription>
+        <value>Fasting Lipid Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Report_Fasting_Lipid_Profile_text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Fasting Lipid Profile text</shortDescription>
+        <value>Medical text will be added here to summarize ingormation provided in the Fasting Lipid table.
+Medical text will be added here
+Medical text will be added here
+Medical text will be added here</value>
+    </labels>
+    <labels>
+        <fullName>Report_Haematology_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Haematology header</shortDescription>
+        <value>Haematology Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Report_Haematology_text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Haematology text</shortDescription>
+        <value>Medical text will be added here to summarize ingormation provided in the Haematology table.
+Medical text will be added here
+Medical text will be added here
+Medical text will be added here</value>
+    </labels>
+    <labels>
+        <fullName>Report_Metabolic_Panel_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Metabolic Panel header</shortDescription>
+        <value>Metabolic Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Report_Metabolic_Panel_text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Metabolic Panel text</shortDescription>
+        <value>Medical text will be added here to summarize ingormation provided in the Metabolic Panel table.
+Medical text will be added here
+Medical text will be added here
+Medical text will be added here</value>
+    </labels>
+    <labels>
+        <fullName>Report_My_Study_Data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report My Study Data</shortDescription>
+        <value>My Study Data Report</value>
+    </labels>
+    <labels>
+        <fullName>Report_Vitals_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Vitals header</shortDescription>
+        <value>Vitals Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Report_Vitals_text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Vitals text</shortDescription>
+        <value>Medical text will be added here to summarize ingormation provided in the vitals table.
+Medical text will be added here
+Medical text will be added here
+Medical text will be added here</value>
     </labels>
     <labels>
         <fullName>Resource_Social_Share_email_title</fullName>
@@ -7808,6 +8016,13 @@
         <protected>true</protected>
         <shortDescription>resource send emial soical</shortDescription>
         <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
+    </labels>
+    <labels>
+        <fullName>Respiratory_Rate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Respiratory Rate</shortDescription>
+        <value>Respiratory Rate</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>
@@ -8196,6 +8411,13 @@
         <value>Set Reminder</value>
     </labels>
     <labels>
+        <fullName>Sodium</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
         <fullName>Studies_FindSitesForStudy</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8380,6 +8602,13 @@
         <protected>true</protected>
         <shortDescription>The record has been created successfully.</shortDescription>
         <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic Blood Pr</shortDescription>
+        <value>Systolic Blood Pr</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
@@ -8802,11 +9031,32 @@
         <value>Patients cannot be enrolled without signing the Informed Consent Form</value>
     </labels>
     <labels>
+        <fullName>Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>Total_protein</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
         <fullName>Travel_Support_Link</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Travel Support Link</shortDescription>
         <value>https://www.primarius.cloud/</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Trygilicerides</shortDescription>
+        <value>Trygilicerides</value>
     </labels>
     <labels>
         <fullName>UOM_Kilometers</fullName>
@@ -8947,6 +9197,20 @@ questions or concerns about this data, please contact the Principal Investigator
         <protected>true</protected>
         <shortDescription>Visit Schedule</shortDescription>
         <value>Visit Schedule</value>
+    </labels>
+    <labels>
+        <fullName>WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WBC Count</shortDescription>
+        <value>WBC Count</value>
+    </labels>
+    <labels>
+        <fullName>Weight</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Weight</shortDescription>
+        <value>Weight</value>
     </labels>
     <labels>
         <fullName>empty_visits</fullName>
