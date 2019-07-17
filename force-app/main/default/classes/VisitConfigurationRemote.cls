@@ -14,7 +14,6 @@ public with sharing class VisitConfigurationRemote {
             if (String.isNotBlank(ctps[0].Visit_Plan__c)) {
                 return [
                         SELECT Id,Name
-                                ,Order__c
                                 ,Visit_Plan__c
                                 ,Visit_Schedule__c
                                 ,Visit_Number__c

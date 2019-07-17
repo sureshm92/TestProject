@@ -17,9 +17,6 @@
             <div class="slds-text-title slds-text-color_default">{!v.visit.Visit_Schedule__c}</div>
         </td>
         <td>
-            <div class="slds-text-title slds-text-color_default">{!v.visit.Order__c}</div>
-        </td>
-        <td>
             <c:RRIconSplitter value="{!v.visit.Icons__c}" class="iconClass"/>
         </td>
         <td>

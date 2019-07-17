@@ -15,10 +15,7 @@
                 component.set('v.iconDetails', customIcons);
                 return helper.enqueue(component, 'c.getIconDetails', {});
             }, function (errorMessage) {
-                component.set('v.errorMessage', errorMessage);
-                return helper.enqueue(component, 'c.getThisLegend', {
-                    'visitPlanId': component.get('v.visitPlanId')
-                });
+                component.set('v.error', errorMessage);
             }).then(function (dbresult) {
             let customIcons = component.get('v.iconDetails');
             for (let i = 0; i < customIcons.length; i++) {
@@ -74,8 +71,6 @@
                     } else {
                         reject($A.get('$Label.c.Icons_package_not_found'));
                     }
-
-                } else {
 
                 }
             };
