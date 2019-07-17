@@ -97,21 +97,21 @@
                 <tr class="slds-text-heading--label">
                     <aura:iteration items="{!tableReport.tHead}" var="tableHead">
                         <th style="text-align: center">
-                           <span> {!tableHead.colName} </span>
+                           <span> {!tableHead.value} </span>
                             <aura:if isTrue="{!tableHead.isShowRange}">
                                 <br/>
-                                <span style="text-transform: none; font-size:10px; display: block;"> {!' Expected Range ' + tableHead.minValue + ' - ' + tableHead.maxValue}</span>
+                                <span style="text-transform: none; font-size:4px; display: block;"> {!' Expected Range ' + tableHead.minValue + ' - ' + tableHead.maxValue}</span>
                             </aura:if>
                         </th>
                     </aura:iteration>
                 </tr>
                 </thead>
                 <tbody>
-                <aura:iteration items="{!tableReport.visitResultsWrapper}" var="values">
+                <aura:iteration items="{!tableReport.visitResultsWrapper}" var="rows">
                     <tr class="slds-hint-parent">
-                        <aura:iteration items="{!values}" var="val">
+                        <aura:iteration items="{!rows}" var="row">
                             <td style="text-align: center">
-                                {!val.value}
+                                {!row.value}
                             </td>
                         </aura:iteration>
                     </tr>

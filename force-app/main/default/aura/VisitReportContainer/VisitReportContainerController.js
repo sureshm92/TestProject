@@ -13,8 +13,6 @@
             if (state === "SUCCESS") {
                 component.set('v.reportDataList', JSON.parse(response.getReturnValue()));
                 component.set('v.isReportData', true);
-                console.log(component.get('v.reportData'));
-                helper.onGenerateReport(component, helper);
             } else if (state === "ERROR") {
                 let errors = response.getError();
                 if (errors) {
@@ -37,7 +35,6 @@
         var index = event.currentTarget.dataset.ind;
         let reportData = component.get('v.reportDataList')[index];
         component.set('v.reportData', reportData);
-        console.log('reportData ===> ', JSON.stringify(reportData));
         helper.onGenerateReport(component, helper);
     },
 });
