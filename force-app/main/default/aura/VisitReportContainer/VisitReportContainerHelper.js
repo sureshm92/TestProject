@@ -1,0 +1,166 @@
+/**
+ * Created by Yehor Dobrovolskyi
+ */
+({
+
+    onGenerateData: function (component, helper, reportData) {
+        helper.onGenerateReport(component, helper);
+    },
+
+    onGenerateReport: function (component, helper) {
+        var doc = new jsPDF('p', 'pt', 'A4', true);
+        let reportData = component.get('v.reportData');
+        const url = new URL(window.location.href);
+        const resourceRelPath = $A.get('$Resource.PH_Default_Image') + '/IQVIA.png';
+        const resourceUrl = `${url.origin}${resourceRelPath}`;
+        window.fetch(resourceUrl)
+            .then($A.getCallback((response) => {
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error(`HTTP error, status = ${response.status}`);
+                }
+                response.blob()
+                    .then($A.getCallback((data) => {
+                        let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
+                        let reader = new FileReader();
+                        reader.readAsDataURL(data);
+                        reader.onloadend = function () {
+                            let iqviaLogo = reader.result;
+                            helper.generateFirstPage(reportData, doc, helper);
+                            doc.addPage();
+                            doc.setFontSize(16);
+                            doc.setTextColor('#000096');
+                            doc.setFontType('bold');
+                            doc.text(reportData.participantFullName, 80, 120);
+                            doc.text(reportData.enrollmentDate, 80, 140);
+                            doc.text(reportData.studySiteName, 80, 160);
+                            doc.setFontType('normal');
+
+                            helper.generateTable(reportData, doc, helper);
+
+                            for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+                                doc.setPage(i);
+                                helper.addBorder(reportData, doc, iqviaLogo, textFooter, i === 1);
+                            }
+                            doc.save(component.get('v.documentName') + '.pdf');
+                            reportData = {};
+                            component.set('v.reportData', reportData);
+                        };
+                    }));
+            }))
+            .catch($A.getCallback((error) => {
+                console.error('Fetch Error :-S', error);
+            }));
+    },
+
+    generateTable: function (reportData, doc, helper) {
+        let heightY = 160;
+        reportData.dataTables.forEach(function (tableResult, ind) {
+            doc.setFontType('normal');
+            doc.setFontSize(16);
+            doc.setTextColor('#757575');
+            heightY = helper.validationEndPage(doc, heightY + 50);
+            doc.text(tableResult.tableName, 90, heightY);
+            heightY += doc.internal.getLineHeight();
+            tableResult.labsDescription.forEach(function (lab) {
+                doc.setFontType('bold');
+                doc.setFontSize(11);
+                doc.setTextColor('#000000');
+                heightY = helper.validationEndPage(doc, heightY + 30);
+                doc.text(lab.nameLabs, 90, heightY);
+                doc.setFontType('normal');
+                doc.setFontSize(11);
+                doc.setTextColor('#000000');
+                let splitTextResult = doc.splitTextToSize(lab.descriptionLab, 480);
+                splitTextResult.forEach(function (el, ind) {
+                    heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
+                    doc.text(el, 90, heightY);
+                });
+                heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
+
+            });
+
+            doc.autoTable({
+                html: '#tbl' + ind,
+                styles: {
+                    cellPadding: 0,
+                    minCellWidth: 35
+                },
+                tableWidth: 510,
+                startY: heightY + 30,
+                margin: {
+                    right: 20,
+                    left: 60,
+                    top: 60,
+                    bottom: 60
+                },
+                useCss: true,
+            });
+            heightY = doc.autoTable.previous.finalY
+        });
+    },
+
+    addBorder: function (reportData, doc, logo, textFooter, isFirstPage) {
+        if (!isFirstPage) {
+            doc.setFontSize(10);
+            doc.setTextColor('#6e6e6e');
+            doc.text(reportData.studyCodeName, 400, 12);
+            doc.text(reportData.participantLastName, 400, 24);
+        }
+        doc.setDrawColor(0, 0, 100);
+        doc.setLineWidth(8);
+        doc.line(35, 35, 35, 795);
+        doc.line(30.8, 35, 97, 35);
+        doc.line(193, 35, 595, 35);
+        doc.line(30.8, 795, 595, 795);
+        doc.addImage(logo, 'PNG', 100, 12, 90, 35);
+        doc.setFontSize(8);
+        doc.setTextColor('#6e6e6e');
+        let splitTitle = doc.splitTextToSize(textFooter, 420);
+        let helperT = this;
+        splitTitle.forEach(function (el, ind) {
+            doc.setFontSize(8);
+            doc.setTextColor('#6e6e6e');
+            helperT.centeredText(el, (812 + ind * doc.internal.getLineHeight()), doc);
+        });
+    },
+
+    centeredText: function (text, y, doc) {
+        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
+        doc.setFillColor(25, 25, 25);
+        doc.text(textOffset + 12, y, text);
+    },
+
+    validationEndPage: function (doc, heightY) {
+        if (heightY > doc.internal.pageSize.height - 60) {
+            doc.addPage();
+            heightY = 80;
+        }
+        return heightY;
+    },
+
+    generateFirstPage: function (reportData, doc, helper) {
+        let heightY = 40;
+        if (reportData.profilePicture) {
+            doc.addImage(reportData.profilePicture, 'JPEG', 130, 150, 360, 150);
+        } else {
+            doc.setFontSize(18);
+            doc.setTextColor('#000000');
+            let splitStudyCodeName = doc.splitTextToSize(reportData.studyCodeName, 500);
+            splitStudyCodeName.forEach(function (el, ind) {
+                helper.centeredText(el, (150 + heightY + ind * doc.internal.getLineHeight()), doc);
+            });
+            heightY = doc.internal.getLineHeight() * splitStudyCodeName.length;
+
+        }
+        doc.setFontSize(16);
+        doc.setTextColor('#000000');
+        let splitStudyTitle = doc.splitTextToSize(reportData.studyTitle, 500);
+        splitStudyTitle.forEach(function (el, ind) {
+            helper.centeredText(el, (350 + heightY + ind * doc.internal.getLineHeight()), doc);
+        });
+        heightY = doc.internal.getLineHeight() * splitStudyTitle.length;
+        helper.centeredText($A.get('$Label.c.Report_My_Study_Data'), 500 + heightY, doc);
+    }
+});

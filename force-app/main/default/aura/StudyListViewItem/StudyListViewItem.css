@@ -271,6 +271,9 @@
     border-top: 1px solid #F2F2F2;
     border-left: 1px solid #F2F2F2;
     border-right: 1px solid #F2F2F2;
+}
+
+.THIS .manage-location-details span{
     cursor: pointer;
 }
 
