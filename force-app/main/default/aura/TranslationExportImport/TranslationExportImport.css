@@ -63,3 +63,13 @@
     opacity: 0;
     visibility: hidden;
 }
+
+.THIS .platform-object{
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-bottom: 6px;
+    display: inline-block;
+    background-color: #757575;
+    color: white;
+}
