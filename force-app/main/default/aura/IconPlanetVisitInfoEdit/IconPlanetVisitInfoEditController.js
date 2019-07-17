@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component, event, helper) {
-        debugger;
         helper.getIconsResourceName(component,event,helper);
         helper.getIconDetails(component, event, helper);
     },
