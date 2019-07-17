@@ -4643,6 +4643,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trial_Survey__c.Is_Midpoint__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Active_On_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>

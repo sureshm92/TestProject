@@ -4653,6 +4653,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trial_Survey__c.Is_Midpoint__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4669,6 +4674,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>User.Survey_Result__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
