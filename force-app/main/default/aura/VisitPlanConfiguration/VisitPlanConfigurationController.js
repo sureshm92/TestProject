@@ -4,20 +4,16 @@
 ({
 
     doInit: function (component, event, helper) {
-        debugger;
         helper.getRelatedVisitPlans(component, event, helper);
-        let staticResName = component.get('v.IconsPackageName');
-        let path = component.get('v.IconsPackageFIlePath');
-        let iconsStaticURL = $A.get('$Resource.' + staticResName) + path;
-        component.set('v.iconsURL', iconsStaticURL);
+        helper.getIconsUrl(component, event, helper);
+        helper.getAllIconsNames(component, event, helper);
+
     },
+
     addVisit: function (component, event, helper) {
         helper.addVisit(component, event, helper);
     },
-    onEditIcon: function (component, event, helper) {
-        component.find('iconEdit').show();
-        component.find('iconEdit').loadIconsDescription();
-    },
+
     preload: function (component, event, helper) {
         const recId = component.get('v.visitPlanId');
         component.find('visitPlan').set('v.value', recId);

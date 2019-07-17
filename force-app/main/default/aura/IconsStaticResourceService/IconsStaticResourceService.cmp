@@ -1,0 +1,16 @@
+<!--
+ - Created by dmytro.fedchyshyn on 16.07.2019.
+ -->
+
+<aura:component description="IconsStaticResourceService" extends="c:LightningService"
+                controller="IconPlanetVisitInfoEditRemote">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="IconsPackageFIlePath" type="String"/>
+    <aura:attribute name="staticResourceName" type="String"/>
+    <aura:attribute name="iconNames" type="String[]"/>
+    <aura:attribute name="iconsDetail" type="Object[]"/>
+    <aura:attribute name="iconsURL" type="String"/>
+
+    <aura:method name="getIconsData" action="{!c.getIconsData}"/>
+    <aura:method name="getStaticResourceUrl" action="{!c.getIconsUrl}"/>
+</aura:component>

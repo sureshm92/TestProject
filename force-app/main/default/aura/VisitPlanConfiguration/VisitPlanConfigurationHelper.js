@@ -188,5 +188,21 @@
         })
     },
 
+    getIconsUrl: function (component,event, helper) {
+        let service = component.find("iconsStaticResourceService");
+        let iconsStaticUrl = service.getStaticResourceUrl(component, event, helper);
+        component.set("v.iconsURL", iconsStaticUrl);
+    },
+
+    getAllIconsNames: function (component,event, helper) {
+        let service = component.find("iconsStaticResourceService");
+        service.getIconsData(component, event, helper)
+            .then(function (result) {
+                component.set('v.allIcons', result.iconNames);
+            }, function (errorMessage) {
+                component.set('v.error', errorMessage);
+            })
+    }
+
 
 })
