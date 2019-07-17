@@ -29,10 +29,14 @@
     align-content: center;
 }
 .THIS .slds-button_icon-border{
-     border: 0px solid rgb(221, 219, 218);
-     border-color: white;
+    border: 0px solid rgb(221, 219, 218);
+    border-color: white;
 }
 .THIS .iconClass {
     height: 47px!important;
     width: 30px!important;
+}
+
+.THIS .slds-visual-picker+.slds-visual-picker {
+    margin-left: 0;
 }

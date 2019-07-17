@@ -2,103 +2,35 @@
  * Created by AlexKetch on 6/21/2019.
  */
 ({
-    getExistingLegend: function (component, event, helper) {
-        $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-        helper.enqueue(component, 'c.getExistingLegend', {
-            'iconPackageId': component.get('v.existingIconsPackage'),
-        }).then(function (result) {
-            result.map(function (el) {
-                if (el.Id) {
-                    delete el.Id
-                }
-                el.Icons_Package__c = component.get('v.iconPackageId');
-            });
-            component.set('v.detailIcons', result);
-            component.find('createLegendModal').hide();
-            $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-            $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-            console.log('error:', err[0].message);
-            component.find('createLegendModal').hide();
-        });
+
+    getIconsResourceName: function (component, event, helper) {
+        let staticResName = component.get('v.IconsPackageName');
+        let path = component.get('v.IconsPackageFIlePath');
+        let iconsStaticURL = $A.get('$Resource.' + staticResName) + path;
+        component.set('v.iconsURL', iconsStaticURL);
     },
-    getPackageId: function (component, event, helper) {
-        debugger;
-        $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-        helper.enqueue(component, 'c.getPackageId', {
-            visitPlanId: component.get('v.visitPlanId'),
-        }).then(function (result) {
-            component.set('v.iconPackageId', result);
-            $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-            $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-            console.log('error:', err[0].message);
-        });
-    },
-    createVisitPackage: function (component, event, helper) {
-        $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-        helper.enqueue(component, 'c.createVisitPackage', {
-            iconPackageId: component.get('v.iconPackageId'),
-            visitPlanId: component.get('v.visitPlanId'),
-        }).then(function (result) {
-            component.set('v.detailIcons', result);
-            component.find('createLegendModal').hide();
-            $A.util.toggleClass(component.find('spinner'), 'slds-hide');
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-            console.log('error:', err[0].message);
-            component.find('createLegendModal').hide();
-        });
-        component.find('createLegendModal').hide();
-    },
-    getThisLegends: function (component, event, helper) {
-        debugger;
+    getIconDetails: function (component, event, helper) {
         helper.getCustomIconsNames(component)
             .then(function (customIcons) {
-                component.set('v.customIconDetails', customIcons);
-                return helper.enqueue(component, 'c.getThisLegend', {
-                    'visitPlanId': component.get('v.visitPlanId')
-                });
+                component.set('v.iconDetails', customIcons);
+                return helper.enqueue(component, 'c.getIconDetails', {});
             }, function (errorMessage) {
                 component.set('v.errorMessage', errorMessage);
                 return helper.enqueue(component, 'c.getThisLegend', {
                     'visitPlanId': component.get('v.visitPlanId')
                 });
             }).then(function (dbresult) {
-            let customIcons = component.get('v.customIconDetails');
+            let customIcons = component.get('v.iconDetails');
             for (let i = 0; i < customIcons.length; i++) {
                 let index = dbresult.findIndex(function (item) {
                     return item.Name == customIcons[i].Name;
                 });
                 if (index > -1) {
-                    if (dbresult[index].Custom_Icon__c) {
-                        customIcons[i] = dbresult[index];
-                        dbresult.splice(index, 1);
-                    }
+                    customIcons[i] = dbresult[index];
+                    dbresult.splice(index, 1);
                 }
             }
-            component.set('v.detailIcons', dbresult);
-            component.set('v.customIconDetails', customIcons);
+            component.set('v.iconDetails', customIcons);
             $A.util.toggleClass(component.find('spinner'), 'slds-hide');
         }, function (err) {
             if (err && err[0].message) {
@@ -150,38 +82,13 @@
             x.send(null);
         }));
     },
-    /*getThisLegends: function (component, event, helper) {
-        debugger;
-        helper.enqueue(component, 'c.getThisLegend', {
-            'visitPlanId': component.get('v.visitPlanId')
-        }).then(function (result) {
-            console.log('results', result);
-            component.set('v.detailIcons', result);
-            //helper.getCustomIconsNames(component, event, helper);
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-            console.log('error:', err[0].message);
-        });
-    },*/
     saveIconsLegend: function (component, event, helper) {
         debugger;
-        let iconsDetailStandart = component.get('v.detailIcons');
-        let customIconDetails = component.get('v.customIconDetails');
-        let filtered = helper.getNotEmptyIcons(iconsDetailStandart);
-        let filteredCustom = helper.getNotEmptyIcons(customIconDetails);
-        const allIconsfiltered = [...filtered, ...filteredCustom];
+        let iconsDetails = component.get('v.iconDetails');
+        let filtered = helper.getNotEmptyIcons(iconsDetails);
         helper.enqueue(component, 'c.saveIconInfo', {
-            'iconsDetails': allIconsfiltered,
-            'iconPackageId': component.get('v.iconPackageId'),
-            'visitPlanId': component.get('v.visitPlanId')
+            'iconsDetails': filtered,
         }).then(function () {
-            component.find('customModal').hide();
             helper.notify({
                 "title": "Success!",
                 "message": "saved successfully.",
@@ -196,9 +103,7 @@
                 });
             }
             console.log('error:', err[0].message);
-            component.find('customModal').hide();
         });
-        component.find('customModal').hide();
     },
     getNotEmptyIcons: function (iconsDetail) {
         return iconsDetail.filter(function (el) {

@@ -36,11 +36,8 @@
     <aura:attribute name="CTPrecord" type="Object" default='Object'/>
     <aura:attribute name="recordLoadError" type="Object" default='Object'/>
     <aura:attribute name="fields" type="String[]" default="['Name']"/>
-    <!--<aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + v.IconsPackageFIlePath}"
-                    access="private"/>-->
     <aura:attribute name="summaryContainers" type="List" access="private"/>
     <aura:attribute name="iconsURL" type="String"/>
-                    access="private"/>
     <force:recordData aura:id="CTPLoader"
                       recordId="{!v.recordId}"
                       fields="Name,Visit_Plan__c"
@@ -60,11 +57,11 @@
                 <lightning:layoutItem>
                     <aura:if isTrue="{!v.visitPlanId!=null}">
                         <lightning:button onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
-                                          label="add visit"/>
+                                          label="Add Visit"/>
                         <aura:set attribute="else">
                             <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral"
                                               variant="neutral"
-                                              label="create VisitPlan"/>
+                                              label="Create Visit Plan"/>
                         </aura:set>
                     </aura:if>
                 </lightning:layoutItem>
@@ -111,7 +108,6 @@
         <div class="slds-p-horizontal--small">
             <lightning:recordEditForm
                     onload="{!c.preload}"
-                    onsubmit="{!c.handleSubmit}"
                     onsuccess="{!c.handleSuccess}"
                     aura:id="editForm"
                     recordId="{!v.visitId}"
@@ -193,5 +189,5 @@
         </aura:set>
 
     </c:CustomModal>
-    <c:IconPlanetVisitInfoEdit iconsURL="{!v.iconsURL}" visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>
+  <!--  <c:IconPlanetVisitInfoEdit iconsURL="{!v.iconsURL}" visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>-->
 </aura:component>

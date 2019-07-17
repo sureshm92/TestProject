@@ -34,7 +34,6 @@
             let ctp  = JSON.stringify(component.get('v.CTPrecord'));
             let ctpCLear  = JSON.parse(ctp);
             component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
-            component.find('iconEdit').getIconsPackageId();
 
         } else if(eventParams.changeType === "CHANGED") {
             let ctp  = JSON.stringify(component.get('v.CTPrecord'));
@@ -44,7 +43,6 @@
                 component.set('v.visits',[]);
             }
             component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
-            component.find('iconEdit').getIconsPackageId();
         } else if(eventParams.changeType === "REMOVED") {
             // record is deleted
         } else if(eventParams.changeType === "ERROR") {
@@ -136,19 +134,14 @@
             console.log('error:', err[0].message);
         })
     },
+
     deleteRecord: function (component, event, helper) {
         $A.util.toggleClass(component.find('spinner'));
         let record = event.getParam('record');
         component.set('v.visitId', record.Id);
-        helper.deleteRecord(component, event, helper)
+        helper.deleteVisitRecord(component, event, helper)
     },
-    createVisitPlan: function (component, event, helper) {
-        var createRecordEvent = $A.get("e.force:createRecord");
-        createRecordEvent.setParams({
-            "entityApiName": "Contact"
-        });
-        createRecordEvent.fire();
-    },
+
     getIconsNames: function (component, event, helper) {
         debugger;
         var x = new XMLHttpRequest();
@@ -164,7 +157,7 @@
         };
         x.send(null);
     },
-    deleteRecord: function (component, event, helper) {
+    deleteVisitRecord: function (component, event, helper) {
         debugger;
         let vId = component.get('v.visitId');
         helper.enqueue(component, 'c.deleteVisit', {

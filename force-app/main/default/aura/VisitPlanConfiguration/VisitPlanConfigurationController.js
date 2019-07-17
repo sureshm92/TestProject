@@ -32,6 +32,7 @@
         component.find('createVisitPlan').hide();
     },
     handleRecordUpdated: function (component, event, helper) {
+        debugger;
         helper.handleRecordUpdated(component, event, helper);
     },
     handleSuccessVP: function (component, event, helper) {
@@ -51,8 +52,14 @@
         let icons = component.get('v.selectedIcons');
         let strCoins = icons.join(';');
         component.find('splittedIcons').set('v.value', strCoins);
-        component.find('editForm').submit();
+        let name = component.find('nameId').get("v.value");
+        name === null ? helper.notify({
+            "title": "Name Is Empty",
+            "message": "Complete Name field.",
+            "type": "error"
+        }) : component.find('editForm').submit();
     },
+
     shiftRight: function (component, event, helper) {
         helper.shiftRight(component, event, helper);
     },
@@ -69,5 +76,5 @@
             "message": $A.get("$Label.c.Success_Creation"),
             "type": $A.get("$Label.c.successType")
         });
-    }
+    },
 })

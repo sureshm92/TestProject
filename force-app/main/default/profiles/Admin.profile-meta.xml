@@ -5763,6 +5763,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Icons_Legend</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Manual_Tasks_Creation</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
