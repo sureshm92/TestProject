@@ -24,6 +24,7 @@ public class StudyDetailItem implements Comparable {
     public Datetime maxHCPCreatedDate;
     public Boolean hasPatients;
     public List<StudyDetailItem.StudySiteWithActions> ssList = new List<StudyDetailItem.StudySiteWithActions>();
+    public List<LabelValueItem> delegatePicklist = new List<LabelValueItem>();
     public String primaryContactName;
 
     public Integer compareTo(Object compareTo) {
@@ -77,12 +78,14 @@ public class StudyDetailItem implements Comparable {
     public class StudySiteWithActions{
        public Study_Site__c studySite;
        public List<StudyActions.Action> actions;
+       public List<Account> accounts;
 
         public studySiteWithActions(){}
 
-        public studySiteWithActions(Study_Site__c studySite, List<StudyActions.Action> actions){
+        public studySiteWithActions(Study_Site__c studySite, List<StudyActions.Action> actions,List<Account> accounts){
             this.studySite = studySite;
             this.actions = actions;
+            this.accounts = accounts;
         }
     }
 }

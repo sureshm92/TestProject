@@ -625,7 +625,7 @@ public without sharing class StudyTrialService {
         }
     }
 
-    public static List<LabelValueItem> getDelegatePicklistValues() {
+    public static List<LabelValueItem> getDelegatePicklistValues(Id piId) {
         try {
             Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
             List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
@@ -634,9 +634,9 @@ public without sharing class StudyTrialService {
                             Site_Contact__r.Name,
                             Site_Contact__c
                     FROM Site_Staff__c
-                    WHERE Study_Site__r.Principal_Investigator__c = :CommunityService.getInstance().getCurrentContactId()
+                    WHERE Study_Site__r.Principal_Investigator__c = :piId
             ];
-            if (piDelegates.isEmpty()) {
+           /* if (piDelegates.isEmpty()) {
                 Set<Id> piSet = new Set<Id>();
                 for (Site_Staff__c delegatesSites : [
                         SELECT Id,
@@ -657,7 +657,7 @@ public without sharing class StudyTrialService {
                             WHERE Study_Site__r.Principal_Investigator__c IN :piSet
                     ];
                 }
-            }
+            }*/
             if (!piDelegates.isEmpty()) {
                 for (Site_Staff__c delegatesSites : piDelegates) {
                     delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
@@ -691,9 +691,8 @@ public without sharing class StudyTrialService {
 
     public static void saveSSAddress(String studySiteInfo) {
         try {
-            Id contactId = CommunityService.getInstance().getCurrentContactId();
-            Contact currentContact = [SELECT Id, OwnerId, AccountId FROM Contact WHERE Id = :contactId];
             Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
+            Contact currentContact = [SELECT Id, OwnerId, AccountId FROM Contact WHERE Id = :ss.Principal_Investigator__c];
             Map<String, Object> acc = (Map<String, Object>) JSON.deserializeUntyped(studySiteInfo);
             String accString = JSON.serialize(acc.get('Site__r'));
             Account newAccount = (Account) JSON.deserialize(accString, Account.class);
@@ -705,13 +704,14 @@ public without sharing class StudyTrialService {
                 update currentContact;
             } else {
                 if (newAccount.ParentId == null) {
+                    newAccount.ParentId = newAccount.Id;
                     createAccount = setFields(newAccount,currentContact,false);
                     insert createAccount;
                     List<AccountContactRelation> removeAccContRelation = [
                             SELECT Id,
                                     IsDirect
                             FROM AccountContactRelation
-                            WHERE AccountId = :newAccount.Id AND ContactId = :contactId
+                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id
                             LIMIT 1
                     ];
                     currentContact.AccountId = createAccount.Id;

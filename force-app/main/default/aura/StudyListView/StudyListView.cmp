@@ -173,7 +173,7 @@
                 <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
                     <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                       <!-- <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>-->
+                       <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
                             <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
                                                  countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"

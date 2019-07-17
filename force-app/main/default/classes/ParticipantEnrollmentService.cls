@@ -458,8 +458,16 @@ public without sharing class ParticipantEnrollmentService {
                 studySites = StudySiteService.getStudySitesForHCP(peFilterData.trialIds);
             }
             for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
-
-
+        }
+        if(mode == CommunityService.USER_MODE_PI){
+            List<Study_Site__c> studySites;
+            if(restrictTrial && trialId!=null){
+                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+            }
+            else{
+                studySites = StudySiteService.getStudySitesForPI();
+            }
+            for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
         }
 
         peFilterData.referringClinics = new List<LabelValueItem>();
@@ -472,6 +480,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData){
         //prepare filter string:
+        System.debug('filter>>>'+filter);
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if(!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         if(filter.searchText != null) filter.searchText = filter.searchText.trim();
