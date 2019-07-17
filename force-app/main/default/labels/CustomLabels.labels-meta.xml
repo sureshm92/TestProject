@@ -8984,6 +8984,34 @@ have questions or concerns about this data, please contact the Principal Investi
         <value>Visit Schedule</value>
     </labels>
     <labels>
+        <fullName>Visit_b_Add_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Add Visit</shortDescription>
+        <value>Add Visit</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Create_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Create Visit Plan</shortDescription>
+        <value>Create Visit Plan</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
         <fullName>empty_visits</fullName>
         <language>en_US</language>
         <protected>true</protected>

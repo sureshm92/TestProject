@@ -16,20 +16,7 @@
     <aura:attribute name="currentVisits" type="Object[]"/>
     <aura:attribute name="newTaskRecord" type="Object"/>
     <aura:attribute name="error" type="String"/>
-    <aura:attribute name="allIcons" type="String[]"
-                    default="[
-                    'icon-blood-test',
-                    'icon-brief-ph-ex',
-                    'icon-x-rays',
-                    'icon-ecg',
-                    'icon-joint',
-                    'icon-lung-test',
-                    'icon-lung-check',
-                    'icon-pregnancy',
-                    'icon-questionnaires',
-                    'icon-questions',
-                    'icon-vital-signs',
-                   ]"/>
+    <aura:attribute name="allIcons" type="String[]"/>
     <aura:attribute name="availableIcons" type="String[]"/>
     <aura:attribute name="selectedIcons" type="String[]"/>
     <aura:attribute name="visitId" type="String"/>
@@ -46,61 +33,63 @@
                       recordUpdated="{!c.handleRecordUpdated}"
     />
     <lightning:card title="Planned visits" iconName="standard:contact">
-        <aura:set attribute="actions">
-            <lightning:layout horizontalAlign="center" verticalAlign="end">
-                <lightning:layoutItem>
-                    <aura:if isTrue="{!v.visitPlanId!=null}">
-                        <lightning:button onclick="{!c.onEditIcon}" class="slds-theme_neutral" variant="neutral"
-                                          label="Edit Icons"/>
-                    </aura:if>
-                </lightning:layoutItem>
-                <lightning:layoutItem>
-                    <aura:if isTrue="{!v.visitPlanId!=null}">
-                        <lightning:button onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
-                                          label="Add Visit"/>
-                        <aura:set attribute="else">
-                            <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral"
-                                              variant="neutral"
-                                              label="Create Visit Plan"/>
-                        </aura:set>
-                    </aura:if>
-                </lightning:layoutItem>
-            </lightning:layout>
-        </aura:set>
-        <aura:set attribute="footer">
-            <c:rrPagination allObjects="{!v.visits}" entriesOnPage="10" currentObjects="{!v.currentVisits}"/>
-        </aura:set>
-        <aura:if isTrue="{!empty(v.visits)}">
-            <div class="slds-text-heading_medium slds-text-align_center">
-                {!$Label.c.empty_visits}
-            </div>
+        <aura:if isTrue="{!empty(v.error)}">
+            <aura:set attribute="actions">
+                <lightning:layout horizontalAlign="center" verticalAlign="end">
+                    <lightning:layoutItem>
+                        <aura:if isTrue="{!v.visitPlanId!=null}">
+                        </aura:if>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                        <aura:if isTrue="{!v.visitPlanId!=null}">
+                            <lightning:button onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
+                                              label="{!$Label.c.Visit_b_Add_Visit}"/>
+                            <aura:set attribute="else">
+                                <lightning:button onclick="{!c.createVisitplan}" class="slds-theme_neutral"
+                                                  variant="neutral"
+                                                  label="{!$Label.c.Visit_b_Create_Visit_Plan}"/>
+                            </aura:set>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:set>
+            <aura:set attribute="footer">
+                <c:rrPagination allObjects="{!v.visits}" entriesOnPage="10" currentObjects="{!v.currentVisits}"/>
+            </aura:set>
+            <aura:if isTrue="{!empty(v.visits)}">
+                <div class="slds-text-heading_medium slds-text-align_center">
+                    {!$Label.c.empty_visits}
+                </div>
+                <aura:set attribute="else">
+                    <table class="slds-table slds-table_bordered slds-table_striped">
+                        <thead>
+                        <tr class="slds-text-title_caps">
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Schedule}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Icons}</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <aura:iteration var="visit" items="{!v.currentVisits}">
+                            <c:VisitItem visit="{!visit}"/>
+                        </aura:iteration>
+                        </tbody>
+                    </table>
+                </aura:set>
+            </aura:if>
             <aura:set attribute="else">
-                <table class="slds-table slds-table_bordered slds-table_striped">
-                    <thead>
-                    <tr class="slds-text-title_caps">
-                        <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
-                        </th>
-                        <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
-                        </th>
-                        <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Schedule}</div>
-                        </th>
-                        <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Order}</div>
-                        </th>
-                        <th>
-                            <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Icons}</div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <aura:iteration var="visit" items="{!v.currentVisits}">
-                        <c:VisitItem visit="{!visit}"/>
-                    </aura:iteration>
-                    </tbody>
-                </table>
+                <div class="slds-text-heading_medium slds-text-align_center">
+                    <label> {!v.error}</label>
+                </div>
             </aura:set>
         </aura:if>
     </lightning:card>
@@ -167,9 +156,9 @@
             </fieldset>
         </div>
         <aura:set attribute="footer">
-            <lightning:button variant="neutral" type="button" name="close" label="Close"
+            <lightning:button variant="neutral" type="button" name="close" label="{!$Label.c.Visit_b_Close}"
                               onclick="{!c.closeModal}"/>
-            <lightning:button variant="brand" type="button" name="save" label="Save"
+            <lightning:button variant="brand" type="button" name="save" label="{!$Label.c.Visit_b_Save}"
                               onclick="{!c.submitForm}"/>
         </aura:set>
     </c:CustomModal>
@@ -189,5 +178,9 @@
         </aura:set>
 
     </c:CustomModal>
+    <c:IconsStaticResourceService aura:id="iconsStaticResourceService"
+                                  staticResourceName="IconsForVisitPlanConfiguration"
+                                  IconsPackageFIlePath="/icons.svg"/>
+
   <!--  <c:IconPlanetVisitInfoEdit iconsURL="{!v.iconsURL}" visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>-->
 </aura:component>

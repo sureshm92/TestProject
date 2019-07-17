@@ -28,7 +28,7 @@
                 <aura:iteration items="{!v.iconDetails}" var="icon">
                     <tr>
                         <td>
-                            <div class="icon-title">
+                            <div class="icon-title slds-m-top--medium">
                                 <c:RRIcon iconName="{!icon.Name}"/>
                             </div>
                         </td>
@@ -53,5 +53,4 @@
     </aura:set>
         <!-- ICONS FOOTER -->
     </lightning:card>
-        <!--MAIN COMPONENT-->
 </aura:component>

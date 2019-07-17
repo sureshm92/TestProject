@@ -47,8 +47,9 @@ public with sharing class VisitConfigurationRemote {
         return null;
 
     }
-    @auraEnabled
-    public static void deleteVisit(String visitId) {
+
+    @AuraEnabled
+    public static void deleteVisit(Id visitId) {
         try {
             Visit__c v = new Visit__c(Id = visitId);
             delete v;
