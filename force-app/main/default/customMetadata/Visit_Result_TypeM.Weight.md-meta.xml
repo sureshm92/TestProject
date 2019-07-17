@@ -3,6 +3,10 @@
     <label>Weight</label>
     <protected>false</protected>
     <values>
+        <field>Description_Label_Api_Name__c</field>
+        <value xsi:type="xsd:string">Weight_Description</value>
+    </values>
+    <values>
         <field>Display_Order__c</field>
         <value xsi:type="xsd:double">2.0</value>
     </values>

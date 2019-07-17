@@ -3,6 +3,10 @@
     <label>High-density Lipoprotein</label>
     <protected>false</protected>
     <values>
+        <field>Description_Label_Api_Name__c</field>
+        <value xsi:type="xsd:string">High_density_Lipoprotein_Description</value>
+    </values>
+    <values>
         <field>Display_Order__c</field>
         <value xsi:type="xsd:double">3.0</value>
     </values>
