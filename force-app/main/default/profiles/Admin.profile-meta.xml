@@ -2464,17 +2464,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Address_Country__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Address_State__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Address_ZipCode__c</field>
+        <field>Integration_Patient_Referral__c.BirthDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2484,27 +2474,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Data_Source__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Language_Preference__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Integration_Patient_Referral__c.Pass_Fail__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Referral_Sent_to_PI__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Referred_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2544,11 +2514,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_Patient_Referral__c.acceptedTermsAndConditions__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Integration_Patient_Referral__c.birthYear__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2564,37 +2529,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_Patient_Referral__c.firstName__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.lastName__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Integration_Patient_Referral__c.phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_Patient_Referral__c.protocolId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.referralID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Integration_Patient_Referral__c.sex__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.siteSelected__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2633,6 +2573,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient__c.Work_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_VisitResult__c.External_Key__c</field>
         <readable>true</readable>
@@ -2644,7 +2589,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Integration_VisitResult__c.MD5_Hash__c</field>
+        <field>Integration_VisitResult__c.MD5__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2708,6 +2653,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_VisitResult__c.Work_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Visit__c.External_Key__c</field>
         <readable>true</readable>
@@ -2745,6 +2695,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Visit__c.VISIT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Visit__c.Work_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3613,6 +3568,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Birth_Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
@@ -3733,6 +3693,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Marketing_Flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Middle_Name__c</field>
         <readable>true</readable>
@@ -3750,6 +3715,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Secondary_Source__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3855,11 +3825,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Reminder_Event__e.ResourceId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Reminder_Schedule__c.First_Reminder_day__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4404,6 +4369,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>SurveyInvitation.Is_Midpoint__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>SurveyInvitation.Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4674,6 +4644,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trial_Survey__c.Is_Midpoint__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4695,7 +4670,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

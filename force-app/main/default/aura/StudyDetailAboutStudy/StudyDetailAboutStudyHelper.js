@@ -4,8 +4,11 @@
 
 ({
     onEmailClick: function (component) {
-        let currentStudy = component.get('v.studyDetail');
-        component.find('emailModal').show(currentStudy.trial.Id);
+        var mode = component.get('v.userMode');
+        var currentStudy = component.get('v.studyDetail');
+        var whatId = mode === 'Participant' ? currentStudy.pe.Id : currentStudy.trial.Id;
+
+        component.get('v.parent').find('shareModal').show(whatId);
     },
 
     onFacebookClick: function (component, url, text) {

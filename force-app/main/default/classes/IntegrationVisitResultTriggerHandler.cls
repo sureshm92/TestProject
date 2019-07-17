@@ -1,22 +1,24 @@
 /**
- * Created by user on 08-Jul-19.
+ * Created by Denis Z on 08-Jul-19.
  */
 
 public without sharing class IntegrationVisitResultTriggerHandler {
 
     public class UpdateVisitResults extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
-            updateVisitResults(newList);
+        public override void beforeInsert(List<SObject> newList) {
+            updateVisitResults(JSON.serialize(newList));
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisitResults(newList);
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateVisitResults(JSON.serialize(newList));
         }
     }
 
-    private static void updateVisitResults(List<Integration_VisitResult__c> results){
+    @future
+    private static void updateVisitResults(String jsonString){
         //If USUBJID, STUDYID, VISIT, VSDTC AND TESTCD ARE PRIMARY KEYS Exclude record if blank or NULL
+        List<Integration_VisitResult__c> results = (List<Integration_VisitResult__c>) JSON.deserialize(jsonString, List<Integration_VisitResult__c>.class);
         Set<String> externalIds = new Set<String>();
         Set<String> visitNames = new Set<String>();
         Set<Date> visitDates = new Set<Date>();
@@ -27,6 +29,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
+            result.Work_Status__c = 'Failed';
             String key = result.External_Key__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
             if(resultMap.containsKey(key)){
                 populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
@@ -84,8 +87,10 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         ];
         Map<String,Visit_Result_TypeM__mdt> resultTypeMap = new Map<String,Visit_Result_TypeM__mdt>();
         for(Visit_Result_TypeM__mdt resultType : resultTypes){
-            for(String code : resultType.Visit_Result_Code__c.split(',')) {
-                resultTypeMap.put(code, resultType);
+            if(resultType.Visit_Result_Code__c != null) {
+                for (String code : resultType.Visit_Result_Code__c.split(';')) {
+                    resultTypeMap.put(code, resultType);
+                }
             }
         }
         return resultTypeMap;
