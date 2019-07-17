@@ -3,6 +3,10 @@
     <label>Creatinine</label>
     <protected>false</protected>
     <values>
+        <field>Display_Order__c</field>
+        <value xsi:type="xsd:double">8.0</value>
+    </values>
+    <values>
         <field>Visit_Result_Code__c</field>
         <value xsi:type="xsd:string">ENZCC;CREAT</value>
     </values>
