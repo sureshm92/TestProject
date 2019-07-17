@@ -182,5 +182,5 @@
                                   staticResourceName="IconsForVisitPlanConfiguration"
                                   IconsPackageFIlePath="/icons.svg"/>
 
-    <c:IconPlanetVisitInfoEdit iconsURL="{!v.iconsURL}" visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>
+  <!--  <c:IconPlanetVisitInfoEdit iconsURL="{!v.iconsURL}" visitPlanId='{!v.visitPlanId}' aura:id="iconEdit"/>-->
 </aura:component>

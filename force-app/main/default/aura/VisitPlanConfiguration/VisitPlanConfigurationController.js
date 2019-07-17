@@ -28,6 +28,7 @@
         component.find('createVisitPlan').hide();
     },
     handleRecordUpdated: function (component, event, helper) {
+        debugger;
         helper.handleRecordUpdated(component, event, helper);
     },
     handleSuccessVP: function (component, event, helper) {
