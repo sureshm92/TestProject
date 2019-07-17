@@ -128,8 +128,8 @@ public without sharing class ParticipantDeduplicationController {
 			    Participant_ID_randomized_ID__c         =   referralRecord.ePRPatient_ID_Number__c,
 			    Referral_ID__c                          =   referralRecord.referralID__c,
 			    Participant_Status__c                   =   'Referral Sent to PI',
-                Terms_and_Conditions_Accepted_Date__c   =   Date.valueOf(referralRecord.acceptedTermsAndConditions__c),
-                Referred_Date__c                        =   Date.valueOf(referralRecord.Referred_Date__c)                     
+                Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
+                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                    
 
             );
         insert newPer;

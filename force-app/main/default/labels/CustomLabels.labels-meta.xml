@@ -7573,6 +7573,13 @@
         <value>Referring statuses</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Studies</shortDescription>
+        <value>Studies</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_Study_site</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8206,7 +8213,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Address</shortDescription>
-        <value>Address</value>
+        <value>Street Address</value>
     </labels>
     <labels>
         <fullName>SS_Address_Found</fullName>
