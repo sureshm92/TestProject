@@ -4,10 +4,12 @@
 
 ({
     toggleOptIn: function (component, event) {
-        let contactId = component.get("v.contactId");
+
         if (communityService.isInitialized()) {
-            communityService.executeAction(component, 'changeOptInOnTrue', {contactId: contactId}, function (returnValue) {
-                component.set("v.isOptIn", true);
+            communityService.executeAction(component, 'changeOptInOnTrue', {
+                    contactId: component.get("v.contactId")
+                }, function (returnValue) {
+                component.set("v.isOptIn", returnValue);
                 component.set("v.showModal", false);
             });
         }

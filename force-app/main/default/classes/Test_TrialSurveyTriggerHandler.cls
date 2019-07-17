@@ -26,7 +26,7 @@ private class Test_TrialSurveyTriggerHandler {
         TaskService.getInstance().createSurveyTasks(new Map<Id, String>{invitation.Id => 'Patient only'});
 
         Test.startTest();
-        TrialSurveyTriggerHandler.doExpire(new List<Trial_Survey__c>{ts});
+        delete ts;
         Test.stopTest();
     }
 }

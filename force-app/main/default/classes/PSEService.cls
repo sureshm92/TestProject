@@ -196,7 +196,8 @@ public without sharing class PSEService {
                         Id,
                         External_Key__c,
                         Status__c,
-                        IsSubjectIDverifiedInSDH__c
+                        IsSubjectIDverifiedInSDH__c,
+                        Participant_Enrollment__c
                 FROM    Participant_Study_Enrollment__c
                 WHERE   External_Key__c IN : externalKeys
                 LIMIT   10000

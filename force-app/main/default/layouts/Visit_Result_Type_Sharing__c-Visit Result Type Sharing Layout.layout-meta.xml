@@ -14,6 +14,10 @@
                 <behavior>Edit</behavior>
                 <field>Clinical_Trial_Profile__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Include_Countries__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

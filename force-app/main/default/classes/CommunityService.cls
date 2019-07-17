@@ -187,6 +187,7 @@ public without sharing class CommunityService {
             if(cont.Language__c != null) language = cont.Language__c;
             newPortalUsers.add(createUser(cont, locale, language, timeZone));
         }
+       System.debug('newPortalUsers' + newPortalUsers);
         insert newPortalUsers;
         System.debug('Portal users successfully created = ' + newPortalUsers.size());
     }
@@ -260,12 +261,17 @@ public without sharing class CommunityService {
             numberStr = numberStr.right(2);
             names.add(email + '.' + numberStr);
         }
-
-        List<User> users = [SELECT Username FROM User WHERE Username IN: names];
-        Set<String> usedNames = new Set<String>();
-        for(User user : users) usedNames.add(user.Username);
-        for(String userName : names){
-            if(!usedNames.contains(userName)) return userName;
+        //BUG: Don't return Username field for portal users
+        List<User> users = [SELECT FirstName, Username, Email FROM User WHERE Username IN : names OR Email IN :names];
+        System.debug('usersAvailable:' + users);
+        if(users != null && users.size() == 1){
+            return email + '01';
+        }else{
+            Set<String> usedNames = new Set<String>();
+            for(User user : users) usedNames.add(user.Username);
+            for(String userName : names){
+                if(!usedNames.contains(userName)) return userName;
+            }
         }
         return null;
     }
