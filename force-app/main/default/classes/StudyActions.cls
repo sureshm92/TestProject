@@ -111,8 +111,8 @@ public abstract class StudyActions {
     public static final String LABEL_REQUEST_TO_REFER = Label.BTN_Request_to_refer;
     public static final String LABEL_MY_PATIENTS = Label.BTN_My_Patients;
 
-    public static final String LABEL_MANAGE_REFERRALS = Label.BTN_Manage_referrals;
-    public static final String LABEL_MANAGE_REFERRING_CLINICS = Label.BTN_Manage_referring_clinics;
+    public static final String LABEL_MANAGE_REFERRALS = Label.SS_Btn_Manage_Referrals;
+    public static final String LABEL_MANAGE_REFERRING_CLINICS = Label.SS_Btn_Manage_Referring_Providers;
     public static final String LABEL_MANAGE_REFERRALS_BY_SS = Label.SS_Btn_Manage_Referrals;
     public static final String LABEL_MANAGE_REFERRING_CLINICS_BY_SS = Label.SS_Btn_Manage_Referring_Providers;
     public static final String LABEL_OPEN_TO_RECEIVE_REFERRALS = Label.BTN_I_m_open_to_receive_referrals;
