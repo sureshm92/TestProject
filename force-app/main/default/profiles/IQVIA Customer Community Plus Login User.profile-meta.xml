@@ -1284,7 +1284,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
@@ -3839,6 +3839,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Reminder_Schedule__c.Use_Final_Template__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Resource_Action__c.IsFavorite__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4886,6 +4891,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>

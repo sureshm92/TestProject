@@ -4888,6 +4888,9 @@
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
