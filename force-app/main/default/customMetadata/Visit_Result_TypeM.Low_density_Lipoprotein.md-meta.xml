@@ -3,6 +3,10 @@
     <label>Low-density Lipoprotein</label>
     <protected>false</protected>
     <values>
+        <field>Display_Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
         <field>Visit_Result_Code__c</field>
         <value xsi:type="xsd:string">CHLDC;LDL</value>
     </values>
