@@ -33,7 +33,7 @@
                       recordUpdated="{!c.handleRecordUpdated}"
     />
     <lightning:card title="Planned visits" iconName="standard:contact">
-        <aura:if isTrue="{!!empty(v.error)}">
+        <aura:if isTrue="{!empty(v.error)}">
             <aura:set attribute="actions">
                 <lightning:layout horizontalAlign="center" verticalAlign="end">
                     <lightning:layoutItem>
@@ -87,7 +87,9 @@
                 </aura:set>
             </aura:if>
             <aura:set attribute="else">
-                <label> {!v.error}</label>
+                <div class="slds-text-heading_medium slds-text-align_center">
+                    <label> {!v.error}</label>
+                </div>
             </aura:set>
         </aura:if>
     </lightning:card>
