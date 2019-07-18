@@ -79,6 +79,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateParticipants</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_PEToPSE</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_PSECreateInvitation</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -348,6 +356,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImportPatientsCSV</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1252,6 +1264,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitIconsConfiguration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitReportContainerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitReportService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4677,11 +4697,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>VisitPackage__c.Default__c</field>
         <readable>true</readable>
@@ -4695,6 +4710,16 @@
         <editable>true</editable>
         <field>VisitPackage__c.Visit_Plan__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM__mdt.Description_Label_Api_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4840,6 +4865,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icon_Details__c-icons detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Icons_package__c-Icons package Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>
@@ -5601,6 +5629,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>IdeasHome</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ImportPatientsCSV</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>

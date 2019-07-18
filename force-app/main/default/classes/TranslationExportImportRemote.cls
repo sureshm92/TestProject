@@ -45,14 +45,16 @@ public class TranslationExportImportRemote {
     }
     
     public static String generateExportTranslationFile(String items, String languageCode){
-        String exportFile = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        String exportFile =
+                '<?xml version="1.0" encoding="UTF-8"?>\n' +
                 '<xliff version="1.2">\n' +
                 '    <file original="Salesforce" source-language="en_US" target-language="' + languageCode + '" datatype="xml">\n' +
                 '        <body>\n';
     
         exportFile += items;
     
-        exportFile += '        </body>\n' +
+        exportFile +=
+                '        </body>\n' +
                 '    </file>\n' +
                 '</xliff>\n';
         return exportFile;
@@ -198,35 +200,7 @@ public class TranslationExportImportRemote {
     }
     
     public static String exportTranslationForStudy(Id studyId, String languageCode, String exportType){
-        String result = '';
-        List<Translation__c> translations = [
-                SELECT Id, Value__c, Field_Name__c
-                FROM Translation__c
-                WHERE Record_Id__c =: studyId AND Language__c =: languageCode
-        ];
-        Map<String, Translation__c> translatedFields = new Map<String, Translation__c>();
-        for(Translation__c translation : translations) {
-            translatedFields.put(
-                    translation.Field_Name__c.toLowerCase(),
-                    translation
-            );
-        }
-        List<String> fieldsToTranslate = SObjectHelper.getFieldSetList(Clinical_Trial_Profile__c.getSObjectType(), 'FieldsToTranslate');
-        String query = 'SELECT ' + String.join(fieldsToTranslate, ',') +
-                ' FROM Clinical_Trial_Profile__c ' +
-                ' WHERE Id =\'' + studyId + '\'';
-        Clinical_Trial_Profile__c study = Database.query(query);
-        System.debug('QUERY: ' + query);
-    
-        for(String fieldName : fieldsToTranslate){
-            if(exportType == EXPORT_TYPE_BILINGUAL || exportType == EXPORT_TYPE_SOURCE ||
-                    (exportType == EXPORT_TYPE_UNTRANSLATED && !translatedFields.containsKey(fieldName))){
-                Translation__c translation = translatedFields.get(fieldName);
-                if(exportType == EXPORT_TYPE_SOURCE) translation = null;
-                result += generateTranslateUnitXML(study, fieldName, translation);
-            }
-        }
-        return result;
+        return generateItemsForSObjectType(Clinical_Trial_Profile__c.getSObjectType(), ' WHERE Id =\'' + studyId + '\'', languageCode, exportType);
     }
     
     public static String exportTranslationForStudyVisitPlan(Id studyId, String languageCode, String exportType){
