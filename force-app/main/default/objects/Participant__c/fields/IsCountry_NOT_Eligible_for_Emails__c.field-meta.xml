@@ -5,7 +5,7 @@
     <formula>NOT(Mailing_Country_Code__c=&#39;US&#39;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Country NOT Eligible for Emails</label>
-    <trackHistory>false</trackHistory>
+
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
