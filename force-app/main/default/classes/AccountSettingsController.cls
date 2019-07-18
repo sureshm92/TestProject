@@ -155,6 +155,7 @@ public without sharing class AccountSettingsController {
                         LastName,
                         AccountId,
                         Email,
+                        Fax,
                         Phone,
                         MailingAddress,
                         MailingCity,
