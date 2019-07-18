@@ -6908,6 +6908,13 @@ is a placehilder to show you what it would look like.</value>
         <value>To complete a review for another patient, please clear the form and provide another patient&#39;s identifier</value>
     </labels>
     <labels>
+        <fullName>PG_SP_L_My_Referring_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG SP L My Referring Providers</shortDescription>
+        <value>My Referring Providers</value>
+    </labels>
+    <labels>
         <fullName>PG_SRN_L_Select_Your_Referral_Networks</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7779,7 +7786,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Address</shortDescription>
-        <value>Street Address</value>
+        <value>Address</value>
     </labels>
     <labels>
         <fullName>SS_Address_Found</fullName>
@@ -7877,7 +7884,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Fill Address</shortDescription>
-        <value>Fill Address</value>
+        <value>Fill Street Address</value>
     </labels>
     <labels>
         <fullName>SS_Fill_City</fullName>
@@ -7954,7 +7961,7 @@ is a placehilder to show you what it would look like.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Postal Code</shortDescription>
-        <value>Postal Code</value>
+        <value>ZIp/Postal Code</value>
     </labels>
     <labels>
         <fullName>SS_Press_To_Check</fullName>
@@ -7997,6 +8004,13 @@ is a placehilder to show you what it would look like.</value>
         <protected>true</protected>
         <shortDescription>SS State</shortDescription>
         <value>State</value>
+    </labels>
+    <labels>
+        <fullName>SS_Street_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Street Address</shortDescription>
+        <value>Street Address</value>
     </labels>
     <labels>
         <fullName>SS_Study_Site_Name</fullName>

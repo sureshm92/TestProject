@@ -15,6 +15,7 @@
     showNoThanksDialog: function (component, event, helper) {
         let params = event.getParam('arguments');
         component.set('v.currentTrialId', params.trialId);
+        component.set('v.currentSSId', params.ssId);
         component.find('noTanksModal').show();
     },
 

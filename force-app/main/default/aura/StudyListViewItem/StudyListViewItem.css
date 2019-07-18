@@ -32,7 +32,8 @@
 }
 
 .THIS .address-spinner-indicator-container{
-    margin-left:10px;
+    margin-top: 4%;
+    margin-left: 2%;
 }
 
 
@@ -255,6 +256,18 @@
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
+}
+
+.THIS .google-map-style{
+    padding: 12% 0% 0% 1%;
+}
+
+.THIS .check-button-container{
+    padding-top: 12%;
+}
+
+.THIS .indicator-containers{
+    margin-top:6%;
 }
 
 .THIS .manage-location-details{
@@ -492,6 +505,7 @@
 @media (max-width: 768px) {
     .THIS .ss-info-buttons{
         margin-top:5%;
+        display: block;
     }
 
     .THIS .clinic-type{
@@ -549,6 +563,10 @@
     fill: #005587;
 }
 
+.THIS .edit-address-container{
+
+}
+
 
 
 @media all and (min-width: 768px) {
@@ -575,6 +593,9 @@
 
     .THIS .apollo-btn.primary{
         font-size:12px;
+        width:100%;
+        display:block;
+        margin:2% 0 0 0;
     }
 
     .THIS .site-distance {
@@ -597,8 +618,23 @@
     .THIS .rri-icon-pi span {
         margin: .125rem !important;
     }
+
+    .THIS .edit-address-container .slds-size--4-of-6{
+        width:100%;
+    }
+    .THIS .edit-address-container .slds-size--2-of-6{
+        width:100%;
+    }
+    .THIS .edit-address-container .slds-size--1-of-2{
+        width:100%
+    }
 }
 
+@media all and (max-width: 425px) {
+    .THIS .edit-address-container .slds-map{
+        min-width:15.75rem;
+    }
+}
 
 @media all and (min-width: 768px) {
     .THIS .site-distance {
@@ -633,7 +669,6 @@
 }
 
 .THIS .check-address-btn{
-    margin-top:25px;
     padding:9px 7px;
     max-height: 44px;
 }
