@@ -1,3 +1,6 @@
+/**
+ * Created by Denis Shpilevsky
+ */
 public without sharing class  DuplicateContactController {
 
     public static Boolean isPERCreated = false;
