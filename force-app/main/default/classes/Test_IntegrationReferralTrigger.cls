@@ -123,7 +123,16 @@ private class Test_IntegrationReferralTrigger {
 			email__c = 'test@mail.com',
 			phone__c = '12357890',
 			protocolId__c = 'tt123456789',
-			siteSelected__c = '_'
+			siteSelected__c = '_',
+            Address_State__c = 'NY',
+            referralID__c = '453453',
+            Address_ZipCode__c = '34545', 
+            Address_Country__c = 'US', 
+            Language_Preference__c = 'en_US', 
+            Referred_Date__c = '2019-10-02T10:00:00-05:00', 
+            Data_Source__c = 'Company', 
+            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
+            Referral_Sent_to_PI__c = 'Referral Sent to PI'
 		);
 		insert testRecord;
 		Test.stopTest();
@@ -134,7 +143,16 @@ private class Test_IntegrationReferralTrigger {
 			email__c = 'test@mail.com',
 			phone__c = '123578910',
 			protocolId__c = 'tt123456789',
-			siteSelected__c = '_'
+			siteSelected__c = '_',
+            Address_State__c = 'NY',
+            referralID__c = '453453',
+            Address_ZipCode__c = '34545', 
+            Address_Country__c = 'US', 
+            Language_Preference__c = 'en_US', 
+            Referred_Date__c = '2019-10-02T10:00:00-05:00', 
+            Data_Source__c = 'Company', 
+            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
+            Referral_Sent_to_PI__c = 'Referral Sent to PI'
 		);
 		insert testRecord2;
 		System.assertEquals([SELECT id FROM Participant__c].size(), 1);
@@ -164,7 +182,16 @@ private class Test_IntegrationReferralTrigger {
 			phone__c = '12357890',
 			protocolId__c = 'tt123456789',
 			siteSelected__c = '_',
-			birthYear__c = '1982'
+			birthYear__c = '1982',
+            Address_State__c = 'NY',
+            referralID__c = '453453',
+            Address_ZipCode__c = '34545', 
+            Address_Country__c = 'US', 
+            Language_Preference__c = 'en_US', 
+            Referred_Date__c = '2019-10-02T10:00:00-05:00', 
+            Data_Source__c = 'Company', 
+            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
+            Referral_Sent_to_PI__c = 'Referral Sent to PI'
 		);
 		insert testRecord;
 		Test.stopTest();
@@ -177,7 +204,16 @@ private class Test_IntegrationReferralTrigger {
 			phone__c = '123578910',
 			protocolId__c = 'tt123456789',
 			siteSelected__c = '_',
-			birthYear__c = '1982'
+			birthYear__c = '1982',
+            Address_State__c = 'NY',
+            referralID__c = '453453',
+            Address_ZipCode__c = '34545', 
+            Address_Country__c = 'US', 
+            Language_Preference__c = 'en_US', 
+            Referred_Date__c = '2019-10-02T10:00:00-05:00', 
+            Data_Source__c = 'Company', 
+            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
+            Referral_Sent_to_PI__c = 'Referral Sent to PI'
 		);
 		insert testRecord2;
 		System.assertEquals([SELECT id FROM Participant__c].size(), 1);
@@ -193,7 +229,16 @@ private class Test_IntegrationReferralTrigger {
 			email__c = 'pi@emil.com',
 			phone__c = '12357890',
 			protocolId__c = 'tt123456789',
-			siteSelected__c = '_'
+			siteSelected__c = '_',
+            Address_State__c = 'NY',
+            referralID__c = '453453',
+            Address_ZipCode__c = '34545', 
+            Address_Country__c = 'US', 
+            Language_Preference__c = 'en_US', 
+            Referred_Date__c = '2019-10-02T10:00:00-05:00', 
+            Data_Source__c = 'Company', 
+            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
+            Referral_Sent_to_PI__c = 'Referral Sent to PI'
 		);
 		insert testRecord;
 		Test.stopTest();
