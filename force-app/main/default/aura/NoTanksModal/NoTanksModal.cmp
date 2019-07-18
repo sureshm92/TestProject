@@ -2,6 +2,7 @@
 <aura:component controller="NoTanksModalController" description="NoTanksModal">
     <!--=============================================================================================================-->
     <aura:attribute name="trialId"              type="String" required="true"/>
+    <aura:attribute name="ssId"                 type="String"/>
     <aura:attribute name="userMode"             type="String" required="true"/>
     <aura:attribute name="parent"               type="Aura.Component" />
     <!--=============================================================================================================-->

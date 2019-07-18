@@ -162,9 +162,8 @@ public without sharing class StudyListViewController {
             Study_Site__c initionSS = new Study_Site__c();
             Map<String, Study_Site__c> statusMap = new Map<String, Study_Site__c>();
             for (Integer i = 0; i < ss.size(); i++) {
-                StudyActionsPI act = new StudyActionsPI(ss[i]);
-                studyDetailItem.ssList.add(new StudyDetailItem.StudySiteWithActions(ss[i], act.studySitePiActions, piAccounts.get(ss[i].Principal_Investigator__c).values()));
-                if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
+                studyDetailItem.ssList.add(new StudyDetailItem.StudySiteWithActions(ss[i], new StudyActionsPI(ss[i]).studySitePiActions, piAccounts.get(ss[i].Principal_Investigator__c).values()));
+                /* if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
                     statusMap.put(StudySiteService.PI_S_INVITATION_SENT, ss[i]);
                 } else if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DECLINED_ACCEPTANCE || ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_NON_RESPONCIVE_A) {
                     statusMap.put(StudySiteService.PI_S_DECLINED_ACCEPTANCE, ss[i]);
@@ -182,8 +181,9 @@ public without sharing class StudyListViewController {
                 initionSS = statusMap.get(StudySiteService.PI_S_DEACTIVATED_A);
             } else {
                 initionSS = statusMap.get(StudySiteService.PI_S_ACCEPTED);
+            }*/
             }
-            studyDetailItem.studyActions = new StudyActionsPI(initionSS).studyListViewItemActions;
+                studyDetailItem.studyActions = new StudyActionsPI(ss[0]).studyListViewItemActions;
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }

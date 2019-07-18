@@ -399,11 +399,12 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest2() {
         init();
+        Test.startTest();
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         update hcpEnrollment;
-        Test.startTest();
+
         System.runAs(hcpUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.changeStudyForHCP(studySite.Id, hcpEnrollment.Id);
@@ -414,11 +415,12 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest3() {
         init();
+        Test.startTest();
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         update hcpEnrollment;
-        Test.startTest();
+
         System.runAs(hcpUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.selectNoSites(hcpEnrollment.Id);
@@ -515,8 +517,10 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void exportImportRemote() {
         init();
+        Test.startTest();
         String exportXML = TranslationExportImportRemote.export(study.Id, languageLocale, TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
         TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
+        Test.stopTest();
     }
 
     @IsTest
@@ -589,7 +593,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(piUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_PI);
-            StudyDetailAboutStudyRemote.setTrialAcceptedForPI(study.Id, null);
+            StudyDetailAboutStudyRemote.setTrialAcceptedForPI(study.Id, null,null);
             DashboardRemote.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.changeEmail('new@emil.com');

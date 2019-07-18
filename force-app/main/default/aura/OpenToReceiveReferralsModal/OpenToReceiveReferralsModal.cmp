@@ -4,10 +4,12 @@
 
 <aura:component description="OpenToReceiveReferralsModal" controller="StudyDetailAboutStudyRemote">
     <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="ssId" type="String"/>
     <aura:attribute name="parent" type="Aura.Component" />
 
     <aura:method name="show" action="{!c.doShow}">
         <aura:attribute name="trial" type="Object" access="public"/>
+        <aura:attribute name="ssId" type="String" access="public"/>
     </aura:method>
     <aura:method name="hide" action="{!c.doHide}"/>
 
