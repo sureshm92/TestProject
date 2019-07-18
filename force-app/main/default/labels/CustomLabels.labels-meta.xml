@@ -4313,28 +4313,28 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Address Line</shortDescription>
-        <value>Institute Address Line</value>
+        <value>Address Line</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_City</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute City</shortDescription>
-        <value>Institute City</value>
+        <value>City</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Country</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Country</shortDescription>
-        <value>Institute Country</value>
+        <value>Country</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Fax_Number</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Fax Number</shortDescription>
-        <value>Institute Fax Number</value>
+        <value>Fax Number</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Name</fullName>
@@ -4348,21 +4348,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Phone Number</shortDescription>
-        <value>Institute Phone Number</value>
+        <value>Phone Number</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_State</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute State</shortDescription>
-        <value>Institute State</value>
+        <value>State</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Zip_Postal_Code</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Zip Postal Code</shortDescription>
-        <value>Institute ZIP/Postal code</value>
+        <value>ZIP/Postal code</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Last_name</fullName>
