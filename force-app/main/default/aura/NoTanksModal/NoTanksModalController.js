@@ -22,10 +22,12 @@
 
         var trialId = component.get('v.trialId');
         var userMode = component.get('v.userMode');
+        var ssId = component.get('v.ssId');
 
         communityService.executeAction(component, 'deactivateTrial', {
             trialId: trialId,
-            userMode: userMode
+            userMode: userMode,
+            ssId: ssId
         }, function (returnValue) {
             var parent = component.get('v.parent');
             if(parent) parent.refresh();
