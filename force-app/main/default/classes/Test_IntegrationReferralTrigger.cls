@@ -1,3 +1,6 @@
+/**
+ * Created by Denis Shpilevsky
+ */
 @isTest 
 private class Test_IntegrationReferralTrigger {
 
@@ -115,15 +118,15 @@ private class Test_IntegrationReferralTrigger {
 	
 	@isTest
 	private static void testNewAndAdditionalParticipant() {
-		Test.startTest();
-		System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
-		Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
-			firstName__c = 'FirstName',
-			lastName__c = 'LastName',
-			email__c = 'test@mail.com',
-			phone__c = '12357890',
-			protocolId__c = 'tt123456789',
-			siteSelected__c = '_',
+        Test.startTest();
+        System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
+        Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
+            firstName__c = 'FirstName',
+            lastName__c = 'LastName',
+            email__c = 'test@mail.com',
+            phone__c = '12357890',
+            protocolId__c = 'tt123456789',
+            siteSelected__c = '_',
             Address_State__c = 'NY',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -133,17 +136,17 @@ private class Test_IntegrationReferralTrigger {
             Data_Source__c = 'Company', 
             acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
-		);
-		insert testRecord;
-		Test.stopTest();
+        );
+        insert testRecord;
+        Test.stopTest();
 
-		Integration_Patient_Referral__c testRecord2 = new Integration_Patient_Referral__c(
-			firstName__c = 'FirstName',
-			lastName__c = 'LastName',
-			email__c = 'test@mail.com',
-			phone__c = '123578910',
-			protocolId__c = 'tt123456789',
-			siteSelected__c = '_',
+        Integration_Patient_Referral__c testRecord2 = new Integration_Patient_Referral__c(
+            firstName__c = 'FirstName',
+            lastName__c = 'LastName',
+            email__c = 'test@mail.com',
+            phone__c = '123578910',
+            protocolId__c = 'tt123456789',
+            siteSelected__c = '_',
             Address_State__c = 'NY',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -153,36 +156,33 @@ private class Test_IntegrationReferralTrigger {
             Data_Source__c = 'Company', 
             acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
-		);
-		insert testRecord2;
-		System.assertEquals([SELECT id FROM Participant__c].size(), 1);
-	}
+        );
+        insert testRecord2;
+        System.assertEquals([SELECT id FROM Participant__c].size(), 1);
+    }
 
-	@isTest
-	private static void testIncorrectData() {
-		Test.startTest();
-		System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
-		Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
-		);
-		try{
-			insert testRecord;
-		}catch(Exception e){}
-		Test.stopTest();
-		System.assertEquals([SELECT id FROM Participant__c].size(), 0);
-	}
+    @isTest
+    private static void testIncorrectData() {
+        Test.startTest();
+        Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c();
+        try{
+            insert testRecord;
+        }catch(Exception e){}
+        Test.stopTest();
+        System.assertEquals([SELECT id FROM Participant__c].size(), 0);
+    }
 
-	@isTest
-	private static void testNewAndAdditionalParticipantBirthData() {
-		Test.startTest();
-		System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
-		Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
-			firstName__c = 'FirstName',
-			lastName__c = 'LastName',
-			email__c = 'test@mail.com',
-			phone__c = '12357890',
-			protocolId__c = 'tt123456789',
-			siteSelected__c = '_',
-			birthYear__c = '1982',
+    @isTest
+    private static void testNewAndAdditionalParticipantBirthData() {
+        Test.startTest();
+        Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
+            firstName__c = 'FirstName',
+            lastName__c = 'LastName',
+            email__c = 'test@mail.com',
+            phone__c = '12357890',
+            protocolId__c = 'tt123456789',
+            siteSelected__c = '_',
+            birthYear__c = '1982',
             Address_State__c = 'NY',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -192,19 +192,18 @@ private class Test_IntegrationReferralTrigger {
             Data_Source__c = 'Company', 
             acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
-		);
-		insert testRecord;
-		Test.stopTest();
+        );
+        insert testRecord;
+        Test.stopTest();
 
-		System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
-		Integration_Patient_Referral__c testRecord2 = new Integration_Patient_Referral__c(
-			firstName__c = 'FirstName',
-			lastName__c = 'LastName',
-			email__c = 'test@mail.com',
-			phone__c = '123578910',
-			protocolId__c = 'tt123456789',
-			siteSelected__c = '_',
-			birthYear__c = '1982',
+        Integration_Patient_Referral__c testRecord2 = new Integration_Patient_Referral__c(
+            firstName__c = 'FirstName',
+            lastName__c = 'LastName',
+            email__c = 'test@mail.com',
+            phone__c = '123578910',
+            protocolId__c = 'tt123456789',
+            siteSelected__c = '_',
+            birthYear__c = '1982',
             Address_State__c = 'NY',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -214,22 +213,21 @@ private class Test_IntegrationReferralTrigger {
             Data_Source__c = 'Company', 
             acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
-		);
-		insert testRecord2;
-		System.assertEquals([SELECT id FROM Participant__c].size(), 1);
-	}
+        );
+        insert testRecord2;
+        System.assertEquals([SELECT id FROM Participant__c].size(), 1);
+    }
 
-	@isTest
-	private static void testDuplicateContact() {
-		Test.startTest();
-		System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
-		Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
-			firstName__c = 'PI',
-			lastName__c = 'PI',
-			email__c = 'pi@emil.com',
-			phone__c = '12357890',
-			protocolId__c = 'tt123456789',
-			siteSelected__c = '_',
+    @isTest
+    private static void testDuplicateContact() {
+        Test.startTest();
+        Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
+            firstName__c = 'PI',
+            lastName__c = 'PI',
+            email__c = 'pi@emil.com',
+            phone__c = '12357890',
+            protocolId__c = 'tt123456789',
+            siteSelected__c = '_',
             Address_State__c = 'NY',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -239,9 +237,9 @@ private class Test_IntegrationReferralTrigger {
             Data_Source__c = 'Company', 
             acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
-		);
-		insert testRecord;
-		Test.stopTest();
-		System.assertEquals([SELECT id FROM Participant__c].size(), 1);
-	}
+        );
+        insert testRecord;
+        Test.stopTest();
+        System.assertEquals([SELECT id FROM Participant__c].size(), 1);
+    }
 }
