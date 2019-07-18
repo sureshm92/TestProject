@@ -49,7 +49,7 @@ public without sharing class ImportPatientsCSV {
             readSuccess = true;
             size = patients.size();
         }
-        Batch_CreateParticipants.run(5, null);
+        Batch_CreateParticipants.run(5);
     }
 
     public class Patient {

@@ -7,10 +7,12 @@ public without sharing class Batch_CreateParticipants implements Database.Batcha
     private List<Id> createdPEIds = new List<Id>();
     private Integer scopeSize;
     private String postfix;
+    private Integer maxLines;
 
-    public Batch_CreateParticipants(Integer scopeSize, String postfix){
+    public Batch_CreateParticipants(Integer scopeSize, String postfix, Integer maxLines){
         this.scopeSize = scopeSize;
         this.postfix = postfix;
+        this.maxLines = maxLines;
     }
 
     public Iterable<String> start(Database.BatchableContext bc){
@@ -18,7 +20,12 @@ public without sharing class Batch_CreateParticipants implements Database.Batcha
         List<String> dataLines = new List<String>();
         dataLines = sr.Body.toString().split('\n');
         List<String> resList = new List<String>();
-        for (Integer i = 1; i < dataLines.size(); i++) resList.add(dataLines[i]);
+        Integer addedLines = 0;
+        for (Integer i = 1; i < dataLines.size(); i++) {
+            addedLines++;
+            resList.add(dataLines[i]);
+            if(maxLines != null && addedLines >= maxLines) break;
+        }
         return resList;
     }
 
@@ -27,10 +34,14 @@ public without sharing class Batch_CreateParticipants implements Database.Batcha
     }
 
     public void finish(Database.BatchableContext bc){
-        Database.executeBatch(new Batch_PEToPSE(createdPEIds), scopeSize);
+        if(createdPEIds.size() > 0)Database.executeBatch(new Batch_PEToPSE(createdPEIds), scopeSize);
     }
-
-    public static void run(Integer scopeSize, String postfix){
-        Database.executeBatch(new Batch_CreateParticipants(scopeSize, postfix), scopeSize);
+    
+    public static void run(Integer scopeSize, String postfix, Integer maxlines){
+        Database.executeBatch(new Batch_CreateParticipants(scopeSize, postfix, maxlines), scopeSize);
+    }
+    
+    public static void run(Integer scopeSize){
+        Database.executeBatch(new Batch_CreateParticipants(scopeSize, null, null), scopeSize);
     }
 }
