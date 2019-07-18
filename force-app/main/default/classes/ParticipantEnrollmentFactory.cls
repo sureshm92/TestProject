@@ -24,9 +24,9 @@ public without sharing class ParticipantEnrollmentFactory {
         List<PEWrapper> peWrappers = new List<PEWrapper>();
         for(String csvLine : csvLines){
             List<String> lineItems = csvLine.split('~');
-            String protocolId = lineItems[0];
-            String siteNumber = lineItems[1];
-            String screeningId = lineItems[2];
+            String protocolId = lineItems[0].trim();
+            String siteNumber = lineItems[1].trim();
+            String screeningId = lineItems[2].trim();
             Clinical_Trial_Profile__c ctp = getClinicalTrialProfile(protocolId + postfix);
             peWrappers.add(
                     createPEWrapper(ctp, getStudySite(siteNumber + postfix, ctp), screeningId + postfix)
@@ -95,7 +95,7 @@ public without sharing class ParticipantEnrollmentFactory {
                 Study_Title__c = 'Some Title ' + protocolId,
                 Study_Code_Name__c = 'Some Code Name ' + protocolId,
                 Suppress_Participant_Emails__c = false,
-                Therapeutic_Area__c = TA_ID,
+                //Therapeutic_Area__c = TA_ID,
                 Participating_in_Digital_Recruitment__c = 'YES',
                 Participating_in_Rocket_Referral__c = 'YES',
                 Participating_in_Patient_Portal__c = 'Yes',
@@ -130,7 +130,8 @@ public without sharing class ParticipantEnrollmentFactory {
         Study_Site__c study = new Study_Site__c(
                 Principal_Investigator__c = createPI().Id,
                 Clinical_Trial_Profile__c = ctp.Id,
-                Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
+                Study_Site_Key__c = System.now().getTime() + '',
+                //Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = getSite().Id,
                 Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false
@@ -169,8 +170,11 @@ public without sharing class ParticipantEnrollmentFactory {
     }
     
     private static String generateNCTNumber(){
-        String newNum = '12312323123' + ctpMap.size();
-        return 'NCT' + newNum.right(8);
+        String newNum = System.now().getTime() + '';
+        newNum = 'NCT' + newNum.right(8);
+        List<Clinical_Trial_Profile__c> ctpList = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c =: newNum];
+        if(ctpList.isEmpty()) return newNum;
+        return generateNCTNumber();
     }
 
 
