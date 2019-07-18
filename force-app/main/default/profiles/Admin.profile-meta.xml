@@ -1251,6 +1251,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisitIconsConfiguration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitResultMService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2360,6 +2364,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>HCP_Enrollment__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Icon_Details__c.Custom_Icon__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4673,6 +4682,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>VisitPackage__c.Default__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>VisitPackage__c.Icons_package__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>VisitPackage__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Visit_Result_TypeM__mdt.Visit_Result_Code__c</field>
         <readable>true</readable>
@@ -4740,6 +4764,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Visit__c.Icons__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit__c.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4999,6 +5028,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>VisitPackage__c-VisitPackage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Plan__c-Visit Plan Layout</layout>
@@ -5472,6 +5504,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>VisitPackage__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Visit_Plan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -5694,6 +5735,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Icons_Legend</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

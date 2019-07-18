@@ -659,7 +659,7 @@ private class Test_BaseCRCPCommunity {
         piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             MyReferredZoneController.getStatusOptions(CommunityService.USER_MODE_PI);
-            MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI);
+            MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI,null,false);
             MyReferringClinicsController.getEnrollmentData(hcpEnrollment.Id, CommunityService.USER_MODE_PI);
 
         }
@@ -819,7 +819,7 @@ private class Test_BaseCRCPCommunity {
         insert testAccount;
         studySite.Site__c = testAccount.Id;
         update studySite;
-        studySite = [SELECT Id, Name, Site__r.ParentId, Site__r.Name,Site__r.Id,Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
+        studySite = [SELECT Id, Principal_Investigator__c, Name, Site__r.ParentId, Site__r.Name,Site__r.Id,Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
         String ssId;
         System.runAs(piUser) {
             studySite.Site__r.BillingStreet = 'Test Street';
@@ -827,19 +827,19 @@ private class Test_BaseCRCPCommunity {
             studySite.Site__r.Id = null;
             String status = StudyListViewController.saveSSAddress(JSON.serialize(studySite));
         }
-        Study_Site__c testStudySite = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
+        Study_Site__c testStudySite = [SELECT Id, Principal_Investigator__c, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
         System.assertNotEquals(ssId, testStudySite.Site__r.Id);
         System.runAs(piUser) {
             testStudySite.Site__r.BillingStreet = 'Test Street 2';
             String status2 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite));
         }
-        Study_Site__c testStudySite2 = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 2'];
+        Study_Site__c testStudySite2 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 2'];
         System.assertEquals(testStudySite2.Site__r.ParentId, testStudySite.Site__r.Id);
         System.runAs(piUser) {
             testStudySite2.Site__r.BillingStreet = 'Test Street 3';
             String status3 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite2));
         }
-        Study_Site__c testStudySite3 = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
+        Study_Site__c testStudySite3 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
         System.assertEquals(testStudySite2.Site__r.Id, testStudySite3.Site__r.Id);
         Test.stopTest();
     }

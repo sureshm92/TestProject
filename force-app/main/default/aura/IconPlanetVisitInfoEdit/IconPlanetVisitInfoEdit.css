@@ -4,7 +4,15 @@
 .THIS {
 }
 
-.THIS .icon-title{
+.THIS .icon-title {
     color: #3f3f3f;
     text-align: center;
+}
+
+.THIS .custom-horizontal-align {
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+.THIS .slds-panel__header {
+    margin-bottom: 20px;
 }
