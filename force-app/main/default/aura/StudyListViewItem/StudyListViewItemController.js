@@ -51,7 +51,8 @@
                 communityService.navigateToPage('my-patients?id=' + trialId);
                 break;
             case 'noThanks':
-                parent.showOpenNoTanksModal(trialId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
+                parent.showOpenNoTanksModal(trialId,studySiteId);
                 break;
             case 'manageReferrals':
                 communityService.navigateToPage("my-referrals?id=" + trialId);
@@ -70,7 +71,9 @@
                 break;
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
-                parent.find('receiveReferralsModal').show(trial);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
+                console.log('studySiteId',studySiteId);
+                parent.find('receiveReferralsModal').show(trial,studySiteId);
                 break;
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
@@ -239,7 +242,6 @@
             cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].accounts[editIndx]));
         } else if (!editIndx && !ssIndex) {
             var ssWrapIndex = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Principal_Investigator__r));
-            console.log('ssWrapIndex>>',ssWrapIndex);
             cmp = new Object({'Id': null, 'BillingCountry': ssWrapIndex.MailingAddress.country, 'BillingStateCode': ssWrapIndex.MailingAddress.stateCode});
         } else {
             cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].studySite.Site__r));
@@ -251,6 +253,9 @@
             var states = statesMapByCountry[countryCodeByName[cmp.BillingCountry]];
             component.set('v.states', states);
         }
+        //if(cmp.BillingLongitude && cmp.BillingLatitude){
+            helper.setCoordinates(component,cmp);
+        //}
         component.set('v.editedAccount', cmp);
         component.set('v.editAddress', true);
     },
@@ -363,7 +368,12 @@
                 editAcc.BillingLatitude = newAcc.BillingLatitude;
                 editAcc.BillingCity = newAcc.BillingCity;
                 component.set('v.editedAccount', editAcc);
+            } else{
+                editAcc.BillingLongitude = null;
+                editAcc.BillingLatitude = null;
+                component.set('v.editedAccount', editAcc);
             }
+            helper.setCoordinates(component,editAcc);
             component.set('v.showPopUpSpinner', false);
             component.set('v.accountWithCheckedLocation', null);
         }

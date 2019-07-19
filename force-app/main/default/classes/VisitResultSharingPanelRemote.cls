@@ -8,6 +8,10 @@ public without sharing class VisitResultSharingPanelRemote {
 
     private static final String TYPE_DISABLED = 'Disabled';
     private static String TYPE_ALL = 'All';
+
+    private static final String TYPE_STUDY_SITES = 'Study Sites';
+    private static final String TYPE_STUDY_SITES_DISABLED = 'Study Sites_Disabled';
+
     private static final String TYPE_COUNTRIES = 'Countries';
     private static final String TYPE_COUNTRIES_DISABLED = 'Countries_Disabled';
 
@@ -55,7 +59,8 @@ public without sharing class VisitResultSharingPanelRemote {
         };
         @AuraEnabled public List<LabelValueItem> ssSelectionTypeLVList = new List<LabelValueItem>{
                 new LabelValueItem('Enabled for all study sites', TYPE_ALL),
-                new LabelValueItem('Enabled for selected study sites', 'Study Sites')
+                new LabelValueItem('Enabled for selected study sites', TYPE_STUDY_SITES),
+                new LabelValueItem('Disabled for selected study sites', TYPE_STUDY_SITES_DISABLED)
         };
         @AuraEnabled public List<LabelValueItem> whenToShowLVList = new List<LabelValueItem>{
                 new LabelValueItem('Immediate', 'Immediate'),
@@ -116,15 +121,26 @@ public without sharing class VisitResultSharingPanelRemote {
                     FROM Study_Site__c
                     WHERE Clinical_Trial_Profile__c = :ctpId
             ];
-            Set<Id> withSharingSiteIds = new Set<Id>();
-            for (Study_Site__c ss : studySites) if (ss.Visit_Results_Sharing__c) withSharingSiteIds.add(ss.Id);
+            Set<Id> selectedSSIds = new Set<Id>();
+            for (Study_Site__c ss : studySites) {
+                if (ctp.Shareback_Settings_on_StudySites__c && ss.Visit_Results_Sharing__c ||
+                        !ctp.Shareback_Settings_on_StudySites__c && !ss.Visit_Results_Sharing__c) selectedSSIds.add(ss.Id);
+            }
+            String ssSelectionType;
+            if(studySites.size() == selectedSSIds.size()) {
+                ssSelectionType = TYPE_ALL;
+            } else if(ctp.Shareback_Settings_on_StudySites__c) {
+                ssSelectionType = TYPE_STUDY_SITES;
+            } else {
+                ssSelectionType = TYPE_STUDY_SITES_DISABLED;
+            }
 
             initData.options = new OptionsWrapper();
             initData.options.globalShareBck = ctp.Visit_Data_Shareback__c;
             initData.options.participantDefault = ctp.Shareback_Settings_On_Participant_Level__c ? 'Opt in' : 'Opt out';
-            initData.options.selectedSSIds = String.join(new List<Id>(withSharingSiteIds), ';');
+            initData.options.selectedSSIds = String.join(new List<Id>(selectedSSIds), ';');
             initData.options.selectedStatuses = ctp.Shareback_Availability_Status__c != null ? ctp.Shareback_Availability_Status__c : '';
-            initData.options.ssSelectionType = studySites.size() == withSharingSiteIds.size() ? TYPE_ALL : 'Study Sites';
+            initData.options.ssSelectionType = ssSelectionType;
             initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
             initData.options.inPatientPortal =
@@ -155,12 +171,14 @@ public without sharing class VisitResultSharingPanelRemote {
                 ctp.Shareback_Availability_Timing__c = optionsWrapper.showAfterDays;
                 ctp.Shareback_Availability_Status__c = optionsWrapper.selectedStatuses;
                 ctp.Shareback_Settings_On_Participant_Level__c = optionsWrapper.participantDefault.equals('Opt in');
+                ctp.Shareback_Settings_on_StudySites__c =
+                        optionsWrapper.ssSelectionType.equals(TYPE_ALL) || optionsWrapper.ssSelectionType.equals(TYPE_STUDY_SITES);
 
                 ssIds = optionsWrapper.selectedSSIds.split(';');
                 updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
             }
 
-            VisitResultSharingService.updateStudySitesSharing(ctpId, ssIds);
+            VisitResultSharingService.updateStudySitesSharing(ctpId, ssIds, ctp.Shareback_Settings_on_StudySites__c);
 
             update ctp;
         } catch (Exception e) {

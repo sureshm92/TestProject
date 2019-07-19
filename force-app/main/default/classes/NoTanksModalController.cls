@@ -4,12 +4,17 @@
 public without sharing class NoTanksModalController {
 
     @AuraEnabled
-    public static void deactivateTrial(Id trialId, String userMode) {
+    public static void deactivateTrial(Id trialId, String userMode, String ssId) {
         try{
-            if (userMode == CommunityService.USER_MODE_HCP) {
-                deactivateHCPEnrollment(trialId, userMode);
-            } else if (userMode == CommunityService.USER_MODE_PI) {
-                deactivateStudySite(trialId, userMode);
+            if(String.isEmpty(ssId)) {
+                if (userMode == CommunityService.USER_MODE_HCP) {
+                    deactivateHCPEnrollment(trialId, userMode);
+                } else if (userMode == CommunityService.USER_MODE_PI) {
+                    deactivateStudySite(trialId, userMode);
+                }
+            }
+            else{
+                deactivateStudySiteById(trialId, userMode);
             }
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -31,5 +36,11 @@ public without sharing class NoTanksModalController {
             }
         }
         StudySiteService.changeStatus(ssIdSet, userMode, 'decline');
+    }
+
+    private static void deactivateStudySiteById(Id ssId, String userMode) {
+        Study_Site__c studySites = StudySiteService.getStudySiteForHCPById(ssId);
+        if(studySites==null) throw new AuraHandledException('incorrect Data');
+        StudySiteService.changeStatus(studySites.Id, userMode, 'decline');
     }
 }
