@@ -20,7 +20,6 @@
             console.log('error:', err[0].message);
         })
     },
-
     addVisit: function (component, event, helper) {
         let copy = [];
         Object.assign(copy, component.get('v.allIcons'));
@@ -29,38 +28,45 @@
         component.set('v.visitId', null);
         component.find('customModal').show();
     },
-
-    handleRecordUpdated: function(component, event, helper) {
+    handleRecordUpdated: function (component, event, helper) {
         var eventParams = event.getParams();
-        if(eventParams.changeType === "LOADED") {
-            let ctp  = JSON.stringify(component.get('v.CTPrecord'));
-            let ctpCLear  = JSON.parse(ctp);
-            component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
-        } else if(eventParams.changeType === "CHANGED") {
-            let ctp  = JSON.stringify(component.get('v.CTPrecord'));
-            let ctpCLear  = JSON.parse(ctp);
-            if(!ctpCLear.Visit_Plan__c){
+        if (eventParams.changeType === "LOADED") {
+            let ctp = JSON.stringify(component.get('v.CTPrecord'));
+            let ctpCLear = JSON.parse(ctp);
+            component.set('v.visitPlanId', ctpCLear.Visit_Plan__c);
 
-                component.set('v.visits',[]);
+        } else if (eventParams.changeType === "CHANGED") {
+            let ctp = JSON.stringify(component.get('v.CTPrecord'));
+            let ctpCLear = JSON.parse(ctp);
+            if (!ctpCLear.Visit_Plan__c) {
+
+                component.set('v.visits', []);
             }
-            component.set('v.visitPlanId',ctpCLear.Visit_Plan__c);
-        } else if(eventParams.changeType === "REMOVED") {
+            component.set('v.visitPlanId', ctpCLear.Visit_Plan__c);
+        } else if (eventParams.changeType === "REMOVED") {
             // record is deleted
-        } else if(eventParams.changeType === "ERROR") {
+        } else if (eventParams.changeType === "ERROR") {
             // there’s an error while loading, saving, or deleting the record
         }
     },
-
     shiftRight: function (component, event, helper) {
         debugger;
         const elements = component.find('leftIcons');
         let selectedNames = [];
         let newLeft = [];
-        for (let i = 0; i < elements.length; i++) {
-            if (elements[i].get('v.selected')) {
-                selectedNames.push(elements[i].get('v.name'));
+        if (elements instanceof Array) {
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].get('v.selected')) {
+                    selectedNames.push(elements[i].get('v.name'));
+                } else {
+                    newLeft.push(elements[i].get('v.name'));
+                }
+            }
+        } else {
+            if (elements.get('v.selected')) {
+                selectedNames.push(elements.get('v.name'));
             } else {
-                newLeft.push(elements[i].get('v.name'));
+                newLeft.push(elements.get('v.name'));
             }
         }
         let selectedIcons = component.get('v.selectedIcons');
@@ -70,19 +76,28 @@
         component.set('v.selectedIcons', selectedIcons);
         component.set('v.availableIcons', newLeft);
     },
-
     shiftLeft: function (component, event, helper) {
         debugger;
         const elements = component.find('rightIcons');
         let selectedNames = [];
         let newRight = [];
-        for (let i = 0; i < elements.length; i++) {
-            if (elements[i].get('v.selected')) {
-                selectedNames.push(elements[i].get('v.name'));
+        if (elements instanceof Array) {
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].get('v.selected')) {
+                    selectedNames.push(elements[i].get('v.name'));
+                } else {
+                    newRight.push(elements[i].get('v.name'));
+                }
+            }
+
+        } else {
+            if (elements.get('v.selected')) {
+                selectedNames.push(elements.get('v.name'));
             } else {
-                newRight.push(elements[i].get('v.name'));
+                newRight.push(elements.get('v.name'));
             }
         }
+
         let availableIcons = component.get('v.availableIcons');
         for (let i = 0; i < selectedNames.length; i++) {
             availableIcons.push(selectedNames[i]);
@@ -91,14 +106,15 @@
         component.set('v.availableIcons', availableIcons);
 
     },
-
     fireEditMode: function (component, event, helper) {
         debugger;
         let record = event.getParam('record');
         component.find('customModal').show();
         component.set('v.visitId', record.Id);
-
-        let splittedIcons = record.Icons__c.split(';');
+        let splittedIcons = [];
+        if (record.Icons__c) {
+            splittedIcons = record.Icons__c.split(';');
+        }
         let icons = Object.assign([], component.get('v.allIcons'));
         for (let i = 0; i < splittedIcons.length; i++) {
             let index = icons.findIndex(function (item) {
@@ -112,11 +128,10 @@
         component.set('v.availableIcons', icons);
         component.set('v.selectedIcons', splittedIcons);
     },
-
     handleSuccessVP: function (component, event, helper) {
         debugger;
-        const recId  = event.getParam("id");
-        component.set('v.visitPlanId',recId);
+        const recId = event.getParam("id");
+        component.set('v.visitPlanId', recId);
         helper.enqueue(component, 'c.updateCtp', {
             visitPlanId: component.get('v.visitPlanId'),
             ctpId: component.get('v.recordId')
@@ -144,18 +159,11 @@
         $A.util.toggleClass(component.find('spinner'));
         let record = event.getParam('record');
         component.set('v.visitId', record.Id);
-        helper.deleteRecord(component, event, helper)
-    },
-
-    createVisitPlan: function (component, event, helper) {
-        var createRecordEvent = $A.get("e.force:createRecord");
-        createRecordEvent.setParams({
-            "entityApiName": "Contact"
-        });
-        createRecordEvent.fire();
+        helper.deleteVisitRecord(component, event, helper)
     },
 
     getIconsNames: function (component, event, helper) {
+        debugger;
         var x = new XMLHttpRequest();
         x.open("GET", component.get('v.iconsURL'), true);
         x.onreadystatechange = function () {
@@ -163,14 +171,13 @@
                 var doc = x.responseXML;
                 var symbols = doc.getElementsByTagName('symbol');
                 var symbolNames = [];
-                for(var i= 0; i < symbols.length; i++) symbolNames.push(symbols[i].id);
-                component.set('v.allIcons',symbolNames);
+                for (var i = 0; i < symbols.length; i++) symbolNames.push(symbols[i].id);
+                component.set('v.allIcons', symbolNames);
             }
         };
         x.send(null);
     },
-
-    deleteRecord: function (component, event, helper) {
+    deleteVisitRecord: function (component, event, helper) {
         debugger;
         let vId = component.get('v.visitId');
         helper.enqueue(component, 'c.deleteVisit', {
@@ -197,5 +204,23 @@
             }
             console.log('error:', err[0].message);
         })
+    },
+
+    getIconsUrl: function (component, event, helper) {
+        let service = component.find("iconsStaticResourceService");
+        let iconsStaticUrl = service.getStaticResourceUrl(component, event, helper);
+        component.set("v.iconsURL", iconsStaticUrl);
+    },
+
+    getAllIconsNames: function (component, event, helper) {
+        let service = component.find("iconsStaticResourceService");
+        service.getIconsData(component, event, helper)
+            .then(function (result) {
+                component.set('v.allIcons', result.iconNames);
+            }, function (errorMessage) {
+                component.set('v.error', errorMessage);
+            })
     }
+
+
 })

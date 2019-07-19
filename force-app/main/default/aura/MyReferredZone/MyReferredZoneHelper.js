@@ -97,7 +97,7 @@
         var status = component.get("v.statusFilter");
         var ssId = component.get('v.ssId');
         console.log('WRAPPERS>>>>>', wrappers);
-        if(ssId){
+        /*if(ssId){
             for(var i = 0; i < wrappers.length; i ++){
                 for (var j = 0; j < wrappers[i].enrollments.length; j++) {
                     if(wrappers[i].enrollments[j].enrollment.Study_Site__c != ssId){
@@ -110,7 +110,7 @@
                     i--;
                 }
             }
-        }
+        }*/
         var filteredWrappers = [];
         var addWrapper = false;
 

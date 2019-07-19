@@ -50,13 +50,16 @@
         var piBtnFilter = component.get('v.piBtnFilter');
         var action = component.get('c.getRecords');
         var trialId = component.get('v.trialId');
-
+        var studyWasChanged = "false";
+        if(trialId && trialId !== filter.study){
+            studyWasChanged = "true"
+        }
         communityService.executeAction(component, 'getRecords', {
             filterJSON: filterJSON,
             paginationJSON: paginationJSON,
             piBtnFilter: piBtnFilter,
             userMode: communityService.getUserMode(),
-            studyChanged: trialId !== filter.study
+            studyChanged: studyWasChanged
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);

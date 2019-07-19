@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="ctpId" type="Id"/>
     <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
+    <aura:attribute name="includeSS" type="Boolean" default="false"/>
     <aura:attribute name="minTermLength" type="Integer" default="0"/>
     <aura:attribute name="extendedPill" type="Boolean" default="false"/>
 

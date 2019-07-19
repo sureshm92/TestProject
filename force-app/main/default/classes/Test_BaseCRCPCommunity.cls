@@ -399,11 +399,12 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest2() {
         init();
+        Test.startTest();
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         update hcpEnrollment;
-        Test.startTest();
+
         System.runAs(hcpUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.changeStudyForHCP(studySite.Id, hcpEnrollment.Id);
@@ -414,11 +415,12 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest3() {
         init();
+        Test.startTest();
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         update hcpEnrollment;
-        Test.startTest();
+
         System.runAs(hcpUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.selectNoSites(hcpEnrollment.Id);
@@ -515,8 +517,10 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void exportImportRemote() {
         init();
+        Test.startTest();
         String exportXML = TranslationExportImportRemote.export(study.Id, languageLocale, TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
         TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
+        Test.stopTest();
     }
 
     @IsTest
@@ -589,7 +593,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(piUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_PI);
-            StudyDetailAboutStudyRemote.setTrialAcceptedForPI(study.Id, null);
+            StudyDetailAboutStudyRemote.setTrialAcceptedForPI(study.Id, null,null);
             DashboardRemote.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.changeEmail('new@emil.com');
@@ -659,7 +663,7 @@ private class Test_BaseCRCPCommunity {
         piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             MyReferredZoneController.getStatusOptions(CommunityService.USER_MODE_PI);
-            MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI);
+            MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI,null,false);
             MyReferringClinicsController.getEnrollmentData(hcpEnrollment.Id, CommunityService.USER_MODE_PI);
 
         }
@@ -819,7 +823,7 @@ private class Test_BaseCRCPCommunity {
         insert testAccount;
         studySite.Site__c = testAccount.Id;
         update studySite;
-        studySite = [SELECT Id, Name, Site__r.ParentId, Site__r.Name,Site__r.Id,Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
+        studySite = [SELECT Id, Principal_Investigator__c, Name, Site__r.ParentId, Site__r.Name,Site__r.Id,Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
         String ssId;
         System.runAs(piUser) {
             studySite.Site__r.BillingStreet = 'Test Street';
@@ -827,19 +831,19 @@ private class Test_BaseCRCPCommunity {
             studySite.Site__r.Id = null;
             String status = StudyListViewController.saveSSAddress(JSON.serialize(studySite));
         }
-        Study_Site__c testStudySite = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
+        Study_Site__c testStudySite = [SELECT Id, Principal_Investigator__c, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
         System.assertNotEquals(ssId, testStudySite.Site__r.Id);
         System.runAs(piUser) {
             testStudySite.Site__r.BillingStreet = 'Test Street 2';
             String status2 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite));
         }
-        Study_Site__c testStudySite2 = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 2'];
+        Study_Site__c testStudySite2 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 2'];
         System.assertEquals(testStudySite2.Site__r.ParentId, testStudySite.Site__r.Id);
         System.runAs(piUser) {
             testStudySite2.Site__r.BillingStreet = 'Test Street 3';
             String status3 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite2));
         }
-        Study_Site__c testStudySite3 = [SELECT Id, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
+        Study_Site__c testStudySite3 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
         System.assertEquals(testStudySite2.Site__r.Id, testStudySite3.Site__r.Id);
         Test.stopTest();
     }

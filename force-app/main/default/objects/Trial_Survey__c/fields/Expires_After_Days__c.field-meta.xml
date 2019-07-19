@@ -3,7 +3,7 @@
     <fullName>Expires_After_Days__c</fullName>
     <description>Task expires</description>
     <externalId>false</externalId>
-    <label>Expires after (days)</label>
+    <label>Number of Days Before Survey Expires</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

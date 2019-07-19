@@ -402,7 +402,7 @@ public without sharing class StudySiteService {
 
             if(SS_TYPE_SHOW_DISTANCE.contains(this.siteType)){
 
-                this.distance = DistanceHelper.calculateDistanceTo(site.Principal_Investigator__r.Account);
+                this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
                 if (this.distance != null) {
                     this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
                 } else {

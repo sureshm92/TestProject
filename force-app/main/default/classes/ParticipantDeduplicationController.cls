@@ -1,3 +1,6 @@
+/**
+ * Created by Denis Shpilevsky
+ */
 public without sharing class ParticipantDeduplicationController {
     public static Boolean changeLastName = true;
     public static Boolean checkLastName(){
@@ -109,7 +112,8 @@ public without sharing class ParticipantDeduplicationController {
 			Language_Preference_Code__c = referralRecord.Language_Preference__c,
 			Condition_of_Interest_s__c = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c = referralRecord.Data_Source__c,
-            Date_of_Birth__c = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c)
+            Date_of_Birth__c = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c),
+            Gender__c = referralRecord.sex__c
         );
         newParticipant.Birth_Year__c = newParticipant.Date_of_Birth__c != null && newParticipant.Date_of_Birth__c !='' ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
 
@@ -128,8 +132,8 @@ public without sharing class ParticipantDeduplicationController {
 			    Participant_ID_randomized_ID__c         =   referralRecord.ePRPatient_ID_Number__c,
 			    Referral_ID__c                          =   referralRecord.referralID__c,
 			    Participant_Status__c                   =   'Referral Sent to PI',
-                Terms_and_Conditions_Accepted_Date__c   =   Date.valueOf(referralRecord.acceptedTermsAndConditions__c),
-                Referred_Date__c                        =   Date.valueOf(referralRecord.Referred_Date__c)                     
+                Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
+                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                     
 
             );
         insert newPer;

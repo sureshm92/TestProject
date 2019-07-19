@@ -4,38 +4,77 @@
 public without sharing class MyReferringClinicsController {
 
     @AuraEnabled
-    public static String getClinicDetail(String trialId, String userMode) {
-
+    public static String getClinicDetail(String trialId, String userMode, String ssId, Boolean studyWasChanged) {
         MyReferringClinicsController.ClinicDetail clinicDetail = new MyReferringClinicsController.ClinicDetail();
+        clinicDetail.ssId = null;
+        clinicDetail.trialId = null;
+        if (studyWasChanged) {
+            ssId = null;
+        }
         try {
             Set<Id> trialIds = new Set<Id>();
             List<Study_Site__c> studySites;
             List<Study_Site__c> studySitesNotDelegate;
-            if (String.isEmpty(trialId)) {
-                studySites = StudySiteService.getStudySitesForPI();
-                studySitesNotDelegate = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI,null,true);
+            studySites = StudySiteService.getStudySitesForPI();
+            studySitesNotDelegate = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
+            Map<Id, List<Study_Site__c>> studyMap = new Map<Id, List<Study_Site__c>>();
+            Map<String, String> studySiteMap = new Map<String, String>();
+            List<LabelValueItem> studyPickList = new List<LabelValueItem>{
+                    new LabelValueItem(Label.PG_MRRL_L_All_studies, null)
+            };
+            for (Integer i = 0, j = studySites.size(); i < j; i++) {
+                if (studyMap.containsKey(studySites[i].Clinical_Trial_Profile__c)) {
+                    studyMap.get(studySites[i].Clinical_Trial_Profile__c).add(studySites[i]);
+                } else {
+                    studyMap.put(studySites[i].Clinical_Trial_Profile__c, new List<Study_Site__c>{
+                            studySites[i]
+                    });
+                    studyPickList.add(new LabelValueItem(studySites[i].Clinical_Trial_Profile__r.Study_Code_Name__c, studySites[i].Clinical_Trial_Profile__c));
+                }
+                studySiteMap.put(studySites[i].Id, studySites[i].Clinical_Trial_Profile__c);
+            }
+            if (trialId != null) {
+                studySites = studyMap.get(trialId);
+                studySitesNotDelegate = null;
+            }
+            List<LabelValueItem> pickList = new List<LabelValueItem>{
+                    new LabelValueItem(Label.PG_Report_L_All_study_sites, null)
+            };
+            if (ssId == null) {
+                for (Study_Site__c studySite : studySites) {
+                    trialIds.add(studySite.Clinical_Trial_Profile__c);
+                    pickList.add(new LabelValueItem(studySite.Name, studySite.Id));
+                }
+                clinicDetail = getClinicDetail(HCPEnrollmentService.getEnrollmentsForPIByTrialIds(
+                        trialIds, new List<String>{
+                                HCPEnrollmentService.HCP_S_INVITATION_SENT
+                        }
+                ), userMode);
             } else {
-                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+                clinicDetail = getClinicDetail(HCPEnrollmentService.getEnrollmentsForPIByStudySiteId(ssId), userMode);
+                List<Study_Site__c> ssForStudy = studyMap.get(studySiteMap.get(ssId));
+                clinicDetail.ssId = ssId;
+                trialId = ssForStudy[0].Clinical_Trial_Profile__c;
+                for (Integer i = 0; i < ssForStudy.size(); i++) {
+                    pickList.add(new LabelValueItem(ssForStudy[i].Name, ssForStudy[i].Id));
+                }
             }
-            for (Study_Site__c studySite : studySites) {
-                trialIds.add(studySite.Clinical_Trial_Profile__c);
+            if (trialId != null) {
+                clinicDetail.trialId = trialId;
             }
-            clinicDetail = getClinicDetail(HCPEnrollmentService.getEnrollmentsForPIByTrialIds(
-                    trialIds, new List<String>{HCPEnrollmentService.HCP_S_INVITATION_SENT}
-            ), userMode);
+            clinicDetail.studySitePickList.addAll(pickList);
+            clinicDetail.studyPickList.addAll(studyPickList);
             clinicDetail.studySitesForInvitation = new List<MyReferringClinicsController.SiteWrapper>();
-            if(studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()){
+            if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
                 Set<Id> studyIds = new Set<Id>();
-                for(Study_Site__c site: studySitesNotDelegate){
-                    if(!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)){
-                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c,site.Id);
+                for (Study_Site__c site : studySitesNotDelegate) {
+                    if (!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)) {
+                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id);
                         clinicDetail.studySitesForInvitation.add(sw);
                         studyIds.add(site.Clinical_Trial_Profile__c);
                     }
                 }
             }
-
-
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -160,6 +199,10 @@ public without sharing class MyReferringClinicsController {
         public List<MyReferringClinicsController.ClinicWrapper> referringClinics;
         public List<SummaryContainer> summrayContainers;
         public FilterPillInfo filterInfo;
+        public List<LabelValueItem> studySitePickList = new List<LabelValueItem>();
+        public List<LabelValueItem> studyPickList = new List<LabelValueItem>();
+        public String trialId;
+        public String ssId;
 
         public  List<SiteWrapper> studySitesForInvitation;
 

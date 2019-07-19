@@ -1,7 +1,20 @@
 ({
     doInit: function (component, event, helper) {
-        console.log('currentStudy',component.get('v.currentStudy'));
-        if(component.get('v.userMode')=='PI') {
+        var ssList = component.get('v.currentStudy.ssList');
+        for (let i = 0; i < ssList.length; i++) {
+            ssList[i].accounts.sort(function (a, b) {
+                var nameA = a.Name.toUpperCase();
+                var nameB = b.Name.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            })
+        }
+        if (component.get('v.userMode') == 'PI') {
             component.set("v.detailsExpanded", true);
         }
     },
@@ -12,7 +25,7 @@
         var trialId = trial.Id;
         var parent = component.get('v.parent');
         var actionId = event.currentTarget.id;
-        if(!actionId) actionId = event.getSource().getLocalId();
+        if (!actionId) actionId = event.getSource().getLocalId();
         switch (actionId) {
             case 'medicalRecordReview':
                 communityService.navigateToPage('referring?id=' + trialId);
@@ -38,25 +51,29 @@
                 communityService.navigateToPage('my-patients?id=' + trialId);
                 break;
             case 'noThanks':
-                parent.showOpenNoTanksModal(trialId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
+                parent.showOpenNoTanksModal(trialId,studySiteId);
                 break;
             case 'manageReferrals':
-                communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referrals");
+                communityService.navigateToPage("my-referrals?id=" + trialId);
                 break;
             case 'manageReferralsBySS':
                 var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referrals");
+               // communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referrals");
+                communityService.navigateToPage("my-referrals?siteId="+studySiteId);
                 break;
             case 'manageReferringClinics':
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");
                 break;
             case 'manageReferringClinicsBySS':
                 var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referred-clinics");
+                communityService.navigateToPage("my-referring-clinics?id=" + trialId + "&ssId="+studySiteId);
                 break;
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
-                parent.find('receiveReferralsModal').show(trial);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
+                console.log('studySiteId',studySiteId);
+                parent.find('receiveReferralsModal').show(trial,studySiteId);
                 break;
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
@@ -120,13 +137,6 @@
                 break;
         }
     },
-    clampDrivingInstuctions: function (component, event, helper) {
-       /* setTimeout($A.getCallback(function () {
-            helper.doUpdateStudyTitle(component);
-            // helper.doUpdateStudyDescription(component);
-        }), 10);*/
-    },
-
     saveChanges: function (component, event, helper) {
         var ctarget = event.currentTarget.value;
         var element = component.get('v.currentStudy.ssList');
@@ -153,10 +163,18 @@
     },
 
     checkValidEmail: function (component, event, helper) {
-        var isValid = communityService.isValidEmail(event.getSource().get('v.value'));
-        var elIndex = event.target.parentElement.dataset.index;
-        var cmp = component.get('v.currentStudy.ssList');
-        cmp[elIndex].studySite.isEmailValid = isValid;
+        var email = event.getSource().get('v.value');
+        if(email) {
+            email = email.trim();
+            var isValid = communityService.isValidEmail(email);
+            var elIndex = event.target.parentElement.dataset.index;
+            var cmp = component.get('v.currentStudy.ssList');
+            cmp[elIndex].studySite.isEmailValid = isValid;
+        } else {
+            var elIndex = event.target.parentElement.dataset.index;
+            var cmp = component.get('v.currentStudy.ssList');
+            cmp[elIndex].studySite.isEmailValid = true;
+        }
         component.set('v.currentStudy.ssList', cmp);
     },
 
@@ -166,27 +184,26 @@
     },
 
     showManageLocationDetails: function (component, event, helper) {
-        component.set('v.editAddress',false);
-        component.set('v.checkedAccount',null);
-        component.set('v.locationWasChanged',false);
-        component.set('v.currentCountry',null);
-        component.set('v.editedAccount',null);
-        var accounts = component.get('v.contactAccounts');
+        component.set('v.editAddress', false);
+        component.set('v.checkedAccount', null);
+        component.set('v.locationWasChanged', false);
+        component.set('v.currentCountry', null);
+        component.set('v.editedAccount', null);
         var popupIndex = event.currentTarget.dataset.index;
+        var accounts = component.get('v.currentStudy.ssList')[popupIndex].accounts;
         component.set('v.popupIndex', popupIndex);
         var popUps = component.find('manage-location');
-        if(popUps.length) {
+        if (popUps.length) {
             popUps[popupIndex].show();
-            component.set('v.contactAccounts',null);
-            component.set('v.contactAccounts',accounts);
+            component.set('v.currentStudy.ssList[' + popupIndex + '].accounts', null);
+            component.set('v.currentStudy.ssList[' + popupIndex + '].accounts', accounts);
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
             }), 5);
         } else {
             popUps.show();
-
-            component.set('v.contactAccounts',null);
-            component.set('v.contactAccounts',accounts);
+            component.set('v.currentStudy.ssList[' + popupIndex + '].accounts', null);
+            component.set('v.currentStudy.ssList[' + popupIndex + '].accounts', accounts);
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
             }), 5);
@@ -194,118 +211,123 @@
 
     },
 
-    changeRadioMarker: function (component,event,helper) {
+    changeRadioMarker: function (component, event, helper) {
         var radioBtns = component.find('radioBtn');
         for (let i = 0; i < radioBtns.length; i++) {
-            radioBtns[i].set('v.checked',false);
+            radioBtns[i].set('v.checked', false);
         }
-        component.set('v.checkedAccount',event.getSource().get('v.value'));
-        component.set('v.locationWasChanged',true);
+        component.set('v.checkedAccount', event.getSource().get('v.value'));
+        component.set('v.locationWasChanged', true);
     },
 
-    changeStudySiteAddress: function (component,event,helper) {
+    changeStudySiteAddress: function (component, event, helper) {
         var ctarget = event.currentTarget.value;
         var element = component.get('v.currentStudy.ssList');
         var currentSS = element[ctarget].studySite;
         var checkedAccount = component.get('v.checkedAccount');
         currentSS.Site__c = checkedAccount.Id;
         var parent = component.get('v.parent');
-        component.set('v.locationWasChanged',false);
+        component.set('v.locationWasChanged', false);
         parent.saveSSDetails(currentSS);
     },
 
 
-    editAccountAddress: function(component,event,helper){
-        component.set('v.addressChecked',false);
+    editAccountAddress: function (component, event, helper) {
+        component.set('v.addressChecked', false);
         var editIndx = event.target.dataset.indx;
         var ssIndex = event.target.dataset.index;
-        component.set('v.states',[]);
+        component.set('v.states', []);
         var cmp;
-        if(editIndx) {
-            cmp = JSON.parse(JSON.stringify(component.get('v.contactAccounts')[editIndx]));
-        } else if(!editIndx && !ssIndex){
-            cmp = new Object({'Id': null, 'BillingCountry':null});
-        }
-        else{
+        if (editIndx) {
+            cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].accounts[editIndx]));
+        } else if (!editIndx && !ssIndex) {
+            var ssWrapIndex = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Principal_Investigator__r));
+            cmp = new Object({'Id': null, 'BillingCountry': ssWrapIndex.MailingAddress.country, 'BillingStateCode': ssWrapIndex.MailingAddress.stateCode});
+        } else {
             cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].studySite.Site__r));
         }
-        if(cmp.BillingCountry){
+        if (cmp.BillingCountry) {
             var countryCodeByName = component.get('v.countryCodesMap');
             var statesMapByCountry = component.get('v.statesByCountryMap');
-            component.set('v.currentCountry',countryCodeByName[cmp.BillingCountry]);
+            component.set('v.currentCountry', countryCodeByName[cmp.BillingCountry]);
             var states = statesMapByCountry[countryCodeByName[cmp.BillingCountry]];
             component.set('v.states', states);
         }
+        //if(cmp.BillingLongitude && cmp.BillingLatitude){
+            helper.setCoordinates(component,cmp);
+        //}
         component.set('v.editedAccount', cmp);
-        component.set('v.editAddress',true);
+        component.set('v.editAddress', true);
     },
 
-    closeModal: function(component, event, helper){
+    closeModal: function (component, event, helper) {
         var index = component.get('v.popupIndex');
         var popUps = component.find('manage-location');
-        if(popUps.length){
+        if (popUps.length) {
             popUps[index].hide();
-        } else{
+        } else {
             popUps.hide();
         }
-
     },
-    backToTheChoice: function(component,event,helper){
-        component.set('v.editAddress',false);
-        component.set('v.editedAccount',null);
-        component.set('v.showPopUpSpinner',false);
+    backToTheChoice: function (component, event, helper) {
+        component.set('v.editAddress', false);
+        component.set('v.editedAccount', null);
+        component.set('v.showPopUpSpinner', false);
         setTimeout($A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }), 10);
-        component.set('v.currentCountry',null);
-        component.set('v.states',[]);
-        component.set('v.addressChecked',false);
+        component.set('v.currentCountry', null);
+        component.set('v.states', []);
+        component.set('v.addressChecked', false);
     },
-    saveNewAccount:function(component,event,helper){
+    saveNewAccount: function (component, event, helper) {
         var ssIndex = event.currentTarget.value;
-        component.set('v.addressChecked',false);
+        component.set('v.addressChecked', false);
         var newAccount = component.get('v.editedAccount');
         var element = component.get('v.currentStudy.ssList');
         var currentSS = element[ssIndex].studySite;
         currentSS.Site__r = newAccount;
         var states = component.get('v.states');
-        if(states){
-            for (let i = 0; i < states.length ; i++) {
-                if(states[i].value == currentSS.Site__r.BillingStateCode){
+        if (states) {
+            for (let i = 0; i < states.length; i++) {
+                if (states[i].value == currentSS.Site__r.BillingStateCode) {
                     currentSS.Site__r.BillingState = states[i].label;
                     break;
                 }
             }
         }
         var parent = component.get('v.parent');
-        component.set('v.addressWasChanged',false);
+        component.set('v.addressWasChanged', false);
         var popUps = component.find('manage-location');
         var popupIndex = component.get('v.popupIndex');
-        if(popUps.length) {
+        if (popUps.length) {
             popUps[popupIndex].hide();
         } else {
             popUps.hide();
         }
         parent.saveSSnewAddress(currentSS);
     },
-    showChecked: function (component,event,helper) {
-        component.set('v.makeDefault',event.getSource().get('v.checked'));
+    showChecked: function (component, event, helper) {
+        component.set('v.makeDefault', event.getSource().get('v.checked'));
     },
-    recordWasUpdated:function (component,event,helper) {
-        component.set('v.addressWasChanged',true);
+    recordWasUpdated: function (component, event, helper) {
+        component.set('v.addressWasChanged', true);
     },
 
-    trimChanges:function(component,event,helper){
+    trimChanges: function (component, event, helper) {
         var val = event.getSource().get('v.value');
-        event.getSource().set('v.value',val.trim());
+        event.getSource().set('v.value', val.trim());
+        if(!event.getSource().checkValidity()){
+            event.getSource().showHelpMessageIfInvalid();
+        }
     },
 
     doCountryChange: function (component, event, helper) {
-        component.set('v.addressWasChanged',true);
-        component.set('v.addressChecked',false);
+        component.set('v.addressWasChanged', true);
+        component.set('v.addressChecked', false);
         var statesMapByCountry = component.get('v.statesByCountryMap');
         var acc = component.get('v.editedAccount');
-        if(acc) {
+        if (acc) {
             var countryNameByCode = component.get('v.countriesMap');
             var countryCode = component.get('v.currentCountry');
             component.set('v.editedAccount.BillingCountry', countryNameByCode[countryCode]);
@@ -313,20 +335,20 @@
             if (states) {
                 component.set('v.states', states);
             } else {
-                component.set('v.editedAccount.BillingState','');
+                component.set('v.editedAccount.BillingState', '');
                 component.set('v.states', []);
             }
         }
     },
 
-    checkAddress:function(component,event,helper){
-        component.set('v.showPopUpSpinner',true);
+    checkAddress: function (component, event, helper) {
+        component.set('v.showPopUpSpinner', true);
         var currentAccount = component.get('v.editedAccount');
         var parent = component.get('v.parent');
         parent.insertAccountForCheck(currentAccount);
     },
 
-    removeCreatedAccount:function(component,event,helper) {
+    removeCreatedAccount: function (component, event, helper) {
         var check = component.get('v.checkedAccountWasCreated');
         if (check) {
             component.set('v.checkedAccountWasCreated', false);
@@ -337,17 +359,22 @@
         }
     },
 
-    checkAccountWithLocation:function(component,event,helper){
+    checkAccountWithLocation: function (component, event, helper) {
         var newAcc = component.get('v.accountWithCheckedLocation');
-        if(newAcc) {
+        if (newAcc) {
             var editAcc = component.get('v.editedAccount');
-            if(newAcc.BillingLongitude && newAcc.BillingLatitude) {
+            if (newAcc.BillingLongitude && newAcc.BillingLatitude) {
                 editAcc.BillingLongitude = newAcc.BillingLongitude;
                 editAcc.BillingLatitude = newAcc.BillingLatitude;
                 editAcc.BillingCity = newAcc.BillingCity;
                 component.set('v.editedAccount', editAcc);
+            } else{
+                editAcc.BillingLongitude = null;
+                editAcc.BillingLatitude = null;
+                component.set('v.editedAccount', editAcc);
             }
-            component.set('v.showPopUpSpinner',false);
+            helper.setCoordinates(component,editAcc);
+            component.set('v.showPopUpSpinner', false);
             component.set('v.accountWithCheckedLocation', null);
         }
     }

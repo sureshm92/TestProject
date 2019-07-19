@@ -17,6 +17,7 @@
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="currentTab" type="String" default="recruiting"/>
     <aura:attribute name="currentTrialId" type="String"/>
+    <aura:attribute name="currentSSId" type="String"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isSearchResume" type="Boolean" default="false"/>
     <aura:attribute name="searchResumeChanged" type="Boolean" default="false" access="private"/>
@@ -52,6 +53,7 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
     <aura:method name="showOpenNoTanksModal" action="{!c.showNoThanksDialog}" access="public">
         <aura:attribute name="trialId" type="String"/>
+        <aura:attribute name="ssId" type="String"/>
     </aura:method>
     <aura:method name="saveSSDetails" action="{!c.saveSSDetails}" access="public">
         <aura:attribute name="currentSS" type="Object"/>
@@ -173,7 +175,7 @@
                 <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
                     <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                       <!-- <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>-->
+                       <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
                             <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
                                                  countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"
@@ -188,7 +190,7 @@
         <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
 
         <!-- No,thanks dialog -->
-        <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>
+        <c:NoTanksModal aura:id="noTanksModal" ssId="{!v.ssId}" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>
 
         <!-- Share dialog -->
         <c:ShareModal aura:id="shareModal" parent="{!this}"/>

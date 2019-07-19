@@ -3,9 +3,12 @@
  */
 
 public class VisitResultSharingSSLookupRemote {
+
+    private static final String INCLUDE_ICON = 'standard:task2';
+    private static final String EXCLUDE_ICON = 'standard:first_non_empty';
     
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchSSByTerm(Id ctpId, String searchTerm, String value) {
+    public static List<LookupSearchResult> searchSSByTerm(Id ctpId, String searchTerm, String value, Boolean includeSS) {
         try {
             List<String> selectedIds = new List<String>();
             if(!String.isEmpty(value)) selectedIds = value.split(';');
@@ -22,7 +25,7 @@ public class VisitResultSharingSSLookupRemote {
                 resList.add(new LookupSearchResult(
                         ss.Id,
                         'Study_Site__c',
-                        'standard:address',
+                        includeSS ? INCLUDE_ICON : EXCLUDE_ICON,
                         ss.Name,
                         ss.Principal_Investigator__r.Name
                 ));
@@ -34,7 +37,7 @@ public class VisitResultSharingSSLookupRemote {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchSSByIds(String value){
+    public static List<LookupSearchResult> searchSSByIds(String value, Boolean includeSS){
         try{
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             List<String> ssIds = value.split(';');
@@ -43,7 +46,7 @@ public class VisitResultSharingSSLookupRemote {
                 resList.add(new LookupSearchResult(
                         ss.Id,
                         'Study_Site__c',
-                        'standard:address',
+                        includeSS ? INCLUDE_ICON : EXCLUDE_ICON,
                         ss.Name,
                         null
                 ));

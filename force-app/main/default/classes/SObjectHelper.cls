@@ -49,5 +49,17 @@ public class SObjectHelper {
         }
         return items;
     }
+    
+    public static List<String> getFieldSetList(SObjectType sObjectType, String fieldSetName){
+        List<String> resList = new List<String>();
+        FieldSet fieldSet = sObjectType.getDescribe().fieldSets.getMap().get(fieldSetName);
+        if(fieldSet != null){
+            for(FieldSetMember field : fieldSet.getFields()){
+                resList.add(field.fieldPath.toLowerCase());
+            }
+        }
+        return resList;
+    }
+
 
 }

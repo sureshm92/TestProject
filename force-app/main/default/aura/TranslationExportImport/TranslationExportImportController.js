@@ -3,7 +3,28 @@
  */
 ({
     doInit: function(component, event, heper){
-        component.find('spinner').hide();
+        communityService.executeAction(component, 'getPlatformLevelTranslatableObjects', null, function (platformObjects) {
+            component.set('v.platformObjects', platformObjects);
+        }, null, function () {
+            component.find('spinner').hide();
+        })
+    },
+
+    doExportPlatformObjects: function (component, event, hepler) {
+        var spinner = component.find('spinner');
+        spinner.show();
+        communityService.executeAction(component, 'exportPlatformData', {
+            languageCode: component.get('v.translateItem.Language__c'),
+            exportType: component.get('v.exportType')
+        }, function (generatedFile) {
+            var blob = new Blob([generatedFile], {
+                type : 'text/plain'
+            });
+            var filename = 'Export_' + component.get('v.exportType') + '_' + component.get('v.translateItem.Language__c') + '__PlatformObjects.xlf';
+            saveAs(blob, filename);
+        }, null, function () {
+            spinner.hide();
+        });
     },
 
     doExport: function (component, event, hepler) {
@@ -24,7 +45,7 @@
         });
     },
 
-     doImport: function (component, event, helper) {
+    doImport: function (component, event, helper) {
          var spinner = component.find('spinner');
          spinner.show();
          var fileSelector = component.find('fileSelector');

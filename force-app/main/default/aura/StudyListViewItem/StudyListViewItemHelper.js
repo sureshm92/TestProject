@@ -84,4 +84,19 @@
         lastElement.style.width = '100%';
         studyTitle.appendChild(lastElement);
     },
+
+    setCoordinates:function(component,cmp){
+        component.set('v.mapMarkers',[{location:{
+                'Latitude': cmp.BillingLatitude,
+                'Longitude': cmp.BillingLongitude
+            },
+            title: 'Location Address',
+            description: cmp.BillingCountry + ' ' + cmp.BillingStreet + ' ' + cmp.BillingCity + ' ' + cmp.BillingStateCode + ' ' + cmp.BillingPostalCode
+        }]);
+        if(cmp.BillingLatitude && cmp.BillingLongitude) {
+            component.set('v.zoomLevel', 17);
+        } else{
+            component.set('v.zoomLevel', 0);
+        }
+    },
 })

@@ -81,7 +81,7 @@ public without sharing class VisitResultSharingService {
         ];
     }
 
-    public static void updateStudySitesSharing(String ctpId, List<String> ssIds) {
+    public static void updateStudySitesSharing(String ctpId, List<String> ssIds, Boolean selectionType) {
         List<Study_Site__c> studySites = (List<Study_Site__c>) DatabaseService.query(
                 new List<String>{
                         'Id', 'Visit_Results_Sharing__c'
@@ -91,10 +91,12 @@ public without sharing class VisitResultSharingService {
         );
         if (!studySites.isEmpty()) {
             for (Study_Site__c ss : studySites) {
-                if (ssIds.contains(ss.Id)) {
-                    ss.Visit_Results_Sharing__c = true;
+                if((ssIds.isEmpty() || String.isBlank(ssIds.get(0))) && selectionType) {
+                    ss.Visit_Results_Sharing__c = selectionType;
+                } else if (ssIds.contains(ss.Id)) {
+                    ss.Visit_Results_Sharing__c = selectionType;
                 } else {
-                    ss.Visit_Results_Sharing__c = false;
+                    ss.Visit_Results_Sharing__c = !selectionType;
                 }
             }
             update studySites;
@@ -109,6 +111,7 @@ public without sharing class VisitResultSharingService {
         ctp.Shareback_Availability_Timing__c = 0;
         ctp.Shareback_Availability_Status__c = '';
         ctp.Shareback_Settings_On_Participant_Level__c = false;
+        ctp.Shareback_Settings_on_StudySites__c = false;
 
         return ctp;
     }
@@ -120,6 +123,7 @@ public without sharing class VisitResultSharingService {
                         Shareback_Availability_Status__c,
                         Shareback_Availability_Timing__c,
                         Shareback_Settings_On_Participant_Level__c,
+                        Shareback_Settings_on_StudySites__c,
                         Visit_Data_Shareback__c, (
                         SELECT Id, Include_Countries__c, Type__c, Sharing_Countries__c
                         FROM Visit_Result_Type_Sharings__r
