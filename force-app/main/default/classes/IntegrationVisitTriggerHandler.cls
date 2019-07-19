@@ -2,18 +2,15 @@
  * Created by Denis Z on 20-Jun-19.
  */
 
-public with sharing class IntegrationVisitTriggerHandler {
+public with sharing class IntegrationVisitTriggerHandler{
 
 
     public class UpdateVisits extends TriggerHandler{
 
-        public override void beforeInsert(List<SObject> newList) {
+        public override void afterInsert(List<SObject> newList) {
             updateVisits(JSON.serialize(newList));
         }
 
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisits(JSON.serialize(newList));
-        }
     }
 
     @future
@@ -74,6 +71,8 @@ public with sharing class IntegrationVisitTriggerHandler {
         }
         update patientVisits;
         insert newVisits;
+        System.debug(visits);
+        update visits;
     }
 
     private static Boolean matchFoundByName(Integration_Visit__c externalVisit, Patient_Visit__c visit){

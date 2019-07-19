@@ -6,13 +6,10 @@ public without sharing class IntegrationVisitResultTriggerHandler {
 
     public class UpdateVisitResults extends TriggerHandler{
 
-        public override void beforeInsert(List<SObject> newList) {
+        public override void afterInsert(List<SObject> newList) {
             updateVisitResults(JSON.serialize(newList));
         }
 
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisitResults(JSON.serialize(newList));
-        }
     }
 
     @future
@@ -39,6 +36,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         }
         update resultMap.values();
         insert newResults;
+        update results;
     }
 
     private static Visit_Result__c createNewResult(Patient_Visit__c visit, Integration_VisitResult__c externalResult, Map<String, Id> recordTypesMap, Map<String, Visit_Result_TypeM__mdt> resultTypesMap){
