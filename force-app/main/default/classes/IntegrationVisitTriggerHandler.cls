@@ -19,9 +19,9 @@ public with sharing class IntegrationVisitTriggerHandler{
         Set<String> externalKeys = new Set<String>();
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
-            externalKeys.add(visit.External_Key__c);
+            externalKeys.add(visit.USUBJID__c);
             visit.Work_Status__c = 'Failed';
-            patientVisitMap.put(visit.External_Key__c, new List<Patient_Visit__c>());
+            patientVisitMap.put(visit.USUBJID__c, new List<Patient_Visit__c>());
         }
         List<Patient_Visit__c> patientVisits = [
             SELECT
@@ -55,9 +55,9 @@ public with sharing class IntegrationVisitTriggerHandler{
         }
         List<Patient_Visit__c> newVisits = new List<Patient_Visit__c>();
         for(Integration_Visit__c externalVisit : visits) {
-            if(patientVisitMap.containsKey(externalVisit.External_Key__c)){
+            if(patientVisitMap.containsKey(externalVisit.USUBJID__c)){
                 Boolean matchFound = false;
-                for(Patient_Visit__c visit : patientVisitMap.get(externalVisit.External_Key__c)){
+                for(Patient_Visit__c visit : patientVisitMap.get(externalVisit.USUBJID__c)){
                     if(matchFoundByName(externalVisit, visit) || matchFoundByNumber(externalVisit, visit)){
                         matchFound = true;
                         continue;
@@ -102,7 +102,7 @@ public with sharing class IntegrationVisitTriggerHandler{
         newVisit.Status__c = 'Completed';
         newVisit.Completed_Date__c = externalVisit.SVSTDTC__c;
         newVisit.Visit_Number__c = externalVisit.VISITNUM__c;
-        newVisit.Participant_Study_Enrollment__c = pseIdsMap.get(externalVisit.External_Key__c);
+        newVisit.Participant_Study_Enrollment__c = pseIdsMap.get(externalVisit.USUBJID__c);
         return newVisit;
     }
 
