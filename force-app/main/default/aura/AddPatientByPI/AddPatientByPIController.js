@@ -5,8 +5,10 @@
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
         var ctpId = communityService.getUrlParameter('id');
+        var ssId = communityService.getUrlParameter('ssId');
         communityService.executeAction(component, 'getInitData', {
-            ctpId: ctpId
+            ctpId: ctpId,
+            ssId : ssId ? ssId : null
         }, function (formData) {
             component.set('v.ctp', formData.ctp);
             component.set('v.ss', formData.ss);
