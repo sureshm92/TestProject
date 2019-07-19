@@ -129,11 +129,11 @@
                     </lightning:layoutItem>
                     <lightning:layoutItem class="schevrons" size="2">
                         <div class="schevron">
-                            <lightning:buttonIcon size="medium" onclick="{!c.shiftLeft}"
+                            <lightning:buttonIcon disabled="{!empty(v.selectedIcons)}" size="medium" onclick="{!c.shiftLeft}"
                                                   iconName="utility:chevronleft"/>
                         </div>
                         <div class="schevron">
-                            <lightning:buttonIcon size="medium" onclick="{!c.shiftRight}"
+                            <lightning:buttonIcon disabled="{!empty(v.availableIcons)}" size="medium" onclick="{!c.shiftRight}"
                                                   iconName="utility:chevronright"/>
                         </div>
                     </lightning:layoutItem>
