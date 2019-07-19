@@ -81,12 +81,29 @@
             });
 
             doc.autoTable({
+                theme: 'plain',
                 html: '#tbl' + ind,
                 styles: {
-                    cellPadding: 0,
-                    minCellWidth: 35
+                    cellPadding: 2,
+                    halign: 'center',
+                    valign: 'middle',
+                    lineColor: 0,
+                    lineWidth: 1,
+                    fontStyle: 'normal',
+                    minCellWidth: 70
                 },
-                tableWidth: 510,
+                columnStyles: {
+                    0: {
+                        cellWidth: 60,
+                        cellPadding: 0
+                    }
+                },
+                head: {
+                    fontStyle: 'normal',
+                    fontSize: 8,
+                    halign: 'center',
+                    valign: 'middle',
+                },
                 startY: heightY + 30,
                 margin: {
                     right: 20,
@@ -94,7 +111,6 @@
                     top: 60,
                     bottom: 60
                 },
-                useCss: true,
             });
             heightY = doc.autoTable.previous.finalY
         });
