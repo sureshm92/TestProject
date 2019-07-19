@@ -54,11 +54,19 @@
         const elements = component.find('leftIcons');
         let selectedNames = [];
         let newLeft = [];
-        for (let i = 0; i < elements.length; i++) {
-            if (elements[i].get('v.selected')) {
-                selectedNames.push(elements[i].get('v.name'));
+        if (elements instanceof Array) {
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].get('v.selected')) {
+                    selectedNames.push(elements[i].get('v.name'));
+                } else {
+                    newLeft.push(elements[i].get('v.name'));
+                }
+            }
+        } else {
+            if (elements.get('v.selected')) {
+                selectedNames.push(elements.get('v.name'));
             } else {
-                newLeft.push(elements[i].get('v.name'));
+                newLeft.push(elements.get('v.name'));
             }
         }
         let selectedIcons = component.get('v.selectedIcons');
@@ -73,13 +81,23 @@
         const elements = component.find('rightIcons');
         let selectedNames = [];
         let newRight = [];
-        for (let i = 0; i < elements.length; i++) {
-            if (elements[i].get('v.selected')) {
-                selectedNames.push(elements[i].get('v.name'));
+        if (elements instanceof Array) {
+            for (let i = 0; i < elements.length; i++) {
+                if (elements[i].get('v.selected')) {
+                    selectedNames.push(elements[i].get('v.name'));
+                } else {
+                    newRight.push(elements[i].get('v.name'));
+                }
+            }
+
+        } else {
+            if (elements.get('v.selected')) {
+                selectedNames.push(elements.get('v.name'));
             } else {
-                newRight.push(elements[i].get('v.name'));
+                newRight.push(elements.get('v.name'));
             }
         }
+
         let availableIcons = component.get('v.availableIcons');
         for (let i = 0; i < selectedNames.length; i++) {
             availableIcons.push(selectedNames[i]);
