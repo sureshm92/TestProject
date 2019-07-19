@@ -14,7 +14,6 @@ public with sharing class VisitConfigurationRemote {
             if (String.isNotBlank(ctps[0].Visit_Plan__c)) {
                 return [
                         SELECT Id,Name
-                                ,Order__c
                                 ,Visit_Plan__c
                                 ,Visit_Schedule__c
                                 ,Visit_Number__c
@@ -47,8 +46,9 @@ public with sharing class VisitConfigurationRemote {
         return null;
 
     }
-    @auraEnabled
-    public static void deleteVisit(String visitId) {
+
+    @AuraEnabled
+    public static void deleteVisit(Id visitId) {
         try {
             Visit__c v = new Visit__c(Id = visitId);
             delete v;

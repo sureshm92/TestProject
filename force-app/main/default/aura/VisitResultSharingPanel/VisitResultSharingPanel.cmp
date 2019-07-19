@@ -26,11 +26,13 @@
                         <div class="group-title">Global Data Shareback</div>
                         <div class="global-data">
                             <div>
-                                <lightning:input type="toggle" label="Data shareback enabled" name="globalSharebackToggle"
+                                <lightning:input type="toggle" label="Data shareback enabled"
+                                                 name="globalSharebackToggle"
                                                  checked="{!v.options.globalShareBck}" onchange="{!c.onChangeGlobal}"/>
                             </div>
                             <div>
-                                <lightning:button aura:id="saveBtn" variant="brand" label="Save" onclick="{!c.saveOptions}"/>
+                                <lightning:button aura:id="saveBtn" variant="brand" label="Save"
+                                                  onclick="{!c.saveOptions}"/>
                             </div>
                         </div>
                     </div>
@@ -41,22 +43,24 @@
                         <div class="group-container">
                             <div class="group-title">Data Shareback Settings on Study Site Level</div>
                             <div class="slds-grid ss-options">
-                                <div class="slds-col slds-col slds-size_3-of-12 ss-type-col">
+                                <div class="slds-col slds-col slds-size_4-of-12 ss-type-col">
                                     <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
                                                       class="type-picklist" value="{!v.options.ssSelectionType}"
-                                                      onchange="{!c.doSSSelectionTypeChanged}">
+                                                      onchange="{!c.doSSSelectionTypeChanged}"
+                                                      disabled="{!v.options.ssSelectionType != 'All'}">
                                         <aura:iteration items="{!v.initData.ssSelectionTypeLVList}" var="option">
                                             <option text="{!option.label}" value="{!option.value}"/>
                                         </aura:iteration>
                                     </lightning:select>
                                 </div>
-                                <div class="slds-col slds-col slds-size_9-of-12 ss-lookup-container">
+                                <div class="slds-col slds-col slds-size_8-of-12 ss-lookup-container">
                                     <aura:if isTrue="{!v.options.ssSelectionType != 'All'}">
                                         <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
                                                                       value="{!v.options.selectedSSIds}"
                                                                       ctpId="{!v.recordId}"
                                                                       onchange="{!c.doSSSelectionChange}"
-                                                                      onblur="{!c.doSSSelectionChange}"/>
+                                                                      onblur="{!c.doSSSelectionChange}"
+                                                                      includeSS="{!v.options.ssSelectionType == 'Study Sites'}"/>
                                     </aura:if>
                                 </div>
                             </div>
@@ -102,22 +106,23 @@
                             </div>
                         </div>
                         <!-- PSE Status -->
-                        <div class="group-container">
-                            <div class="group-title">When to show the Visit Report</div>
-                            <div class="ss-options">
-                                <c:RRPicklistLookup aura:id="statusSelectLookup" value="{!v.options.selectedStatuses}"
-                                                    sObjectName="Participant_Study_Enrollment__c" fieldName="Status__c"
-                                                    onchange="{!c.doSelectedStatusesChanged}"
-                                                    onblur="{!c.doSelectedStatusesChanged}"/>
-                            </div>
-                        </div>
+<!--                        <div class="group-container">-->
+<!--                            <div class="group-title">When to show the Visit Report</div>-->
+<!--                            <div class="ss-options">-->
+<!--                                <c:RRPicklistLookup aura:id="statusSelectLookup" value="{!v.options.selectedStatuses}"-->
+<!--                                                    sObjectName="Participant_Study_Enrollment__c" fieldName="Status__c"-->
+<!--                                                    onchange="{!c.doSelectedStatusesChanged}"-->
+<!--                                                    onblur="{!c.doSelectedStatusesChanged}"/>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                     <!-- visit results options: -->
                     <aura:iteration items="{!v.groups}" var="group">
                         <div class="group-container vrs-panel">
                             <div class="group-title">{!group.label}</div>
                             <aura:iteration items="{!group.visitResults}" var="vResult">
-                                <c:VisitResultSharingItem visitResult="{!vResult}" typeSelectLVList="{!v.typeSelectLVList}"
+                                <c:VisitResultSharingItem visitResult="{!vResult}"
+                                                          typeSelectLVList="{!v.typeSelectLVList}"
                                                           ctpId="{!v.recordId}"/>
                             </aura:iteration>
                         </div>

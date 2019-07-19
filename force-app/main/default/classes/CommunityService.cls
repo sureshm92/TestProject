@@ -185,7 +185,9 @@ public without sharing class CommunityService {
                 language = hcpUser.LanguageLocaleKey;
             }
             if(cont.Language__c != null) language = cont.Language__c;
-            newPortalUsers.add(createUser(cont, locale, language, timeZone));
+            if(cont.Email != null && cont.Email != ''){
+                newPortalUsers.add(createUser(cont, locale, language, timeZone));
+            }
         }
        System.debug('newPortalUsers' + newPortalUsers);
         insert newPortalUsers;
@@ -266,6 +268,8 @@ public without sharing class CommunityService {
         System.debug('usersAvailable:' + users);
         if(users != null && users.size() == 1){
             return email + '01';
+        }else if(users != null && users.size() == 2){
+            return email + '02';
         }else{
             Set<String> usedNames = new Set<String>();
             for(User user : users) usedNames.add(user.Username);

@@ -2,50 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Secondary_Source__c</fullName>
     <externalId>false</externalId>
-    <label>Participant Referral Source</label>
+    <label>Participant Referral Sources</label>
+    <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>MultiselectPicklist</type>
-    <valueSet>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Patient</fullName>
-                <default>false</default>
-                <label>Patient</label>
-            </value>
-            <value>
-                <fullName>HCP</fullName>
-                <default>false</default>
-                <label>HCP</label>
-            </value>
-            <value>
-                <fullName>HCP Prescreen Log</fullName>
-                <default>false</default>
-                <label>HCP Prescreen Log</label>
-            </value>
-            <value>
-                <fullName>PI</fullName>
-                <default>false</default>
-                <label>PI</label>
-            </value>
-            <value>
-                <fullName>ePR</fullName>
-                <default>false</default>
-                <label>ePR</label>
-            </value>
-            <value>
-                <fullName>ACOE</fullName>
-                <default>false</default>
-                <label>ACOE</label>
-            </value>
-            <value>
-                <fullName>3rd Party</fullName>
-                <default>false</default>
-                <label>3rd Party</label>
-            </value>
-        </valueSetDefinition>
-    </valueSet>
-    <visibleLines>3</visibleLines>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

@@ -37,19 +37,7 @@
                 component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
                 component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
-                component.set('v.delegatesPicklist', initData.delegatePicklist);
-                component.set('v.contactAccountsList', initData.contactAccounts.sort(function(a, b) {
-                    var nameA = a.Name.toUpperCase();
-                    var nameB = b.Name.toUpperCase();
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-                    return 0;
-                }));
-                helper.prepareIconsForPI(initData);
+               // helper.prepareIconsForPI(initData);
                 component.set('v.countryPicklist', initData.countries);
                 component.set('v.statesByCountryMap',initData.statesByCountryMap);
                 component.set('v.countriesMap',initData.countriesMap);

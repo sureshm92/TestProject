@@ -232,7 +232,8 @@ public class StudyActionsPI extends StudyActions{
                 new List<DisableReason>{
                         studySiteOnHoldReason,
                         studyNoLongerEnrollingReason,
-                        manageReferralsStatusesReason
+                        manageReferralsStatusesReason,
+                        tcAcceptanceRequiredReason
                 }
         ));
 
@@ -243,32 +244,42 @@ public class StudyActionsPI extends StudyActions{
                 new List<DisableReason>{
                         studySiteOnHoldReason,
                         studyNoLongerEnrollingReason,
-                        manageReferralsStatusesReason
+                        manageReferralsStatusesReason,
+                        tcAcceptanceRequiredReason
                 }
         ));
         
         //init study item actions list
-        studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
-        studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
 
-        if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
+
+       /* if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             studyListViewItemActions.add(actions.get(ACT_MANAGE_REFERRALS));
             studyListViewItemActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS));
+        }*/
+
+        if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
+            studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
+            studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
         }
 
-        if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
+        //if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             if(isTCAcceptanceRequired){
                 studyListViewItemActions.add(actions.get(ACT_VIEW_TC));
-            }else{
-                studyListViewItemActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
             }
-        }
+            if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
+                //studyListViewItemActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
+                studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
+            }
+        //}/
         if(studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT){
-            studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
+            //studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
+           // studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
+            studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
-        if(!actions.get(ACT_ADD_PATIENT).disabled) studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
-        
-            //prepare bottom bar actions:
+        //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
+        if(!actions.get(ACT_ADD_PATIENT).disabled) studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
+
+        //prepare bottom bar actions:
         if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             if(isTCAcceptanceRequired){
                 studyDetailBottomBarActions.add(actions.get(ACT_VIEW_TC));

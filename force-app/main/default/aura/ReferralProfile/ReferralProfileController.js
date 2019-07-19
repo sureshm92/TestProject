@@ -49,6 +49,24 @@
         }, null, function () {
             spinner.hide();
         });
-    }
+    },
+
+    updateParticipant: function(component, event, helper){
+        var participant = component.get('v.participantRecord');
+        console.log('participant:', participant);
+        communityService.executeAction(component, 'updateParticipantData', {
+            participantJSON: JSON.stringify(participant)
+        }, function () {
+            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+            component.set('v.isShowPopup', false);
+            //communityService.navigateToPage('referral-profile?id=' +  communityService.getUrlParameter('id'));
+        }, null, function () {
+            component.find('spinner').hide();
+        });
+    },
+
+    openPopup: function(component, event, helper){
+        component.set('v.isShowPopup', true);
+    },
 
 })

@@ -304,37 +304,37 @@
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Address_Line}</div>
-                            <c:rrInput valueString="{!v.initData.institute.BillingStreet}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.MailingStreet}" disabled="{!true}"/>
                         </div>
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_City}</div>
-                            <c:rrInput valueString="{!v.initData.institute.BillingCity}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.MailingCity}" disabled="{!true}"/>
                         </div>
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_State}</div>
-                            <c:rrInput valueString="{!v.initData.institute.BillingState}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.MailingState}" disabled="{!true}"/>
                         </div>
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Zip_Postal_Code}</div>
-                            <c:rrInput valueString="{!v.initData.institute.BillingPostalCode}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.MailingPostalCode}" disabled="{!true}"/>
                         </div>
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Country}</div>
-                            <c:rrInput valueString="{!v.initData.institute.BillingCountry}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.MailingCountry}" disabled="{!true}"/>
                         </div>
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Phone_Number}</div>
-                            <c:rrInput valueString="{!v.initData.institute.Phone}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.Phone}" disabled="{!true}"/>
                         </div>
 
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label rr-sentence-font">{!$Label.c.PG_AS_F_Institute_Fax_Number}</div>
-                            <c:rrInput valueString="{!v.initData.institute.Fax}" disabled="{!true}"/>
+                            <c:rrInput valueString="{!v.initData.myContact.Fax}" disabled="{!true}"/>
                         </div>
 
                     </aura:if>
