@@ -11,16 +11,16 @@ public inherited sharing class VisitReportService {
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate) {
-            return null;
+            return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
         if (patientVisits.isEmpty()) {
-            return null;
+            return result;
         }
         List<Visit_Result_GroupM__mdt> visitResultGroupMS = visitResultMService.getVisitResultGroups(true, null);
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = this.getDataTableWrappersByGroupName(patientVisits, visitResultGroupMS);
         if (reportDataWrapperMap.isEmpty()) {
-            return null;
+            return result;
         }
         VisitReportContainerRemote.ReportDataWrapper reportDataWrapper = this.getFillReportData(reportDataWrapperMap, visitResultGroupMS, pState);
         result.add(reportDataWrapper);
