@@ -736,6 +736,7 @@ public without sharing class StudyTrialService {
     }
 
     private static Account setFields(Account newAccount,Contact currentContact,Boolean setId){
+        System.debug('newAccount>>'+newAccount);
         Account acc =  new Account(  Id = setId ? newAccount.Id : null,
                 Name = newAccount.Name,
                 ParentId = newAccount.ParentId,

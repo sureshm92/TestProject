@@ -16,13 +16,48 @@ public without sharing class ParticipantEnrollmentFactory {
     
     public static Map<String, Clinical_Trial_Profile__c> ctpMap = new Map<String, Clinical_Trial_Profile__c>();
     public static Map<String, Study_Site__c> ssMap = new Map<String, Study_Site__c>();
-    public static Id TA_ID = [SElECT Id FROM Therapeutic_Area__c LIMIT 1].Id;
+    //public static Id TA_ID = [SElECT Id FROM Therapeutic_Area__c LIMIT 1].Id;
     
-
+    
+    public static void createParticipantEnrollmentRecords(String protocolId, String siteNumber, String screeningId){
+        Clinical_Trial_Profile__c ctp = getClinicalTrialProfile(protocolId);
+        createParticipantEnrollment(ctp, getStudySite(siteNumber, ctp), screeningId);
+    }
+    
+    private static void createParticipantEnrollment(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
+        Contact contact = new Contact();
+        contact.LastName = screeningId;
+        contact.Email = 'dz@hp.com';
+        contact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
+        insert contact;
+        Participant__c participant = new Participant__c();
+        participant.Contact__c = contact.Id;
+        participant.Mailing_Country_Code__c = 'US';
+        participant.Mailing_Country__c = 'United States';
+        insert participant;
+        Participant_Enrollment__c pe = new Participant_Enrollment__c();
+        pe.Clinical_Trial_Profile__c = ctp.Id;
+        pe.Study_Site__c = studySite.Id;
+        pe.Screening_ID__c =screeningId;
+        pe.Participant__c = participant.Id;
+        pe.Participant_Status__c  = 'Enrollment Success';
+        insert pe;
+        pe.Participant_Status__c  = 'Referral Sent to PI';
+        update pe;
+    }
+    
     public static List<Id> createParticipantEnrollmentRecords(List<String> csvLines, String postfix){
+        List<Participant_Study_Enrollment__c> pseList = [
+                SELECT Id, External_Key__c
+                FROM Participant_Study_Enrollment__c
+                WHERE External_Key__c IN: csvLines
+        ];
+        Set<String> createdItems = new Set<String>();
+        for(Participant_Study_Enrollment__c pse : pseList) createdItems.add(pse.External_Key__c);
         if(postfix == null) postfix = '';
         List<PEWrapper> peWrappers = new List<PEWrapper>();
         for(String csvLine : csvLines){
+            if(createdItems.contains(csvLine)) continue;
             List<String> lineItems = csvLine.split('~');
             String protocolId = lineItems[0].trim();
             String siteNumber = lineItems[1].trim();
@@ -41,6 +76,10 @@ public without sharing class ParticipantEnrollmentFactory {
             peList.add(peWrapper.pe);
         }
         insert peList;
+        for (Participant_Enrollment__c pe : peList){
+            pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        }
+        update peList;
         List<Id> peIds = new List<Id>();
         for(Participant_Enrollment__c pe : peList) peIds.add(pe.Id);
         return peIds;
@@ -49,9 +88,9 @@ public without sharing class ParticipantEnrollmentFactory {
     private static PEWrapper createPEWrapper(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
         Participant__c participant = new Participant__c(
                 First_Name__c = screeningId,
-                Last_Name__c = screeningId,
+                Last_Name__c = screeningId + Datetime.now().getTime(),
                 Phone__c = Datetime.now().getTime() + '',
-                Email__c = screeningId + '@email.com',
+                Email__c = screeningId + Datetime.now().getTime() + '@email.com',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL'
         );
@@ -130,6 +169,7 @@ public without sharing class ParticipantEnrollmentFactory {
         Study_Site__c study = new Study_Site__c(
                 Principal_Investigator__c = createPI().Id,
                 Clinical_Trial_Profile__c = ctp.Id,
+                Study_Site_Number__c = siteNumber,
                 Study_Site_Key__c = System.now().getTime() + '',
                 //Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = getSite().Id,

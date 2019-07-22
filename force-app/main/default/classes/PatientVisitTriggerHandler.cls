@@ -7,15 +7,14 @@ public with sharing class PatientVisitTriggerHandler {
     public class UpdateMissedVisits extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            //updateMissedVisits(newList);
+            updateMissedVisits(JSON.serialize(newList));
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            //updateMissedVisits(newList);
-        }
     }
 
-    private static void updateMissedVisits(List<Patient_Visit__c> patientVisits){
+    @future
+    private static void updateMissedVisits(String jsonString){
+        List<Patient_Visit__c> patientVisits = (List<Patient_Visit__c>) JSON.deserialize(jsonString, List<Patient_Visit__c>.class);
         Set<String> visitExternalKeys = new Set<String>();
         Set<Id> visitIds = new Set<Id>();
         for(Patient_Visit__c visit : patientVisits){
@@ -29,7 +28,6 @@ public with sharing class PatientVisitTriggerHandler {
         for(Patient_Visit__c visit : visits){
             visitExternalKeys.add(visit.Participant_Study_Enrollment__r.External_Key__c);
         }
-        System.debug(visitExternalKeys);
         patientVisits = [
                 SELECT
                         Id,
