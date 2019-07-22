@@ -36,34 +36,41 @@ public without sharing class ContactTriggerHandler {
     
     @TestVisible
     private static void updateParticipantAndUserEmailsOnEmailChange(List<Contact> newList, Map<Id, Contact> oldMap){
-        //prepare participants map:
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN: newList];
-        Map<Id, Participant__c> participantsByContactMap = new Map<Id, Participant__c>();
-        for(Participant__c participant : participants) participantsByContactMap.put(participant.Contact__c, participant);
-        //prepare users map:
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN: newList];
-        Map<Id, User> usersByContactMap = new Map<Id, User>();
-        for(User user : users) usersByContactMap.put(user.ContactId, user);
-        //process contacts:
-        List<Participant__c> participantsForUpdate = new List<Participant__c>();
-        List<User> usersForUpdate = new List<User>();
+        Boolean needUpdate = false;
         for(Contact cnt : newList){
-            Contact oldCnt = oldMap.get(cnt.Id);
-            if(oldCnt.Email != cnt.Email){
-                Participant__c participant = participantsByContactMap.get(cnt.Id);
-                if(participant != null){
-                    participant.Email__c = cnt.Email;
-                    participantsForUpdate.add(participant);
-                }
-                User user = usersByContactMap.get(cnt.Id);
-                if(user != null){
-                    user.Email = cnt.Email;
-                    usersForUpdate.add(user);
+            needUpdate = (oldMap.get(cnt.Id).Email != cnt.Email);
+            if(needUpdate) break;
+        }
+        if(needUpdate){
+            //prepare participants map:
+            List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN: newList];
+            Map<Id, Participant__c> participantsByContactMap = new Map<Id, Participant__c>();
+            for(Participant__c participant : participants) participantsByContactMap.put(participant.Contact__c, participant);
+            //prepare users map:
+            List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN: newList];
+            Map<Id, User> usersByContactMap = new Map<Id, User>();
+            for(User user : users) usersByContactMap.put(user.ContactId, user);
+            //process contacts:
+            List<Participant__c> participantsForUpdate = new List<Participant__c>();
+            List<User> usersForUpdate = new List<User>();
+            for(Contact cnt : newList){
+                Contact oldCnt = oldMap.get(cnt.Id);
+                if(oldCnt.Email != cnt.Email){
+                    Participant__c participant = participantsByContactMap.get(cnt.Id);
+                    if(participant != null){
+                        participant.Email__c = cnt.Email;
+                        participantsForUpdate.add(participant);
+                    }
+                    User user = usersByContactMap.get(cnt.Id);
+                    if(user != null){
+                        user.Email = cnt.Email;
+                        usersForUpdate.add(user);
+                    }
                 }
             }
+            update usersForUpdate;
+            update participantsForUpdate;
         }
-        update usersForUpdate;
-        update participantsForUpdate;
     }
     
     @TestVisible
