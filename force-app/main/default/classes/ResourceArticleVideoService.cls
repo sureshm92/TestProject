@@ -5,17 +5,16 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         List<Resource__c> sortedResources = new List<Resource__c>();
         if (this.pState.value == ParticipantService.ParticipantStates.REFERRAL || this.pState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
             sortedResources.addAll(((ResourceStudyRelatedService) ClassFactory.newInstance(ResourceStudyRelatedService.class))
-                    .init(this.resourceType, this.participant, this.pState, ResourceService.RESOURCE_SOURCE_STUDY, this.resourceId)
+                    .init(this.rService, this.resourceId, ResourceService.RESOURCE_SOURCE_STUDY)
                     .getResources());
         }
         for (Therapeutic_Area_Patient__c singleTAP : ParticipantDecoupler.getTherapeuticAreaPatients(this.participant)) {
             sortedResources.addAll(((ResourceTARelatedService) ClassFactory.newInstance(ResourceTARelatedService.class))
                     .init(
-                            this.resourceType,
-                            this.participant,
+                            this.rService,
+                            this.resourceId,
                             (this.pState.value == ParticipantService.ParticipantStates.ALUMNI ? ResourceService.RESOURCE_SOURCE_THIRD_PARTY : ResourceService.RESOURCE_SOURCE_PLATFORM),
-                            singleTAP.Therapeutic_Area__c,
-                            this.resourceId
+                            singleTAP.Therapeutic_Area__c
                     )
                     .getResources());
         }

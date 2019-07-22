@@ -5,8 +5,8 @@
     <aura:attribute name="videoResource" type="Object"/>
     <aura:attribute name="articleResource" type="Object"/>
     <aura:attribute name="trialId" type="String"/>
-    <aura:attribute name="noTAMessage" type="String" default="{!null}"/>
-    <aura:attribute name="resourcesLoading" type="Boolean[]"/>
+    <aura:attribute name="noTAMessage" type="String"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <!--HANDLERS-->
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
@@ -18,35 +18,40 @@
             {!$Label.c.PG_L_Resources}
         </header>
 
-        <aura:if isTrue="{!v.noTAMessage != null}">
-            <div class="resource-noTAMessage">
-                <aura:unescapedHtml value="{!v.noTAMessage}"/>
-            </div>
-            <aura:set attribute="else">
-                <div class="resource-content">
-                    <lightning:layout horizontalAlign="center" multipleRows="true">
+        <aura:if isTrue="{!v.initialized}">
 
-                        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" size="12" flexibility="auto">
-                            <c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"
-                                                         resourcesLoading="{!v.resourcesLoading[0]}"/>
-                        </lightning:layoutItem>
-                        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" size="12" flexibility="auto">
-                            <c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"
-                                                         resourcesLoading="{!v.resourcesLoading[1]}"/>
-                        </lightning:layoutItem>
+            <aura:if isTrue="{!!empty(v.noTAMessage)}">
 
-                    </lightning:layout>
+                <div class="resource-noTAMessage">
+                    <aura:unescapedHtml value="{!v.noTAMessage}"/>
                 </div>
-            </aura:set>
+
+                <aura:set attribute="else">
+                    <div class="resource-content">
+                        <lightning:layout horizontalAlign="center" multipleRows="true">
+
+                            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6"
+                                                  size="12" flexibility="auto">
+                                <c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6"
+                                                  size="12" flexibility="auto">
+                                <c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"/>
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+                    </div>
+                </aura:set>
+
+            </aura:if>
+
+            <footer class="resource-footer" onclick="{!c.navigateToPage}">
+                {!$Label.c.Resources_See_All}
+            </footer>
+
         </aura:if>
 
-        <footer class="resource-footer" onclick="{!c.navigateToPage}">
-            {!$Label.c.Resources_See_All}
-        </footer>
-
-        <aura:if isTrue="{!and(and(v.resourcesLoading != null, v.resourcesLoading.length), or(v.resourcesLoading[0], v.resourcesLoading[1]))}">
-            <c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
-        </aura:if>
+        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium"/>
 
     </div>
 

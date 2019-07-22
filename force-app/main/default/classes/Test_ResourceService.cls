@@ -20,35 +20,17 @@ public class Test_ResourceService {
     }
 
     @IsTest
-    public static void getParticipantLanguage_Test() {
-        Participant__c participantWithLanguageDefined = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(),
-                new Map<String, Object>{
-                        'Contact__r' => (Contact) TestDataFactory.getSObject(Contact.getSObjectType(), new Map<String, Object>{
-                                'Language__c' => 'ru'
-                        })
-                }
-        );
-        Participant__c participantWithoutLanguageDefined = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
-                'Contact__r' => (Contact) TestDataFactory.getSObject(Contact.getSObjectType())
-        });
-        Test.startTest();
-        String languageRU = new ResourceService().getParticipantLanguage(participantWithLanguageDefined);
-        String languageEN = new ResourceService().getParticipantLanguage(participantWithoutLanguageDefined);
-        Test.stopTest();
-        System.assertEquals('ru', languageRU);
-        System.assertEquals(ResourceService.DEFAULT_LANGUAGE, languageEN);
-    }
-
-    @IsTest
     public static void getParticipant_Test() {
 
         List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c];
         System.assertEquals(1, participants.size());
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.participant = participants[0];
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('getParticipantId')
-                .then(participants[0].Id)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
         Test.startTest();
@@ -61,6 +43,12 @@ public class Test_ResourceService {
     public static void getResourceWrappers_NoActions_Test() {
         delete [SELECT Id FROM Resource_Action__c];
         List<Resource__c> resources = [SELECT Id, (SELECT Id, IsVoted__c, IsFavorite__c FROM Resource_Actions__r) FROM Resource__c];
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(new ParticipantService.ParticipantState())
+                .getInstance()
+        );
         Test.startTest();
         List<ResourceService.ResourceWrapper> wrappers = new ResourceService().getResourceWrappers(resources);
         Test.stopTest();
@@ -72,6 +60,12 @@ public class Test_ResourceService {
     @IsTest
     public static void getResourceWrappers_OneAction_Test() {
         List<Resource__c> resources = [SELECT Id, (SELECT Id, IsVoted__c, IsFavorite__c FROM Resource_Actions__r) FROM Resource__c];
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(new ParticipantService.ParticipantState())
+                .getInstance()
+        );
         Test.startTest();
         List<ResourceService.ResourceWrapper> wrappers = new ResourceService().getResourceWrappers(resources);
         Test.stopTest();

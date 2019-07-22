@@ -20,41 +20,59 @@ public without sharing class ResourceService {
     private static final String BYLINE_API_NAME = 'Byline__c';
     private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
 
+    private ParticipantService.ParticipantState pState;
+    private Participant__c participant;
+    private String resourceType;
+
+    public ResourceService() {
+        this.resourceType = ResourceService.RESOURCE_TYPE_ARTICLE;
+        this.pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+    }
+
     public ResourceWrapperContainer getResources(String resourceType) {
 
+        this.resourceType = resourceType;
         return ((ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class))
-                .init(resourceType, this.getParticipant(resourceType))
+                .init(this)
                 .getResourceWrapperContainer();
     }
 
     public ResourceWrapperContainer getFavoriteResources(String resourceType) {
 
+        this.resourceType = resourceType;
         return ((ResourceFavoriteService) ClassFactory.newInstance(ResourceFavoriteService.class))
-                .init(resourceType, this.getParticipant(resourceType))
+                .init(this)
                 .getResourceWrapperContainer();
     }
 
     public ResourceWrapperContainer getStudyDocuments() {
 
+        this.resourceType = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT;
         return ((ResourceStudyDocumentService) ClassFactory.newInstance(ResourceStudyDocumentService.class))
-                .init(RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT, this.getParticipant())
+                .init(this)
                 .getResourceWrapperContainer();
     }
 
     public Participant__c getParticipant() {
-        return this.getParticipant(ResourceService.RESOURCE_TYPE_ARTICLE);
+        return (this.participant == null ? this.getParticipant(this.resourceType) : this.participant);
+    }
+
+    public String getResourceType() {
+        return (this.resourceType == null ? ResourceService.RESOURCE_TYPE_ARTICLE : this.resourceType);
     }
 
     public ParticipantService.ParticipantState getParticipantState() {
-        return ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        return this.pState;
     }
 
-    public String getParticipantLanguage(Participant__c participant) {
-        return (String.isBlank(participant.Contact__r.Language__c) ? ResourceService.DEFAULT_LANGUAGE : participant.Contact__r.Language__c);
+    public String getParticipantLanguage() {
+        String language = this.getParticipant().Contact__r.Language__c;
+        return (String.isBlank(language) ? ResourceService.DEFAULT_LANGUAGE : language);
     }
 
     public Participant__c getParticipant(String resourceType) {
-        String participantId = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).getParticipantId();
+
+        String participantId = this.getParticipantId();
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +
@@ -63,7 +81,12 @@ public without sharing class ResourceService {
                         '(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
                         'FROM Participant__c ' +
                         'WHERE Id = \'' + participantId + '\'';
-        return ((List<Participant__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(participantQuery))[0];
+        this.participant = ((List<Participant__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(participantQuery))[0];
+        return this.participant;
+    }
+
+    public String getParticipantId() {
+        return this.pState.participant.Id;
     }
 
     public static ResourceWrapperContainer getErrorMissingStudy() {
@@ -87,14 +110,16 @@ public without sharing class ResourceService {
     }
 
     public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
+
         List<Resource__c> resources = new List<Resource__c>();
+        this.resourceType = resourceType;
         if (ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType)) {
             resources.addAll(((ResourceStudyDocumentService) ClassFactory.newInstance(ResourceStudyDocumentService.class))
-                    .init(resourceType, resourceId, this.getParticipant(resourceType))
+                    .init(this, resourceId)
                     .getResources());
         } else {
             resources.addAll(((ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class))
-                    .init(resourceType, resourceId, this.getParticipant(resourceType))
+                    .init(this, resourceId)
                     .getResources());
         }
         if (!resources.isEmpty()) {
