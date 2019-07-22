@@ -6,5 +6,5 @@
    (NOT( ISBLANK( Expires_After_Days__c ) ),
     Expires_After_Days__c &lt; 0
    )</errorConditionFormula>
-    <errorMessage>Please enter zero or positive value on &quot;Expires after (days)&quot;</errorMessage>
+    <errorMessage>Please enter zero or positive value on &quot;Number of Days Before Survey Expires&quot;</errorMessage>
 </ValidationRule>

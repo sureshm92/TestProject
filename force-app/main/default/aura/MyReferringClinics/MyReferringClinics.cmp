@@ -38,7 +38,7 @@
         <div class="mrc-container">
             <aura:if isTrue="{! v.showFilterByStudy}">
                 <c:RRNavigationPath>
-                    <c:RRNPathItem label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/>
+                    <c:RRNPathItem label="{!$Label.c.PG_SP_L_My_Referring_Providers}"/>
                 </c:RRNavigationPath>
                 <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12" style="display: flex">
