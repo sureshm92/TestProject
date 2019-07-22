@@ -216,6 +216,7 @@
         var radioBtns = component.find('radioBtn');
         for (let i = 0; i < radioBtns.length; i++) {
             radioBtns[i].set('v.checked', false);
+            radioBtns[i].blur();
         }
         component.set('v.checkedAccount', event.getSource().get('v.value'));
         component.set('v.locationWasChanged', true);
