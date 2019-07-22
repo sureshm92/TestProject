@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:type="xsd:string">Systolic_Blood_Pr</value>
+        <value xsi:type="xsd:string">SYSBP</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>

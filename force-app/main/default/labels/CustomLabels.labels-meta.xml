@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ALT</shortDescription>
-        <value>ALT</value>
+        <value>{4}ALT{1}</value>
     </labels>
     <labels>
         <fullName>ALT_Description</fullName>
@@ -114,7 +114,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AST</shortDescription>
-        <value>AST</value>
+        <value>{5}AST{1}</value>
     </labels>
     <labels>
         <fullName>AST_Description</fullName>
@@ -422,7 +422,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Alkaline Phosphatase</shortDescription>
-        <value>Alkaline Phosphatase</value>
+        <value>Alkaline phosphatase</value>
     </labels>
     <labels>
         <fullName>Alkaline_Phosphatase_Description</fullName>
@@ -990,7 +990,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUN</shortDescription>
-        <value>BUN</value>
+        <value>{3}BUN{1}</value>
     </labels>
     <labels>
         <fullName>BUN_Description</fullName>
@@ -1004,7 +1004,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index</shortDescription>
-        <value>Body Mass Index</value>
+        <value>Body mass index {2}</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Description</fullName>
@@ -1419,6 +1419,13 @@
         <protected>true</protected>
         <shortDescription>Delegate</shortDescription>
         <value>Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Diastolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Diastolic Blood Pr</shortDescription>
+        <value>Diastolic blood pressure</value>
     </labels>
     <labels>
         <fullName>Diastolic_Blood_Pr_Description</fullName>
@@ -2819,7 +2826,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Haematocrit</shortDescription>
-        <value>Haematocrit</value>
+        <value>Hematocrit</value>
     </labels>
     <labels>
         <fullName>Haematocrit_Description</fullName>
@@ -2833,7 +2840,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Haemoglobin</shortDescription>
-        <value>Haemoglobin</value>
+        <value>Hemoglobin</value>
     </labels>
     <labels>
         <fullName>Haemoglobin_Description</fullName>
@@ -2861,7 +2868,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>High-density Lipoprotein</shortDescription>
-        <value>High-density Lipoprotein</value>
+        <value>High-density lipoprotein</value>
     </labels>
     <labels>
         <fullName>High_density_Lipoprotein_Description</fullName>
@@ -3029,7 +3036,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein</shortDescription>
-        <value>Low-density Lipoprotein</value>
+        <value>Low-density lipoprotein</value>
     </labels>
     <labels>
         <fullName>Low_density_Lipoprotein_Description</fullName>
@@ -7653,7 +7660,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Platelet Count</shortDescription>
-        <value>Platelet Count</value>
+        <value>Platelet count</value>
     </labels>
     <labels>
         <fullName>Platelet_Count_Description</fullName>
@@ -7702,7 +7709,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RBC Count</shortDescription>
-        <value>RBC Count</value>
+        <value>RBC count</value>
     </labels>
     <labels>
         <fullName>RBC_Count_Description</fullName>
@@ -7898,7 +7905,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Visits Result Text Footer</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. Values are only available for assessments recorded for the visit date displayed. Some study assessments may have been done at your study visits that are not listed here.  If you have questions or concerns about this data or any other assessment, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Report_Vitals_header</fullName>
@@ -8150,7 +8157,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Respiratory Rate</shortDescription>
-        <value>Respiratory Rate</value>
+        <value>Respiratory rate</value>
     </labels>
     <labels>
         <fullName>Respiratory_Rate_Description</fullName>
@@ -8806,7 +8813,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Systolic Blood Pr</shortDescription>
-        <value>Systolic Blood Pr</value>
+        <value>Systolic blood pressure</value>
     </labels>
     <labels>
         <fullName>Systolic_Blood_Pr_Description</fullName>
@@ -9240,7 +9247,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Total Cholesterol</shortDescription>
-        <value>Total Cholesterol</value>
+        <value>Total cholesterol</value>
     </labels>
     <labels>
         <fullName>Total_Cholesterol_Description</fullName>
@@ -9274,14 +9281,14 @@
         <fullName>Trygilicerides</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Trygilicerides</shortDescription>
-        <value>Trygilicerides</value>
+        <shortDescription>Triglycerides</shortDescription>
+        <value>Triglycerides</value>
     </labels>
     <labels>
         <fullName>Trygilicerides_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Trygilicerides Description</shortDescription>
+        <shortDescription>Triglycerides Description</shortDescription>
         <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
     </labels>
     <labels>
@@ -9478,7 +9485,7 @@ have questions or concerns about this data, please contact the Principal Investi
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WBC Count</shortDescription>
-        <value>WBC Count</value>
+        <value>WBC count</value>
     </labels>
     <labels>
         <fullName>WBC_Count_Description</fullName>
