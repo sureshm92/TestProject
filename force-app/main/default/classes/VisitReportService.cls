@@ -74,6 +74,7 @@ public inherited sharing class VisitReportService {
                                     reportRowWrappers
                             };
                             reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header');
+                            reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
                             reportDataTableWrapper.labsDescription = labsDescription;
                             result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
                         }
