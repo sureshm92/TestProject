@@ -6,13 +6,10 @@ public without sharing class IntegrationVisitResultTriggerHandler {
 
     public class UpdateVisitResults extends TriggerHandler{
 
-        public override void beforeInsert(List<SObject> newList) {
+        public override void afterInsert(List<SObject> newList) {
             updateVisitResults(JSON.serialize(newList));
         }
 
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateVisitResults(JSON.serialize(newList));
-        }
     }
 
     @future
@@ -30,7 +27,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
             result.Work_Status__c = 'Failed';
-            String key = result.External_Key__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
+            String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
             if(resultMap.containsKey(key)){
                 populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
             } else if(visitMap.containsKey(key.removeEnd(result.TESTCD__c))){
@@ -39,6 +36,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         }
         update resultMap.values();
         insert newResults;
+        update results;
     }
 
     private static Visit_Result__c createNewResult(Patient_Visit__c visit, Integration_VisitResult__c externalResult, Map<String, Id> recordTypesMap, Map<String, Visit_Result_TypeM__mdt> resultTypesMap){
@@ -71,7 +69,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
                     && visitResult.VISIT__c != null
                     && visitResult.VSDTC__c != null
                     && visitResult.TESTCD__c != null){
-                externalIds.add(visitResult.External_Key__c);
+                externalIds.add(visitResult.USUBJID__c);
                 visitNames.add(visitResult.VISIT__c);
                 visitDates.add(visitResult.VSDTC__c);
             }
