@@ -44,7 +44,7 @@
                         <lightning:button disabled="{!empty(v.error)==false}" onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
                                           label="{!$Label.c.Visit_b_Add_Visit}"/>
                         <aura:set attribute="else">
-                            <lightning:button disabled="{!empty(v.error)}" onclick="{!c.createVisitplan}" class="slds-theme_neutral"
+                            <lightning:button disabled="{!empty(v.error)==false}" onclick="{!c.createVisitplan}" class="slds-theme_neutral"
                                               variant="neutral"
                                               label="{!$Label.c.Visit_b_Create_Visit_Plan}"/>
                         </aura:set>
@@ -127,7 +127,7 @@
                             </aura:iteration>
                         </div>
                     </lightning:layoutItem>
-                    <lightning:layoutItem class="schevrons" size="2">
+                    <lightning:layoutItem class="schevrons sticky-Position" size="2">
                         <div class="schevron">
                             <lightning:buttonIcon disabled="{!empty(v.selectedIcons)}" size="medium" onclick="{!c.shiftLeft}"
                                                   iconName="utility:chevronleft"/>
