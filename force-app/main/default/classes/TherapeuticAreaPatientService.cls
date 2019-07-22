@@ -97,7 +97,7 @@ public with sharing class TherapeuticAreaPatientService {
 
     private static void deleteTherapeuticAreaPatientFromPSE(List<Participant_Study_Enrollment__c> deleteList) {
         Set<Id> participantId = new Set<Id>();
-        List<Therapeutic_Area_Patient__c> deleteAreaPatients = new List<Therapeutic_Area_Patient__c>();
+        Map<Id, Therapeutic_Area_Patient__c> deleteAreaPatientsMap = new Map<Id, Therapeutic_Area_Patient__c>();
         for (Participant_Study_Enrollment__c enrollment : deleteList) {
             participantId.add(enrollment.Participant__c);
         }
@@ -108,13 +108,13 @@ public with sharing class TherapeuticAreaPatientService {
                 for (Therapeutic_Area_Patient__c areaPatient : areaPatients) {
                     for (Participant_Study_Enrollment__c participantStudyEnrollment : participantStudyEnrollments) {
                         if (areaPatient.Therapeutic_Area__c == participantStudyEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c) {
-                            deleteAreaPatients.add(areaPatient);
+                            deleteAreaPatientsMap.put(areaPatient.Id, areaPatient);
                         }
                     }
                 }
             }
-            if (!deleteAreaPatients.isEmpty()) {
-                delete deleteAreaPatients;
+            if (!deleteAreaPatientsMap.isEmpty()) {
+                delete deleteAreaPatientsMap.values();
             }
         }
     }
