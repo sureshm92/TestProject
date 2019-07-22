@@ -9,9 +9,10 @@ private without sharing class Test_AddPatientByPIRemote {
     static void testGetInitData() {
         TestData.loadTestData();
         Test.startTest();
-        TestData testDataInstance = new TestData();
-        System.runAs(testDataInstance.piUser){
-            AddPatientByPIRemote.getInitData(testDataInstance.ctp.Id);
+        TestData testData = new TestData();
+        System.runAs(testData.piUser){
+            AddPatientByPIRemote.getInitData(testData.ctp.Id,null);
+            AddPatientByPIRemote.getInitData(testData.ctp.Id,testData.ss.Id);
         }
         Test.stopTest();
     }
