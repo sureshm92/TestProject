@@ -44,7 +44,7 @@
                         <lightning:button disabled="{!empty(v.error)==false}" onclick="{!c.addVisit}" class="slds-theme_neutral" variant="neutral"
                                           label="{!$Label.c.Visit_b_Add_Visit}"/>
                         <aura:set attribute="else">
-                            <lightning:button disabled="{!empty(v.error)}" onclick="{!c.createVisitplan}" class="slds-theme_neutral"
+                            <lightning:button disabled="{!empty(v.error)==false}" onclick="{!c.createVisitplan}" class="slds-theme_neutral"
                                               variant="neutral"
                                               label="{!$Label.c.Visit_b_Create_Visit_Plan}"/>
                         </aura:set>
