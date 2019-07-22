@@ -16,9 +16,36 @@ public without sharing class ParticipantEnrollmentFactory {
     
     public static Map<String, Clinical_Trial_Profile__c> ctpMap = new Map<String, Clinical_Trial_Profile__c>();
     public static Map<String, Study_Site__c> ssMap = new Map<String, Study_Site__c>();
-    public static Id TA_ID = [SElECT Id FROM Therapeutic_Area__c LIMIT 1].Id;
+    //public static Id TA_ID = [SElECT Id FROM Therapeutic_Area__c LIMIT 1].Id;
     
-
+    
+    public static void createParticipantEnrollmentRecords(String protocolId, String siteNumber, String screeningId){
+        Clinical_Trial_Profile__c ctp = getClinicalTrialProfile(protocolId);
+        createParticipantEnrollment(ctp, getStudySite(siteNumber, ctp), screeningId);
+    }
+    
+    private static void createParticipantEnrollment(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
+        Contact contact = new Contact();
+        contact.LastName = screeningId;
+        contact.Email = 'dz@hp.com';
+        contact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
+        insert contact;
+        Participant__c participant = new Participant__c();
+        participant.Contact__c = contact.Id;
+        participant.Mailing_Country_Code__c = 'US';
+        participant.Mailing_Country__c = 'United States';
+        insert participant;
+        Participant_Enrollment__c pe = new Participant_Enrollment__c();
+        pe.Clinical_Trial_Profile__c = ctp.Id;
+        pe.Study_Site__c = studySite.Id;
+        pe.Screening_ID__c =screeningId;
+        pe.Participant__c = participant.Id;
+        pe.Participant_Status__c  = 'Enrollment Success';
+        insert pe;
+        pe.Participant_Status__c  = 'Referral Sent to PI';
+        update pe;
+    }
+    
     public static List<Id> createParticipantEnrollmentRecords(List<String> csvLines, String postfix){
         List<Participant_Study_Enrollment__c> pseList = [
                 SELECT Id, External_Key__c
