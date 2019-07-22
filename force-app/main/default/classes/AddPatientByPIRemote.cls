@@ -35,21 +35,31 @@ public without sharing class AddPatientByPIRemote {
     }
     
     @AuraEnabled
-    public static FormData getInitData(Id ctpId) {
+    public static FormData getInitData(Id ctpId, Id ssId) {
         try {
             FormData initData = new FormData();
-            System.debug('ctpId value:' + ctpId);
             if(ctpId != null){
                 initData.ctp = TrialService.getTrial(ctpId);
-                initData.ss =  StudySiteService.getStudySiteForPIByTrialId(ctpId)[0];
-            }
+            	List<Study_Site__c> studySitesByTrial = StudySiteService.getStudySiteForPIByTrialId(ctpId);
+            	if(ssId != null){
+                	for(Study_Site__c ss : studySitesByTrial) {
+                    	if(ss.Id == ssId) {
+                        	initData.ss = ss;
+                    	}
+                	}
+            	}
+            	else {
+                	initData.ss = StudySiteService.getStudySiteForPIByTrialId(ctpId)[0];
+            	}
+        	}
+            
             return initData;
         } catch (Exception e) {
             return (FormData) AuraHelper.throwException(e);
         }
     }
-
-     @AuraEnabled
+	
+	@AuraEnabled
     public static FormData getInitDataEdit() {
         try {
             FormData initData = new FormData();
@@ -58,7 +68,7 @@ public without sharing class AddPatientByPIRemote {
             return (FormData) AuraHelper.throwException(e);
         }
     }
-
+    
     @AuraEnabled
     public static Participant__c getParticipantRecord(Id participantEnrollmentId){
         System.debug('participantId:' + participantEnrollmentId);

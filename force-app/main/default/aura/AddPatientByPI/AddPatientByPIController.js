@@ -6,8 +6,10 @@
         var isEditMode = component.get('v.isEditMode');
         if(!communityService.isInitialized()) return;
         var ctpId = isEditMode ? null : communityService.getUrlParameter('id');
+        var ssId = communityService.getUrlParameter('ssId');
         communityService.executeAction(component, 'getInitData', {
-            ctpId: ctpId
+            ctpId: ctpId,
+            ssId : ssId ? ssId : null
         }, function (formData) {
             component.set('v.ctp', formData.ctp);
             component.set('v.ss', formData.ss);
