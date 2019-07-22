@@ -11,7 +11,7 @@ public inherited sharing class VisitResultMService {
                         'Display_Order__c, ' +
                         'DeveloperName, ' +
                         'Visit_Results_Mode__c ' +
-                        (withTypes ? ', (SELECT Id, Label, DeveloperName, Description_Label_Api_Name__c FROM Visit_Result_Types__r) ' : '') +
+                        (withTypes ? ', (SELECT Id, Label, DeveloperName, Description_Label_Api_Name__c, Display_Order__c FROM Visit_Result_Types__r) ' : '') +
                         ' FROM Visit_Result_GroupM__mdt ' +
                         (visitResultsMode != null ? ' WHERE Visit_Results_Mode__c = \'' + visitResultsMode + '\'' : '') +
                         ' ORDER BY Visit_Results_Mode__c ASC, ' +
