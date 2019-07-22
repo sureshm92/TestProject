@@ -493,8 +493,15 @@
                                                 onclick="{!v.editAddress ? c.backToTheChoice :  c.closeModal}">{!$Label.c.BTN_Cancel}</button>
                                         <button class="apollo-btn primary"
                                                 onclick="{!v.editAddress ? c.saveNewAccount : c.changeStudySiteAddress}"
-                                                disabled="{!v.editAddress ? (!v.addressWasChanged ? !v.addressWasChanged  : !v.editedAccount.Name ): !v.locationWasChanged}"
-                                                title="{!v.editAddress ? !v.addressWasChanged ? $Label.c.SS_No_Changes_Message : !v.editedAccount.Name  ? $Label.c.SS_Fill_Location_Name : $Label.c.SS_Save_Changes : !v.locationWasChanged ?  $Label.c.SS_No_Changes_Message : $Label.c.SS_Save_Changes}"
+                                                disabled="{!v.editAddress ? (!v.addressWasChanged ? !v.addressWasChanged  :
+                                                                             !v.editedAccount.Name ? true :
+                                                                             !v.editedAccount.BillingStreet? true:
+                                                                             !v.editedAccount.BillingStreet  )  : !v.locationWasChanged}"
+                                                title="{!v.editAddress ? !v.addressWasChanged ? $Label.c.SS_No_Changes_Message :
+                                                                         !v.editedAccount.Name  ? $Label.c.SS_Fill_Location_Name :
+                                                                         !v.editedAccount.BillingStreet  ? $Label.c.SS_Fill_Address  :
+                                                                         $Label.c.SS_Save_Changes : !v.locationWasChanged ?  $Label.c.SS_No_Changes_Message :
+                                                                         $Label.c.SS_Save_Changes}"
                                                 value="{!siteWrappIndx}">{!v.editAddress ? $Label.c.SS_Save_New_Account : $Label.c.SS_Use_This_Address}</button>
                                     </aura:set>
                                 </c:Popup>
