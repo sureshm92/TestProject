@@ -31,8 +31,7 @@ public with sharing class ResourceRemote {
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
 
         try {
-            CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-            String participantId = cService.getParticipantId();
+            String participantId = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantId();
             String resourceActionQuery =
                     'SELECT Id, ' +
                             'IsFavorite__c, ' +

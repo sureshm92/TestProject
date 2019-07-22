@@ -12,7 +12,6 @@ public virtual inherited sharing class ResourceBasicService {
     protected String resourceId;
 
     {
-        this.rService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
         this.resourcesIds = new Set<String>();
         this.resources = new List<Resource__c>();
     }
@@ -20,37 +19,26 @@ public virtual inherited sharing class ResourceBasicService {
     public ResourceBasicService() {
     }
 
-    public ResourceBasicService init(String resourceType, Participant__c participant) {
-        return this.init(resourceType, participant, null, null, null, null);
+    public ResourceBasicService init(ResourceService rService) {
+        return this.init(rService, null, null, null);
     }
 
-    public ResourceBasicService init(String resourceType, String resourceId, Participant__c participant) {
-        return this.init(resourceType, participant, null, null, null, resourceId);
+    public ResourceBasicService init(ResourceService rService, String resourceId) {
+        return this.init(rService, resourceId, null, null);
     }
 
-    public ResourceBasicService init (String resourceType, Participant__c participant, String contentClass) {
-        return this.init(resourceType, participant, null, contentClass, null, null);
+    public ResourceBasicService init(ResourceService rService, String resourceId, String contentClass) {
+        return this.init(rService, resourceId, contentClass, null);
     }
 
-    public ResourceBasicService init(String resourceType, Participant__c participant, ParticipantService.ParticipantState pState) {
-        return this.init(resourceType, participant, pState, null, null, null);
-    }
-
-    public ResourceBasicService init(String resourceType, Participant__c participant, String contentClass, String therapeuticAreaId, String resourceId) {
-        return this.init(resourceType, participant, null, contentClass, therapeuticAreaId, resourceId);
-    }
-
-    public ResourceBasicService init(String resourceType, Participant__c participant, ParticipantService.ParticipantState pState, String contentClass, String resourceId) {
-        return this.init(resourceType, participant, pState, contentClass, null, resourceId);
-    }
-
-    public ResourceBasicService init(String resourceType, Participant__c participant, ParticipantService.ParticipantState pState, String contentClass, String therapeuticAreaId, String resourceId) {
-        this.resourceType = resourceType;
-        this.participant = participant;
+    public ResourceBasicService init(ResourceService rService, String resourceId, String contentClass, String therapeuticAreaId) {
+        this.rService = (rService == null ? (ResourceService) ClassFactory.newInstance(ResourceService.class) : rService);
+        this.resourceId = resourceId;
         this.contentClass = contentClass;
         this.therapeuticAreaId = therapeuticAreaId;
-        this.resourceId = resourceId;
-        this.pState = (pState == null ? rService.getParticipantState() : pState);
+        this.resourceType = rService.getResourceType();
+        this.participant = rService.getParticipant();
+        this.pState = rService.getParticipantState();
         this.initResourceWrapperContainer();
         return this;
     }
@@ -87,7 +75,7 @@ public virtual inherited sharing class ResourceBasicService {
     }
 
     protected virtual String getWhereClause() {
-        return 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(this.resourcesIds)) + ') AND Language__c = \'' + rService.getParticipantLanguage(this.participant) + '\' ';
+        return 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(this.resourcesIds)) + ') AND Language__c = \'' + rService.getParticipantLanguage() + '\' ';
     }
 
     protected virtual String getOrderByClause() {
