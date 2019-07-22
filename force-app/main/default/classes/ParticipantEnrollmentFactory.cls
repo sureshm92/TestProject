@@ -20,9 +20,17 @@ public without sharing class ParticipantEnrollmentFactory {
     
 
     public static List<Id> createParticipantEnrollmentRecords(List<String> csvLines, String postfix){
+        List<Participant_Study_Enrollment__c> pseList = [
+                SELECT Id, External_Key__c
+                FROM Participant_Study_Enrollment__c
+                WHERE External_Key__c IN: csvLines
+        ];
+        Set<String> createdItems = new Set<String>();
+        for(Participant_Study_Enrollment__c pse : pseList) createdItems.add(pse.External_Key__c);
         if(postfix == null) postfix = '';
         List<PEWrapper> peWrappers = new List<PEWrapper>();
         for(String csvLine : csvLines){
+            if(createdItems.contains(csvLine)) continue;
             List<String> lineItems = csvLine.split('~');
             String protocolId = lineItems[0].trim();
             String siteNumber = lineItems[1].trim();
@@ -41,6 +49,10 @@ public without sharing class ParticipantEnrollmentFactory {
             peList.add(peWrapper.pe);
         }
         insert peList;
+        for (Participant_Enrollment__c pe : peList){
+            pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        }
+        update peList;
         List<Id> peIds = new List<Id>();
         for(Participant_Enrollment__c pe : peList) peIds.add(pe.Id);
         return peIds;
@@ -49,9 +61,9 @@ public without sharing class ParticipantEnrollmentFactory {
     private static PEWrapper createPEWrapper(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
         Participant__c participant = new Participant__c(
                 First_Name__c = screeningId,
-                Last_Name__c = screeningId,
+                Last_Name__c = screeningId + Datetime.now().getTime(),
                 Phone__c = Datetime.now().getTime() + '',
-                Email__c = screeningId + '@email.com',
+                Email__c = screeningId + Datetime.now().getTime() + '@email.com',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL'
         );
@@ -130,6 +142,7 @@ public without sharing class ParticipantEnrollmentFactory {
         Study_Site__c study = new Study_Site__c(
                 Principal_Investigator__c = createPI().Id,
                 Clinical_Trial_Profile__c = ctp.Id,
+                Study_Site_Number__c = siteNumber,
                 Study_Site_Key__c = System.now().getTime() + '',
                 //Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = getSite().Id,

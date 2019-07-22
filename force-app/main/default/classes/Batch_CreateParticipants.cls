@@ -34,7 +34,7 @@ public without sharing class Batch_CreateParticipants implements Database.Batcha
     }
 
     public void finish(Database.BatchableContext bc){
-        if(createdPEIds.size() > 0)Database.executeBatch(new Batch_PEToPSE(createdPEIds), scopeSize);
+        //if(createdPEIds.size() > 0)Database.executeBatch(new Batch_PEToPSE(createdPEIds), scopeSize);
     }
     
     public static void run(Integer scopeSize, String postfix, Integer maxlines){

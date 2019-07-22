@@ -140,7 +140,7 @@ public class TestData {
         insert area;
     
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
-                Protocol_ID__c = 'tt123456789',
+                Protocol_ID__c = 'CTP1',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
                 NCT_Number__c = 'NCT00000001',
                 Link_to_Pre_screening__c = 'some link',
@@ -173,7 +173,8 @@ public class TestData {
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = studySiteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
-                Suppress_Participant_Emails__c = false
+                Suppress_Participant_Emails__c = false,
+                Study_Site_Number__c = 'SS1'
         );
         insert studySite;
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
@@ -208,7 +209,7 @@ public class TestData {
                 Referral_Source__c = 'HCP',
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Participant__c = participant.Id,
-                Screening_ID__c = 'TestScrId12345'
+                Screening_ID__c = 'PESCR1'
         );
         insert pe;
         
