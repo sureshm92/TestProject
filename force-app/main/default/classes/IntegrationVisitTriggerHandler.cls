@@ -71,7 +71,6 @@ public with sharing class IntegrationVisitTriggerHandler{
         }
         update patientVisits;
         insert newVisits;
-        System.debug(visits);
         update visits;
     }
 
