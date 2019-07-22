@@ -13,6 +13,25 @@
         });
     },
 
+    initDataEdit: function (component) {
+        component.set('v.participant', {
+            sobjectType: 'Participant__c',
+            Mailing_Country_Code__c: 'US'
+        });
+        
+        var pId = communityService.getUrlParameter('id');
+        console.log('pId', pId);
+        communityService.executeAction(component, 'getParticipantRecord', {
+            participantEnrollmentId: pId
+        }, function (formData) {
+            console.log('formData', formData);
+            component.set('v.participant', formData); 
+        }, null, function () {
+            component.find('spinner').hide();
+        });
+
+    },
+
     createParticipant: function (component, callback) {
         component.find('spinner').show();
         var pe = component.get('v.pe');

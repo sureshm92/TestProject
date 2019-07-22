@@ -65,7 +65,7 @@ private class Test_VisitResultSharingService {
             VisitResultSharingService.getCTP(testData.ctp.Id);
             VisitResultSharingService.disableShareback(testData.ctp);
             VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
-            VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<String>{testData.ss.Id});
+            VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<String>{testData.ss.Id}, true);
         }
 
         Test.stopTest();

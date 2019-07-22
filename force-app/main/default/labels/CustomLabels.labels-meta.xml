@@ -4313,28 +4313,28 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Address Line</shortDescription>
-        <value>Institute Address Line</value>
+        <value>Address Line</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_City</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute City</shortDescription>
-        <value>Institute City</value>
+        <value>City</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Country</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Country</shortDescription>
-        <value>Institute Country</value>
+        <value>Country</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Fax_Number</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Fax Number</shortDescription>
-        <value>Institute Fax Number</value>
+        <value>Fax Number</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Name</fullName>
@@ -4348,21 +4348,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Phone Number</shortDescription>
-        <value>Institute Phone Number</value>
+        <value>Phone Number</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_State</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute State</shortDescription>
-        <value>Institute State</value>
+        <value>State</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_Zip_Postal_Code</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Zip Postal Code</shortDescription>
-        <value>Institute ZIP/Postal code</value>
+        <value>ZIP/Postal code</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Last_name</fullName>
@@ -7237,6 +7237,13 @@
         <value>To complete a review for another patient, please clear the form and provide another patient&#39;s identifier</value>
     </labels>
     <labels>
+        <fullName>PG_SP_L_My_Referring_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG SP L My Referring Providers</shortDescription>
+        <value>My Referring Providers</value>
+    </labels>
+    <labels>
         <fullName>PG_SRN_L_Select_Your_Referral_Networks</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8220,7 +8227,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Address</shortDescription>
-        <value>Street Address</value>
+        <value>Address</value>
     </labels>
     <labels>
         <fullName>SS_Address_Found</fullName>
@@ -8318,7 +8325,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Fill Address</shortDescription>
-        <value>Fill Address</value>
+        <value>Fill Street Address</value>
     </labels>
     <labels>
         <fullName>SS_Fill_City</fullName>
@@ -8395,7 +8402,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Postal Code</shortDescription>
-        <value>Postal Code</value>
+        <value>ZIp/Postal Code</value>
     </labels>
     <labels>
         <fullName>SS_Press_To_Check</fullName>
@@ -8438,6 +8445,13 @@
         <protected>true</protected>
         <shortDescription>SS State</shortDescription>
         <value>State</value>
+    </labels>
+    <labels>
+        <fullName>SS_Street_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Street Address</shortDescription>
+        <value>Street Address</value>
     </labels>
     <labels>
         <fullName>SS_Study_Site_Name</fullName>
