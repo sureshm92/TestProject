@@ -282,7 +282,7 @@
                                                                                          class="slds-grid" type="radio"
                                                                                          value="{!account}"
                                                                                          checked="{!account.Id==siteWrapper.studySite.Site__c}"
-                                                                                         onfocus="{!c.changeRadioMarker}"/>
+                                                                                         onchange="{!c.changeRadioMarker}"/>
                                                                     </div>
                                                                     <div class="slds-col slds-size--3-of-12 manage-location-info">
                                                                         <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
