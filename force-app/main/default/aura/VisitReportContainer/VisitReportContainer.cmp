@@ -111,7 +111,7 @@
                     <tr class="slds-hint-parent">
                         <aura:iteration items="{!rows}" var="row">
                             <td style="text-align: center">
-                                {!row.value}
+                                {!row.value + (empty(row.measurement) ? '' : ' (' + row.measurement + ')')}
                             </td>
                         </aura:iteration>
                     </tr>

@@ -90,6 +90,8 @@ private class Test_VisitService {
 
     @TestSetup
     static void setup() {
+
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
 

@@ -6,6 +6,8 @@ private class Test_TrialSurveyTriggerHandler {
 
     @IsTest
     static void doExpireTest() {
+
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL  LIMIT 1];
         if(survey.isEmpty()) return;
 

@@ -75,10 +75,9 @@ public without sharing class UserTriggerHandler {
     
     @TestVisible
     private static void updateUserRoleToSPNL(List<User> newList){
-        Id spnlId = [SELECT Id FROM UserRole WHERE Name='SPNL'].Id;
         for(User us : newList){
             if(us.ProfileId == CommunityService.SPNL_USER_PROFILE_ID){
-                us.UserRoleId = spnlId;
+                us.UserRoleId = CommunityService.SPNL_ROLE;
             }
         }
     }

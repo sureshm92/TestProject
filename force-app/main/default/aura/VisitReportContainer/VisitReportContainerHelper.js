@@ -22,6 +22,10 @@
                 response.blob()
                     .then($A.getCallback((data) => {
                         let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
+                        let numberPageForTable = 0;
+                        doc.setFontSize(8);
+                        doc.setTextColor('#6e6e6e');
+                        let splitTextFooter = doc.splitTextToSize(textFooter, 420);
                         let reader = new FileReader();
                         reader.readAsDataURL(data);
                         reader.onloadend = function () {
@@ -32,15 +36,19 @@
                             doc.setTextColor('#000096');
                             doc.setFontType('bold');
                             doc.text(reportData.participantFullName, 80, 120);
-                            doc.text(reportData.enrollmentDate, 80, 140);
+                            doc.text('Enrollment Date: ' + reportData.enrollmentDate, 80, 140);
                             doc.text(reportData.studySiteName, 80, 160);
                             doc.setFontType('normal');
 
-                            helper.generateTable(reportData, doc, helper);
+                            numberPageForTable = helper.generateTable(reportData, doc, helper);
 
                             for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
                                 doc.setPage(i);
-                                helper.addBorder(reportData, doc, iqviaLogo, textFooter, i === 1);
+                                if (numberPageForTable && numberPageForTable <= i) {
+                                    helper.addBorderL(reportData, doc, iqviaLogo, splitTextFooter);
+                                } else {
+                                    helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
+                                }
                             }
                             doc.save(component.get('v.documentName') + '.pdf');
                             reportData = {};
@@ -54,6 +62,7 @@
     },
 
     generateTable: function (reportData, doc, helper) {
+        let numberPageForTable = 0;
         let heightY = 160;
         reportData.dataTables.forEach(function (tableResult, ind) {
             doc.setFontType('normal');
@@ -79,28 +88,83 @@
                 heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
 
             });
+            if (tableResult.tableApiName === 'Metabolic_Panel') {
+                doc.addPage('a4', 'l');
+                heightY = 50;
+                numberPageForTable = doc.internal.getNumberOfPages();
+                doc.autoTable({
+                    theme: 'plain',
+                    html: '#tbl' + ind,
+                    styles: {
+                        cellPadding: 2,
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: 0,
+                        lineWidth: 1,
+                        fontStyle: 'normal',
+                        minCellWidth: 58
+                    },
+                    columnStyles: {
+                        0: {
+                            cellWidth: 60,
+                            cellPadding: 0
+                        }
+                    },
+                    head: {
+                        fontStyle: 'normal',
+                        fontSize: 5,
+                        halign: 'center',
+                        valign: 'middle',
+                    },
+                    startY: heightY + 30,
+                    margin: {
+                        right: 40,
+                        left: 70,
+                        top: 60,
+                        bottom: 60
+                    },
+                })
+            } else {
+                doc.autoTable({
+                    theme: 'plain',
+                    html: '#tbl' + ind,
+                    styles: {
+                        cellPadding: 2,
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: 0,
+                        lineWidth: 1,
+                        fontStyle: 'normal',
+                        minCellWidth: 70
+                    },
+                    columnStyles: {
+                        0: {
+                            cellWidth: 60,
+                            cellPadding: 0
+                        }
+                    },
+                    head: {
+                        fontStyle: 'normal',
+                        fontSize: 8,
+                        halign: 'center',
+                        valign: 'middle',
+                    },
+                    startY: heightY + 30,
+                    margin: {
+                        right: 20,
+                        left: 60,
+                        top: 60,
+                        bottom: 60
+                    },
+                });
+            }
 
-            doc.autoTable({
-                html: '#tbl' + ind,
-                styles: {
-                    cellPadding: 0,
-                    minCellWidth: 35
-                },
-                tableWidth: 510,
-                startY: heightY + 30,
-                margin: {
-                    right: 20,
-                    left: 60,
-                    top: 60,
-                    bottom: 60
-                },
-                useCss: true,
-            });
             heightY = doc.autoTable.previous.finalY
         });
+        return numberPageForTable;
     },
 
-    addBorder: function (reportData, doc, logo, textFooter, isFirstPage) {
+    addBorder: function (reportData, doc, logo, splitTextFooter, isFirstPage) {
         if (!isFirstPage) {
             doc.setFontSize(10);
             doc.setTextColor('#6e6e6e');
@@ -109,19 +173,38 @@
         }
         doc.setDrawColor(0, 0, 100);
         doc.setLineWidth(8);
-        doc.line(35, 35, 35, 795);
+        doc.line(35, 35, 35, 792);
         doc.line(30.8, 35, 97, 35);
         doc.line(193, 35, 595, 35);
-        doc.line(30.8, 795, 595, 795);
+        doc.line(30.8, 792, 595, 792);
         doc.addImage(logo, 'PNG', 100, 12, 90, 35);
-        doc.setFontSize(8);
-        doc.setTextColor('#6e6e6e');
-        let splitTitle = doc.splitTextToSize(textFooter, 420);
         let helperT = this;
-        splitTitle.forEach(function (el, ind) {
+        splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);
             doc.setTextColor('#6e6e6e');
-            helperT.centeredText(el, (812 + ind * doc.internal.getLineHeight()), doc);
+            helperT.centeredText(el, (805 + ind * doc.internal.getLineHeight()), doc);
+        });
+    },
+
+    addBorderL: function (reportData, doc, logo, splitTextFooter) {
+        doc.setFontSize(10);
+        doc.setTextColor('#6e6e6e');
+        doc.text(reportData.studyCodeName, 830, 400, -90);
+        doc.text(reportData.participantLastName, 819, 400, -90);
+        doc.setDrawColor(0, 0, 100);
+        doc.setLineWidth(8);
+        doc.line(45.8, 35, 810, 35);
+        doc.line(50, 35, 50, 595);
+        //todo delete next line and uncomment next 3
+        doc.line(805.8, 30.8, 805, 595);
+        // doc.line(805.8, 30.8, 805, 97);
+        // doc.line(805.8, 193, 805.8, 595);
+        // doc.addImage(logo, 'PNG', 750, 100, 90, 35, null, 'NONE', -90);
+        let helperT = this;
+        splitTextFooter.forEach(function (el, ind) {
+            doc.setFontSize(8);
+            doc.setTextColor('#6e6e6e');
+            helperT.centeredTextL(el, (35 - ind * doc.internal.getLineHeight()), doc);
         });
     },
 
@@ -132,8 +215,15 @@
         doc.text(textOffset + 12, y, text);
     },
 
+    centeredTextL: function (text, x, doc) {
+        var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+        var textOffset = (doc.internal.pageSize.height - textWidth) / 2;
+        doc.setFillColor(25, 25, 25);
+        doc.text(x, textOffset + 12, text, -90);
+    },
+
     validationEndPage: function (doc, heightY) {
-        if (heightY > doc.internal.pageSize.height - 60) {
+        if (heightY > doc.internal.pageSize.height - 65) {
             doc.addPage();
             heightY = 80;
         }
