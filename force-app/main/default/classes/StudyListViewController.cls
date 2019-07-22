@@ -310,12 +310,10 @@ public without sharing class StudyListViewController {
                 FROM Site_Staff__c
                 WHERE Study_Site__r.Clinical_Trial_Profile__c IN :triaIds
         ]) {
-            if (delegatesMap.containsKey(ss.Study_Site__r.Principal_Investigator__c)) {
+            if (delegatesMap.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__c)) {
                 delegatesMap.get(ss.Study_Site__r.Clinical_Trial_Profile__c).add(ss);
             } else {
-                delegatesMap.put(ss.Study_Site__r.Clinical_Trial_Profile__c, new List<Site_Staff__c>{
-                        ss
-                });
+                delegatesMap.put(ss.Study_Site__r.Clinical_Trial_Profile__c, new List<Site_Staff__c>{ss});
             }
         }
         return delegatesMap;
