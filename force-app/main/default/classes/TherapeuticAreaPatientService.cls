@@ -1,4 +1,4 @@
-public with sharing class TherapeuticAreaPatientService {
+public without sharing class TherapeuticAreaPatientService {
 
     public Therapeutic_Area_Patient__c getRelatedToStudyTherapeuticAreaPatient(Id participantId, Id tAId) {
         return new Therapeutic_Area_Patient__c(
