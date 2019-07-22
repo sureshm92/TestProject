@@ -127,7 +127,7 @@
                             </aura:iteration>
                         </div>
                     </lightning:layoutItem>
-                    <lightning:layoutItem class="schevrons" size="2">
+                    <lightning:layoutItem class="schevrons sticky-Position" size="2">
                         <div class="schevron">
                             <lightning:buttonIcon disabled="{!empty(v.selectedIcons)}" size="medium" onclick="{!c.shiftLeft}"
                                                   iconName="utility:chevronleft"/>
