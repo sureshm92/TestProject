@@ -83,6 +83,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_IntegrationVisitProcess</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_PEToPSE</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2704,6 +2708,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Visit__c.MD5_Hash__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Visit__c.Processed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
