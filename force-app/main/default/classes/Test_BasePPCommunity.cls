@@ -11,6 +11,7 @@ private class Test_BasePPCommunity {
     
     @TestSetup
     public static void init(){
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TestData.loadTestData();
     }
     

@@ -1,6 +1,8 @@
 .THIS.resource-container {
+    min-height: 293px;
     width: 247px;
     margin: auto;
+    position: relative;
 }
 
 .THIS .resource-title {

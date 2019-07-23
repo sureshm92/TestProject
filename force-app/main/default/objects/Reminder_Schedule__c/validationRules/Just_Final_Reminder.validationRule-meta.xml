@@ -6,5 +6,5 @@
      NOT( ISBLANK( Second_Reminder_day__c )  ),
      Use_Final_Template__c  = true
 )</errorConditionFormula>
-    <errorMessage>Final reminder email for &quot;First reminder day&quot; can only be sent if &quot;Second reminder day&quot; is empty!</errorMessage>
+    <errorMessage>When a First Reminder and Second Reminder are configured, the Final Reminder email option is not needed.</errorMessage>
 </ValidationRule>

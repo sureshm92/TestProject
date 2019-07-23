@@ -77,7 +77,7 @@ public without sharing class UserTriggerHandler {
     private static void updateUserRoleToSPNL(List<User> newList){
         for(User us : newList){
             if(us.ProfileId == CommunityService.SPNL_USER_PROFILE_ID){
-                us.UserRoleId=[SELECT Id FROM UserRole WHERE Name='SPNL'].Id;
+                us.UserRoleId = CommunityService.SPNL_ROLE;
             }
         }
     }

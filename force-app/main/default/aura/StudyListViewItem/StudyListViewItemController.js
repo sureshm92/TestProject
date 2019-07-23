@@ -79,7 +79,8 @@
                 communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
             case 'addPatient':
-                communityService.navigateToPage('add-patient?id=' + trialId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
+                communityService.navigateToPage('add-patient?id=' + trialId + "&ssId=" + studySiteId);
                 break;
         }
     },
@@ -216,6 +217,7 @@
         for (let i = 0; i < radioBtns.length; i++) {
             radioBtns[i].set('v.checked', false);
         }
+        event.getSource().set('v.checked',true);
         component.set('v.checkedAccount', event.getSource().get('v.value'));
         component.set('v.locationWasChanged', true);
     },
@@ -332,10 +334,11 @@
             var countryCode = component.get('v.currentCountry');
             component.set('v.editedAccount.BillingCountry', countryNameByCode[countryCode]);
             var states = statesMapByCountry[countryCode];
-            if (states) {
+            console.log('States >>>', states);
+            if (states.length && states.length > 0) {
                 component.set('v.states', states);
             } else {
-                component.set('v.editedAccount.BillingState', '');
+                component.set('v.editedAccount.BillingState', null);
                 component.set('v.states', []);
             }
         }
