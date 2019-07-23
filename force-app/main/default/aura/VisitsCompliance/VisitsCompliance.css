@@ -30,3 +30,11 @@
         white-space: normal;
     }
 }
+
+.THIS .opt-in-popup-button {
+    width: 130px;
+}
+
+.THIS .opt-in-popup-button+.opt-in-popup-button {
+    margin-left: 30px;
+}

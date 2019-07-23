@@ -22,10 +22,8 @@
     <aura:attribute name="statesByCountryMap" type="Map" access="private"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="isUpdated" type="Boolean"/>
-    <aura:attribute name="okButtonClicked" type="Boolean" default="false"
-                    description="if primary(Ok) button clicked, this value will change"/>
-    <aura:attribute name="cancelButtonClicked" type="Boolean" default="false"
-                    description="if primary(Cancel) button clicked, this value will change"/>
+    <aura:attribute name="closeButtonClicked" type="Boolean" default="false"
+                    description="if close button on popap clicked, this value will change"/>
     <aura:attribute name="showModal" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -34,8 +32,7 @@
     <aura:handler name="change" value="{!v.contact}" action="{!c.doContactChanged}"/>
     <aura:handler name="change" value="{!v.participant.Mailing_Country_Code__c}" action="{!c.doCountryCodeChanged}"/>
     <aura:handler name="change" value="{!v.contact.MailingCountryCode}" action="{!c.doCountryCodeChanged}"/>
-    <aura:handler name="change" value="{!v.okButtonClicked}" action="{!c.doSwitchOptInVisitResults}"/>
-    <aura:handler name="change" value="{!v.cancelButtonClicked}" action="{!c.closeVisitResultsOptInModal}"/>
+    <aura:handler name="change" value="{!v.closeButtonClicked}" action="{!c.handleCancelClick}"/>
 
     <!-- methods: -->
     <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}" access="public"/>
@@ -465,8 +462,12 @@
                     </div>
                 </div>
                 <c:Popup title="{!$Label.c.Visit_Results_Tab_Modal_Title}" showModal="{!v.showModal}" size="small"
-                         headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}" primaryButtonClicked="{!v.okButtonClicked}"
-                         secondaryButtonClicked="{!v.cancelButtonClicked}" closeButtonClicked="{!v.cancelButtonClicked}"/>
+                         headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}" closeButtonClicked="{!v.closeButtonClicked}">
+                    <aura:set attribute="footerButtons">
+                        <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}" tabindex="0">{!$Label.c.BTN_OK}</button>
+                        <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}" tabindex="1">{!$Label.c.BTN_Cancel}</button>
+                    </aura:set>
+                </c:Popup>
             </div>
         </aura:if>
     </div>
