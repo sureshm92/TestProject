@@ -94,6 +94,7 @@
         </aura:set>
     </lightning:card>
     <c:CustomModal aura:Id='customModal' size="medium">
+        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="false"/>
         <div class="slds-p-horizontal--small">
             <lightning:recordEditForm
                     onload="{!c.preload}"
@@ -161,8 +162,9 @@
                               onclick="{!c.submitForm}"/>
         </aura:set>
     </c:CustomModal>
-    <c:CustomModal aura:Id='createVisitPlan' size="medium">
+    <c:CustomModal aura:Id='createVisitPlan' size="small" >
         <lightning:recordForm
+                aura:id = "createVisitPlanRecordForm"
                 recordId="{!v.visitPlanId}"
                 objectApiName="Visit_Plan__c"
                 fields="{!v.fields}"
@@ -170,6 +172,7 @@
                 mode="edit"
                 onsuccess="{!c.handleSuccessVP}"
                 oncancel="{!c.onCancelVisitPlan}"
+                onsubmit="{!c.onSubmitCreateVisitPlan}"
         />
 
         <aura:set attribute="footer">
