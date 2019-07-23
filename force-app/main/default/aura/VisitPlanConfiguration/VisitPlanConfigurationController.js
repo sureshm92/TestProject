@@ -52,11 +52,15 @@
         let strCoins = icons.join(';');
         component.find('splittedIcons').set('v.value', strCoins);
         let name = component.find('nameId').get("v.value");
-        name === null ? helper.notify({
-            "title": "Name Is Empty",
-            "message": "Complete Name field.",
-            "type": "error"
-        }) : component.find('editForm').submit();
+        if (name === null) {
+            helper.notify({
+                "title": "Name Is Empty",
+                "message": "Complete Name field.",
+                "type": "error"
+            })
+        } else {
+            component.find('editForm').submit();
+        }
     },
 
     shiftRight: function (component, event, helper) {
@@ -68,6 +72,10 @@
     },
     handleSuccess: function (component, event, helper) {
         debugger;
+        let spinner = component.find('mainSpinner');
+        if (spinner) {
+            spinner.show();
+        }
         component.find('customModal').hide();
         helper.getRelatedVisitPlans(component, event, helper);
         helper.notify({
@@ -99,4 +107,9 @@
     closeLegend: function (component, event, helper) {
         component.find('editLegend').hide();
     },
+    onSubmitCreateVisitPlan: function (component, event, helper) {
+        helper.checkOnEmptyName(component, event, helper);
+    }
+
+
 })

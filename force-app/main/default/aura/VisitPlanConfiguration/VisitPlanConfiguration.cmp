@@ -113,7 +113,8 @@
                 <lightning:inputField aura:id="Visit_Schedule__c" fieldName="Visit_Schedule__c"/>
                 <lightning:inputField aura:id="Visit_Number__c" fieldName="Visit_Number__c"/>
                 <lightning:inputField class="slds-hide" aura:id='splittedIcons' fieldName="Icons__c"/>
-                <lightning:inputField aura:id='visitPlan' fieldName="Visit_Plan__c"/>
+                <lightning:inputField disabled="{!empty(v.visitPlanId)==false}" aura:id='visitPlan'
+                                      fieldName="Visit_Plan__c"/>
             </lightning:recordEditForm>
         </div>
         <div class="icons">
@@ -188,7 +189,7 @@
                                   IconsPackageFIlePath="/icons.svg"/>
 
     <c:CustomModal aura:Id='editLegend' size="medium">
-        <c:IconPlanetVisitInfoEdit  aura:Id='legend' visitPlanId="{!v.visitPlanId}"/>
+        <c:IconPlanetVisitInfoEdit aura:Id='legend' visitPlanId="{!v.visitPlanId}"/>
         <aura:set attribute="footer">
             <lightning:button variant="neutral" type="button" name="close" label="{!$Label.c.Visit_b_Close}"
                               onclick="{!c.closeLegend}"/>
