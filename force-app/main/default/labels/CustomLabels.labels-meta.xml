@@ -8346,21 +8346,21 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Fill Address</shortDescription>
-        <value>Fill Street Address</value>
+        <value>Enter Street Address</value>
     </labels>
     <labels>
         <fullName>SS_Fill_City</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Fill City</shortDescription>
-        <value>Fill City</value>
+        <value>Enter City</value>
     </labels>
     <labels>
         <fullName>SS_Fill_Location_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Fill Location Name</shortDescription>
-        <value>Fill Location Name</value>
+        <value>Enter Location Name</value>
     </labels>
     <labels>
         <fullName>SS_Location</fullName>

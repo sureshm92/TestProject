@@ -3,19 +3,20 @@
  */
 
 public with sharing class IntegrationVisitTriggerHandler{
-
-
-    public class UpdateVisits extends TriggerHandler{
-
-        public override void afterInsert(List<SObject> newList) {
-            updateVisits(JSON.serialize(newList));
+    
+    public class CheckProcessedRecordsHandler extends TriggerHandler{
+    
+        public override void beforeInsert(List<SObject> newList) {
+            setIsProcessed(newList, null);
+        }
+    
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setIsProcessed(newList, (Map<Id, Integration_Visit__c>)oldMap);
         }
 
     }
-
-    @future
-    private static void updateVisits(String jsonString){
-        List<Integration_Visit__c> visits = (List<Integration_Visit__c>) JSON.deserialize(jsonString, List<Integration_Visit__c>.class);
+    
+    public  static void updateVisits(List<Integration_Visit__c> visits){
         Set<String> externalKeys = new Set<String>();
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
@@ -67,6 +68,7 @@ public with sharing class IntegrationVisitTriggerHandler{
                     newVisits.add(createAdhockVisit(externalVisit, pseIdsMap));
                 }
                 externalVisit.Work_Status__c = 'Success';
+                externalVisit.Processed__c = true;
             }
         }
         update patientVisits;
@@ -108,6 +110,14 @@ public with sharing class IntegrationVisitTriggerHandler{
     private static void updatePatientVisit(Integration_Visit__c externalVisit, Patient_Visit__c visit){
         visit.Status__c = 'Completed';
         visit.Completed_Date__c = externalVisit.SVSTDTC__c;
+    }
+    
+    private static void setIsProcessed(List<Integration_Visit__c> newList, Map<Id, Integration_Visit__c> oldMap){
+        for(Integration_Visit__c visit : newList){
+            if(oldMap == null || visit.MD5_Hash__c != oldMap.get(visit.Id).MD5_Hash__c){
+                visit.Processed__c = false;
+            }
+        }
     }
 
 }

@@ -1,22 +1,24 @@
 /**
  * Created by AlexKetch on 6/18/2019.
  */
-.THIS.icons{
+.THIS.icons {
     display: inline-flex;
 }
 
-.THIS .icon-item{
+.THIS .icon-item {
     padding-left: 10px;
 }
 
-.THIS .dots{
+.THIS .dots {
     padding-left: 10px;
     padding-top: 13px;
     font-weight: bold;
 }
+
 .THIS .schevrons {
     align-self: center;
 }
+
 .THIS .schevron {
     display: block;
     margin: 2px;
@@ -24,19 +26,28 @@
     margin-left: 50px;
 
 }
+
 .THIS .flex-container {
     align-items: end;
     align-content: center;
 }
-.THIS .slds-button_icon-border{
+
+.THIS .slds-button_icon-border {
     border: 0px solid rgb(221, 219, 218);
     border-color: white;
 }
+
 .THIS .iconClass {
-    height: 47px!important;
-    width: 30px!important;
+    height: 47px !important;
+    width: 30px !important;
 }
 
-.THIS .slds-visual-picker+.slds-visual-picker {
+.THIS .slds-visual-picker + .slds-visual-picker {
     margin-left: 0;
+}
+
+.THIS .sticky-Position {
+    position: sticky;
+    bottom: 20vh;
+    top: 31vh;
 }
