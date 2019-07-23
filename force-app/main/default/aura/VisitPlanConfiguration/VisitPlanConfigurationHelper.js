@@ -8,8 +8,16 @@
         helper.enqueue(component, 'c.getRelatedPlannedVisits', {
             ctpId: component.get('v.recordId')
         }).then(function (result) {
-            component.set('v.visits', result)
+            component.set('v.visits', result);
+            let spinner = component.find('mainSpinner');
+            if(spinner) {
+                spinner.hide();
+            }
         }, function (err) {
+            let spinner = component.find('mainSpinner');
+            if(spinner) {
+                spinner.hide();
+            }
             if (err && err[0].message) {
                 helper.notify({
                     title: 'error',
@@ -39,10 +47,13 @@
             let ctp = JSON.stringify(component.get('v.CTPrecord'));
             let ctpCLear = JSON.parse(ctp);
             if (!ctpCLear.Visit_Plan__c) {
-
                 component.set('v.visits', []);
+                component.set('v.visitPlanId', null);
             }
             component.set('v.visitPlanId', ctpCLear.Visit_Plan__c);
+            helper.getRelatedVisitPlans(component, event, helper);
+            helper.getIconsUrl(component, event, helper);
+            helper.getAllIconsNames(component, event, helper);
         } else if (eventParams.changeType === "REMOVED") {
             // record is deleted
         } else if (eventParams.changeType === "ERROR") {
@@ -220,7 +231,21 @@
             }, function (errorMessage) {
                 component.set('v.error', errorMessage);
             })
-    }
+    },
+
+    checkOnEmptyName: function (component, event, helper) {
+        event.preventDefault();
+        let fields = event.getParam('fields');
+        if (fields.Name) {
+            component.find('createVisitPlanRecordForm').submit(fields);
+        } else {
+            helper.notify({
+                "title": "Name Is Empty",
+                "message": "Complete Name field.",
+                "type": "error"
+            })
+        }
+    },
 
 
 })
