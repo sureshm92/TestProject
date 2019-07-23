@@ -4,14 +4,23 @@ public with sharing class ResourceRemote {
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
 
         try {
-            ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+            ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
             if ('Favorite'.equalsIgnoreCase(resourceMode)) {
-                return resourceService.getFavoriteResources(resourceType);
-            } else if ('Documents'.equalsIgnoreCase(resourceMode)) {
-                return resourceService.getStudyDocuments();
+                return service.getFavoriteResources(resourceType);
             } else {
-                return resourceService.getResources(resourceType);
+                return service.getResources(resourceType);
             }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
+
+        try {
+            return ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getStudyDocuments();
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -22,8 +31,7 @@ public with sharing class ResourceRemote {
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
 
         try {
-            CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-            String participantId = cService.getParticipantId();
+            String participantId = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantId();
             String resourceActionQuery =
                     'SELECT Id, ' +
                             'IsFavorite__c, ' +
@@ -31,11 +39,11 @@ public with sharing class ResourceRemote {
                             'FROM Resource_Action__c ' +
                             'WHERE Resource__c = \'' + resourceId + '\'' + ' AND Participant__c = \'' + participantId + '\'';
             DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-            List<Resource_Action__c> actions = (List<Resource_Action__c>) databaseProxy.query(resourceActionQuery);
+            List<Resource_Action__c> actions = (List<Resource_Action__c>) databaseProxy.query(resourceActionQuery, true);
             Resource_Action__c action = !actions.isEmpty() ? actions[0] : new Resource_Action__c(Resource__c = resourceId, Participant__c = participantId);
             action.IsFavorite__c = isFavorite;
             action.IsVoted__c = isVoted;
-            databaseProxy.upsertRecord(action);
+            databaseProxy.upsertRecord(action, true);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -46,8 +54,7 @@ public with sharing class ResourceRemote {
 
         try {
             String trialId;
-            ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
-            ParticipantService.ParticipantState state = resourceService.getParticipantState();
+            ParticipantService.ParticipantState state = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantState();
             if (state.ctp != null) {
                 trialId = state.ctp.Id;
             } else {
@@ -64,8 +71,7 @@ public with sharing class ResourceRemote {
     public static String getNoTAMessage() {
 
         try {
-            ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
-            ParticipantService.ParticipantState state = resourceService.getParticipantState();
+            ParticipantService.ParticipantState state = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantState();
             if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (state.participant.Conditions__c == 0)) {
                 String noTAMessage;
                 String message = Label.Resources_No_Therapeutic_Area;

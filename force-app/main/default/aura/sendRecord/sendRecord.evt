@@ -1,0 +1,7 @@
+<!--
+ - Created by AlexKetch on 6/20/2019.
+ -->
+
+<aura:event type="COMPONENT" description="sendRecord">
+    <aura:attribute name="record" type="Object"/>
+</aura:event>

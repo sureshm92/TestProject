@@ -4,59 +4,72 @@ public class Test_ResourceRemote {
     @TestSetup
     public static void setup() {
 
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+
+        Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
+        Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
+        insert new List<SObject>{
+                singleParticipant,
+                singleResource
+        };
+        Resource_Action__c singleAction = new Resource_Action__c(Participant__c = singleParticipant.Id, Resource__c = singleResource.Id, IsVoted__c = false, IsFavorite__c = false);
+        insert singleAction;
     }
 
     @IsTest
     public static void setResourceAction_ActionExist_Test() {
 
-        DatabaseProxyCodeExecutor executor = new DatabaseProxyCodeExecutor();
+        List<Participant__c> participants = [SELECT Id FROM Participant__c];
+        System.assertEquals(1, participants.size());
+        List<Resource__c> resources = [SELECT Id FROM Resource__c];
+        System.assertEquals(1, resources.size());
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.participant = participants[0];
+
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('getParticipantId')
-                .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
-                .when('query')
-                .then(new List<Resource_Action__c>{
-                        new Resource_Action__c(IsFavorite__c = true, IsVoted__c = false)
-                })
-                .when('upsertRecord')
-                .then(executor)
-                .getInstance()
-        );
+
         Test.startTest();
-        ResourceRemote.setResourceAction(TestDataFactory.getFakeId(Participant__c.getSObjectType()), true, true);
+        ResourceRemote.setResourceAction(resources[0].Id, true, true);
         Test.stopTest();
 
-        System.assertEquals(true, Boolean.valueOf(((SObject) executor.result[0]).get('IsVoted__c')));
-        System.assertEquals(true, Boolean.valueOf(((SObject) executor.result[0]).get('IsFavorite__c')));
-        System.assert(String.isBlank(String.valueOf(((SObject) executor.result[0]).get('Resource__c'))));
+        List<Resource_Action__c> actions = [SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Action__c LIMIT 1];
+        System.assertEquals(true, actions[0].IsVoted__c);
+        System.assertEquals(true, actions[0].IsFavorite__c);
     }
 
     @IsTest
     public static void setResourceAction_ActionDoesNotExist_Test() {
 
-        DatabaseProxyCodeExecutor executor = new DatabaseProxyCodeExecutor();
+        List<Participant__c> participants = [SELECT Id FROM Participant__c];
+        System.assertEquals(1, participants.size());
+        List<Resource__c> resources = [SELECT Id FROM Resource__c];
+        System.assertEquals(1, resources.size());
+        delete [SELECT Id FROM Resource_Action__c];
+        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+        pState.participant = participants[0];
+
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('getParticipantId')
-                .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+                .when('getState')
+                .then(pState)
                 .getInstance()
         );
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
-                .when('query')
-                .then(new List<Resource_Action__c>())
-                .when('upsertRecord')
-                .then(executor)
-                .getInstance()
-        );
+
         Test.startTest();
-        ResourceRemote.setResourceAction(TestDataFactory.getFakeId(Participant__c.getSObjectType()), false, true);
+        ResourceRemote.setResourceAction(resources[0].Id, true, true);
         Test.stopTest();
 
-        System.assertEquals(true, Boolean.valueOf(((SObject) executor.result[0]).get('IsVoted__c')));
-        System.assertEquals(false, Boolean.valueOf(((SObject) executor.result[0]).get('IsFavorite__c')));
+        List<Resource_Action__c> actions = [SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Action__c LIMIT 1];
+        System.assertEquals(true, actions[0].IsVoted__c);
+        System.assertEquals(true, actions[0].IsFavorite__c);
     }
 
     @IsTest
@@ -65,7 +78,7 @@ public class Test_ResourceRemote {
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
                 .when('getParticipantId')
-                .then(new AuraHandledException('Test Exception'))
+                .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
                 .getInstance()
         );
         Boolean isExceptionThrown = false;
@@ -123,7 +136,7 @@ public class Test_ResourceRemote {
                 .getInstance()
         );
         Test.startTest();
-        ResourceService.ResourceWrapperContainer container = ResourceRemote.getResources(null, 'Documents');
+        ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
         Test.stopTest();
 
         System.assert(String.isBlank(container.errorMessage));
@@ -235,20 +248,11 @@ public class Test_ResourceRemote {
         System.assert(noTAMessage == null);
     }
 
-    public class DatabaseProxyCodeExecutor extends CodeExecutor {
-
-        public override List<Object> getResult(List<Object> arguments) {
-            return arguments;
-        }
-    }
-
     private static ParticipantService.ParticipantState getAlumniState() {
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
                 'Name' => CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         });
         insert singleAccount;
-        Participant__c participant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
-        insert participant;
         ParticipantService.ParticipantState state = new ParticipantService.ParticipantState();
         state.value = ParticipantService.ParticipantStates.ALUMNI;
         state.participant = [SELECT Id, Conditions__c FROM Participant__c LIMIT 1][0];

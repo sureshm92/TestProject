@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class AlertsRemote {
+public without sharing class AlertsRemote {
     
     @AuraEnabled
     public static String getAlerts(String userMode){

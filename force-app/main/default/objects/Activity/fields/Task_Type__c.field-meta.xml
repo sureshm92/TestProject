@@ -24,6 +24,11 @@
                 <default>false</default>
                 <label>Not Selected</label>
             </value>
+            <value>
+                <fullName>Survey</fullName>
+                <default>false</default>
+                <label>Survey</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

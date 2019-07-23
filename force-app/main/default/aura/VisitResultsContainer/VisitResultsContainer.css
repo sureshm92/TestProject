@@ -1,0 +1,16 @@
+.THIS .visit-results-disclaimer {
+    margin: 15px 0 10px 0;
+	height: 42px;
+	color: #595959;
+	font-family: "Proxima Nova";
+	font-size: 12px;
+	font-style: italic;
+	font-weight: 600;
+	line-height: 14px;
+	text-align: justify;
+}
+
+.THIS.visit-results-content {
+    max-width: 1165px;
+    margin-bottom: 20px;
+}

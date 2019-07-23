@@ -3,8 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
+        var isEditMode = component.get('v.isEditMode');
         if(!communityService.isInitialized()) return;
-        var ctpId = communityService.getUrlParameter('id');
+        var ctpId = isEditMode ? null : communityService.getUrlParameter('id');
         var ssId = communityService.getUrlParameter('ssId');
         communityService.executeAction(component, 'getInitData', {
             ctpId: ctpId,
@@ -15,7 +16,11 @@
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
             component.set('v.todayDate', todayDate);
             component.set('v.formData', formData);
-            helper.initData(component);
+            if(isEditMode){
+                helper.initDataEdit(component);
+            }else{
+                helper.initData(component);
+            }
             component.set('v.initialized', true);
             var pe = component.get('v.pe');
             var states = formData.statesByCountryMap['US'];
@@ -23,6 +28,7 @@
         }, null, function () {
             component.find('spinner').hide();
         });
+        
     },
     
     doCheckFields: function (component) {
@@ -44,6 +50,7 @@
             participant.Phone_Type__c &&
             participant.Email__c &&
             participant.Mailing_Zip_Postal_Code__c &&
+            pe &&
             pe.Participant_Status__c &&
             component.find('emailInput').get('v.validity').valid &&
             (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&

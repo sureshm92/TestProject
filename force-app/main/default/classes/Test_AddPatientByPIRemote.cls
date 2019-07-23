@@ -3,7 +3,7 @@
  */
 
 @IsTest
-private class Test_AddPatientByPIRemote {
+private without sharing class Test_AddPatientByPIRemote {
     
     @IsTest
     static void testGetInitData() {

@@ -19,6 +19,14 @@
                 <behavior>Edit</behavior>
                 <field>NCT_Number__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Shareback_Settings_On_Participant_Level__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Shareback_Settings_on_StudySites__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -101,10 +109,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Therapeutic_Area__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Survey__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -538,6 +542,13 @@
         <relatedList>Study_Site__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>Survey.NAME</fields>
+        <fields>RECORDTYPE</fields>
+        <fields>Whose_response_needed__c</fields>
+        <fields>Is_Midpoint__c</fields>
+        <relatedList>Trial_Survey__c.Clinical_Trial_Profile__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
         <fields>HCP_Contact__c</fields>
         <fields>Status__c</fields>
@@ -562,13 +573,17 @@
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Visit_Result_Type_Sharing__c.Clinical_Trial_Profile__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h110000010rk4</masterLabel>
+        <masterLabel>00h1j000000XLeP</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

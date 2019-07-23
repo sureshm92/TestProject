@@ -97,13 +97,8 @@ public class ParticipantService {
         if (participantState.value == ParticipantStates.ALUMNI) return false;
 
         if (participantState.ctp.Visit_Plan__c != null) {
-            List<Visit__c> visitsList = (List<Visit__c>) DatabaseService.query(
-                    new List<String>{
-                            'Id'
-                    },
-                    Visit__c.getSObjectType(),
-                    DatabaseService.fieldEqual('Visit_Plan__c', participantState.ctp.Visit_Plan__c)
-            );
+            List<Visit__c> visitsList = (List<Visit__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                    .query('SELECT Id FROM Visit__c WHERE Visit_Plan__c = \'' + participantState.ctp.Visit_Plan__c + '\'', true);
             return !visitsList.isEmpty();
         }
 
@@ -131,7 +126,7 @@ public class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
+       /* Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
         if (!saveResult.isSuccess()) {
             System.debug('PARTICIPANT INSERT ERROR');
             for (Database.Error error : saveResult.getErrors()) {
@@ -152,7 +147,10 @@ public class ParticipantService {
                     throw new ParticipantServiceException(error.getMessage());
                 }
             }
-        }
+        }*/
+
+        DuplicateContactController.isPERCreated = true;
+        participant = DuplicateContactController.communityReffering(participant, pe);
 
         if (participant.Id != null) {
             pe.Participant__c = participant.Id;
@@ -160,6 +158,8 @@ public class ParticipantService {
                 DatabaseService.getInstance().upsertToDB(pe);
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
+                System.debug('STACK TRACE:' + e.getStackTraceString());
+                System.debug('MESSAGE:' + e.getMessage());
                 if (errorMsg.contains('DUPLICATE')) {
                     errorMsg = Label.Error_Message_Participant_Duplicate;
                 }
@@ -187,6 +187,4 @@ public class ParticipantService {
         genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
         return genders;
     }
-
-
 }

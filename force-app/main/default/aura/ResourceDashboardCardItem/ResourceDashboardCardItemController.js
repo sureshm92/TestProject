@@ -2,12 +2,16 @@
     {
         doInit : function (component, event, helper) {
 
-            component.set("v.resourcesLoading", true);
+            component.set("v.initialized", false);
             communityService.executeAction(component, 'getResources', {
                 resourceType: component.get('v.resourceType'),
                 resourceMode: 'Default'
             }, function (returnValue) {
-                component.set("v.resourcesLoading", false);
+                component.set("v.initialized", true);
+                let spinner = component.find('spinner');
+                if(spinner) {
+                    spinner.hide();
+                }
                 if(!returnValue.errorMessage) {
                     returnValue = helper.trimLongText(returnValue);
                     component.set("v.resourceWrappers", returnValue.wrappers);

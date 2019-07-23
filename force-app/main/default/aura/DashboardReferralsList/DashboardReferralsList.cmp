@@ -22,10 +22,10 @@
                 </button>
             </aura:if>
             <c:RRLink label="{!item.data.Participant__r.First_Name__c + ' ' + item.data.Participant__r.Last_Name__c}" page="{!'referral-profile?id=' + item.data.Id}"/>
-            <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
+            <aura:if isTrue="{!!empty(item.data.HCP__c)}">
                 {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.HCP__r.HCP_Contact__r.Salutation + ' ' + item.data.HCP__r.HCP_Contact__r.Name}<br/>
                 <aura:set attribute="else">
-                    {!' ' + $Label.c.PG_DRL_L_referred_from + ' ' + item.data.Referral_Source__c}
+                    {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.Referral_Source__c}<br/>
                 </aura:set>
             </aura:if>
             for <c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>

@@ -7,7 +7,7 @@
 
     <!-- attribures: -->
     <aura:attribute name="editMode" type="Boolean"/>
-    <aura:attribute name="task" type="Task"/>
+    <aura:attribute name="task" type="Object"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="otherTask" type="Boolean" default="{!v.task.OwnerId != v.task.CreatedById}"/>
     <aura:attribute name="taskStatusCompleted" type="Boolean" default="false"/>

@@ -3,39 +3,82 @@ public class Test_DatabaseProxy {
 
 	@TestSetup
 	static void setup() {
-		Account singleAccount = new Account(Name='Test Account');
-		insert singleAccount;
 	}
 
 	@IsTest
 	static void query_Test() {
+		Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert singleAccount;
 		DatabaseProxy databaseProxy = new DatabaseProxy();
 		Test.startTest();
 		List<Account> accounts = (List<Account>)databaseProxy.query('SELECT Id FROM Account');
+		List<Account> accountsWithoutSharing = (List<Account>)databaseProxy.query('SELECT Id FROM Account', true);
+		List<Account> accountsWithSharing = (List<Account>)databaseProxy.query('SELECT Id FROM Account', false);
 		Test.stopTest();
 		System.assertEquals(1, accounts.size());
+		System.assertEquals(1, accountsWithoutSharing.size());
+		System.assertEquals(1, accountsWithSharing.size());
 	}
 
 	@IsTest
 	static void upsertRecord_Test() {
+		DatabaseProxy databaseProxy = new DatabaseProxy();
 		Test.startTest();
-		new DatabaseProxy().upsertRecord(new Account(Name='Test Account2'));
+		databaseProxy.upsertRecord(TestDataFactory.getSObject(Account.getSObjectType()), true);
+		databaseProxy.upsertRecord(TestDataFactory.getSObject(Account.getSObjectType()), false);
 		Test.stopTest();
 		List<Account> accounts = [SELECT Id, Name FROM Account];
 		System.assertEquals(2, accounts.size());
-		System.assert(accounts[0].Name.containsIgnoreCase('Test Account'));
 	}
 
 	@IsTest
 	static void upsertRecords_Test() {
+		DatabaseProxy databaseProxy = new DatabaseProxy();
 		Test.startTest();
-		new DatabaseProxy().upsertRecords(new List<Account>{
-				new Account(Name='Test Account2'),
-				new Account(Name='Test Account3')
-		});
+		databaseProxy.upsertRecords(new List<Account>{
+				(Account) TestDataFactory.getSObject(Account.getSObjectType()),
+				(Account) TestDataFactory.getSObject(Account.getSObjectType())
+		}, true);
+		databaseProxy.upsertRecords(new List<Account>{
+				(Account) TestDataFactory.getSObject(Account.getSObjectType()),
+				(Account) TestDataFactory.getSObject(Account.getSObjectType())
+		}, false);
 		Test.stopTest();
 		List<Account> accounts = [SELECT Id, Name FROM Account];
-		System.assertEquals(3, accounts.size());
-		System.assert(accounts[0].Name.containsIgnoreCase('Test Account'));
+		System.assertEquals(4, accounts.size());
+	}
+
+	@IsTest
+	static void updateRecord_Test() {
+		DatabaseProxy databaseProxy = new DatabaseProxy();
+		Account accountToUpdate = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert accountToUpdate;
+		accountToUpdate.Name = 'New Name';
+		Test.startTest();
+		databaseProxy.updateRecord(accountToUpdate, true);
+		databaseProxy.updateRecord(accountToUpdate, false);
+		Test.stopTest();
+		List<Account> accounts = [SELECT Id, Name FROM Account];
+		System.assertEquals(1, accounts.size());
+		System.assertEquals('New Name', accountToUpdate.Name);
+	}
+
+	@IsTest
+	static void updateRecords_Test() {
+		DatabaseProxy databaseProxy = new DatabaseProxy();
+		Account accountToUpdate = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert accountToUpdate;
+		accountToUpdate.Name = 'New Name';
+		Test.startTest();
+		databaseProxy.updateRecords(new List<SObject>{
+				accountToUpdate
+		}, true);
+		databaseProxy.updateRecords(new List<SObject>{
+				accountToUpdate
+		}, false);
+		Test.stopTest();
+		List<Account> accounts = [SELECT Id, Name FROM Account];
+		System.assertEquals(1, accounts.size());
+		System.assertEquals('New Name', accountToUpdate.Name);
 	}
 }

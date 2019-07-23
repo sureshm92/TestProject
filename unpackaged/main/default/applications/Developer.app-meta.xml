@@ -5,8 +5,6 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Developer</label>
     <tabs>standard-Contact</tabs>
-    <tabs>Clinical_Trial_Profile__c</tabs>
-    <tabs>Study_Site__c</tabs>
     <tabs>HCP_Enrollment__c</tabs>
     <tabs>Participant_Enrollment__c</tabs>
     <tabs>Participant__c</tabs>

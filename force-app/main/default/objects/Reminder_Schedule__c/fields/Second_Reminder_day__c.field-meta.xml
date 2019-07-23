@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Second_Reminder_day__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Define how many days should pass before the Final reminder email is sent to a Participant in case Survey Task is still pending</inlineHelpText>
+    <label>Second Reminder day</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

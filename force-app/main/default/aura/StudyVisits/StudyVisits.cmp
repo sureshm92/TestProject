@@ -7,9 +7,15 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes-->
-    <aura:attribute name="visits" type="List"/>
-    <aura:attribute name="currentVisits" type="List"/>
+    <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
+    <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
+    <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>
+    <aura:attribute name="iconNames" type="String" default=""/>
+
+    <!--HANDLERS-->
+    <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
 
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
     <c:RRActionApprove aura:id="popup"
@@ -25,30 +31,46 @@
         </div>
 
         <ui:scrollerWrapper class="rr-white-panel">
-            <aura:if isTrue="{!!empty(v.visits)}">
+            <aura:if isTrue="{!!empty(v.visitWrappers)}">
                 <c:RRTable>
                     <tr>
                         <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                        <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                        <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                        <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                        <th class="sv-t-icons">{!v.visitMode == v.visitModeCurrent ? $Label.c.Home_Page_StudyVisit_WhToEx : $Label.c.Home_Page_StudyVisit_What_Took_Place}</th>
+                        <th class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-status' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Status}</th>
+                        <th class="{!v.visitMode == v.visitModeCurrent ? '' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
+                        <th class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
                     </tr>
-                    <aura:iteration var="visit" items="{!v.currentVisits}">
+                    <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
                         <tr>
-                            <td class="sv-t-name">{!visit.Name}</td>
-                            <td class="sv-t-time">{!visit.Timeplane__c}</td>
-                            <td class="sv-t-icons">
-                                <c:RRIconSplitter class="svl-icon" value="{!visit.Icons__c}"/>
+                            <td class="sv-t-name">{!visitWrapper.name}</td>
+                            <td class="sv-t-time">{!visitWrapper.schedule}</td>
+                            <td class="{!visitWrapper.isAdhoc ? 'invisible' : 'sv-t-icons'}">
+                                <c:RRIconSplitter numOfIconsToDisplay="5" class="svl-icon"
+                                                  value="{!visitWrapper.icons}"/>
                             </td>
+                            <td class="{!visitWrapper.isAdhoc ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Unscheduled_Visit}</td>
+                            <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-status' : 'invisible'}">{!visitWrapper.status}</td>
+                            <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-reminder' : 'invisible'}"
+                                data-visit-id="{!visitWrapper.visitId}"
+                                data-task-id="{!visitWrapper.task.Id}"
+                                onclick="{!c.createEditTask}">
+                                {!visitWrapper.task == null ? 'Create' : visitWrapper.reminderDate}
+                            </td>
+                            <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>
                 <div class="pagination">
-                    <c:rrPagination allObjects="{!v.visits}" currentObjects="{!v.currentVisits}" entriesOnPage="4"/>
+                    <c:rrPagination allObjects="{!v.visitWrappers}" currentObjects="{!v.currentVisits}"
+                                    entriesOnPage="4"/>
                 </div>
             </aura:if>
-            <c:EmptyListStub targetList="{!v.visits}" iconName="none"/>
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"/>
         </ui:scrollerWrapper>
 
-        <c:StudyVisitsLegend/>
+        <aura:if isTrue="{!v.initialized}">
+            <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
+        </aura:if>
     </div>
 </aura:component>

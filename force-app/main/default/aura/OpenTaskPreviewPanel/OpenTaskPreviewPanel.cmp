@@ -18,7 +18,7 @@
             <aura:if isTrue="{!!empty(v.tasks)}">
                 <c:RRTable>
                     <tr>
-                        <th>{!$Label.c.PG_L_Name}</th>
+                        <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
                         <th style="width:130px">{!$Label.c.Due_Date}</th>
                     </tr>
                     <aura:iteration items="{!v.tasks}" var="task">
@@ -28,11 +28,16 @@
                                           page="{!if(empty(task.Action_URL__c), 'edit-task?id=' + task.Id, task.Action_URL__c)}"/>
                             </td>
                             <td>
-                                <aura:if isTrue="{!task.ActivityDate}">
-                                    <ui:outputDate value="{!task.ActivityDate}"/>
+                                <aura:if isTrue="{!task.Status == 'In Progress'}">
+                                    {!$Label.c.In_Progress}
                                 </aura:if>
-                                <aura:if isTrue="{!!task.ActivityDate}">
-                                    {!$Label.c.None}
+                                <aura:if isTrue="{!task.Status != 'In Progress'}">
+                                    <aura:if isTrue="{!task.ActivityDate}">
+                                        <ui:outputDate value="{!task.ActivityDate}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!!task.ActivityDate}">
+                                        {!$Label.c.None}
+                                    </aura:if>
                                 </aura:if>
                             </td>
                         </tr>

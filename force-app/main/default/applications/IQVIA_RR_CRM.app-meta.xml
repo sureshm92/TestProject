@@ -9,18 +9,6 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>IQVIA Referral Hub</label>
     <navType>Standard</navType>
-    <tabs>standard-home</tabs>
-    <tabs>Clinical_Trial_Profile__c</tabs>
-    <tabs>Study_Site__c</tabs>
-    <tabs>standard-Contact</tabs>
-    <tabs>HCP_Enrollment__c</tabs>
-    <tabs>Participant_Enrollment__c</tabs>
-    <tabs>Participant_Study_Enrollment__c</tabs>
-    <tabs>Terms_And_Conditions__c</tabs>
-    <tabs>Terms_And_Conditions_Acceptance__c</tabs>
-    <tabs>standard-report</tabs>
-    <uiType>Lightning</uiType>
-    <utilityBar>IQVIA_RR_CRM_UtilityBar</utilityBar>
     <profileActionOverrides>
         <actionName>Tab</actionName>
         <content>IQVIA_RR_CRM</content>
@@ -37,4 +25,17 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
+    <tabs>standard-home</tabs>
+    <tabs>Icons_Legend</tabs>
+    <tabs>standard-Contact</tabs>
+    <tabs>Clinical_Trial_Profile__c</tabs>
+    <tabs>Study_Site__c</tabs>
+    <tabs>HCP_Enrollment__c</tabs>
+    <tabs>Participant_Enrollment__c</tabs>
+    <tabs>Participant_Study_Enrollment__c</tabs>
+    <tabs>Terms_And_Conditions__c</tabs>
+    <tabs>Terms_And_Conditions_Acceptance__c</tabs>
+    <tabs>standard-report</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>IQVIA_RR_CRM_UtilityBar</utilityBar>
 </CustomApplication>

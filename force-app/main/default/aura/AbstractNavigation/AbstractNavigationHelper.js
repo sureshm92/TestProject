@@ -111,19 +111,37 @@
             'resources':{
                 page: 'study-workspace?tab=tab-resources',
                 label: $A.get('$Label.c.Navigation_Resources')
+            },
+
+            'past-studies':{
+                page: 'past-studies',
+                label: 'Past Studies'
             }
         };
 
         //init items for every type
-        var middleMenuItem = communityService.getParticipantState() === 'ALUMNI' ? 'resources' : 'my-study';
+        var participantTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['my-study'],
+            this.allPagesMap['help']
+        ];
+
+        var participantAlumniTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['resources'],
+            this.allPagesMap['past-studies'],
+            this.allPagesMap['help']
+        ];
+
+        var participantAlumniDelegateTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['resources'],
+            this.allPagesMap['help']
+        ];
 
         this.itemsMap = {
 
-            Participant: [
-                this.allPagesMap['participant-home'],
-                this.allPagesMap[middleMenuItem],
-                this.allPagesMap['help']
-            ],
+            Participant: communityService.getParticipantState() !== 'ALUMNI' ? participantTabs : communityService.isDelegate() ? participantAlumniDelegateTabs : participantAlumniTabs,
 
             PI: [
                 this.allPagesMap[''],

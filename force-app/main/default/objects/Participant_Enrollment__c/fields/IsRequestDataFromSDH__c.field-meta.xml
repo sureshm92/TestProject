@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsRequestDataFromSDH__c</fullName>
+    <externalId>false</externalId>
+    <formula>AND
+(
+AND (
+NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c, &quot;Trial Complete&quot;)),
+NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c,&quot;Drop out&quot;))
+),
+AND (
+NOT (ISPICKVAL(Participant_Status__c, &quot;Referral Declined&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Contact Failed&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Eligibility Failed&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Screening Failed&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Enrollment Failed&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Review&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Referral&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Excluded from Referring&quot;))
+),
+ISPICKVAL(Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c, &quot;Yes&quot;)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>IsRequestDataFromSDH</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

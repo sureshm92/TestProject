@@ -1,13 +1,14 @@
 {
-    "orgName": "PH1Org",
+    "orgName": "ScratchOrg",
     "edition": "Developer",
     "language": "en_US",
     "features": [
+        "ContactsToMultipleAccounts",
         "Communities",
         "SiteDotCom",
         "SiteForceContributor",
         "Sites",
-        "StateAndCountryPicklist",
+        "SurveyCreatorUser",
         "Workflow",
         "DefaultWorkflowUser"
     ],
@@ -16,9 +17,5 @@
             "networksEnabled": true,
             "translation": true
         }
-    },
-    "orgPreferences": {
-        "enabled": [],
-        "disabled": []
     }
 }

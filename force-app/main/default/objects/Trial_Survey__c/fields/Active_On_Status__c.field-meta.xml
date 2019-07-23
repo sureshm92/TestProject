@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_On_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Active on status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Is_Midpoint__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Referral Sent to PI</fullName>
+                <default>false</default>
+                <label>Referral Sent to PI</label>
+            </value>
+            <value>
+                <fullName>Referral Accepted</fullName>
+                <default>false</default>
+                <label>Referral Accepted</label>
+            </value>
+            <value>
+                <fullName>Contact Attempt In Progress</fullName>
+                <default>false</default>
+                <label>Contact Attempt In Progress</label>
+            </value>
+            <value>
+                <fullName>Contact Successful</fullName>
+                <default>false</default>
+                <label>Contact Successful</label>
+            </value>
+            <value>
+                <fullName>Eligibility Passed</fullName>
+                <default>false</default>
+                <label>Eligibility Passed</label>
+            </value>
+            <value>
+                <fullName>Screening In Progress</fullName>
+                <default>false</default>
+                <label>Screening In Progress</label>
+            </value>
+            <value>
+                <fullName>Screening Complete</fullName>
+                <default>false</default>
+                <label>Screening Complete</label>
+            </value>
+            <value>
+                <fullName>Enrollment Success</fullName>
+                <default>false</default>
+                <label>Enrollment Success</label>
+            </value>
+            <value>
+                <fullName>Treatment Period Started</fullName>
+                <default>false</default>
+                <label>Treatment Period Started</label>
+            </value>
+            <value>
+                <fullName>Follow-Up Period Started</fullName>
+                <default>false</default>
+                <label>Follow-Up Period Started</label>
+            </value>
+            <value>
+                <fullName>Participation Complete</fullName>
+                <default>false</default>
+                <label>Participation Complete</label>
+            </value>
+            <value>
+                <fullName>Trial Complete</fullName>
+                <default>false</default>
+                <label>Trial Complete</label>
+            </value>
+            <value>
+                <fullName>Drop Out</fullName>
+                <default>false</default>
+                <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Enrolled</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Enrolled</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Referral Sent to PI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Referral Accepted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Contact Attempt In Progress</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Contact Successful</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Eligibility Passed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Screening In Progress</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Screening Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Enrollment Success</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Treatment Period Started</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Follow-Up Period Started</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <valueName>Participation Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <valueName>Trial Complete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <valueName>Drop Out</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

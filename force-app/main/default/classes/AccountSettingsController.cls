@@ -89,6 +89,22 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
+    public static Boolean changeOptInVisitResults(String contactId, Boolean isOptIn) {
+        try {
+            if(!PatientDelegateService.getInstance().isDelegate()) {
+                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                        .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = isOptIn), true);
+                return isOptIn;
+            } else {
+                return !isOptIn;
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
     public static void changeOptInEmail(Boolean participantOptInStatusEmail, Boolean hcpOptInPatientEmail, Boolean hcpOptInStudyEmail, Boolean hcpOptInRefStatusEmail) {
         try {
             Contact currentContact = getCurrentContact();
@@ -139,6 +155,7 @@ public without sharing class AccountSettingsController {
                         LastName,
                         AccountId,
                         Email,
+                        Fax,
                         Phone,
                         MailingAddress,
                         MailingCity,
@@ -157,7 +174,8 @@ public without sharing class AccountSettingsController {
                         HCP_Opt_In_Referral_Status_Emails__c,
                         Delegate_Opt_In_Status_Emails__c,
                         RRCookiesAllowedCookie__c,
-                        RRLanguageAllowedCookie__c
+                        RRLanguageAllowedCookie__c,
+                        Visit_Results_Opt_In__c
                 FROM Contact
                 WHERE Id IN (
                         SELECT ContactId
