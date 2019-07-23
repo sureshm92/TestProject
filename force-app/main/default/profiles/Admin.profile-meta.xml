@@ -2412,6 +2412,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Icon_Details__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Icons_package__c.Visit_Plan__c</field>
         <readable>true</readable>
@@ -5094,7 +5099,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
+        <recordType>Visit_Result__c.Lab_Result</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result__c-Visit_Result Layout</layout>
         <recordType>Visit_Result__c.Vital</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Visit_Result__c-Visit_Result Layout</layout>
+        <recordType>Visit_Result__c.Vitals</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
@@ -5756,7 +5769,17 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
+        <recordType>Visit_Result__c.Lab_Result</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
         <recordType>Visit_Result__c.Vital</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Visit_Result__c.Vitals</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabVisibilities>
@@ -5777,10 +5800,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Icons_Legend</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -5861,6 +5880,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Visit_Plan__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Visit_Result__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -5971,6 +5994,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateContentSpace</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -6487,6 +6514,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewEventLogFiles</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewFlowUsageAndFlowEventData</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

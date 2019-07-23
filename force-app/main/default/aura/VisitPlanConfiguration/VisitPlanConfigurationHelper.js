@@ -28,6 +28,15 @@
         component.set('v.visitId', null);
         component.find('customModal').show();
     },
+    editVisitLegend: function (component, event, helper) {
+        debugger;
+        component.find('editLegend').show();
+        component.find('legend').set('v.openCallback',function () {
+            debugger;
+            console.log('ssss');
+        });
+        $A.util.toggleClass(component.find('legend').find('spinner'), 'slds-hide');
+    },
     handleRecordUpdated: function (component, event, helper) {
         var eventParams = event.getParams();
         if (eventParams.changeType === "LOADED") {
