@@ -2,6 +2,22 @@
  * Created by Yehor Dobrovolskyi
  */
 public inherited sharing class VisitReportContainerRemote {
+    public static final List<Object> FORMAT_PARAMETERS = new List<Object>{
+            '',
+            ')',
+            '(BMI)',
+            'Blood urea nitrogen (',
+            'Alanine aminotransferase (',
+            'Aspartate aminotransferase ('
+    };
+    public static final List<Object> FORMAT_EMPTY_PARAMETERS = new List<Object>{
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+    };
 
     @AuraEnabled
     public static String getReportDataWrappers() {
@@ -43,6 +59,8 @@ public inherited sharing class VisitReportContainerRemote {
         public List<List<VisitDataWrapper>> visitResultsWrapper;
         @AuraEnabled
         public String tableName;
+        @AuraEnabled
+        public String tableApiName;
     }
 
     public class LabsNameDescriptionWrapper {
@@ -52,7 +70,8 @@ public inherited sharing class VisitReportContainerRemote {
         public String descriptionLab;
 
         public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM) {
-            this.nameLabs = TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName);
+
+            this.nameLabs = String.format(TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName), FORMAT_PARAMETERS);
             this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c);
         }
     }
@@ -70,7 +89,7 @@ public inherited sharing class VisitReportContainerRemote {
         public String measurement;
 
         public VisitDataWrapper(Visit_Result__c visitResult) {
-            this.value = TranslateHelper.getLabelValue(visitResult.Result_Type__c);
+            this.value = String.format(TranslateHelper.getLabelValue(visitResult.Result_Type__c), FORMAT_EMPTY_PARAMETERS);
             this.minValue = visitResult.Min_Value__c;
             this.maxValue = visitResult.Max_Value__c;
             this.measurement = visitResult.Measurement__c;
@@ -83,7 +102,7 @@ public inherited sharing class VisitReportContainerRemote {
         }
 
         public VisitDataWrapper(String value) {
-            this.value = TranslateHelper.getLabelValue(value);
+            this.value = String.format(TranslateHelper.getLabelValue(value), FORMAT_EMPTY_PARAMETERS);
             this.isShowRange = false;
         }
     }

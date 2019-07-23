@@ -534,7 +534,8 @@ public without sharing class StudySiteService {
         if (filter.siteType != null && filter.siteType != '') {
             filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
-        filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';
+        /*filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';*/
+        filterString += 'AND Site__r.BillingCountry = \'' + userCountry+'\' ';
 
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
