@@ -4112,6 +4112,13 @@
         <value>to update your information.</value>
     </labels>
     <labels>
+        <fullName>PG_AS_T_Display_Vitals_and_Lab_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS T Display Vitals and Lab Data</shortDescription>
+        <value>For vitals and lab assessments taken during my visits:</value>
+    </labels>
+    <labels>
         <fullName>PG_AL_Bottom_Signature_Link</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4152,6 +4159,13 @@
         <protected>true</protected>
         <shortDescription>PG AP H Contact Information</shortDescription>
         <value>Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_H_Display_Vitals_and_Lab_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS H Display Vitals and Lab Data</shortDescription>
+        <value>Display Vitals and Lab Data</value>
     </labels>
     <labels>
         <fullName>PG_AP_H_Patient_Details</fullName>
