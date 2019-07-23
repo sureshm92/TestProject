@@ -18,9 +18,13 @@ public with sharing class IntegrationVisitTriggerHandler{
     
     public  static void updateVisits(List<Integration_Visit__c> visits){
         Set<String> externalKeys = new Set<String>();
+        Set<String> visitNames = new Set<String>();
+        Set<Decimal> visitNumbers = new Set<Decimal>();
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
             externalKeys.add(visit.USUBJID__c);
+            visitNames.add(visit.VISIT__c);
+            visitNumbers.add(visit.VISITNUM__c);
             visit.Work_Status__c = 'Failed';
             patientVisitMap.put(visit.USUBJID__c, new List<Patient_Visit__c>());
         }
@@ -35,6 +39,8 @@ public with sharing class IntegrationVisitTriggerHandler{
                     Name
             FROM    Patient_Visit__c
             WHERE   Participant_Study_Enrollment__r.External_Key__c IN : externalKeys
+            AND     Visit_Number__c IN : visitNumbers
+            AND     Name IN : visitNames
             ORDER BY Visit_Number__c
             DESC
         ];
