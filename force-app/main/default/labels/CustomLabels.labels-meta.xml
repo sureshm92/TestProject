@@ -7895,6 +7895,20 @@
         <value>Dates</value>
     </labels>
     <labels>
+        <fullName>Report_Enrollment_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Enrollment Date</shortDescription>
+        <value>Enrollment Date:</value>
+    </labels>
+    <labels>
+        <fullName>Report_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Expected Range</shortDescription>
+        <value>Expected Range</value>
+    </labels>
+    <labels>
         <fullName>Report_Fasting_Lipid_Profile_header</fullName>
         <language>en_US</language>
         <protected>false</protected>
