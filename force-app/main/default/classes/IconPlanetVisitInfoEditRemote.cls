@@ -10,15 +10,17 @@ public with sharing class IconPlanetVisitInfoEditRemote {
     }
 
     @AuraEnabled
-    public static List<Icon_Details__c> getIconDetails() {
-        List<Icon_Details__c> details = new List<Icon_Details__c>();
-        details = [
+    public static List<Icon_Details__c> getIconDetails(String visitPlanId) {
+
+        List<Icon_Details__c> details = [
                 SELECT Id
                         ,Name
                         ,Label__c
                         ,Description__c
                         ,Custom_Icon__c
                 FROM Icon_Details__c
+                WHERE
+                        Visit_Plan__c = :visitPlanId
         ];
         return details;
     }

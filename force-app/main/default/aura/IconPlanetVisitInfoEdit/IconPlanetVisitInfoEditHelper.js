@@ -13,7 +13,10 @@
         helper.getCustomIconsNames(component)
             .then(function (customIcons) {
                 component.set('v.iconDetails', customIcons);
-                return helper.enqueue(component, 'c.getIconDetails', {});
+                return helper.enqueue(
+                    component,
+                    'c.getIconDetails',
+                    {visitPlanId: component.get('v.visitPlanId')});
             }, function (errorMessage) {
                 component.set('v.error', errorMessage);
             }).then(function (dbresult) {
@@ -28,7 +31,6 @@
                 }
             }
             component.set('v.iconDetails', customIcons);
-            $A.util.toggleClass(component.find('spinner'), 'slds-hide');
         }, function (err) {
             if (err && err[0].message) {
                 helper.notify({
@@ -77,33 +79,33 @@
             x.send(null);
         }));
     },
-    saveIconsLegend: function (component, event, helper) {
+    saveIconsLegend: function (component, event, helper, callback, errorCallback) {
         debugger;
         let iconsDetails = component.get('v.iconDetails');
-        let filtered = helper.getNotEmptyIcons(iconsDetails);
+        let notEmpty = helper.getNotEmptyIcons(iconsDetails);
+        let readyToGoIcons = helper.setIconsVisitPlan(component, notEmpty);
         helper.enqueue(component, 'c.saveIconInfo', {
-            'iconsDetails': filtered,
+            'iconsDetails': readyToGoIcons,
         }).then(function () {
-            helper.notify({
-                "title": "Success!",
-                "message": "saved successfully.",
-                "type": 'success'
-            });
+            callback();
         }, function (err) {
             if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
+                console.log('error:', err[0].message);
+                errorCallback(err[0].message);
             }
-            console.log('error:', err[0].message);
         });
     },
     getNotEmptyIcons: function (iconsDetail) {
         return iconsDetail.filter(function (el) {
             return el.Label__c && el.Description__c
         })
+    },
+    setIconsVisitPlan: function (component, iconsDetail) {
+        const visitPlan = component.get('v.visitPlanId');
+        iconsDetail.map(function (el) {
+            el.Visit_Plan__c = visitPlan;
+        });
+        return iconsDetail;
     },
 
 
