@@ -19,7 +19,7 @@ public with sharing class AdminPanelRemote {
         try {
             List<Batch_Executor__mdt> batchExecutors = [
                     SELECT Id, Label, DeveloperName, Relaunch_Interval__c
-                    FROM Batch_Executor__mdt
+                    FROM Batch_Executor__mdt ORDER BY Label
             ];
 
             Map<String, Batch_Executor__mdt> batchMap = new Map<String, Batch_Executor__mdt>();
@@ -46,22 +46,34 @@ public with sharing class AdminPanelRemote {
             ];
             Map<String, CronTrigger> scheduledBatches = new Map<String, CronTrigger>();
             for (CronTrigger ct : cronTriggers) scheduledBatches.put(ct.CronJobDetail.Name, ct);
-
+    
             Map<String, AsyncApexJob> completedJobs = new Map<String, AsyncApexJob>();
             for (AsyncApexJob aj : [
                     SELECT ApexClass.Name, CompletedDate, ExtendedStatus
                     FROM AsyncApexJob
                     WHERE Status = 'Completed'
-                        AND ApexClass.Name IN:batchMap.keySet()
-                        AND CompletedDate >=: System.now().addDays(-2)
+                    AND ApexClass.Name IN:batchMap.keySet()
+                    AND CompletedDate >=: System.now().addDays(-2)
                     ORDER BY CompletedDate DESC
             ]) {
                 if(!completedJobs.containsKey(aj.ApexClass.Name)) completedJobs.put(aj.ApexClass.Name, aj);
             }
-
+    
+            Map<String, AsyncApexJob> abortedJobs = new Map<String, AsyncApexJob>();
+            for (AsyncApexJob aj : [
+                    SELECT ApexClass.Name, CompletedDate, ExtendedStatus
+                    FROM AsyncApexJob
+                    WHERE Status = 'Aborted'
+                    AND ApexClass.Name IN: batchMap.keySet()
+                    AND CompletedDate >=: System.now().addDays(-2)
+                    ORDER BY CompletedDate DESC
+            ]) {
+                if(!abortedJobs.containsKey(aj.ApexClass.Name)) abortedJobs.put(aj.ApexClass.Name, aj);
+            }
+    
             List<JobWrapper> jobWrappers = new List<JobWrapper>();
             for (Batch_Executor__mdt bex : batchExecutors) {
-                jobWrappers.add(new JobWrapper(bex, scheduledBatches, runningBatches, completedJobs));
+                jobWrappers.add(new JobWrapper(bex, scheduledBatches, runningBatches, completedJobs, abortedJobs));
             }
 
             return jobWrappers;
@@ -84,6 +96,7 @@ public with sharing class AdminPanelRemote {
                     Batch_ReviewOnboardingFAQ.runHCP();
                 }
                 when 'part' {
+                    
                     Batch_ReviewOnboardingFAQ.runParticipant();
                 }
             }
@@ -148,16 +161,20 @@ public with sharing class AdminPanelRemote {
                 Batch_Executor__mdt be,
                 Map<String, CronTrigger> scheduledBatches,
                 Map<String, AsyncApexJob> asyncBatches,
-                Map<String, AsyncApexJob> completedJobs
+                Map<String, AsyncApexJob> completedJobs,
+                Map<String, AsyncApexJob> abortedJobs
         ) {
             this.jobName = be.DeveloperName;
             this.label = be.Label;
             this.showSpinner = false;
             this.period = (Integer) be.Relaunch_Interval__c;
 
+            Boolean stopped = false;
             if (completedJobs.containsKey(jobName)) {
                 prevJob = completedJobs.get(jobName);
                 prevLaunch = completedJobs.get(jobName).CompletedDate;
+                Long prevExecutionMin = (System.now().getTime() -  prevJob.CompletedDate.getTime())/(1000 * 60);
+                stopped = (be.Relaunch_Interval__c + 1) > prevExecutionMin;
             }
 
             if (asyncBatches.containsKey(jobName)) {
@@ -169,9 +186,12 @@ public with sharing class AdminPanelRemote {
                 jobId = scheduledBatches.get(jobName).Id;
                 state = 'SCHEDULED';
                 nextLaunch = scheduledBatches.get(jobName).NextFireTime;
-            } else {
+            } else if(abortedJobs.containsKey(jobName) || (completedJobs.isEmpty() && abortedJobs.isEmpty()) || stopped){
                 state = 'STOPPED';
                 css = 'ad-state-stopped';
+            } else {
+                state = 'RUNNING';
+                css = 'ad-state-running';
             }
         }
     }
