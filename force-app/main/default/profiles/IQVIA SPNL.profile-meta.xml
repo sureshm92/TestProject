@@ -5117,10 +5117,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
         <recordType>Visit_Result__c.Vital</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -5531,11 +5527,6 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Visit_Result__c.Lab</recordType>
-        <visible>true</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Visit_Result__c.Lab_Result</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
