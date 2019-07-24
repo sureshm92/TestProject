@@ -173,7 +173,7 @@ public with sharing class AdminPanelRemote {
                 prevJob = completedJobs.get(jobName);
                 prevLaunch = completedJobs.get(jobName).CompletedDate;
                 Long prevExecutionMs = System.now().getTime() -  prevJob.CompletedDate.getTime();
-                stopped = prevExecutionMs > 5000;
+                stopped = prevExecutionMs > 30000;
             }
 
             if (asyncBatches.containsKey(jobName)) {
