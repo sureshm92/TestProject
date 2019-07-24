@@ -96,7 +96,6 @@ public with sharing class AdminPanelRemote {
                     Batch_ReviewOnboardingFAQ.runHCP();
                 }
                 when 'part' {
-                    
                     Batch_ReviewOnboardingFAQ.runParticipant();
                 }
             }
@@ -169,12 +168,12 @@ public with sharing class AdminPanelRemote {
             this.showSpinner = false;
             this.period = (Integer) be.Relaunch_Interval__c;
 
-            Boolean stopped = false;
+            Boolean stopped = true;
             if (completedJobs.containsKey(jobName)) {
                 prevJob = completedJobs.get(jobName);
                 prevLaunch = completedJobs.get(jobName).CompletedDate;
-                Long prevExecutionMin = (System.now().getTime() -  prevJob.CompletedDate.getTime())/(1000 * 60);
-                stopped = (be.Relaunch_Interval__c + 1) > prevExecutionMin;
+                Long prevExecutionMs = System.now().getTime() -  prevJob.CompletedDate.getTime();
+                stopped = prevExecutionMs > 5000;
             }
 
             if (asyncBatches.containsKey(jobName)) {

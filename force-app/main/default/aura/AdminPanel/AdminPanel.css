@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
+    min-height: 200px;
+    position: relative;
 }
 
 .THIS .ad-card{
@@ -18,7 +20,6 @@
 
 .THIS th {
     text-align: center;
-    width: 30px;
 }
 
 .THIS .ad-table td{
@@ -42,6 +43,10 @@
     color: #ffffff;
     padding: 2px 7px;
     border-radius: 5px;
+}
+
+.THIS .ad-table .batch-name-col{
+    text-align: left;
 }
 
 .THIS .ad-state-stopped {
