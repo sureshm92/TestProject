@@ -7951,6 +7951,13 @@
         <value>My Study Data Report</value>
     </labels>
     <labels>
+        <fullName>Report_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Report Study Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
         <fullName>Report_Visits_Result_Text_Footer</fullName>
         <language>en_US</language>
         <protected>false</protected>
