@@ -36,7 +36,7 @@ public without sharing class VisitResultSharingService {
                             Patient_Visit__c,
                             Patient_Visit__r.Completed_Date__c,
                             Patient_Visit__r.Visit__c,
-                            Patient_Visit__r.Visit__r.Order__c,
+                            Patient_Visit__r.Visit__r.Visit_Number__c,
                             Result_Type__c
                     FROM Visit_Result__c
                     WHERE Id IN:getPatientVisitResults()
@@ -47,7 +47,7 @@ public without sharing class VisitResultSharingService {
 
             for (Visit_Result__c result : visitResultList) {
                 if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) continue;
-                if (result.Patient_Visit__r.Visit__r.Order__c <= ctp.Shareback_Availability_Timing__c) continue;
+                if (result.Patient_Visit__r.Visit__r.Visit_Number__c <= ctp.Shareback_Availability_Timing__c) continue;
 
                 for (Visit_Result_Type_Sharing__c resultTypeSharing : ctp.Visit_Result_Type_Sharings__r) {
                     if (resultTypeSharing.Type__c == result.Result_Type__c) {
