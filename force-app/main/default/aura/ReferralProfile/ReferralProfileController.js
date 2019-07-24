@@ -29,12 +29,14 @@
             component.set('v.enrollment', initData.enrollment);
             component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
             component.set('v.currentScreeningId', initData.enrollment.Screening_ID__c || '');
+            console.log('ENROLLMENT>>>', JSON.parse(JSON.stringify(component.get('v.enrollment'))));
             //set sticky bar position in browser window
             if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
         }, null, function () {
             spinner.hide();
         });
+
     },
     saveScreeningId: function (component, event, hepler) {
         var spinner = component.find('mainSpinner');

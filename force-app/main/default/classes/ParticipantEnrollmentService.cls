@@ -261,9 +261,12 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
             'Participant__r.Full_Name__c',
+            'Participant__r.Date_of_Birth__c',
+            'Participant__r.Gender__c',
             'Participant__r.Email__c',
             'Participant__r.Phone__c',
             'Participant__r.Mailing_State__c',
+            'Participant__r.Mailing_City__c',
             'Participant__r.Mailing_State_Code__c',
             'Participant__r.Mailing_Country__c',
             'Participant__r.Mailing_Country_Code__c',
@@ -316,6 +319,7 @@ public without sharing class ParticipantEnrollmentService {
             'Medical_Record_Review_Completedby_Name__c',
             'Pre_Eligibility_Date__c',
             'Screening_ID__c',
+            'MRN_Id__c',
             'Referral_Completedby_Name__c',
             'CreatedDate'
     };
