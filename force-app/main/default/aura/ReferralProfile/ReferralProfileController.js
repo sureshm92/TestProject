@@ -53,9 +53,11 @@
 
     updateParticipant: function(component, event, helper){
         var participant = component.get('v.participantRecord');
+        var peRecord = component.get('v.peRecord');
         console.log('participant:', participant);
         communityService.executeAction(component, 'updateParticipantData', {
-            participantJSON: JSON.stringify(participant)
+            participantJSON: JSON.stringify(participant),
+            perJSON : JSON.stringify(peRecord)
         }, function () {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             component.set('v.isShowPopup', false);
