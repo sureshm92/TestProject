@@ -117,24 +117,31 @@ public without sharing class AddPatientByPIRemote {
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
-            String peStatus = pe.Participant_Status__c;
-            pe.Participant_Status__c = pe.Id == null ? PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI : pe.Participant_Status__c;
-            pe.Referral_Source__c = 'PI';
-            ParticipantService.createParticipantAndUpdatePE(participant, pe);
-            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
-            List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-            for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
-                if(step.name == currentState.name) break;
-                if(step.name == PEStatusState.PE_ST_REFERRED) continue;
-                statusHistories.add(new Participant_Enrollment_Status_History__c(
-                        Notes__c = pe.Last_Status_Changed_Notes__c,
-                        Date__c = Datetime.now(),
-                        ParticipantEnrollment__c = pe.Id,
-                        NewStatus__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
-                ));
+            System.debug('pe.Id' + pe.Id);
+            if(pe.Id == null){
+                String peStatus = pe.Participant_Status__c;
+                pe.Participant_Status__c = pe.Id == null ? PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI : pe.Participant_Status__c;
+                pe.Referral_Source__c = 'PI';
+                ParticipantService.createParticipantAndUpdatePE(participant, pe);
+                PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
+                List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
+                for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
+                    if(step.name == currentState.name) break;
+                    if(step.name == PEStatusState.PE_ST_REFERRED) continue;
+                    statusHistories.add(new Participant_Enrollment_Status_History__c(
+                            Notes__c = pe.Last_Status_Changed_Notes__c,
+                            Date__c = Datetime.now(),
+                            ParticipantEnrollment__c = pe.Id,
+                            NewStatus__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                    ));
+                }
+                insert statusHistories;
+                pe.Participant_Status__c = peStatus;
+            }else{
+                String peId = pe.Id;
+                String peStatus = pe.Participant_Status__c;
+                pe = new Participant_Enrollment__c(Id = peId, Participant_Status__c = peStatus);
             }
-            insert statusHistories;
-            pe.Participant_Status__c = peStatus;
             update pe;
             return pe.Id;
         }catch (Exception e){
