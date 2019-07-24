@@ -28,13 +28,11 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
-            String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + resultTypesMap.get(result.TESTCD__c).Label;
-            System.debug(key);
-            System.debug(resultMap.keySet());
+            String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + resultTypesMap.get(result.TESTCD__c.toUpperCase()).DeveloperName;
             if(resultMap.containsKey(key)){
                 populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
-            } else if(visitMap.containsKey(key.removeEnd(result.TESTCD__c))){
-                newResults.add(createNewResult(visitMap.get(key.removeEnd(resultTypesMap.get(result.TESTCD__c).Label)), result, recordTypesMap, resultTypesMap));
+            } else if(visitMap.containsKey(key.removeEnd(resultTypesMap.get(result.TESTCD__c.toUpperCase()).DeveloperName))){
+                newResults.add(createNewResult(visitMap.get(key.removeEnd(resultTypesMap.get(result.TESTCD__c.toUpperCase()).DeveloperName)), result, recordTypesMap, resultTypesMap));
             }
         }
         update resultMap.values();
@@ -83,7 +81,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
     private static Map<String,Visit_Result_TypeM__mdt> getVisitResultTypesMap(){
         List<Visit_Result_TypeM__mdt> resultTypes = [
                 SELECT
-                        Label,
+                        DeveloperName,
                         Visit_Result_Code__c
                 FROM    Visit_Result_TypeM__mdt
         ];
@@ -91,7 +89,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         for(Visit_Result_TypeM__mdt resultType : resultTypes){
             if(resultType.Visit_Result_Code__c != null) {
                 for (String code : resultType.Visit_Result_Code__c.split(';')) {
-                    resultTypeMap.put(code, resultType);
+                    resultTypeMap.put(code.toUpperCase(), resultType);
                 }
             }
         }
@@ -105,8 +103,8 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         result.Measurement__c = integrationVisitResult.STRESU__c;
         result.Min_Value__c = integrationVisitResult.STNRLO__c;
         result.RecordTypeId = recordTypesMap.get(integrationVisitResult.Vital_or_Lab__c);
-        if(resultTypesMap.containsKey(integrationVisitResult.TESTCD__c)){
-            result.Result_Type__c = resultTypesMap.get(integrationVisitResult.TESTCD__c).Label;
+        if(resultTypesMap.containsKey(integrationVisitResult.TESTCD__c.toUpperCase())){
+            result.Result_Type__c = resultTypesMap.get(integrationVisitResult.TESTCD__c.toUpperCase()).DeveloperName;
         }
         integrationVisitResult.Work_Status__c = 'Success';
         integrationVisitResult.Processed__c = true;
