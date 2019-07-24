@@ -4,10 +4,10 @@
 
 public with sharing class PatientVisitTriggerHandler {
 
-    public class UpdateMissedVisits extends TriggerHandler{
+    /*public class UpdateMissedVisits extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            updateMissedVisits(newList);
+            //updateMissedVisits(newList);
         }
 
     }
@@ -51,5 +51,5 @@ public with sharing class PatientVisitTriggerHandler {
             }
         }
         if(recordsChanged) update patientVisits;
-    }
+    }*/
 }

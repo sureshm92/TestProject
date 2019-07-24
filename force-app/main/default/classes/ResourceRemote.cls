@@ -4,11 +4,11 @@ public with sharing class ResourceRemote {
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
 
         try {
-            ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+            ResourceDelegate rDelegate = (ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class);
             if ('Favorite'.equalsIgnoreCase(resourceMode)) {
-                return service.getFavoriteResources(resourceType);
+                return rDelegate.getFavoriteResources(resourceType);
             } else {
-                return service.getResources(resourceType);
+                return rDelegate.getResources(resourceType);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -20,7 +20,7 @@ public with sharing class ResourceRemote {
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
 
         try {
-            return ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getStudyDocuments();
+            return ((ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class)).getStudyDocuments();
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

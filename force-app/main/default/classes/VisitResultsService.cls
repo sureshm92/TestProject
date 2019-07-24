@@ -66,7 +66,11 @@ public inherited sharing class VisitResultsService {
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
         return visitResults.isEmpty()
                 ? null
-                : new VisitResultsContainer(visitResults[0].Patient_Visit__r, this.getVisitResultWrappers(visitResults, visitResultTypes), visitResultsGroupName);
+                : new VisitResultsContainer(
+                        visitResults[0].Patient_Visit__r,
+                        this.getVisitResultWrappers(visitResults, visitResultTypes),
+                        visitResultsGroupName
+                );
     }
 
     private List<VisitResultWrapper> getVisitResultWrappers(List<Visit_Result__c> visitResults, List<Visit_Result_TypeM__mdt> visitResultTypes) {
@@ -74,7 +78,11 @@ public inherited sharing class VisitResultsService {
         Map<String, Visit_Result__c> visitResultsByTypeDeveloperNames = this.getVisitResultsByTypeDeveloperNames(visitResults);
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
-            wrappers.add(new VisitResultWrapper(visitResultsByTypeDeveloperNames.get(singleVRT.DeveloperName), singleVRT.Label));
+            wrappers.add(new VisitResultWrapper(
+                    visitResultsByTypeDeveloperNames.get(singleVRT.DeveloperName),
+                    singleVRT.Label,
+                    TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c)
+            ));
         }
         return wrappers;
     }
@@ -115,19 +123,19 @@ public inherited sharing class VisitResultsService {
         public String name;
         @AuraEnabled
         public String measurement;
+        @AuraEnabled
+        public String description;
 
-        public VisitResultWrapper(Visit_Result__c visitResult, String name) {
+        public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
+
             this.name = name;
+            this.description = description;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
                 this.measurement = visitResult.Measurement__c;
             }
-        }
-
-        public VisitResultWrapper(String name) {
-            this.name = name;
         }
 
         public VisitResultWrapper(String name, Double value) {

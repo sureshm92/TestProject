@@ -1,7 +1,7 @@
 /**
  * created by Dmytro Pokutnii
  */
-public without sharing class ResourceService {
+public inherited sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
@@ -29,32 +29,12 @@ public without sharing class ResourceService {
         this.pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
     }
 
-    public ResourceWrapperContainer getResources(String resourceType) {
-
-        this.resourceType = resourceType;
-        return ((ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class))
-                .init(this)
-                .getResourceWrapperContainer();
-    }
-
-    public ResourceWrapperContainer getFavoriteResources(String resourceType) {
-
-        this.resourceType = resourceType;
-        return ((ResourceFavoriteService) ClassFactory.newInstance(ResourceFavoriteService.class))
-                .init(this)
-                .getResourceWrapperContainer();
-    }
-
-    public ResourceWrapperContainer getStudyDocuments() {
-
-        this.resourceType = ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT;
-        return ((ResourceStudyDocumentService) ClassFactory.newInstance(ResourceStudyDocumentService.class))
-                .init(this)
-                .getResourceWrapperContainer();
-    }
-
     public Participant__c getParticipant() {
         return (this.participant == null ? this.getParticipant(this.resourceType) : this.participant);
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
     }
 
     public String getResourceType() {
@@ -81,7 +61,7 @@ public without sharing class ResourceService {
                         '(SELECT Id, Resource__c FROM Resource_Actions__r WHERE IsFavorite__c = true AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\') ' +
                         'FROM Participant__c ' +
                         'WHERE Id = \'' + participantId + '\'';
-        this.participant = ((List<Participant__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(participantQuery))[0];
+        this.participant = ((List<Participant__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(participantQuery, true))[0];
         return this.participant;
     }
 
@@ -107,59 +87,6 @@ public without sharing class ResourceService {
 
     public static ResourceWrapperContainer getErrorUnhandled() {
         return new ResourceWrapperContainer('Unhandled Error.');
-    }
-
-    public ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
-
-        List<Resource__c> resources = new List<Resource__c>();
-        this.resourceType = resourceType;
-        if (ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType)) {
-            resources.addAll(((ResourceStudyDocumentService) ClassFactory.newInstance(ResourceStudyDocumentService.class))
-                    .init(this, resourceId)
-                    .getResources());
-        } else {
-            resources.addAll(((ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class))
-                    .init(this, resourceId)
-                    .getResources());
-        }
-        if (!resources.isEmpty()) {
-            return new ResourceWrapperContainer((List<ResourceWrapper>) new List<ResourceDetailWrapper>{
-                    new ResourceDetailWrapper(resources[0])
-            });
-        }
-        return new ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource);
-    }
-
-    public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
-
-        Set<Id> resourcesForDelete = new Set<Id>();
-        List<Res_study__c> relatedResStudies = [
-                SELECT Resource__r.Name,
-                        Resource__r.Title__c
-                FROM Res_study__c
-                WHERE (Clinical_Trial_Profile__c
-                        IN:trialProfiles) AND Resource__r.RecordType.DeveloperName = :RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
-        ];
-        if (!relatedResStudies.isEmpty()) {
-            for (Res_study__c r : relatedResStudies) {
-                resourcesForDelete.add(r.Resource__c);
-            }
-        }
-        List<Res_study__c> NotCompletedProfiles = [
-                SELECT Resource__r.Name,
-                        Resource__r.Title__c
-                FROM Res_study__c
-                WHERE (Clinical_Trial_Profile__c NOT IN:trialProfiles)AND Resource__c IN:resourcesForDelete
-        ];
-        if (!NotCompletedProfiles.isEmpty()) {
-            for (Res_study__c r : NotCompletedProfiles) {
-                resourcesForDelete.remove(r.Resource__c);
-            }
-        }
-        delete relatedResStudies;
-        if (!resourcesForDelete.isEmpty()) {
-            Database.delete(new List<Id>(resourcesForDelete));
-        }
     }
 
     public List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
@@ -192,7 +119,7 @@ public without sharing class ResourceService {
                         'FROM Resource__c ' +
                         whereClause +
                         (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
-        return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resourcesQuery);
+        return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resourcesQuery, true);
     }
 
     public ResourceWrapperContainer getResourceWrapperContainer(List<Resource__c> resources) {
