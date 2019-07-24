@@ -109,12 +109,12 @@ public class Test_ResourceService {
         ResourceService.ResourceWrapperContainer videosFavoritesContainer;
         ResourceService.ResourceWrapperContainer studyDocumentsContainer;
         System.runAs(users[0]) {
-            ResourceService service = new ResourceService();
-            articlesContainer = service.getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
-            videosContainer = service.getResources(ResourceService.RESOURCE_TYPE_VIDEO);
-            articlesFavoritesContainer = service.getFavoriteResources(ResourceService.RESOURCE_TYPE_ARTICLE);
-            videosFavoritesContainer = service.getFavoriteResources(ResourceService.RESOURCE_TYPE_VIDEO);
-            studyDocumentsContainer = service.getStudyDocuments();
+            ResourceDelegate rDelegate = new ResourceDelegate();
+            articlesContainer = rDelegate.getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
+            videosContainer = rDelegate.getResources(ResourceService.RESOURCE_TYPE_VIDEO);
+            articlesFavoritesContainer = rDelegate.getFavoriteResources(ResourceService.RESOURCE_TYPE_ARTICLE);
+            videosFavoritesContainer = rDelegate.getFavoriteResources(ResourceService.RESOURCE_TYPE_VIDEO);
+            studyDocumentsContainer = rDelegate.getStudyDocuments();
         }
         Test.stopTest();
 
@@ -156,10 +156,10 @@ public class Test_ResourceService {
         ResourceService.ResourceWrapperContainer singleResourceVideoContainer;
         ResourceService.ResourceWrapperContainer singleResourceStudyDocumentContainer;
         System.runAs(users[0]) {
-            ResourceService service = new ResourceService();
-            singleResourceArticleContainer = service.getResourcesById(resources[2].Id, ResourceService.RESOURCE_TYPE_ARTICLE);
-            singleResourceVideoContainer = service.getResourcesById(resources[1].Id, ResourceService.RESOURCE_TYPE_VIDEO);
-            singleResourceStudyDocumentContainer = service.getResourcesById(resources[4].Id, ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT);
+            ResourceDelegate rDelegate = new ResourceDelegate();
+            singleResourceArticleContainer = rDelegate.getResourcesById(resources[2].Id, ResourceService.RESOURCE_TYPE_ARTICLE);
+            singleResourceVideoContainer = rDelegate.getResourcesById(resources[1].Id, ResourceService.RESOURCE_TYPE_VIDEO);
+            singleResourceStudyDocumentContainer = rDelegate.getResourcesById(resources[4].Id, ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT);
         }
         Test.stopTest();
 
