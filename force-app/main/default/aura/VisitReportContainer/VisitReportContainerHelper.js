@@ -36,7 +36,7 @@
                             doc.setTextColor('#000096');
                             doc.setFontType('bold');
                             doc.text(reportData.participantFullName, 80, 120);
-                            doc.text($A.get('$Label.c.Report_Enrollment_Date') + reportData.enrollmentDate, 80, 140);
+                            doc.text($A.get('$Label.c.Report_Enrollment_Date')+ ' ' + reportData.enrollmentDate, 80, 140);
                             doc.text(reportData.studySiteName, 80, 160);
                             doc.setFontType('normal');
                             numberPageForTable = helper.generateTable(reportData, doc, helper);
@@ -59,9 +59,9 @@
         let numberPageForTable = 0;
         let heightY = 160;
         reportData.dataTables.forEach(function (tableResult, ind) {
-            doc.setFontType('normal');
+            doc.setFontType('bold');
             doc.setFontSize(16);
-            doc.setTextColor('#757575');
+            doc.setTextColor('#545454');
             heightY = helper.validationEndPage(doc, heightY + 50);
             doc.text(tableResult.tableName, 90, heightY);
             heightY += doc.internal.getLineHeight();

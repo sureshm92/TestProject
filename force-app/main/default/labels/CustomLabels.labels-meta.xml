@@ -7920,14 +7920,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Haematology header</shortDescription>
-        <value>Haematology Summary Table</value>
+        <value>Haematology Panel</value>
     </labels>
     <labels>
         <fullName>Report_Metabolic_Panel_header</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Metabolic Panel header</shortDescription>
-        <value>Metabolic Summary Table</value>
+        <value>Metabolic Panel</value>
     </labels>
     <labels>
         <fullName>Report_My_Study_Data</fullName>
