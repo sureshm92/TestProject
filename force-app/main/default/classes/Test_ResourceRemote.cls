@@ -96,7 +96,7 @@ public class Test_ResourceRemote {
     public static void getResources_FavoriteResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
                 .when('getFavoriteResources')
                 .then(new ResourceService.ResourceWrapperContainer(Label.Resources_No_Favorite_Articles))
                 .getInstance()
@@ -113,7 +113,7 @@ public class Test_ResourceRemote {
     public static void getResources_DefaultResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
                 .when('getResources')
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
                 .getInstance()
@@ -130,7 +130,7 @@ public class Test_ResourceRemote {
     public static void getResources_DocumentsResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
                 .when('getStudyDocuments')
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
                 .getInstance()

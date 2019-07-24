@@ -13,6 +13,9 @@
     addVisit: function (component, event, helper) {
         helper.addVisit(component, event, helper);
     },
+    editVisitLegend: function (component, event, helper) {
+        helper.editVisitLegend(component, event, helper);
+    },
 
     preload: function (component, event, helper) {
         const recId = component.get('v.visitPlanId');
@@ -49,11 +52,15 @@
         let strCoins = icons.join(';');
         component.find('splittedIcons').set('v.value', strCoins);
         let name = component.find('nameId').get("v.value");
-        name === null ? helper.notify({
-            "title": "Name Is Empty",
-            "message": "Complete Name field.",
-            "type": "error"
-        }) : component.find('editForm').submit();
+        if (name === null) {
+            helper.notify({
+                "title": "Name Is Empty",
+                "message": "Complete Name field.",
+                "type": "error"
+            })
+        } else {
+            component.find('editForm').submit();
+        }
     },
 
     shiftRight: function (component, event, helper) {
@@ -65,6 +72,10 @@
     },
     handleSuccess: function (component, event, helper) {
         debugger;
+        let spinner = component.find('mainSpinner');
+        if (spinner) {
+            spinner.show();
+        }
         component.find('customModal').hide();
         helper.getRelatedVisitPlans(component, event, helper);
         helper.notify({
@@ -73,4 +84,32 @@
             "type": $A.get("$Label.c.successType")
         });
     },
+    saveLegend: function (component, event, helper) {
+        debugger;
+        let legendCmp = component.find('legend');
+        if (legendCmp.isInstanceOf('c:Modalable')) {
+            legendCmp.save(function () {
+                helper.notify({
+                    "title": "Success!",
+                    "message": "saved successfully.",
+                    "type": 'success'
+                });
+                component.find('editLegend').hide();
+            }, function (error) {
+                helper.notify({
+                    title: 'error',
+                    message: error,
+                    type: 'error',
+                });
+            });
+        }
+    },
+    closeLegend: function (component, event, helper) {
+        component.find('editLegend').hide();
+    },
+    onSubmitCreateVisitPlan: function (component, event, helper) {
+        helper.checkOnEmptyName(component, event, helper);
+    }
+
+
 })

@@ -1470,6 +1470,14 @@
         <value>View My Studies</value>
     </labels>
     <labels>
+        <fullName>Edit_Visit_Legend</fullName>
+        <categories>Edit Visit Legend</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Edit Visit Legend</shortDescription>
+        <value>Edit Visit Legend</value>
+    </labels>
+    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4484,6 +4492,13 @@
         <value>Contact Information</value>
     </labels>
     <labels>
+        <fullName>PG_AS_H_Display_Vitals_and_Lab_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS H Display Vitals and Lab Data</shortDescription>
+        <value>Display Vitals and Lab Data</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_H_Email</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4574,6 +4589,13 @@
         <protected>false</protected>
         <shortDescription>PG AS T3 Contact Info</shortDescription>
         <value>to update your information.</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_T_Display_Vitals_and_Lab_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AS T Display Vitals and Lab Data</shortDescription>
+        <value>For vitals and lab assessments taken during my visits:</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Email_Preferences</fullName>
@@ -7430,7 +7452,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lab Results tab</shortDescription>
-        <value>Lab Results</value>
+        <value>Results</value>
     </labels>
     <labels>
         <fullName>PG_SW_Tab_Medical_Record_Review_Log</fullName>
@@ -7885,6 +7907,20 @@
         <protected>false</protected>
         <shortDescription>Report Dates</shortDescription>
         <value>Dates</value>
+    </labels>
+    <labels>
+        <fullName>Report_Enrollment_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Enrollment Date</shortDescription>
+        <value>Enrollment Date:</value>
+    </labels>
+    <labels>
+        <fullName>Report_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Expected Range</shortDescription>
+        <value>Expected Range</value>
     </labels>
     <labels>
         <fullName>Report_Fasting_Lipid_Profile_header</fullName>

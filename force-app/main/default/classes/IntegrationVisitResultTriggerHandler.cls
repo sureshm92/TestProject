@@ -4,18 +4,20 @@
 
 public without sharing class IntegrationVisitResultTriggerHandler {
 
-    public class UpdateVisitResults extends TriggerHandler{
+    public class CheckProcessedRecordsHandler extends TriggerHandler{
 
-        public override void afterInsert(List<SObject> newList) {
-            updateVisitResults(JSON.serialize(newList));
+        public override void beforeInsert(List<SObject> newList) {
+            setIsProcessed(newList, null);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setIsProcessed(newList, (Map<Id, Integration_VisitResult__c>)oldMap);
         }
 
     }
 
-    @future
-    private static void updateVisitResults(String jsonString){
+    public static void updateVisitResults(List<Integration_VisitResult__c> results){
         //If USUBJID, STUDYID, VISIT, VSDTC AND TESTCD ARE PRIMARY KEYS Exclude record if blank or NULL
-        List<Integration_VisitResult__c> results = (List<Integration_VisitResult__c>) JSON.deserialize(jsonString, List<Integration_VisitResult__c>.class);
         Set<String> externalIds = new Set<String>();
         Set<String> visitNames = new Set<String>();
         Set<Date> visitDates = new Set<Date>();
@@ -26,7 +28,6 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
-            result.Work_Status__c = 'Failed';
             String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
             if(resultMap.containsKey(key)){
                 populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
@@ -64,6 +65,7 @@ public without sharing class IntegrationVisitResultTriggerHandler {
 
     private static void getKeys(Set<String> externalIds, Set<String> visitNames, Set<Date> visitDates, List<Integration_VisitResult__c> results){
         for(Integration_VisitResult__c visitResult : results){
+            visitResult.Work_Status__c = 'Failed';
             if(visitResult.USUBJID__c != null
                     && visitResult.STUDYID__c != null
                     && visitResult.VISIT__c != null
@@ -104,6 +106,8 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         if(resultTypesMap.containsKey(integrationVisitResult.TESTCD__c)){
             result.Result_Type__c = resultTypesMap.get(integrationVisitResult.TESTCD__c).Label;
         }
+        integrationVisitResult.Work_Status__c = 'Success';
+        integrationVisitResult.Processed__c = true;
     }
 
     private static Map<String, Visit_Result__c> getVisitResultsMap(Set<String> externalIds, Set<String> visitNames, Set<Date> visitDates){
@@ -151,5 +155,13 @@ public without sharing class IntegrationVisitResultTriggerHandler {
             visitMap.put(key, visit);
         }
         return visitMap;
+    }
+
+    private static void setIsProcessed(List<Integration_VisitResult__c> newList, Map<Id, Integration_VisitResult__c> oldMap){
+        for(Integration_VisitResult__c visitResult : newList){
+            if(oldMap == null || visitResult.MD5__c != oldMap.get(visitResult.Id).MD5__c){
+                visitResult.Processed__c = false;
+            }
+        }
     }
 }
