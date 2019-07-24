@@ -683,6 +683,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceDelegate</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceExpBatchScheduler</apexClass>
         <enabled>false</enabled>
     </classAccesses>

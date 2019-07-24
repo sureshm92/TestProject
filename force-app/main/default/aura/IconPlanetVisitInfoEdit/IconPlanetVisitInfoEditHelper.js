@@ -2,13 +2,13 @@
  * Created by AlexKetch on 6/21/2019.
  */
 ({
-
     getIconsResourceName: function (component, event, helper) {
         let staticResName = component.get('v.IconsPackageName');
         let path = component.get('v.IconsPackageFIlePath');
         let iconsStaticURL = $A.get('$Resource.' + staticResName) + path;
         component.set('v.iconsURL', iconsStaticURL);
     },
+
     getIconDetails: function (component, event, helper) {
         helper.getCustomIconsNames(component)
             .then(function (customIcons) {
@@ -16,7 +16,7 @@
                 return helper.enqueue(
                     component,
                     'c.getIconDetails',
-                    {visitPlanId: component.get('v.visitPlanId')});
+                    {ctpId: component.get('v.ctpId')});
             }, function (errorMessage) {
                 component.set('v.error', errorMessage);
             }).then(function (dbresult) {
@@ -42,6 +42,7 @@
             console.log('error:', err[0].message);
         });
     },
+
     getCustomIconsNames: function (component) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var x = new XMLHttpRequest();
@@ -79,14 +80,17 @@
             x.send(null);
         }));
     },
+
     saveIconsLegend: function (component, event, helper, callback, errorCallback) {
         debugger;
         let iconsDetails = component.get('v.iconDetails');
         let notEmpty = helper.getNotEmptyIcons(iconsDetails);
-        let readyToGoIcons = helper.setIconsVisitPlan(component, notEmpty);
         helper.enqueue(component, 'c.saveIconInfo', {
-            'iconsDetails': readyToGoIcons,
+            'iconsDetails': notEmpty,
+            'ctpId' : component.get('v.ctpId')
         }).then(function () {
+            component.set('v.iconDetails', []);
+            helper.getIconDetails(component, event, helper);
             callback();
         }, function (err) {
             if (err && err[0].message) {
@@ -95,18 +99,10 @@
             }
         });
     },
+
     getNotEmptyIcons: function (iconsDetail) {
         return iconsDetail.filter(function (el) {
             return el.Label__c && el.Description__c
         })
     },
-    setIconsVisitPlan: function (component, iconsDetail) {
-        const visitPlan = component.get('v.visitPlanId');
-        iconsDetail.map(function (el) {
-            el.Visit_Plan__c = visitPlan;
-        });
-        return iconsDetail;
-    },
-
-
 })

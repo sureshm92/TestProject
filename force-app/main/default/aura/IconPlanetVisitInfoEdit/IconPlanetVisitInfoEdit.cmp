@@ -4,15 +4,18 @@
 <aura:component implements="flexipage:availableForAllPageTypes,c:Modalable" description="IconPlanetVisitInfoEdit"
                 extends="c:LightningService"
                 controller="IconPlanetVisitInfoEditRemote">
-    <aura:attribute name="iconDetails" type="Object[]"/>
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
     <!--ATTRIBUTES-->
+    <aura:attribute name="ctpId" type="String" description="Id of the Clinical Trial Profile" default="" required="true"/>
+    <aura:attribute name="iconDetails" type="Object[]"/>
     <aura:attribute name="IconsPackageName" default="Icons_legend" type="String"/>
     <aura:attribute name="IconsPackageFIlePath" default="/icons.svg" type="String"/>
     <aura:attribute name="iconsURL" type="String"/>
     <aura:attribute name="error" type="String"/>
-    <aura:attribute name="visitPlanId" type="String"/>
-    <!--ATTRIBUTES-->
+
+    <!--HANDLERS-->
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
     <lightning:notificationsLibrary aura:id="notifLib"/>
 
 
