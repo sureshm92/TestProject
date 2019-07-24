@@ -17,7 +17,7 @@ sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgA
 ```sh
 sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 ```
-- after import go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Ask about how to get access to this mailbox
+- after import go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. And remove from them from emailbox. Ask about how to get access to this mailbox
 
 then open setup:
 
