@@ -3,48 +3,33 @@
  */
 
 public with sharing class VisitConfigurationRemote {
-    @auraEnabled
+
+    @AuraEnabled
     public static List<Visit__c> getRelatedPlannedVisits(String ctpId) {
+        CTPSelector selector= (CTPSelector)ClassFactory.newInstance(CTPSelector.class);
+
         try {
-            List<Clinical_Trial_Profile__c> ctps = [
-                    SELECT Visit_Plan__c
-                    FROM Clinical_Trial_Profile__c
-                    WHERE Id = :ctpId
-            ];
+            List<Clinical_Trial_Profile__c> ctps = selector.getCtpById(ctpId);
             if (String.isNotBlank(ctps[0].Visit_Plan__c)) {
-                return [
-                        SELECT Id,Name
-                                ,Visit_Plan__c
-                                ,Visit_Schedule__c
-                                ,Visit_Number__c
-                                ,icons__c
-                        FROM Visit__c
-                        WHERE Visit_Plan__c = :ctps[0].Visit_Plan__c
-                ];
+                return selector.getVisitsByCtpId(ctps[0].Visit_Plan__c);
             } else {
                 return new List<Visit__c>();
             }
-
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
-
     }
-    @auraEnabled
+
+    @AuraEnabled
     public static List<Visit__c> updateCtp(String visitPlanId, String ctpId) {
         try {
-            Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c(
-                    Id = ctpId,
-                    Visit_plan__c = visitPlanId
-            );
-            update ctp;
-
+            ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                    .updateRecord(new Clinical_Trial_Profile__c(Id = ctpId, Visit_Plan__c = visitPlanId), false);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
-
     }
 
     @AuraEnabled
@@ -56,6 +41,4 @@ public with sharing class VisitConfigurationRemote {
             AuraHelper.throwException(e);
         }
     }
-
-
 }
