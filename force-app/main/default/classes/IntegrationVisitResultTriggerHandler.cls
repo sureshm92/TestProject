@@ -28,11 +28,13 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
-            String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + result.TESTCD__c;
+            String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + resultTypesMap.get(result.TESTCD__c).Label;
+            System.debug(key);
+            System.debug(resultMap.keySet());
             if(resultMap.containsKey(key)){
                 populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
             } else if(visitMap.containsKey(key.removeEnd(result.TESTCD__c))){
-                newResults.add(createNewResult(visitMap.get(key.removeEnd(result.TESTCD__c)), result, recordTypesMap, resultTypesMap));
+                newResults.add(createNewResult(visitMap.get(key.removeEnd(resultTypesMap.get(result.TESTCD__c).Label)), result, recordTypesMap, resultTypesMap));
             }
         }
         update resultMap.values();
