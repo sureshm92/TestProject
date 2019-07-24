@@ -12,7 +12,7 @@ public inherited sharing class ResourceTARelatedService extends ResourceBasicSer
                         'AND Resource__r.RecordType.DeveloperName = \'' + this.resourceType + '\' ' +
                         'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage() + '\' ';
         List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                .query(therapeuticAreaAssignmentsQuery);
+                .query(therapeuticAreaAssignmentsQuery, true);
         for (Therapeutic_Area_Assignment__c assignment : assignments) {
             this.resourcesIds.add(assignment.Resource__c);
         }

@@ -11,6 +11,9 @@
             <a href="javascript:void(0);" onclick="{!c.navToRecord}" class=" slds-text-link">{!v.visit.Name}</a>
         </td>
         <td>
+            <div class="slds-text-title slds-text-color_default">{!v.visit.Patient_Portal_Name__c}</div>
+        </td>
+        <td>
             <div class="slds-text-title slds-text-color_default">{!v.visit.Visit_Number__c}</div>
         </td>
         <td>

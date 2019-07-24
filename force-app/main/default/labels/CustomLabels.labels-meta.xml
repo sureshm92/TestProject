@@ -2746,6 +2746,13 @@
             To review the referrals, log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
     <labels>
+        <fullName>Empty_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty Reminder</shortDescription>
+        <value>If you need to receive email the &quot;Reminder Date&quot; cannot be empty or incorrect!</value>
+    </labels>
+    <labels>
         <fullName>Empty_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2989,6 +2996,13 @@
         <protected>false</protected>
         <shortDescription>In Progress</shortDescription>
         <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>Incorrect_data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Incorrect data</shortDescription>
+        <value>Please input correct data!</value>
     </labels>
     <labels>
         <fullName>Investigator_phone</fullName>
@@ -9385,6 +9399,13 @@
         <protected>true</protected>
         <shortDescription>Visit Order</shortDescription>
         <value>Visit Order</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Patient_Portal_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Patient Portal Name</shortDescription>
+        <value>PP Name</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Dashboard_My_Results</fullName>

@@ -703,6 +703,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceDelegate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceExpBatchScheduler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4827,6 +4831,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Visit__c.Order__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit__c.Patient_Portal_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
