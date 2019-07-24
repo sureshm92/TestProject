@@ -107,8 +107,8 @@
                 },
                 startY: heightY + 30,
                 margin: {
-                    right: 20,
-                    left: 60,
+                    right: 10,
+                    left: 50,
                     top: 60,
                     bottom: 60
                 },
@@ -123,8 +123,10 @@
         if (!isFirstPage) {
             doc.setFontSize(10);
             doc.setTextColor('#6e6e6e');
-            doc.text(reportData.studyCodeName, 500, 12);
-            doc.text(reportData.participantLastName, 500, 24);
+            if (reportData.studyCodeName) {
+                doc.text(reportData.studyCodeName, 600, 12);
+            }
+            doc.text(reportData.participantLastName, 600, 24);
         }
         doc.setDrawColor(0, 0, 100);
         doc.setLineWidth(8);
@@ -164,21 +166,29 @@
         } else {
             doc.setFontSize(18);
             doc.setTextColor('#000000');
-            let splitStudyCodeName = doc.splitTextToSize(reportData.studyCodeName, 500);
             heightY += 150;
-            splitStudyCodeName.forEach(function (el, ind) {
-                helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
-            });
-            heightY += doc.internal.getLineHeight() * splitStudyCodeName.length;
+            if (reportData.studyCodeName) {
+                let splitStudyCodeName = doc.splitTextToSize(reportData.studyCodeName, 500);
+                splitStudyCodeName.forEach(function (el, ind) {
+                    helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
+                });
+                heightY += doc.internal.getLineHeight() * splitStudyCodeName.length;
+            }  else {
+                heightY += 100;
+            }
         }
         doc.setFontSize(16);
         doc.setTextColor('#000000');
-        let splitStudyTitle = doc.splitTextToSize(reportData.studyTitle, 500);
         heightY += 50;
-        splitStudyTitle.forEach(function (el, ind) {
-            helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
-        });
-        heightY += doc.internal.getLineHeight() * splitStudyTitle.length;
+        if (reportData.studyTitle) {
+            let splitStudyTitle = doc.splitTextToSize(reportData.studyTitle, 500);
+            splitStudyTitle.forEach(function (el, ind) {
+                helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
+            });
+            heightY += doc.internal.getLineHeight() * splitStudyTitle.length;
+        } else {
+            heightY += 100;
+        }
         helper.centeredText($A.get('$Label.c.Report_My_Study_Data'), 50 + heightY, doc);
     }
 });
