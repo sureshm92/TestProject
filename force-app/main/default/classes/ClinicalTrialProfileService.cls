@@ -10,7 +10,7 @@ public with sharing class ClinicalTrialProfileService {
             }
         }
         //todo Complete tests
-        ((ResourceService) ClassFactory.newInstance(ResourceService.class)).deleteRelatedToStudyDocuments(completedTrials);
+        ((ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class)).deleteRelatedToStudyDocuments(completedTrials);
     }
 
     public void addDeleteTherapeuticAreasOnParticipants(List<Clinical_Trial_Profile__c> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {

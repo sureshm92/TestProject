@@ -1,0 +1,13 @@
+<!--
+ - Created by AlexKetch on 7/23/2019.
+ -->
+
+<aura:interface description="Madalable">
+    <aura:method name="closeModal">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+    <aura:method name="save">
+        <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="errorCallback" type="Function"/>
+    </aura:method>
+</aura:interface>
