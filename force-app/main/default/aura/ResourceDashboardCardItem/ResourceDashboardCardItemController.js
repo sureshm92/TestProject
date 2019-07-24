@@ -2,27 +2,24 @@
     {
         doInit : function (component, event, helper) {
 
-            component.set("v.resourcesLoading", true);
-            let action = component.get('c.getResources');
-            action.setParams({
+            component.set("v.initialized", false);
+            communityService.executeAction(component, 'getResources', {
                 resourceType: component.get('v.resourceType'),
                 resourceMode: 'Default'
-            });
-            action.setBackground();
-            action.setCallback(this, function(response) {
-                if(response.getState() === 'SUCCESS') {
-                    let returnValue = response.getReturnValue();
-                    component.set("v.resourcesLoading", false);
-                    if(!returnValue.errorMessage) {
-                        returnValue = helper.trimLongText(returnValue);
-                        component.set("v.resourceWrappers", returnValue.wrappers);
-                        component.set("v.errorMessage", "");
-                    } else {
-                        component.set("v.errorMessage", returnValue.errorMessage);
-                    }
+            }, function (returnValue) {
+                component.set("v.initialized", true);
+                let spinner = component.find('spinner');
+                if(spinner) {
+                    spinner.hide();
+                }
+                if(!returnValue.errorMessage) {
+                    returnValue = helper.trimLongText(returnValue);
+                    component.set("v.resourceWrappers", returnValue.wrappers);
+                    component.set("v.errorMessage", "");
+                } else {
+                    component.set("v.errorMessage", returnValue.errorMessage);
                 }
             });
-            $A.enqueueAction(action);
         },
 
         navigateToPage : function (component, event, helper) {

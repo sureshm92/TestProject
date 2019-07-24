@@ -7,9 +7,7 @@ public with sharing class ResourcesDetailRemote {
     public static ResourceService.ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
 
         try {
-            System.debug('Id resource: ' + resourceId);
-            ResourceService resourceService = (ResourceService) ClassFactory.newInstance(ResourceService.class);
-            return resourceService.getResourcesById(resourceId, resourceType);
+            return ((ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class)).getResourcesById(resourceId, resourceType);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

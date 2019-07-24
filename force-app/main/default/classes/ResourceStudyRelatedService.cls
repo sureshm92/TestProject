@@ -9,8 +9,8 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
                 'AND Resource__r.RecordType.DeveloperName = \'' + this.resourceType + '\' ' +
                 (this.contentClass == null ? '' : ('AND Resource__r.Content_Class__c = \'' + this.contentClass + '\' ')) +
                 (this.resourceId == null ? '' : ('AND Resource__c = \'' + this.resourceId + '\' ')) +
-                'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage(this.participant) + '\' ';
-        List<Res_study__c> resStudies = (List<Res_study__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resStudyQuery);
+                'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage() + '\' ';
+        List<Res_study__c> resStudies = (List<Res_study__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resStudyQuery, true);
         for (Res_study__c junction : resStudies) {
             this.resourcesIds.add(junction.Resource__c);
         }
