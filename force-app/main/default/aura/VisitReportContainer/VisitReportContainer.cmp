@@ -5,7 +5,7 @@
                 implements="forceCommunity:availableForAllPageTypes">
 
     <ltng:require
-            scripts="{!join(',', $Resource.rr_community_js, $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js')}"
+            scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js')}"
             afterScriptsLoaded=""/>
 
     <aura:attribute name="multiMode" type="Boolean"/>
