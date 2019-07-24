@@ -84,39 +84,62 @@
                                     </aura:if>
                                 </div>
                             </div>
-                            <div class="rr-output-field">
+                           <!-- <div class="rr-output-field">
                                 <div class="label">{!$Label.c.PE_Country}</div>
                                 <div class="value">{!v.enrollment.Participant__r.Mailing_Country__c}</div>
-                            </div>
-                            <aura:if isTrue="{!!empty(v.enrollment.Participant__r.Mailing_State__c)}">
+                            </div>-->
+                            <!--<aura:if isTrue="{!!empty(v.enrollment.Participant__r.Mailing_State__c)}">
                                 <div class="rr-output-field">
                                     <div class="label">{!$Label.c.PE_State}</div>
                                     <div class="value">{!v.enrollment.Participant__r.Mailing_State__c}</div>
                                 </div>
-                            </aura:if>
-                            <div class="rr-output-field" style="float:right">
+                            </aura:if>-->
+                            <!--<div class="rr-output-field" style="float:right">
                                    <lightning:button onclick="{!c.openPopup}">Edit Referral Details</lightning:button> 
-                            </div>
+                            </div>-->
+                        </div>
+                    </div>
+
+                    <div class="rp-gray-container slds-grid slds-wrap">
+                        <div class="slds-col slds-size--1-of-1 edit-referral-details">
+                            <span onclick="{!c.openPopup}">{!$Label.c.RP_Edit_Referral_Details}</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4 rp-info-text">
+                            <div class="rp-info-headers">{!$Label.c.RP_Personal_Information}</div>
+                            <div>{!v.enrollment.Participant__r.Full_Name__c}</div>
+                            <div>{!v.enrollment.Participant__r.Date_of_Birth__c}</div>
+                            <div>{!v.enrollment.Participant__r.Gender__c}</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4 rp-info-text">
+                            <div class="rp-info-headers">{!$Label.c.RP_Contact}</div>
+                            <div>{!v.enrollment.Participant__r.Email__c}</div>
+                            <div>{!v.enrollment.Participant__r.Phone__c}</div>
+                            <div>{!v.enrollment.Participant__r.Mailing_City__c + ' ' + v.enrollment.Participant__r.Mailing_State__c + ' ' +
+                                   v.enrollment.Participant__r.Mailing_Zip_Postal_Code__c + ' ' + v.enrollment.Participant__r.Mailing_Country__c}</div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4 rp-info-text">
+                            <div>{!$Label.c.RP_Screening_Subject_ID + ': ' + v.enrollment.Screening_ID__c}</div>
+                            <div>{!$Label.c.RP_MRN_Internal_ID +': '+ v.enrollment.MRN_Id__c}</div>
                         </div>
                     </div>
 
                     <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                        <!--<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                             <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                             <c:rrInput valueString="{!v.enrollment.Participant__r.Email__c}" placeholder="{!$Label.c.PG_AS_F_Email_address}" disabled="{!true}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
+                        </div>-->
+                       <!-- <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
                             <div class="label">{!$Label.c.PE_Phone_number}</div>
                             <c:rrInput valueString="{!v.enrollment.Participant__r.Phone__c}"  disabled="{!true}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
+                        </div>-->
+                       <!-- <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
                             <div class="{!'label' + if(v.enrollment.Screening_ID__c == v.currentScreeningId,'',' changed')}">{!$Label.c.PE_Screening_ID}</div>
                             <c:rrInput valueString="{!v.enrollment.Screening_ID__c}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
+                        </div>-->
+                       <!-- <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-12">
                             <button class="apollo-btn tertiary rp-save-btn" onclick="{!c.saveScreeningId}"
                                     disabled="{!v.enrollment.Screening_ID__c == v.currentScreeningId}">{!$Label.c.BTN_Save}</button>
-                        </div>
+                        </div>-->
                        <!--<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 rp-please-contact">
                             {!$Label.c.PG_RP_L_Information_incorrect + ' '}<c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>.
                         </div> -->
