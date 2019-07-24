@@ -9401,6 +9401,13 @@
         <value>Visit Order</value>
     </labels>
     <labels>
+        <fullName>Visit_Patient_Portal_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Patient Portal Name</shortDescription>
+        <value>PP Name</value>
+    </labels>
+    <labels>
         <fullName>Visit_Results_Dashboard_My_Results</fullName>
         <language>en_US</language>
         <protected>true</protected>
