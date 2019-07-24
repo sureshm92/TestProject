@@ -3,5 +3,5 @@
  */
 
 trigger IntegrationVisitResultTrigger on Integration_VisitResult__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
-    TriggerHandlerExecutor.execute(IntegrationVisitResultTriggerHandler.UpdateVisitResults.class);
+    TriggerHandlerExecutor.execute(IntegrationVisitResultTriggerHandler.CheckProcessedRecordsHandler.class);
 }

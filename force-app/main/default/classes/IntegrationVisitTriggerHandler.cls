@@ -3,23 +3,28 @@
  */
 
 public with sharing class IntegrationVisitTriggerHandler{
-
-
-    public class UpdateVisits extends TriggerHandler{
-
-        public override void afterInsert(List<SObject> newList) {
-            updateVisits(JSON.serialize(newList));
+    
+    public class CheckProcessedRecordsHandler extends TriggerHandler{
+    
+        public override void beforeInsert(List<SObject> newList) {
+            setIsProcessed(newList, null);
+        }
+    
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setIsProcessed(newList, (Map<Id, Integration_Visit__c>)oldMap);
         }
 
     }
-
-    @future
-    private static void updateVisits(String jsonString){
-        List<Integration_Visit__c> visits = (List<Integration_Visit__c>) JSON.deserialize(jsonString, List<Integration_Visit__c>.class);
+    
+    public  static void updateVisits(List<Integration_Visit__c> visits){
         Set<String> externalKeys = new Set<String>();
+        Set<String> visitNames = new Set<String>();
+        Set<Decimal> visitNumbers = new Set<Decimal>();
         Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
         for(Integration_Visit__c visit : visits){
             externalKeys.add(visit.USUBJID__c);
+            visitNames.add(visit.VISIT__c);
+            visitNumbers.add(visit.VISITNUM__c);
             visit.Work_Status__c = 'Failed';
             patientVisitMap.put(visit.USUBJID__c, new List<Patient_Visit__c>());
         }
@@ -34,6 +39,8 @@ public with sharing class IntegrationVisitTriggerHandler{
                     Name
             FROM    Patient_Visit__c
             WHERE   Participant_Study_Enrollment__r.External_Key__c IN : externalKeys
+            AND     Visit_Number__c IN : visitNumbers
+            AND     Name IN : visitNames
             ORDER BY Visit_Number__c
             DESC
         ];
@@ -67,11 +74,14 @@ public with sharing class IntegrationVisitTriggerHandler{
                     newVisits.add(createAdhockVisit(externalVisit, pseIdsMap));
                 }
                 externalVisit.Work_Status__c = 'Success';
+                externalVisit.Processed__c = true;
             }
         }
         update patientVisits;
         insert newVisits;
         update visits;
+        patientVisits.addAll(newVisits);
+        updateMissedVisits(patientVisits);
     }
 
     private static Boolean matchFoundByName(Integration_Visit__c externalVisit, Patient_Visit__c visit){
@@ -108,6 +118,55 @@ public with sharing class IntegrationVisitTriggerHandler{
     private static void updatePatientVisit(Integration_Visit__c externalVisit, Patient_Visit__c visit){
         visit.Status__c = 'Completed';
         visit.Completed_Date__c = externalVisit.SVSTDTC__c;
+    }
+    
+    private static void setIsProcessed(List<Integration_Visit__c> newList, Map<Id, Integration_Visit__c> oldMap){
+        for(Integration_Visit__c visit : newList){
+            if(oldMap == null || visit.MD5_Hash__c != oldMap.get(visit.Id).MD5_Hash__c){
+                visit.Processed__c = false;
+            }
+        }
+    }
+
+    private static void updateMissedVisits(List<Patient_Visit__c> patientVisits){
+        Set<String> visitExternalKeys = new Set<String>();
+        Set<Id> visitIds = new Set<Id>();
+        for(Patient_Visit__c visit : patientVisits){
+            visitIds.add(visit.Id);
+        }
+        List<Patient_Visit__c> visits = [
+                SELECT  Participant_Study_Enrollment__r.External_Key__c
+                FROM    Patient_Visit__c
+                WHERE   Id IN : visitIds
+        ];
+        for(Patient_Visit__c visit : visits){
+            visitExternalKeys.add(visit.Participant_Study_Enrollment__r.External_Key__c);
+        }
+        patientVisits = [
+                SELECT
+                        Id,
+                        Participant_Study_Enrollment__r.External_Key__c,
+                        Status__c,
+                        Visit_Number__c
+                FROM    Patient_Visit__c
+                WHERE   Participant_Study_Enrollment__r.External_Key__c IN : visitExternalKeys
+                AND     Status__c != 'Missed'
+                ORDER BY Visit_Number__c
+                        DESC
+        ];
+        Boolean recordsChanged = false;
+        Map<String, Patient_Visit__c> visitMap = new Map<String, Patient_Visit__c>();
+        for(Patient_Visit__c visit : patientVisits){
+            if(visit.Status__c == 'Completed'){
+                visitMap.put(visit.Participant_Study_Enrollment__r.External_Key__c, visit);
+            }
+            if(visitMap.containsKey(visit.Participant_Study_Enrollment__r.External_Key__c) && visitMap.get(visit.Participant_Study_Enrollment__r.External_Key__c).Visit_Number__c > visit.Visit_Number__c
+                    && visit.Status__c != 'Completed' && visit.Status__c != 'Missed'){
+                visit.Status__c = 'Missed';
+                recordsChanged = true;
+            }
+        }
+        if(recordsChanged) update patientVisits;
     }
 
 }

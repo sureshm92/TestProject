@@ -4,17 +4,15 @@
 
 public with sharing class PatientVisitTriggerHandler {
 
-    public class UpdateMissedVisits extends TriggerHandler{
+    /*public class UpdateMissedVisits extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            updateMissedVisits(JSON.serialize(newList));
+            //updateMissedVisits(newList);
         }
 
     }
 
-    @future
-    private static void updateMissedVisits(String jsonString){
-        List<Patient_Visit__c> patientVisits = (List<Patient_Visit__c>) JSON.deserialize(jsonString, List<Patient_Visit__c>.class);
+    private static void updateMissedVisits(List<Patient_Visit__c> patientVisits){
         Set<String> visitExternalKeys = new Set<String>();
         Set<Id> visitIds = new Set<Id>();
         for(Patient_Visit__c visit : patientVisits){
@@ -52,7 +50,6 @@ public with sharing class PatientVisitTriggerHandler {
                 recordsChanged = true;
             }
         }
-        if(recordsChanged)
-            update patientVisits;
-    }
+        if(recordsChanged) update patientVisits;
+    }*/
 }

@@ -10,6 +10,7 @@
                     contactId: component.get("v.contactId")
                 }, function (returnValue) {
                 component.set("v.isOptIn", returnValue);
+                component.set('v.optInChanged', true);
                 component.set("v.showModal", false);
             });
         }

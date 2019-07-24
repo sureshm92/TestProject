@@ -206,7 +206,7 @@
         component.set('v.isUpdated', true);
     },
 
-    doSwitchOptInVisitResults: function (component, event, helper) {
+    handleOkClick: function (component, event, helper) {
         communityService.executeAction(component, 'changeOptInVisitResults', {
             contactId: component.get('v.initData.myContact.Id'),
             isOptIn: component.get('v.initData.myContact.Visit_Results_Opt_In__c')
@@ -216,7 +216,7 @@
         });
     },
 
-    closeVisitResultsOptInModal: function (component, event, helper) {
+    handleCancelClick: function (component, event, helper) {
         component.set("v.initData.myContact.Visit_Results_Opt_In__c", false);
         component.set("v.showModal", false);
 
