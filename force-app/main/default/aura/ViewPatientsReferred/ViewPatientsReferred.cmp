@@ -51,10 +51,10 @@
                     </div>
             </aura:if>
             <!-- statistic panel -->
-            <aura:if isTrue="{!v.showStatistics}">
+           <!-- <aura:if isTrue="{!v.showStatistics}">
 
                 <c:MyPatientsStatistics statistics="{!v.statistics}" userMode="{!v.userMode}" currentBtnFilter="{!v.piBtnFilter}"/>
-            </aura:if>
+            </aura:if>-->
 
             <!-- filter panel -->
             <c:FilterPanel searchText="{!v.peFilter.searchText}"

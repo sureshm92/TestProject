@@ -27,21 +27,26 @@ public with sharing class ParticipantVisitsRemote {
     @AuraEnabled
     public static String getVisitsLegend(String iconNames) {
         try {
-            String query = 'SELECT Id, ' +
-                    'Name, ' +
-                    'Label__c, ' +
-                    'Description__c ' +
-                    'FROM Icon_Details__c ' +
-                    'WHERE Name IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(iconNames.split(';'))) + ')';
-            List<Icon_Details__c> iconsDetails = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
-            TranslateHelper.translate(iconsDetails);
             List<Legend> legends = new List<Legend>();
-            for (Icon_Details__c iconDetails : iconsDetails) {
-                Legend leg = new Legend();
-                leg.iconId = iconDetails.Name;
-                leg.iconLabel = iconDetails.Label__c;
-                leg.iconLegend = iconDetails.Description__c;
-                legends.add(leg);
+            ParticipantService.ParticipantState state = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+            if(String.isNotBlank(iconNames) && state.ctp != null && state.ctp.Visit_Plan__c != null) {
+                String query = 'SELECT Id, ' +
+                        'Name, ' +
+                        'Label__c, ' +
+                        'Description__c ' +
+                        'FROM Icon_Details__c ' +
+                        'WHERE Name IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(iconNames.split(';'))) + ') ' +
+                            'AND Visit_Plan__c = \'' + state.ctp.Visit_Plan__c + '\'';
+                List<Icon_Details__c> iconsDetails = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
+                TranslateHelper.translate(iconsDetails);
+
+                for (Icon_Details__c iconDetails : iconsDetails) {
+                    Legend leg = new Legend();
+                    leg.iconId = iconDetails.Name;
+                    leg.iconLabel = iconDetails.Label__c;
+                    leg.iconLegend = iconDetails.Description__c;
+                    legends.add(leg);
+                }
             }
             return JSON.serialize(legends);
         } catch (Exception e) {

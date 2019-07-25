@@ -10,7 +10,7 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate) {
+        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable()) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
@@ -31,7 +31,10 @@ public inherited sharing class VisitReportService {
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
         for (Patient_Visit__c patientVisit : patientVisits) {
             if (!patientVisit.Visit_Results__r.isEmpty()) {
-                Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(patientVisit.Visit_Results__r);
+                List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResults(patientVisit.Visit_Results__r);
+                if (visitResultsAvailable.isEmpty()) continue;
+                Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType();
+                Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(visitResultsAvailable);
                 for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
                     Boolean isResult = false;
                     List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
@@ -46,12 +49,13 @@ public inherited sharing class VisitReportService {
                     }
                     visitResultWrappers.sort();
                     for (VisitResultWrapper visitResultWrapper : visitResultWrappers) {
+                        if (notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) continue;
                         if (visitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
                             Visit_Result__c visitResult = visitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName);
                             if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
                                 reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult));
                             } else {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResultWrapper.visitResultTypeM.DeveloperName, visitResult.Measurement__c));
+                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
                             }
                             Decimal rounded = visitResult.Actual_Value__c.setScale(2, RoundingMode.HALF_UP);
                             String value = String.valueOf(rounded);
@@ -79,7 +83,6 @@ public inherited sharing class VisitReportService {
                             result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
                         }
                     }
-                    isResult = false;
                 }
             }
         }

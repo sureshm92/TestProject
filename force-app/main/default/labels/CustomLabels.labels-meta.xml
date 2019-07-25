@@ -2746,6 +2746,13 @@
             To review the referrals, log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
     </labels>
     <labels>
+        <fullName>Empty_Reminder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty Reminder</shortDescription>
+        <value>If you need to receive email the &quot;Reminder Date&quot; cannot be empty or incorrect!</value>
+    </labels>
+    <labels>
         <fullName>Empty_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2989,6 +2996,13 @@
         <protected>false</protected>
         <shortDescription>In Progress</shortDescription>
         <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>Incorrect_data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Incorrect data</shortDescription>
+        <value>Please input correct data!</value>
     </labels>
     <labels>
         <fullName>Investigator_phone</fullName>
@@ -3781,7 +3795,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Referring provider</shortDescription>
-        <value>Referring provider</value>
+        <value>Referral Source</value>
     </labels>
     <labels>
         <fullName>PE_ST_Contact_Attempts</fullName>
@@ -5801,7 +5815,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRRL L Date range</shortDescription>
-        <value>Date range</value>
+        <value>Date Range</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Excluded_from_referring</fullName>
@@ -7578,7 +7592,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG VP L Acceptance status</shortDescription>
-        <value>Acceptance status</value>
+        <value>Acceptance Status</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_My_Patients</fullName>
@@ -7634,7 +7648,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG VP L Study sites</shortDescription>
-        <value>Study sites</value>
+        <value>Study Sites</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings_Cookie_Description</fullName>
@@ -7746,6 +7760,41 @@
         <protected>false</protected>
         <shortDescription>RH Window Title</shortDescription>
         <value>IQVIA Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>RP_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Contact</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>RP_Edit_Referral_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Edit Referral Details</shortDescription>
+        <value>Edit Referral Details</value>
+    </labels>
+    <labels>
+        <fullName>RP_MRN_Internal_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP MRN/Internal ID</shortDescription>
+        <value>MRN/Internal ID</value>
+    </labels>
+    <labels>
+        <fullName>RP_Personal_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Personal Information</shortDescription>
+        <value>Personal Information</value>
+    </labels>
+    <labels>
+        <fullName>RP_Screening_Subject_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Screening Subject ID</shortDescription>
+        <value>Screening Subject ID</value>
     </labels>
     <labels>
         <fullName>RSN_Acceptance_of_Terms_and_Conditions_required</fullName>
@@ -7920,14 +7969,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Haematology header</shortDescription>
-        <value>Haematology Summary Table</value>
+        <value>Haematology Panel</value>
     </labels>
     <labels>
         <fullName>Report_Metabolic_Panel_header</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Report Metabolic Panel header</shortDescription>
-        <value>Metabolic Summary Table</value>
+        <value>Metabolic Panel</value>
     </labels>
     <labels>
         <fullName>Report_My_Study_Data</fullName>
@@ -7935,6 +7984,13 @@
         <protected>false</protected>
         <shortDescription>Report My Study Data</shortDescription>
         <value>My Study Data Report</value>
+    </labels>
+    <labels>
+        <fullName>Report_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Report Study Site</shortDescription>
+        <value>Study Site</value>
     </labels>
     <labels>
         <fullName>Report_Visits_Result_Text_Footer</fullName>
@@ -9385,6 +9441,13 @@
         <protected>true</protected>
         <shortDescription>Visit Order</shortDescription>
         <value>Visit Order</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Patient_Portal_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Patient Portal Name</shortDescription>
+        <value>PP Name</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Dashboard_My_Results</fullName>

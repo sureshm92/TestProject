@@ -123,6 +123,8 @@ public without sharing class PatientDelegateService {
     }
 
     public List<Id> getDelegatedUsersIds() {
+        if(delegates.isEmpty()) return new List<Id>();
+
         Map<Id, SObject> usersMap = new Map<Id, SObject>(
                 DatabaseService.query('SELECT Id FROM User WHERE ' + DatabaseService.fieldIn('ContactId', delegates))
         );

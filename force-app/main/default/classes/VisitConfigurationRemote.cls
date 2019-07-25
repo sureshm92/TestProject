@@ -4,22 +4,36 @@
 
 public with sharing class VisitConfigurationRemote {
 
-    @AuraEnabled
-    public static List<Visit__c> getRelatedPlannedVisits(String ctpId) {
-        CTPSelector selector= (CTPSelector)ClassFactory.newInstance(CTPSelector.class);
-
-        try {
-            List<Clinical_Trial_Profile__c> ctps = selector.getCtpById(ctpId);
-            if (String.isNotBlank(ctps[0].Visit_Plan__c)) {
-                return selector.getVisitsByCtpId(ctps[0].Visit_Plan__c);
-            } else {
-                return new List<Visit__c>();
-            }
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
+//    @AuraEnabled
+//    public static List<Visit__c> getRelatedPlannedVisits(String ctpId) {
+//        CTPSelector selector= (CTPSelector)ClassFactory.newInstance(CTPSelector.class);
+//
+//        try {
+//            List<Clinical_Trial_Profile__c> ctps = selector.getCtpById(ctpId);
+//            if (String.isNotBlank(ctps[0].Visit_Plan__c)) {
+//<<<<<<< HEAD
+//                return selector.getVisitsByCtpId(ctps[0].Visit_Plan__c);
+//=======
+//                return [
+//                        SELECT Id
+//                                ,Patient_Portal_Name__c
+//                                ,Name
+//                                ,Visit_Plan__c
+//                                ,Visit_Schedule__c
+//                                ,Visit_Number__c
+//                                ,icons__c
+//                        FROM Visit__c
+//                        WHERE Visit_Plan__c = :ctps[0].Visit_Plan__c
+//                ];
+//>>>>>>> c6bfe2ac05b391a7fa336be1badece5126f4a339
+//            } else {
+//                return new List<Visit__c>();
+//            }
+//        } catch (Exception e) {
+//            AuraHelper.throwException(e);
+//        }
+//        return null;
+//    }
 
     @AuraEnabled
     public static List<Visit__c> updateCtp(String visitPlanId, String ctpId) {
