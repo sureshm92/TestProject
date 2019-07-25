@@ -66,7 +66,7 @@
 
         <aura:if isTrue="{!v.userMode == 'PI'}">
             <aura:iteration items="{! v.currentObjects}" var="item">
-                <c:ReferringClinicItem clinicWrapper="{!item}" userMode="{!v.userMode}" filterByStudy="{!v.showEnrollments}" parent="{!this}"/>
+                <c:ReferringClinicItem clinicWrapper="{!item}" userMode="{!v.userMode}" filterByStudy="{!v.showEnrollments}" ssId="{!v.ssId}" parent="{!this}"/>
             </aura:iteration>
         </aura:if>
         <aura:if isTrue="{!v.userMode == 'HCP'}">

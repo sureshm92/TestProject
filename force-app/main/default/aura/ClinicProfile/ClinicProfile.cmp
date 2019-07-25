@@ -70,7 +70,7 @@
                     <li id="Overview" class="{!if(v.currentStudyId == 'Overview', 'active', '')}" onclick="{!c.doSelectStudy}">{!$Label.c.PG_CP_L_Overview}</li>
                     <aura:iteration items="{!v.myStudies}" var="studyDetail">
                         <li id="{!studyDetail.studySite.Id}" class="{!if(v.currentStudyId == studyDetail.studySite.Id, 'active', '')}"
-                            onclick="{!c.doSelectStudy}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c}</li>
+                            onclick="{!c.doSelectStudy}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c + ' (' + studyDetail.studySite.Name +')'}</li>
                     </aura:iteration>
                 </ul>
             </div>

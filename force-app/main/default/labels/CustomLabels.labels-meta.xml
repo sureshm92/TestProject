@@ -3795,7 +3795,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Referring provider</shortDescription>
-        <value>Referring provider</value>
+        <value>Referral Source</value>
     </labels>
     <labels>
         <fullName>PE_ST_Contact_Attempts</fullName>
@@ -5815,7 +5815,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRRL L Date range</shortDescription>
-        <value>Date range</value>
+        <value>Date Range</value>
     </labels>
     <labels>
         <fullName>PG_MRRL_L_Excluded_from_referring</fullName>
@@ -7592,7 +7592,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG VP L Acceptance status</shortDescription>
-        <value>Acceptance status</value>
+        <value>Acceptance Status</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_My_Patients</fullName>
@@ -7648,7 +7648,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG VP L Study sites</shortDescription>
-        <value>Study sites</value>
+        <value>Study Sites</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings_Cookie_Description</fullName>
@@ -7760,6 +7760,41 @@
         <protected>false</protected>
         <shortDescription>RH Window Title</shortDescription>
         <value>IQVIA Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>RP_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Contact</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>RP_Edit_Referral_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Edit Referral Details</shortDescription>
+        <value>Edit Referral Details</value>
+    </labels>
+    <labels>
+        <fullName>RP_MRN_Internal_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP MRN/Internal ID</shortDescription>
+        <value>MRN/Internal ID</value>
+    </labels>
+    <labels>
+        <fullName>RP_Personal_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Personal Information</shortDescription>
+        <value>Personal Information</value>
+    </labels>
+    <labels>
+        <fullName>RP_Screening_Subject_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Screening Subject ID</shortDescription>
+        <value>Screening Subject ID</value>
     </labels>
     <labels>
         <fullName>RSN_Acceptance_of_Terms_and_Conditions_required</fullName>
@@ -9406,6 +9441,13 @@
         <protected>true</protected>
         <shortDescription>Visit Order</shortDescription>
         <value>Visit Order</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Patient_Portal_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Patient Portal Name</shortDescription>
+        <value>PP Name</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Dashboard_My_Results</fullName>

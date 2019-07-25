@@ -83,8 +83,9 @@ public without sharing class ReferralProfileRemote {
     }
 
      @AuraEnabled
-    public static void updateParticipantData(String participantJSON){
+    public static void updateParticipantData(String participantJSON, String perJSON){
         update (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        update (Participant_Enrollment__c)JSON.deserialize(perJSON, Participant_Enrollment__c.class);
     }
     
     @AuraEnabled
