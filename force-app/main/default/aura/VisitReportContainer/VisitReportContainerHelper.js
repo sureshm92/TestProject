@@ -62,14 +62,14 @@
             doc.setFontType('bold');
             doc.setFontSize(16);
             doc.setTextColor('#545454');
-            heightY = helper.validationEndPage(doc, heightY + 50);
+            heightY = helper.validationEndPage(doc, heightY + 50, 100);
             doc.text(tableResult.tableName, 90, heightY);
             heightY += doc.internal.getLineHeight();
             tableResult.labsDescription.forEach(function (lab) {
                 doc.setFontType('bold');
                 doc.setFontSize(11);
                 doc.setTextColor('#000000');
-                heightY = helper.validationEndPage(doc, heightY + 10);
+                heightY = helper.validationEndPage(doc, heightY + 10, 75);
                 doc.text(lab.nameLabs, 90, heightY);
                 doc.setFontType('normal');
                 doc.setFontSize(11);
@@ -150,8 +150,9 @@
         doc.text(textOffset + 12, y, text);
     },
 
-    validationEndPage: function (doc, heightY) {
-        if (heightY > doc.internal.pageSize.height - 55) {
+    validationEndPage: function (doc, heightY, margiBottom) {
+        margiBottom = typeof margiBottom !== 'undefined' ?  margiBottom : 55;
+        if (heightY > doc.internal.pageSize.height - margiBottom) {
             doc.addPage();
             heightY = 80;
         }
