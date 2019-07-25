@@ -636,6 +636,12 @@
     }
 }
 
+@media all and (max-width: 600px) {
+    .THIS .ss-info-address{
+        word-wrap: break-word;
+    }
+}
+
 @media all and (min-width: 768px) {
     .THIS .site-distance {
         text-align: right;

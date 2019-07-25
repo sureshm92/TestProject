@@ -135,21 +135,22 @@
                         </div>
                     </div>
                 </div>
-                <aura:if isTrue="{!!v.isEditMode}">
                 <div class="ap-section">
                     <div class="ap-section-title">{!$Label.c.PG_AP_H_Referral_Information}</div>
                     <div class="slds-grid slds-gutters slds-wrap">
-                        <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Patient_Status}</div>
-                            <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
-                        </div>
-                        <div class="rr-form-element slds-col">
-                            <div class="label"><abbr title="required"
-                                                     class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
-                            <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
-                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
-                        </div>
+                        <aura:if isTrue="{!!v.isEditMode}">
+                            <div class="rr-form-element slds-col">
+                                <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Patient_Status}</div>
+                                <c:rrSelect options="{!v.formData.peStatusLVList}" value="{!v.pe.Participant_Status__c}"
+                                            placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
+                            </div>
+                            <div class="rr-form-element slds-col">
+                                <div class="label"><abbr title="required"
+                                                         class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
+                                <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
+                                            placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
+                            </div>
+                        </aura:if>
                         <div class="rr-form-element slds-col">
                             <div class="label">
                                 <aura:if isTrue="{!v.screeningRequired}">
@@ -166,7 +167,6 @@
                         </div>
                     </div>
                 </div>
-                </aura:if>
             </div>
             <div class="ap-bottom-info">
                <!-- {!$Label.c.PG_AL_Bottom_Signature}&nbsp;
