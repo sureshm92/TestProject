@@ -80,7 +80,7 @@ public without sharing class VisitResultSharingService {
             if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
             for (Visit_Result__c result : visitResults) {
-                if (result.Patient_Visit__r.Visit__r.Order__c <= ctp.Shareback_Availability_Timing__c) continue;
+                if (result.Patient_Visit__r.Visit__r.Visit_Number__c <= ctp.Shareback_Availability_Timing__c) continue;
                 if (visitResultTypeSharingByType.isEmpty()) {
                     VisitResultSharingService.getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
                 }
