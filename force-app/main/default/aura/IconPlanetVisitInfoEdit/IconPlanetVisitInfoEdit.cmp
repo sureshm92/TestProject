@@ -22,7 +22,7 @@
   <!--  <aura:method name="save" action="{!c.saveLegend}"/>
     <aura:method name="close" action="{!c.closeLegend}"/>-->
     <!--SPINNER-->
- <!--   <lightning:spinner aura:Id="spinner" size="medium"/>-->
+    <lightning:spinner class="slds-hide" aura:Id="spinner" size="medium"/>
     <!--SPINNER-->
     <lightning:card>
         <!-- ICONS TABLE -->

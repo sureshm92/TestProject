@@ -20,17 +20,7 @@
             }, function (errorMessage) {
                 component.set('v.error', errorMessage);
             }).then(function (dbresult) {
-            let customIcons = component.get('v.iconDetails');
-            for (let i = 0; i < customIcons.length; i++) {
-                let index = dbresult.findIndex(function (item) {
-                    return item.Name == customIcons[i].Name;
-                });
-                if (index > -1) {
-                    customIcons[i] = dbresult[index];
-                    dbresult.splice(index, 1);
-                }
-            }
-            component.set('v.iconDetails', customIcons);
+            helper.replaceFromDb(component, dbresult);
         }, function (err) {
             if (err && err[0].message) {
                 helper.notify({
@@ -82,22 +72,33 @@
     },
 
     saveIconsLegend: function (component, event, helper, callback, errorCallback) {
-        debugger;
+        helper.spinnerOn(component);
         let iconsDetails = component.get('v.iconDetails');
         let notEmpty = helper.getNotEmptyIcons(iconsDetails);
         helper.enqueue(component, 'c.saveIconInfo', {
             'iconsDetails': notEmpty,
-            'ctpId' : component.get('v.ctpId')
+            'ctpId': component.get('v.ctpId')
         }).then(function () {
-            component.set('v.iconDetails', []);
-            helper.getIconDetails(component, event, helper);
-            callback();
+            return helper.enqueue(
+                component,
+                'c.getIconDetails',
+                {ctpId: component.get('v.ctpId')});
         }, function (err) {
             if (err && err[0].message) {
                 console.log('error:', err[0].message);
                 errorCallback(err[0].message);
             }
-        });
+        }).then(function (dbresult) {
+                helper.replaceFromDb(component, dbresult);
+                helper.spinnerOff(component);
+                callback();
+            }, function (err) {
+                if (err && err[0].message) {
+                    console.log('error:', err[0].message);
+                    errorCallback(err[0].message);
+                }
+            }
+        );
     },
 
     getNotEmptyIcons: function (iconsDetail) {
@@ -105,4 +106,25 @@
             return el.Label__c && el.Description__c
         })
     },
+    replaceFromDb: function (component, dbResult) {
+        let customIcons = component.get('v.iconDetails');
+        for (let i = 0; i < customIcons.length; i++) {
+            let index = dbResult.findIndex(function (item) {
+                return item.Name == customIcons[i].Name;
+            });
+            if (index > -1) {
+                customIcons[i] = dbResult[index];
+                dbResult.splice(index, 1);
+            }
+        }
+        component.set('v.iconDetails', customIcons);
+    },
+    spinnerOff: function (component) {
+        let spinner = component.find('spinner');
+        $A.util.addClass(spinner, 'slds-hide');
+    },
+    spinnerOn: function (component) {
+        let spinner = component.find('spinner');
+        $A.util.removeClass(spinner, 'slds-hide');
+    }
 })
