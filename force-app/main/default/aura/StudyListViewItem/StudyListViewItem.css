@@ -582,8 +582,8 @@
 }
 
  .THIS .rri-icon-pi svg{
-     height: 16px;
-     width: 16px;
+     height: 18px;
+     width: 18px;
  }
 
 @media all and (max-width: 767px) {
@@ -603,16 +603,16 @@
     }
 
     .THIS .rri-icon svg {
-        height: 16px;
-        width: 13px;
+        height: 18px;
+        width: 18px;
     }
 
     .THIS .rri-icon span {
         margin: .125rem !important;
     }
     .THIS .rri-icon-pi svg {
-        height: 16px;
-        width: 13px;
+        height: 18px;
+        width: 18px;
     }
 
     .THIS .rri-icon-pi span {
