@@ -8,9 +8,8 @@ public inherited sharing class IconPlanetVisitInfoEditRemote {
     public static void saveIconInfo(List<Icon_Details__c> iconsDetails, String ctpId) {
         CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
 
-        List<Clinical_Trial_Profile__c> ctp = selector.getCtpById(ctpId);
         try {
-
+            List<Clinical_Trial_Profile__c> ctp = selector.getCtpById(ctpId);
             if (ctp != null) {
                 for (Icon_Details__c singleIconDetails : iconsDetails) {
                     singleIconDetails.Visit_Plan__c = ctp[0].Visit_Plan__c;
