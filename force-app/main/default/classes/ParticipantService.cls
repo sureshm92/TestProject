@@ -148,9 +148,10 @@ public class ParticipantService {
                 }
             }
         }*/
-
-        DuplicateContactController.isPERCreated = true;
-        participant = DuplicateContactController.communityReffering(participant, pe);
+        if(participant.Id == null){
+            DuplicateContactController.isPERCreated = true;
+            participant = DuplicateContactController.communityReffering(participant, pe);
+        }
 
         if (participant.Id != null) {
             pe.Participant__c = participant.Id;

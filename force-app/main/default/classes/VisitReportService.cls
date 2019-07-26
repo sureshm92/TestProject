@@ -33,6 +33,7 @@ public inherited sharing class VisitReportService {
             if (!patientVisit.Visit_Results__r.isEmpty()) {
                 List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResults(patientVisit.Visit_Results__r);
                 if (visitResultsAvailable.isEmpty()) continue;
+                Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType();
                 Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(visitResultsAvailable);
                 for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
                     Boolean isResult = false;
@@ -48,12 +49,13 @@ public inherited sharing class VisitReportService {
                     }
                     visitResultWrappers.sort();
                     for (VisitResultWrapper visitResultWrapper : visitResultWrappers) {
+                        if (notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) continue;
                         if (visitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
                             Visit_Result__c visitResult = visitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName);
                             if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
                                 reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult));
                             } else {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResultWrapper.visitResultTypeM.DeveloperName));
+                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
                             }
                             Decimal rounded = visitResult.Actual_Value__c.setScale(2, RoundingMode.HALF_UP);
                             String value = String.valueOf(rounded);
@@ -81,7 +83,6 @@ public inherited sharing class VisitReportService {
                             result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
                         }
                     }
-                    isResult = false;
                 }
             }
         }
