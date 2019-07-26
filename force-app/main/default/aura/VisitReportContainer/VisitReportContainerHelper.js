@@ -36,8 +36,8 @@
                             doc.setTextColor('#000096');
                             doc.setFontType('bold');
                             doc.text(reportData.participantFullName, 80, 120);
-                            doc.text($A.get('$Label.c.Report_Enrollment_Date') + reportData.enrollmentDate, 80, 140);
-                            doc.text(reportData.studySiteName, 80, 160);
+                            doc.text($A.get('$Label.c.Report_Enrollment_Date')+ ' ' + reportData.enrollmentDate, 80, 140);
+                            doc.text($A.get('$Label.c.Report_Study_Site') + ': '+ reportData.studySiteName, 80, 160);
                             doc.setFontType('normal');
                             numberPageForTable = helper.generateTable(reportData, doc, helper);
                             for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
@@ -59,17 +59,17 @@
         let numberPageForTable = 0;
         let heightY = 160;
         reportData.dataTables.forEach(function (tableResult, ind) {
-            doc.setFontType('normal');
+            doc.setFontType('bold');
             doc.setFontSize(16);
-            doc.setTextColor('#757575');
-            heightY = helper.validationEndPage(doc, heightY + 50);
+            doc.setTextColor('#545454');
+            heightY = helper.validationEndPage(doc, heightY + 50, 100);
             doc.text(tableResult.tableName, 90, heightY);
             heightY += doc.internal.getLineHeight();
             tableResult.labsDescription.forEach(function (lab) {
                 doc.setFontType('bold');
                 doc.setFontSize(11);
                 doc.setTextColor('#000000');
-                heightY = helper.validationEndPage(doc, heightY + 10);
+                heightY = helper.validationEndPage(doc, heightY + 10, 75);
                 doc.text(lab.nameLabs, 90, heightY);
                 doc.setFontType('normal');
                 doc.setFontSize(11);
@@ -150,8 +150,9 @@
         doc.text(textOffset + 12, y, text);
     },
 
-    validationEndPage: function (doc, heightY) {
-        if (heightY > doc.internal.pageSize.height - 55) {
+    validationEndPage: function (doc, heightY, margiBottom) {
+        margiBottom = typeof margiBottom !== 'undefined' ?  margiBottom : 55;
+        if (heightY > doc.internal.pageSize.height - margiBottom) {
             doc.addPage();
             heightY = 80;
         }

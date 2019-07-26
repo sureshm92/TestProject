@@ -60,7 +60,7 @@
             case 'manageReferralsBySS':
                 var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
                // communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referrals");
-                communityService.navigateToPage("my-referrals?siteId="+studySiteId);
+                communityService.navigateToPage("my-referrals?id=" +trialId+"&siteId="+studySiteId);
                 break;
             case 'manageReferringClinics':
                 communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");

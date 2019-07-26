@@ -16,7 +16,7 @@
                 maxValue = value + 10;
             }
             component.set('v.showFilledTrackPrivate', component.get('v.showFilledTrack'));
-            component.set('v.valueInBox', value);
+            component.set('v.valueInBox', this.roundValue(value));
             value = helper.getValidValue(value, minValue, maxValue);
             component.set('v.value', value);
 
@@ -56,6 +56,10 @@
         hideComponent : function(component, message) {
             component.set('v.hidden', true);
             console.log(message);
+        },
+
+        roundValue: function(value) {
+          return +(Math.round(value + "e+3")  + "e-3");
         },
     }
 )
