@@ -48,11 +48,19 @@
     },
 
     submitForm: function (component, event, helper) {
+        let spinner = component.find('mainSpinner');
+        if (spinner) {
+            spinner.show();
+        }
         let icons = component.get('v.selectedIcons');
         let strCoins = icons.join(';');
         component.find('splittedIcons').set('v.value', strCoins);
         let name = component.find('nameId').get("v.value");
         if (name === null) {
+            let spinner = component.find('mainSpinner');
+            if(spinner) {
+                spinner.hide();
+            }
             helper.notify({
                 "title": "Name Is Empty",
                 "message": "Complete Name field.",
@@ -72,10 +80,7 @@
     },
     handleSuccess: function (component, event, helper) {
         debugger;
-        let spinner = component.find('mainSpinner');
-        if (spinner) {
-            spinner.show();
-        }
+
         component.find('customModal').hide();
         helper.getRelatedVisitPlans(component, event, helper);
         helper.notify({
