@@ -29,9 +29,7 @@
                 {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.wrapper.minValue + '-' + v.wrapper.maxValue + ' ' + v.wrapper.measurement}
             </div>
         </div>
-        <div class="visit-result-item-description">
-            i
-        </div>
+        <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>
     </div>
 
 </aura:component>

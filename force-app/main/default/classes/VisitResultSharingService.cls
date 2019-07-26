@@ -6,11 +6,15 @@ public without sharing class VisitResultSharingService {
 
     private static ParticipantService.ParticipantState state;
     private static Boolean havePSE;
+    private static Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType;
+    private static Set<String> notAccessResultType;
 
     static {
         if([SELECT Id, ContactId FROM User WHERE Id =: UserInfo.getUserId()].ContactId != null){
             state = ParticipantService.getParticipantState();
             havePSE = state.pse != null;
+            visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+            notAccessResultType = new Set<String>();
         }
     }
 
@@ -36,7 +40,7 @@ public without sharing class VisitResultSharingService {
                             Patient_Visit__c,
                             Patient_Visit__r.Completed_Date__c,
                             Patient_Visit__r.Visit__c,
-                            Patient_Visit__r.Visit__r.Order__c,
+                            Patient_Visit__r.Visit__r.Visit_Number__c,
                             Result_Type__c
                     FROM Visit_Result__c
                     WHERE Id IN:getPatientVisitResults()
@@ -47,7 +51,7 @@ public without sharing class VisitResultSharingService {
 
             for (Visit_Result__c result : visitResultList) {
                 if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) continue;
-                if (result.Patient_Visit__r.Visit__r.Order__c <= ctp.Shareback_Availability_Timing__c) continue;
+                if (result.Patient_Visit__r.Visit__r.Visit_Number__c <= ctp.Shareback_Availability_Timing__c) continue;
 
                 for (Visit_Result_Type_Sharing__c resultTypeSharing : ctp.Visit_Result_Type_Sharings__r) {
                     if (resultTypeSharing.Type__c == result.Result_Type__c) {
@@ -65,6 +69,49 @@ public without sharing class VisitResultSharingService {
         } catch (Exception e) {
             System.debug(e.getCause() + '\n' + e.getLineNumber());
             return filteredResults;
+        }
+    }
+
+    public static List<Visit_Result__c> getAvailableVisitResults(List<Visit_Result__c> visitResults) {
+        List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
+        if (!havePSE) return filteredResults;
+        try {
+            Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
+            if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+            String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+            for (Visit_Result__c result : visitResults) {
+                if (result.Patient_Visit__r.Visit__r.Visit_Number__c <= ctp.Shareback_Availability_Timing__c) continue;
+                if (visitResultTypeSharingByType.isEmpty()) {
+                    VisitResultSharingService.getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
+                }
+                if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                    Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+                    if (resultTypeSharing.Sharing_Countries__c == 'All' ||
+                            (resultTypeSharing.Include_Countries__c &&
+                                    resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                            ) {
+                        filteredResults.add(result);
+                    } else {
+                        notAccessResultType.add(result.Result_Type__c);
+                    }
+                } else {
+                    notAccessResultType.add(result.Result_Type__c);
+                }
+            }
+            return filteredResults;
+        } catch (Exception e) {
+            System.debug(e.getCause() + '\n' + e.getLineNumber());
+            return filteredResults;
+        }
+    }
+
+    public static Set<String> getNotAccessResultType() {
+        return notAccessResultType;
+    }
+
+    private static void getResultTypeSharingsByType(List<Visit_Result_Type_Sharing__c> visitResultTypeSharings) {
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
+            visitResultTypeSharingByType.put(visitResultTypeSharing.Type__c, visitResultTypeSharing);
         }
     }
 

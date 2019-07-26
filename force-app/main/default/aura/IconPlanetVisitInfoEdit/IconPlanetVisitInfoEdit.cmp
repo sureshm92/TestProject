@@ -1,21 +1,28 @@
 <!--
   - Created by Yehor Dobrovolskyi
  -->
-<aura:component implements="flexipage:availableForAllPageTypes" description="IconPlanetVisitInfoEdit"
+<aura:component implements="flexipage:availableForAllPageTypes,c:Modalable" description="IconPlanetVisitInfoEdit"
                 extends="c:LightningService"
                 controller="IconPlanetVisitInfoEditRemote">
-    <aura:attribute name="iconDetails" type="Object[]"/>
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
     <!--ATTRIBUTES-->
+    <aura:attribute name="ctpId" type="String" description="Id of the Clinical Trial Profile" default="" required="true"/>
+    <aura:attribute name="iconDetails" type="Object[]"/>
     <aura:attribute name="IconsPackageName" default="Icons_legend" type="String"/>
     <aura:attribute name="IconsPackageFIlePath" default="/icons.svg" type="String"/>
     <aura:attribute name="iconsURL" type="String"/>
     <aura:attribute name="error" type="String"/>
-    <!--ATTRIBUTES-->
+
+    <!--HANDLERS-->
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
     <lightning:notificationsLibrary aura:id="notifLib"/>
 
+
+  <!--  <aura:method name="save" action="{!c.saveLegend}"/>
+    <aura:method name="close" action="{!c.closeLegend}"/>-->
     <!--SPINNER-->
-    <lightning:spinner aura:Id="spinner" size="medium"/>
+    <lightning:spinner class="slds-hide" aura:Id="spinner" size="medium"/>
     <!--SPINNER-->
     <lightning:card>
         <!-- ICONS TABLE -->
@@ -56,12 +63,12 @@
 
         <!-- ICONS TABLE -->
         <!-- ICONS FOOTER -->
-        <aura:set attribute="actions">
+     <!--   <aura:set attribute="actions">
             <aura:if isTrue="{!and(empty(v.iconDetails)==false,empty(v.error))}">
                 <lightning:button variant="brand" type="button" name="save" label="Save"
                                   onclick="{!c.saveIconsLegend}"/>
             </aura:if>
-        </aura:set>
+        </aura:set>-->
         <!-- ICONS FOOTER -->
     </lightning:card>
 </aura:component>

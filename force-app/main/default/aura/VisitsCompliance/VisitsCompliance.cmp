@@ -6,15 +6,10 @@
     <aura:attribute name="isVisitResultsExist" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isVisitResultsAvailable" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isOptIn" type="Boolean" default="false" required="true"/>
+    <aura:attribute name="optInChanged" type="Boolean" default="false"/>
 
     <aura:attribute name="optInBody" type="String" access="private"/>
-    <aura:attribute name="okButtonClicked" type="Boolean" default="false"
-                    description="if primary(Ok) button clicked, this value will change" access="private"/>
     <aura:attribute name="showModal" type="Boolean" default="false" access="private"/>
-
-    <!-- HANDLERS -->
-
-    <aura:handler name="change" value="{!v.okButtonClicked}" action="{!c.changeOptIn}"/>
 
     <!-- COMPONENT BODY -->
 
@@ -54,7 +49,7 @@
                     <aura:set attribute="else">
                         <aura:if isTrue="{!!v.isVisitResultsExist}">
 
-                            <!-- there are not visit results available -->
+                            <!-- there are no visit results available -->
 
                             <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start"
                                               multipleRows="true">
@@ -74,6 +69,11 @@
     </div>
 
     <c:Popup title="{!$Label.c.Visit_Results_Tab_Modal_Title}" showModal="{!v.showModal}" size="small"
-             headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}" primaryButtonClicked="{!v.okButtonClicked}"/>
+             headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}">
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}" tabindex="0">{!$Label.c.BTN_OK}</button>
+            <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}" tabindex="1">{!$Label.c.BTN_Cancel}</button>
+        </aura:set>
+    </c:Popup>
 
 </aura:component>

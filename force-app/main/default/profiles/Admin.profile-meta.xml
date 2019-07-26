@@ -703,6 +703,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceDelegate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceExpBatchScheduler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2417,6 +2421,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Icon_Details__c.Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Icon_Details__c.Visit_Plan__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4825,6 +4834,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit__c.Patient_Portal_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Visit__c.Status__c</field>
         <readable>true</readable>
@@ -5798,10 +5812,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Icons_Legend</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Manual_Tasks_Creation</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -5879,6 +5889,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Visit_Plan__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Visit_Result__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
