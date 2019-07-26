@@ -29,14 +29,12 @@
             component.set('v.enrollment', initData.enrollment);
             component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
             component.set('v.currentScreeningId', initData.enrollment.Screening_ID__c || '');
-            console.log('ENROLLMENT>>>', JSON.parse(JSON.stringify(component.get('v.enrollment'))));
             //set sticky bar position in browser window
             if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
         }, null, function () {
             spinner.hide();
         });
-
     },
     saveScreeningId: function (component, event, hepler) {
         var spinner = component.find('mainSpinner');
@@ -61,9 +59,9 @@
             participantJSON: JSON.stringify(participant),
             perJSON : JSON.stringify(peRecord)
         }, function () {
-            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+            communityService.showSuccessToast('', $A.get('$Label.c.PG_EP_Success_Message'));
             component.set('v.isShowPopup', false);
-            //communityService.navigateToPage('referral-profile?id=' +  communityService.getUrlParameter('id'));
+            communityService.navigateToPage('referral-profile?id=' +  communityService.getUrlParameter('id'));
         }, null, function () {
             component.find('spinner').hide();
         });
