@@ -198,7 +198,14 @@ public without sharing class PSEService {
                         External_Key__c,
                         Status__c,
                         IsSubjectIDverifiedInSDH__c,
-                        Participant_Enrollment__c
+                        Participant_Enrollment__c,
+                        (
+                                SELECT
+                                        Id,
+                                        Changed_Date__c,
+                                        Status__c
+                                FROM    PSE_Status_Histories__r
+                        )
                 FROM    Participant_Study_Enrollment__c
                 WHERE   External_Key__c IN : externalKeys
                 LIMIT   10000

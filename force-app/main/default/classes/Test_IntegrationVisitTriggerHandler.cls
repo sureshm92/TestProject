@@ -32,31 +32,36 @@ private class Test_IntegrationVisitTriggerHandler {
     @IsTest
     static void visitsUpdateTest() {
         List<Integration_Visit__c> externalVisits = new List<Integration_Visit__c>();
-        externalVisits.add(createVisit(1));
-        externalVisits.add(createVisit(3));
-        externalVisits.add(createVisit(3.1));
+        externalVisits.add(createVisit(1,'N'));
+        externalVisits.add(createVisit(3,'N'));
+        externalVisits.add(createVisit(3.1,'N'));
         insert externalVisits;
         Test.startTest();
         IntegrationVisitTriggerHandler.updateVisits(externalVisits);
         List<Patient_Visit__c> patientVisits = getVisits();
-        System.debug(patientVisits[0]);
-        System.debug(patientVisits[1]);
-        System.debug(patientVisits[2]);
-        System.debug(patientVisits[3]);
         System.assertEquals(4, patientVisits.size());
         System.assertEquals('Completed', patientVisits[0].Status__c);
         System.assertEquals('Missed', patientVisits[1].Status__c);
         System.assertEquals(false, patientVisits[2].Is_Adhoc__c);
         System.assertEquals(true, patientVisits[3].Is_Adhoc__c);
+        externalVisits = new List<Integration_Visit__c>();
+        externalVisits.add(createVisit(3.1,'Y'));
+        externalVisits.add(createVisit(1,'Y'));
+        insert externalVisits;
+        IntegrationVisitTriggerHandler.updateVisits(externalVisits);
+        patientVisits = getVisits();
+        System.assertEquals(3, patientVisits.size());
+        System.assertEquals('Missed', patientVisits[0].Status__c);
         Test.stopTest();
     }
 
-    private static Integration_Visit__c createVisit(Decimal visitNumber){
+    private static Integration_Visit__c createVisit(Decimal visitNumber, String isDeleted){
         Integration_Visit__c visit = new Integration_Visit__c();
         visit.USUBJID__c = '1~2~3';
         visit.SVSTDTC__c = Date.today();
         visit.VISIT__c = 'New Visit' + visitNumber;
         visit.VISITNUM__c = visitNumber;
+        visit.IsDeletedInSDH__c = isDeleted;
         return visit;
     }
 
