@@ -26,7 +26,6 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
                         VISITNUM__c,
                         Work_Status__c
                 FROM Integration_Visit__c WHERE Processed__c = FALSE];
-        //ytruytruytry
     }
     
     public void execute(Database.BatchableContext param1, List<SObject> scope) {
