@@ -78,8 +78,6 @@ public without sharing class VisitResultSharingService {
                             filteredResults.add(result);
                             break;
                         }
-                    } else {
-                        notAccessResultType.add(result.Result_Type__c);
                     }
                 }
             }
