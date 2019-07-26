@@ -20,6 +20,8 @@
     position: absolute;
     margin: 0 0 5px 10px;
     z-index: 1000;
+    overflow: hidden;
+    overflow-wrap: break-word;
 }
 
 .THIS .rr-slider-bar {
