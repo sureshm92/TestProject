@@ -31,7 +31,9 @@ public with sharing class IntegrationVisitTriggerHandler{
                                         Id,
                                         Status__c,
                                         Visit_Number__c,
-                                        Name
+                                        Name,
+                                        Is_Adhoc__c,
+                                        Completed_Date__c
                                 FROM    Patient_Visits__r
                                 ORDER BY Visit_Number__c
                                 DESC
@@ -45,6 +47,7 @@ public with sharing class IntegrationVisitTriggerHandler{
         Map<Id, Patient_Visit__c> visitsToUpdateMap = new Map<Id, Patient_Visit__c>();
         List<Patient_Visit__c> visitsToInsert = new List<Patient_Visit__c>();
         Map<String, Decimal> maxCompletedVisitMap = new Map<String, Decimal>();
+        List<Patient_Visit__c> visitsToDelete = new List<Patient_Visit__c>();
         for(Integration_Visit__c integrationVisit : integrationVisits) {
             Boolean matchFound = false;
             Participant_Study_Enrollment__c pse = pseMap.get(integrationVisit.USUBJID__c);
@@ -53,9 +56,20 @@ public with sharing class IntegrationVisitTriggerHandler{
                 if((integrationVisit.VISIT__c != null && integrationVisit.VISIT__c == visit.Name) ||
                         (integrationVisit.VISITNUM__c != null && integrationVisit.VISITNUM__c == visit.Visit_Number__c)){
                     matchFound = true;
-                    visit.Status__c = 'Completed';
-                    visit.Completed_Date__c = integrationVisit.SVSTDTC__c;
-                    visitsToUpdateMap.put(visit.Id, visit);
+                    if(integrationVisit.IsDeletedInSDH__c == 'N') {
+                        visit.Status__c = 'Completed';
+                        visit.Completed_Date__c = integrationVisit.SVSTDTC__c;
+                        visitsToUpdateMap.put(visit.Id, visit);
+                    } else {
+                        if(!visit.Is_Adhoc__c) {
+                            visit.Status__c = 'Pending';
+                            visit.Completed_Date__c = null;
+                            visitsToUpdateMap.put(visit.Id, visit);
+                        } else {
+                            visit.Status__c = 'Pending';
+                            visitsToDelete.add(visit);
+                        }
+                    }
                 }
                 if(visit.Status__c == 'Completed'){
                     if(!maxCompletedVisitMap.containsKey(integrationVisit.USUBJID__c)) maxCompletedVisitMap.put(integrationVisit.USUBJID__c, 0);
@@ -79,6 +93,7 @@ public with sharing class IntegrationVisitTriggerHandler{
     
         update integrationVisits;
         update visitsToUpdateMap.values();
+        delete visitsToDelete;
         insert visitsToInsert;
     }
     

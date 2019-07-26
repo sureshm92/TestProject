@@ -15,6 +15,8 @@ public without sharing class ShareModalController {
                 SendEmailTemplate.sendShareEmail(whatId, fromId, email, 'Share_Study_From_HCPE_Template');
             } else if(sourceId.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()){
                 SendEmailTemplate.sendShareEmail(whatId, fromId, email, 'Share_Social_Study_Template');
+            } else if (sourceId.getSobjectType() == Resource__c.getSObjectType()) {
+                SendEmailTemplate.sendShareEmail(whatId, fromId, email, CommunityService.COMMUNITY_ET_SHARE_RESOURCE);
             }
 
         } catch (Exception e) {

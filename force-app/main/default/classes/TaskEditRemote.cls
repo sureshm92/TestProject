@@ -5,22 +5,36 @@
 public without sharing class TaskEditRemote {
 
     public class TaskEditDataWrapper {
-        @AuraEnabled public Task task {get;set;}
-        @AuraEnabled public List<LabelValueItem> taskTypeList {get;set;}
-        @AuraEnabled public Boolean isReferral {get;set;}
-        @AuraEnabled public String errorMessage {get;set;}
-        @AuraEnabled public Boolean reminderEnabled {get;set;}
-        @AuraEnabled public Boolean createdByAdmin {get;set;}
+        @AuraEnabled public Task task;
+
+        @AuraEnabled public List<LabelValueItem> taskTypeList = new List<LabelValueItem>{
+                new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'),
+                new LabelValueItem(Label.Task_Type_Medication, 'Medication'),
+                new LabelValueItem(Label.Task_Type_Visit, 'Visit')
+        };
+        @AuraEnabled public List<LabelValueItem> reminderSetList = new List<LabelValueItem>{
+                new LabelValueItem(Label.Email, 'Email'),
+                new LabelValueItem(Label.Disabled, 'Disabled')
+        };
+        @AuraEnabled public List<LabelValueItem> reminderFrequencyList = new List<LabelValueItem>{
+                new LabelValueItem(Label.One_day_before, 'Day_Before'),
+                new LabelValueItem(Label.Complete_By_Date, 'By_Date')
+        };
+
+        @AuraEnabled public Boolean notReferral;
+        @AuraEnabled public String errorMessage;
+        @AuraEnabled public Boolean reminderEnabled;
+        @AuraEnabled public Boolean createdByAdmin;
 
         public TaskEditDataWrapper() {
-            task = new Task();
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
-            taskTypeList = getTaskTypeList();
-            isReferral = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.REFERRAL;
+            notReferral = ParticipantService.getInstance().getState().value != ParticipantService.ParticipantStates.REFERRAL;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
+
+            task = new Task();
         }
     }
 
@@ -93,14 +107,6 @@ public without sharing class TaskEditRemote {
     private static Boolean checkEmailPreferencesIsOn() {
         return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
-    
-    private static List<LabelValueItem> getTaskTypeList() {
-        List<LabelValueItem> genders = new List<LabelValueItem>();
-        genders.add(new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'));
-        genders.add(new LabelValueItem(Label.Task_Type_Medication, 'Medication'));
-        genders.add(new LabelValueItem(Label.Task_Type_Visit, 'Visit'));
-        return genders;
-    }
 
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         String errorMessage = '';
@@ -142,14 +148,17 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean createdByAdmin(Task task){
-        Id participantId;
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
+        Boolean createdByDelegate = delegateIds.isEmpty() ? false : delegateIds.contains(task.CreatedById);
+
+        Id participantId;
         if(ParticipantService.getInstance().getState().isDelegate){
             participantId = PatientDelegateService.getInstance().getParticipantUserId();
         } else {
             participantId = UserInfo.getUserId();
         }
-        return (task.CreatedById != participantId && !delegateIds.contains(task.CreatedById));
+
+        return (task.CreatedById != participantId && !createdByDelegate);
     }
 
     private static void changeReminderDate(Task paramTask){
@@ -167,5 +176,4 @@ public without sharing class TaskEditRemote {
             paramTask.Reminder_Date__c = tmpDate;
         }
     }
-
 }
