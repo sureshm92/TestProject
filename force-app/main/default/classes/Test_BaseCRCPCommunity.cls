@@ -115,6 +115,10 @@ private class Test_BaseCRCPCommunity {
         insert hcpDelegateContact;
         area = new Therapeutic_Area__c(Name = 'Test TA');
         insert area;
+        
+        Visit_Plan__c vp = new Visit_Plan__c();
+        insert vp;
+        
         study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456789',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -126,7 +130,8 @@ private class Test_BaseCRCPCommunity {
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
                 Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES'
+                Participating_in_Rocket_Referral__c = 'YES', 
+                Visit_Plan__c = vp.Id
         );
         insert study;
 

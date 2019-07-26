@@ -19,7 +19,7 @@ public class TranslationExportImportRemote {
                     languageCode
             );
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String)AuraHelper.throwException(e);
         }
     }
     
@@ -31,7 +31,7 @@ public class TranslationExportImportRemote {
                     languageCode
             );
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String)AuraHelper.throwException(e);
         }
     }
     
