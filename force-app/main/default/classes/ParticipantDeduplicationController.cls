@@ -6,6 +6,18 @@ public without sharing class ParticipantDeduplicationController {
     public static Boolean checkLastName(){
         return changeLastName;
     }
+
+    private static String updateSecondarySource(String ssString, String newValue){
+        List<String> listOfSources = new List<String>();
+        Boolean isDuplicate = false;
+        listOfSources = ssString.split(';');
+        for(String item : listOfSources){
+            if(item == newValue){
+                isDuplicate = true;
+            }
+        }
+        return isDuplicate ? ssString : ssString + ';' + newValue;
+    }
     
     public static Participant__c checkPER(String contactId, Participant__c participant, Integration_Patient_Referral__c referralRecord){
         List<Study_Site__c> listOfStudySite = new List<Study_Site__c>();
@@ -30,8 +42,8 @@ public without sharing class ParticipantDeduplicationController {
             		Participant__c =:participant.Id
         ];
         if(listOfEnrollments.size() != 0){
-            if(listOfEnrollments[0].Participant_Status__c == 'Referral Sent to PI'){
-               participant.Secondary_Source__c += ';' + referralRecord.Data_Source__c;
+            if(listOfEnrollments[0].Participant_Status__c ==  ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI){
+               participant.Secondary_Source__c = updateSecondarySource(participant.Secondary_Source__c, referralRecord.Data_Source__c);
             }
             
         }else{
@@ -47,7 +59,7 @@ public without sharing class ParticipantDeduplicationController {
             if(listOfEnrollmentsWithoutStudy.size() != 0 && !DuplicateContactController.isPERCreated){
                 String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c; 
                 Participant_Enrollment__c newPER = createParticipantEnrollment(contactId, participant.Id, studySiteNumber, referralRecord);
-                participant.Secondary_Source__c += ';' + referralRecord.Data_Source__c;
+                participant.Secondary_Source__c = updateSecondarySource(participant.Secondary_Source__c, referralRecord.Data_Source__c);
                 update participant;
             }else{
                 //Error Message
@@ -56,6 +68,8 @@ public without sharing class ParticipantDeduplicationController {
         update participant;
         return null;
     }
+
+    
     
     public static Participant__c checkPER(String contactId, Integration_Patient_Referral__c referralRecord){
         changeLastName = false;
@@ -73,19 +87,16 @@ public without sharing class ParticipantDeduplicationController {
          Contact newContact = new Contact();
          if(!DuplicateContactController.isPERCreated){ 
             newContact = new Contact(
-        	    //FirstName 				= 	referralRecord.firstName__c,
-                LastName 				=	referralRecord.lastName__c,
-                userCommunytyType__c	=	'Participant',
-                userCommunityMode__c	=	'Participant',
+        	    LastName 				=	referralRecord.lastName__c,
+                userCommunytyType__c	=	CommunityService.USER_MODE_PARTICIPANT,
+                userCommunityMode__c	=	CommunityService.USER_MODE_PARTICIPANT,
 			    Email					=	referralRecord.email__c,
 			    Phone					=	referralRecord.phone__c,
-			    AccountId				=	[SELECT id FROM Account WHERE Name = 'Participant'].id
+			    AccountId				=	[SELECT id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].id
             );
             insert newContact;
-            System.debug('Limit' + Limits.getQueries());
         }
         Participant__c newParticipant = createParticipant(newContact.Id, referralRecord);
-        System.debug('Limit' + Limits.getQueries());
         String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c;
         if(!DuplicateContactController.isPERCreated){ 
             Participant_Enrollment__c newPER = createParticipantEnrollment(newContact.Id, newParticipant.Id, studySiteNumber, referralRecord);
@@ -99,21 +110,21 @@ public without sharing class ParticipantDeduplicationController {
 
      private static Participant__c createParticipant(String contactId, Integration_Patient_Referral__c referralRecord){
          Participant__c newParticipant = new Participant__c(
-        	Contact__c	= 	contactId == null ? null : contactId,
-			First_Name__c = referralRecord.firstName__c,
-			Last_Name__c = referralRecord.lastName__c,
-			Email__c = referralRecord.email__c,
-			Phone__c = referralRecord.phone__c,
-			Mailing_State_Province__c = referralRecord.Address_State__c,
-			Mailing_Street__c = referralRecord.Address_AddressLine1__c,
-			Mailing_Zip_Postal_Code__c = referralRecord.Address_ZipCode__c,
-			Mailing_Country_Code__c = referralRecord.Address_Country__c,
-			Mailing_City__c = referralRecord.Address_City__c,
+        	Contact__c	                = 	contactId == null ? null : contactId,
+			First_Name__c               = referralRecord.firstName__c,
+			Last_Name__c                = referralRecord.lastName__c,
+			Email__c                    = referralRecord.email__c,
+			Phone__c                    = referralRecord.phone__c,
+			Mailing_State_Province__c   = referralRecord.Address_State__c,
+			Mailing_Street__c           = referralRecord.Address_AddressLine1__c,
+			Mailing_Zip_Postal_Code__c  = referralRecord.Address_ZipCode__c,
+			Mailing_Country_Code__c     = referralRecord.Address_Country__c,
+			Mailing_City__c             = referralRecord.Address_City__c,
 			Language_Preference_Code__c = referralRecord.Language_Preference__c,
-			Condition_of_Interest_s__c = referralRecord.Condition_of_Interests__c,
-            Secondary_Source__c = referralRecord.Data_Source__c,
-            Date_of_Birth__c = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c),
-            Gender__c = referralRecord.sex__c
+			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
+            Secondary_Source__c         = referralRecord.Data_Source__c,
+            Date_of_Birth__c            = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c),
+            Gender__c                   = referralRecord.sex__c
         );
         newParticipant.Birth_Year__c = newParticipant.Date_of_Birth__c != null && newParticipant.Date_of_Birth__c !='' ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
 
@@ -131,7 +142,7 @@ public without sharing class ParticipantDeduplicationController {
 			    Referral_Source__c                      =   referralRecord.Data_Source__c,
 			    Participant_ID_randomized_ID__c         =   referralRecord.ePRPatient_ID_Number__c,
 			    Referral_ID__c                          =   referralRecord.referralID__c,
-			    Participant_Status__c                   =   'Referral Sent to PI',
+			    Participant_Status__c                   =   ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                     
 

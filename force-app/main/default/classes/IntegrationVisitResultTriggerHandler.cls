@@ -27,15 +27,18 @@ public without sharing class IntegrationVisitResultTriggerHandler {
         Map<String, Id> recordTypesMap = getRecordTypeMap();
         Map<String,Visit_Result_TypeM__mdt> resultTypesMap = getVisitResultTypesMap();
         List<Visit_Result__c> newResults = new List<Visit_Result__c>();
+        List<Visit_Result__c> resultsToDelete = new List<Visit_Result__c>();
         for(Integration_VisitResult__c result : results){
             String key = result.USUBJID__c + result.VISIT__c + result.VSDTC__c + resultTypesMap.get(result.TESTCD__c.toUpperCase()).DeveloperName;
             if(resultMap.containsKey(key)){
-                populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
+                if(result.IsDeletedInSDH__c == 'N') populateVisitResult(resultMap.get(key), result, recordTypesMap, resultTypesMap);
+                else resultsToDelete.add(resultMap.get(key));
             } else if(visitMap.containsKey(key.removeEnd(resultTypesMap.get(result.TESTCD__c.toUpperCase()).DeveloperName))){
                 newResults.add(createNewResult(visitMap.get(key.removeEnd(resultTypesMap.get(result.TESTCD__c.toUpperCase()).DeveloperName)), result, recordTypesMap, resultTypesMap));
             }
         }
         update resultMap.values();
+        delete resultsToDelete;
         insert newResults;
         update results;
     }

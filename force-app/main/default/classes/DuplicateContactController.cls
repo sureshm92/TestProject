@@ -102,7 +102,7 @@ public without sharing class  DuplicateContactController {
                         System.debug('Passed checkFirstName');
                         if(checkLastName(record,contactRecords[i])){
                             System.debug('Passed checkLastName');
-                            if(contactRecords[i].userCommunytyType__c == null  || !contactRecords[i].userCommunytyType__c.contains('Participant')){
+                            if(contactRecords[i].userCommunytyType__c == null  || !contactRecords[i].userCommunytyType__c.contains(CommunityService.USER_MODE_PARTICIPANT)){
                                 participant = ParticipantDeduplicationController.checkPER(contactRecords[i].id, record);
 								break;
 							}else{
