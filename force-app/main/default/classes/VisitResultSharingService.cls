@@ -6,11 +6,13 @@ public without sharing class VisitResultSharingService {
 
     private static ParticipantService.ParticipantState state;
     private static Boolean havePSE;
+    private static Set<String> notAccessResultType;
 
     static {
         if([SELECT Id, ContactId FROM User WHERE Id =: UserInfo.getUserId()].ContactId != null){
             state = ParticipantService.getParticipantState();
             havePSE = state.pse != null;
+            notAccessResultType = new Set<String>();
         }
     }
 
@@ -74,6 +76,8 @@ public without sharing class VisitResultSharingService {
                             filteredResults.add(result);
                             break;
                         }
+                    } else {
+                        notAccessResultType.add(result.Result_Type__c);
                     }
                 }
             }
@@ -82,6 +86,10 @@ public without sharing class VisitResultSharingService {
             return filteredResults;
         }
         return filteredResults;
+    }
+
+    public static Set<String> getNotAccessResultType() {
+        return notAccessResultType;
     }
 
     private static List<Visit_Result__c> getPatientVisitResults() {
