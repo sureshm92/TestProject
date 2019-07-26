@@ -16,13 +16,11 @@ public with sharing class IntegrationVisitTriggerHandler{
 
     }
 
-    public  static void updateVisits(List<Integration_Visit__c> visits){
+    public  static void updateVisits(List<Integration_Visit__c> integrationVisits){
         Set<String> externalKeys = new Set<String>();
-        Map<String, List<Patient_Visit__c>> patientVisitMap = new Map<String, List<Patient_Visit__c>>();
-        for(Integration_Visit__c visit : visits){
-            externalKeys.add(visit.USUBJID__c);
-            visit.Work_Status__c = 'Failed';
-            patientVisitMap.put(visit.USUBJID__c, new List<Patient_Visit__c>());
+        for(Integration_Visit__c integrationVisit : integrationVisits){
+            externalKeys.add(integrationVisit.USUBJID__c);
+            integrationVisit.Work_Status__c = 'Failed';
         }
         List<Participant_Study_Enrollment__c> pseList = [
                 SELECT
@@ -41,69 +39,57 @@ public with sharing class IntegrationVisitTriggerHandler{
                 FROM    Participant_Study_Enrollment__c
                 WHERE   External_Key__c IN : externalKeys
         ];
-        Map<String, Id> pseIdsMap = new Map<String, Id>();
-        for(Participant_Study_Enrollment__c pse : pseList){
-            patientVisitMap.get(pse.External_Key__c).addAll(pse.Patient_Visits__r);
-            pseIdsMap.put(pse.External_Key__c, pse.Id);
-        }
-        List<Patient_Visit__c> visitsToUpsert = new List<Patient_Visit__c>();
+        Map<String, Participant_Study_Enrollment__c> pseMap = new Map<String, Participant_Study_Enrollment__c>();
+        for(Participant_Study_Enrollment__c pse : pseList) pseMap.put(pse.External_Key__c, pse);
+        
+        Map<Id, Patient_Visit__c> visitsToUpdateMap = new Map<Id, Patient_Visit__c>();
+        List<Patient_Visit__c> visitsToInsert = new List<Patient_Visit__c>();
         Map<String, Decimal> maxCompletedVisitMap = new Map<String, Decimal>();
-        for(Integration_Visit__c externalVisit : visits) {
-            if(patientVisitMap.containsKey(externalVisit.USUBJID__c)){
-                Boolean matchFound = false;
-                for(Patient_Visit__c visit : patientVisitMap.get(externalVisit.USUBJID__c)){
-                    if((externalVisit.VISIT__c != null && externalVisit.VISIT__c == visit.Name) ||
-                            (externalVisit.VISITNUM__c != null && externalVisit.VISITNUM__c == visit.Visit_Number__c)){
-                        matchFound = true;
-                        visit.Status__c = 'Completed';
-                        visit.Completed_Date__c = externalVisit.SVSTDTC__c;
-                        visitsToUpsert.add(visit);
-                    }
-                    if(visit.Status__c == 'Completed'){
-                        if(!maxCompletedVisitMap.containsKey(externalVisit.USUBJID__c)) {
-                            maxCompletedVisitMap.put(externalVisit.USUBJID__c, visit.Visit_Number__c);
-                        } else if (maxCompletedVisitMap.get(externalVisit.USUBJID__c) < visit.Visit_Number__c){
-                            maxCompletedVisitMap.remove(externalVisit.USUBJID__c);
-                            maxCompletedVisitMap.put(externalVisit.USUBJID__c, visit.Visit_Number__c);
-                        }
+        for(Integration_Visit__c integrationVisit : integrationVisits) {
+            Boolean matchFound = false;
+            Participant_Study_Enrollment__c pse = pseMap.get(integrationVisit.USUBJID__c);
+            if(pse == null) continue;
+            for(Patient_Visit__c visit : pse.Patient_Visits__r){
+                if((integrationVisit.VISIT__c != null && integrationVisit.VISIT__c == visit.Name) ||
+                        (integrationVisit.VISITNUM__c != null && integrationVisit.VISITNUM__c == visit.Visit_Number__c)){
+                    matchFound = true;
+                    visit.Status__c = 'Completed';
+                    visit.Completed_Date__c = integrationVisit.SVSTDTC__c;
+                    visitsToUpdateMap.put(visit.Id, visit);
+                }
+                if(visit.Status__c == 'Completed'){
+                    if(!maxCompletedVisitMap.containsKey(integrationVisit.USUBJID__c)) maxCompletedVisitMap.put(integrationVisit.USUBJID__c, 0);
+                    if (visit.Visit_Number__c != null && visit.Visit_Number__c > maxCompletedVisitMap.get(integrationVisit.USUBJID__c)){
+                        maxCompletedVisitMap.put(integrationVisit.USUBJID__c, visit.Visit_Number__c);
                     }
                 }
-                if(!matchFound){
-                    visitsToUpsert.add(createAdhockVisit(externalVisit, pseIdsMap));
-                }
-                externalVisit.Work_Status__c = 'Success';
-                externalVisit.Processed__c = true;
             }
+            if(!matchFound) visitsToInsert.add(createAdhockVisit(integrationVisit, pse.Id));
+            integrationVisit.Work_Status__c = 'Success';
+            integrationVisit.Processed__c = true;
         }
-        update visits;
-        upsert visitsToUpsert;
-        updateMissedVisits(pseList, maxCompletedVisitMap);
-    }
-
-    private static void updateMissedVisits(List<Participant_Study_Enrollment__c> pseList, Map<String, Decimal> maxCompletedVisitMap){
-        System.debug(maxCompletedVisitMap);
-        List<Patient_Visit__c> pseListToUpdate = new List<Patient_Visit__c>();
         for(Participant_Study_Enrollment__c pse : pseList){
             for(Patient_Visit__c visit : pse.Patient_Visits__r){
-                if(visit.Visit_Number__c < maxCompletedVisitMap.get(pse.External_Key__c) && visit.Status__c == 'Pending'){
+                if(visit.Visit_Number__c != null && visit.Visit_Number__c < maxCompletedVisitMap.get(pse.External_Key__c) && visit.Status__c == 'Pending'){
                     visit.Status__c = 'Missed';
-                    pseListToUpdate.add(visit);
-                    System.debug(visit);
-                    System.debug(pseListToUpdate);
+                    visitsToUpdateMap.put(visit.Id, visit);
                 }
             }
         }
-        update pseListToUpdate;
+    
+        update integrationVisits;
+        update visitsToUpdateMap.values();
+        insert visitsToInsert;
     }
-
-    private static Patient_Visit__c createAdhockVisit(Integration_Visit__c externalVisit, Map<String, Id> pseIdsMap){
+    
+    private static Patient_Visit__c createAdhockVisit(Integration_Visit__c externalVisit, String pseId){
         Patient_Visit__c newVisit = new Patient_Visit__c();
         newVisit.Is_Adhoc__c = true;
         newVisit.Name = externalVisit.Visit__c;
         newVisit.Status__c = 'Completed';
         newVisit.Completed_Date__c = externalVisit.SVSTDTC__c;
         newVisit.Visit_Number__c = externalVisit.VISITNUM__c;
-        newVisit.Participant_Study_Enrollment__c = pseIdsMap.get(externalVisit.USUBJID__c);
+        newVisit.Participant_Study_Enrollment__c = pseId;
         return newVisit;
     }
 
