@@ -23,6 +23,7 @@ public with sharing class IntegrationPatientTriggerHandler {
             patient.Work_Status__c = 'Failed';
         }
         List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListByExternalIds(externalKeys);
+        Set<String> dateAndStatusChangeSet = new Set<String>();
         List<SDH_Status__mdt> sdhStatuses = [
             SELECT
                     Label,
@@ -38,19 +39,26 @@ public with sharing class IntegrationPatientTriggerHandler {
         List<PSE_Status_History__c> historyList = new List<PSE_Status_History__c>();
         for(Participant_Study_Enrollment__c pse : pseList){
             pseMap.put(pse.External_Key__c, pse);
+            for(PSE_Status_History__c statusHistory : pse.PSE_Status_Histories__r){
+                dateAndStatusChangeSet.add(statusHistory.Status__c + statusHistory.Changed_Date__c);
+            }
         }
         for(Integration_Patient__c patient : newList){
             if(pseMap.containsKey(patient.External_ID__c)) {
-                PSE_Status_History__c history = new PSE_Status_History__c();
-                history.Changed_Date__c = patient.Subject_Date__c;
-                history.Status__c = getPSEStatus(sdhStatusMap, patient);
-                history.PSE__c = pseMap.get(patient.External_ID__c).Id;
-                historyList.add(history);
-                patient.Work_Status__c = 'Success';
-                if (patient.IsDeletedInSDH__c == 'N') {
-                    pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = true;
-                } else {
-                    pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = false;
+                String dateAndStatus = getPSEStatus(sdhStatusMap, patient) + patient.Subject_Date__c;
+                if(!dateAndStatusChangeSet.contains(dateAndStatus)) {
+                    dateAndStatusChangeSet.add(dateAndStatus);
+                    PSE_Status_History__c history = new PSE_Status_History__c();
+                    history.Changed_Date__c = patient.Subject_Date__c;
+                    history.Status__c = getPSEStatus(sdhStatusMap, patient);
+                    history.PSE__c = pseMap.get(patient.External_ID__c).Id;
+                    historyList.add(history);
+                    patient.Work_Status__c = 'Success';
+                    if (patient.IsDeletedInSDH__c == 'N') {
+                        pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = true;
+                    } else {
+                        pseMap.get(patient.External_ID__c).IsSubjectIDverifiedInSDH__c = false;
+                    }
                 }
             }
         }

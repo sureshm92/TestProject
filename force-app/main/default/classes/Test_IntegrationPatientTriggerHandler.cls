@@ -15,6 +15,7 @@ private class Test_IntegrationPatientTriggerHandler {
         externalPatient.External_ID__c = '1~2~3';
         externalPatient.Subject_Status__c = 'Completed';
         externalPatient.Subject_Date__c = Date.today().addDays(1);
+        externalPatient.IsDeletedInSDH__c = 'N';
         Test.startTest();
         insert externalPatient;
         System.assertEquals('Participation Complete', getPseStatus());
@@ -23,6 +24,8 @@ private class Test_IntegrationPatientTriggerHandler {
         externalPatient.Subject_Date__c = Date.today().addDays(2);
         update externalPatient;
         System.assertEquals('Drop Out', getPseStatus());
+        update externalPatient;
+        System.assertEquals(3, [SELECT COUNT() FROM PSE_Status_History__c]);
         Test.stopTest();
     }
 
