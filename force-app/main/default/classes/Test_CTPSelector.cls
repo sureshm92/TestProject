@@ -15,6 +15,12 @@ public with sharing class Test_CTPSelector {
             visits.add(new Visit__c(Name = 'Test -' + i, Visit_Plan__c = visitPlan.Id));
         }
         insert visits;
+
+        List<Icon_Details__c> iconDetails = new List<Icon_Details__c>();
+        for (Integer i = 0; i < 2; i++) {
+            iconDetails.add(new Icon_Details__c(Name = 'Test -' + i, Visit_Plan__c = visitPlan.Id, Label__c = 'test'));
+        }
+        insert iconDetails;
     }
 
     @IsTest
@@ -37,7 +43,7 @@ public with sharing class Test_CTPSelector {
     }
 
     private static Clinical_Trial_Profile__c getCtp() {
-        return [SELECT Id FROM Clinical_Trial_Profile__c LIMIT 1];
+        return [SELECT Id, Visit_Plan__c FROM Clinical_Trial_Profile__c LIMIT 1];
     }
 
     private static Visit_Plan__c getVisitPlan(Id ctpId) {
@@ -48,4 +54,12 @@ public with sharing class Test_CTPSelector {
                 LIMIT 1
         ];
     }
+
+    @IsTest
+    static void getIconDetailsByVisitPlanInCTP_test() {
+    CTPSelector selector = new CTPSelector();
+    Clinical_Trial_Profile__c ctp = getCtp();
+    List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp);
+    System.assertEquals(2, iconDetails.size());
+}
 }
