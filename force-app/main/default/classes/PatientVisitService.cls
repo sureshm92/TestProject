@@ -32,8 +32,7 @@ public inherited sharing class PatientVisitService {
                 'Completed_Date__c, ' +
                 'Is_Adhoc__c ' +
                 'FROM Patient_Visit__c ' +
-                'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
-                ' AND Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
+                'WHERE Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
                 ' AND Status__c ' + (VISIT_MODE_CURRENT == visitMode ? '=' : '!=') + '\'' + VISIT_STATUS_PENDING + '\'' +
                 ' ORDER BY Visit__r.Visit_Number__c NULLS LAST' +
                 (limitNumber == null ? '' : ' LIMIT ' + limitNumber);
