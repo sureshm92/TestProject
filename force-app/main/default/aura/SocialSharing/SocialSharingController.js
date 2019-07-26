@@ -20,7 +20,7 @@
     },
 
     onTwitterClick: function (component, event, helper) {
-        window.open('https://twitter.com/home?status=some_text:%20'+encodeURIComponent(component.get('v.linkToShare'))
+        window.open('https://twitter.com/intent/tweet/?url='+encodeURIComponent(component.get('v.linkToShare'))
             , 'popup',
             'width=600,height=600');
     },
