@@ -3,68 +3,49 @@
  */
 ({
     doInit: function (component, event, helper) {
-        console.log('init');
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
-        if(!component.get('v.initialized')) {
-            component.set('v.task', {
-                sobjectType: 'Task'
-            });
-        }
-        const reminderFrequencyList = [
-            $A.get('$Label.c.One_day_before'),
-            $A.get('$Label.c.Complete_By_Date')
-        ];
-        component.set('v.reminderFrequencyList',reminderFrequencyList);
-        const setReminderValueList = [
-            $A.get('$Label.c.Email'),
-            $A.get('$Label.c.Disabled')
-        ];
-        component.set('v.setReminderValueList',setReminderValueList);
+
         var paramTaskId = communityService.getUrlParameter('id');
-        if(paramTaskId == undefined){
-            paramTaskId = null;
-        }
+        if (paramTaskId === undefined) paramTaskId = null;
+
         communityService.executeAction(component, 'getTaskEditData', {
             'taskId': paramTaskId
         }, function (wrapper) {
-            debugger;
-            if(!component.get('v.initialized')) {
-                component.set('v.task', wrapper.task);
-            }
-            let visitId = communityService.getUrlParameter('visitId');
-            if(visitId){
-                component.set('v.task.Patient_Visit__c', visitId);
-            }
-            component.set('v.createdByAdmin', wrapper.createdByAdmin);
-            component.set('v.errorMessage', wrapper.errorMessage);
-            component.set('v.reminderDateEnabled', wrapper.reminderEnabled);
+            component.set('v.initData', wrapper);
+            component.set('v.notReferral', wrapper.notReferral);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
-            if(wrapper.reminderEnabled && wrapper.task.ActivityDate && !component.get('v.initialized')){
+            component.set('v.reminderDateEnabled', true);
+
+            var task = wrapper.task;
+            component.set('v.task', task);
+
+            var visitId = communityService.getUrlParameter('visitId');
+            if (visitId) component.set('v.task.Patient_Visit__c', visitId);
+
+            if (wrapper.reminderEnabled && task.ActivityDate) {
                 component.set('v.frequencyEnabled', true);
             }
-            if(wrapper.reminderEnabled && component.get('v.initialized') && component.find('dueDateInputId').get('v.value') ){
+            if (wrapper.reminderEnabled && component.get('v.task.ActivityDate')) {
                 component.set('v.frequencyEnabled', true);
             }
-            if (wrapper.task.Status === 'Completed') {
-                component.set('v.taskStatusCompleted', true);
-            }
-            component.set('v.isReferral', wrapper.isReferral);
-            if(wrapper.isReferral){
-                component.set('v.task.Task_Type__c', null);
-            }
-            if(!component.get('v.task.ActivityDate')){
+
+            if (!component.get('v.task.ActivityDate')) {
                 component.set('v.disableFrequency', true);
             }
             component.set('v.taskTypeList', wrapper.taskTypeList);
             if (paramTaskId) {
                 component.set('v.editMode', true);
+
+                var isOwner = task.OwnerId === task.CreatedById;
+                component.set('v.owner', isOwner);
+                component.set('v.editAvailable', isOwner && task.Status !== 'Completed');
             } else {
                 component.set('v.editMode', false);
+                component.set('v.editAvailable', true);
                 component.set('v.task.Status', 'Open');
             }
             component.find('spinner').hide();
-            component.set('v.initialized', true);
         });
     },
 
@@ -74,29 +55,44 @@
     },
 
     doSave: function (component, event, helper) {
-        console.log(component.get('v.task.ActivityDate'));
-        console.log(new Date(component.get('v.task.Reminder_Date__c')));
-        component.set('v.task.Reminder_Date__c', new Date(component.get('v.task.Reminder_Date__c')));
+        var isValid = component.get('v.isValidFields');
+
         var task = component.get('v.task');
         if (!task.Subject) {
             communityService.showErrorToast('', 'Task Name cannot be empty');
             return;
         }
+
+        var dueDate = task.ActivityDate;
+        if (dueDate && !isValid) {
+            component.set('v.task.ActivityDate', null);
+            communityService.showErrorToast('', $A.get('$Label.c.Incorrect_data'));
+            return;
+        }
+
+        if (component.get('v.reminderDateEnabled') && component.get('v.reminderSetMode') === 'Email') {
+            var reminderDate = task.Reminder_Date__c;
+            if (reminderDate){
+                if(isValid) {
+                    component.set('v.task.Reminder_Date__c', new Date(reminderDate));
+                }
+                else {
+                    communityService.showErrorToast('', $A.get('$Label.c.Incorrect_data'));
+                    return;
+                }
+            } else {
+                communityService.showErrorToast('', $A.get('$Label.c.Empty_Reminder'));
+                return;
+            }
+        }
+
         component.find('spinner').show();
         communityService.executeAction(component, 'upsertTask', {
-            'paramTask': JSON.stringify(component.get('v.task'))
+            'paramTask': JSON.stringify(task)
         }, function () {
             window.history.go(-1);
         }, null, function () {
             component.find('spinner').hide();
-        })
-    },
-
-    doDeleteTask: function (component, event, helper) {
-        communityService.executeAction(component, 'deleteTask', {
-            'paramTask': component.get('v.task')
-        }, function (string) {
-            window.history.go(-1);
         })
     },
 
@@ -125,22 +121,24 @@
     onChangeFreq: function (component, event, helper) {
         var freq = event.getSource().get('v.value');
 
-        if (freq == $A.get('$Label.c.Complete_By_Date')) {
+        if (freq === 'By_Date') {
             component.set('v.reminderDateEnabled', true);
-        } else if (freq == $A.get('$Label.c.One_day_before')) {
+        } else if (freq === 'Day_Before') {
             $A.enqueueAction(component.get('c.changeReminderDate'));
             component.set('v.reminderDateEnabled', false);
         }
     },
 
     onChangeSetReminder: function (component, event, helper) {
-        var reminderFrequencyValue = event.getSource().get('v.value');
-        if (reminderFrequencyValue == $A.get('$Label.c.Disabled')) {
+        var reminderSetMode = component.get('v.reminderSetMode');
+
+        if (reminderSetMode === 'Disabled') {
             component.set('v.frequencyEnabled', false);
             component.set('v.reminderDateEnabled', false);
             component.set('v.task.Reminder_Date__c', null);
-        } else if (reminderFrequencyValue == $A.get('$Label.c.Email')) {
-            if(component.get('v.task.ActivityDate')) {
+        } else if (reminderSetMode === 'Email') {
+            var dueDate = component.get('v.task.ActivityDate');
+            if (dueDate && component.get('v.isValidFields')) {
                 component.set('v.frequencyEnabled', true);
             }
             component.set('v.reminderDateEnabled', true);
@@ -149,40 +147,46 @@
 
     onChangeDueDate: function (component, event, helper) {
         var dueDate = component.get('v.task.ActivityDate');
-        var reminderFrequencyComponent = component.find('reminderFreqId');
-        console.log(dueDate);
-        if(!dueDate) {
+        var frequencyMode = component.get('v.frequencyMode');
+
+        if (!dueDate) {
             component.set('v.frequencyEnabled', false);
-            if(component.get('v.reminderEnabled')){
-                component.set('v.reminderDateEnabled', true);
-            }
+            if (component.get('v.reminderEnabled')) component.set('v.reminderDateEnabled', true);
         }
-        if (component.find('reminderOptionsId').get('v.value') == $A.get('$Label.c.Email')) {
+
+        if (component.get('v.reminderSetMode') === 'Email') {
             if (dueDate) {
-                if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.One_day_before')) {
-                    $A.enqueueAction(component.get('c.changeReminderDate'));
-                }
+                if (frequencyMode === 'Day_Before') $A.enqueueAction(component.get('c.changeReminderDate'));
                 component.set('v.frequencyEnabled', true);
             } else {
-                reminderFrequencyComponent.set('v.value', $A.get('$Label.c.Complete_By_Date'));
+                frequencyMode.set('By_Date');
                 component.set('v.frequencyEnabled', false);
             }
         }
-        if (reminderFrequencyComponent.get('v.value') == $A.get('$Label.c.Complete_By_Date')) {
+
+        if (frequencyMode === 'By_Date') {
             component.set('v.task.Reminder_Date__c', dueDate);
         }
-        if(dueDate) component.set('v.frequencyEnabled', true);
+        if (dueDate) component.set('v.frequencyEnabled', true);
     },
 
     changeReminderDate: function (component, event, helper) {
         var dueDate = new Date(component.get('v.task.ActivityDate'));
-        dueDate.setUTCHours(12,0,0,0);
-        console.log(component.get('v.task.ActivityDate'));
-        console.log(component.get('v.todayDate'));
-        if(component.get('v.task.ActivityDate') != component.get('v.todayDate')) {
+        dueDate.setUTCHours(12, 0, 0, 0);
+
+        if (component.get('v.task.ActivityDate') !== component.get('v.todayDate')) {
             dueDate.setDate(dueDate.getDate() - 1);
         }
+
         var oneDayBefore = $A.localizationService.formatDate(dueDate, 'YYYY-MM-DD');
         component.set('v.task.Reminder_Date__c', oneDayBefore);
+    },
+
+    doCheckFields: function (component, event, helper) {
+        var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
+            return validSoFar && inputCmp.checkValidity();
+        }, true);
+        debugger;
+        component.set('v.isValidFields', allValid);
     }
 });

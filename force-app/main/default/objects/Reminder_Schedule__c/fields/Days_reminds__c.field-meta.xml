@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Days_reminds__c</fullName>
     <externalId>false</externalId>
-    <formula>BLANKVALUE(&quot;First = &quot; + TEXT(First_Reminder_day__c) + &quot; &quot;, &quot;&quot;) +  
+    <formula>BLANKVALUE(&quot;First = &quot; + TEXT(First_Reminder_day__c) + &quot;;&quot; + &quot; &quot;, &quot;&quot;)+  
  BLANKVALUE(&quot;Second = &quot; + TEXT(Second_Reminder_day__c), &quot;&quot;)</formula>
-    <label>Days reminds</label>
+    <label>Reminder days</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>
