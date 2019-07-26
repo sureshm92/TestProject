@@ -50,7 +50,7 @@ public inherited sharing class VisitResultsService {
                 'Participant_Study_Enrollment__r.Participant__r.Contact__r.Visit_Results_Opt_In__c, ' +
                 'Participant_Study_Enrollment__r.Participant__r.Full_Name__c, ' +
                 'Participant_Study_Enrollment__r.Participant__r.Last_Name__c, ' +
-                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit__r.Order__c FROM Visit_Results__r) ' +
+                '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c FROM Visit_Results__r) ' +
                 'FROM Patient_Visit__c ' +
                 'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
                 ' AND Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
