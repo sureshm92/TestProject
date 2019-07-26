@@ -6,12 +6,14 @@ public without sharing class VisitResultSharingService {
 
     private static ParticipantService.ParticipantState state;
     private static Boolean havePSE;
+    private static Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType;
     private static Set<String> notAccessResultType;
 
     static {
         if([SELECT Id, ContactId FROM User WHERE Id =: UserInfo.getUserId()].ContactId != null){
             state = ParticipantService.getParticipantState();
             havePSE = state.pse != null;
+            visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
             notAccessResultType = new Set<String>();
         }
     }
@@ -76,8 +78,6 @@ public without sharing class VisitResultSharingService {
                             filteredResults.add(result);
                             break;
                         }
-                    } else {
-                        notAccessResultType.add(result.Result_Type__c);
                     }
                 }
             }
@@ -88,8 +88,45 @@ public without sharing class VisitResultSharingService {
         return filteredResults;
     }
 
+    public static List<Visit_Result__c> getAvailableVisitResultsForReport(List<Visit_Result__c> visitResults) {
+        List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
+        try {
+            Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
+            if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+            String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+            for (Visit_Result__c result : visitResults) {
+                if (visitResultTypeSharingByType.isEmpty()) {
+                    VisitResultSharingService.getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
+                }
+                if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                    Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+                    if (resultTypeSharing.Sharing_Countries__c == 'All' ||
+                            (resultTypeSharing.Include_Countries__c &&
+                                    resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                            ) {
+                        filteredResults.add(result);
+                    } else {
+                        notAccessResultType.add(result.Result_Type__c);
+                    }
+                } else {
+                    notAccessResultType.add(result.Result_Type__c);
+                }
+            }
+            return filteredResults;
+        } catch (Exception e) {
+            System.debug(e.getCause() + '\n' + e.getLineNumber());
+            return filteredResults;
+        }
+    }
+
     public static Set<String> getNotAccessResultType() {
         return notAccessResultType;
+    }
+
+    private static void getResultTypeSharingsByType(List<Visit_Result_Type_Sharing__c> visitResultTypeSharings) {
+        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
+            visitResultTypeSharingByType.put(visitResultTypeSharing.Type__c, visitResultTypeSharing);
+        }
     }
 
     private static List<Visit_Result__c> getPatientVisitResults() {

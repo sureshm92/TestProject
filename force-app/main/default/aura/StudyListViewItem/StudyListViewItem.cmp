@@ -57,7 +57,7 @@
                 <!-- Name: -->
                 <div class="slvi-name-section-hcp">
                     <div class="slds-grid slds-wrap">
-                        <div class="slds-col slds-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
+                        <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
                             <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                         </div>
@@ -112,7 +112,7 @@
                 <!-- Name: -->
                 <div class="slvi-name-section-hcp">
                     <div class="slds-grid slds-wrap">
-                        <div class="slds-col slds-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
+                        <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1  slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
                             <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                         </div>
