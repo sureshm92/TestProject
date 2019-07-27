@@ -8,7 +8,28 @@
 атрибуты, хендлеры, методы и тп
 примерно так:
 
- 
+`
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="TasksTab" controller="TasksRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="taskMode" type="String" default="{!$Label.c.Task_Tab_Open_Tasks}"/>
+    <aura:attribute name="openTasks" type="Object[]"/>
+    <aura:attribute name="completedTasks" type="Task[]"/>
+    <aura:attribute name="emptyTaskLabel" type="String"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
+    <aura:if isTrue="{!v.initialized}">
+    ....
+`
 
 6)	Серверный контроллер называем с окончанием Remote, если назвать с окончанием Controller то может возникнуть кофликт имен если совпадут имена у методов в JS  и серверном контроллере компонента.
 7)	UI компоненты, которые можно многократно использовать типа диалоги, бары, кнопки, панели, табы и тп назваем с префикса RR (так сложилось), например RRIcon, RRPanel, RRLink и тд
