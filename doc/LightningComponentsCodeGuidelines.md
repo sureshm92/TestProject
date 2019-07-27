@@ -38,11 +38,27 @@
 
 8)	вызов логики сервера осуществляем через communityService.executeAction, сам удаленный метод должен ловить ошибки и при их возникновении выбрасывать AuraHandledException, пример обработки ошибок в удаленном контроллере:
 
- 
+ ```
+ try {
+    //your logic here..
+}catch (Exception e){
+    AuraHelper.throwException(e);
+}
+```
 
 Обработка ошибок должна происходить именно в таком виде, тогда в связке с communityService.executeAction будет прочитан ответ с ошибкой, записан стектрейс ошибки в консоль браузера и выведен алерт с сообщением.
 пример вызова метода сервера(передается ссылка на компонент, имя метода в серверном контроллере, параметры которые надо передать в метод, колбэк с результатом, опционально колбэк обработки ошибки, опционально колбэк финальных действий):
- 
+
+ ```
+ communityService.executeAction(component, 'completeTask', {
+    taskId: taskId
+}, function (participantTasks) {
+    helper.updateTasks(component, participantTasks);
+}, null, function () {
+    component.find('spinner').hide();
+});
+```
+
 9)	Часто используемые компоненты:
 - RRSpinner - если задан параметр fixed="true" тогда рисует спиннер в пределах всего окна, если не задан то в пределах ближайшего элемента с position:relative, спиннеру лучше давать aura:id="spinner" и в логике показывать и скрывать через методы show/hide, примерно так:
 component.find('spinner').hide();
