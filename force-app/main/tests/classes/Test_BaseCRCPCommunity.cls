@@ -130,7 +130,7 @@ private class Test_BaseCRCPCommunity {
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
                 Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES', 
+                Participating_in_Rocket_Referral__c = 'YES',
                 Visit_Plan__c = vp.Id
         );
         insert study;
