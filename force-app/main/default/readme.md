@@ -1,0 +1,2 @@
+# Default project folder
+This is default directory for project, all new metadata will be pulled here, if you want to keep this metadata in you feature folder use F6 (Webstorm/IntelliJ) for move this metadata to your folder 
