@@ -1,4 +1,4 @@
-# Triggers approach
+# Trigger Framework
 
 ###### 1) Create  handler with name `<objectName>`Handler
 e.g.
