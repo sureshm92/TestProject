@@ -57,7 +57,11 @@
                     component.find('whenToShowDaysInput').focus();
                 }), 100
             );
+        } else {
+            options.showAfterDays = 0;
         }
+
+        component.set('v.options', options);
     },
 
     onChangeGlobal : function (component, event, helper) {
