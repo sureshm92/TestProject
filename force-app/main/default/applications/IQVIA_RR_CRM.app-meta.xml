@@ -26,7 +26,6 @@
         <profile>Admin</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
-    <tabs>Icons_Legend</tabs>
     <tabs>standard-Contact</tabs>
     <tabs>Clinical_Trial_Profile__c</tabs>
     <tabs>Study_Site__c</tabs>

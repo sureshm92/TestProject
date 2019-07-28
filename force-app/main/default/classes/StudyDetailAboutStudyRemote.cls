@@ -100,7 +100,7 @@ public without sharing class StudyDetailAboutStudyRemote {
 
     private static void setStatusPI(Id trialId, String status, String piPaysForReferralActivity, String ssId){
         System.debug('ssId>>.'+ssId);
-        if(String.isEmpty(ssId)){
+        if(!String.isEmpty(ssId)){
             Study_Site__c studySites = StudySiteService.getStudySiteForHCPById(ssId);
             if(studySites == null) throw new AuraHandledException('Data not found');
             studySites.Override_PI_Referral_Status__c = status;

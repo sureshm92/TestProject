@@ -15,6 +15,7 @@
                     var initData = JSON.parse(response.getReturnValue());
                     component.set('v.clinic', initData.clinic);
                     component.set('v.myStudies', initData.myStudies);
+                    console.log('STUDIES>>>',JSON.parse(JSON.stringify(component.get('v.myStudies'))));
                     component.set('v.physicians', initData.physicians);
                     component.find('mainSpinner').hide();
                 }else{

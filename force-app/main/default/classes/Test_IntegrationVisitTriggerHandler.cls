@@ -11,26 +11,58 @@ private class Test_IntegrationVisitTriggerHandler {
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
         ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1','2','3');
+        List<Participant_Study_Enrollment__c> pseList = [
+                SELECT  Id,
+                        External_Key__c
+                FROM    Participant_Study_Enrollment__c
+                WHERE   External_Key__c = '1~2~3'
+        ];
+        List<Patient_Visit__c> visits = new List<Patient_Visit__c>();
+        for(Integer i = 1; i <= 3; i++){
+            Patient_Visit__c visit = new Patient_Visit__c();
+            visit.Name = 'New Visit' + i;
+            visit.Visit_Number__c = i;
+            visit.Status__c = 'Pending';
+            visit.Participant_Study_Enrollment__c = pseList[0].Id;
+            visits.add(visit);
+        }
+        insert visits;
     }
 
     @IsTest
     static void visitsUpdateTest() {
-        Integration_Visit__c visit = new Integration_Visit__c();
-        visit.External_Key__c = '1~2~3';
-        visit.SVSTDTC__c = Date.today();
-        visit.VISIT__c = 'New Visit';
-        visit.VISITNUM__c = 1;
+        List<Integration_Visit__c> externalVisits = new List<Integration_Visit__c>();
+        externalVisits.add(createVisit(1,'N'));
+        externalVisits.add(createVisit(3,'N'));
+        externalVisits.add(createVisit(3.1,'N'));
+        insert externalVisits;
         Test.startTest();
-        insert visit;
-        visit.SVSTDTC__c = Date.today().addDays(-1);
-        update visit;
-        visit.VISIT__c = 'New Visit01';
-        update visit;
-        visit.VISIT__c = 'New Visit02';
-        visit.VISITNUM__c = 2;
-        update visit;
+        IntegrationVisitTriggerHandler.updateVisits(externalVisits);
+        List<Patient_Visit__c> patientVisits = getVisits();
+        System.assertEquals(4, patientVisits.size());
+        System.assertEquals('Completed', patientVisits[0].Status__c);
+        System.assertEquals('Missed', patientVisits[1].Status__c);
+        System.assertEquals(false, patientVisits[2].Is_Adhoc__c);
+        System.assertEquals(true, patientVisits[3].Is_Adhoc__c);
+        externalVisits = new List<Integration_Visit__c>();
+        externalVisits.add(createVisit(3.1,'Y'));
+        externalVisits.add(createVisit(1,'Y'));
+        insert externalVisits;
+        IntegrationVisitTriggerHandler.updateVisits(externalVisits);
+        patientVisits = getVisits();
+        System.assertEquals(3, patientVisits.size());
+        System.assertEquals('Missed', patientVisits[0].Status__c);
         Test.stopTest();
-        System.assertEquals(2, getVisits().size());
+    }
+
+    private static Integration_Visit__c createVisit(Decimal visitNumber, String isDeleted){
+        Integration_Visit__c visit = new Integration_Visit__c();
+        visit.USUBJID__c = '1~2~3';
+        visit.SVSTDTC__c = Date.today();
+        visit.VISIT__c = 'New Visit' + visitNumber;
+        visit.VISITNUM__c = visitNumber;
+        visit.IsDeletedInSDH__c = isDeleted;
+        return visit;
     }
 
     private static List<Patient_Visit__c> getVisits(){
@@ -39,9 +71,12 @@ private class Test_IntegrationVisitTriggerHandler {
                         Id,
                         Name,
                         Is_Adhoc__c,
-                        Completed_Date__c
+                        Completed_Date__c,
+                        Visit_Number__c,
+                        Status__c
                 FROM    Patient_Visit__c
                 WHERE   Participant_Study_Enrollment__r.External_Key__c = '1~2~3'
+                ORDER BY Visit_Number__c
         ];
         return visits;
     }

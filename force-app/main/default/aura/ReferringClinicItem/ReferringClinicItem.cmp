@@ -5,6 +5,7 @@
     <aura:attribute name="userMode"                     type="String" description="HCP / PI / Participant"/>
     <aura:attribute name="filterByStudy"                type="Boolean" default="false"/>
     <aura:attribute name="parent"                       type="Aura.Component"/>
+    <aura:attribute name="ssId"                         type="String"/>
     <!--=============================================================================================================-->
     <aura:attribute name="enrollmentsByStudy" type="List"/>
     <!--=============================================================================================================-->
@@ -32,7 +33,6 @@
             <aura:iteration items="{!v.enrollmentsByStudy}" var="item">
 
                 <div class="rci-study-name">{!item.studyName}</div>
-
                 <aura:iteration items="{!item.enrollments}" var="enrollment">
                     <c:ReferringClinicEnrollmentItem enrollmentData="{!enrollment}" userMode="{!v.userMode}" parent="{!v.parent}"/>
                 </aura:iteration>

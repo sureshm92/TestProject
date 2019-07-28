@@ -9,3 +9,17 @@
     font-size: 13px;
     font-weight: 500;
 }
+
+.THIS .fp-filters-container{
+    width: 100%;
+}
+
+.THIS .fp-ss-filter-container{
+    max-width: 120px;
+}
+
+@media (max-width: 341px)  {
+    .THIS .fp-ss-filter-container{
+        max-width: 150px;
+    }
+}

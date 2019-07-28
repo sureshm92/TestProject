@@ -23,9 +23,10 @@
     navToRecord : function (component, event, helper) {
         let navEvt = $A.get("e.force:navigateToSObject");
         navEvt.setParams({
-            "recordId": component.get("v.visit.Id")
+            "recordId": component.get("v.visit.Id"),
+            "slideDevName": "Related",
+            "isredirect": 'true'
         });
         navEvt.fire();
     },
-
 })
