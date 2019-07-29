@@ -95,7 +95,8 @@
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
-           communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+           //communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+            communityService.navigateToHome()
         })
     },
 
