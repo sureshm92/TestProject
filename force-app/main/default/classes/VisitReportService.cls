@@ -31,7 +31,7 @@ public inherited sharing class VisitReportService {
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
         for (Patient_Visit__c patientVisit : patientVisits) {
             if (!patientVisit.Visit_Results__r.isEmpty()) {
-                List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResults(patientVisit.Visit_Results__r);
+                List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResultsForReport(patientVisit.Visit_Results__r);
                 if (visitResultsAvailable.isEmpty()) continue;
                 Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType();
                 Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(visitResultsAvailable);
