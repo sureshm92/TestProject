@@ -1,5 +1,5 @@
 {
-  "urlPrefix" : "task-detail",
+  "urlPrefix" : "edit-task",
   "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
   "routeType" : "custom-task-detail",
   "pageAccess" : "UseParent",
