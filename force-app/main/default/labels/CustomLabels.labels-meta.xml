@@ -4934,6 +4934,20 @@
         <value>referred from</value>
     </labels>
     <labels>
+        <fullName>PG_EPP_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_EPP_Header</shortDescription>
+        <value>Edit patient information</value>
+    </labels>
+    <labels>
+        <fullName>PG_EP_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_EP_Success_Message</shortDescription>
+        <value>Patient details were successfully updated.</value>
+    </labels>
+    <labels>
         <fullName>PG_Email_Sent_Sub_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
