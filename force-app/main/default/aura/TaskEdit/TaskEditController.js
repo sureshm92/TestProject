@@ -15,7 +15,8 @@
             component.set('v.initData', wrapper);
             component.set('v.notReferral', wrapper.notReferral);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
-            component.set('v.reminderDateEnabled', true);
+
+            if(wrapper.reminderEnabled) component.set('v.reminderDateEnabled', true);
 
             var task = wrapper.task;
 
