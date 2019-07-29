@@ -22,7 +22,7 @@
             component.set('v.studyPickList',initData.studyPickList);
             component.set('v.trialId',initData.trialId);
             component.set('v.ssId',initData.ssId);
-            helper.clearInviteFields(component, event, helper)
+            helper.clearInviteFields(component, event, helper);
             component.set("v.studySitesForInvitation",initData.studySitesForInvitation);
             /*if (isFilterActive) {
                 var filterInfo = component.get("v.filterInfo");
@@ -53,6 +53,7 @@
             clinicName: rpData.clinicName,
             phone: rpData.phone,
             studySiteId: rpData.studySiteId,
+            protocolId: rpData.protocolId,
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.find('modalSpinner').hide();
@@ -64,7 +65,8 @@
     },
     doSelectStudy: function (component, event, helper) {
         var siteId = event.getSource().get('v.value');
-        component.set('v.rpData.studySiteId', siteId);
+        component.set('v.rpData.studySiteId', siteId.Id);
+        component.set('v.rpData.protocolId', siteId.protocolId);
     },
     checkReqFields : function (component, event, helper) {
         var rpData = component.get('v.rpData');

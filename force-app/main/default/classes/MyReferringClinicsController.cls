@@ -17,6 +17,7 @@ public without sharing class MyReferringClinicsController {
             List<Study_Site__c> studySitesNotDelegate;
             studySites = StudySiteService.getStudySitesForPI();
             studySitesNotDelegate = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
+            System.debug('studySitesNotDelegate>>'+studySitesNotDelegate);
             Map<Id, List<Study_Site__c>> studyMap = new Map<Id, List<Study_Site__c>>();
             Map<String, String> studySiteMap = new Map<String, String>();
             List<LabelValueItem> studyPickList = new List<LabelValueItem>{
@@ -35,7 +36,7 @@ public without sharing class MyReferringClinicsController {
             }
             if (trialId != null) {
                 studySites = studyMap.get(trialId);
-                studySitesNotDelegate = null;
+                //studySitesNotDelegate = null;
             }
             List<LabelValueItem> pickList = new List<LabelValueItem>{
                     new LabelValueItem(Label.PG_Report_L_All_study_sites, null)
@@ -65,11 +66,12 @@ public without sharing class MyReferringClinicsController {
             clinicDetail.studySitePickList.addAll(pickList);
             clinicDetail.studyPickList.addAll(studyPickList);
             clinicDetail.studySitesForInvitation = new List<MyReferringClinicsController.SiteWrapper>();
+            System.debug('studySitesNotDelegate>>'+studySitesNotDelegate);
             if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
                 Set<Id> studyIds = new Set<Id>();
                 for (Study_Site__c site : studySitesNotDelegate) {
                     if (!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)) {
-                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id);
+                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id, site.Clinical_Trial_Profile__r.Protocol_ID__c);
                         clinicDetail.studySitesForInvitation.add(sw);
                         studyIds.add(site.Clinical_Trial_Profile__c);
                     }
@@ -92,7 +94,7 @@ public without sharing class MyReferringClinicsController {
     }
 
     @AuraEnabled
-    public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String studySiteId){
+    public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String studySiteId, String protocolId){
         try{
             List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
             AssignmentRule ar = new AssignmentRule();
@@ -114,6 +116,7 @@ public without sharing class MyReferringClinicsController {
             l.LastName = lastName;
             l.Phone = phone;
             l.Company = clinicName;
+            l.Protocol_Number__c = protocolId;
             l.Language__c = UserInfo.getLanguage();
             if(studySiteId!= null && studySiteId != '')
                 l.Study_Site__c = studySiteId;
@@ -230,10 +233,17 @@ public without sharing class MyReferringClinicsController {
         public String StudyName;
         public String Id;
         public Boolean selected;
+        public String protocolId;
         public SiteWrapper(String StudyName, String Id){
             this.StudyName = StudyName;
             this.Id = Id;
             this.selected = false;
+        }
+        public SiteWrapper(String StudyName, String Id, String protocolId){
+            this.StudyName = StudyName;
+            this.Id = Id;
+            this.selected = false;
+            this.protocolId = protocolId;
         }
     }
 
