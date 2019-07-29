@@ -15,6 +15,7 @@ public with sharing class CTPSelector {
         return [
                 SELECT Id,Name
                         ,Visit_Plan__c
+                        ,Patient_Portal_Name__c
                         ,Visit_Schedule__c
                         ,Visit_Number__c
                         ,icons__c
