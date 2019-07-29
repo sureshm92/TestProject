@@ -10,7 +10,7 @@ public inherited sharing class IconPlanetVisitInfoEditRemote {
 
         try {
             List<Clinical_Trial_Profile__c> ctp = selector.getCtpById(ctpId);
-            if (ctp != null) {
+            if (!ctp.isEmpty()) {
                 for (Icon_Details__c singleIconDetails : iconsDetails) {
                     singleIconDetails.Visit_Plan__c = ctp[0].Visit_Plan__c;
                 }
@@ -27,15 +27,7 @@ public inherited sharing class IconPlanetVisitInfoEditRemote {
         CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
 
         try {
-            if (ctpId != null) {
-                List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctpId);
-                if (iconDetails == null) {
-                    return new List<Icon_Details__c>();
-                }
-                return iconDetails;
-            } else {
-                throw new AuraHandledException('CTP id is empty');
-            }
+                return selector.getIconDetailsByVisitPlanInCTP(ctpId);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
