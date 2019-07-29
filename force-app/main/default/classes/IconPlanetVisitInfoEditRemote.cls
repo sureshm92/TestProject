@@ -6,12 +6,13 @@ public inherited sharing class IconPlanetVisitInfoEditRemote {
 
     @AuraEnabled
     public static void saveIconInfo(List<Icon_Details__c> iconsDetails, String ctpId) {
+        CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
+
         try {
-            Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                    .query('SELECT Id, Visit_Plan__c FROM Clinical_Trial_Profile__c WHERE Id = \'' + ctpId + '\'', true)[0];
-            if (ctp != null) {
+            List<Clinical_Trial_Profile__c> ctp = selector.getCtpById(ctpId);
+            if (!ctp.isEmpty()) {
                 for (Icon_Details__c singleIconDetails : iconsDetails) {
-                    singleIconDetails.Visit_Plan__c = ctp.Visit_Plan__c;
+                    singleIconDetails.Visit_Plan__c = ctp[0].Visit_Plan__c;
                 }
                 ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                         .upsertRecords(iconsDetails, true);
@@ -26,13 +27,7 @@ public inherited sharing class IconPlanetVisitInfoEditRemote {
         CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
 
         try {
-            Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                    .query('SELECT Id, Visit_Plan__c FROM Clinical_Trial_Profile__c WHERE Id = \'' + ctpId + '\'', true)[0];
-            List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp);
-            if (iconDetails == null) {
-                return new List<Icon_Details__c>();
-            }
-            return iconDetails;
+                return selector.getIconDetailsByVisitPlanInCTP(ctpId);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

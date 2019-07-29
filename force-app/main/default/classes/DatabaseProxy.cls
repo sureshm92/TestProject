@@ -44,6 +44,22 @@ public inherited sharing class DatabaseProxy {
         }
     }
 
+    public void deleteRecord(SObject record, Boolean withoutSharing) {
+        if (withoutSharing) {
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).deleteRecord(record);
+        } else {
+            delete record;
+        }
+    }
+
+    public void deleteRecords(List<SObject> records, Boolean withoutSharing) {
+        if (withoutSharing) {
+            ((DatabaseProxyWithoutSharing) ClassFactory.newInstance(DatabaseProxyWithoutSharing.class)).deleteRecords(records);
+        } else {
+            delete records;
+        }
+    }
+
     private without sharing class DatabaseProxyWithoutSharing {
 
         private List<SObject> query(String query) {
@@ -64,6 +80,14 @@ public inherited sharing class DatabaseProxy {
 
         private void upsertRecords(List<SObject> records) {
             upsert records;
+        }
+
+        private void deleteRecord(SObject record) {
+            delete record;
+        }
+
+        private void deleteRecords(List<SObject> records) {
+            delete records;
         }
     }
 }

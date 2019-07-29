@@ -14,9 +14,13 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
                 new Icon_Details__c()};
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
-                .when('query')
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+                .when('getCtpById')
                 .then(ctp)
+                .getInstance()
+        );
+
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
                 .when('upsertRecords')
                 .then(null)
                 .getInstance()
@@ -43,20 +47,11 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
 
     @IsTest
     static void getIconDetailsWithCtpId_test(){
-        List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
-                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType())};
-
         List<Icon_Details__c> iconDetails = new List<Icon_Details__c>{
                 new Icon_Details__c(),
                 new Icon_Details__c()};
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
-                .when('query')
-                .then(ctp)
-                .getInstance()
-        );
-
         ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(iconDetails)
@@ -64,7 +59,8 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
         );
 
         Test.startTest();
-        List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails( null);
+        List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(
+                TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()) );
         Test.stopTest();
 
         System.assertEquals(2, iconDetailsTest.size());
@@ -72,16 +68,8 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
 
     @IsTest
     static void getIconDetailsWithoutExistingIconDetails_test(){
-        List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
-                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType())};
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
-                .when('query')
-                .then(ctp)
-                .getInstance()
-        );
-
         ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(null)
@@ -89,7 +77,8 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
         );
 
         Test.startTest();
-        List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()));
+        List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(
+                TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()));
         Test.stopTest();
 
         System.assert(iconDetailsTest.isEmpty());
