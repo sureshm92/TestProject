@@ -80,8 +80,8 @@ private class  Test_TaskEditRemote {
         TaskEditRemote.TaskEditDataWrapper wrapper = new TaskEditRemote.TaskEditDataWrapper();
         TaskEditRemote.getTaskEditData(task.Id);
         task.Reminder_Date__c = task.Reminder_Date__c.addDays(1);
-        TaskEditRemote.upsertTask(JSON.serialize(task));
-        TaskEditRemote.markAsCompleted(task);
+        TaskEditRemote.upsertTask(JSON.serialize(task), Date.today());
+        TaskEditRemote.markAsCompleted(task.Id);
         TaskEditRemote.deleteTask(task);
     }
 

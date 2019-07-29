@@ -2753,6 +2753,13 @@
         <value>If you need to receive email the &quot;Reminder Date&quot; cannot be empty or incorrect!</value>
     </labels>
     <labels>
+        <fullName>Empty_TaskName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty TaskName</shortDescription>
+        <value>Task Name cannot be empty!</value>
+    </labels>
+    <labels>
         <fullName>Empty_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4932,6 +4939,20 @@
         <protected>false</protected>
         <shortDescription>PG DRL L referred from</shortDescription>
         <value>referred from</value>
+    </labels>
+    <labels>
+        <fullName>PG_EPP_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_EPP_Header</shortDescription>
+        <value>Edit patient information</value>
+    </labels>
+    <labels>
+        <fullName>PG_EP_Success_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_EP_Success_Message</shortDescription>
+        <value>Patient details were successfully updated.</value>
     </labels>
     <labels>
         <fullName>PG_Email_Sent_Sub_Title</fullName>
@@ -9185,7 +9206,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Task Subject Complete Survey</shortDescription>
-        <value>Please complete your ##SurveyName Study Survey</value>
+        <value>Please complete the ##SurveyName</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>

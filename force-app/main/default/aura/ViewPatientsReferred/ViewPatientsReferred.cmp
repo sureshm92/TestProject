@@ -74,10 +74,10 @@
                     <c:rrSelect value="{!v.peFilter.referringStatus}" options="{!v.peFilterData.referringStatuses}" placeholder="{!$Label.c.PG_VP_L_Referral_status}" disabled="{!not(empty(v.peFilter.searchText))}"/>
                 </aura:if>
                 <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
                     <c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}" placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>
                     <c:rrSelect value="{!v.peFilter.acceptenceStatus}" options="{!v.peFilterData.acceptenceStatuses}" placeholder="{!$Label.c.PG_VP_L_Acceptance_status}" disabled="{!not(empty(v.peFilter.searchText))}"/>
                     <c:rrSelect value="{!v.peFilter.enrollmentStatus}" options="{!v.peFilterData.enrollmentStatuses}" placeholder="{!$Label.c.PG_SW_F_Enrollment_Status}" disabled="{!not(empty(v.peFilter.searchText))}"/>
-                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>
                 </aura:if>
                 <c:rrSelect value="{!v.peFilter.dateRange}" options="{!v.peFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}" disabled="{!not(empty(v.peFilter.searchText))}"/>
 

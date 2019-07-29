@@ -536,9 +536,8 @@
               A 1.0001 1.0001 0 0 0 17.490234 11 z"
               font-weight="400" font-family="sans-serif" white-space="normal" overflow="visible" fill="#999999"/>
     </symbol>
-    <symbol id="icon-treatment-period" viewBox="0 0 175 156">
-        <path fill="none" stroke="black" stroke-width="1"
-              d="M 34.00,25.00
+    <symbol id="icon-treatment-period" viewBox="0 0 162 160">
+                <path fill="none" stroke="#999999" stroke-width="6" d="M 34.00,25.00
            C 36.87,31.07 43.23,36.23 48.00,41.00
              54.16,47.16 66.70,60.49 73.00,65.00
              76.01,57.85 77.81,52.95 76.82,45.00
@@ -578,7 +577,7 @@
              87.20,108.80 82.61,113.91 79.00,115.26
              72.10,117.85 66.26,111.78 71.31,105.00
              71.31,105.00 88.00,88.00 88.00,88.00
-             92.54,83.46 97.32,77.56 103.00,74.60 Z"/>
+             92.54,83.46 97.32,77.56 103.00,74.60 Z"></path>
     </symbol>
 
 

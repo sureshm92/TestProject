@@ -1,15 +1,14 @@
 /**
  * Created by mkotenev on 3/5/2019.
  */
-.THIS {
-
-}
-
 .THIS.te-task-panel{
+    min-height: 400px;
     max-width: 832px;
-    margin: auto;
-    /*margin-bottom: 30px;*/
+    margin-top: 60px;
+    margin-bottom: 30px;
+    margin-left: 15%;
 }
+
 .THIS .te-col {
     margin-bottom: 10px;
 }

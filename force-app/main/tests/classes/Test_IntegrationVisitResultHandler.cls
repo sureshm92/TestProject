@@ -35,6 +35,7 @@ private class Test_IntegrationVisitResultHandler {
         externalVisitResult.Vital_or_Lab__c = 'Vital';
         externalVisitResult.STNRHI__c = 10;
         externalVisitResult.STUDYID__c = '10';
+        externalVisitResult.IsDeletedInSDH__c = 'N';
         insert externalVisitResult;
         IntegrationVisitResultTriggerHandler.updateVisitResults(new List<Integration_VisitResult__c> {externalVisitResult});
         System.assertEquals(10, [SELECT Max_Value__c FROM Visit_Result__c][0].Max_Value__c);
@@ -46,9 +47,22 @@ private class Test_IntegrationVisitResultHandler {
         externalVisitResult.Vital_or_Lab__c = 'Vital';
         externalVisitResult.STNRHI__c = 11;
         externalVisitResult.STUDYID__c = '10';
+        externalVisitResult.IsDeletedInSDH__c = 'N';
         insert externalVisitResult;
         IntegrationVisitResultTriggerHandler.updateVisitResults(new List<Integration_VisitResult__c> {externalVisitResult});
         System.assertEquals(1, [SELECT COUNT() FROM Visit_Result__c]);
+        externalVisitResult = new Integration_VisitResult__c();
+        externalVisitResult.USUBJID__c = '1~2~3';
+        externalVisitResult.VISIT__c = 'New Visit';
+        externalVisitResult.VSDTC__c = Date.today();
+        externalVisitResult.TESTCD__c = 'RBC';
+        externalVisitResult.Vital_or_Lab__c = 'Vital';
+        externalVisitResult.STNRHI__c = 11;
+        externalVisitResult.STUDYID__c = '10';
+        externalVisitResult.IsDeletedInSDH__c = 'Y';
+        insert externalVisitResult;
+        IntegrationVisitResultTriggerHandler.updateVisitResults(new List<Integration_VisitResult__c> {externalVisitResult});
+        System.assertEquals(0, [SELECT COUNT() FROM Visit_Result__c]);
         Test.stopTest();
     }
 

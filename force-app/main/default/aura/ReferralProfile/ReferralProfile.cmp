@@ -77,14 +77,13 @@
                             </div>
                             <div class="rr-output-field">
                                 <div class="label">{!$Label.c.PE_Referring_provider}</div>
-                                <div class="value">
-                                    <aura:if isTrue="{!!empty(v.enrollment.HCP__c)}">
+                                <div class="value "><div class="rp-max-length">{!v.enrollment.HCP__r.HCP_Contact__r.Name}</div></div>
+                                    <!--<aura:if isTrue="{!!empty(v.enrollment.HCP__c)}">
                                         <c:RRLink label="{!v.enrollment.HCP__r.HCP_Contact__r.Name}"
                                                   page="{!'clinic-profile?id=' + v.enrollment.HCP__r.HCP_Contact__r.AccountId}"
                                                   maxWidth="250px"/>
                                         <aura:set attribute="else">{!v.enrollment.Referral_Source__c}</aura:set>
-                                    </aura:if>
-                                </div>
+                                    </aura:if>-->
                             </div>
                            <!-- <div class="rr-output-field">
                                 <div class="label">{!$Label.c.PE_Country}</div>
