@@ -20,6 +20,8 @@
         <div class="visit-result-name-container">
             <div class="visit-result-name">
                 {!v.wrapper.name}
+                <br />
+                <div class="visit-result-measurement">{!v.wrapper.measurement}</div>
             </div>
         </div>
         <div class="visit-result-slider">
