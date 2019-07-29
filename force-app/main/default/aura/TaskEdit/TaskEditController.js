@@ -30,10 +30,12 @@
             if (paramTaskId) {
                 component.set('v.editMode', true);
 
-                var due = moment(task.ActivityDate, 'YYYY-MM-DD');
-                var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
-                if(!due.isSame(reminder)) {
-                    if (due.diff(reminder, 'days') === 1) component.set('v.frequencyMode', 'Day_Before');
+                if(task.ActivityDate && wrapper.reminderDate) {
+                    var due = moment(task.ActivityDate, 'YYYY-MM-DD');
+                    var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
+                    if(!due.isSame(reminder)) {
+                        if (due.diff(reminder, 'days') === 1) component.set('v.frequencyMode', 'Day_Before');
+                    }
                 }
 
                 var isOwner = task.OwnerId === task.CreatedById;
