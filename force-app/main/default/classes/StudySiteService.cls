@@ -205,6 +205,7 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Id',
             'Clinical_Trial_Profile__r.Study_Title__c',
+            'Clinical_Trial_Profile__r.Protocol_ID__c',
             'Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Clinical_Trial_Profile__r.Official_Title__c',
             'Clinical_Trial_Profile__r.Study_Sponsor__c',

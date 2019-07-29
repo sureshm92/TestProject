@@ -78,7 +78,7 @@
                                         <div class="label">{!$Label.c.PG_MRC_RF_Invite_to_Studies}</div>
                                         <div class="radio-group">
                                             <aura:iteration items="{!v.studySitesForInvitation}" var="site">
-                                                <lightning:input value="{!site.Id}" type="radio" name="site"
+                                                <lightning:input value="{!site}" type="radio" name="site"
                                                                  label="{!site.StudyName}"
                                                                  onchange="{!c.doSelectStudy}" checked="{!site.selected}"/>
                                             </aura:iteration>
