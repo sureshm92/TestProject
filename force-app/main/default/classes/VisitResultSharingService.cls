@@ -44,7 +44,7 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Id IN: getPatientVisits()
+                WHERE Participant_Study_Enrollment__c =: state.pse.Id
                 AND Status__c = 'Completed'
                 AND Visit_Number__c != NULL
                 ORDER BY Visit_Number__c DESC
@@ -142,18 +142,6 @@ public without sharing class VisitResultSharingService {
         }
 
         return visitResultTypeSharingByType;
-    }
-
-    private static List<Patient_Visit__c> getPatientVisits() {
-        List<Patient_Visit__c> visits;
-        if (!havePSE) return visits;
-
-        return [
-                SELECT Id
-                FROM Patient_Visit__c
-                WHERE Participant_Study_Enrollment__c = :state.pse.Id
-                AND Participant_Study_Enrollment__r.Participant_Contact__c = :state.participant.Contact__c
-        ];
     }
 
     public static void updateStudySitesSharing(String ctpId, List<String> ssIds, Boolean selectionType) {
