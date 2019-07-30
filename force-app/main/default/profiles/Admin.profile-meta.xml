@@ -131,6 +131,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CTPSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CatalogParametersHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -979,6 +983,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_CTPSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ClassFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1188,6 +1196,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UserService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitConfigurationRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

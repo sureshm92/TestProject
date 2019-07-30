@@ -10,7 +10,7 @@
 }
 
 .THIS .mrc-invite-btn-container{
-    text-align: right;
+    text-align: left;
 }
 @media all and (max-width: 767px) {
     .THIS .mrc-invite-btn-container{
