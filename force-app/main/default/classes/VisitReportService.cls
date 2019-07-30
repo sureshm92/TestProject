@@ -10,7 +10,7 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable()) {
+        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
