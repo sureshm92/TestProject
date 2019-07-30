@@ -144,7 +144,7 @@ public without sharing class VisitResultSharingService {
         return visitResultTypeSharingByType;
     }
 
-    public static void updateStudySitesSharing(String ctpId, List<String> ssIds, Boolean selectionType) {
+    public static void updateStudySitesSharing(String ctpId, List<Id> ssIds, Boolean selectionType) {
         List<Study_Site__c> studySites = (List<Study_Site__c>) DatabaseService.query(
                 new List<String>{
                         'Id', 'Visit_Results_Sharing__c'
@@ -152,6 +152,7 @@ public without sharing class VisitResultSharingService {
                 Study_Site__c.getSObjectType(),
                 'Clinical_Trial_Profile__c = \'' + ctpId + '\''
         );
+
         if (!studySites.isEmpty()) {
             for (Study_Site__c ss : studySites) {
                 if ((ssIds.isEmpty() || String.isBlank(ssIds.get(0))) && selectionType) {
