@@ -144,7 +144,7 @@ public without sharing class VisitResultSharingService {
         return visitResultTypeSharingByType;
     }
 
-    public static void updateStudySitesSharing(String ctpId, List<Id> ssIds, Boolean selectionType) {
+    public static void updateStudySitesSharing(String ctpId, List<Id> ssIds, Boolean allEnabled, Boolean selectionType) {
         List<Study_Site__c> studySites = (List<Study_Site__c>) DatabaseService.query(
                 new List<String>{
                         'Id', 'Visit_Results_Sharing__c'
@@ -155,12 +155,18 @@ public without sharing class VisitResultSharingService {
 
         if (!studySites.isEmpty()) {
             for (Study_Site__c ss : studySites) {
-                if ((ssIds.isEmpty() || String.isBlank(ssIds.get(0))) && selectionType) {
-                    ss.Visit_Results_Sharing__c = selectionType;
+                if(allEnabled || (ssIds.isEmpty() && selectionType)) {
+                    ss.Visit_Results_Sharing__c = true;
+                } else if(!selectionType && ssIds.isEmpty()) {
+                    ss.Visit_Results_Sharing__c = false;
                 } else if (ssIds.contains(ss.Id)) {
                     ss.Visit_Results_Sharing__c = selectionType;
                 } else {
-                    ss.Visit_Results_Sharing__c = !selectionType;
+                    if(selectionType && ss.Visit_Results_Sharing__c) {
+                        ss.Visit_Results_Sharing__c = false;
+                    } else if(!selectionType) {
+                        ss.Visit_Results_Sharing__c = true;
+                    }
                 }
             }
             update studySites;
