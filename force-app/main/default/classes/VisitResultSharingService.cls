@@ -101,7 +101,6 @@ public without sharing class VisitResultSharingService {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
         try {
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
-            if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
 
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
             visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
