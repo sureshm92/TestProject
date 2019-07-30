@@ -2753,6 +2753,13 @@
         <value>If you need to receive email the &quot;Reminder Date&quot; cannot be empty or incorrect!</value>
     </labels>
     <labels>
+        <fullName>Empty_TaskName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty TaskName</shortDescription>
+        <value>Task Name cannot be empty!</value>
+    </labels>
+    <labels>
         <fullName>Empty_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7781,6 +7788,13 @@
         <protected>true</protected>
         <shortDescription>RP Contact</shortDescription>
         <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>RP_DOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP DOB</shortDescription>
+        <value>(yyyy-mm-dd)</value>
     </labels>
     <labels>
         <fullName>RP_Edit_Referral_Details</fullName>
