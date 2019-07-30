@@ -8,7 +8,7 @@ private class Test_VisitResultSharingService {
     static void processResultsTest() {
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.ctp.Shareback_Availability_Timing__c = 1;
+        testData.ctp.Shareback_Availability_Timing__c = 0;
         update testData.ctp;
 
         Test.startTest();
@@ -27,6 +27,7 @@ private class Test_VisitResultSharingService {
         insert vp;
 
         List<Visit__c> visits = new List<Visit__c>();
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
@@ -53,6 +54,12 @@ private class Test_VisitResultSharingService {
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
+        patientVisits.add(new Patient_Visit__c(
+                Participant_Study_Enrollment__c = testData.pse.Id,
+                Status__c = 'Completed',
+                Visit__c = visits.get(3).Id,
+                Visit_Number__c = 4
+        ));
         insert patientVisits;
 
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
@@ -74,7 +81,7 @@ private class Test_VisitResultSharingService {
         }
         Test.stopTest();
 
-        System.assertEquals(0.01, filteredResults.get(0).Actual_Value__c);
+        System.assertEquals(0.5, filteredResults.get(0).Actual_Value__c);
     }
 
     @IsTest
@@ -90,7 +97,7 @@ private class Test_VisitResultSharingService {
             VisitResultSharingService.getCTP(testData.ctp.Id);
             VisitResultSharingService.disableShareback(testData.ctp);
             VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
-            VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<String>{
+            VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<Id>{
                     testData.ss.Id
             }, true);
         }
