@@ -9,10 +9,10 @@ public with sharing class VisitConfigurationRemote {
         CTPSelector selector= (CTPSelector)ClassFactory.newInstance(CTPSelector.class);
 
         try {
-            List<Clinical_Trial_Profile__c> ctps = selector.getCtpById(ctpId);
-            if (String.isNotBlank(ctps[0].Visit_Plan__c)) {
+            List<Clinical_Trial_Profile__c> clinicalTrialProfiles = selector.getCtpById(ctpId);
+            if (String.isNotBlank(clinicalTrialProfiles[0].Visit_Plan__c)) {
 
-                return selector.getVisitsByCtpId(ctps[0].Visit_Plan__c);
+                return selector.getVisitsByCtpId(clinicalTrialProfiles[0].Visit_Plan__c);
 
             } else {
                 return new List<Visit__c>();
@@ -37,8 +37,9 @@ public with sharing class VisitConfigurationRemote {
     @AuraEnabled
     public static void deleteVisit(Id visitId) {
         try {
-            Visit__c v = new Visit__c(Id = visitId);
-            delete v;
+            Visit__c visit = new Visit__c(Id = visitId);
+            ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                    .deleteRecord(visit, false);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

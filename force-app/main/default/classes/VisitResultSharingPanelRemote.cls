@@ -163,7 +163,7 @@ public without sharing class VisitResultSharingPanelRemote {
             Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(ctpId);
 
             ctp.Visit_Data_Shareback__c = optionsWrapper.globalShareBck;
-            List<String> ssIds;
+            List<Id> ssIds;
             if (!ctp.Visit_Data_Shareback__c) {
                 VisitResultSharingService.disableShareback(ctp);
                 ssIds = new List<String>();

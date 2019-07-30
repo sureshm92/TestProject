@@ -3,6 +3,11 @@
         doInit : function(component, event, helper) {
             if(communityService.isInitialized()) {
                 communityService.executeAction(component, 'getVisitResultWrappersForDashboard', {}, function(returnValue) {
+                    for(let wrapper of returnValue) {
+                        if(wrapper.value) {
+                            wrapper.value = +(Math.round(wrapper.value + "e+3")  + "e-3");
+                        }
+                    }
                     component.set('v.visitResultWrappers', returnValue);
                 });
             }

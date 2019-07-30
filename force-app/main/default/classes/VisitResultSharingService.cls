@@ -10,16 +10,15 @@ public without sharing class VisitResultSharingService {
     private static Set<String> notAccessResultType;
 
     static {
-        if([SELECT Id, ContactId FROM User WHERE Id =: UserInfo.getUserId()].ContactId != null){
+        if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
             havePSE = state.pse != null;
-            visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
             notAccessResultType = new Set<String>();
         }
     }
 
     public static Boolean isVisitResultAvailable() {
-        if(!havePSE) return false;
+        if (!havePSE) return false;
 
         return state.pse.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
                 state.ctp.Participating_in_Patient_Portal__c == 'Yes' &&
@@ -27,61 +26,71 @@ public without sharing class VisitResultSharingService {
     }
 
     public static List<Visit_Result__c> processResults() {
-        List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
-        if(!havePSE) return filteredResults;
+        if (!havePSE) return new List<Visit_Result__c>();
 
-        try {
-            List<Visit_Result__c> visitResultList = [
-                    SELECT
-                            Actual_Value__c,
-                            Max_Value__c,
-                            Measurement__c,
-                            Min_Value__c,
-                            Patient_Visit__c,
-                            Patient_Visit__r.Completed_Date__c,
-                            Patient_Visit__r.Visit__c,
-                            Patient_Visit__r.Visit_Number__c,
-                            Result_Type__c
-                    FROM Visit_Result__c
-                    WHERE Id IN:getPatientVisitResults()
-                        AND Patient_Visit__r.Status__c = 'Completed'
-                        AND Patient_Visit__r.Visit_Number__c != NULL
-            ];
+        List<Patient_Visit__c> patientVisits = [
+                SELECT
+                        Id,
+                        Completed_Date__c,
+                        Visit_Number__c, (
+                        SELECT
+                                Id,
+                                Actual_Value__c,
+                                Max_Value__c,
+                                Measurement__c,
+                                Min_Value__c,
+                                Patient_Visit__r.Completed_Date__c,
+                                Result_Type__c
+                        FROM Visit_Results__r
+                )
+                FROM Patient_Visit__c
+                WHERE Participant_Study_Enrollment__c =: state.pse.Id
+                AND Status__c = 'Completed'
+                AND Visit_Number__c != NULL
+                ORDER BY Visit_Number__c DESC
+        ];
 
-            return getAvailableVisitResults(visitResultList);
-        } catch (Exception e) {
-            System.debug(e.getCause() + '\n' + e.getLineNumber());
-            return filteredResults;
-        }
+        return getAvailableVisitResults(patientVisits);
     }
 
-    public static List<Visit_Result__c> getAvailableVisitResults(List<Visit_Result__c> visitResults) {
+    public static List<Visit_Result__c> getAvailableVisitResults(List<Patient_Visit__c> patientVisits) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
         try {
-            Decimal maxVisitNumber = visitResults.get(0).Patient_Visit__r.Visit_Number__c;
-            for(Visit_Result__c vr : visitResults) maxVisitNumber = Math.max(maxVisitNumber, vr.Patient_Visit__r.Visit_Number__c);
+            if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+
+            Map<Decimal, List<Visit_Result__c>> resultsByVisitNumber = new Map<Decimal, List<Visit_Result__c>>();
+            for (Patient_Visit__c pv : patientVisits) {
+                if(pv.Visit_Results__r != null && !pv.Visit_Results__r.isEmpty()) {
+                    resultsByVisitNumber.put(pv.Visit_Number__c, pv.Visit_Results__r);
+                }
+            }
 
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
+            visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+            Decimal timeSharing = patientVisits.get(0).Visit_Number__c - ctp.Shareback_Availability_Timing__c;
 
-            for (Visit_Result__c result : visitResults) {
-                if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) continue;
-                if (result.Patient_Visit__r.Visit_Number__c
-                        != (maxVisitNumber - ctp.Shareback_Availability_Timing__c)) continue;
+            while (true) {
+                if (timeSharing < 1) break;
 
-                for (Visit_Result_Type_Sharing__c resultTypeSharing : ctp.Visit_Result_Type_Sharings__r) {
-                    if (resultTypeSharing.Type__c == result.Result_Type__c) {
-                        if (resultTypeSharing.Sharing_Countries__c == 'All' ||
-                                (resultTypeSharing.Include_Countries__c &&
-                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
-                                ) {
+                if (!resultsByVisitNumber.containsKey(timeSharing)) {
+                    timeSharing--;
+                    continue;
+                }
+
+                for (Visit_Result__c result : resultsByVisitNumber.get(timeSharing)) {
+                    if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                        Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+
+                        if (resultTypeSharing.Sharing_Countries__c == 'All' || (resultTypeSharing.Include_Countries__c &&
+                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
                             filteredResults.add(result);
-                            break;
                         }
                     }
                 }
+                break;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.debug(e.getCause() + '\n' + e.getLineNumber());
             return filteredResults;
         }
@@ -93,11 +102,10 @@ public without sharing class VisitResultSharingService {
         try {
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
             if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+            visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
             for (Visit_Result__c result : visitResults) {
-                if (visitResultTypeSharingByType.isEmpty()) {
-                    VisitResultSharingService.getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
-                }
                 if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
                     Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
                     if (resultTypeSharing.Sharing_Countries__c == 'All' ||
@@ -123,26 +131,20 @@ public without sharing class VisitResultSharingService {
         return notAccessResultType;
     }
 
-    private static void getResultTypeSharingsByType(List<Visit_Result_Type_Sharing__c> visitResultTypeSharings) {
-        for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
-            visitResultTypeSharingByType.put(visitResultTypeSharing.Type__c, visitResultTypeSharing);
+    private static Map<String, Visit_Result_Type_Sharing__c> getResultTypeSharingsByType(
+            List<Visit_Result_Type_Sharing__c> visitResultTypeSharings
+    ) {
+        if (visitResultTypeSharingByType == null) {
+            visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
+            for (Visit_Result_Type_Sharing__c visitResultTypeSharing : visitResultTypeSharings) {
+                visitResultTypeSharingByType.put(visitResultTypeSharing.Type__c, visitResultTypeSharing);
+            }
         }
+
+        return visitResultTypeSharingByType;
     }
 
-    private static List<Visit_Result__c> getPatientVisitResults() {
-        List<Visit_Result__c> results;
-        if(!havePSE) return results;
-
-        return [
-                SELECT Id
-                FROM Visit_Result__c
-                WHERE Patient_Visit__r.Participant_Study_Enrollment__c =: state.pse.Id
-                    AND Patient_Visit__r.Participant_Study_Enrollment__r.Participant_Contact__c
-                        = :state.participant.Contact__c
-        ];
-    }
-
-    public static void updateStudySitesSharing(String ctpId, List<String> ssIds, Boolean selectionType) {
+    public static void updateStudySitesSharing(String ctpId, List<Id> ssIds, Boolean selectionType) {
         List<Study_Site__c> studySites = (List<Study_Site__c>) DatabaseService.query(
                 new List<String>{
                         'Id', 'Visit_Results_Sharing__c'
@@ -150,9 +152,10 @@ public without sharing class VisitResultSharingService {
                 Study_Site__c.getSObjectType(),
                 'Clinical_Trial_Profile__c = \'' + ctpId + '\''
         );
+
         if (!studySites.isEmpty()) {
             for (Study_Site__c ss : studySites) {
-                if((ssIds.isEmpty() || String.isBlank(ssIds.get(0))) && selectionType) {
+                if ((ssIds.isEmpty() || String.isBlank(ssIds.get(0))) && selectionType) {
                     ss.Visit_Results_Sharing__c = selectionType;
                 } else if (ssIds.contains(ss.Id)) {
                     ss.Visit_Results_Sharing__c = selectionType;
