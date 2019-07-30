@@ -59,7 +59,7 @@
         },
 
         roundValue: function(value) {
-          return +(Math.round(value + "e+3")  + "e-3");
+          return +(Math.round(value + "e+4")  + "e-4");
         },
     }
 )
