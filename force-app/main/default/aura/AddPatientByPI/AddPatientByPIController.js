@@ -25,6 +25,7 @@
             var pe = component.get('v.pe');
             var states = formData.statesByCountryMap['US'];
             component.set('v.statesLVList', states);
+            console.log('statesLVList>>>',component.get('v.statesLVList'));
         }, null, function () {
             component.find('spinner').hide();
         });
