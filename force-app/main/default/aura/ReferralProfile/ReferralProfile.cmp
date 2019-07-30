@@ -108,7 +108,7 @@
                         <div class="slds-col slds-size_1-of-4 rp-info-text">
                             <div class="rp-info-headers">{!$Label.c.RP_Personal_Information}</div>
                             <div>{!v.enrollment.Participant__r.Full_Name__c}</div>
-                            <div>{!v.enrollment.Participant__r.Date_of_Birth__c}</div>
+                            <div>{!v.enrollment.Participant__r.Date_of_Birth__c ? v.enrollment.Participant__r.Date_of_Birth__c  + ' ' + $Label.c.RP_DOB : v.enrollment.Participant__r.Birth_Year__c}</div>
                             <div>{!v.enrollment.Participant__r.Gender__c}</div>
                         </div>
                         <div class="slds-col slds-size_1-of-4 rp-info-text">

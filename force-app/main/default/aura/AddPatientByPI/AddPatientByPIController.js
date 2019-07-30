@@ -25,6 +25,7 @@
             var pe = component.get('v.pe');
             var states = formData.statesByCountryMap['US'];
             component.set('v.statesLVList', states);
+            console.log('statesLVList>>>',component.get('v.statesLVList'));
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -97,7 +98,8 @@
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
-           communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+           //communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+            communityService.navigateToHome()
         })
     },
 

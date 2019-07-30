@@ -67,7 +67,7 @@
                            currentPageCount="{!v.paginationData.currentPageCount}">
 
                 <aura:if isTrue="{!v.studyFilterEnabled}">
-                    <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>
+                    <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container"/>
                 </aura:if>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false" disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}"/>
