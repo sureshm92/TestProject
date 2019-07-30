@@ -41,7 +41,10 @@
     line-height: 16px;
     position: absolute;
     bottom: 5px;
-    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 65%;
+    white-space: nowrap;
 }
 
 .THIS .visit-result-item-description {
