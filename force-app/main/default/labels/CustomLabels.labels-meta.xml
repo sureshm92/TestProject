@@ -8771,6 +8771,13 @@
         <value>Search for Study</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Ad_hoc_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Ad hoc Visit</shortDescription>
+        <value>Ad hoc</value>
+    </labels>
+    <labels>
         <fullName>StudyVisit_Information_Not_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8904,6 +8911,13 @@
         <protected>true</protected>
         <shortDescription>StudyVisit Unscheduled Visit</shortDescription>
         <value>Unscheduled Visit</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Variable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Variable</shortDescription>
+        <value>Variable</value>
     </labels>
     <labels>
         <fullName>Success</fullName>
@@ -9549,6 +9563,13 @@ have questions or concerns about this data, please contact the Principal Investi
         <protected>true</protected>
         <shortDescription>Visit Results Tab No Results</shortDescription>
         <value>Check back periodically to view visit assessment information.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Panel_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Panel Disclaimer</shortDescription>
+        <value>Values are only available for assessments recorded and received for the visit date displayed.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Result_Date</fullName>
