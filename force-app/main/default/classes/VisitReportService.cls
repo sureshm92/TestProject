@@ -57,7 +57,7 @@ public inherited sharing class VisitReportService {
                             } else {
                                 reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
                             }
-                            Decimal rounded = visitResult.Actual_Value__c.setScale(2, RoundingMode.HALF_UP);
+                            Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP);
                             String value = String.valueOf(rounded);
                             reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c));
                             isResult = true;
