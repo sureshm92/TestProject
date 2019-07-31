@@ -1,0 +1,63 @@
+/**
+ * Created by AlexKetch on 5/17/2019.
+ */
+
+public abstract with sharing class TrialBuilder {
+    protected TrialDetail trialDetail;
+    protected String trialId;
+    protected StudyActions studyAction;
+    public TrialBuilder(String trialId) {
+        this.trialId = trialId;
+        TrialDetail trialDetail = new TrialDetail();
+        trialDetail.trial = TrialService.getTrial(trialId);
+        trialDetail.accountEnrollmentsList = new List<TrialDetail.ClinicWrapper>();
+        trialDetail.isTCAccepted = TermsAndConditions.isTCAccepted(trialDetail.trial.Terms_And_Conditions_ID__c);
+        this.trialDetail = trialDetail;
+
+    }
+    public TrialBuilder() {
+
+    }
+
+    public abstract TrialDetail createTrial();
+
+    protected abstract List<TrialDetail.StudyTab> getStudyTabs();
+
+    protected abstract StudyActions getStudyActions();
+
+    protected List<Account> getAccounts(Set<Id> accIds) {
+        return [
+                SELECT Id,
+                        Name,
+                        BillingStreet,
+                        BillingState,
+                        BillingPostalCode,
+                        BillingCity,
+                        BillingCountry,
+                        BillingCountryCode,
+                        BillingStateCode,
+                        Phone,
+                        BillingLongitude,
+                        BillingLatitude
+                FROM Account
+                WHERE Id IN :accIds
+        ];
+    }
+
+    protected TrialDetail.ClinicWrapper createClinicWrapper(String name, Account acc, String hcpStatus, Id studySiteId) {
+        TrialDetail.ClinicWrapper wrapper = new TrialDetail.ClinicWrapper();
+        wrapper.clinic = acc;
+        wrapper.name = name;
+        List<String> addressList = new List<String>();
+        if (acc.BillingCity != null) addressList.add(acc.BillingCity);
+        if (acc.BillingState != null) addressList.add(acc.BillingState);
+        if (acc.BillingPostalCode != null) addressList.add(acc.BillingPostalCode);
+        wrapper.addrStreet = acc.BillingStreet;
+        if (addressList.size() > 0) wrapper.addrCity = String.join(addressList, ', ');
+        wrapper.studySiteId = studySiteId;
+        wrapper.hcpStatus = hcpStatus;
+        wrapper.hcpStatusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpStatus);
+        return wrapper;
+    }
+
+}
