@@ -26,7 +26,7 @@
 2. Select Migration tab and choose the Deploy option from the dropdown menu.
 3. Upload zip file by hitting the bottom Choose file.
 
-####2. Validation steps
+#### 2. Validation steps
 1. For validating the package please add one more criterion Check Only, the selected options are listed below:
     ```
     - Test Level = RunLocalTests
