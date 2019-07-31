@@ -29,6 +29,7 @@ private class Test_VisitResultSharingService {
         List<Visit__c> visits = new List<Visit__c>();
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
         testData.createPSE();
@@ -38,12 +39,18 @@ private class Test_VisitResultSharingService {
                 Participant_Study_Enrollment__c = testData.pse.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
+                Visit_Number__c = 1
+        ));
+        patientVisits.add(new Patient_Visit__c(
+                Participant_Study_Enrollment__c = testData.pse.Id,
+                Status__c = 'Missed',
+                Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
         ));
         patientVisits.add(new Patient_Visit__c(
                 Participant_Study_Enrollment__c = testData.pse.Id,
                 Status__c = 'Completed',
-                Visit__c = visits.get(1).Id,
+                Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
         insert patientVisits;
@@ -56,7 +63,7 @@ private class Test_VisitResultSharingService {
         ));
         visitResults.add(new Visit_Result__c(
                 Actual_Value__c = 0.5,
-                Patient_Visit__c = patientVisits.get(1).Id,
+                Patient_Visit__c = patientVisits.get(2).Id,
                 Result_Type__c = 'Calcium'
         ));
         insert visitResults;

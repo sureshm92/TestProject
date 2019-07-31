@@ -4,7 +4,8 @@
 
 <aura:component description="TaskEdit" controller="TaskEditRemote" implements="forceCommunity:availableForAllPageTypes">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes -->
     <aura:attribute name="initData" type="Object"/>
@@ -16,17 +17,17 @@
     <aura:attribute name="todayDate" type="Date"/>
 
     <!-- Reminder picklist value -->
-    <aura:attribute name="reminderSetMode" type="String"/>
+    <aura:attribute name="reminderSetMode" type="String" default="Email"/>
     <aura:attribute name="frequencyMode" type="String" default="By_Date"/>
 
     <aura:attribute name="reminderEnabled" type="Boolean" default="false"/>
     <aura:attribute name="frequencyEnabled" type="Boolean" default="false"/>
     <aura:attribute name="reminderDateEnabled" type="Boolean"/>
-    <aura:attribute name="isValidFields" type="Boolean" default="false"/>
+    <aura:attribute name="isValidFields" type="Boolean" default="true"/>
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.task.ActivityDate}" action="{!c.doCheckFields}"/>
-    <aura:handler name="change" value="{!v.task.Reminder_Date__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doCheckFields}"/>
 
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
 
@@ -200,7 +201,8 @@
                         <!--Reminder Date-->
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                             <lightning:input aura:id="field" type="date" label="{!$Label.c.Reminder_Date}"
-                                             value="{!v.task.Reminder_Date__c}"
+                                             value="{!v.initData.reminderDate}"
+                                             onchange="{!c.onChangeReminderDate}"
                                              disabled="{!or(v.task.Is_Reminder_Sent__c, !v.reminderDateEnabled)}"
                                              min="{!v.todayDate}"
                                              max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>

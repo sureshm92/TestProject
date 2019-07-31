@@ -9213,7 +9213,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Task Subject Complete Survey</shortDescription>
-        <value>Please complete your ##SurveyName Study Survey</value>
+        <value>Please complete the ##SurveyName</value>
     </labels>
     <labels>
         <fullName>Task_Subject_Complete_Your_Profile</fullName>

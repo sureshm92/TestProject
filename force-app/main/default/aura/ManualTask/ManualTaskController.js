@@ -20,28 +20,25 @@
 
     doCheckFields: function (component, event, helper) {
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
-            debugger;
-            return validSoFar && inputCmp.get('v.validity').valid;
+            return validSoFar && inputCmp.checkValidity();
         }, true);
         component.set('v.isValidFields', allValid);
     },
 
     onDaysChange: function (component, event, helper) {
-        component.checkFields();
-        if(!component.get('v.isValidFields')) return;
-
         var startDate = component.get('v.task.Start_Date__c');
         var dueDate = component.get('v.task.ActivityDate');
+        var reminderDate = component.get('v.task.Reminder_Date__c');
         var useDaysNumber = component.get('v.showNumbersAdd') === 'true';
 
         if(startDate && !dueDate) {
-            var reminderDate = component.get('v.task.Reminder_Date__c');
-            if(reminderDate && moment(reminderDate).isBefore(startDate)) {
+            if(reminderDate && moment(reminderDate, 'YYYY-MM-DD').isBefore(startDate)) {
                 component.set('v.task.Reminder_Date__c', startDate);
             }
         }
 
         if (!startDate || !dueDate) {
+            component.set('v.showNumbersAdd', false);
             component.set('v.dayRemind', 0);
             return;
         }
@@ -90,7 +87,7 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'createTasks', {
             'task': JSON.stringify(component.get('v.task')),
-            'filter': JSON.stringify(component.get('v.taskFilters'))
+            'filter': JSON.stringify(filter)
         }, function (response) {
             if (response > 0)
                 communityService.showSuccessToast(

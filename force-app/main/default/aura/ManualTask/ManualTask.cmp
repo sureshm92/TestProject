@@ -56,7 +56,9 @@
 
                 <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
                     <aura:if isTrue="{!not(empty(v.task.ActivityDate))}">
-                        <option value="true">Number of days before the Task due date</option>
+                        <aura:if isTrue="{!not(v.task.ActivityDate == v.todayDate)}">
+                            <option value="true">Number of days before the Task due date</option>
+                        </aura:if>
                     </aura:if>
                     <option value="false">Specific Date</option>
                 </lightning:select>
