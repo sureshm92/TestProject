@@ -3,9 +3,11 @@
  */
 ({
     initData: function (component) {
+        console.log('STATE>>>',component.get('v.ss.Principal_Investigator__r.MailingAddress.stateCode'));
         component.set('v.participant', {
             sobjectType: 'Participant__c',
-            Mailing_Country_Code__c: 'US'
+            Mailing_Country_Code__c: component.get('v.ss.Principal_Investigator__r.MailingAddress.countryCode'),
+            Mailing_State_Code__c: component.get('v.ss.Principal_Investigator__r.MailingAddress.stateCode')
         });
         component.set('v.pe', {
             sobjectType: 'Participant_Enrollment__c',
@@ -26,6 +28,7 @@
         }, function (formData) {
             component.set('v.participant', formData.participantRecord);
             component.set('v.participant.Mailing_State_Code__c',formData.participantState);
+            component.set('v.participant.Phone_Type__c',formData.participantPhoneType);
             component.set('v.pe', formData.peRecord);
         }, null, function () {
             component.find('spinner').hide();

@@ -11,6 +11,7 @@
             ctpId: ctpId,
             ssId : ssId ? ssId : null
         }, function (formData) {
+            console.log('formData>>>',formData);
             component.set('v.ctp', formData.ctp);
             component.set('v.ss', formData.ss);
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -25,7 +26,6 @@
             var pe = component.get('v.pe');
             var states = formData.statesByCountryMap['US'];
             component.set('v.statesLVList', states);
-            console.log('statesLVList>>>',component.get('v.statesLVList'));
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -41,8 +41,6 @@
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
         }
         component.set('v.screeningRequired', isEnrollmentSuccess);
-        console.log('participant.Phone_Type__c', participant.Phone_Type__c);
-        console.log('participant.First_Name__c', participant.First_Name__c);
         var stateRequired = component.get('v.statesLVList')[0];
         var isAllRequiredCompletedAndValid = false;
         if(isEditMode){
@@ -86,18 +84,19 @@
         var participant = component.get('v.participant');
         var states = component.get('v.formData.statesByCountryMap')[participant.Mailing_Country_Code__c];
         component.set('v.statesLVList', states);
-        component.set('v.participant.Mailing_State_Code__c', null);
+        //component.set('v.participant.Mailing_State_Code__c', null);
         component.checkFields();
     },
 
     doCancel: function (component) {
-        communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+        //communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+        communityService.navigateToHome();
     },
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
            //communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
-            communityService.navigateToHome()
+            communityService.navigateToHome();
         })
     },
 

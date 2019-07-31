@@ -36,7 +36,7 @@
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
     <aura:if isTrue="{!!v.isEditMode}">
         <c:RRTopBar backLabel="{!$Label.c.PG_TOP_Bar_Back_To_My_Referrals}"
-                    backPage="{!'study-workspace?tab=tab-referrals&amp;id=' + v.ctp.Id}"
+                    backPage="{!''}"
                     smallTitle="{!v.ctp.Study_Code_Name__c}"
                     bigTitle="{!$Label.c.PG_Add_Patient_Header}">
         </c:RRTopBar>
