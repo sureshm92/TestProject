@@ -76,8 +76,15 @@
                                 <div class="value "><div class="rp-max-length">{!v.enrollment.Study_Site__r.Name}</div></div>
                             </div>
                             <div class="rr-output-field">
-                                <div class="label">{!$Label.c.PE_Referring_provider}</div>
-                                <div class="value "><div class="rp-max-length">{!v.enrollment.HCP__r.HCP_Contact__r.Name}</div></div>
+                                <div class="label">{!$Label.c.PE_Source}</div>
+                                <aura:if isTrue="{!!empty(v.enrollment.HCP__c)}">
+                                    <div class="value ">
+                                        <div class="rp-max-length">{!v.enrollment.HCP__r.HCP_Contact__r.Name}</div>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="rp-max-length">{!v.enrollment.Referral_Source__c}</div>
+                                    </aura:set>
+                                </aura:if>
                                     <!--<aura:if isTrue="{!!empty(v.enrollment.HCP__c)}">
                                         <c:RRLink label="{!v.enrollment.HCP__r.HCP_Contact__r.Name}"
                                                   page="{!'clinic-profile?id=' + v.enrollment.HCP__r.HCP_Contact__r.AccountId}"
@@ -145,13 +152,14 @@
                             {!$Label.c.PG_RP_L_Information_incorrect + ' '}<c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>.
                         </div> -->
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 rp-please-contact">
-                            <c:Popup aura:id="popup" title="{!$Label.c.PG_EPP_Header}" showModal="{!v.isShowPopup}" size="small">
+                            <c:Popup aura:id="popup" title="{!$Label.c.PG_EPP_Header}" showModal="{!v.isShowPopup}" size="small" showScroll="true">
                                 <aura:if isTrue="{!v.isShowPopup}">
                                     <c:AddPatientByPI isEditMode="true" participant="{!v.participantRecord}" pe="{!v.peRecord}" isAllRequiredCompleted="{!v.fieldsComplete}"/>
 
                                 </aura:if>
                                 <aura:set attribute="footerButtons">
-                                    <button class="apollo-btn primary" disabled="{!!v.fieldsComplete}" onclick="{!c.updateParticipant}">Save Changes</button>
+                                    <button class="apollo-btn secondary" onclick="{!c.closePopup}">{!$Label.c.BTN_Cancel}</button>
+                                    <button class="apollo-btn primary" disabled="{!!v.fieldsComplete}" onclick="{!c.updateParticipant}">{!$Label.c.RP_BTN_Save_Changes}</button>
                                 </aura:set>
                             </c:Popup>
                         </div>

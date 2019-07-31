@@ -29,6 +29,9 @@ public with sharing class StubFactory {
             if (result instanceof CodeExecutor) {
                 return ((CodeExecutor) result).execute(listOfArgs);
             }
+            if(result instanceof Exception) {
+                throw (Exception) result;
+            }
             return result;
         }
     }

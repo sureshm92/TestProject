@@ -3802,7 +3802,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Referring provider</shortDescription>
-        <value>Referral Source</value>
+        <value>Referral Provider</value>
     </labels>
     <labels>
         <fullName>PE_ST_Contact_Attempts</fullName>
@@ -3873,6 +3873,13 @@
         <protected>true</protected>
         <shortDescription>PE Site SiteZIPCode</shortDescription>
         <value>Site Zip Code</value>
+    </labels>
+    <labels>
+        <fullName>PE_Source</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Source</shortDescription>
+        <value>Source</value>
     </labels>
     <labels>
         <fullName>PE_State</fullName>
@@ -7592,7 +7599,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG TOP Bar Back To My Referrals</shortDescription>
-        <value>Back to My Referrals</value>
+        <value>Back to My Studies</value>
     </labels>
     <labels>
         <fullName>PG_Task_Tab_No_Tasks</fullName>
@@ -7783,6 +7790,13 @@
         <value>IQVIA Referral Hub</value>
     </labels>
     <labels>
+        <fullName>RP_BTN_Save_Changes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP BTN Save Changes</shortDescription>
+        <value>Save Changes</value>
+    </labels>
+    <labels>
         <fullName>RP_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7795,6 +7809,13 @@
         <protected>true</protected>
         <shortDescription>RP DOB</shortDescription>
         <value>(yyyy-mm-dd)</value>
+    </labels>
+    <labels>
+        <fullName>RP_Edit_Patient_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Edit Patient Information</shortDescription>
+        <value>Edit Patient Information</value>
     </labels>
     <labels>
         <fullName>RP_Edit_Referral_Details</fullName>
