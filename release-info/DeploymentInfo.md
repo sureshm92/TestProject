@@ -34,6 +34,7 @@
     - [v] Ignore Warnings
     - [v] Rollback On Error 
     ```
+    
     ![img1](/release-info/images/img1.JPG)
 
     Click the Next button and if you selected all options correctly, you’ll see the screen as shown below:
@@ -107,7 +108,7 @@
 
 6. Community Settings
 
-    Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find“Past Studies” (If the page doesn't exist, create it with next properties)
+    Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Past Studies” (If the page doesn't exist, create it with next properties)
     
     1. Click on the Gear and New Page
     2. Choose standard page
