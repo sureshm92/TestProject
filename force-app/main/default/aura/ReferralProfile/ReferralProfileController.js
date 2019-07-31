@@ -29,6 +29,8 @@
             component.set('v.enrollment', initData.enrollment);
             component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
             component.set('v.currentScreeningId', initData.enrollment.Screening_ID__c || '');
+            console.log('v.participantRecord>>>>',component.get('v.participantRecord'));
+            console.log('v.peRecord>>>>',component.get('v.peRecord'));
             //set sticky bar position in browser window
             if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
@@ -69,6 +71,7 @@
 
     openPopup: function(component, event, helper){
         component.set('v.isShowPopup', true);
+        console.log('',);
     },
 
 })
