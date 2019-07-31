@@ -1,7 +1,7 @@
 <!--
   - Created by Yehor Dobrovolskyi
  -->
-<aura:component controller="VisitReportContainerRemote" description="VisitReportContainer"
+<aura:component controller="VisitReportContainerRemote" description="VisitReportContainer" extends="c:LightningService"
                 implements="forceCommunity:availableForAllPageTypes">
 
     <ltng:require
