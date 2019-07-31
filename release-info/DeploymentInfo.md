@@ -26,12 +26,26 @@
     3. Upload zip file by hitting the bottom Choose file.
 2. Validation steps
     1. For validating the package please add one more criterion Check Only, the selected options are listed below:
-    ```
-     - Test Level = RunLocalTests
-     - [v] Check Only
-     - [v] Ignore Warnings
-     - [v] Rollback On Error 
-     Applicable options for Validation
-    ```
-    ![img1](/release-info/images/img1.JPG)
+        ```
+         - Test Level = RunLocalTests
+         - [v] Check Only
+         - [v] Ignore Warnings
+         - [v] Rollback On Error 
+        ```
+        ![img1](/release-info/images/img1.JPG)
 
+        Click the Next button and if you selected all options correctly, you’ll see the screen as shown below:
+    
+        ![img2](/release-info/images/img2.JPG)
+    
+    2. Verification step
+        1. Deploy the file by clicking Deploy
+        2. You will be forwarded to the page with the deployment status
+        
+        ![img3](/release-info/images/img3.JPG)
+        
+        If the file passed deployment successfully, this will be reflected in the Results section as “success: true”. Take the screenshot of this page.
+        
+        ![img4](/release-info/images/img4.JPG)
+        
+        
