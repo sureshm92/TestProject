@@ -160,3 +160,10 @@
     max-width: 136px;
     margin: 10px 0;
 }
+.THIS .my_iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

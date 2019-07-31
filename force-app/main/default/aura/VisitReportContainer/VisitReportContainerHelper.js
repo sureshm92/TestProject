@@ -36,15 +36,33 @@
                             doc.setTextColor('#000096');
                             doc.setFontType('bold');
                             doc.text(reportData.participantFullName, 80, 120);
-                            doc.text($A.get('$Label.c.Report_Enrollment_Date')+ ' ' + reportData.enrollmentDate, 80, 140);
-                            doc.text($A.get('$Label.c.Report_Study_Site') + ': '+ reportData.studySiteName, 80, 160);
+                            doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
+                            doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
                             doc.setFontType('normal');
                             numberPageForTable = helper.generateTable(reportData, doc, helper);
                             for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
                                 doc.setPage(i);
                                 helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
                             }
-                            doc.save(component.get('v.documentName') + '.pdf');
+                            // doc.save(component.get('v.documentName') + '.pdf');
+                            let ieEDGE = navigator.userAgent.match(/Edge/g);
+                            let ie = navigator.userAgent.match(/.NET/g);
+                            let oldIE = navigator.userAgent.match(/MSIE/g);
+                            if (ie || oldIE || ieEDGE) {
+                                window.navigator.msSaveBlob(doc.output('blob'), component.get('v.documentName') + '.pdf');
+                            } else {
+                                let pdfArr = doc.output('arraybuffer');
+                                let urlPDF = doc.output('bloburi');
+                                let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+                                let newWin = window.open('/');
+                                if (newWin.document.readyState === 'complete') {
+                                    newWin.location = urlViewer + '?file=' + urlPDF;
+                                } else {
+                                    newWin.onload = function () {
+                                        newWin.location = urlViewer + '?file=' + urlPDF;
+                                    };
+                                }
+                            }
                             reportData = {};
                             component.set('v.reportData', reportData);
                         };
@@ -151,7 +169,7 @@
     },
 
     validationEndPage: function (doc, heightY, margiBottom) {
-        margiBottom = typeof margiBottom !== 'undefined' ?  margiBottom : 55;
+        margiBottom = typeof margiBottom !== 'undefined' ? margiBottom : 55;
         if (heightY > doc.internal.pageSize.height - margiBottom) {
             doc.addPage();
             heightY = 80;
@@ -174,7 +192,7 @@
                     helper.centeredText(el, (heightY + ind * doc.internal.getLineHeight()), doc);
                 });
                 heightY += doc.internal.getLineHeight() * splitStudyCodeName.length;
-            }  else {
+            } else {
                 heightY += 100;
             }
         }

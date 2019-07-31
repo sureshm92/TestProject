@@ -3,9 +3,9 @@
     <fullName>Max_Value__c</fullName>
     <externalId>false</externalId>
     <label>Max Value</label>
-    <precision>18</precision>
+    <precision>8</precision>
     <required>false</required>
-    <scale>9</scale>
+    <scale>4</scale>
     <trackTrending>false</trackTrending>
     <type>Number</type>
     <unique>false</unique>

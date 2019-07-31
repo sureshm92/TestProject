@@ -108,7 +108,7 @@
                         <div class="slds-col slds-size_1-of-4 rp-info-text">
                             <div class="rp-info-headers">{!$Label.c.RP_Personal_Information}</div>
                             <div>{!v.enrollment.Participant__r.Full_Name__c}</div>
-                            <div>{!v.enrollment.Participant__r.Date_of_Birth__c}</div>
+                            <div>{!v.enrollment.Participant__r.Date_of_Birth__c ? v.enrollment.Participant__r.Date_of_Birth__c  + ' ' + $Label.c.RP_DOB : v.enrollment.Participant__r.Birth_Year__c}</div>
                             <div>{!v.enrollment.Participant__r.Gender__c}</div>
                         </div>
                         <div class="slds-col slds-size_1-of-4 rp-info-text">
@@ -145,8 +145,11 @@
                             {!$Label.c.PG_RP_L_Information_incorrect + ' '}<c:RRLink page="help?tab=problem" class="text">{!$Label.c.PG_AS_T2_Link_Contact_IQVIA}</c:RRLink>.
                         </div> -->
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_3-of-12 rp-please-contact">
-                            <c:Popup aura:id="popup" title="Edit Patient Information" showModal="{!v.isShowPopup}" size="small">
-                                <c:AddPatientByPI isEditMode="true" participant="{!v.participantRecord}" pe="{!v.peRecord}" isAllRequiredCompleted="{!v.fieldsComplete}"/>
+                            <c:Popup aura:id="popup" title="{!$Label.c.PG_EPP_Header}" showModal="{!v.isShowPopup}" size="small">
+                                <aura:if isTrue="{!v.isShowPopup}">
+                                    <c:AddPatientByPI isEditMode="true" participant="{!v.participantRecord}" pe="{!v.peRecord}" isAllRequiredCompleted="{!v.fieldsComplete}"/>
+
+                                </aura:if>
                                 <aura:set attribute="footerButtons">
                                     <button class="apollo-btn primary" disabled="{!!v.fieldsComplete}" onclick="{!c.updateParticipant}">Save Changes</button>
                                 </aura:set>
