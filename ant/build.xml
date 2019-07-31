@@ -94,35 +94,61 @@
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/part1"/>
         <mkdir dir="${dist.dir}/part2"/>
+        <mkdir dir="${dist.dir}/part3"/>
+
+        <!-- part 1 -->
         <copy todir="${dist.dir}/part1">
             <fileset dir="${source.dir}">
-                <include name="staticresources/*.*"/>
+                <include name="staticresources/pdfjs_dist.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
-        </xmltask>
-        <copy todir="${dist.dir}/part2">
-            <fileset dir="${source.dir}">
-                <exclude name="staticresources/*.*"/>
-                <exclude name="translations/*.*"/>
-            </fileset>
-        </copy>
-        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()='StaticResource']]/:members[text()!='pdfjs_dist']"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part1.zip">
             <fileset dir="${dist.dir}">
                 <include name="part1/**/*.*"/>
             </fileset>
         </zip>
+        <delete dir="${dist.dir}/part1"/>
+
+
+        <!-- part 2 -->
+        <copy todir="${dist.dir}/part2">
+            <fileset dir="${source.dir}">
+                <include name="staticresources/*.*"/>
+                <exclude name="staticresources/pdfjs_dist.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
+            <remove path="/:Package/:types[:name[text()='StaticResource']]/:members[text()='pdfjs_dist']"/>
+        </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part2.zip">
             <fileset dir="${dist.dir}">
                 <include name="part2/**/*.*"/>
             </fileset>
         </zip>
-        <delete dir="${dist.dir}/part1"/>
         <delete dir="${dist.dir}/part2"/>
+
+        <!-- part 3 -->
+        <copy todir="${dist.dir}/part3">
+            <fileset dir="${source.dir}">
+                <exclude name="staticresources/*.*"/>
+                <exclude name="translations/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part3/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part3"/>
+
     </target>
 
     <!-- filter metadata files before deploy: -->
