@@ -20,19 +20,20 @@ public inherited sharing class VisitResultsService {
             return new List<VisitResultWrapper>();
         }
 
-        Map<String, Double> visitResultValuesByNames = new Map<String, Double>();
+        Map<String, Visit_Result__c> visitResultValuesByNames = new Map<String, Visit_Result__c>();
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
         Boolean listIsNotEmpty = false;
 
         for (Visit_Result__c singleVisitResult : visitResults) {
-            visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult.Actual_Value__c);
+            visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult);
         }
 
         for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
-            if (visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName) != null) {
+            Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
+            if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(singleConfig.Dashboard_Name__c, visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName)));
+            wrappers.add(new VisitResultWrapper(visitResult, singleConfig.Dashboard_Name__c));
         }
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
@@ -138,9 +139,12 @@ public inherited sharing class VisitResultsService {
             }
         }
 
-        public VisitResultWrapper(String name, Double value) {
+        public VisitResultWrapper(Visit_Result__c visitResult, String name) {
             this.name = name;
-            this.value = value;
+            if (visitResult != null) {
+                this.value = visitResult.Actual_Value__c;
+                this.measurement = visitResult.Measurement__c;
+            }
         }
     }
 }

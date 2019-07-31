@@ -10,7 +10,7 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable()) {
+        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
@@ -57,7 +57,7 @@ public inherited sharing class VisitReportService {
                             } else {
                                 reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
                             }
-                            Decimal rounded = visitResult.Actual_Value__c.setScale(2, RoundingMode.HALF_UP);
+                            Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP);
                             String value = String.valueOf(rounded);
                             reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c));
                             isResult = true;

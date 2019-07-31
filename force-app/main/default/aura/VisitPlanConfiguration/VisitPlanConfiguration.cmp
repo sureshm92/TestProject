@@ -37,10 +37,6 @@
             <lightning:layout horizontalAlign="center" verticalAlign="end">
                 <lightning:layoutItem>
                     <aura:if isTrue="{!v.visitPlanId!=null}">
-                    </aura:if>
-                </lightning:layoutItem>
-                <lightning:layoutItem>
-                    <aura:if isTrue="{!v.visitPlanId!=null}">
                         <lightning:button disabled="{!empty(v.error)==false}" onclick="{!c.editVisitLegend}"
                                           class="slds-theme_neutral" variant="neutral"
                                           label="{!$Label.c.Edit_Visit_Legend}"/>
@@ -63,32 +59,35 @@
                     {!$Label.c.empty_visits}
                 </div>
                 <aura:set attribute="else">
-                    <table class="slds-table slds-table_bordered slds-table_striped">
-                        <thead>
-                        <tr class="slds-text-title_caps">
-                            <th>
-                                <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
-                            </th>
-                            <th>
-                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Patient_Portal_Name}</div>
-                            </th>
-                            <th>
-                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
-                            </th>
-                            <th>
-                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Schedule}</div>
-                            </th>
-                            <th>
-                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Icons}</div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <aura:iteration var="visit" items="{!v.currentVisits}">
-                            <c:VisitItem visit="{!visit}"/>
-                        </aura:iteration>
-                        </tbody>
-                    </table>
+                    <div class="slds-scrollable">
+                        <table class="slds-table slds-table_bordered slds-table_striped">
+                            <thead>
+                            <tr class="slds-text-title_caps">
+                                <th>
+                                    <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
+                                </th>
+                                <th>
+                                    <div class="slds-truncate"
+                                         title="Column 1">{!$Label.c.Visit_Patient_Portal_Name}</div>
+                                </th>
+                                <th>
+                                    <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
+                                </th>
+                                <th>
+                                    <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Schedule}</div>
+                                </th>
+                                <th>
+                                    <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Icons}</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <aura:iteration var="visit" items="{!v.currentVisits}">
+                                <c:VisitItem visit="{!visit}"/>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
                 </aura:set>
             </aura:if>
             <aura:set attribute="else">

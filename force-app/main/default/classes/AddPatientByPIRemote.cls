@@ -14,6 +14,8 @@ public without sharing class AddPatientByPIRemote {
     public class RecordsData{
         @AuraEnabled public Participant__c participantRecord;
         @AuraEnabled public Participant_Enrollment__c peRecord;
+        @AuraEnabled public String participantState;
+        @AuraEnabled public String participantPhoneType;
     }
     
     public class FormData {
@@ -108,6 +110,8 @@ public without sharing class AddPatientByPIRemote {
         ];
         RecordsData data = new RecordsData();
         data.participantRecord = participantRecord;
+        data.participantState = participantRecord.Mailing_State_Code__c;
+        data.participantPhoneType = participantRecord.Phone_Type__c;
         data.peRecord = per;
         return data;
     }

@@ -16,8 +16,7 @@ public without sharing class MyReferringClinicsController {
             List<Study_Site__c> studySites;
             List<Study_Site__c> studySitesNotDelegate;
             studySites = StudySiteService.getStudySitesForPI();
-            studySitesNotDelegate = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
-            System.debug('studySitesNotDelegate>>'+studySitesNotDelegate);
+            studySitesNotDelegate = studySites;//StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
             Map<Id, List<Study_Site__c>> studyMap = new Map<Id, List<Study_Site__c>>();
             Map<String, String> studySiteMap = new Map<String, String>();
             List<LabelValueItem> studyPickList = new List<LabelValueItem>{
@@ -66,7 +65,6 @@ public without sharing class MyReferringClinicsController {
             clinicDetail.studySitePickList.addAll(pickList);
             clinicDetail.studyPickList.addAll(studyPickList);
             clinicDetail.studySitesForInvitation = new List<MyReferringClinicsController.SiteWrapper>();
-            System.debug('studySitesNotDelegate>>'+studySitesNotDelegate);
             if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
                 Set<Id> studyIds = new Set<Id>();
                 for (Study_Site__c site : studySitesNotDelegate) {
