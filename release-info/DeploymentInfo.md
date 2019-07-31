@@ -1,11 +1,11 @@
 # IQ for release RH3.1/PP1.1IQVIA 
-## Referral Hub/Patient PortalDeployment Process
+# Referral Hub/Patient PortalDeployment Process
 
-### I. Pre-requisite steps:
+## I. Pre-requisite steps:
 1. Make sure that you have a list of COI to load (ZIP file)
 2. Verification step: Make screenshot ZIP files.
 
-### II. Pre-Deployment steps:
+## II. Pre-Deployment steps:
 1. Access to Send Email
     1. Go to Setup > Deliverability > Access level to change on All Email.
     2. Verification step: Make screenshot this setting.
@@ -19,14 +19,14 @@
     1. Go to Setup > Apex Test Execution > Options > Disable Parallel Apex Testing
     2. Verification step: Make screenshot this setting.
  
-### III. Deployment
+## III. Deployment
 
-#### 1. For each file in the package do the following:
+### 1. For each file in the package do the following:
 1. Go to https://workbench.developerforce.com/ and login with 'System Administrator' credentials 
 2. Select Migration tab and choose the Deploy option from the dropdown menu.
 3. Upload zip file by hitting the bottom Choose file.
 
-#### 2. Validation steps
+### 2. Validation steps
 1. For validating the package please add one more criterion Check Only, the selected options are listed below:
     ```
     - Test Level = RunLocalTests
@@ -52,7 +52,7 @@
     
 3. Verification step: Make screenshot this setting. After validation you can deployment to target environment
 
-#### 3. Deployment steps
+### 3. Deployment steps
 1. Repeat steps from section 1.0 and next steps choose:
     ```
     - Test Level = RunLocalTests
@@ -78,7 +78,7 @@
     
 6. Verification step: Make screenshot this setting.
 
-### IV. Post-Deployment steps:
+## IV. Post-Deployment steps:
 
 1. Admin Panel
     1. Go to App Launcher > Click on Admin Panel item > Click on an icon and run all a bathes in queue
