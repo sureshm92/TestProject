@@ -8,7 +8,7 @@ private class Test_VisitResultSharingService {
     static void processResultsTest() {
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.ctp.Shareback_Availability_Timing__c = 0;
+        testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
 
         Test.startTest();
@@ -27,6 +27,7 @@ private class Test_VisitResultSharingService {
         insert vp;
 
         List<Visit__c> visits = new List<Visit__c>();
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
@@ -58,6 +59,12 @@ private class Test_VisitResultSharingService {
                 Participant_Study_Enrollment__c = testData.pse.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
+                Visit_Number__c = 3.1
+        ));
+        patientVisits.add(new Patient_Visit__c(
+                Participant_Study_Enrollment__c = testData.pse.Id,
+                Status__c = 'Completed',
+                Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
         ));
         insert patientVisits;
@@ -70,7 +77,12 @@ private class Test_VisitResultSharingService {
         ));
         visitResults.add(new Visit_Result__c(
                 Actual_Value__c = 0.5,
-                Patient_Visit__c = patientVisits.get(2).Id,
+                Patient_Visit__c = patientVisits.get(3).Id,
+                Result_Type__c = 'Calcium'
+        ));
+        visitResults.add(new Visit_Result__c(
+                Actual_Value__c = 0.8,
+                Patient_Visit__c = patientVisits.get(4).Id,
                 Result_Type__c = 'Calcium'
         ));
         insert visitResults;
