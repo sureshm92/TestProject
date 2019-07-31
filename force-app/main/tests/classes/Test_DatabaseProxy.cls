@@ -81,4 +81,42 @@ public class Test_DatabaseProxy {
 		System.assertEquals(1, accounts.size());
 		System.assertEquals('New Name', accountToUpdate.Name);
 	}
+
+	@IsTest
+	static void deleteRecord_Test() {
+		DatabaseProxy databaseProxy = new DatabaseProxy();
+		Account firstAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert firstAccountToDelete;
+		Account secondAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert secondAccountToDelete;
+		firstAccountToDelete.Name = 'New Name';
+		secondAccountToDelete.Name = 'New Name';
+		Test.startTest();
+		databaseProxy.deleteRecord(firstAccountToDelete, true);
+		databaseProxy.deleteRecord(secondAccountToDelete, false);
+		Test.stopTest();
+		List<Account> accounts = [SELECT Id, Name FROM Account];
+		System.assert(accounts.isEmpty());
+	}
+
+	@IsTest
+	static void deleteRecords_Test() {
+		DatabaseProxy databaseProxy = new DatabaseProxy();
+		Account firstAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert firstAccountToDelete;
+		Account secondAccountToDelete = (Account) TestDataFactory.getSObject(Account.getSObjectType());
+		insert secondAccountToDelete;
+		firstAccountToDelete.Name = 'New Name';
+		secondAccountToDelete.Name = 'New Name';
+		Test.startTest();
+		databaseProxy.deleteRecords(new List<SObject>{
+				firstAccountToDelete
+		}, true);
+		databaseProxy.deleteRecords(new List<SObject>{
+				secondAccountToDelete
+		}, false);
+		Test.stopTest();
+		List<Account> accounts = [SELECT Id, Name FROM Account];
+		System.assert(accounts.isEmpty());
+	}
 }

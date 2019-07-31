@@ -31,9 +31,13 @@
                             <div class="visit-results-item">
                                 <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.value}</span>
                                 <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
+                                <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
+                                    {!'(' + visitResultWrapper.measurement + ')'}
+                                </span>
                             </div>
                         </aura:iteration>
                     </div>
+                    <div class="visit-results-panel-disclaimer">{!$Label.c.Visit_Results_Tab_Panel_Disclaimer}</div>
                 </div>
             </aura:set>
 

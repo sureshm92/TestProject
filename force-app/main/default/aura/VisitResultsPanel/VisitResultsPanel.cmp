@@ -35,6 +35,7 @@
                         </div>
                     </aura:iteration>
                 </div>
+                <div class="visit-result-panel-disclaimer">{!$Label.c.Visit_Results_Tab_Panel_Disclaimer}</div>
             </aura:if>
         </div>
     </aura:if>

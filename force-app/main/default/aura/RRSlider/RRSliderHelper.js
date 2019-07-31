@@ -5,15 +5,19 @@
             let value = component.get('v.value'),
                 minValue = component.get('v.minValue'),
                 maxValue = component.get('v.maxValue');
-            if(!value) {
+            if(value == null) {
                 component.set('v.showFilledTrackPrivate', false);
                 component.set('v.showValueBox', false);
                 component.set('v.showKnob', false);
                 return;
             }
-            if(!minValue || !maxValue) {
+            if(minValue == null && maxValue == null) {
                 minValue = value - 10;
                 maxValue = value + 10;
+            } else if(minValue == null) {
+                minValue = maxValue - Math.abs((maxValue - value) * 2);
+            } else if(maxValue == null) {
+                maxValue = minValue + Math.abs((value - minValue) * 2);
             }
             component.set('v.showFilledTrackPrivate', component.get('v.showFilledTrack'));
             component.set('v.valueInBox', this.roundValue(value));
@@ -59,7 +63,7 @@
         },
 
         roundValue: function(value) {
-          return +(Math.round(value + "e+3")  + "e-3");
+          return +(Math.round(value + "e+4")  + "e-4");
         },
     }
 )

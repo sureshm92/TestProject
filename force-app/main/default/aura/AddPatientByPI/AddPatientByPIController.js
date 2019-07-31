@@ -48,6 +48,7 @@
             participant.First_Name__c != '' &&
             participant.Last_Name__c != '' &&
             participant.Date_of_Birth__c != '' &&
+            participant.Date_of_Birth__c != null &&
             participant.Gender__c != '' &&
             participant.Phone__c != '' &&
             participant.Phone_Type__c != '' &&
@@ -55,6 +56,7 @@
             participant.Mailing_Zip_Postal_Code__c != '' &&
             pe &&
             pe.Participant_Status__c != '' &&
+            component.find('emailInput') &&
             component.find('emailInput').get('v.validity').valid &&
             pe.Screening_ID__c != '' &&
             pe.MRN_Id__c != '';

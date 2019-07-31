@@ -41,7 +41,10 @@
     line-height: 16px;
     position: absolute;
     bottom: 5px;
-    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 65%;
+    white-space: nowrap;
 }
 
 .THIS .visit-result-item-description {
@@ -49,6 +52,13 @@
     top: 0;
     right: 0;
     margin: 0 5px;
+}
+
+.THIS .visit-result-measurement {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 700;
 }
 
 .THIS .hidden {

@@ -34,7 +34,7 @@ public inherited sharing class PatientVisitService {
                 'FROM Patient_Visit__c ' +
                 'WHERE Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
                 ' AND Status__c ' + (VISIT_MODE_CURRENT == visitMode ? '=' : '!=') + '\'' + VISIT_STATUS_PENDING + '\'' +
-                ' ORDER BY Visit__r.Visit_Number__c NULLS LAST' +
+                ' ORDER BY Visit_Number__c ' + (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') + ' NULLS LAST' +
                 (limitNumber == null ? '' : ' LIMIT ' + limitNumber);
 
         List<Patient_Visit__c> visits = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
