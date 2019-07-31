@@ -25,6 +25,7 @@
             var pe = component.get('v.pe');
             var states = formData.statesByCountryMap['US'];
             component.set('v.statesLVList', states);
+            console.log('statesLVList>>>',component.get('v.statesLVList'));
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -41,7 +42,7 @@
         }
         component.set('v.screeningRequired', isEnrollmentSuccess);
         console.log('participant.Phone_Type__c', participant.Phone_Type__c);
-        console.log('participant.First_Name__c', participant.First_Name__c);
+        console.log('participant.Date_of_Birth__c', participant.Date_of_Birth__c);
         var stateRequired = component.get('v.statesLVList')[0];
         var isAllRequiredCompletedAndValid = false;
         if(isEditMode){
@@ -49,6 +50,7 @@
             participant.First_Name__c != '' &&
             participant.Last_Name__c != '' &&
             participant.Date_of_Birth__c != '' &&
+            participant.Date_of_Birth__c != null &&
             participant.Gender__c != '' &&
             participant.Phone__c != '' &&
             participant.Phone_Type__c != '' &&
@@ -56,6 +58,7 @@
             participant.Mailing_Zip_Postal_Code__c != '' &&
             pe &&
             pe.Participant_Status__c != '' &&
+            component.find('emailInput') &&
             component.find('emailInput').get('v.validity').valid &&
             pe.Screening_ID__c != '' &&
             pe.MRN_Id__c != '';
@@ -95,7 +98,8 @@
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
-           communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+           //communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+            communityService.navigateToHome()
         })
     },
 

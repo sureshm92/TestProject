@@ -99,7 +99,7 @@ private class Test_VisitResultSharingService {
             VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
             VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<Id>{
                     testData.ss.Id
-            }, true);
+            }, true, true);
         }
 
         Test.stopTest();
