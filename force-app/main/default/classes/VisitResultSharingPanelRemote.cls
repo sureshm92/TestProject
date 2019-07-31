@@ -98,7 +98,7 @@ public without sharing class VisitResultSharingPanelRemote {
                                 type = TYPE_ALL;
                             } else {
                                 countryCodes = sharing.Sharing_Countries__c;
-                                if(sharing.Include_Countries__c) {
+                                if (sharing.Include_Countries__c) {
                                     type = TYPE_COUNTRIES;
                                 } else {
                                     type = TYPE_COUNTRIES_DISABLED;
@@ -127,9 +127,9 @@ public without sharing class VisitResultSharingPanelRemote {
                         !ctp.Shareback_Settings_on_StudySites__c && !ss.Visit_Results_Sharing__c) selectedSSIds.add(ss.Id);
             }
             String ssSelectionType;
-            if(studySites.size() == selectedSSIds.size()) {
+            if (studySites.size() == selectedSSIds.size()) {
                 ssSelectionType = TYPE_ALL;
-            } else if(ctp.Shareback_Settings_on_StudySites__c) {
+            } else if (ctp.Shareback_Settings_on_StudySites__c) {
                 ssSelectionType = TYPE_STUDY_SITES;
             } else {
                 ssSelectionType = TYPE_STUDY_SITES_DISABLED;
@@ -163,10 +163,11 @@ public without sharing class VisitResultSharingPanelRemote {
             Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(ctpId);
 
             ctp.Visit_Data_Shareback__c = optionsWrapper.globalShareBck;
-            List<String> ssIds;
+            List<Id> ssIds;
             if (!ctp.Visit_Data_Shareback__c) {
                 VisitResultSharingService.disableShareback(ctp);
-                ssIds = new List<String>();
+                ssIds = new List<Id>();
+                optionsWrapper.ssSelectionType = TYPE_DISABLED;
             } else {
                 ctp.Shareback_Availability_Timing__c = optionsWrapper.showAfterDays;
                 ctp.Shareback_Availability_Status__c = optionsWrapper.selectedStatuses;
@@ -178,7 +179,8 @@ public without sharing class VisitResultSharingPanelRemote {
                 updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
             }
 
-            VisitResultSharingService.updateStudySitesSharing(ctpId, ssIds, ctp.Shareback_Settings_on_StudySites__c);
+            VisitResultSharingService.updateStudySitesSharing(
+                    ctpId, ssIds, optionsWrapper.ssSelectionType.equals(TYPE_ALL), ctp.Shareback_Settings_on_StudySites__c);
 
             update ctp;
         } catch (Exception e) {

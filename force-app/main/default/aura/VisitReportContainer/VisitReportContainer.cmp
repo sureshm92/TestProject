@@ -5,8 +5,8 @@
                 implements="forceCommunity:availableForAllPageTypes">
 
     <ltng:require
-            scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js')}"
-            afterScriptsLoaded=""/>
+            scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js', $Resource.pdfjs_dist + '/build/pdf.js')}"
+            afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="multiMode" type="Boolean"/>
     <aura:attribute name="reportDataList" type="Object[]"/>
@@ -16,7 +16,7 @@
 
     <aura:attribute name="errorMessage" type="String" default=""/>
 
-        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<!--        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
         <div class="navigation rr-width-limiter side-padding">
@@ -65,7 +65,7 @@
                     </aura:iteration>
                 </c:RRTable>
                 <aura:set attribute="else">
-                    <div class="resource-error-message"> {!$Label.c.Resources_No_Study_Documents}</div>
+                    <div class="resource-error-message"> {!$Label.c.Visit_Result_Report_No_Data}</div>
 
                 </aura:set>
             </aura:if>
