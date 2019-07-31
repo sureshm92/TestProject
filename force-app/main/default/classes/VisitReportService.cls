@@ -10,7 +10,7 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c) {
+        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c || !VisitResultSharingService.isVisitResultAvailable()) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
@@ -29,11 +29,12 @@ public inherited sharing class VisitReportService {
 
     private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(List<Patient_Visit__c> patientVisits, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
+        Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType(visitResultGroupMS);
         for (Patient_Visit__c patientVisit : patientVisits) {
             if (!patientVisit.Visit_Results__r.isEmpty()) {
                 List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResultsForReport(patientVisit.Visit_Results__r);
                 if (visitResultsAvailable.isEmpty()) continue;
-                Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType();
+                notAccessResultType = VisitResultSharingService.getNotAccessResultType();
                 Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(visitResultsAvailable);
                 for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
                     Boolean isResult = false;

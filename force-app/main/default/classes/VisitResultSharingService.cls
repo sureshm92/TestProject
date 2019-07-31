@@ -100,10 +100,10 @@ public without sharing class VisitResultSharingService {
     public static List<Visit_Result__c> getAvailableVisitResultsForReport(List<Visit_Result__c> visitResults) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
         try {
-            Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
-
+            if (visitResultTypeSharingByType == null) {
+                visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+            }
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
-            visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
             for (Visit_Result__c result : visitResults) {
                 if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
                     Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
@@ -127,6 +127,20 @@ public without sharing class VisitResultSharingService {
     }
 
     public static Set<String> getNotAccessResultType() {
+        return notAccessResultType;
+    }
+
+    public static Set<String> getNotAccessResultType(List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+        if (visitResultTypeSharingByType == null) {
+            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+        }
+        for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
+            for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
+                if (!visitResultTypeSharingByType.containsKey(visitResultTypeM.DeveloperName)) {
+                    notAccessResultType.add(visitResultTypeM.DeveloperName);
+                }
+            }
+        }
         return notAccessResultType;
     }
 
