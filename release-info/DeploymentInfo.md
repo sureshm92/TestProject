@@ -1,5 +1,5 @@
 # IQ for release RH3.1/PP1.1IQVIA 
-##Referral Hub/Patient PortalDeployment Process
+## Referral Hub/Patient PortalDeployment Process
 
 ### I. Pre-requisite steps:
 1. Make sure that you have a list of COI to load (ZIP file)
@@ -27,11 +27,11 @@
 2. Validation steps
     1. For validating the package please add one more criterion Check Only, the selected options are listed below:
     ```
-     Test Level = RunLocalTests
-      Check Only
-      Ignore Warnings
-      Rollback On Error 
+     - Test Level = RunLocalTests
+     - [v] Check Only
+     - [v] Ignore Warnings
+     - [v] Rollback On Error 
      Applicable options for Validation
     ```
-    ![img1]: (/release-info/images/img1.JPG)
+    ![img1](/release-info/images/img1.JPG)
 
