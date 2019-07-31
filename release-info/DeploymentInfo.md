@@ -33,5 +33,5 @@
       Rollback On Error 
      Applicable options for Validation
     ```
-    [img1]: /release-info/images/img1.JPG
+    ![img1]: (/release-info/images/img1.JPG)
 
