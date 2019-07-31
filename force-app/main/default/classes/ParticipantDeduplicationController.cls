@@ -124,9 +124,9 @@ public without sharing class ParticipantDeduplicationController {
 			Language_Preference_Code__c = referralRecord.Language_Preference__c,
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
-            Gender__c                   = referralRecord.sex__c
-        );
-         newParticipant.Birth_Year__c = !String.isEmpty(newParticipant.Date_of_Birth__c) ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
+            Gender__c                   = referralRecord.sex__c,
+            Birth_Year__c               = referralRecord.BirthYear__c
+         );
          if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
              newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + referralRecord.BirthDate__c.substring(3,5);
          }
