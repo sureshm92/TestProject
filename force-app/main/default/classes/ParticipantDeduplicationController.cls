@@ -128,7 +128,11 @@ public without sharing class ParticipantDeduplicationController {
             Birth_Year__c               = referralRecord.BirthYear__c
          );
          if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
-             newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + referralRecord.BirthDate__c.substring(3,5);
+             if(referralRecord.BirthDate__c.indexOf('-') == 2){
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5);
+             } else {
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c;
+             }
          }
          insert newParticipant;
          return newParticipant;
