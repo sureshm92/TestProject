@@ -2844,6 +2844,48 @@
         <value>Glucose is a sugar, also called “blood sugar”. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
     <labels>
+        <fullName>Haematocrit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>Haematocrit_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haematocrit Description</shortDescription>
+        <value>A hematocrit test measures the proportion of red blood cells in your blood. Your blood is made up of different components, such as red and white blood cells and blood platelets. The hematocrit value is the ratio of the volume of red blood cells compared to the total volume of all the components of the blood together. This value is expressed as a percentage. For example, if your hematocrit value is 50%, it means that there are 50 milliliters (mL) of red blood cells in 100 mL of blood. Hematocrit is measured to check your general health and to check for conditions that influence red blood cells.</value>
+    </labels>
+    <labels>
+        <fullName>Haemoglobin</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>Haemoglobin_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haemoglobin Description</shortDescription>
+        <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
+    </labels>
+    <labels>
+        <fullName>Height</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>Height_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Height Description</shortDescription>
+        <value>Your height is the measurement of your body from head to foot in centimeters (cm) or feet and inches.</value>
+    </labels>
+    <labels>
         <fullName>Hematocrit</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2870,20 +2912,6 @@
         <protected>false</protected>
         <shortDescription>Hemoglobin Description</shortDescription>
         <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
-    </labels>
-    <labels>
-        <fullName>Height</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Height</shortDescription>
-        <value>Height</value>
-    </labels>
-    <labels>
-        <fullName>Height_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Height Description</shortDescription>
-        <value>Your height is the measurement of your body from head to foot in centimeters (cm) or feet and inches.</value>
     </labels>
     <labels>
         <fullName>High_density_Lipoprotein</fullName>
@@ -7832,6 +7860,13 @@
         <value>MRN/Internal ID</value>
     </labels>
     <labels>
+        <fullName>RP_Missing_Fields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Missing Fields</shortDescription>
+        <value>You are missing one or more required fields.</value>
+    </labels>
+    <labels>
         <fullName>RP_Personal_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8012,6 +8047,13 @@
         <protected>false</protected>
         <shortDescription>Report Fasting Lipid Profile header</shortDescription>
         <value>Fasting Lipid Summary Table</value>
+    </labels>
+    <labels>
+        <fullName>Report_Haematology_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Haematology header</shortDescription>
+        <value>Haematology Panel</value>
     </labels>
     <labels>
         <fullName>Report_Hematology_header</fullName>
@@ -9441,6 +9483,20 @@
     </labels>
     <labels>
         <fullName>Triglycerides_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides Description</shortDescription>
+        <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Triglycerides Description</shortDescription>
