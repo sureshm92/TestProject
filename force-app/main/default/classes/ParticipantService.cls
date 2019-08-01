@@ -126,28 +126,6 @@ public class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-       /* Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
-        if (!saveResult.isSuccess()) {
-            System.debug('PARTICIPANT INSERT ERROR');
-            for (Database.Error error : saveResult.getErrors()) {
-                if (error instanceof Database.DuplicateError) {
-                    Database.DuplicateError duplicateError = (Database.DuplicateError) error;
-                    Datacloud.DuplicateResult duplicateResult = duplicateError.getDuplicateResult();
-                    List<SObject> duplicateRecords = new List<SObject>();
-                    Datacloud.MatchResult[] matchResults = duplicateResult.getMatchResults();
-                    Datacloud.MatchResult matchResult = matchResults[0];
-                    Datacloud.MatchRecord[] matchRecords = matchResult.getMatchRecords();
-                    for (Datacloud.MatchRecord matchRecord : matchRecords) {
-                        participant = (Participant__c) matchRecord.getRecord();
-                        System.debug('FOUND PART DUPLICATE: ' + participant);
-                        break;
-                    }
-                } else {
-                    System.debug(error.getMessage());
-                    throw new ParticipantServiceException(error.getMessage());
-                }
-            }
-        }*/
         if(participant.Id == null){
             DuplicateContactController.isPERCreated = true;
             participant = DuplicateContactController.communityReffering(participant, pe);
