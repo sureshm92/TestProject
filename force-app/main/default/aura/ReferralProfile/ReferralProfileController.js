@@ -25,6 +25,7 @@
             userMode: communityService.getUserMode()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
+            console.log('initData>>>>',initData);
             component.set('v.statusSteps', initData.steps);
             component.set('v.enrollment', initData.enrollment);
             component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
@@ -61,7 +62,12 @@
         }, function () {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_EP_Success_Message'));
             component.set('v.isShowPopup', false);
-            communityService.navigateToPage('referral-profile?id=' +  communityService.getUrlParameter('id'));
+            if (!component.get('v.entrollmentSuccess')) {
+                communityService.navigateToPage('referral-profile?id=' + communityService.getUrlParameter('id'));
+            } else{
+                var child = component.find('stepControls');
+                child[child.length-1].statusSave();
+            }
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -73,6 +79,10 @@
 
     closePopup: function(component, event, helper){
         component.set('v.isShowPopup', false);
+    },
+
+    updateParticipantAndStatus:function(component,event,helper){
+
     },
 
 })
