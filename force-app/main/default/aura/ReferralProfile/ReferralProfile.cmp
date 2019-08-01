@@ -23,6 +23,7 @@
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.isShowPopup}" action="{!c.checkClosePopup}"/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>

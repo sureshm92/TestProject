@@ -78,11 +78,14 @@
     },
 
     closePopup: function(component, event, helper){
+        //component.set('v.entrollmentSuccess',false);
         component.set('v.isShowPopup', false);
     },
 
-    updateParticipantAndStatus:function(component,event,helper){
-
+    checkClosePopup: function(component,event,helper){
+        if(!component.get('v.isShowPopup')) {
+            component.set('v.entrollmentSuccess', false);
+        }
     },
 
 })

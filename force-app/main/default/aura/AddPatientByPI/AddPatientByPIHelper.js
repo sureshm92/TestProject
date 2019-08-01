@@ -32,7 +32,7 @@
             component.set('v.pe', formData.peRecord);
             if(component.get('v.entrollmentSuccess')){
                 component.set('v.pe.Participant_Status__c','Enrollment Success');
-                communityService.showSuccessToast('', 'You have missed 1 or more values');
+                communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields'));
             }
         }, null, function () {
             component.find('spinner').hide();

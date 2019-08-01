@@ -6,11 +6,11 @@
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
-        rootComponent.find('mainSpinner').show();
         if(step.name = "Enrolled/Randomized" && step.selectedStatus == "Enrollment Success" && !component.get('v.entrollmentSuccess')){
             component.set('v.entrollmentSuccess',true);
             component.set('v.isShowPopup',true);
         } else {
+            rootComponent.find('mainSpinner').show();
             component.set('v.entrollmentSuccess',false);
             var statusReason = step.selectedStatus.split(';');
             var status, reason;
