@@ -9433,14 +9433,14 @@
         <value>https://www.primarius.cloud/</value>
     </labels>
     <labels>
-        <fullName>Trygilicerides</fullName>
+        <fullName>Triglycerides</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Triglycerides</shortDescription>
         <value>Triglycerides</value>
     </labels>
     <labels>
-        <fullName>Trygilicerides_Description</fullName>
+        <fullName>Triglycerides_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Triglycerides Description</shortDescription>
