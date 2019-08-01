@@ -2,70 +2,60 @@
 
 ##### 1) Login to Dev Hub org and make it default (-d key):
 
-```sh
-sfdx force:auth:web:login -d -a devHubAlias
-```
+   ```
+   sfdx force:auth:web:login -d -a devHubAlias
+   ```
 
 ##### 2) Create Scratch org and make it default (-s key):
 
-```sh
-sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgAlias
-```
+   ```sh
+   sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgAlias
+   ```
 
 ##### 3) Import Org Wide Email Address:
 
-```sh
-sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
-```
-- after import go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. And remove from them from emailbox. Ask about how to get access to this mailbox
+   ```sh
+   sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
+   ```
+   
+   After import complete go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Don't forget remove this emails from emailbox. Ask about how to get access to this mailbox
+    
+##### 4) Setup Scratch Org before push:
+    
+   ```sh
+   sfdx force:org:open
+   ```
+   1. Go to **State and Territory Picklists** and follow instruction for enable (temporary)
+   2. Go to **Survey Settings** and enable 
+   3. Go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
 
-then open setup:
+##### 5) Push project to Scratch org:
 
-```sh
-sfdx force:org:open
-```
-- go to **State and Territory Picklists** and follow instruction for enable (temporary)
-- go to **Survey Settings** and enable 
-- go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
-<!-- go to **Account Settings** and check "Allow users to relate a contact to multiple accounts" -->
+   ```sh
+   sfdx force:source:push
+   ```
 
-##### 4) Push project to Scratch org:
+##### 6) Import data:
+    
+   ```sh
+   sfdx force:org:open
+   ```
 
-```sh
-sfdx force:source:push
-```
+   1. Setup > User > edit > set role "View All" 
+   2. Upload data
 
-##### 5) Open Scratch org in browser and setup:
+   ```sh
+   sfdx force:data:tree:import -p data/import-plan.json
+   ```
 
-```sh
-sfdx force:org:open
-```
+##### 7) Publish community:
 
-- Setup > User > edit > set role "View All" 
-- Upload data
+   1. Go to Setup > All Communities > Open Community Builder > press Publish
 
-```sh
-sfdx force:data:tree:import -p data/import-plan.json
-```
+##### 8) Login to community:
 
-- Go to setup > all communities > open community builder > press publish
-
-##### 6) Login to community
-
-- Open Study Site for edit and change Override Status to "Accepted" 
-- Open HCP Enrollment for edit and change Stats to "Activated" 
-- Login to community under PI User, HCP user or Participant user on your choice 
-
-
-## Dev, Build and Test
-
-
-## Resources
-
-
-## Description of Files and Directories
-
-
-## Issues
+   1. Open Study Site for edit and change Override Status to "Accepted" 
+   2. Open HCP Enrollment for edit and change Stats to "Activated" 
+   3. Login to community under PI User, HCP user or Participant user on your choice 
 
 

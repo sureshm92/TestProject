@@ -71,4 +71,8 @@
         component.set('v.isShowPopup', true);
     },
 
+    closePopup: function(component, event, helper){
+        component.set('v.isShowPopup', false);
+    },
+
 })
