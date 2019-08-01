@@ -99,31 +99,26 @@ public without sharing class VisitResultSharingService {
 
     public static List<Visit_Result__c> getAvailableVisitResultsForReport(List<Visit_Result__c> visitResults) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
-        try {
-            if (visitResultTypeSharingByType == null) {
-                visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
-            }
-            String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
-            for (Visit_Result__c result : visitResults) {
-                if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
-                    Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
-                    if (resultTypeSharing.Sharing_Countries__c == 'All' ||
-                            (resultTypeSharing.Include_Countries__c &&
-                                    resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
-                            ) {
-                        filteredResults.add(result);
-                    } else {
-                        notAccessResultType.add(result.Result_Type__c);
-                    }
+        if (visitResultTypeSharingByType == null) {
+            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+        }
+        String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+        for (Visit_Result__c result : visitResults) {
+            if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+                if (resultTypeSharing.Sharing_Countries__c == 'All' ||
+                        (resultTypeSharing.Include_Countries__c &&
+                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                        ) {
+                    filteredResults.add(result);
                 } else {
                     notAccessResultType.add(result.Result_Type__c);
                 }
+            } else {
+                notAccessResultType.add(result.Result_Type__c);
             }
-            return filteredResults;
-        } catch (Exception e) {
-            System.debug(e.getCause() + '\n' + e.getLineNumber());
-            return filteredResults;
         }
+        return filteredResults;
     }
 
     public static Set<String> getNotAccessResultType() {
