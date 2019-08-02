@@ -152,8 +152,8 @@ public without sharing class ParticipantDeduplicationController {
 			    Referral_ID__c                          =   referralRecord.referralID__c,
 			    Participant_Status__c                   =   ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
-                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                     
-
+                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null,
+                 Referred_By__c                         =   'Other'
             );
         insert newPer;
         return newPer;

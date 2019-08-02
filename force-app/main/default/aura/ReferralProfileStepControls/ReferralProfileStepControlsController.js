@@ -3,6 +3,7 @@
  */
 ({
     doSaveSelectedStatus: function (component, event, helper) {
+        debugger;
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
@@ -10,8 +11,8 @@
             component.set('v.entrollmentSuccess',true);
             component.set('v.isShowPopup',true);
         } else {
-            rootComponent.find('mainSpinner').show();
             component.set('v.entrollmentSuccess',false);
+            rootComponent.find('mainSpinner').show();
             var statusReason = step.selectedStatus.split(';');
             var status, reason;
             status = statusReason[0];

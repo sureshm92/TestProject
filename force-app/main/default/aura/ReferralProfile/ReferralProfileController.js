@@ -61,12 +61,14 @@
             perJSON : JSON.stringify(peRecord)
         }, function () {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_EP_Success_Message'));
-            component.set('v.isShowPopup', false);
+            console.log('component.get(\'v.entrollmentSuccess\')',component.get('v.entrollmentSuccess'));
+            debugger;
             if (!component.get('v.entrollmentSuccess')) {
                 communityService.navigateToPage('referral-profile?id=' + communityService.getUrlParameter('id'));
             } else{
                 var child = component.find('stepControls');
                 child[child.length-1].statusSave();
+                component.set('v.isShowPopup',false);
             }
         }, null, function () {
             component.find('spinner').hide();
