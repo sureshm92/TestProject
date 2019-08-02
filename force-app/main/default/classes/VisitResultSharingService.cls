@@ -46,8 +46,7 @@ public without sharing class VisitResultSharingService {
                 FROM Patient_Visit__c
                 WHERE Participant_Study_Enrollment__c =: state.pse.Id
                 AND Status__c = 'Completed'
-                AND Visit_Number__c != NULL
-                ORDER BY Visit_Number__c DESC
+                ORDER BY Completed_Date__c
         ];
 
         return getAvailableVisitResults(patientVisits);
@@ -58,37 +57,29 @@ public without sharing class VisitResultSharingService {
         try {
             if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
 
-            Map<Decimal, List<Visit_Result__c>> resultsByVisitNumber = new Map<Decimal, List<Visit_Result__c>>();
-            for (Patient_Visit__c pv : patientVisits) {
-                if(pv.Visit_Results__r != null && !pv.Visit_Results__r.isEmpty()) {
-                    resultsByVisitNumber.put(pv.Visit_Number__c, pv.Visit_Results__r);
-                }
-            }
-
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
             visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
-            Decimal timeSharing = patientVisits.get(0).Visit_Number__c - ctp.Shareback_Availability_Timing__c;
+            Decimal timeSharing =
+                    patientVisits.get(patientVisits.size() - 1).Visit_Number__c - ctp.Shareback_Availability_Timing__c;
 
-            while (true) {
-                if (timeSharing < 1) break;
-
-                if (!resultsByVisitNumber.containsKey(timeSharing)) {
-                    timeSharing--;
-                    continue;
-                }
-
-                for (Visit_Result__c result : resultsByVisitNumber.get(timeSharing)) {
-                    if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
-                        Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
-
-                        if (resultTypeSharing.Sharing_Countries__c == 'All' || (resultTypeSharing.Include_Countries__c &&
-                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
-                            filteredResults.add(result);
+            for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
+                if ((i + 1) <= timeSharing) {
+                    Patient_Visit__c patientVisit = patientVisits.get(i);
+                    if(patientVisit.Visit_Results__r != null && !patientVisit.Visit_Results__r.isEmpty()) {
+                        for (Visit_Result__c result : patientVisit.Visit_Results__r) {
+                            if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                                Visit_Result_Type_Sharing__c resultTypeSharing =
+                                        visitResultTypeSharingByType.get(result.Result_Type__c);
+                                if (resultTypeSharing.Sharing_Countries__c == 'All' || (resultTypeSharing.Include_Countries__c &&
+                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
+                                    filteredResults.add(result);
+                                }
+                            }
                         }
+                        break;
                     }
                 }
-                break;
             }
         } catch (Exception e) {
             System.debug(e.getCause() + '\n' + e.getLineNumber());

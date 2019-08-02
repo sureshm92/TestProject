@@ -33,6 +33,12 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
 
     @IsTest
     static void saveIconInfoWithException_test(){
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+                .when('getIconDetailsByVisitPlanInCTP')
+                .then(new AuraHandledException('Something wrong'))
+                .getInstance()
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -68,7 +74,6 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
 
     @IsTest
     static void getIconDetailsWithoutExistingIconDetails_test(){
-
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
@@ -81,11 +86,17 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
                 TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()));
         Test.stopTest();
 
-        System.assert(iconDetailsTest.isEmpty());
+        System.assert(iconDetailsTest == null);
     }
 
     @IsTest
     static void getIconDetailsWithException_test(){
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+                .when('getIconDetailsByVisitPlanInCTP')
+                .then(new AuraHandledException('error'))
+                .getInstance()
+        );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {

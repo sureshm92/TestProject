@@ -124,13 +124,19 @@ public without sharing class ParticipantDeduplicationController {
 			Language_Preference_Code__c = referralRecord.Language_Preference__c,
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
-            Date_of_Birth__c            = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c),
-            Gender__c                   = referralRecord.sex__c
-        );
-        newParticipant.Birth_Year__c = newParticipant.Date_of_Birth__c != null && newParticipant.Date_of_Birth__c !='' ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
-
-        insert newParticipant;
-        return newParticipant;
+            Gender__c                   = referralRecord.sex__c,
+            Birth_Year__c               = referralRecord.BirthYear__c,
+            Phone_Type__c               = referralRecord.Phone_Type__c
+         );
+         if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
+             if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5);
+             } else {
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.replaceAll('/','-');
+             }
+         }
+         insert newParticipant;
+         return newParticipant;
     }
 
      private static Participant_Enrollment__c createParticipantEnrollment(String contactId, String participantId,  String studySiteNumber, Integration_Patient_Referral__c referralRecord){
@@ -150,15 +156,6 @@ public without sharing class ParticipantDeduplicationController {
             );
         insert newPer;
         return newPer;
-    }
-
-    private static String updateDateOfBirth(String birthDate){
-        if(birthDate != null && birthDate.length() == 10){
-            return birthDate.substring(6) + '-' + birthDate.substring(0,2) + birthDate.substring(3,5);
-        }else if (birthDate != null && birthDate.length() == 4){
-            return birthDate + '-01-01';
-        }
-        return ''; 
     }
 
 }

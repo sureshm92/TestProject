@@ -19,8 +19,9 @@ public without sharing class  DuplicateContactController {
             Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
             Data_Source__c = participantEnrollment.Referral_Source__c,
             sex__c = participant.Gender__c,
-            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
-
+            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c,
+            BirthDate__c = participant.Date_of_Birth__c,
+            Phone_Type__c = participant.Phone_Type__c
 		);
         Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
         isPERCreated = false;
