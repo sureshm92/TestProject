@@ -2,11 +2,6 @@
  * Created by Yehor Dobrovolskyi
  */
 ({
-
-    onGenerateData: function (component, helper, reportData) {
-        helper.onGenerateReport(component, helper);
-    },
-
     onGenerateReport: function (component, helper) {
         var doc = new jsPDF('l', 'pt', 'A4', true);
         let reportData = component.get('v.reportData');
@@ -51,25 +46,25 @@
                             if (ie || oldIE || ieEDGE) {
                                 window.navigator.msSaveBlob(doc.output('blob'), component.get('v.documentName') + '.pdf');
                             } else {
-                                let pdfArr = doc.output('arraybuffer');
                                 let urlPDF = doc.output('bloburi');
                                 let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-                                let newWin = window.open('/');
-                                if (newWin.document.readyState === 'complete') {
-                                    newWin.location = urlViewer + '?file=' + urlPDF;
-                                } else {
-                                    newWin.onload = function () {
-                                        newWin.location = urlViewer + '?file=' + urlPDF;
-                                    };
-                                }
+                                window.open(urlViewer + '?file=' + urlPDF);
                             }
                             reportData = {};
                             component.set('v.reportData', reportData);
+                            let spinner = component.find('spinner');
+                            if (spinner) {
+                                spinner.hide();
+                            }
                         };
                     }));
             }))
             .catch($A.getCallback((error) => {
                 console.error('Fetch Error :-S', error);
+                let spinner = component.find('spinner');
+                if (spinner) {
+                    spinner.hide();
+                }
             }));
     },
 
