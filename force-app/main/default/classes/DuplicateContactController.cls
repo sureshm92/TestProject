@@ -202,7 +202,7 @@ public without sharing class  DuplicateContactController {
     private static boolean checkBirthDateWeak(Integration_Patient_Referral__c record){
         System.debug('checkBirthDate');
         if(record.BirthDate__c != null && record.BirthDate__c != ''){
-           return !checkBirthDate(record.BirthDate__c.substring(6));
+           return !checkBirthDate(record.BirthDate__c.substring(0,4));
         }else{
             return !checkBirthDate(record.BirthYear__c);
         }
@@ -214,7 +214,7 @@ public without sharing class  DuplicateContactController {
             System.debug('empty birthdate');
             return true;
         }
-        Integer referralDateYear =Integer.valueOf(birthYear);
+        Integer referralDateYear = Integer.valueOf(birthYear);
         Integer currentYear = Date.today().year();
         if((currentYear - referralDateYear) > 18){
             System.debug('+18');
