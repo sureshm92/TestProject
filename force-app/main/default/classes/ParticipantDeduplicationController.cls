@@ -125,7 +125,8 @@ public without sharing class ParticipantDeduplicationController {
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
             Gender__c                   = referralRecord.sex__c,
-            Birth_Year__c               = referralRecord.BirthYear__c
+            Birth_Year__c               = referralRecord.BirthYear__c,
+            Phone_Type__c               = referralRecord.Phone_Type__c
          );
          if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
              if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
