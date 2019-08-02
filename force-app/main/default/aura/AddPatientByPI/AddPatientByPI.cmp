@@ -21,6 +21,8 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="isEditMode" type="Boolean" default="false"/>
     <aura:attribute name="entrollmentSuccess" type="Boolean" default="false" />
+    <aura:attribute name="source" type="String"/>
+    <aura:attribute name="isInitData" type="Boolean" default="false"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>

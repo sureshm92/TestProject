@@ -14,6 +14,7 @@ public without sharing class  DuplicateContactController {
 			lastName__c = participant.Last_Name__c,
 			email__c = participant.email__c,
 			phone__c = participant.phone__c,
+            Phone_Type__c = participant.Phone_Type__c,
             birthYear__c = participant.Date_of_Birth__c != null && participant.Date_of_Birth__c != '' ?  participant.Date_of_Birth__c.substring(0,4) : '',
             Address_Country__c = participant.Mailing_Country_Code__c,
             Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
