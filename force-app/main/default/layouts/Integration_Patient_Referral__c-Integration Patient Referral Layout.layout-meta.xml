@@ -11,11 +11,11 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>firstName__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>lastName__c</field>
             </layoutItems>
             <layoutItems>
@@ -27,7 +27,7 @@
                 <field>phone__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Address_State__c</field>
             </layoutItems>
             <layoutItems>
@@ -39,15 +39,15 @@
                 <field>Address_AddressLine2__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>referralID__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>protocolId__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>siteSelected__c</field>
             </layoutItems>
             <layoutItems>
@@ -55,11 +55,11 @@
                 <field>birthYear__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Address_ZipCode__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Address_Country__c</field>
             </layoutItems>
             <layoutItems>
@@ -67,7 +67,7 @@
                 <field>Address_City__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Language_Preference__c</field>
             </layoutItems>
             <layoutItems>
@@ -79,11 +79,11 @@
                 <field>Pass_Fail__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Referred_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Data_Source__c</field>
             </layoutItems>
             <layoutItems>
@@ -91,11 +91,11 @@
                 <field>ePRPatient_ID_Number__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>acceptedTermsAndConditions__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Referral_Sent_to_PI__c</field>
             </layoutItems>
             <layoutItems>
@@ -129,6 +129,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>UTM_GCLID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Phone_Type__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

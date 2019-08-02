@@ -4370,7 +4370,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AS F Gender</shortDescription>
-        <value>Gender</value>
+        <value>Sex</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Initials</fullName>
