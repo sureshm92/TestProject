@@ -202,7 +202,7 @@ public without sharing class  DuplicateContactController {
     private static boolean checkBirthDateWeak(Integration_Patient_Referral__c record){
         System.debug('checkBirthDate');
         if(record.BirthDate__c != null && record.BirthDate__c != ''){
-           return !checkBirthDate(record.BirthDate__c.substring(0,4));
+           return !checkBirthDate(record.BirthDate__c.substring(6));
         }else{
             return !checkBirthDate(record.BirthYear__c);
         }
@@ -228,7 +228,7 @@ public without sharing class  DuplicateContactController {
 
     private static Date convertBirthDate(String birthDate){
         if(birthDate.length() == 10){
-            String updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0,2) + '-' + birthDate.substring(3,5);
+            String updatedDateString = birthDate.substring(8) + '-' + birthDate.substring(5,7) + '-' + birthDate.substring(0,4);
             Date newDate = Date.valueOf(updatedDateString);
             return newDate;
         }else{
