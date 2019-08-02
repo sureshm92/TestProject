@@ -130,9 +130,10 @@ public without sharing class ParticipantDeduplicationController {
          );
          if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
              if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
-                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5);
-             } else {
                  newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.replaceAll('/','-');
+             } else {
+                 System.debug(referralRecord.BirthDate__c);
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(8) + '-' + referralRecord.BirthDate__c.substring(5,7) + '-' + referralRecord.BirthDate__c.substring(0, 4);
              }
          }
          insert newParticipant;

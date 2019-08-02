@@ -214,7 +214,7 @@ public without sharing class  DuplicateContactController {
             System.debug('empty birthdate');
             return true;
         }
-        Integer referralDateYear =Integer.valueOf(birthYear);
+        Integer referralDateYear = Integer.valueOf(birthYear);
         Integer currentYear = Date.today().year();
         if((currentYear - referralDateYear) > 18){
             System.debug('+18');
@@ -228,7 +228,7 @@ public without sharing class  DuplicateContactController {
 
     private static Date convertBirthDate(String birthDate){
         if(birthDate.length() == 10){
-            String updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0,2) + '-' + birthDate.substring(3,5);
+            String updatedDateString = birthDate.substring(8) + '-' + birthDate.substring(5,7) + '-' + birthDate.substring(0,4);
             Date newDate = Date.valueOf(updatedDateString);
             return newDate;
         }else{
