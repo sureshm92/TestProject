@@ -125,10 +125,16 @@ public without sharing class ParticipantDeduplicationController {
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
             Gender__c                   = referralRecord.sex__c,
-            Birth_Year__c               = referralRecord.BirthYear__c
+            Birth_Year__c               = referralRecord.BirthYear__c,
+            Phone_Type__c               = referralRecord.Phone_Type__c
          );
          if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
-             newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + referralRecord.BirthDate__c.substring(3,5);
+             if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.replaceAll('/','-');
+             } else {
+                 System.debug(referralRecord.BirthDate__c);
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(8) + '-' + referralRecord.BirthDate__c.substring(5,7) + '-' + referralRecord.BirthDate__c.substring(0, 4);
+             }
          }
          insert newParticipant;
          return newParticipant;

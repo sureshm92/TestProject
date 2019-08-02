@@ -19,8 +19,9 @@ public without sharing class  DuplicateContactController {
             Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
             Data_Source__c = participantEnrollment.Referral_Source__c,
             sex__c = participant.Gender__c,
-            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
-
+            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c,
+            BirthDate__c = participant.Date_of_Birth__c,
+            Phone_Type__c = participant.Phone_Type__c
 		);
         Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
         isPERCreated = false;
@@ -213,7 +214,7 @@ public without sharing class  DuplicateContactController {
             System.debug('empty birthdate');
             return true;
         }
-        Integer referralDateYear =Integer.valueOf(birthYear);
+        Integer referralDateYear = Integer.valueOf(birthYear);
         Integer currentYear = Date.today().year();
         if((currentYear - referralDateYear) > 18){
             System.debug('+18');
@@ -227,7 +228,7 @@ public without sharing class  DuplicateContactController {
 
     private static Date convertBirthDate(String birthDate){
         if(birthDate.length() == 10){
-            String updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0,2) + '-' + birthDate.substring(3,5);
+            String updatedDateString = birthDate.substring(8) + '-' + birthDate.substring(5,7) + '-' + birthDate.substring(0,4);
             Date newDate = Date.valueOf(updatedDateString);
             return newDate;
         }else{
