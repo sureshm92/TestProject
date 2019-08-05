@@ -79,6 +79,22 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateParticipants</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_IntegrationVisitProcess</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_IntegrationVisitResultProcess</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_PEToPSE</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_PSECreateInvitation</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -112,6 +128,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CTCTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CTPSelector</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -348,6 +368,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImportPatientsCSV</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -951,11 +975,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_PSECreateInvitation</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_CTCTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CTPSelector</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1000,6 +1032,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IconPlanetVisitInfoEditRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1171,6 +1207,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitConfigurationRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1256,6 +1296,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitIconsConfiguration</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitReportContainerRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitReportService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1737,6 +1785,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_on_StudySites__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1756,9 +1809,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2392,6 +2445,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Icon_Details__c.Visit_Plan__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Icons_package__c.Visit_Plan__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2488,6 +2546,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Pass_Fail__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient_Referral__c.Phone_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2612,6 +2675,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Integration_VisitResult__c.Processed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Integration_VisitResult__c.STNRHI__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2657,17 +2725,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_VisitResult__c.Work_Status__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Integration_VisitResult__c.VSDTC__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_VisitResult__c.Vital_or_Lab__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_VisitResult__c.Work_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2683,6 +2751,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Visit__c.MD5_Hash__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Visit__c.Processed__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3842,12 +3915,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Reminder_Schedule__c.Second_Reminder_day__c</field>
+        <field>Reminder_Schedule__c.Days_reminds__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Reminder_Schedule__c.Use_Final_Template__c</field>
+        <field>Reminder_Schedule__c.Second_Reminder_day__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4652,18 +4725,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Trial_Survey__c.Is_Midpoint__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Trial_Survey__c.Active_On_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Trial_Survey__c.Expires_After_Days__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Is_Midpoint__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4688,11 +4760,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>VisitPackage__c.Default__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4704,6 +4771,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>VisitPackage__c.Visit_Plan__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result_TypeM__mdt.Description_Label_Api_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4783,6 +4860,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Visit__c.Patient_Portal_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Visit__c.Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4850,6 +4932,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icon_Details__c-icons detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Icons_package__c-Icons package Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>
@@ -5384,6 +5469,10 @@
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>ImportPatientsCSV</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>InMaintenance</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
@@ -5596,6 +5685,10 @@
     <tabVisibilities>
         <tab>Visit_Plan__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Visit_Result__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Visit__c</tab>

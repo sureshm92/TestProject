@@ -6,7 +6,8 @@
         <ruleEntry>
             <assignedTo>Referring_provider_invited_by_PI</assignedTo>
             <assignedToType>Queue</assignedToType>
-            <formula>INCLUDES(CreatedBy.Contact.userCommunytyType__c, &#39;PI&#39;)</formula>
+            <formula>ISNEW() &amp;&amp; INCLUDES(CreatedBy.Contact.userCommunytyType__c, &#39;PI&#39;)</formula>
         </ruleEntry>
+        <ruleEntry/>
     </assignmentRule>
 </AssignmentRules>
