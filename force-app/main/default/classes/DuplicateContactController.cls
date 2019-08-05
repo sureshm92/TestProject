@@ -15,7 +15,7 @@ public without sharing class  DuplicateContactController {
 			email__c = participant.email__c,
 			phone__c = participant.phone__c,
             Phone_Type__c = participant.Phone_Type__c,
-            birthYear__c = participant.Date_of_Birth__c != null && participant.Date_of_Birth__c != '' ?  participant.Date_of_Birth__c.substring(0,4) : '',
+            birthYear__c = participant.Date_of_Birth__c != null && participant.Date_of_Birth__c != '' ?  getYearOfBirth(participant.Date_of_Birth__c) : '',
             Address_Country__c = participant.Mailing_Country_Code__c,
             Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
             Data_Source__c = participantEnrollment.Referral_Source__c,
@@ -202,7 +202,7 @@ public without sharing class  DuplicateContactController {
     private static boolean checkBirthDateWeak(Integration_Patient_Referral__c record){
         System.debug('checkBirthDate');
         if(record.BirthDate__c != null && record.BirthDate__c != ''){
-           return !checkBirthDate(record.BirthDate__c.substring(6));
+           return !checkBirthDate(getYearOfBirth(record.BirthDate__c));
         }else{
             return !checkBirthDate(record.BirthYear__c);
         }
@@ -234,5 +234,12 @@ public without sharing class  DuplicateContactController {
         }else{
             return null;
         }
+    }
+
+    private static String getYearOfBirth(String birthDate){
+        if(birthDate.indexOf('-') == 2 || birthDate.indexOf('/') == 2){
+            return birthDate.substring(6);
+        }
+        return birthDate.substring(0,4);
     }
 }
