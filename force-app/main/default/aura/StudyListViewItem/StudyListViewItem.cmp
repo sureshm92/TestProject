@@ -324,11 +324,14 @@
                                                     </div>
                                                     <!--<div class="slds-col slds-size&#45;&#45;1-of-1 slds-grid slds-wrap">-->
                                                     <div class="slds-col slds-size--1-of-1 popup-address-inputs">
-                                                        <div class="input-fields-labels">{!$Label.c.SS_Street_Address}</div>
+                                                        <!--<div class="input-fields-labels">{!$Label.c.SS_Street_Address}</div>-->
                                                         <div class="rr-form-element">
                                                             <lightning:input aura:id="locationAddress"
                                                                              value="{!v.editedAccount.BillingStreet}"
                                                                              onblur="{!c.trimChanges}"
+                                                                             required="true"
+                                                                             class="ss-lightning-input"
+                                                                             label = "{!$Label.c.SS_Street_Address}"
                                                                              onchange="{!c.recordWasUpdated}"/>
                                                         </div>
                                                     </div>
@@ -344,11 +347,14 @@
                                                     <!--</div>-->
                                                     <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                                         <div class="slds-col slds-size--4-of-6 popup-address-inputs">
-                                                            <div class="input-fields-labels">{!$Label.c.SS_City}</div>
+                                                           <!-- <div class="input-fields-labels">{!$Label.c.SS_City}</div>-->
                                                             <div class="rr-form-element">
                                                                 <lightning:input aura:id="locationCity"
                                                                                  value="{!v.editedAccount.BillingCity}"
                                                                                  onblur="{!c.trimChanges}"
+                                                                                 required="true"
+                                                                                 label = "{!$Label.c.SS_City}"
+                                                                                 class="ss-lightning-input"
                                                                                  onchange="{!c.recordWasUpdated}"/>
                                                             </div>
                                                         </div>
