@@ -234,7 +234,11 @@ public without sharing class  DuplicateContactController {
 
     private static Date convertBirthDate(String birthDate){
         if(birthDate.length() == 10){
-            String updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0,2) + '-' + birthDate.substring(3, 5);
+            System.debug(birthDate);
+            String updatedDateString = birthDate;
+            if(birthDate.indexOf('-') == 2 || birthDate.indexOf('/') == 2) {
+                updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0, 2) + '-' + birthDate.substring(3, 5);
+            }
             Date newDate = Date.valueOf(updatedDateString);
             return newDate;
         }
