@@ -20,9 +20,6 @@
 
             var task = wrapper.task;
 
-            var visitId = communityService.getUrlParameter('visitId');
-            if (visitId) component.set('v.task.Patient_Visit__c', visitId);
-
             if (wrapper.reminderEnabled && task.ActivityDate) component.set('v.frequencyEnabled', true);
 
             component.set('v.taskTypeList', wrapper.taskTypeList);
@@ -50,6 +47,9 @@
             }
 
             component.set('v.task', task);
+            var visitId = communityService.getUrlParameter('visitId');
+            if (visitId) component.set('v.task.Patient_Visit__c', visitId);
+
             component.find('spinner').hide();
         });
     },
