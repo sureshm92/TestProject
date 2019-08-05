@@ -10,8 +10,8 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
         update tasks;
     }
 
-    public Iterable<SObject> start(Database.BatchableContext param1) {
-        List<Task> tasks = [
+    public Database.QueryLocator start(Database.BatchableContext param1) {
+        Database.getQueryLocator([
                 SELECT Id,
                         Description,
                         OwnerId,
@@ -29,10 +29,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                 WHERE Reminder_Date__c <= :Datetime.now()
                 AND Is_Reminder_Sent__c = FALSE
                 AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
-        ];
-
-        System.debug('Records found: ' + tasks.size());
-        return tasks;
+        ]);
     }
 
     public override Type getType() {
