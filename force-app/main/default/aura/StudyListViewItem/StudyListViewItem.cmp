@@ -324,11 +324,14 @@
                                                     </div>
                                                     <!--<div class="slds-col slds-size&#45;&#45;1-of-1 slds-grid slds-wrap">-->
                                                     <div class="slds-col slds-size--1-of-1 popup-address-inputs">
-                                                        <div class="input-fields-labels">{!$Label.c.SS_Street_Address}</div>
+                                                        <!--<div class="input-fields-labels">{!$Label.c.SS_Street_Address}</div>-->
                                                         <div class="rr-form-element">
                                                             <lightning:input aura:id="locationAddress"
                                                                              value="{!v.editedAccount.BillingStreet}"
                                                                              onblur="{!c.trimChanges}"
+                                                                             class="ss-lightning-input"
+                                                                             label="{!$Label.c.SS_Street_Address}"
+                                                                             required="true"
                                                                              onchange="{!c.recordWasUpdated}"/>
                                                         </div>
                                                     </div>
@@ -344,11 +347,14 @@
                                                     <!--</div>-->
                                                     <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                                         <div class="slds-col slds-size--4-of-6 popup-address-inputs">
-                                                            <div class="input-fields-labels">{!$Label.c.SS_City}</div>
+                                                            <!--<div class="input-fields-labels">{!$Label.c.SS_City}</div>-->
                                                             <div class="rr-form-element">
                                                                 <lightning:input aura:id="locationCity"
                                                                                  value="{!v.editedAccount.BillingCity}"
                                                                                  onblur="{!c.trimChanges}"
+                                                                                 class="ss-lightning-input"
+                                                                                 label="{!$Label.c.SS_City}"
+                                                                                 required="true"
                                                                                  onchange="{!c.recordWasUpdated}"/>
                                                             </div>
                                                         </div>
@@ -377,6 +383,7 @@
                                                             <div class="input-fields-labels">{!$Label.c.SS_Postal_Code}</div>
                                                             <div class="rr-form-element">
                                                                 <lightning:input aura:id="locationPostalCode"
+                                                                                 class = "postal-code-input"
                                                                                  value="{!v.editedAccount.BillingPostalCode}"
                                                                                  onblur="{!c.trimChanges}"
                                                                                  onchange="{!c.recordWasUpdated}"/>
@@ -495,11 +502,12 @@
                                                 onclick="{!v.editAddress ? c.saveNewAccount : c.changeStudySiteAddress}"
                                                 disabled="{!v.editAddress ? (!v.addressWasChanged ? !v.addressWasChanged  :
                                                                              !v.editedAccount.Name ? true :
-                                                                             !v.editedAccount.BillingStreet? true:
-                                                                             !v.editedAccount.BillingStreet  )  : !v.locationWasChanged}"
+                                                                             !v.editedAccount.BillingStreet? true :
+                                                                             !v.editedAccount.BillingCity ? true : false )  : !v.locationWasChanged}"
                                                 title="{!v.editAddress ? !v.addressWasChanged ? $Label.c.SS_No_Changes_Message :
                                                                          !v.editedAccount.Name  ? $Label.c.SS_Fill_Location_Name :
                                                                          !v.editedAccount.BillingStreet  ? $Label.c.SS_Fill_Address  :
+                                                                         !v.editedAccount.BillingCity ? $Label.c.SS_Fill_City :
                                                                          $Label.c.SS_Save_Changes : !v.locationWasChanged ?  $Label.c.SS_No_Changes_Message :
                                                                          $Label.c.SS_Save_Changes}"
                                                 value="{!siteWrappIndx}">{!v.editAddress ? $Label.c.SS_Save_New_Account : $Label.c.SS_Use_This_Address}</button>
@@ -510,11 +518,10 @@
                                 <div id="ssInformation">
                                     <div id="contactInformation"
                                          class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
-                                             data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details" data-index="{!siteWrappIndx}">
                                             <!--<div class="input-fields-labels"
                                                  style="display: inline-block">{!$Label.c.SS_Study_Site_Name}</div>-->
-                                            <div class="rr-form-element">
+                                            <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="locationName"
                                                                  class="ss-lightning-input"
                                                                  value="{!siteWrapper.studySite.Name}"
@@ -543,20 +550,18 @@
                                                             useSentenceFont="false"/>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details"
-                                             data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details" data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels"
                                                  style="display: inline-block;">{!$Label.c.SS_Phone}</div>
-                                            <div class="rr-form-element">
+                                            <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="emailInput"
                                                                  value="{!siteWrapper.studySite.Study_Site_Phone__c}"
                                                                  onchange="{!c.changeUpdatedStatus}"/>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details"
-                                             data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details" data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
-                                            <div class="rr-form-element">
+                                            <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="emailInput"
                                                                  value="{!siteWrapper.studySite.Study_Site_Email__c}"
                                                                  onchange="{!c.changeUpdatedStatus}"
