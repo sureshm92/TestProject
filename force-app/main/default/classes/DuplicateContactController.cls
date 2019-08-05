@@ -20,9 +20,15 @@ public without sharing class  DuplicateContactController {
             Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
             Data_Source__c = participantEnrollment.Referral_Source__c,
             sex__c = participant.Gender__c,
-            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c,
-            BirthDate__c = participant.Date_of_Birth__c
+            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
 		);
+        if(participant.Date_of_Birth__c.indexOf('-') == 4 || participant.Date_of_Birth__c.indexOf('/') == 4) {
+            tempRecord.BirthDate__c = participant.Date_of_Birth__c.replaceAll('/','-');
+        } else {
+            tempRecord.BirthDate__c = participant.Date_of_Birth__c.substring(3,5) + '/' + participant.Date_of_Birth__c.substring(0,2) + '/' + participant.Date_of_Birth__c.substring(6);
+        }
+        System.debug('Here');
+        System.debug(participant.Date_of_Birth__c);
         Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
         isPERCreated = false;
 		return participantRecord;
@@ -182,7 +188,7 @@ public without sharing class  DuplicateContactController {
                         contactRecord.Participants__r.size() != 0 &&
                         contactRecord.Participants__r[0].Date_of_Birth__c != null &&
                         contactRecord.Participants__r[0].Date_of_Birth__c != '' &&   
-                        contactRecord.Participants__r[0].Date_of_Birth__c == String.valueOf(convertBirthDate(record.BirthDate__c))
+                        contactRecord.Participants__r[0].Date_of_Birth__c == record.BirthDate__c.substring(6) + '-' + record.BirthDate__c.substring(0,2) + '-' + record.BirthDate__c.substring(3,5)
                     );
         }else{
             return  (
@@ -228,12 +234,11 @@ public without sharing class  DuplicateContactController {
 
     private static Date convertBirthDate(String birthDate){
         if(birthDate.length() == 10){
-            String updatedDateString = birthDate.substring(8) + '-' + birthDate.substring(5,7) + '-' + birthDate.substring(0,4);
+            String updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0,2) + '-' + birthDate.substring(3, 5);
             Date newDate = Date.valueOf(updatedDateString);
             return newDate;
-        }else{
-            return null;
         }
+        return null;
     }
 
     private static String getYearOfBirth(String birthDate){
