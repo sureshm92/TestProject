@@ -20,8 +20,7 @@ public without sharing class  DuplicateContactController {
             Data_Source__c = participantEnrollment.Referral_Source__c,
             sex__c = participant.Gender__c,
             Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c,
-            BirthDate__c = participant.Date_of_Birth__c,
-            Phone_Type__c = participant.Phone_Type__c
+            BirthDate__c = participant.Date_of_Birth__c
 		);
         Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
         isPERCreated = false;

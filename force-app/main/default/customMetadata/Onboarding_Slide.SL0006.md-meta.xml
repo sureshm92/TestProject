@@ -20,6 +20,6 @@
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">OT_H_My_Studies</value>
+        <value xsi:type="xsd:string">OT_H_My_Referring_Clinics</value>
     </values>
 </CustomMetadata>

@@ -17,13 +17,12 @@ public without sharing class Batch_CreateParticipants implements Database.Batcha
 
     public Iterable<String> start(Database.BatchableContext bc){
         StaticResource sr = [SELECT Id, Body FROM StaticResource WHERE Name = 'PECreationData'];
-        List<String> dataLines = new List<String>();
-        dataLines = sr.Body.toString().split('\n');
+        List<String> dataLines = sr.Body.toString().split('\n');
         List<String> resList = new List<String>();
         Integer addedLines = 0;
         for (Integer i = 1; i < dataLines.size(); i++) {
             addedLines++;
-            resList.add(dataLines[i]);
+            resList.add(dataLines[i].split(',')[1]);
             if(maxLines != null && addedLines >= maxLines) break;
         }
         return resList;

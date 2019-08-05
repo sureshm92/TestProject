@@ -7,8 +7,11 @@
     <aura:attribute name="step" type="Object" access="public" description="step object"/>
     <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
     <aura:attribute name="notesRequired" type="Boolean" access="private" default="false" description="other reason required notes"/>
+    <aura:attribute name="isShowPopup" type="Boolean" default="false" />
+    <aura:attribute name="entrollmentSuccess" type="Boolean" default="false" />
 
     <aura:handler name="change" value="{!v.step.selectedStatus}" action="{!c.onStatusChange}"/>
+    <aura:method name="statusSave" action="{!c.doSaveSelectedStatus}" access="public"/>
 
     <div class="{!'slds-col slds-grid pe-state-row ' + if(v.step.isCurrent, ' current', '')}">
         <div class="{!'slds-col line-div ' + v.step.nextState}">
