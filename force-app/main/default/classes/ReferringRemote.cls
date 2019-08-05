@@ -26,6 +26,7 @@ public without sharing class ReferringRemote {
         public String addrStreet;
         public String addrCity;
         public String siteType;
+        public Account ssAccount;
     }
 
     @AuraEnabled
@@ -69,6 +70,7 @@ public without sharing class ReferringRemote {
                 }
                     AccountWrapper aw = new AccountWrapper();
                     aw.clinic = siteWrapper.site.Principal_Investigator__r.Account;
+                    aw.ssAccount = siteWrapper.site.Site__r;
                     aw.name = siteWrapper.site.Name;
                     aw.siteType = siteWrapper.siteType;
                     initData.markers.add(aw);

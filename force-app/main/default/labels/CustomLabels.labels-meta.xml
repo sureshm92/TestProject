@@ -447,6 +447,13 @@
         <value>Accept</value>
     </labels>
     <labels>
+        <fullName>BTN_Account_Settings_Save_Updates</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN_Account_Settings_Save_Updates</shortDescription>
+        <value>My Profile Is Complete</value>
+    </labels>
+    <labels>
         <fullName>BTN_Activate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3345,14 +3352,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S1 H</shortDescription>
-        <value>View Study Details</value>
+        <value>Add Patient and View Study Details</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S1_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S1 T</shortDescription>
-        <value>Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
+        <value>Click Add Patient to enter details for your patients who may participate in the study so they can access our Patient Portal to track their progress and view information related to their participation, or if you simply want to manage and track your patient referrals in the platform along with those sent to you from other recruitment sources via Referral Hub. Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S2_H</fullName>
@@ -3373,14 +3380,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S3 H</shortDescription>
-        <value>Referring Clinics</value>
+        <value>Invite and Manage Referring Providers</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S3_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DPI S3 T</shortDescription>
-        <value>Manage the status of clinics you have previously approved.</value>
+        <value>Manage the status of Referring Providers who have requested to refer to your study site. Click Invite Referring Provider to enter contact information for colleagues from whom you would like to receive referrals through Referral Hub so that we can invite them to the platform.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S1_H</fullName>
@@ -3401,14 +3408,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S2 H</shortDescription>
-        <value>Find Study Site</value>
+        <value>Search for More Studies</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S2_T</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S2 T</shortDescription>
-        <value>Click Find Study Site to access a list and a map of available study sites, and to request the ability to refer patients to a Primary Investigator.</value>
+        <value>Click Search for More Studies to access a list of available studies, find study sites, and request the ability to refer patients to a Primary Investigator. Click the study name to view more details about the study. Click Pre-eligibility Screening to begin the referral process, even if you have not yet been accepted by a Principal Investigator. Click Associated Sites and Site Details to view sites to which you have requested to refer for that study.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S3_H</fullName>
@@ -3450,9 +3457,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S5 T</shortDescription>
-        <value>Use the filters to select studies, study sites, and date ranges. Then click Export to download your data.
-
-            If you are prompted with a window indicating that the file format and extension do not match, click Yes to open the file.</value>
+        <value>Use the filters to select studies, study sites, and date ranges. Click Export to download your data. If you are prompted with a window indicating that the file format and extension do not match, click Yes to open the file.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S6_H</fullName>
@@ -3466,7 +3471,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S6 T</shortDescription>
-        <value>View status of patient referrals.</value>
+        <value>View status of patients for whom you have completed a pre-eligibility screening but not yet referred in the top section of the screen and the status of patients who you have referred to a study in the bottom section of the screen.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S7_H</fullName>
@@ -3483,6 +3488,41 @@
         <value>Click on the Help menu to view the application walkthrough again and access other application resources.</value>
     </labels>
     <labels>
+        <fullName>OT_DRP_S8_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT DRP S8 H</shortDescription>
+        <value>Add Team Members and Modify Permissions</value>
+    </labels>
+    <labels>
+        <fullName>OT_DRP_S8_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT DRP S8 T</shortDescription>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member’s permission for all studies by selecting a permission level and saving it on the team member’s card.</value>
+    </labels>
+    <labels>
+        <fullName>OT_DRP_S9_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT DRP S9 H</shortDescription>
+        <value>Email Preferences and Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>OT_DRP_S9_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT DRP S9 T</shortDescription>
+        <value>Click on your user profile icon to access Account Settings. In addition to managing your contact information, date and language preferences, and cookie settings, you can also choose the type of email notifications you want to receive. In the Email Preferences section, use the toggles to switch on or off the type of emails you want to receive. In the Referral Networks section, click Select Referral Networks to search and subscribe to institution-based and/or topic-based networks to be notified when a related study site or clinical study becomes available or to be contacted occasionally about related news or events.</value>
+    </labels>
+    <labels>
+        <fullName>OT_H_Account_Settings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT H Account Settings</shortDescription>
+        <value>Account Settings</value>
+    </labels>
+    <labels>
         <fullName>OT_H_Dashboard</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3497,6 +3537,13 @@
         <value>Help</value>
     </labels>
     <labels>
+        <fullName>OT_H_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT H Home</shortDescription>
+        <value>Home</value>
+    </labels>
+    <labels>
         <fullName>OT_H_MRR_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3509,6 +3556,13 @@
         <protected>false</protected>
         <shortDescription>OT H My Patients</shortDescription>
         <value>My Patients</value>
+    </labels>
+    <labels>
+        <fullName>OT_H_My_Referring_Clinics</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT H My Referring Clinics</shortDescription>
+        <value>My Referring Clinics</value>
     </labels>
     <labels>
         <fullName>OT_H_My_Studies</fullName>
@@ -3530,6 +3584,13 @@
         <protected>false</protected>
         <shortDescription>OT H Navigation Bar</shortDescription>
         <value>Navigation Bar</value>
+    </labels>
+    <labels>
+        <fullName>OT_H_Profile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT H Profile</shortDescription>
+        <value>Profile</value>
     </labels>
     <labels>
         <fullName>OT_H_Reports</fullName>
@@ -3571,7 +3632,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S1 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&#39;s permissions for individual studies using the dropdowns.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&apos;s permissions for individual studies using the dropdowns.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S2_T</fullName>
@@ -3585,7 +3646,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S1 H</shortDescription>
-        <value>My Current Studies</value>
+        <value>My Study, Tasks and Resources</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S1_T</fullName>
@@ -3599,14 +3660,16 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S29 Text</shortDescription>
-        <value>Click My Current Studies to view a list of studies to which you have been referred.</value>
+        <value>Click &quot;DETAILS&quot; on the Status Card to view your status activity history.
+Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
+View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S2_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S2 H</shortDescription>
-        <value>Study Details</value>
+        <value>About the Study</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S2_T</fullName>
@@ -3620,21 +3683,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S30 Text</shortDescription>
-        <value>Click Details to view more information about your participation in the study.</value>
+        <value>Click &quot;My Study&quot; to view the Study Workspace which includes information about the study in which you are taking part, such as inclusion and exclusion criteria and study site details. The expanded Tasks and Resources pages are also accessible from this area.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S31_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S31 Text</shortDescription>
-        <value>Click on Study Name to see more details, such as inclusion and exclusion criteria.</value>
+        <value>Click &quot;Help&quot; to access resources for guidance on using the portal.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S3_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Participant S3 H</shortDescription>
-        <value>Study Name</value>
+        <value>Application Help</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S3_T</fullName>
@@ -3642,6 +3705,20 @@
         <protected>false</protected>
         <shortDescription>OT Participant S3 T</shortDescription>
         <value>Click on Study Name to see more details, such as inclusion/exclusion criteria.</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_S4_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT Participant S4 H</shortDescription>
+        <value>Your user settings</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_S70_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT Participant S70 Text</shortDescription>
+        <value>Click on the &quot;profile&quot; icon on the top right of the page to manage your Account Settings including password and contact information, personal preferences, as well as Delegates.</value>
     </labels>
     <labels>
         <fullName>OT_RP_S1_H</fullName>
@@ -3669,7 +3746,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT RP S2 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&#39;s permissions for individual studies using the dropdowns.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member’s permission for all studies by selecting a permission level and saving it on the team member’s card.</value>
     </labels>
     <labels>
         <fullName>OT_RP_S3_H</fullName>
@@ -3698,6 +3775,20 @@
         <protected>false</protected>
         <shortDescription>OT RP S4 T</shortDescription>
         <value>View overall status of past referrals. Refer eligible patients directly from this page.</value>
+    </labels>
+    <labels>
+        <fullName>OT_RP_S5_H</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT RP S5 H</shortDescription>
+        <value>Email Preferences and Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>OT_RP_S5_T</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>OT RP S5 T</shortDescription>
+        <value>Click on your user profile icon to access Account Settings.  In addition to managing your contact information, date and language preferences, and cookie settings, you can also choose the type of email notifications you want to receive. In the Email Preferences section, use the toggles to switch on or off the type of emails you want to receive.  In the Referral Networks section, click Select Referral Networks to search and subscribe to institution-based and/or topic-based networks to be notified when a related study site or clinical study becomes available or to be contacted occasionally about related news or events.</value>
     </labels>
     <labels>
         <fullName>One_day_before</fullName>
@@ -4370,7 +4461,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AS F Gender</shortDescription>
-        <value>Gender</value>
+        <value>Sex</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Initials</fullName>
@@ -5489,11 +5580,25 @@
         <value>Not a member?</value>
     </labels>
     <labels>
+        <fullName>PG_Login_L_here_link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login L here link</shortDescription>
+        <value>here</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_Link_Forgot</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login Link Forgot</shortDescription>
         <value>Forgot your password?</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_Lockout_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login Lockout Error Message</shortDescription>
+        <value>You have been locked out due to too many failed logins.  Please wait until ##LockoutEndTime to reset your password or attempt logging back in.  You cannot reset your password until the lockout period is over.</value>
     </labels>
     <labels>
         <fullName>PG_Login_Sub_Title</fullName>
@@ -5543,6 +5648,15 @@
         <protected>false</protected>
         <shortDescription>PG Login Title</shortDescription>
         <value>Login</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_Wrong_Password_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login Wrong Password Error Message</shortDescription>
+        <value>Incorrect email/password combination
+You have ##AttemptsLeft attempts left before you are locked out for 15 minutes.  You can reset your password ##ForgotPasswordLink.
+Please check your CAPS lock key.</value>
     </labels>
     <labels>
         <fullName>PG_MPS_L_Enrolled</fullName>
@@ -8859,14 +8973,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>A number of blood and urine samples  will be taken during the study. These samples will be used to check your  health and to see how your body responds to and processes the study medication.  In the optional genetic research sub-study, blood samples will be used to see how genes affect the way the study medication works.</value>
+        <value>You will need to give some blood, which will be used to check your health and to see how your body responds to and processes the study medication. In the optional genetic research sub-study, blood samples will be used to see how genes affect the way the study medication works.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Brief_Physical_Examination</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>These are checks of your general health and will include an examination of your skin, lungs, heart and blood vessels, and abdomen. Your height and weight will also be measured.</value>
+        <value>These are checks of your general health and may be brief or a complete examination. At the visits during the treatment period, you have a brief physical examination. This will include skin, lungs, heart and blood vessels, and abdomen. At the screening and follow-up visit, you will have a complete physical examination. This will include skin, heart and blood vessels, stomach and intestines, airways and neurological assessment (nerves), and any other necessary checks. Your height and weight will also be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Chest_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest to check the health of your lungs.  You will have this test once between Weeks 48 and 51.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_ECG</fullName>
@@ -8876,6 +8997,13 @@
         <value>The study doctor will perform  a procedure during which sticky pads  are placed on your chest, arms, and  legs. The pads are connected by wires  to a machine that checks the rhythm  and activity of your heart.</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Legend_Fasting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Before some visits, you will need to fast (not eat or drink anything, except water) for at least 6 hours before the visit.</value>
+    </labels>
+    <labels>
         <fullName>StudyVisit_Legend_Follow_Up_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8883,11 +9011,18 @@
         <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Legend_Hands_And_Feet_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your hands and feet to check the health of your joints.</value>
+    </labels>
+    <labels>
         <fullName>StudyVisit_Legend_Joint_Assessment</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>A doctor (not your usual study doctor) will examine your joints and count how many are swollen and/or tender, by pressing  on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
+        <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
@@ -8911,11 +9046,18 @@
         <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Legend_No_Study_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>If you take part in contRAst-X, the long-term extension study, you will not have this follow-up visit.</value>
+    </labels>
+    <labels>
         <fullName>StudyVisit_Legend_Pregnancy_Test</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
-        <value>If you are a woman who is able to get pregnant, you will have a pregnancy urine test at regular intervals during the study.</value>
+        <value>If you are a woman who is able to get pregnant, you will have a pregnancy test at regular intervals during the study. The test at screening will be a blood test and the remaining tests will be urine tests. The effects of the investigational medication on unborn babies is not known.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Questions</fullName>
@@ -8946,11 +9088,34 @@
         <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
     </labels>
     <labels>
+        <fullName>StudyVisit_Legend_Study_Medication_Capsules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive the study medication capsules every 4 weeks. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Study_Medication_Injection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive the study medication injection at the study center.
+            For visits at Study Weeks 0, 1, 12 and 13, you will need to stay at the study center for 1 hour after you have received the study medication injection.
+            For visits at Study Week 3, 5–7, 9–11, 14, 15, 17–23, 25–35, 37–47, 49–51 you may be able to self-administer the study medication injection at home. Your study doctor will let you know whether this option is available. If you self-administer the study medication injection, you will receive a supply of pre-filled syringes every 4 weeks.</value>
+    </labels>
+    <labels>
         <fullName>StudyVisit_Legend_Treatment_Period</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
         <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Urine_Tests</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked to provide urine samples, which will be used to check your health.</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Vital_Signs</fullName>

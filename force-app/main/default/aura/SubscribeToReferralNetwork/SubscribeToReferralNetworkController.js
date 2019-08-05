@@ -16,17 +16,18 @@
     },
 
     doDelete: function (component, event, helper) {
-        let recordId = event.getSource().get('v.value');
-        let recordIds = [];
+        var recordId = event.getSource().get('v.value');
+        var recordIds = [];
         recordIds.push(recordId);
-        let records = component.get('v.records');
+        var records = component.get('v.records');
         if (recordIds) {
             communityService.executeAction(component, 'deleteRecords', {
                 recordIds: recordIds
             }, function () {
-                records = records.filter((el) => {
+                var filterFunc = function(el){
                     return el.Id !== recordId;
-                });
+                }
+                records = records.filter(filerFunc);
                 component.set('v.records', records);
             });
         }

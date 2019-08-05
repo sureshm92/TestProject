@@ -132,7 +132,6 @@ public without sharing class ParticipantDeduplicationController {
              if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
                  newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.replaceAll('/','-');
              } else {
-                 System.debug(referralRecord.BirthDate__c);
                  newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(8) + '-' + referralRecord.BirthDate__c.substring(5,7) + '-' + referralRecord.BirthDate__c.substring(0, 4);
              }
          }
@@ -152,8 +151,8 @@ public without sharing class ParticipantDeduplicationController {
 			    Referral_ID__c                          =   referralRecord.referralID__c,
 			    Participant_Status__c                   =   ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
-                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                     
-
+                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null,
+                 Referred_By__c                         =   'Other'
             );
         insert newPer;
         return newPer;

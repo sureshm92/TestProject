@@ -59,7 +59,7 @@ public without sharing class SitesSearchRemote {
             }
             initData.mapMarkers = new List<MapMarker>();
             for(StudySiteService.StudySiteDistanceWrapper siteWrapper : initData.currentPageList){
-                if(siteWrapper.siteType != 'Virtual' && siteWrapper.site.Principal_Investigator__r.Account.BillingAddress != null){
+                if(siteWrapper.siteType != 'Virtual' && siteWrapper.site.Site__r.BillingAddress != null){
                     initData.mapMarkers.add(new MapMarker(siteWrapper.site));
                 }
             }
