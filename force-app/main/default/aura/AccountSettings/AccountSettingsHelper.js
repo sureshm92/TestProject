@@ -22,6 +22,16 @@
         if(!contact.Phone) contact.Phone = '';
         component.set('v.contactSnapshot', JSON.stringify(contact));
         component.set('v.contactChanged', false);
+    },
+
+    setFieldsValidity: function(component){
+        debugger;
+        var fieldsGroup = 'cField';
+        if(component.get('v.participant')) fieldsGroup = 'pField';
+        var allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
+            return validSoFar && inputCmp.get('v.validity').valid;
+        }, true);
+        component.set('v.isAllFieldsValid', allValid);
     }
 
 });

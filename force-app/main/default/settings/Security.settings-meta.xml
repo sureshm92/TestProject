@@ -6,7 +6,7 @@
         <expiration>NinetyDays</expiration>
         <historyRestriction>3</historyRestriction>
         <lockoutInterval>FifteenMinutes</lockoutInterval>
-        <maxLoginAttempts>ThreeAttempts</maxLoginAttempts>
+        <maxLoginAttempts>FiveAttempts</maxLoginAttempts>
         <minimumPasswordLength>8</minimumPasswordLength>
         <minimumPasswordLifetime>false</minimumPasswordLifetime>
         <obscureSecretAnswer>false</obscureSecretAnswer>

@@ -122,6 +122,7 @@
     font-size: 14px;
     line-height: 22px;
     min-height: 45px;
+    white-space: pre-line;
 }
 
 .THIS .fit-image{

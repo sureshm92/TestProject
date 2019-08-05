@@ -15,6 +15,7 @@
             debugger;
             component.set('v.initData', initData);
             component.set('v.participant', initData.participant);
+            component.set('v.participantHasUpdateTasks', initData.participantHasUpdateTasks);
             component.set('v.contact', initData.myContact);
             //TODO check here:
             component.set('v.currentEmail', initData.myContact.Email);
@@ -30,6 +31,7 @@
                 helper.setContactSnapshot(component);
             }
             setTimeout($A.getCallback(function() {
+                helper.setFieldsValidity(component);
                 component.showHelpMessageIfInvalid();
             }), 300);
             component.set('v.isInitialized', true);
@@ -55,6 +57,7 @@
         communityService.executeAction(component, 'updateParticipant', {
             participantJSON : JSON.stringify(component.get('v.participant'))
         }, function () {
+            component.set('v.participantHasUpdateTasks', false);
             helper.setParticipantSnapshot(component);
             var retString = communityService.getUrlParameter('ret');
             if(retString) {
@@ -71,6 +74,7 @@
         communityService.executeAction(component, 'updateContact', {
             cont: JSON.stringify(component.get('v.contact'))
         }, function () {
+            component.set('v.participantHasUpdateTasks', false);
             helper.setContactSnapshot(component);
         }, null, function () {
             component.find('spinner').hide();
@@ -108,12 +112,7 @@
     },
 
     doCheckFieldsValidity: function(component, event, helper){
-        var fieldsGroup = 'cField';
-        if(component.get('v.participant')) fieldsGroup = 'pField';
-        var allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
-            return validSoFar && inputCmp.get('v.validity').valid;
-        }, true);
-        component.set('v.isAllFieldsValid', allValid);
+        helper.setFieldsValidity(component);
     },
 
     doChangeEmail: function (component, event, helper) {
