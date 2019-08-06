@@ -205,7 +205,8 @@ public class TranslationExportImportRemote {
     
     public static String exportTranslationForStudyVisitPlan(Id studyId, String languageCode, String exportType){
         Id visitPlanId = [SELECT Id, Visit_Plan__c FROM Clinical_Trial_Profile__c WHERE Id =: studyId].Visit_Plan__c;
-        return generateItemsForSObjectType(Visit__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType);
+        return generateItemsForSObjectType(Visit__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType) +
+                generateItemsForSObjectType(Icon_Details__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType);
     }
     
     public static String generatePlatformLevelTranslatableObjectsItems(String languageCode, String exportType){
@@ -253,10 +254,6 @@ public class TranslationExportImportRemote {
             }
         }
         return result;
-
     }
     
-    
-    
-
 }

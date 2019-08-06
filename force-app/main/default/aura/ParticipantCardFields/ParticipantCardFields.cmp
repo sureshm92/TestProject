@@ -32,8 +32,13 @@
                     <div class="value">{!v.pe.Study_Site__r.Name}</div>
                 </div>
                 <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referring_provider}</div>
+                    <div class="label">{!$Label.c.PE_Source}</div>
+                    <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
                     <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                        <aura:set attribute="else">
+                            <div class="value">{!v.pe.Referral_Source__c}</div>
+                        </aura:set>
+                    </aura:if>
                    <!-- <div class="value"><div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div></div>-->
                    <!-- <div class="value">
                         <aura:if isTrue="{!!empty(v.pe.HCP__c)}">

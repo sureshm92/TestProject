@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Onboarding_Slide__c</field>
-        <value xsi:type="xsd:string">SL0058</value>
+        <value xsi:type="xsd:string">SL0072</value>
     </values>
     <values>
         <field>Onboarding_Tour__c</field>
@@ -12,6 +12,6 @@
     </values>
     <values>
         <field>Order__c</field>
-        <value xsi:type="xsd:double">3.0</value>
+        <value xsi:type="xsd:double">6.0</value>
     </values>
 </CustomMetadata>

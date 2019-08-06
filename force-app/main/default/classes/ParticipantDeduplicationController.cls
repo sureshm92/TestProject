@@ -115,7 +115,8 @@ public without sharing class ParticipantDeduplicationController {
 			Last_Name__c                = referralRecord.lastName__c,
 			Email__c                    = referralRecord.email__c,
 			Phone__c                    = referralRecord.phone__c,
-			Mailing_State_Province__c   = referralRecord.Address_State__c,
+			Mailing_State__c            = referralRecord.Address_State__c,
+            Mailing_State_Code__c       = CountryStateUtil.getStateCode(referralRecord.Address_Country__c, referralRecord.Address_State__c),
 			Mailing_Street__c           = referralRecord.Address_AddressLine1__c,
 			Mailing_Zip_Postal_Code__c  = referralRecord.Address_ZipCode__c,
 			Mailing_Country_Code__c     = referralRecord.Address_Country__c,
@@ -123,13 +124,23 @@ public without sharing class ParticipantDeduplicationController {
 			Language_Preference_Code__c = referralRecord.Language_Preference__c,
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
-            Date_of_Birth__c            = referralRecord.BirthDate__c != null ? updateDateOfBirth(referralRecord.BirthDate__c) : updateDateOfBirth(referralRecord.birthYear__c),
-            Gender__c                   = referralRecord.sex__c
-        );
-        newParticipant.Birth_Year__c = newParticipant.Date_of_Birth__c != null && newParticipant.Date_of_Birth__c !='' ? newParticipant.Date_of_Birth__c.substring(0,4) : '';
-
-        insert newParticipant;
-        return newParticipant;
+            Gender__c                   = referralRecord.sex__c,
+            Birth_Year__c               = referralRecord.BirthYear__c,
+            Phone_Type__c               = referralRecord.Phone_Type__c
+         );
+         if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
+             if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
+                 System.debug('Here');
+                 System.debug(referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5));
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5);
+             } else {
+                 System.debug('Here');
+                 System.debug(referralRecord.BirthDate__c.replaceAll('/','-'));
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.replaceAll('/','-');
+             }
+         }
+         insert newParticipant;
+         return newParticipant;
     }
 
      private static Participant_Enrollment__c createParticipantEnrollment(String contactId, String participantId,  String studySiteNumber, Integration_Patient_Referral__c referralRecord){
@@ -144,20 +155,11 @@ public without sharing class ParticipantDeduplicationController {
 			    Referral_ID__c                          =   referralRecord.referralID__c,
 			    Participant_Status__c                   =   ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
-                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                     
-
+                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null,
+                 Referred_By__c                         =   'Other'
             );
         insert newPer;
         return newPer;
-    }
-
-    private static String updateDateOfBirth(String birthDate){
-        if(birthDate != null && birthDate.length() == 10){
-            return birthDate.substring(6) + '-' + birthDate.substring(0,2) + birthDate.substring(3,5);
-        }else if (birthDate != null && birthDate.length() == 4){
-            return birthDate + '-01-01';
-        }
-        return ''; 
     }
 
 }

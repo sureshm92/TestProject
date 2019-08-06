@@ -43,13 +43,15 @@
                     </tr>
                     <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
                         <tr>
-                            <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c ? visitWrapper.visit.Name : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
-                            <td class="sv-t-time">{!visitWrapper.visit.Visit_Schedule__c}</td>
+                            <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c
+                                ? $Label.c.StudyVisit_Unscheduled_Visit
+                                : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
+                            <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit_Schedule__c)}</td>
                             <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
                                 <c:RRIconSplitter numOfIconsToDisplay="5" class="svl-icon"
                                                   value="{!visitWrapper.icons}"/>
                             </td>
-                            <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Unscheduled_Visit}</td>
+                            <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
                             <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-status' : 'invisible'}">{!visitWrapper.visit.Status__c}</td>
                             <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-reminder' : 'invisible'}"
                                 data-visit-id="{!visitWrapper.visit.Id}"

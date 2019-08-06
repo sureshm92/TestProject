@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Visit_Result_Group__c</field>
-        <value xsi:type="xsd:string">Haematology</value>
+        <value xsi:type="xsd:string">Hematology</value>
     </values>
     <values>
         <field>Visit_Result_Label__c</field>

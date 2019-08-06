@@ -19,7 +19,7 @@ public inherited sharing class PatientVisitService {
     private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
 
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || !pState.showVisits || pState.pse == null) {
+        if (pState == null || pState.ctp == null || !pState.showVisits || pState.pse == null) {
             return null;
         }
 
@@ -33,8 +33,9 @@ public inherited sharing class PatientVisitService {
                 'Is_Adhoc__c ' +
                 'FROM Patient_Visit__c ' +
                 'WHERE Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
+                (VISIT_MODE_CURRENT == visitMode ? ' AND Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' : '') +
                 ' AND Status__c ' + (VISIT_MODE_CURRENT == visitMode ? '=' : '!=') + '\'' + VISIT_STATUS_PENDING + '\'' +
-                ' ORDER BY Visit__r.Visit_Number__c NULLS LAST' +
+                ' ORDER BY Visit_Number__c ' + (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') + ' NULLS LAST' +
                 (limitNumber == null ? '' : ' LIMIT ' + limitNumber);
 
         List<Patient_Visit__c> visits = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);

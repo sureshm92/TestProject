@@ -3,6 +3,7 @@
  */
 ({
     doInit: function (component, event, helper) {
+        console.log('PE>>>>>',JSON.parse(JSON.stringify(component.get('v.pe'))));
         if(component.get('v.pe')) {
             helper.preparePathItems(component);
             component.find('spinner').hide();

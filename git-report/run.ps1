@@ -36,8 +36,8 @@ Get-ChildItem $currDirectory -Filter *.txt | Foreach-Object {
             foreach ($commit in $gitHist){
                $commitFiles = (git diff-tree --no-commit-id --name-only -r $commit.CommitId)
                foreach ($currPath in $commitFiles) {
-                   if ($currPath.Contains("force-app/main/default/")) {
-                       $resPath = $currPath.Replace("force-app/main/default/", "")
+                   if ($currPath.Contains("force-app/main/")) {
+                       $resPath = $currPath.Replace("force-app/main/", "")
                        $allChangedFiles += $resPath
                    }
                }

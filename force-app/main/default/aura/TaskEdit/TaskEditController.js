@@ -20,9 +20,6 @@
 
             var task = wrapper.task;
 
-            var visitId = communityService.getUrlParameter('visitId');
-            if (visitId) component.set('v.task.Patient_Visit__c', visitId);
-
             if (wrapper.reminderEnabled && task.ActivityDate) component.set('v.frequencyEnabled', true);
 
             component.set('v.taskTypeList', wrapper.taskTypeList);
@@ -30,10 +27,12 @@
             if (paramTaskId) {
                 component.set('v.editMode', true);
 
-                var due = moment(task.ActivityDate, 'YYYY-MM-DD');
-                var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
-                if(!due.isSame(reminder)) {
-                    if (due.diff(reminder, 'days') === 1) component.set('v.frequencyMode', 'Day_Before');
+                if(task.ActivityDate && wrapper.reminderDate) {
+                    var due = moment(task.ActivityDate, 'YYYY-MM-DD');
+                    var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
+                    if(!due.isSame(reminder)) {
+                        if (due.diff(reminder, 'days') === 1) component.set('v.frequencyMode', 'Day_Before');
+                    }
                 }
 
                 var isOwner = task.OwnerId === task.CreatedById;
@@ -48,6 +47,9 @@
             }
 
             component.set('v.task', task);
+            var visitId = communityService.getUrlParameter('visitId');
+            if (visitId) component.set('v.task.Patient_Visit__c', visitId);
+
             component.find('spinner').hide();
         });
     },
