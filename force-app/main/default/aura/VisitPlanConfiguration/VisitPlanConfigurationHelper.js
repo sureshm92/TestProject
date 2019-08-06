@@ -49,6 +49,7 @@
                 component.set('v.visits', []);
             }
             component.set('v.visitPlanId', ctpCLear.Visit_Plan__c);
+            helper.getRelatedVisitPlans(component, event, helper);
         } else if (eventParams.changeType === "REMOVED") {
             // record is deleted
         } else if (eventParams.changeType === "ERROR") {
