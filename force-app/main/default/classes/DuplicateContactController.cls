@@ -22,13 +22,13 @@ public without sharing class  DuplicateContactController {
             sex__c = participant.Gender__c,
             Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
 		);
-        if(participant.Date_of_Birth__c.indexOf('-') == 4 || participant.Date_of_Birth__c.indexOf('/') == 4) {
-            tempRecord.BirthDate__c = participant.Date_of_Birth__c.replaceAll('/','-');
-        } else {
-            tempRecord.BirthDate__c = participant.Date_of_Birth__c.substring(3,5) + '/' + participant.Date_of_Birth__c.substring(0,2) + '/' + participant.Date_of_Birth__c.substring(6);
+        if(participant.Date_of_Birth__c != null) {
+            if (participant.Date_of_Birth__c.indexOf('-') == 4 || participant.Date_of_Birth__c.indexOf('/') == 4) {
+                tempRecord.BirthDate__c = participant.Date_of_Birth__c.replaceAll('/', '-');
+            } else {
+                tempRecord.BirthDate__c = participant.Date_of_Birth__c.substring(3, 5) + '/' + participant.Date_of_Birth__c.substring(0, 2) + '/' + participant.Date_of_Birth__c.substring(6);
+            }
         }
-        System.debug('Here');
-        System.debug(participant.Date_of_Birth__c);
         Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
         isPERCreated = false;
 		return participantRecord;
@@ -234,7 +234,11 @@ public without sharing class  DuplicateContactController {
 
     private static Date convertBirthDate(String birthDate){
         if(birthDate.length() == 10){
-            String updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0,2) + '-' + birthDate.substring(3, 5);
+            System.debug(birthDate);
+            String updatedDateString = birthDate;
+            if(birthDate.indexOf('-') == 2 || birthDate.indexOf('/') == 2) {
+                updatedDateString = birthDate.substring(6) + '-' + birthDate.substring(0, 2) + '-' + birthDate.substring(3, 5);
+            }
             Date newDate = Date.valueOf(updatedDateString);
             return newDate;
         }

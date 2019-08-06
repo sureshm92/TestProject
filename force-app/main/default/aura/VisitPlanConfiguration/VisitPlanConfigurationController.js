@@ -7,7 +7,6 @@
         helper.getRelatedVisitPlans(component, event, helper);
         helper.getIconsUrl(component, event, helper);
         helper.getAllIconsNames(component, event, helper);
-
     },
 
     addVisit: function (component, event, helper) {
@@ -48,26 +47,16 @@
     },
 
     submitForm: function (component, event, helper) {
-        let spinner = component.find('mainSpinner');
-        if (spinner) {
-            spinner.show();
-        }
-        let icons = component.get('v.selectedIcons');
-        let strCoins = icons.join(';');
-        component.find('splittedIcons').set('v.value', strCoins);
-        let name = component.find('nameId').get("v.value");
-        if (name === null) {
-            let spinner = component.find('mainSpinner');
-            if(spinner) {
-                spinner.hide();
-            }
-            helper.notify({
-                "title": "Name Is Empty",
-                "message": "Complete Name field.",
-                "type": "error"
-            })
-        } else {
-            component.find('editForm').submit();
+        debugger;
+        let legendCmp = component.find('addVisit');
+        if (legendCmp.isInstanceOf('c:Modalable')) {
+            legendCmp.save(function (modalSpinner) {
+                helper.handleSuccessSaveAddVisit(component, event, helper);
+                modalSpinner.hide();
+                component.find('editLegend').hide();
+            }, function (errorcallBack) {
+                errorcallBack();
+            });
         }
     },
 
@@ -79,15 +68,7 @@
 
     },
     handleSuccess: function (component, event, helper) {
-        debugger;
 
-        component.find('customModal').hide();
-        helper.getRelatedVisitPlans(component, event, helper);
-        helper.notify({
-            "title": $A.get("$Label.c.Success"),
-            "message": $A.get("$Label.c.Success_Creation"),
-            "type": $A.get("$Label.c.successType")
-        });
     },
     saveLegend: function (component, event, helper) {
         debugger;
