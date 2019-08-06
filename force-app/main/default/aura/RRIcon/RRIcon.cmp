@@ -10,6 +10,8 @@
     <aura:attribute name="iconName" type="String" description="Name of the icon"/>
     <aura:attribute name="color" type="String"/>
     <aura:attribute name="library" type="String" default="icons.svg"/>
+    <aura:attribute name="resource" type="String" default="{!$Resource.rr_community_icons}"/>
 
-    <c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/' + v.library + '#' + v.iconName}" id="{!v.id}" class="{!v.class + ' rr-icon-default'}" color="{!v.color}"/>
+    <c:MySVG xlinkHref="{!v.resource + '/' + v.library + '#' + v.iconName}" id="{!v.id}"
+             class="{!v.class + ' rr-icon-default'}" color="{!v.color}"/>
 </aura:component>
