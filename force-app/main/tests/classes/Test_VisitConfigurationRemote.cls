@@ -101,21 +101,15 @@ public with sharing class Test_VisitConfigurationRemote {
 
     @IsTest
     static void deleteVisit_test() {
-        Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test');
-        insert visitPlan;
 
-        List<Visit__c> visits = new List<Visit__c>{
-                new Visit__c(Name = 'Test1', Visit_Plan__c = visitPlan.Id),
-                new Visit__c(Name = 'Test2', Visit_Plan__c = visitPlan.Id)
-        };
-        insert visits;
-
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+                .when('deleteRecord')
+                .then(null)
+                .getInstance()
+        );
         Test.startTest();
-        VisitConfigurationRemote.deleteVisit(visits[0].Id);
-        visits = [SELECT Id FROM Visit__c];
+        VisitConfigurationRemote.deleteVisit(null);
         Test.stopTest();
-
-        System.assertEquals(1, visits.size());
     }
 
     @IsTest

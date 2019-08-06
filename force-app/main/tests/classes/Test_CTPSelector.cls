@@ -24,7 +24,7 @@ public with sharing class Test_CTPSelector {
     }
 
     @IsTest
-    static void GetVisitsByCtp() {
+    static void getVisitsByCtp() {
         Clinical_Trial_Profile__c ctp = getCtp();
         Visit_Plan__c visitPlan = getVisitPlan(ctp.Id);
         CTPSelector selector = new CTPSelector();
@@ -59,7 +59,7 @@ public with sharing class Test_CTPSelector {
     static void getIconDetailsByVisitPlanInCTP_test() {
     CTPSelector selector = new CTPSelector();
     Clinical_Trial_Profile__c ctp = getCtp();
-    List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp);
+    List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp.Id);
     System.assertEquals(2, iconDetails.size());
 }
 }

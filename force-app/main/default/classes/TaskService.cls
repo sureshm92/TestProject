@@ -204,7 +204,7 @@ public without sharing class TaskService {
                 tsc.description = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
-                tsc.startDate = getUserDatetime(userTimezoneMap.get(tsc.ownerId)).date();
+                tsc.startDate = getUserDatetime(userTimezoneMap.get(tsc.ownerId), null).date();
                 if (inv.InviteExpiryDateTime != null) {
                     Date expiryDate= inv.InviteExpiryDateTime.date();
                     Integer daysBetween = expiryDate.daysBetween(Date.today());
@@ -213,7 +213,7 @@ public without sharing class TaskService {
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = getUserDatetime(userTimezoneMap.get(tsc.ownerId)).addDays(firstReminderDay);
+                    tsc.reminderDatetime = getUserDatetime(userTimezoneMap.get(tsc.ownerId), null).addDays(firstReminderDay);
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
@@ -323,8 +323,10 @@ public without sharing class TaskService {
         return userMap;
     }
 
-    public static Datetime getUserDatetime(TimeZone timezone) {
-        String nowFormat = Datetime.now().format('YYYY-MM-dd HH:mm:ss', timezone.toString());
+    public static Datetime getUserDatetime(TimeZone timezone, Datetime moment) {
+        if(moment == null) moment = Datetime.now();
+
+        String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
         return Datetime.valueOfGmt(nowFormat);
     }
 

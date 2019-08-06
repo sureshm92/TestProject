@@ -4,6 +4,8 @@
 
 public class Alert {
     
+    public class AlertException extends Exception{}
+    
     public String title;
     public String body;
     public String code;
@@ -80,6 +82,7 @@ public class Alert {
             Alert_Catalog__mdt card = catalogMap.get(dbAlert.Alert_Code__c);
             if(dbAlert.Record_ID__c != null){
                 SObject alertObject = objectsMap.get(dbAlert.Record_ID__c);
+                if(alertObject == null) throw new AlertException('Alert ' + dbAlert.Name + ' has wrong Record Id field: ' + dbAlert.Record_ID__c);
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
             }
 
