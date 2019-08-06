@@ -44,7 +44,7 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Participant_Study_Enrollment__c =: state.pse.Id
+                WHERE Participant_Study_Enrollment__c = :state.pse.Id
                 AND Status__c = 'Completed'
                 ORDER BY Completed_Date__c
         ];
@@ -60,26 +60,21 @@ public without sharing class VisitResultSharingService {
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
             visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
-            Decimal timeSharing =
-                    patientVisits.get(patientVisits.size() - 1).Visit_Number__c - ctp.Shareback_Availability_Timing__c;
+            Integer timeSharing = (patientVisits.size() - 1) - (ctp.Shareback_Availability_Timing__c.intValue());
 
-            for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
-                if ((i + 1) <= timeSharing) {
-                    Patient_Visit__c patientVisit = patientVisits.get(i);
-                    if(patientVisit.Visit_Results__r != null && !patientVisit.Visit_Results__r.isEmpty()) {
-                        for (Visit_Result__c result : patientVisit.Visit_Results__r) {
-                            if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
-                                Visit_Result_Type_Sharing__c resultTypeSharing =
-                                        visitResultTypeSharingByType.get(result.Result_Type__c);
-                                if (resultTypeSharing.Sharing_Countries__c == 'All' || (resultTypeSharing.Include_Countries__c &&
-                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
-                                    filteredResults.add(result);
-                                }
-                            }
+            Patient_Visit__c patientVisit = patientVisits.get(timeSharing);
+            if (patientVisit.Visit_Results__r != null && !patientVisit.Visit_Results__r.isEmpty()) {
+                for (Visit_Result__c result : patientVisit.Visit_Results__r) {
+                    if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                        Visit_Result_Type_Sharing__c resultTypeSharing =
+                                visitResultTypeSharingByType.get(result.Result_Type__c);
+                        if (resultTypeSharing.Sharing_Countries__c == 'All' || (resultTypeSharing.Include_Countries__c &&
+                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))) {
+                            filteredResults.add(result);
                         }
-                        break;
                     }
                 }
+
             }
         } catch (Exception e) {
             System.debug(e.getCause() + '\n' + e.getLineNumber());
@@ -145,16 +140,16 @@ public without sharing class VisitResultSharingService {
 
         if (!studySites.isEmpty()) {
             for (Study_Site__c ss : studySites) {
-                if(allEnabled || (ssIds.isEmpty() && selectionType)) {
+                if (allEnabled || (ssIds.isEmpty() && selectionType)) {
                     ss.Visit_Results_Sharing__c = true;
-                } else if(!selectionType && ssIds.isEmpty()) {
+                } else if (!selectionType && ssIds.isEmpty()) {
                     ss.Visit_Results_Sharing__c = false;
                 } else if (ssIds.contains(ss.Id)) {
                     ss.Visit_Results_Sharing__c = selectionType;
                 } else {
-                    if(selectionType && ss.Visit_Results_Sharing__c) {
+                    if (selectionType && ss.Visit_Results_Sharing__c) {
                         ss.Visit_Results_Sharing__c = false;
-                    } else if(!selectionType) {
+                    } else if (!selectionType) {
                         ss.Visit_Results_Sharing__c = true;
                     }
                 }
