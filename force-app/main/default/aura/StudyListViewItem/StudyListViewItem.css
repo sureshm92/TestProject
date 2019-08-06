@@ -249,6 +249,10 @@
     line-height: 21px;
 }
 
+.THIS .slds-form-element__label{
+    padding-top: unset;
+}
+
 .THIS .ss-lightning-input label{
     height: 21px;
     color: #666666;
@@ -256,6 +260,11 @@
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
+    margin-bottom: 4px;
+}
+
+.THIS .postal-code-input{
+    margin-top: 2px;
 }
 
 .THIS .google-map-style{

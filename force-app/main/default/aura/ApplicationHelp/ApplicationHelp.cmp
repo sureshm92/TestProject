@@ -79,7 +79,7 @@
                         </button>
                     </div>
                 </div>
-                <aura:if isTrue="{!true}">
+                <aura:if isTrue="{!false}">
                     <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel">
                         <div class="slds-col slds-size--2-of-3 slds-medium-size--6-of-7">
                             <div class="ah-item-label">

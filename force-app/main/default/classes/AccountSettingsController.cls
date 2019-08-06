@@ -30,7 +30,9 @@ public without sharing class AccountSettingsController {
                             initData.participant.Mailing_Country_Code__c,
                             initData.participant.Mailing_State_Code__c
                     );
-
+                    //Task for updating profile exists Account
+                    List<Task> tasks = TaskService.getInstance().getTasksCommon('Status = \'Open\' AND Task_Code__c = \'Complete_Your_Profile\'');
+                    initData.participantHasUpdateTasks = !tasks.isEmpty();
                 } else {
                     initData.institute = getInstituteById(initData.myContact.AccountId);
                 }
@@ -279,6 +281,7 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public Participant__c participant;
         @AuraEnabled public String userName;
         @AuraEnabled public Boolean isDelegate;
+        @AuraEnabled public Boolean participantHasUpdateTasks;
         @AuraEnabled public String message;
         @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();

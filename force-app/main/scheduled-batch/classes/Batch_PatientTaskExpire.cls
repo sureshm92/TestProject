@@ -4,16 +4,13 @@
 
 public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstract{
 
-    public Iterable<SObject> start(Database.BatchableContext param1) {
-        List<Task> tasks = [
+    public Database.QueryLocator start(Database.BatchableContext param1) {
+        return Database.getQueryLocator([
                 SELECT Id, Description
                 FROM Task
                 WHERE ActivityDate <=: System.today()
                     AND Status IN: TaskService.TASK_STATUS_GROUP_EXPIRE_AVAILABLE
-        ];
-
-        System.debug('Records found: '+ tasks.size());
-        return tasks;
+                ]);
     }
 
     public void execute(Database.BatchableContext param1, List<Task> tasks) {
