@@ -5,9 +5,11 @@
 
     getRelatedVisitPlans: function (component, event, helper) {
         debugger;
+        component.find('mainSpinner').show();
         helper.enqueue(component, 'c.getRelatedPlannedVisits', {
             ctpId: component.get('v.recordId')
         }).then(function (result) {
+            component.find('mainSpinner').hide();
             component.set('v.visits', result)
         }, function (err) {
             if (err && err[0].message) {
@@ -17,6 +19,7 @@
                     type: 'error',
                 });
             }
+            component.find('mainSpinner').hide();
             console.log('error:', err[0].message);
         })
     },
@@ -159,7 +162,6 @@
     },
 
     deleteRecord: function (component, event, helper) {
-        $A.util.toggleClass(component.find('spinner'));
         let record = event.getParam('record');
         component.set('v.visitId', record.Id);
         helper.deleteVisitRecord(component, event, helper)
@@ -182,6 +184,7 @@
     },
     deleteVisitRecord: function (component, event, helper) {
         debugger;
+        component.find('mainSpinner').show();
         let vId = component.get('v.visitId');
         helper.enqueue(component, 'c.deleteVisit', {
             visitId: vId
@@ -191,7 +194,7 @@
                 return e.Id != vId;
             });
             component.set('v.visits', newVisits);
-            $A.util.toggleClass(component.find('spinner'));
+            component.find('mainSpinner').hide();
             helper.notify({
                 "title": $A.get("$Label.c.Success"),
                 "message": $A.get("$Label.c.success_deleteon"),
@@ -205,6 +208,7 @@
                     type: 'error',
                 });
             }
+            component.find('mainSpinner').hide();
             console.log('error:', err[0].message);
         })
     },
@@ -223,6 +227,15 @@
             }, function (errorMessage) {
                 component.set('v.error', errorMessage);
             })
+    },
+    handleSuccessSaveAddVisit:function (component,event,helper) {
+        component.find('customModal').hide();
+        helper.getRelatedVisitPlans(component, event, helper);
+        helper.notify({
+            "title": $A.get("$Label.c.Success"),
+            "message": $A.get("$Label.c.Success_Creation"),
+            "type": $A.get("$Label.c.successType")
+        });
     }
 
 

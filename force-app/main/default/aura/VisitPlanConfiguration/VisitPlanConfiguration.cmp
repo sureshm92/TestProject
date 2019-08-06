@@ -25,6 +25,7 @@
     <aura:attribute name="fields" type="String[]" default="['Name']"/>
     <aura:attribute name="summaryContainers" type="List" access="private"/>
     <aura:attribute name="iconsURL" type="String"/>
+    <aura:attribute name="successCallback" type="Object"/>
     <force:recordData aura:id="CTPLoader"
                       recordId="{!v.recordId}"
                       fields="Name,Visit_Plan__c"
@@ -32,9 +33,14 @@
                       targetError="{!v.recordLoadError}"
                       recordUpdated="{!c.handleRecordUpdated}"
     />
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="false"/>
     <lightning:card title="Planned visits" iconName="standard:contact">
         <aura:set attribute="actions">
             <lightning:layout horizontalAlign="center" verticalAlign="end">
+                <lightning:layoutItem>
+                    <aura:if isTrue="{!v.visitPlanId!=null}">
+                    </aura:if>
+                </lightning:layoutItem>
                 <lightning:layoutItem>
                     <aura:if isTrue="{!v.visitPlanId!=null}">
                         <lightning:button disabled="{!empty(v.error)==false}" onclick="{!c.editVisitLegend}"
@@ -59,35 +65,32 @@
                     {!$Label.c.empty_visits}
                 </div>
                 <aura:set attribute="else">
-                    <div class="slds-scrollable">
-                        <table class="slds-table slds-table_bordered slds-table_striped">
-                            <thead>
-                            <tr class="slds-text-title_caps">
-                                <th>
-                                    <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
-                                </th>
-                                <th>
-                                    <div class="slds-truncate"
-                                         title="Column 1">{!$Label.c.Visit_Patient_Portal_Name}</div>
-                                </th>
-                                <th>
-                                    <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
-                                </th>
-                                <th>
-                                    <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Schedule}</div>
-                                </th>
-                                <th>
-                                    <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Icons}</div>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <aura:iteration var="visit" items="{!v.currentVisits}">
-                                <c:VisitItem visit="{!visit}"/>
-                            </aura:iteration>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="slds-table slds-table_bordered slds-table_striped">
+                        <thead>
+                        <tr class="slds-text-title_caps">
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.visit_Name}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Patient_Portal_Name}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Number}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Schedule}</div>
+                            </th>
+                            <th>
+                                <div class="slds-truncate" title="Column 1">{!$Label.c.Visit_Icons}</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <aura:iteration var="visit" items="{!v.currentVisits}">
+                            <c:VisitItem visit="{!visit}"/>
+                        </aura:iteration>
+                        </tbody>
+                    </table>
                 </aura:set>
             </aura:if>
             <aura:set attribute="else">
@@ -101,70 +104,15 @@
         </aura:set>
     </lightning:card>
     <c:CustomModal aura:Id='customModal' size="medium">
-        <div class="slds-p-horizontal--small">
-            <lightning:recordEditForm
-                    onload="{!c.preload}"
-                    onsuccess="{!c.handleSuccess}"
-                    aura:id="editForm"
-                    recordId="{!v.visitId}"
-                    objectApiName="Visit__c">
-                <!-- the messages component is for error messages -->
-                <lightning:messages/>
 
-                <lightning:inputField aura:id="nameId" fieldName="Name"/>
-                <lightning:inputField aura:id="ppName" fieldName="Patient_Portal_Name__c"/>
-                <lightning:inputField aura:id="Visit_Schedule__c" fieldName="Visit_Schedule__c"/>
-                <lightning:inputField aura:id="Visit_Number__c" fieldName="Visit_Number__c"/>
-                <lightning:inputField class="slds-hide" aura:id='splittedIcons' fieldName="Icons__c"/>
-                <lightning:inputField disabled="{!empty(v.visitPlanId)==false}" aura:id='visitPlan'
-                                      fieldName="Visit_Plan__c"/>
-            </lightning:recordEditForm>
-        </div>
-        <div class="icons">
-            <fieldset class="slds-form-element">
-                <lightning:layout class="flex-container" verticalAlign="center" horizontalAlign="spread">
-                    <lightning:layoutItem size="5">
-                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.Avaliable_Icons}
-                        </legend>
-                        <div class="slds-form-element__control">
-                            <aura:iteration items="{!v.availableIcons}" var="icon">
-                                <c:IconsSelector aura:Id="leftIcons" selected='{!false}' name='{!icon}'>
-                                    <aura:set attribute="content">
-                                        <c:RRIcon iconName="{!icon}"/>
-                                    </aura:set>
-                                </c:IconsSelector>
-                            </aura:iteration>
-                        </div>
-                    </lightning:layoutItem>
-                    <lightning:layoutItem class="schevrons sticky-Position" size="2">
-                        <div class="schevron">
-                            <lightning:buttonIcon disabled="{!empty(v.selectedIcons)}" size="medium"
-                                                  onclick="{!c.shiftLeft}"
-                                                  iconName="utility:chevronleft"/>
-                        </div>
-                        <div class="schevron">
-                            <lightning:buttonIcon disabled="{!empty(v.availableIcons)}" size="medium"
-                                                  onclick="{!c.shiftRight}"
-                                                  iconName="utility:chevronright"/>
-                        </div>
-                    </lightning:layoutItem>
+        <c:AddVisitCmp aura:Id="addVisit"
+                       visitId="{!v.visitId}"
+                       successCallback="{!v.successCallback}"
+                       selectedIcons="{!v.selectedIcons}"
+                       availableIcons="{!v.availableIcons}"
+                       visitPlanId="{!v.visitPlanId}"
 
-                    <lightning:layoutItem size="5">
-                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.Selected_Icons}
-                        </legend>
-                        <div class="slds-form-element__control">
-                            <aura:iteration items="{!v.selectedIcons}" var="icon">
-                                <c:IconsSelector aura:Id="rightIcons" selected='{!false}' name='{!icon}'>
-                                    <aura:set attribute="content">
-                                        <c:RRIcon iconName="{!icon}"/>
-                                    </aura:set>
-                                </c:IconsSelector>
-                            </aura:iteration>
-                        </div>
-                    </lightning:layoutItem>
-                </lightning:layout>
-            </fieldset>
-        </div>
+        />
         <aura:set attribute="footer">
             <lightning:button variant="neutral" type="button" name="close" label="{!$Label.c.Visit_b_Close}"
                               onclick="{!c.closeModal}"/>
@@ -172,6 +120,8 @@
                               onclick="{!c.submitForm}"/>
         </aura:set>
     </c:CustomModal>
+
+
     <c:CustomModal aura:Id='createVisitPlan' size="medium">
         <lightning:recordForm
                 recordId="{!v.visitPlanId}"
