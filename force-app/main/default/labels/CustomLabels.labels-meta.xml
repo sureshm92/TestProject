@@ -33,7 +33,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL_Body_Returning_Delegate</shortDescription>
-        <value>Welcome Back ##Contact. You have been assigned as a Delegate for ##UserName in the. Thank you for joining ##UserName on their journey through the ##StudyName Study.</value>
+        <value>Welcome Back ##Contact. You have been assigned as a Delegate for ##UserName. Thank you for joining ##UserName on their journey.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Returning_Patient</fullName>
@@ -57,7 +57,7 @@
         <shortDescription>AL Body Welcome Study</shortDescription>
         <value>Hi ##UserName!
 
-            Welcome to the ##StudyName Study.
+            Welcome to the clinical research study.
 
             We are excited to be on this journey with you.</value>
     </labels>
@@ -68,7 +68,7 @@
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
         <value>Hi ##UserName!
 
-            You have been assigned as a Delegate for ##ParticipantUser. Thank you for joining ##ParticipantUser on their journey through the ##StudyName Study.</value>
+You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_to_PH</fullName>
@@ -84,7 +84,7 @@
         <shortDescription>AL Body Welcome to PH Delegate</shortDescription>
         <value>Hi ##UserName!
 
-            You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for joining ##ParticipantFirstName on this journey through the ##StudyName Study.</value>
+You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
@@ -163,13 +163,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cookie Settings Description</shortDescription>
-        <value>Some essential features on Referral Hub site just won’t work
-            without cookies.
-            And having other cookies switched off can seriously affect the way you’ll be able to enjoy our
-            services.
-            Please check your cookie settings below and turn on any cookies you’re happy with.
-            &quot;Strictly necessary&quot; cookies can’t be turned off.
-            However &quot;Functional&quot; cookies can be turned on or off below.</value>
+        <value>Cookie settings can be adjusted below. Strictly Necessary Cookies are required for essential features of our platform to function and cannot be switched off. Functional Cookies may be switched off, but leaving them on is recommended for the best user experience.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Cookie_RRetURL</fullName>
@@ -330,7 +324,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
-        <value>Used to store user preferred language.</value>
+        <value>Used to store user’s preferred language so that log in page may be displayed in user’s preferred language.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -351,7 +345,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AccountSettings RRCookies Description</shortDescription>
-        <value>Used to store cookies agreement decision. It prevents from popup appearing several times.</value>
+        <value>Used to store acknowledgement of cookie use to prevent popup from repeatedly appearing.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Referral_Networks</fullName>
@@ -365,8 +359,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Referral Networks Description</shortDescription>
-        <value>Subscribe to Referral Networks. You will receive weekly emails keeping you updated on sites
-            or topics that you are interested in.</value>
+        <value>By subscribing to an institution-based Referral Network, you agree to being automatically notified via email when a new study site begins enrolling at that institution and that you may be contacted occasionally regarding clinical study-related news or events at that institution. By subscribing to a topic-based referral network, you agree that you may be contacted when a clinical study related to that topic becomes available.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Referral_Networks_Site_Based</fullName>
@@ -465,7 +458,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add Patient</value>
+        <value>Add patient</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -1306,7 +1299,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Refer a Patient</value>
+        <value>Refer a patient</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -1663,14 +1656,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for ##StudyName. If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of your upcoming medication dosage for the clinical research study: ##StudyName. If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for ##StudyName.  If you have any questions regarding this medication, please contact the Study Team at ##SitePhoneNumber.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -1779,7 +1772,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_Patient16</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyName Study before the clinical trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
+        <value>We are sorry to see you have decided to leave ##StudyName before the clinical trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient17</fullName>
@@ -2021,14 +2014,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the ##StudyName. If you are unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of your upcoming visit for the clinical research study: ##StudyName. If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please call to reschedule. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
@@ -2444,6 +2437,7 @@
         <protected>true</protected>
         <shortDescription>Email Signature Resource</shortDescription>
         <value>Sincerely,
+
             The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
@@ -5437,7 +5431,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Home Welcome Message Alumni</shortDescription>
-        <value>Hi ##UserName, great that you are continuing to use the Patient Portal.  You can see content related to your conditions of interest below.</value>
+        <value>Hi ##UserName, you can now view content related to  conditions of interest.</value>
     </labels>
     <labels>
         <fullName>PG_IMI_L_by_user</fullName>
@@ -5619,7 +5613,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login T Date Language</shortDescription>
-        <value>Please select your preferred language for Referral Hub. English will be displayed if a translation is not available for your preferred language.</value>
+        <value>Please select your preferred language. English will be displayed if a translation to your preferred language is not available.</value>
     </labels>
     <labels>
         <fullName>PG_Login_T_Passwords_do_not_match</fullName>
@@ -7545,7 +7539,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW F Study Name</shortDescription>
-        <value>Study Name</value>
+        <value>Official Title</value>
     </labels>
     <labels>
         <fullName>PG_SW_F_Study_Type</fullName>
@@ -7999,7 +7993,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RSN Acceptance of Terms and Conditions required</shortDescription>
-        <value>Acceptance of Terms and Conditions required</value>
+        <value>Terms and Conditions must be accepted to refer patients.  Click on the study name to access and accept Terms and Conditions for this study.</value>
     </labels>
     <labels>
         <fullName>RSN_Current_status_of_referring_provider_does_not_permit_this_action</fullName>
