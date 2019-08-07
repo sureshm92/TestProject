@@ -324,7 +324,8 @@ public without sharing class ParticipantEnrollmentService {
             'Screening_ID__c',
             'MRN_Id__c',
             'Referral_Completedby_Name__c',
-            'CreatedDate'
+            'CreatedDate',
+            'Participant_Study_Enrollment__c'
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){

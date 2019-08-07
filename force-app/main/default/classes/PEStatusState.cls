@@ -107,6 +107,9 @@ public without sharing class PEStatusState {
             PE_STATUS_DECEASED
     };
 
+    public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;
+    public static List<String> PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL;
+
     // Table with data: Status Step -> available states and real statuses names
     public static List<StatusStep> STATUS_STEPS_TABLE = new List<StatusStep>{
             new StatusStep(PE_ST_REFERRED,
@@ -160,6 +163,14 @@ public without sharing class PEStatusState {
     public static List<String> STATUSES_ENROLLED;
 
     static {
+        PE_STATUS_GROUP_IN_PROGRESS_ALL = new List<String>();
+        PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_IN_PROGRESS);
+        PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_ON_STUDY);
+
+        PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL = new List<String>();
+        PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_FAILED);
+        PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_COMPLETE);
+
         prepare();
     }
 

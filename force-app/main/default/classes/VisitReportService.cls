@@ -10,7 +10,7 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c) {
+        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pe.Participant_Contact__r.Visit_Results_Opt_In__c) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
@@ -117,10 +117,10 @@ public inherited sharing class VisitReportService {
         result.profilePicture = pState.ctp.Profile_Picture__c;
         result.participantFullName = pState.participant.Full_Name__c;
         result.participantLastName = pState.participant.Last_Name__c;
-        Datetime dT = pState.pse.CreatedDate;
+        Datetime dT = pState.pe.CreatedDate;
         Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
         result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
-        result.studySiteName = pState.pse.Study_Site__r.Name;
+        result.studySiteName = pState.pe.Study_Site__r.Name;
         return result;
     }
 
