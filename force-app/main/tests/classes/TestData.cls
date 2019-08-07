@@ -52,7 +52,10 @@ public class TestData {
         pe = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Screening_ID__c
+                        Screening_ID__c,
+                        Clinical_Trial_Profile__c,
+                        Participant__c,
+                        Study_Site__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: participant.Id
         ];
@@ -69,7 +72,8 @@ public class TestData {
         pse = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Screening_ID__c
+                        Screening_ID__c,
+                        CreatedDate
                 FROM Participant_Study_Enrollment__c
                 WHERE Participant__c =: participant.Id
         ];
