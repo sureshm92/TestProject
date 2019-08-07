@@ -602,6 +602,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 if (participantsMap.containsKey(pe.Participant__c)) {
                     Participant__c participant = participantsMap.get(pe.Participant__c);
                     if (participant.Current_Participant_Enrollment__c == null) {
+                        participant.Current_Participant_Enrollment__c = pe.Id;
                         if (updatedParticipant.contains(participant)) updatedParticipant.remove(participant);
                         updatedParticipant.add(participant);
                     }
