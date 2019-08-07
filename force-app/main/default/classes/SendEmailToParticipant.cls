@@ -38,24 +38,24 @@ public without sharing class SendEmailToParticipant {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
             System.debug('WhatId != null');
-            Participant_Study_Enrollment__c pse = [
+            Participant_Enrollment__c pe = [
                     SELECT
                             Id,
                             Participant__c,
                             Participant__r.Contact__c,
                             Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
-                    FROM Participant_Study_Enrollment__c
+                    FROM Participant_Enrollment__c
                     WHERE Id = :task.WhatId
             ];
             addPatientToEmailListIfAvailable(
                     emailMessages,
-                    pse.Participant__r.Contact__r,
+                    pe.Participant__r.Contact__r,
                     PATIENT_EMAIL_REMINDERS_TEMPLATES_MAP.get(task.Task_Type__c),
                     task.WhatId
             );
             addMessagesForDelegates(
                     emailMessages,
-                    PatientDelegateService.getDelegatedContactIds(pse.Participant__r.Contact__c),
+                    PatientDelegateService.getDelegatedContactIds(pe.Participant__r.Contact__c),
                     PATIENT_DELEGATE_EMAIL_REMINDERS_TEMPLATES_MAP.get(task.Task_Type__c),
                     task.WhatId
             );

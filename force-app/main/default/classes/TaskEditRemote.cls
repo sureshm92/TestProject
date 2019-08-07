@@ -65,7 +65,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
             if(taskToUpsert.Task_Type__c == 'Medication' || taskToUpsert.Task_Type__c == 'Visit'){
-                taskToUpsert.WhatId = state.pse.Id;
+                taskToUpsert.WhatId = state.pe.Id;
             }
             if(reminderDate != null) {
                 taskToUpsert.Reminder_Date__c = TaskService.getUserDatetime(UserInfo.getTimeZone(),

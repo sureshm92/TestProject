@@ -7,7 +7,7 @@
     <label>Participant Status</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -102,6 +102,36 @@
                 <fullName>Pending Referral</fullName>
                 <default>false</default>
                 <label>Pending Referral</label>
+            </value>
+            <value>
+                <fullName>Treatment Period Started</fullName>
+                <default>false</default>
+                <label>Treatment Period Started</label>
+            </value>
+            <value>
+                <fullName>Follow-Up Period Started</fullName>
+                <default>false</default>
+                <label>Follow-Up Period Started</label>
+            </value>
+            <value>
+                <fullName>Participation Complete</fullName>
+                <default>false</default>
+                <label>Participation Complete</label>
+            </value>
+            <value>
+                <fullName>Trial Complete</fullName>
+                <default>false</default>
+                <label>Trial Complete</label>
+            </value>
+            <value>
+                <fullName>Drop Out</fullName>
+                <default>false</default>
+                <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
             </value>
         </valueSetDefinition>
     </valueSet>

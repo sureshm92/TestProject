@@ -185,7 +185,7 @@ public without sharing class PatientDelegateService {
             alertList.add(new Alert__c(
                         Contact__c = contactDelegate.Id,
                         Alert_Code__c = STUDY_WELCOME_CODE,
-                        Record_ID__c = participantState.pse.Id
+                        Record_ID__c = participantState.pe.Id
                 ));
         }
 
