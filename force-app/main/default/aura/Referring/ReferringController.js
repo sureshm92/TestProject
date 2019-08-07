@@ -40,7 +40,6 @@
             component.set('v.pendingPEnrollments', initData.pendingPEnrollments);
             component.set('v.currentStep', $A.get("$Label.c.PG_Ref_Step_Discussion"));
             component.set('v.studySites', initData.studies);
-            console.log('initData.studies', JSON.parse(JSON.stringify(initData.studies)));
             component.set('v.studySitesPending', initData.studiesPending);
             component.set('v.studySiteMarkers', initData.markers);
             component.set('v.accessUserLevel', initData.delegateAccessLevel);

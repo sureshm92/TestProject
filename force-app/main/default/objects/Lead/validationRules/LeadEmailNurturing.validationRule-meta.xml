@@ -2,7 +2,7 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>LeadEmailNurturing</fullName>
     <active>true</active>
-    <description>Email has to be populated for Leads Before Nurturing status</description>
-    <errorConditionFormula>AND(OR(ISPICKVAL(Status,&#39;Nurturing&#39;),IsConverted),  ISBLANK(Email ) &amp;&amp; ISBLANK(Override_Email__c ))</errorConditionFormula>
-    <errorMessage>Email has to be populated for Leads Before Nurturing status</errorMessage>
+    <description>Email has to be populated for Leads Before Qualified status</description>
+    <errorConditionFormula>AND(OR(OR(ISPICKVAL(Status,&#39;Qualified and Send Invitation&#39;),ISPICKVAL(Status,&#39;Qualified&#39;)),IsConverted), ISBLANK(Email ) &amp;&amp; ISBLANK(Override_Email__c ))</errorConditionFormula>
+    <errorMessage>Email has to be populated for Leads Before Qualified status</errorMessage>
 </ValidationRule>

@@ -4,8 +4,8 @@
 
 public without sharing class Batch_IntegrationVisitResultProcess extends Batch_ScheduledAbstract{
 
-    public Iterable<SObject> start(Database.BatchableContext bc) {
-        return [
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator([
                 SELECT
                             Id,
                             OwnerId,
@@ -34,7 +34,7 @@ public without sharing class Batch_IntegrationVisitResultProcess extends Batch_S
                             Work_Status__c
                 FROM        Integration_VisitResult__c
                 WHERE       Processed__c = FALSE
-        ];
+        ]);
     }
 
     public void execute(Database.BatchableContext param1, List<SObject> scope) {

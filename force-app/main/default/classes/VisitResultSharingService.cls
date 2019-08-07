@@ -46,7 +46,7 @@ public without sharing class VisitResultSharingService {
                 FROM Patient_Visit__c
                 WHERE Participant_Study_Enrollment__c =: state.pse.Id
                 AND Status__c = 'Completed'
-                ORDER BY Completed_Date__c
+                ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
         return getAvailableVisitResults(patientVisits);
@@ -60,8 +60,7 @@ public without sharing class VisitResultSharingService {
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
             visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
             String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
-            Decimal timeSharing =
-                    patientVisits.get(patientVisits.size() - 1).Visit_Number__c - ctp.Shareback_Availability_Timing__c;
+            Integer timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
 
             for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
                 if ((i + 1) <= timeSharing) {

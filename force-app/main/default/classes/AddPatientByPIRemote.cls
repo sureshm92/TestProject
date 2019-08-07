@@ -78,9 +78,6 @@ public without sharing class AddPatientByPIRemote {
     
     @AuraEnabled
     public static RecordsData getParticipantRecord(Id participantEnrollmentId){
-        
-
-
         Participant_Enrollment__c per = [
             SELECT  Id, 
                     Participant__c,

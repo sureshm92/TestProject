@@ -125,10 +125,19 @@ public without sharing class ParticipantDeduplicationController {
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
             Gender__c                   = referralRecord.sex__c,
-            Birth_Year__c               = referralRecord.BirthYear__c
+            Birth_Year__c               = referralRecord.BirthYear__c,
+            Phone_Type__c               = referralRecord.Phone_Type__c
          );
          if(referralRecord.BirthDate__c != null && referralRecord.BirthDate__c.length() == 10){
-             newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + referralRecord.BirthDate__c.substring(3,5);
+             if(referralRecord.BirthDate__c.indexOf('-') == 2 || referralRecord.BirthDate__c.indexOf('/') == 2){
+                 System.debug('Here');
+                 System.debug(referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5));
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.substring(6) + '-' + referralRecord.BirthDate__c.substring(0,2) + '-' + referralRecord.BirthDate__c.substring(3,5);
+             } else {
+                 System.debug('Here');
+                 System.debug(referralRecord.BirthDate__c.replaceAll('/','-'));
+                 newParticipant.Date_of_Birth__c = referralRecord.BirthDate__c.replaceAll('/','-');
+             }
          }
          insert newParticipant;
          return newParticipant;
@@ -146,8 +155,8 @@ public without sharing class ParticipantDeduplicationController {
 			    Referral_ID__c                          =   referralRecord.referralID__c,
 			    Participant_Status__c                   =   ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
-                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null                     
-
+                Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null,
+                 Referred_By__c                         =   'Other'
             );
         insert newPer;
         return newPer;
