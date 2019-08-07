@@ -30,10 +30,10 @@
     showCustomModal: function (modalParams) {
         debugger;
         $A.createComponent("lightning:overlayLibrary", {},
-            (overlayLib, status) => {
+            function(overlayLib, status) {
                 if (status === "SUCCESS") {
                     const customCloseCallback = modalParams.closeCallback;
-                    modalParams.closeCallback = _ => {
+                    modalParams.closeCallback = function () {
                         if (!!customCloseCallback) {
                             // Execute custom callback function if present;
                             customCloseCallback();
