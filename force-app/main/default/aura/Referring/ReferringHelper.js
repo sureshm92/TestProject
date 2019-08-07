@@ -120,16 +120,16 @@
         var studySiteMarkers = component.get('v.studySiteMarkers');
         for(var i = 0, j = studySiteMarkers.length; i < j; i++){
             var mark = studySiteMarkers[i];
-            if(!mark.clinic.BillingCity || !mark.clinic.BillingStreet || mark.siteType == 'Virtual') {
+            if(!mark.ssAccount.BillingCity || !mark.ssAccount.BillingStreet || mark.siteType == 'Virtual') {
                 continue;
             }
             markers.push({
                 location: {
-                    Street: mark.clinic.BillingStreet,
-                    City: mark.clinic.BillingCity,
-                    PostalCode: mark.clinic.BillingPostalCode,
-                    State: mark.clinic.BillingState,
-                    Country: mark.clinic.BillingCountry
+                    Street: mark.ssAccount.BillingStreet,
+                    City: mark.ssAccount.BillingCity,
+                    PostalCode: mark.ssAccount.BillingPostalCode,
+                    State: mark.ssAccount.BillingState,
+                    Country: mark.ssAccount.BillingCountry
                 },
                 icon: 'custom:custom86',
                 title: i+1 + '. ' + mark.name,

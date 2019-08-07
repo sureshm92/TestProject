@@ -3,7 +3,7 @@
     <fullName>Min_Value__c</fullName>
     <externalId>false</externalId>
     <label>Min Value</label>
-    <precision>8</precision>
+    <precision>18</precision>
     <required>false</required>
     <scale>4</scale>
     <trackTrending>false</trackTrending>

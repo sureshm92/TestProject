@@ -5,12 +5,12 @@
     "features": [
         "ContactsToMultipleAccounts",
         "Communities",
-        "SiteDotCom",
         "SiteForceContributor",
         "Sites",
         "SurveyCreatorUser",
         "Workflow",
-        "DefaultWorkflowUser"
+        "DefaultWorkflowUser",
+        "StateAndCountryPicklist"
     ],
     "settings": {
         "orgPreferenceSettings": {
