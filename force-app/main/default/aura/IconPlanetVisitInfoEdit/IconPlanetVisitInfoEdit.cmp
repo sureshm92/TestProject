@@ -43,7 +43,7 @@
                             <tr>
                                 <td>
                                     <div class="icon-title slds-m-top--medium">
-                                        <c:RRIcon iconName="{!icon.Name}"/>
+                                        <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.Name}"/>
                                     </div>
                                 </td>
                                 <td style="width: 30%">

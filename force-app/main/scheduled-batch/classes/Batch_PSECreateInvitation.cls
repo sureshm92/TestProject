@@ -4,7 +4,7 @@
 
 public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract{
 
-    public Iterable<SObject> start(Database.BatchableContext param1) {
+    public Database.QueryLocator start(Database.BatchableContext param1) {
         List<Trial_Survey__c> trialSurveys = [
                 SELECT
                         Active_After_Days__c
@@ -17,7 +17,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         Set<Decimal> daysSet = new Set<Decimal>();
         for (Trial_Survey__c ts : trialSurveys) daysSet.add(ts.Active_After_Days__c);
 
-        return [
+        return Database.getQueryLocator([
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
@@ -29,7 +29,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE Status__c IN: PSEService.PSE_STATUS_GROUP_ALL
                     AND Days_After_Enrolled__c IN: daysSet
                     AND Participant_Contact__c IN (SELECT ContactId FROM User WHERE IsActive = TRUE)
-        ];
+        ]);
     }
 
     public void execute(Database.BatchableContext param1, List<SObject> enrollments) {

@@ -14,7 +14,7 @@
 
     <div class="icons">
         <aura:iteration items="{!v.icons}" var="icon">
-            <c:RRIcon iconName="{!icon}" class="{!'icon-item ' + v.class}" color="black"/>
+            <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}" class="{!'icon-item ' + v.class}" color="black"/>
         </aura:iteration>
         <aura:if isTrue="{!v.numOfIconsToDisplay != 0}">
             <div class="dots">...</div>

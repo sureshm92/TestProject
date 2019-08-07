@@ -166,13 +166,17 @@ public without sharing class ParticipantEnrollmentFactory {
     }
 
     private static Study_Site__c createStudySite(String siteNumber, Clinical_Trial_Profile__c ctp){
+        Account siteAccount = new Account(
+            Name = 'Account_' + siteNumber
+        );
+        insert siteAccount;
         Study_Site__c study = new Study_Site__c(
                 Principal_Investigator__c = createPI().Id,
                 Clinical_Trial_Profile__c = ctp.Id,
                 Study_Site_Number__c = siteNumber,
                 Study_Site_Key__c = System.now().getTime() + '',
                 //Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
-                Site__c = getSite().Id,
+                Site__c = siteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false
         );

@@ -32,7 +32,6 @@
                 userMode: userMode
             }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                console.log('INIT DATA>>>>>>>>', JSON.parse(JSON.stringify(initData)));
                 helper.addCheckNoLongerAttributes(initData.currentlyRecruitingTrials);
                 component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);

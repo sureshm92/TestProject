@@ -6,6 +6,7 @@
     <aura:attribute name="isDelegate" type="Boolean" access="private"/>
     <aura:attribute name="initData" type="Object" access="private"/>
     <aura:attribute name="participant" type="Participant__c"/>
+    <aura:attribute name="participantHasUpdateTasks" type="Boolean"/>
     <aura:attribute name="participantSnapshot" type="String"/>
     <aura:attribute name="participantChanged" type="Boolean" access="private"/>
     <aura:attribute name="contact" type="Contact"/>
@@ -380,8 +381,8 @@
                                              value="{!v.participant.Mailing_Zip_Postal_Code__c}" onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-                            <button class="apollo-btn primary" disabled="{!or(!v.participantChanged, !v.isAllFieldsValid)}"
-                                    onclick="{!c.doUpdateParticipant}">{!$Label.c.BTN_Save}</button>
+                            <button class="apollo-btn primary" disabled="{!or(and(!v.participantChanged,!v.participantHasUpdateTasks), !v.isAllFieldsValid)}"
+                                    onclick="{!c.doUpdateParticipant}">{!if(v.participantHasUpdateTasks,$Label.c.BTN_Account_Settings_Save_Updates,$Label.c.BTN_Save)}</button>
                         </div>
                     </aura:if>
 
@@ -419,8 +420,8 @@
                                              value="{!v.contact.PhMailingPostalCodeone}" onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-                            <button class="apollo-btn primary" disabled="{!or(!v.contactChanged, !v.isAllFieldsValid)}"
-                                    onclick="{!c.doUpdateContact}">{!$Label.c.BTN_Save}</button>
+                            <button class="apollo-btn primary" disabled="{!or(and(!v.contactChanged,!v.participantHasUpdateTasks), !v.isAllFieldsValid)}"
+                                    onclick="{!c.doUpdateContact}">{!if(v.participantHasUpdateTasks,$Label.c.BTN_Account_Settings_Save_Updates,$Label.c.BTN_Save)}</button>
                         </div>
 
                     </aura:if>
