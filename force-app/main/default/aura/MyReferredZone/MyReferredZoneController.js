@@ -1,6 +1,5 @@
 ({
     doInit: function (component, event, helper) {
-        console.log('currentObjects>>>',JSON.parse(JSON.stringify(component.get('v.currentObjects'))));
         helper.setFilterOptions(component);
         helper.setLabels(component);
         helper.setFilters(component);
