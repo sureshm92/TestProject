@@ -64,6 +64,42 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createInvitations((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
+
+    // Handlers: On study ----------------------------------------------------------------------------------------------
+    public class DeactivateDeceasedUsersHandler extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            deactivateDeceasedUsers((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class CreateVisitsScheduleHandler extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList){
+            createVisitsSchedule((List<Participant_Enrollment__c>) newList);
+        }
+    }
+
+    public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            createStudyAlerts((List<Participant_Enrollment__c>) newList);
+        }
+    }
+
+    public class HideSurveyTasks extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            hideSurveyTaskForCompletedStatuses((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class SendDropOutEmailHandler extends TriggerHandler {
+
+        protected override void onAfterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendDropEmails((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
     
     // Logic: ----------------------------------------------------------------------------------------------------------
 
@@ -213,7 +249,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     toCreateUser.put(participant.Contact__c, hcpContact);
                     alertsForInsert.add(new Alert__c(
                             Contact__c = participant.Contact__c,
-                            Alert_Code__c = 'Welcome_To_The_PH'
+                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                     ));
                 }else{
                     System.debug('NOTIFY USER');
@@ -295,10 +331,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void createInvitations(
-            List<Participant_Enrollment__c> newList,
-            Map<Id, Participant_Enrollment__c> oldMap
-    ) {
+    private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c pe : newList) {
             if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
@@ -320,6 +353,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
+                AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
 
@@ -330,6 +364,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             for (Participant_Enrollment__c enrollment : ctpPE.get(ts.Clinical_Trial_Profile__c)) {
                 Boolean needToAdd = false;
                 if (enrollment.Participant_Status__c == ts.Active_On_Status__c) {
+                    if(PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(enrollment.Participant_Status__c)
+                            && ts.Is_Midpoint__c) continue;
+
                     if (oldMap != null) {
                         if (oldMap.get(enrollment.Id).Participant_Status__c != enrollment.Participant_Status__c) {
                             needToAdd = true;
@@ -351,5 +388,147 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
+    }
+
+    // On study logic---------------------------------------------------------------------------------------------------
+    @TestVisible
+    public static void deactivateDeceasedUsers(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Id> contactIds = new List<Id>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DECEASED &&
+                    pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+                contactIds.add(pe.Participant_Contact__c);
+            }
+        }
+        if (!contactIds.isEmpty()) deactivateUsers(contactIds);
+    }
+
+    @Future
+    private static void deactivateUsers(List<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive, ContactId
+                FROM User
+                WHERE ContactId IN :contactIds
+        ];
+        for (User u : users) u.IsActive = false;
+        update users;
+    }
+
+    @TestVisible
+    private static void sendDropEmails(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
+                    pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
+                messages.add(SendEmailTemplate.createEmail('Patient_dropped_out', pe.Participant_Contact__c, pe.Id));
+            }
+        }
+
+        SendEmailTemplate.sendEmailMessages(messages);
+    }
+
+    @TestVisible
+    private static void createVisitsSchedule(List<Participant_Enrollment__c> enrollments){
+        Set<Id> ctpIds = new Set<Id>();
+        for(Participant_Enrollment__c pe : enrollments) ctpIds.add(pe.Clinical_Trial_Profile__c);
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>([
+                SELECT Id, Visit_Plan__c
+                FROM Clinical_Trial_Profile__c
+                WHERE Id IN: ctpIds
+        ]);
+
+        Set<Id> visitPlanIds = new Set<Id>();
+        for(Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
+        Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id,Visit_Plan__c>([
+                SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c FROM Visits__r)
+                FROM Visit_Plan__c
+                WHERE Id IN: visitPlanIds
+        ]);
+
+        List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
+        for(Participant_Enrollment__c pe : enrollments){
+            Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
+            if(ctp == null) continue;
+
+            Visit_Plan__c vp = visitPlansMap.get(ctp.Visit_Plan__c);
+            if(vp == null) continue;
+
+            for(Visit__c visit : vp.Visits__r){
+                patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
+            }
+        }
+        if(patientVisits.size() > 0) insert patientVisits;
+    }
+
+    @TestVisible
+    private static void createStudyAlerts(List<SObject> newList) {
+        List<Participant_Enrollment__c> peWithParticipating = [
+                SELECT Id, Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN:newList
+                AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+        ];
+
+        List<Alert__c> alerts = new List<Alert__c>();
+        for (Participant_Enrollment__c pe : peWithParticipating) {
+            alerts.add(new Alert__c(
+                    Contact__c = pe.Participant_Contact__c,
+                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
+                    Record_ID__c = pe.Id
+            ));
+            for (Contact contactDelegate : PatientDelegateService.getDelegateContacts(pe.Participant_Contact__c)) {
+                alerts.add(new Alert__c(
+                        Contact__c = contactDelegate.Id,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                        Record_ID__c = pe.Id)
+                );
+            }
+        }
+
+        insert alerts;
+    }
+
+    @TestVisible
+    private static void hideSurveyTaskForCompletedStatuses(
+            List<Participant_Enrollment__c> newList,
+            Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        List<Participant_Enrollment__c> completedPEs = new List<Participant_Enrollment__c>();
+        for(Participant_Enrollment__c pe : newList) {
+            if(pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
+                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) {
+                completedPEs.add(pe);
+            }
+        }
+
+        List<Task> tasks = [
+                SELECT Id, Description
+                FROM Task
+                WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
+                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+        ];
+
+        Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
+                SELECT Id, InviteExpiryDateTime
+                FROM SurveyInvitation
+                WHERE Participant_Enrollment__c IN:completedPEs
+                AND Is_Midpoint__c = TRUE
+        ]);
+
+        List<Task> tasksForExpire = new List<Task>();
+        for(Task task : tasks) {
+            if(task.Description != null && invitationMap.containsKey(task.Description)) {
+                task.Status = TaskService.TASK_STATUS_EXPIRED;
+                tasksForExpire.add(task);
+            }
+        }
+        update tasksForExpire;
+
+        System.debug('>>>completedPSEs.size = '+ completedPEs.size());
+        System.debug('>>>tasks.size = '+ tasks.size());
+        System.debug('>>>invitationMap.size = '+ invitationMap.size());
+        System.debug('>>>tasksForExpire.size = '+ tasksForExpire.size());
+
+        SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
     }
 }
