@@ -22,10 +22,6 @@ private class Test_VisitResultsService {
 
         Test.startTest();
         List<String> testNames = service.getVisitResultsGroupNames(null);
-        for (String str : testNames) {
-            System.debug(str);
-        }
-        System.debug(testNames.size());
         Test.stopTest();
 
         System.assertEquals(2, testNames.size());
@@ -62,7 +58,6 @@ private class Test_VisitResultsService {
         Test.stopTest();
 
         System.assertEquals(2, testPatientVisits.size());
-
     }
 
     @IsTest
@@ -80,7 +75,6 @@ private class Test_VisitResultsService {
         List<Patient_Visit__c> visits = service.getPatientVisitsForReport();
         Test.stopTest();
         System.assert(visits == null);
-
     }
 
     @IsTest
@@ -258,7 +252,6 @@ private class Test_VisitResultsService {
                 Visit_Number__c = 4
         ));
         insert patientVisits;
-
 
         System.runAs(testData.participantUser) {
             List<VisitResultsService.VisitResultWrapper> wrappers = service.getVisitResultWrappersForDashboard();
