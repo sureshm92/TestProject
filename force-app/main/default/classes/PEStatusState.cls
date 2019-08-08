@@ -93,8 +93,17 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_COMPLETE,
             PE_STATUS_SCREENING_IN_PROGRESS
     };
-
-    public static final List<String> PE_STATUS_GROUP_ON_STUDY = new List<String>{
+    
+    public static final List<String> PE_STATUS_GROUP_PARTICIPATION_FLOW = new List<String>{
+            PE_STATUS_ENROLLMENT_SUCCESS,
+            PE_STATUS_TREATMENT_PERIOD_STARTED,
+            PE_STATUS_FOLLOW_UP_PERIOD_STARTED,
+            PE_STATUS_PARTICIPATION_COMPLETE,
+            PE_STATUS_TRIAL_COMPLETE
+    };
+    
+    
+    public static final List<String> PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS = new List<String>{
             PE_STATUS_ENROLLMENT_SUCCESS,
             PE_STATUS_TREATMENT_PERIOD_STARTED,
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED
@@ -165,7 +174,7 @@ public without sharing class PEStatusState {
     static {
         PE_STATUS_GROUP_IN_PROGRESS_ALL = new List<String>();
         PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_IN_PROGRESS);
-        PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_ON_STUDY);
+        PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS);
 
         PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL = new List<String>();
         PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_FAILED);
@@ -272,4 +281,16 @@ public without sharing class PEStatusState {
         };
         return resList;
     }
+    
+    public static List<LabelValueItem> getParticipationFlowSteps(){
+        List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
+        for(String status : PE_STATUS_GROUP_PARTICIPATION_FLOW) {
+            translatedStatuses.add(new LabelValueItem(
+                    TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status),
+                    status
+            ));
+        }
+        return translatedStatuses;
+    }
+
 }

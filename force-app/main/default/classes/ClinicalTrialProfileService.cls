@@ -92,7 +92,8 @@ public with sharing class ClinicalTrialProfileService {
                             'WHERE Participant__c IN (' + String.join(CollectionUtil.wrapInApostrophes(tAsByParticipantsIds.keySet()), ', ') + ')';
             List<Participant_Study_Enrollment__c> enrollments = (List<Participant_Study_Enrollment__c>) databaseProxy.query(pSEQuery);
             for (Participant_Study_Enrollment__c singlePSE : enrollments) {
-                if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(singlePSE.Status__c)) {
+                //TODO replace PSE on PE !!!!
+                if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW.contains(singlePSE.Status__c)) {
                     tAsByParticipantsIds.remove(singlePSE.Participant__c);
                 }
             }

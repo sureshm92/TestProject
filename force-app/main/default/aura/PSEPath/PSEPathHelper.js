@@ -6,9 +6,9 @@
         var pathItems = [];
         var currentIndex = 100;
         var steps = component.get('v.steps');
-        var pse = component.get('v.pse');
+        var pe = component.get('v.pe');
         for(var i = 0; i < steps.length; i++){
-            if(pse.Status__c === steps[i].value) {
+            if(pe.Participant_Status__c === steps[i].value) {
                 currentIndex = i;
                 break;
             }

@@ -105,16 +105,6 @@ public without sharing class PSEService {
         return getPSEListCommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
     
-    public List<LabelValueItem> getPSEPathSteps(){
-        List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
-        for(String status : PSEService.PSE_STATUS_GROUP_ALL) {
-            translatedStatuses.add(new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status),
-                    status
-            ));
-        }
-        return translatedStatuses;
-    }
     
     
     //Static facade: ------------------------------------------------------------------------------------------------
