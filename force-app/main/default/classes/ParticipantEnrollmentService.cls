@@ -245,6 +245,7 @@ public without sharing class ParticipantEnrollmentService {
     
     private static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
+            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'HCP__c',
             'Informed_Consent__c',
             'Name',
@@ -296,6 +297,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Visit_Plan__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Site__r.BillingStreet',
             'Study_Site__r.Site__r.BillingPostalCode',
@@ -303,6 +305,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Salutation',
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
+            'Study_Site__r.Visit_Results_Sharing__c',
             'Is_Virtual_Study_Site__c',
             'IsSubjectIDverifiedInSDH__c',
             'HCP__r.Status__c',
