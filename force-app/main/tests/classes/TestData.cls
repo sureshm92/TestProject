@@ -39,7 +39,8 @@ public class TestData {
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
-                        Terms_and_Conditions__c
+                        Terms_and_Conditions__c,
+                        Visit_Plan__c
                 FROM Clinical_Trial_Profile__c
                 WHERE NCT_Number__c = 'NCT00000001'
         ];
@@ -73,6 +74,7 @@ public class TestData {
                 SELECT Id,
                         Participant_Contact__c,
                         Screening_ID__c,
+                        Clinical_Trial_Profile__c,
                         CreatedDate
                 FROM Participant_Study_Enrollment__c
                 WHERE Participant__c =: participant.Id

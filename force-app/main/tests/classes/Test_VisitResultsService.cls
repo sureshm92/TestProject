@@ -7,6 +7,9 @@ private class Test_VisitResultsService {
 
     @IsTest
     private static void getVisitResultsGroupNames_test() {
+
+        VisitResultsService service = new VisitResultsService();
+
         List<String> groupNames = new List<String>{
                 'first', 'second'
         };
@@ -17,8 +20,6 @@ private class Test_VisitResultsService {
                 .then(groupNames)
                 .getInstance()
         );
-
-        VisitResultsService service = new VisitResultsService();
 
         Test.startTest();
         List<String> testNames = service.getVisitResultsGroupNames(null);
@@ -80,8 +81,6 @@ private class Test_VisitResultsService {
     @IsTest
     private static void getVisitResultWrappersForDashboard_test() {
         VisitResultsService service = new VisitResultsService();
-        List<Visit_Result_TypeM_Dashboard_Config__mdt> configs = new List<Visit_Result_TypeM_Dashboard_Config__mdt>{
-        };
 
         TestData.loadTestData();
         TestData testData = new TestData();
