@@ -186,7 +186,7 @@ public without sharing class PEStatusState {
                 PE_STATUS_PARTICIPATION_COMPLETE,
                 PE_STATUS_TRIAL_COMPLETE
         };
-        PE_STATUS_GROUP_PARTICIPANT.addAll(PE_STATUS_GROUP_ON_STUDY);
+        PE_STATUS_GROUP_PARTICIPANT.addAll(PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS);
 
         prepare();
     }
@@ -301,5 +301,4 @@ public without sharing class PEStatusState {
         return translatedStatuses;
     }
 
-}
 }
