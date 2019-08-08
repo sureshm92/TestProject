@@ -34,35 +34,37 @@ private class Test_VisitResultSharingService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        testData.createPSE();
+        Participant_Enrollment__c pe = testData.pe;
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update pe;
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
@@ -102,7 +104,9 @@ private class Test_VisitResultSharingService {
 
         Test.startTest();
         TestData testData = new TestData();
-        testData.createPSE();
+        Participant_Enrollment__c pe = testData.pe;
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update pe;
 
         System.runAs(testData.participantUser) {
             VisitResultSharingService.isVisitResultAvailable();

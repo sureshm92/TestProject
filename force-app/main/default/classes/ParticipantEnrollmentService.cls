@@ -252,6 +252,7 @@ public without sharing class ParticipantEnrollmentService {
             'PI_Contact__r.Name',
             'PI_Contact__r.Phone',
             'Medical_Record_Review_Status__c',
+            'Motivational_Message_Id__c',
             'Pre_screening_Status__c',
             'Participant_Status__c',
             'Participant_Name__c',
@@ -303,6 +304,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
             'Is_Virtual_Study_Site__c',
+            'IsSubjectIDverifiedInSDH__c',
             'HCP__r.Status__c',
             'HCP__r.HCP_Contact__c',
             'HCP__r.HCP_Contact__r.Name',
@@ -322,7 +324,8 @@ public without sharing class ParticipantEnrollmentService {
             'Screening_ID__c',
             'MRN_Id__c',
             'Referral_Completedby_Name__c',
-            'CreatedDate'
+            'CreatedDate',
+            'Participant_Study_Enrollment__c'
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
@@ -337,7 +340,7 @@ public without sharing class ParticipantEnrollmentService {
                 String countryCode = (String)pe.getSObject('Participant__r').get('Mailing_Country_Code__c');
                 String country = CountryStateUtil.getCountryName(countryCode);
                 pe.getSObject('Participant__r').put('Mailing_Country__c', country);
-            
+
                 //translate state
                 String stateCode = (String)pe.getSObject('Participant__r').get('Mailing_State_Code__c');
                 String state = CountryStateUtil.getStateName(countryCode, stateCode);

@@ -1,19 +1,18 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
  */
-
-@IsTest(IsParallel=true)
+@IsTest
 private class Test_VisitService {
 
     @IsTest
     static void getVisitsTest() {
         ParticipantService.ParticipantState state = new ParticipantService.ParticipantState();
-        state.pse = [
+        state.pe = [
                 SELECT Id,
                         Clinical_Trial_Profile__r.Visit_Plan__c
-                FROM Participant_Study_Enrollment__c
+                FROM Participant_Enrollment__c
         ].get(0);
-        state.ctp = state.pse.Clinical_Trial_Profile__r;
+        state.ctp = state.pe.Clinical_Trial_Profile__r;
         state.showVisits = true;
         ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
                 .when('getState')
@@ -49,12 +48,12 @@ private class Test_VisitService {
     @IsTest
     static void getPreviewVisitsTest() {
         ParticipantService.ParticipantState state = new ParticipantService.ParticipantState();
-        state.pse = [
+        state.pe = [
                 SELECT Id,
                         Clinical_Trial_Profile__r.Visit_Plan__c
-                FROM Participant_Study_Enrollment__c
+                FROM Participant_Enrollment__c
         ].get(0);
-        state.ctp = state.pse.Clinical_Trial_Profile__r;
+        state.ctp = state.pe.Clinical_Trial_Profile__r;
         state.showVisits = true;
         ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
                 .when('getState')

@@ -29,7 +29,7 @@ private class  Test_TaskEditRemote {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
             if(stubbedMethodName == 'getState'){
-                Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c();
+                Participant_Enrollment__c pe = new Participant_Enrollment__c();
                 ParticipantService.ParticipantState state = new ParticipantService.ParticipantState();
                 Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
                 ctp.NCT_Number__c = 'NCT0000000' + i;
@@ -37,7 +37,7 @@ private class  Test_TaskEditRemote {
                 i++;
                 insert ctp;
                 state.ctp = ctp;
-                state.pse = pse;
+                state.pe = pe;
                 return state;
             }
             return null;

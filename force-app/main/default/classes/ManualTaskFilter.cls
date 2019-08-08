@@ -8,7 +8,7 @@ public with sharing class ManualTaskFilter {
 
     private static final String ENROLLED_QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
-                    'FROM Participant_Study_Enrollment__c ' +
+                    'FROM Participant_Enrollment__c ' +
                     'WHERE ';
 
     private static final String REFERRED_QUERY =
@@ -43,14 +43,15 @@ public with sharing class ManualTaskFilter {
         Set<Participant__c> participants = new Set<Participant__c>();
 
         if (statuses.contains('Enrolled')) {
-            String query = ENROLLED_QUERY + fieldJoin('Status__c', PSEService.PSE_STATUS_GROUP_IN_PROGRESS) + getFiltersQuery();
+            String query = ENROLLED_QUERY + fieldJoin('Participant_Status__c',
+                    PEStatusState.PE_STATUS_GROUP_ON_STUDY) + getFiltersQuery();
             System.debug('Enrolled query is: ' + query);
 
-            List<Participant_Study_Enrollment__c> participantStudyEnrollment =
-                    (List<Participant_Study_Enrollment__c>) Database.query(query);
+            List<Participant_Enrollment__c> enrollments =
+                    (List<Participant_Enrollment__c>) Database.query(query);
 
-            for (Participant_Study_Enrollment__c pse : participantStudyEnrollment) {
-                participants.add(pse.Participant__r);
+            for (Participant_Enrollment__c pe : enrollments) {
+                participants.add(pe.Participant__r);
             }
         }
 
@@ -112,8 +113,8 @@ public with sharing class ManualTaskFilter {
                 Database.query(THERAPEUTIC_QUERY + fieldJoin('Therapeutic_Area__c', areas));
 
         List<String> participantIds = new List<String>();
-        for (Therapeutic_Area_Patient__c areaPatientpart : participantInArea)
-            participantIds.add(areaPatientpart.Participant__r.Id);
+        for(Therapeutic_Area_Patient__c areaPatient : participantInArea)
+            participantIds.add(areaPatient.Participant__r.Id);
 
         return fieldJoin('Participant__c', participantIds);
     }

@@ -19,7 +19,7 @@ public inherited sharing class PatientVisitService {
     private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
 
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (pState == null || pState.ctp == null || !pState.showVisits || pState.pse == null) {
+        if (pState == null || pState.ctp == null || !pState.showVisits || pState.pe == null) {
             return null;
         }
 
@@ -32,7 +32,7 @@ public inherited sharing class PatientVisitService {
                 'Completed_Date__c, ' +
                 'Is_Adhoc__c ' +
                 'FROM Patient_Visit__c ' +
-                'WHERE Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
+                'WHERE Participant_Enrollment__c = \'' + pState.pe.Id + '\'' +
                 (VISIT_MODE_CURRENT == visitMode ? ' AND Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' : '') +
                 ' AND Status__c ' + (VISIT_MODE_CURRENT == visitMode ? '=' : '!=') + '\'' + VISIT_STATUS_PENDING + '\'' +
                 ' ORDER BY Visit_Number__c ' + (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') + ' NULLS LAST' +
