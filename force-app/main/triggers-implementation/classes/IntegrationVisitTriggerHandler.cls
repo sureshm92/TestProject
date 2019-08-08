@@ -59,6 +59,7 @@ public with sharing class IntegrationVisitTriggerHandler{
                     if(integrationVisit.IsDeletedInSDH__c == 'N') {
                         visit.Status__c = 'Completed';
                         visit.Completed_Date__c = integrationVisit.SVSTDTC__c;
+                        visit.SDH_Key__c = pse.External_Key__c + visit.Name + visit.Completed_Date__c;
                         visitsToUpdateMap.put(visit.Id, visit);
                     } else {
                         if(!visit.Is_Adhoc__c) {
@@ -78,7 +79,7 @@ public with sharing class IntegrationVisitTriggerHandler{
                     }
                 }
             }
-            if(!matchFound) visitsToInsert.add(createAdhockVisit(integrationVisit, pse.Id));
+            if (!matchFound) visitsToInsert.add(createAdhockVisit(integrationVisit, pse));
             integrationVisit.Work_Status__c = 'Success';
             integrationVisit.Processed__c = true;
         }
@@ -96,15 +97,16 @@ public with sharing class IntegrationVisitTriggerHandler{
         delete visitsToDelete;
         insert visitsToInsert;
     }
-    
-    private static Patient_Visit__c createAdhockVisit(Integration_Visit__c externalVisit, String pseId){
+
+    private static Patient_Visit__c createAdhockVisit(Integration_Visit__c externalVisit, Participant_Study_Enrollment__c pse) {
         Patient_Visit__c newVisit = new Patient_Visit__c();
         newVisit.Is_Adhoc__c = true;
-        newVisit.Name = externalVisit.Visit__c;
+        newVisit.Name = externalVisit.VISIT__c;
         newVisit.Status__c = 'Completed';
         newVisit.Completed_Date__c = externalVisit.SVSTDTC__c;
         newVisit.Visit_Number__c = externalVisit.VISITNUM__c;
-        newVisit.Participant_Study_Enrollment__c = pseId;
+        newVisit.Participant_Study_Enrollment__c = pse.Id;
+        newVisit.SDH_Key__c = pse.External_Key__c + newVisit.Name + newVisit.Completed_Date__c;
         return newVisit;
     }
 
