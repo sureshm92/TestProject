@@ -61,8 +61,8 @@
             pe.Participant_Status__c = 'Screening In Progress';
             doAdditionalCallout = true;
         }else if(pe.Participant_Status__c === 'Temporary Status'){
-             pe.Participant_Status__c = 'Enrollment Success';
-             doAdditionalCallout = false;
+            pe.Participant_Status__c = 'Enrollment Success';
+            doAdditionalCallout = false;
         }
         var participant = component.get('v.participant');
         communityService.executeAction(component, 'saveParticipant', {
@@ -113,8 +113,8 @@
                     component.find('emailInput').get('v.validity').valid &&
                     (pe.Screening_ID__c != '') &&
                     pe.MRN_Id__c != '';
+                console.log('1');
             } else {
-                //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
                 isAllRequiredCompletedAndValid =
                     participant.First_Name__c &&
                     participant.Last_Name__c &&
@@ -129,9 +129,11 @@
                     component.find('emailInput').get('v.validity').valid &&
                     (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
                     (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
-                    pe.Referred_By__c;
-                    /*(pe.Referred_By__c == 'Internal Database' || pe.Referred_By__c == 'External Physician' ||
-                        pe.Referred_By__c == 'Recruitment Campaign'  || pe.Referred_By__c == 'Virtual Trial Campaign' || pe.Referred_By__c == 'Other');*/
+                    (component.find('referredByPicklist') === undefined || pe.Referred_By__c);
+                console.log('2');
+                console.log(isAllRequiredCompletedAndValid);
+                /*(pe.Referred_By__c == 'Internal Database' || pe.Referred_By__c == 'External Physician' ||
+                    pe.Referred_By__c == 'Recruitment Campaign'  || pe.Referred_By__c == 'Virtual Trial Campaign' || pe.Referred_By__c == 'Other');*/
             }
             component.set('v.isAllRequiredCompleted', isAllRequiredCompletedAndValid);
         }
