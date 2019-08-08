@@ -109,7 +109,7 @@
                                                      class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                             </div>
                             <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="true"
-                                             onblur="{!c.doCheckFields}"/>
+                                              onblur="{!c.doCheckFields}"/>
                         </div>
                     </div>
                     <div class="slds-grid slds-gutters slds-wrap">
@@ -126,7 +126,7 @@
                                     <abbr title="required" class="slds-required">*</abbr>
                                 </aura:if>{!$Label.c.PE_State}
                             </div>
-                           <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                            <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                                         value="{!v.participant.Mailing_State_Code__c}"
                                         placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                         </div>
@@ -151,7 +151,7 @@
                             <div class="rr-form-element slds-col">
                                 <div class="label"><abbr title="required"
                                                          class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
-                                <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
+                                <c:rrSelect aura:id="referredByPicklist" options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
                                             placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                             </div>
                         </aura:if>
@@ -173,9 +173,9 @@
                 </div>
             </div>
             <div class="ap-bottom-info">
-               <!-- {!$Label.c.PG_AL_Bottom_Signature}&nbsp;
-                <c:RRLink class="text" label="{!$Label.c.PG_AL_Bottom_Signature_Link}" page="help?tab=problem"/>
-                &nbsp;{!$Label.c.PG_AL_Bottom_Signature_End} -->
+                <!-- {!$Label.c.PG_AL_Bottom_Signature}&nbsp;
+                 <c:RRLink class="text" label="{!$Label.c.PG_AL_Bottom_Signature_Link}" page="help?tab=problem"/>
+                 &nbsp;{!$Label.c.PG_AL_Bottom_Signature_End} -->
                 {!$Label.c.PG_AP_T_Sub_Info}
             </div>
             <aura:if isTrue="{!!v.isEditMode}">
