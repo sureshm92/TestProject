@@ -38,7 +38,7 @@
                         <aura:iteration items="{!v.availableIcons}" var="icon">
                             <c:IconsSelector aura:Id="leftIcons" selected='{!false}' name='{!icon}'>
                                 <aura:set attribute="content">
-                                    <c:RRIcon iconName="{!icon}"/>
+                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"/>
                                 </aura:set>
                             </c:IconsSelector>
                         </aura:iteration>
@@ -64,7 +64,7 @@
                         <aura:iteration items="{!v.selectedIcons}" var="icon">
                             <c:IconsSelector aura:Id="rightIcons" selected='{!false}' name='{!icon}'>
                                 <aura:set attribute="content">
-                                    <c:RRIcon iconName="{!icon}"/>
+                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"/>
                                 </aura:set>
                             </c:IconsSelector>
                         </aura:iteration>

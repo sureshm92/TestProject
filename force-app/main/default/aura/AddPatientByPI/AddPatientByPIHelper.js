@@ -25,7 +25,6 @@
             component.set('v.pe', formData.peRecord);
             component.set('v.isInitData',false);
             component.set('v.participant', formData.participantRecord);
-            console.log(JSON.parse(JSON.stringify(component.get('v.pe'))));
             component.set('v.participant.Mailing_State_Code__c',formData.participantState);
             component.set('v.participant.Phone_Type__c',formData.participantPhoneType);
             if(component.get('v.entrollmentSuccess')){

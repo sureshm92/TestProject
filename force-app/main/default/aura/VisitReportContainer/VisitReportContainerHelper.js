@@ -2,25 +2,20 @@
  * Created by Yehor Dobrovolskyi
  */
 ({
-
-    onGenerateData: function (component, helper, reportData) {
-        helper.onGenerateReport(component, helper);
-    },
-
     onGenerateReport: function (component, helper) {
         var doc = new jsPDF('l', 'pt', 'A4', true);
         let reportData = component.get('v.reportData');
         const url = new URL(window.location.href);
         const resourceRelPath = $A.get('$Resource.PH_Default_Image') + '/IQVIA.png';
-        const resourceUrl = `${url.origin}${resourceRelPath}`;
+        const resourceUrl = ''.concat(url.origin).concat(resourceRelPath);
         window.fetch(resourceUrl)
-            .then($A.getCallback((response) => {
+            .then($A.getCallback(function(response)  {
                 console.log(response);
                 if (!response.ok) {
-                    throw new Error(`HTTP error, status = ${response.status}`);
+                    throw new Error('HTTP error, status = '.concat(response.status));
                 }
                 response.blob()
-                    .then($A.getCallback((data) => {
+                    .then($A.getCallback(function(data) {
                         let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
                         let numberPageForTable = 0;
                         doc.setFontSize(8);
@@ -51,25 +46,25 @@
                             if (ie || oldIE || ieEDGE) {
                                 window.navigator.msSaveBlob(doc.output('blob'), component.get('v.documentName') + '.pdf');
                             } else {
-                                let pdfArr = doc.output('arraybuffer');
                                 let urlPDF = doc.output('bloburi');
                                 let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-                                let newWin = window.open('/');
-                                if (newWin.document.readyState === 'complete') {
-                                    newWin.location = urlViewer + '?file=' + urlPDF;
-                                } else {
-                                    newWin.onload = function () {
-                                        newWin.location = urlViewer + '?file=' + urlPDF;
-                                    };
-                                }
+                                window.open(urlViewer + '?file=' + urlPDF);
                             }
                             reportData = {};
                             component.set('v.reportData', reportData);
+                            let spinner = component.find('spinner');
+                            if (spinner) {
+                                spinner.hide();
+                            }
                         };
                     }));
             }))
-            .catch($A.getCallback((error) => {
+            .catch($A.getCallback(function(error) {
                 console.error('Fetch Error :-S', error);
+                let spinner = component.find('spinner');
+                if (spinner) {
+                    spinner.hide();
+                }
             }));
     },
 
