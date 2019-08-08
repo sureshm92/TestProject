@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class ParticipantService {
+public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
 
