@@ -100,6 +100,8 @@ public without sharing class PEStatusState {
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED
     };
 
+    public static final List<String> PE_STATUS_GROUP_PARTICIPANT;
+
     public static final List<String> PE_STATUS_GROUP_COMPLETE = new List<String>{
             PE_STATUS_PARTICIPATION_COMPLETE,
             PE_STATUS_TRIAL_COMPLETE,
@@ -170,6 +172,12 @@ public without sharing class PEStatusState {
         PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL = new List<String>();
         PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_FAILED);
         PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_COMPLETE);
+
+        PE_STATUS_GROUP_PARTICIPANT = new List<String>{
+                PE_STATUS_PARTICIPATION_COMPLETE,
+                PE_STATUS_TRIAL_COMPLETE
+        };
+        PE_STATUS_GROUP_PARTICIPANT.addAll(PE_STATUS_GROUP_ON_STUDY);
 
         prepare();
     }

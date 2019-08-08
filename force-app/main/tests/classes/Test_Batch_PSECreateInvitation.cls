@@ -12,9 +12,10 @@ private class Test_Batch_PSECreateInvitation {
 
         TestData.loadTestData();
         TestData testData = new TestData();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update testData.pe;
 
         Test.startTest();
-        testData.createPSE();
 
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
@@ -31,18 +32,17 @@ private class Test_Batch_PSECreateInvitation {
         );
         insert tsAllSee;
 
-        List<Participant_Study_Enrollment__c> participantStudyEnrollment = [
+        List<Participant_Enrollment__c> enrollments = [
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
-                        Days_After_Enrolled__c,
+                        Days_After_Referred__c,
                         Participant_Contact__c,
-                        Participant_Enrollment__c,
-                        Status__c
-                FROM Participant_Study_Enrollment__c
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
         ];
 
-        new Batch_PSECreateInvitation().execute(null, participantStudyEnrollment);
+        new Batch_PSECreateInvitation().execute(null, enrollments);
         Test.stopTest();
     }
 }

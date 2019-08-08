@@ -34,9 +34,8 @@ private class Test_VisitResultSharingService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        Participant_Enrollment__c pe = testData.pe;
-        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update pe;
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update testData.pe;
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
