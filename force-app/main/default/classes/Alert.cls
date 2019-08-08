@@ -5,7 +5,12 @@
 public class Alert {
     
     public class AlertException extends Exception{}
-    
+
+    public static final String ALERT_CODE_WELCOME_PH = 'Welcome_To_The_PH';
+    public static final String ALERT_CODE_WELCOME_PH_DELEGATE = 'Welcome_To_The_PH_Delegate';
+    public static final String ALERT_CODE_WELCOME_STUDY = 'Welcome_to_the_Study';
+    public static final String ALERT_CODE_WELCOME_STUDY_DELEGATE = 'Welcome_to_the_Study_Patient_Delegates';
+
     public String title;
     public String body;
     public String code;

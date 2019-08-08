@@ -25,6 +25,7 @@
    ```sh
    sfdx force:org:open
    ```
+   <!-- 1. Go to **State and Territory Picklists** and follow instruction for enable (temporary) -->
    1. Go to **Survey Settings** and enable 
    2. Go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
 
