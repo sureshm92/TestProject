@@ -1,0 +1,88 @@
+/**
+ * Created by Igor Malyuta on 09.08.2019.
+ */
+
+public without sharing class Batch_CopyEnrollmentHistory implements Database.Batchable<SObject> {
+
+    public Database.QueryLocator start(Database.BatchableContext param1) {
+        return Database.getQueryLocator([
+                SELECT Id,
+                        Participant_Status__c,
+                        Participant_Study_Enrollment__c,
+                        Participant_Study_Enrollment__r.Status__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Study_Enrollment__c != NULL
+                AND Participant_Study_Enrollment__r.Status__c != :PSEService.PSE_STATUS_ENROLLED
+        ]);
+    }
+
+    public void execute(Database.BatchableContext param1, List<Participant_Enrollment__c> enrollments) {
+        disableTriggers();
+
+        Map<Id, Id> psePe = new Map<Id, Id>();
+        List<Participant_Study_Enrollment__c> participantStudyEnrollments = new List<Participant_Study_Enrollment__c>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            pe.Participant_Status__c = pe.Participant_Study_Enrollment__r.Status__c;
+            psePe.put(pe.Participant_Study_Enrollment__c, pe.Id);
+            participantStudyEnrollments.add(pe.Participant_Study_Enrollment__r);
+        }
+
+        List<PSE_Status_History__c> pseStatusHistories = [
+                SELECT Id,
+                        Changed_Date__c,
+                        Status__c,
+                        PSE__c
+                FROM PSE_Status_History__c
+                WHERE PSE__c IN:participantStudyEnrollments
+        ];
+
+        List<Participant_Enrollment_Status_History__c> enrollmentStatusHistories = new List<Participant_Enrollment_Status_History__c>();
+        for (PSE_Status_History__c pseHistory : pseStatusHistories) {
+            enrollmentStatusHistories.add(new Participant_Enrollment_Status_History__c(
+                    Date__c = pseHistory.Changed_Date__c,
+                    NewStatus__c = pseHistory.Status__c,
+                    ParticipantEnrollment__c = psePe.get(pseHistory.PSE__c)
+            ));
+        }
+
+        if (!enrollmentStatusHistories.isEmpty()) insert enrollmentStatusHistories;
+        update enrollments;
+
+        if(!pseStatusHistories.isEmpty()) delete pseStatusHistories;
+        delete participantStudyEnrollments;
+    }
+
+    public static void disableTriggers() {
+        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
+
+        TriggerHandlerExecutor.bypassHandler(ParticipantStudyEnrollmentTriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.SetDefaultFieldsBeforeUpsertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.ProcessStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.DeactivateDeceasedUsersHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.CreateStatusBasedInvitations.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.HideSurveyTasks.class);
+        TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.SendDropOutEmailHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PSEStatusHistoryTriggerHandler.UpdatePSEStatusOnHistoryChangeHandler.class);
+    }
+
+    public void finish(Database.BatchableContext param1) {
+    }
+
+    public static void run() {
+        Database.executeBatch(new Batch_CopyEnrollmentHistory());
+    }
+}

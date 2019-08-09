@@ -79,6 +79,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CopyEnrollmentHistory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -972,6 +976,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_BaselineSurveyRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
