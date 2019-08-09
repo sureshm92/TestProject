@@ -1,0 +1,25 @@
+<!--
+ - Created by Dmytro Pokutnii
+ -->
+<aura:component description="RRInjectorAttribute">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="name"
+                    type="String"
+                    description="Name of the attribute of the injected component"
+                    required="true"/>
+    <aura:attribute name="value"
+                    type="Object"
+                    description="Value of the attribute of the injected component"
+                    required="true"/>
+
+    <aura:attribute name="isReference"
+                    type="Boolean"
+                    default="false"
+                    description="If true - attribute will be passed by reference instead of actual value"/>
+
+    <!-- HANDLERS -->
+
+    <!-- COMPONENT BODY -->
+</aura:component>

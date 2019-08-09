@@ -51,7 +51,7 @@
                         </div>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
-                                <c:UpcomingVisitsPreviewPanel/>
+                                <c:RRInjector componentName="UpcomingVisitsPreviewPanel"/>
                             </div>
                         </aura:if>
                     </div>
@@ -59,14 +59,11 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
-                        <c:VisitResultsDashboardCard ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
-                        <!--Hidden until the next release-->
-<!--                        <c:RRPanel>-->
-<!--                            <aura:set attribute="header">My Results</aura:set>-->
-<!--                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>-->
-<!--                        </c:RRPanel>-->
+                        <c:RRInjector componentName="VisitResultsDashboardCard">
+                            <c:RRInjectorAttribute name="ctpId" value="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                        </c:RRInjector>
                     </aura:if>
-                    <c:ResourceDashboardCard/>
+                    <c:RRInjector componentName="ResourceDashboardCard"/>
                 </div>
             </div>
         </aura:if>
