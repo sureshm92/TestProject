@@ -6,7 +6,6 @@
 
     <!-- attributes: -->
     <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="pse" type="Object"/>
     <aura:attribute name="steps" type="List"/>
     <aura:attribute name="userMode" type="String"/>
 
@@ -14,7 +13,7 @@
     <div class="rr-white-panel padding" style="position: relative">
         <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}"/>
         <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}"/>
-        <c:PSEPath steps="{!v.steps}" pse="{!v.pse}"/>
+        <c:PSEPath steps="{!v.steps}" pe="{!v.pe}"/>
     </div>
 
 </aura:component>
