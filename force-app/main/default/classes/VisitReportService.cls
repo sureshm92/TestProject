@@ -69,7 +69,10 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
-    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
+            Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
+            , List<Visit_Result_GroupM__mdt> visitResultGroupMS
+    ) {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);

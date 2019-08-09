@@ -42,7 +42,7 @@ public without sharing class CommunityFacadeRemote {
             if(HCPEnrollmentService.getHCPEnrollmentsForHCP().size() > 0) availableModes.add(CommunityService.USER_MODE_HCP);
             if(StudySiteService.getStudySitesForPI().size() > 0) availableModes.add(CommunityService.USER_MODE_PI);
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-            if(participantState.pe != null || participantState.pse != null) {
+            if(participantState.pe != null) {
                 availableModes.add(CommunityService.USER_MODE_PARTICIPANT);
             }
             if (availableModes.size() == 0) {

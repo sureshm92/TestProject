@@ -5,28 +5,29 @@
 public without sharing class VisitResultSharingService {
 
     private static ParticipantService.ParticipantState state;
-    private static Boolean havePSE;
+    private static Boolean onStudy;
     private static Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType;
     private static Set<String> notAccessResultType;
 
     static {
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
-            havePSE = state.pse != null;
+            onStudy = PEStatusState.PE_STATUS_GROUP_ON_STUDY.contains(state.pe.Participant_Status__c) ||
+                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(state.pe.Participant_Status__c);
             notAccessResultType = new Set<String>();
         }
     }
 
     public static Boolean isVisitResultAvailable() {
-        if (!havePSE) return false;
+        if (!onStudy) return false;
 
-        return state.pse.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
+        return state.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
                 state.ctp.Participating_in_Patient_Portal__c == 'Yes' &&
-                state.pse.Study_Site__r.Visit_Results_Sharing__c;
+                state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
     public static List<Visit_Result__c> processResults() {
-        if (!havePSE) return new List<Visit_Result__c>();
+        if (!onStudy) return new List<Visit_Result__c>();
 
         List<Patient_Visit__c> patientVisits = [
                 SELECT
@@ -44,7 +45,7 @@ public without sharing class VisitResultSharingService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Participant_Study_Enrollment__c =: state.pse.Id
+                WHERE Participant_Enrollment__c =: state.pe.Id
                 AND Status__c = 'Completed'
                 ORDER BY Visit_Number__c, Completed_Date__c
         ];
@@ -55,11 +56,11 @@ public without sharing class VisitResultSharingService {
     public static List<Visit_Result__c> getAvailableVisitResults(List<Patient_Visit__c> patientVisits) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
         try {
-            if (!isVisitResultAvailable() || !state.pse.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+            if (!isVisitResultAvailable() || !state.pe.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
 
             Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
             visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
-            String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+            String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
             Integer timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
 
             for(Integer i = patientVisits.size() - 1; i >= 0; i--) {

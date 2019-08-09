@@ -48,13 +48,20 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_SCREENING_COMPLETE = 'Screening Complete';
     public static final String PE_STATUS_SCREENING_IN_PROGRESS= 'Screening In Progress';
     public static final String PE_STATUS_SCREENING_FAILED = 'Screening Failed';
-    public static final String PE_STATUS_ENROLLMENT_SUCCESS= 'Enrollment Success';
+    public static final String PE_STATUS_ENROLLMENT_SUCCESS = 'Enrollment Success';
     public static final String PE_STATUS_ENROLLMENT_FAILED = 'Enrollment Failed';
     
     public static final String PE_STATUS_PENDING_REFERRAL = 'Pending Referral';
     public static final String PE_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PE_STATUS_FAILED_REVIEW = 'Failed Review';
     public static final String PE_STATUS_FAILED_REFERRAL = 'Failed Referral';
+
+    public static final String PE_STATUS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
+    public static final String PE_STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
+    public static final String PE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
+    public static final String PE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
+    public static final String PE_STATUS_DROP_OUT = 'Drop Out';
+    public static final String PE_STATUS_DECEASED = 'Deceased';
     
     //status groups:
     public static final List<String> PE_STATUS_GROUP_FAILED = new List<String>{
@@ -87,6 +94,23 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_IN_PROGRESS
     };
 
+    public static final List<String> PE_STATUS_GROUP_ON_STUDY = new List<String>{
+            PE_STATUS_ENROLLMENT_SUCCESS,
+            PE_STATUS_TREATMENT_PERIOD_STARTED,
+            PE_STATUS_FOLLOW_UP_PERIOD_STARTED
+    };
+
+    public static final List<String> PE_STATUS_GROUP_PARTICIPANT;
+
+    public static final List<String> PE_STATUS_GROUP_COMPLETE = new List<String>{
+            PE_STATUS_PARTICIPATION_COMPLETE,
+            PE_STATUS_TRIAL_COMPLETE,
+            PE_STATUS_DROP_OUT,
+            PE_STATUS_DECEASED
+    };
+
+    public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;
+    public static List<String> PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL;
 
     // Table with data: Status Step -> available states and real statuses names
     public static List<StatusStep> STATUS_STEPS_TABLE = new List<StatusStep>{
@@ -141,6 +165,20 @@ public without sharing class PEStatusState {
     public static List<String> STATUSES_ENROLLED;
 
     static {
+        PE_STATUS_GROUP_IN_PROGRESS_ALL = new List<String>();
+        PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_IN_PROGRESS);
+        PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_ON_STUDY);
+
+        PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL = new List<String>();
+        PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_FAILED);
+        PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_COMPLETE);
+
+        PE_STATUS_GROUP_PARTICIPANT = new List<String>{
+                PE_STATUS_PARTICIPATION_COMPLETE,
+                PE_STATUS_TRIAL_COMPLETE
+        };
+        PE_STATUS_GROUP_PARTICIPANT.addAll(PE_STATUS_GROUP_ON_STUDY);
+
         prepare();
     }
 
@@ -242,5 +280,4 @@ public without sharing class PEStatusState {
         };
         return resList;
     }
-
 }

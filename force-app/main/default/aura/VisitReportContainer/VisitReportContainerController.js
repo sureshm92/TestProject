@@ -8,14 +8,13 @@
             spinner.show();
         }
         helper.enqueue(component, 'c.getReportDataWrappers', {})
-            .then(res => {
+            .then(function (res) {
                     component.set('v.reportDataList', JSON.parse(res));
                     let spinner = component.find('spinner');
                     if (spinner) {
                         spinner.hide();
                     }
-                },
-                err => {
+                }, function (err) {
                     if (err && err[0].message) {
                         component.set('v.errorMessage', err[0].message);
                     }

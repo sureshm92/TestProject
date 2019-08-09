@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class ParticipantService {
+public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
 
@@ -13,7 +13,6 @@ public class ParticipantService {
     public class ParticipantState {
         @AuraEnabled public ParticipantStates value;
         @AuraEnabled public Participant_Enrollment__c pe;
-        @AuraEnabled public Participant_Study_Enrollment__c pse;
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant__c participant;
@@ -47,37 +46,29 @@ public class ParticipantService {
         participantState = new ParticipantState();
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
         if (peList.size() > 0) {
+            if(peList[0].Study_Site__c == null) {
+                throw new ParticipantServiceException('Study Site cannot be null on peId = ' + peList[0].Id);
+            }
+
             participantState.pe = peList[0];
             participantState.participant = participantState.pe.Participant__r;
-            participantState.isDelegate =
-                    participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
+            participantState.isDelegate = peList[0].Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
+            participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+            participantState.showTerms = showTerms();
+            participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
 
-            if (participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
-                participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
-                participantState.showTerms = showTerms();
-                participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
-            }
-            if (PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) &&
-                    participantState.isPremium) {
+            if ((PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) ||
+                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(participantState.pe.Participant_Status__c)
+            ) && participantState.isPremium) {
                 participantState.value = ParticipantStates.ALUMNI;
             } else if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                 participantState.value = ParticipantStates.REFERRAL;
-            } else if (participantState.pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+            } else if (PEStatusState.PE_STATUS_GROUP_ON_STUDY.contains(participantState.pe.Participant_Status__c)) {
                 if (participantState.isPremium) {
-                    List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListForParticipant();
-                    if (pseList.size() > 0) {
-                        participantState.value = ParticipantStates.PARTICIPANT;
-                        participantState.pse = pseList[0];
-                        if (participantState.isPremium) participantState.showVisits = showVisits();
-                        participantState.isDelegate =
-                                participantState.pse.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-                        if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(participantState.pse.Status__c)) {
-                            participantState.value = ParticipantStates.ALUMNI;
-                            participantState.showVisits = showVisits();
-                        }
-                    } else {
-                        participantState.value = ParticipantStates.REFERRAL;
-                    }
+                    participantState.value = ParticipantStates.PARTICIPANT;
+                    participantState.showVisits = showVisits();
+                    participantState.isDelegate =
+                            participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                 }
@@ -97,8 +88,9 @@ public class ParticipantService {
         if (participantState.value == ParticipantStates.ALUMNI) return false;
 
         if (participantState.ctp.Visit_Plan__c != null) {
-            List<Visit__c> visitsList = (List<Visit__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                    .query('SELECT Id FROM Visit__c WHERE Visit_Plan__c = \'' + participantState.ctp.Visit_Plan__c + '\'', true);
+            List<Visit__c> visitsList = (List<Visit__c>) DatabaseService.query(
+                    'SELECT Id FROM Visit__c WHERE Visit_Plan__c = \''
+                            + participantState.ctp.Visit_Plan__c + '\'');
             return !visitsList.isEmpty();
         }
 
@@ -126,7 +118,7 @@ public class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        if(participant.Id == null){
+        if (participant.Id == null) {
             DuplicateContactController.isPERCreated = true;
             participant = DuplicateContactController.communityReffering(participant, pe);
         }

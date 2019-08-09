@@ -245,18 +245,33 @@ public without sharing class ParticipantEnrollmentService {
     
     private static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
+            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
+            'CreatedDate',
             'HCP__c',
+            'HCP__r.Status__c',
+            'HCP__r.HCP_Contact__c',
+            'HCP__r.HCP_Contact__r.Name',
+            'HCP__r.HCP_Contact__r.Salutation',
+            'HCP__r.HCP_Contact__r.Language__c',
+            'HCP__r.HCP_Contact__r.AccountId',
+            'HCP__r.HCP_Contact__r.Account.Name',
+            'HCP__r.HCP_Contact__r.Account.BillingCountryCode',
+            'HCP__r.HCP_Contact__r.Account.BillingStateCode',
+            'HCP__r.Orientation_Date__c',
             'Informed_Consent__c',
-            'Name',
-            'Patient_ID__c',
-            'PI_Contact__r.Name',
-            'PI_Contact__r.Phone',
+            'Is_Virtual_Study_Site__c',
+            'IsSubjectIDverifiedInSDH__c',
             'Medical_Record_Review_Status__c',
-            'Pre_screening_Status__c',
+            'Medical_Record_Review_Completedby_Name__c',
+            'Motivational_Message_Id__c',
+            'MRN_Id__c',
+            'Name',
+            'Non_Referral_Reason__c',
+            'Patient_ID__c',
             'Participant_Status__c',
+            'Participant_Status_Last_Changed_Date__c',
             'Participant_Name__c',
             'Participant_Surname__c',
-            'Non_Referral_Reason__c',
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -276,6 +291,16 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Conditions__c',
             'Participant__r.Contact__r.Language__c',
             'Participant__r.Contact__r.Visit_Results_Opt_In__c',
+            'Participant_Contact__c',
+            'Participant_Contact__r.Visit_Results_Opt_In__c',
+            'PI_Contact__r.Name',
+            'PI_Contact__r.Phone',
+            'Pre_screening_Status__c',
+            'Pre_Eligibility_Date__c',
+            'Referred_Date__c',
+            'Referral_ID__c',
+            'Referral_Source__c',
+            'Referral_Completedby_Name__c',
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
@@ -295,6 +320,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Visit_Plan__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Site__r.BillingStreet',
             'Study_Site__r.Site__r.BillingPostalCode',
@@ -302,27 +328,9 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Salutation',
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
-            'Is_Virtual_Study_Site__c',
-            'HCP__r.Status__c',
-            'HCP__r.HCP_Contact__c',
-            'HCP__r.HCP_Contact__r.Name',
-            'HCP__r.HCP_Contact__r.Salutation',
-            'HCP__r.HCP_Contact__r.Language__c',
-            'HCP__r.HCP_Contact__r.AccountId',
-            'HCP__r.HCP_Contact__r.Account.Name',
-            'HCP__r.HCP_Contact__r.Account.BillingCountryCode',
-            'HCP__r.HCP_Contact__r.Account.BillingStateCode',
-            'HCP__r.Orientation_Date__c',
-            'Referred_Date__c',
-            'Referral_ID__c',
-            'Referral_Source__c',
-            'Participant_Status_Last_Changed_Date__c',
-            'Medical_Record_Review_Completedby_Name__c',
-            'Pre_Eligibility_Date__c',
+            'Study_Site__r.Visit_Results_Sharing__c',
             'Screening_ID__c',
-            'MRN_Id__c',
-            'Referral_Completedby_Name__c',
-            'CreatedDate'
+            'Participant_Study_Enrollment__c'
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
@@ -337,7 +345,7 @@ public without sharing class ParticipantEnrollmentService {
                 String countryCode = (String)pe.getSObject('Participant__r').get('Mailing_Country_Code__c');
                 String country = CountryStateUtil.getCountryName(countryCode);
                 pe.getSObject('Participant__r').put('Mailing_Country__c', country);
-            
+
                 //translate state
                 String stateCode = (String)pe.getSObject('Participant__r').get('Mailing_State_Code__c');
                 String state = CountryStateUtil.getStateName(countryCode, stateCode);
