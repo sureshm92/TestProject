@@ -108,7 +108,7 @@ deployINT:
   tags:
   - shell
   only:
-  - Sprint
+  -  Sprint-RH3.2-PP3.2-Refactoring
   except:
   - merge_requests
 
@@ -130,7 +130,8 @@ DeployINF:
   tags:
   - shell
   only:
-  - Informal
+  - Release-RH3.1-PP1.1-Fixes
+  - Sprint-RH3.11-PP1.11
   except:
   - merge_requests
 
