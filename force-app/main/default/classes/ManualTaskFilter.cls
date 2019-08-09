@@ -44,7 +44,7 @@ public with sharing class ManualTaskFilter {
 
         if (statuses.contains('Enrolled')) {
             String query = ENROLLED_QUERY + fieldJoin('Participant_Status__c',
-                    PEStatusState.PE_STATUS_GROUP_ON_STUDY) + getFiltersQuery();
+                    PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS) + getFiltersQuery();
             System.debug('Enrolled query is: ' + query);
 
             List<Participant_Enrollment__c> enrollments =

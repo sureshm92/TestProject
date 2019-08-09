@@ -12,7 +12,7 @@ public without sharing class VisitResultSharingService {
     static {
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
-            onStudy = PEStatusState.PE_STATUS_GROUP_ON_STUDY.contains(state.pe.Participant_Status__c) ||
+            onStudy = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(state.pe.Participant_Status__c) ||
                     PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(state.pe.Participant_Status__c);
             notAccessResultType = new Set<String>();
         }
@@ -90,34 +90,43 @@ public without sharing class VisitResultSharingService {
 
     public static List<Visit_Result__c> getAvailableVisitResultsForReport(List<Visit_Result__c> visitResults) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
-        try {
-            Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
-
-            String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
-            visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
-            for (Visit_Result__c result : visitResults) {
-                if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
-                    Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
-                    if (resultTypeSharing.Sharing_Countries__c == 'All' ||
-                            (resultTypeSharing.Include_Countries__c &&
-                                    resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
-                            ) {
-                        filteredResults.add(result);
-                    } else {
-                        notAccessResultType.add(result.Result_Type__c);
-                    }
+        if (visitResultTypeSharingByType == null) {
+            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+        }
+        String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
+        for (Visit_Result__c result : visitResults) {
+            if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+                if (resultTypeSharing.Sharing_Countries__c == 'All' ||
+                        (resultTypeSharing.Include_Countries__c &&
+                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                        ) {
+                    filteredResults.add(result);
                 } else {
                     notAccessResultType.add(result.Result_Type__c);
                 }
+            } else {
+                notAccessResultType.add(result.Result_Type__c);
             }
-            return filteredResults;
-        } catch (Exception e) {
-            System.debug(e.getCause() + '\n' + e.getLineNumber());
-            return filteredResults;
         }
+        return filteredResults;
     }
 
     public static Set<String> getNotAccessResultType() {
+        return notAccessResultType;
+    }
+
+    public static Set<String> getNotAccessResultType(List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+        if (visitResultTypeSharingByType == null) {
+            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+        }
+        for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
+            for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
+                if (!visitResultTypeSharingByType.containsKey(visitResultTypeM.DeveloperName)) {
+                    notAccessResultType.add(visitResultTypeM.DeveloperName);
+                }
+            }
+        }
         return notAccessResultType;
     }
 

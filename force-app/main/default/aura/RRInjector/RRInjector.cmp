@@ -1,0 +1,18 @@
+<!--
+ - Created by Dmytro Pokutnii
+ -->
+<aura:component controller="Injector" description="RRInjector">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="componentName" type="String" description="Name of the injected component" required="true"/>
+
+    <!-- HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- COMPONENT BODY -->
+
+    {!v.body}
+
+</aura:component>

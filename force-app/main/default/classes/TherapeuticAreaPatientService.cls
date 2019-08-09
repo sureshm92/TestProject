@@ -1,4 +1,6 @@
 public without sharing class TherapeuticAreaPatientService {
+    
+    /// TODO replace PSE on PE !!!!
 
     public Therapeutic_Area_Patient__c getRelatedToStudyTherapeuticAreaPatient(Id participantId, Id tAId) {
         return new Therapeutic_Area_Patient__c(
