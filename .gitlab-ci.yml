@@ -12,7 +12,7 @@ cache:
   - node_modules
   - ~/.sfdx
   - .sfdx
-# VALIDATE_DRYRUN:
+  # VALIDATE_DRYRUN:
   #tags:
   #- shell_2
   #only:
@@ -23,16 +23,16 @@ cache:
   #- push
   #- commit
 
- # stage: VALIDATE
+  # stage: VALIDATE
   #script:
   #- echo "$SFDX_AUTH_URL_DRY_RUN" > sfdx-auth-url
   #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a DRYRUN -d
- # - sfdx --version
+  # - sfdx --version
   #- cd Nodejs
- # - node convert.js
- # - cd ..
- # - rm -rf output
- # - sfdx force:source:convert -d output
+  # - node convert.js
+  # - cd ..
+  # - rm -rf output
+  # - sfdx force:source:convert -d output
   #- sfdx force:mdapi:deploy -d output -u DRYRUN -c --testlevel=RunLocalTests -w 60
   #- echo "validate Int success"
 
@@ -108,7 +108,7 @@ deployINT:
   tags:
   - shell
   only:
-  - Sprint
+  -  Sprint-RH3.2-PP3.2-Refactoring
   except:
   - merge_requests
 
@@ -130,7 +130,8 @@ DeployINF:
   tags:
   - shell
   only:
-  - Informal
+  - Release-RH3.1-PP1.1-Fixes
+  - Sprint-RH3.11-PP1.11
   except:
   - merge_requests
 
@@ -151,7 +152,7 @@ runTestINT:
   tags:
   - shell
   only:
-  - Sprint
+  -  Sprint-RH3.2-PP3.2-Refactoring
   except:
   - merge_requests
 
@@ -165,7 +166,8 @@ runTestINF:
   tags:
   - shell
   only:
-  - Informal
+  - Release-RH3.1-PP1.1-Fixes
+  - Sprint-RH3.11-PP1.11
   except:
   - merge_requests
 
