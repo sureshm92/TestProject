@@ -8,7 +8,6 @@ private class Test_VisitResultsService {
     @IsTest
     private static void getVisitResultsGroupNames_test() {
 
-        VisitResultsService service = new VisitResultsService();
 
         List<String> groupNames = new List<String>{
                 'first', 'second'
@@ -20,6 +19,8 @@ private class Test_VisitResultsService {
                 .then(groupNames)
                 .getInstance()
         );
+        /* Instance of VisitResultMService is created in VisitResultsService's constructor. You need to create stub BEFORE creating an instance of VisitResultsService*/
+        VisitResultsService service = new VisitResultsService();
 
         Test.startTest();
         List<String> testNames = service.getVisitResultsGroupNames(null);
@@ -81,7 +82,6 @@ private class Test_VisitResultsService {
     @IsTest
     private static void getVisitResultWrappersForDashboard_test() {
         VisitResultsService service = new VisitResultsService();
-
         TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
@@ -164,12 +164,6 @@ private class Test_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
-            ClassFactory.clearStubTypesByClassNamesMap();
-            ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubFactory.newInstance(VisitResultMService.class)
-                    .when('getVisitResultTypeDashboardConfigs')
-                    .then(configs)
-                    .getInstance()
-            );
             List<VisitResultsService.VisitResultWrapper> wrappers = service.getVisitResultWrappersForDashboard();
             System.assert(wrappers != null);
         }
