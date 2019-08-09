@@ -12,7 +12,7 @@ public without sharing class VisitResultSharingService {
     static {
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
-            onStudy = PEStatusState.PE_STATUS_GROUP_ON_STUDY.contains(state.pe.Participant_Status__c) ||
+            onStudy = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(state.pe.Participant_Status__c) ||
                     PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(state.pe.Participant_Status__c);
             notAccessResultType = new Set<String>();
         }
