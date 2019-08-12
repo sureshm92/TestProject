@@ -1,12 +1,19 @@
 /**
  * Created by AlexKetch on 4/17/2019.
  */
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @TestSetup
     public static void setup() {
 
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
         Account participantAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
                 'Name' => 'Participant'

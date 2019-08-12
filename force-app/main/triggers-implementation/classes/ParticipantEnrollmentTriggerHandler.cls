@@ -279,7 +279,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         insert alertsForInsert;
-        if (toCreateUser.size() > 0) CommunityService.createParticipantUsers(toCreateUser);
+        if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         if (notificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT1_NEW, notificationMap);
         if (notificationMapEmptyHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT2_NEW, notificationMapEmptyHCP);
         update contactsForChangeMode;

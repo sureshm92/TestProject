@@ -6,11 +6,18 @@
  *
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_BasePPCommunity {
     
     @TestSetup
     public static void init(){
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TestData.loadTestData();
     }

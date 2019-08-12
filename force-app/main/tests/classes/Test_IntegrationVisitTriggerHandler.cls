@@ -2,11 +2,18 @@
  * Created by Denis Z on 08-Jul-19.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_IntegrationVisitTriggerHandler {
 
     @TestSetup
     static void setup() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;

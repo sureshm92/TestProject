@@ -222,7 +222,6 @@ private class Test_BaseCRCPCommunity {
                 Participant__c = participant.Id
         );
         insert passedMrrPE;
-        participantUser = [SELECT Id FROM User WHERE Contact.LastName = :participant.Name];
 
         referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
@@ -241,6 +240,10 @@ private class Test_BaseCRCPCommunity {
         );
         insert contactTherapeuticArea;
 
+    }
+
+    static void initUsers() {
+        participantUser = [SELECT Id FROM User WHERE Contact.LastName = :participant.Name];
         hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
 
@@ -253,6 +256,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void testReferralNetworkService_AutoEmails() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         init();
         Clinical_Trial_Profile__c testStudy = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456790',
@@ -283,9 +293,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void testReferralNetworkService_Subscription() {
         init();
-
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> recordsRN = SubscribeToReferralNetworkRemote.getReferralNetworkRecords('Referral_Network__c');
             SubscribeToReferralNetworkRemote.searchForReferralNetworks(recordsRN[0].Name, 'Referral_Network__c');
@@ -315,8 +324,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPAdvancedTest() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             String stringData = StudyListViewController.getHCPInitData();
             StudyListViewController.HCPInitData initData = (StudyListViewController.HCPInitData) JSON.deserializeStrict(stringData, StudyListViewController.HCPInitData.class);
@@ -379,7 +388,6 @@ private class Test_BaseCRCPCommunity {
     static void baseHCPTest() {
         init();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_HCP);
@@ -404,6 +412,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest2() {
         init();
+        initUsers();
         Test.startTest();
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
@@ -420,6 +429,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest3() {
         init();
+        initUsers();
         Test.startTest();
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
@@ -436,6 +446,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest4() {
         init();
+        initUsers();
         Test.startTest();
         System.runAs(hcpUser) {
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_HCP);
@@ -450,6 +461,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest5() {
         init();
+        initUsers();
         Test.startTest();
         System.runAs(hcpUser) {
             Action_RequestToReferByHCPRemote.requestToReferForHCP(studySite.Id,hcpEnrollment.Id);
@@ -459,6 +471,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void emailTemplateController() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         init();
         Test.startTest();
         EmailTemplateController controller = new EmailTemplateController();
@@ -494,6 +513,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void slideTour() {
         init();
+        initUsers();
         Test.startTest();
         System.runAs(piUser) {
             /*String initDataStr = OnboardingSlideTourRemote.getInitData();
@@ -510,6 +530,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void miscTests() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         init();
         CountryStateUtil.getStateCodeByNameMap('US');
         TranslateHelper.convertBrowserLanguage(new List<String>{
@@ -521,6 +548,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void exportImportRemote() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         init();
         Test.startTest();
         String exportXML = TranslationExportImportRemote.export(study.Id, languageLocale, TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
@@ -530,6 +564,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void batchUpdateRecordsTest() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         init();
         Test.startTest();
         Batch_UpdateRecords.run();
@@ -539,8 +580,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void myStudySiteDetail() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             MyStudySitesController.getStudySiteDetail(study.Id);
         }
@@ -550,8 +591,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void hcpDelegateTest() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
 
         System.runAs(hcpUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP);
@@ -572,6 +613,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void piDelegateTest() {
         init();
+        initUsers();
         Test.startTest();
 
         System.runAs(piUser) {
@@ -593,8 +635,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void basePITest1() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_PI);
@@ -613,8 +655,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void basePITest2() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_PI, null, CommunityService.USER_MODE_PI);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
@@ -630,8 +672,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void basePITest3() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_ChangeHCPStatusByPIRemote.getEnrollmentReasonOptions();
@@ -645,8 +687,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void accountSettingsControllerTest() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
@@ -664,8 +706,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void myReferringClinics() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             MyReferredZoneController.getStatusOptions(CommunityService.USER_MODE_PI);
             MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI,null,false);
@@ -678,8 +720,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void referralProfileTest() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
             ReferralProfileRemote.getReferralProfileDetail(passedMrrPE.Id, CommunityService.USER_MODE_PI);
             ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI);
@@ -697,8 +739,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void mrrTest() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             String jsonResult = MedicalRecordReviewRemote.getInitData(study.Id, hcpEnrollment.Id);
         }
@@ -708,8 +750,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void mrrAndReferringTest1() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
             String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(study.Id, 'participan01', 'AAA', 'BBB');
@@ -736,8 +778,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void mrrAndReferringTest2() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
 
@@ -758,8 +800,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void excelReportTest() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             ApexPages.currentPage().getParameters().put('userMode', CommunityService.USER_MODE_PI);
             ApexPages.currentPage().getParameters().put('study', '' + study.Id);
@@ -780,11 +822,11 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void integrationStudyHubTest() {
         init();
+        initUsers();
         studySite.Study_Site_Type__c = 'Virtual';
         update studySite;
         Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             IntegrationService.sendPEToStudyHub(passedMrrPE.Id);
         }
@@ -794,11 +836,11 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void integrationServiceNowTest() {
         init();
+        initUsers();
         studySite.Study_Site_Type__c = 'Virtual';
         update studySite;
         Test.setMock(HttpCalloutMock.class, new IntegrationCalloutMock());
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             IntegrationService.sendPEToServiceNow(passedMrrPE.Id);
         }
@@ -807,8 +849,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void sitesSearchTest() {
         init();
+        initUsers();
         Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
             String jsonResult = SitesSearchRemote.getInitData(study.Id);
@@ -822,8 +864,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void testSaveNewAddress() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         Account testAccount = new Account(Name = 'Test Name', BillingStreet = 'BillingStreet');
         insert testAccount;
         studySite.Site__c = testAccount.Id;
@@ -857,8 +899,8 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void testSaveSSDetails() {
         init();
+        initUsers();
         Test.startTest();
-        piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         studySite = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
         System.runAs(piUser) {
             studySite.Study_Site_Phone__c = '123456789';
