@@ -15,7 +15,7 @@ public without sharing class MotivationalMessagesRemote {
             Participant_Enrollment_Status_History__c[] enrolledHistoryList = [
                     SELECT Id, Date__c
                     FROM Participant_Enrollment_Status_History__c
-                    WHERE ParticipantEnrollment__c =: participantState.pe.Id AND NewStatus__c =: PSEService.PSE_STATUS_ENROLLED
+                    WHERE ParticipantEnrollment__c =: participantState.pe.Id AND NewStatus__c =: PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             ];
             if(enrolledHistoryList.size() == 0) return null;
             List<Motivation_Plan_Message__mdt> messages = [

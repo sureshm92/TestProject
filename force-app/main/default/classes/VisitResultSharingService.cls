@@ -12,7 +12,7 @@ public without sharing class VisitResultSharingService {
     static {
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
-            onStudy = PEStatusState.PE_STATUS_GROUP_ON_STUDY.contains(state.pe.Participant_Status__c) ||
+            onStudy = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(state.pe.Participant_Status__c) ||
                     PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(state.pe.Participant_Status__c);
             notAccessResultType = new Set<String>();
         }
@@ -93,7 +93,7 @@ public without sharing class VisitResultSharingService {
         if (visitResultTypeSharingByType == null) {
             visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
         }
-        String mailingCountryCode = state.pse.Participant__r.Mailing_Country_Code__c;
+        String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
         for (Visit_Result__c result : visitResults) {
             if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
                 Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);

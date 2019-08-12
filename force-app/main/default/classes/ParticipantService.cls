@@ -63,7 +63,7 @@ public without sharing class ParticipantService {
                 participantState.value = ParticipantStates.ALUMNI;
             } else if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                 participantState.value = ParticipantStates.REFERRAL;
-            } else if (PEStatusState.PE_STATUS_GROUP_ON_STUDY.contains(participantState.pe.Participant_Status__c)) {
+            } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                 if (participantState.isPremium) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
