@@ -88,7 +88,7 @@ public without sharing class  DuplicateContactController {
                             participant = createNewRecords(record);
 							break;
                         }
-                    }else if(contactRecords[i].BirthDate == null && checkBirthDateWeak(record)){
+                    }else if(contactRecords[i].BirthDate == null && dateIsPresentInSystem(contactRecords[i]) && checkBirthDateWeak(record)){
                        System.debug('BirthDate null');
                        if(checkFirstName(record, contactRecords[i])){
                             System.debug('Passed checkBirthDate');
@@ -212,6 +212,12 @@ public without sharing class  DuplicateContactController {
         }else{
             return !checkBirthDate(record.BirthYear__c);
         }
+    }
+
+    private static boolean dateIsPresentInSystem(Contact contactRecord){
+            return  contactRecord.Participants__r == null || 
+                    contactRecord.Participants__r.size() == 0 ||
+                    contactRecord.Participants__r[0].Date_of_Birth__c == null
     }
 
     private static boolean checkBirthDate(String birthYear){
