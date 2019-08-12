@@ -21,6 +21,8 @@ private class Test_SurveyService {
         insert  schedule;
 
         TestData testData = new TestData();
+        testData.ctp.NCT_Number__c = 'NCT99999999';
+        update testData.ctp;
 
         ts = new Trial_Survey__c(
                 Active_On_Status__c = PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
@@ -55,6 +57,8 @@ private class Test_SurveyService {
         insert  schedule;
 
         TestData testData = new TestData();
+        testData.ctp.NCT_Number__c = 'NCT99999999';
+        update testData.ctp;
 
         SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(
                 survey.get(0), schedule, 5, true, testData.pe.Id
@@ -77,6 +81,8 @@ private class Test_SurveyService {
         insert  schedule;
 
         TestData testData = new TestData();
+        testData.ctp.NCT_Number__c = 'NCT99999999';
+        update testData.ctp;
 
         ts = new Trial_Survey__c(
                 Active_On_Status__c = PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,

@@ -12,6 +12,8 @@ private class Test_Batch_PSECreateInvitation {
 
         TestData.loadTestData();
         TestData testData = new TestData();
+        testData.ctp.NCT_Number__c = 'NCT99999999';
+        update testData.ctp;
 
         Test.startTest();
         testData.createPSE();
