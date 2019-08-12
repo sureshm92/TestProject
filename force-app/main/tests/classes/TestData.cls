@@ -41,7 +41,7 @@ public class TestData {
                 SELECT Id, Therapeutic_Area__c,
                         Terms_and_Conditions__c
                 FROM Clinical_Trial_Profile__c
-                WHERE NCT_Number__c = 'NCT00000001'
+                WHERE NCT_Number__c = 'NCT99999999'
         ];
         ss = [
                 SELECT Id, Visit_Results_Sharing__c,
