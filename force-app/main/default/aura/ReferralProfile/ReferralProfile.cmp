@@ -10,7 +10,7 @@
     <!--attributes: -->
     <aura:attribute name="pe" type="Object" access="public"/>
     <aura:attribute name="statusSteps" type="List" access="public"/>
-    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="multiMode" type="Boolean"/>
 
     <!-- handlers: -->
