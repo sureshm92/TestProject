@@ -10,7 +10,9 @@
             if(pe.Id === peId){
                 var rootComponent = component.get('v.parent');
                 var changePEStatusAction = rootComponent.find('changePEStatusByPIAction');
-                changePEStatusAction.execute(pe, 'Referral Accepted', null, null, rootComponent);
+                changePEStatusAction.execute(pe, 'Referral Accepted', null, null, function () {
+                    rootComponent.refresh();
+                });
                 break
             }
         }

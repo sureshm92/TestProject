@@ -207,7 +207,7 @@ public without sharing class TaskService {
                 tsc.startDate = getUserDatetime(userTimezoneMap.get(tsc.ownerId), null).date();
                 if (inv.InviteExpiryDateTime != null) {
                     Date expiryDate= inv.InviteExpiryDateTime.date();
-                    Integer daysBetween = expiryDate.daysBetween(Date.today());
+                    Integer daysBetween = Date.today().daysBetween(expiryDate);
                     tsc.activityDate = tsc.startDate.addDays(daysBetween);
                 }
 

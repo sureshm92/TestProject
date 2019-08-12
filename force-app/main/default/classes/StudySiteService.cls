@@ -231,6 +231,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingStateCode',
             'Principal_Investigator__r.Account.BillingPostalCode',
             'Principal_Investigator__r.Account.BillingCountry',
+            'Principal_Investigator__r.Account.BillingCountryCode',
             'Principal_Investigator__r.Account.BillingLatitude',
             'Principal_Investigator__r.Account.BillingLongitude',
             'Principal_Investigator__r.Account.BillingAddress',
@@ -270,7 +271,7 @@ public without sharing class StudySiteService {
         }
         return filter;
     }
-
+    
     public static Study_Site__c getStudySiteForHCPById(Id ssId) {
         List<Study_Site__c> studySites = getStudySitesCommon(
                 CommunityService.USER_MODE_HCP,
@@ -280,7 +281,17 @@ public without sharing class StudySiteService {
         if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
         return studySites[0];
     }
-
+    
+    public static Study_Site__c getStudySiteForPIById(Id ssId) {
+        List<Study_Site__c> studySites = getStudySitesCommon(
+                CommunityService.USER_MODE_PI,
+                ' AND Id = \'' + ssId + '\' ',
+                false
+        );
+        if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
+        return studySites[0];
+    }
+    
     public static List<Study_Site__c> getStudySiteForPIByTrialId(Id trialId) {
         return getStudySitesCommon(
                 CommunityService.USER_MODE_PI,

@@ -4,7 +4,7 @@
 ({
     updatePE: function (component) {
         var helper = this;
-        component.find('reasonSpinner').show();
+        component.find('spinner').show();
         component.set('v.inProgress', true);
         var peId = component.get('v.peId');
         var status = component.get('v.status');
@@ -16,14 +16,17 @@
             status: status,
             reason: reason,
             notes: notes
-        }, null, null, function () {
-            component.get('v.refreshSource').refresh();
-            helper.hideDialogs(component);
+        }, function(returnValue){
+            var res = JSON.parse(returnValue);
+            if(component.get('v.callback')) component.get('v.callback')(res.enrollment, res.steps);
+        }, null, function () {
+            helper.cancel(component);
         });
     },
 
-    hideDialogs: function (component) {
-        component.find('selectReferralDeclineReasonDialog').hide();
-        component.find('reasonSpinner').hide();
+    cancel: function (component) {
+        component.find('selectReferralDeclineReasonDialog').cancel();
+        if(component.get('v.cancelCallback')) component.get('v.cancelCallback')();
+        component.find('spinner').hide();
     }
 })

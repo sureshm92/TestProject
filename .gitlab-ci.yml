@@ -12,7 +12,7 @@ cache:
   - node_modules
   - ~/.sfdx
   - .sfdx
-# VALIDATE_DRYRUN:
+  # VALIDATE_DRYRUN:
   #tags:
   #- shell_2
   #only:
@@ -23,16 +23,16 @@ cache:
   #- push
   #- commit
 
- # stage: VALIDATE
+  # stage: VALIDATE
   #script:
   #- echo "$SFDX_AUTH_URL_DRY_RUN" > sfdx-auth-url
   #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a DRYRUN -d
- # - sfdx --version
+  # - sfdx --version
   #- cd Nodejs
- # - node convert.js
- # - cd ..
- # - rm -rf output
- # - sfdx force:source:convert -d output
+  # - node convert.js
+  # - cd ..
+  # - rm -rf output
+  # - sfdx force:source:convert -d output
   #- sfdx force:mdapi:deploy -d output -u DRYRUN -c --testlevel=RunLocalTests -w 60
   #- echo "validate Int success"
 
