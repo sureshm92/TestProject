@@ -217,7 +217,7 @@ public without sharing class  DuplicateContactController {
     private static boolean dateIsPresentInSystem(Contact contactRecord){
             return  contactRecord.Participants__r == null || 
                     contactRecord.Participants__r.size() == 0 ||
-                    contactRecord.Participants__r[0].Date_of_Birth__c == null
+                    contactRecord.Participants__r[0].Date_of_Birth__c == null;
     }
 
     private static boolean checkBirthDate(String birthYear){
