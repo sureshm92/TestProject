@@ -29,7 +29,7 @@
             if(params.isFinalUpdate && formComponent.get('v.isValid')){
                 params.callback(pe);
             }else{
-                if(params.isFinalUpdate) communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields'));
+                if(params.isFinalUpdate) communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields', 1000));
                 component.find('dialog').show();
             }
         }catch (e) {
