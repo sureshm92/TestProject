@@ -144,7 +144,7 @@ public class TestData {
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'CTP1',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
-                NCT_Number__c = 'NCT00000001',
+                NCT_Number__c = 'NCT99999999',
                 Link_to_Pre_screening__c = 'some link',
                 Terms_And_Conditions_ID__c = studyTC.Id,
                 Study_Title__c = 'Some Title',
