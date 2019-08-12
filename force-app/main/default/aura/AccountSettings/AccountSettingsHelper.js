@@ -25,7 +25,6 @@
     },
 
     setFieldsValidity: function(component){
-        debugger;
         var fieldsGroup = 'cField';
         if(component.get('v.participant')) fieldsGroup = 'pField';
         var allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {
