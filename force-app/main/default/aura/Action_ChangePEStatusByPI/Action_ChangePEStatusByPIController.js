@@ -41,6 +41,8 @@
                 }else{
                     helper.updatePE(component);
                 }
+            }, function () {
+                helper.cancel(component);
             });
         }else{
             helper.updatePE(component);

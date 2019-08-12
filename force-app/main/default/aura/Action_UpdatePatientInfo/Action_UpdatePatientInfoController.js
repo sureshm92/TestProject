@@ -22,14 +22,16 @@
             component.set('v.participant', pe.Participant__r);
             component.set('v.callback', $A.getCallback(params.callback));
             component.set('v.isFinalUpdate', params.isFinalUpdate);
+            if(params.cancelCallback) component.find('dialog').set('v.closeCallback', $A.getCallback(params.cancelCallback));
             formComponent.createDataStamp();
             formComponent.set('v.handleChangesEnabled', true);
             formComponent.checkFields();
             if(params.isFinalUpdate && formComponent.get('v.isValid')){
-               // params.callback(pe);
+                params.callback(pe);
             }else{
+                if(params.isFinalUpdate) communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields'));
+                component.find('dialog').show();
             }
-            component.find('dialog').show();
         }catch (e) {
             console.error(e);
         }
