@@ -266,6 +266,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Gender__c',
             'Participant__r.Email__c',
             'Participant__r.Phone__c',
+            'Participant__r.Phone_Type__c',
             'Participant__r.Mailing_State__c',
             'Participant__r.Mailing_City__c',
             'Participant__r.Mailing_State_Code__c',

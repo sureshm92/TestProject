@@ -13,12 +13,12 @@ public without sharing class Action_ChangePEStatusByPIRemote {
             }
             return JSON.serialize(referralDeclineReasons);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String)AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static void updatePE(String peId, String status, String reason, String notes) {
+    public static String updatePE(String peId, String status, String reason, String notes) {
         try {
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     Id = peId,
@@ -35,6 +35,7 @@ public without sharing class Action_ChangePEStatusByPIRemote {
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+        return ReferralProfileRemote.getReferralProfileDetail(peId, CommunityService.USER_MODE_PI);
     }
 
 }
