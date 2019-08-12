@@ -23,7 +23,7 @@
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
     <div>
         <aura:if isTrue="{!v.isInitialized}">
-            <!-- change PE status action by PI: -->
+            <!-- actions: -->
             <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
             <c:Action_UpdatePatientInfo aura:id="updatePatientInfoAction"/>
 

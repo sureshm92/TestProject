@@ -28,6 +28,7 @@
 
     <!-- actions: -->
     <c:RRActionApprove aura:id="actionApprove" message="{!$Label.c.Poput_ICF}" approveBtnName="{!$Label.c.BTN_Confirm}"/>
+    <c:Action_UpdatePatientInfo aura:id="updatePatientInfoAction"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!v.isInitialized}">

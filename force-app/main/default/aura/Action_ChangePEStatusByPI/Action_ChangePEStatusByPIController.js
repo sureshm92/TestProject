@@ -30,19 +30,22 @@
             selectReferralDeclineReasonDialog.set('v.closeCallback', $A.getCallback(cancelCallback));
             selectReferralDeclineReasonDialog.show();
         }else if(status === 'Enrollment Success') {
-            if (pe.Informed_Consent__c !== true) {
-                component.find('actionApprove').execute(function () {
+            component.find('updatePatientInfoAction').execute(pe, true, function () {
+                if (pe.Informed_Consent__c !== true) {
+                    component.find('actionApprove').execute(function () {
+                        helper.updatePE(component);
+                    }, function () {
+                        communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
+                        helper.cancel(component);
+                    });
+                }else{
                     helper.updatePE(component);
-                }, function () {
-                    communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
-                    helper.cancel(component);
-                });
-            }else{
-                helper.updatePE(component);
-            }
+                }
+            });
         }else{
             helper.updatePE(component);
         }
+
     },
 
     doUpdatePE: function (component, event, helper) {
