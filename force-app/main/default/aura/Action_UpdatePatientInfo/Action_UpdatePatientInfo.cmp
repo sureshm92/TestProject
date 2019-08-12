@@ -21,6 +21,7 @@
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
         <aura:attribute name="isFinalUpdate" type="Boolean"/>
         <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="cancelCallback" type="Function"/>
     </aura:method>
 
     <!-- component body: -->
