@@ -117,6 +117,9 @@ private class Test_Batch_CopyEnrollmentHistory {
                 Participant_Enrollment__c = pe.Id
         );
         insert pse;
+        
+        pe.Participant_Study_Enrollment__c = pse.Id;
+        update pe;
 
         PSE_Status_History__c pseStatusHistory = new PSE_Status_History__c(
                 Status__c = pse.Status__c,

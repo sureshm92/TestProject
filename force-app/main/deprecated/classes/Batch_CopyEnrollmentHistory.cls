@@ -7,8 +7,6 @@ public without sharing class Batch_CopyEnrollmentHistory implements Database.Bat
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
                 SELECT Id,
-                        Participant_Enrollment__c,
-                        Participant_Enrollment__r.Participant_Status__c,
                         Status__c, (
                         SELECT Id,
                                 Changed_Date__c,
@@ -27,10 +25,17 @@ public without sharing class Batch_CopyEnrollmentHistory implements Database.Bat
         List<Participant_Enrollment_Status_History__c> peHistories = new List<Participant_Enrollment_Status_History__c>();
         List<PSE_Status_History__c> pseStatusHistories = new List<PSE_Status_History__c>();
 
+        List<Participant_Enrollment__c> peList = [
+                SELECT Id, Participant_Study_Enrollment__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Study_Enrollment__c IN: enrollments
+        ];
+        Map<Id, Participant_Enrollment__c> peByPSEIdMap = new Map<Id, Participant_Enrollment__c>();
+        for(Participant_Enrollment__c pe : peList) peByPSEIdMap.put(pe.Participant_Study_Enrollment__c, pe);
+        
         for (Participant_Study_Enrollment__c pse : enrollments) {
-            if(pse.Participant_Enrollment__c == null) continue;
-
-            Participant_Enrollment__c pe = pse.Participant_Enrollment__r;
+            Participant_Enrollment__c pe = peByPSEIdMap.get(pse.Id);
+            if(pe == null) continue;
             pe.Participant_Status__c = pse.Status__c;
             participantEnrollments.add(pe);
 
@@ -39,7 +44,7 @@ public without sharing class Batch_CopyEnrollmentHistory implements Database.Bat
                 peHistories.add(new Participant_Enrollment_Status_History__c(
                         Date__c = pseHistory.Changed_Date__c,
                         NewStatus__c = pseHistory.Status__c,
-                        ParticipantEnrollment__c = pse.Participant_Enrollment__c
+                        ParticipantEnrollment__c = pe.Id
                 ));
             }
         }
