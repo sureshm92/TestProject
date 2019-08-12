@@ -12,6 +12,7 @@
     <aura:attribute name="participant" type="Participant__c"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData"/>
     <aura:attribute name="ctp" type="Clinical_Trial_Profile__c"/>
+    <aura:attribute name="ss" type="Study_Site__c"/>
     <aura:attribute name="isValid" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 

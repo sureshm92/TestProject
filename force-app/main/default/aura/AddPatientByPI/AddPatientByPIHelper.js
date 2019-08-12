@@ -3,14 +3,17 @@
  */
 ({
     initData: function (component) {
+        var ss = component.get('v.ss');
         component.set('v.participant', {
             sobjectType: 'Participant__c',
-            Mailing_Country_Code__c: 'US'
+            Mailing_Country_Code__c: ss.Principal_Investigator__r.Account.BillingCountryCode,
+            Mailing_State_Code__c: ss.Principal_Investigator__r.Account.BillingStateCode
         });
         component.set('v.pe', {
             sobjectType: 'Participant_Enrollment__c',
-            Study_Site__c: component.get('v.ss.Id')
+            Study_Site__c: ss.Id
         });
+        component.find('editForm').set('v.handleChangesEnabled', true);
     },
 
     createParticipant: function (component, callback) {

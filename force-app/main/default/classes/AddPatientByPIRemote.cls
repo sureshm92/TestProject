@@ -35,10 +35,13 @@ public class AddPatientByPIRemote {
     }
     
     @AuraEnabled
-    public static FormData getInitData(Id ctpId) {
+    public static FormData getInitData(Id ssId) {
         try {
             FormData initData = new FormData();
-            if(ctpId != null) initData.ctp = TrialService.getTrial(ctpId);
+            if(ssId != null) {
+                initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
+                initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
+            }
             return initData;
         } catch (Exception e) {
             return (FormData) AuraHelper.throwException(e);

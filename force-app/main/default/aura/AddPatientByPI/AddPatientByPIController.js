@@ -4,17 +4,17 @@
 ({
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
-        var ctpId = communityService.getUrlParameter('id');
+        var ssId = communityService.getUrlParameter('ssId');
         communityService.executeAction(component, 'getInitData', {
-            ctpId: ctpId
+            ssId: ssId
         }, function (formData) {
             component.set('v.ctp', formData.ctp);
+            component.set('v.ss', formData.ss);
             component.set('v.formData', formData);
-            helper.initData(component);
             component.set('v.initialized', true);
             window.setTimeout(
                 $A.getCallback(function() {
-                    component.find('editForm').set('v.handleChangesEnabled', true);
+                    helper.initData(component);
                 }), 100
             );
         }, null, function () {
@@ -23,12 +23,12 @@
     },
 
     doCancel: function (component) {
-        communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+        communityService.navigateToHome();
     },
 
     doSaveAndExit: function (component, event, helper) {
         helper.createParticipant(component, function () {
-            communityService.navigateToPage('study-workspace?tab=tab-referrals&id=' + component.get('v.ctp.Id'))
+            communityService.navigateToHome();
         })
     },
 
