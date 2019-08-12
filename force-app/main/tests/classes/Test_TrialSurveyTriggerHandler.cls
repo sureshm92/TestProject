@@ -11,8 +11,6 @@ private class Test_TrialSurveyTriggerHandler {
 
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.ctp.NCT_Number__c = 'NCT99999999';
-        update testData.ctp;
 
         Trial_Survey__c ts = new Trial_Survey__c(
                 Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
