@@ -3,35 +3,15 @@
  */
 ({
     doSaveSelectedStatus: function (component, event, helper) {
-        debugger;
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
-        if(step.name = "Enrolled/Randomized" && step.selectedStatus == "Enrollment Success" && !component.get('v.entrollmentSuccess')){
-            component.set('v.entrollmentSuccess',true);
-            component.set('v.isShowPopup',true);
+        if(step.name === $A.get('$Label.c.PE_ST_Enrolled_Randomized') && step.selectedStatus === 'Enrollment Success'){
+            rootComponent.find('updatePatientInfoAction').execute(pe, true, function () {
+                helper.saveSelectedStatus(component);
+            });
         } else {
-            component.set('v.entrollmentSuccess',false);
-            rootComponent.find('mainSpinner').show();
-            var statusReason = step.selectedStatus.split(';');
-            var status, reason;
-            status = statusReason[0];
-            if (statusReason.length > 1) {
-                reason = statusReason[1];
-            }
-
-            var notes = step.notes;
-            var changePEStatusByPIAction = rootComponent.find('changePEStatusByPIAction');
-            if (status === 'Enrollment Success' && pe.Informed_Consent__c !== true) {
-                rootComponent.find('actionApprove').execute(function () {
-                    changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
-                }, function () {
-                    rootComponent.find('mainSpinner').hide();
-                    communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
-                });
-            } else {
-                changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
-            }
+            helper.saveSelectedStatus(component);
         }
     },
 
