@@ -6,7 +6,7 @@
 
     <!--attributes: -->
     <aura:attribute name="pathItems" type="List"/>
-    <aura:attribute name="pseId" type="String"/>
+    <aura:attribute name="peId" type="String"/>
 
     <!-- methods: -->
     <aura:method name="loadHistory" action="{!c.doLoadHistory}"/>

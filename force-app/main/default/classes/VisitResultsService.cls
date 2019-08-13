@@ -74,12 +74,6 @@ public inherited sharing class VisitResultsService {
                 );
     }
 
-    public Boolean checkOnAccess(ParticipantService.ParticipantState pState) {
-        return !ParticipantService.ParticipantStates.ALUMNI.equals(pState.value)
-                || pState.isDelegate
-                || !VisitResultSharingService.isVisitResultAvailable()
-                || !pState.pe.Participant_Contact__r.Visit_Results_Opt_In__c;
-    }
 
     private List<VisitResultWrapper> getVisitResultWrappers(List<Visit_Result__c> visitResults, List<Visit_Result_TypeM__mdt> visitResultTypes) {
 
