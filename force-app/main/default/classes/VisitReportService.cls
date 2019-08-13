@@ -10,7 +10,7 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pe.Participant_Contact__r.Visit_Results_Opt_In__c) {
+        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !pState.pe.Participant_Contact__r.Visit_Results_Opt_In__c || !VisitResultSharingService.isVisitResultAvailable()) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
@@ -22,44 +22,31 @@ public inherited sharing class VisitReportService {
         if (reportDataWrapperMap.isEmpty()) {
             return result;
         }
-        VisitReportContainerRemote.ReportDataWrapper reportDataWrapper = this.getFillReportData(reportDataWrapperMap, visitResultGroupMS, pState);
+        VisitReportContainerRemote.ReportDataWrapper reportDataWrapper = this.getFillReportData(reportDataWrapperMap, visitResultGroupMS);
         result.add(reportDataWrapper);
         return result;
     }
 
     private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(List<Patient_Visit__c> patientVisits, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
+        Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType(visitResultGroupMS);
         for (Patient_Visit__c patientVisit : patientVisits) {
             if (!patientVisit.Visit_Results__r.isEmpty()) {
                 List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResultsForReport(patientVisit.Visit_Results__r);
                 if (visitResultsAvailable.isEmpty()) continue;
-                Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType();
+                notAccessResultType = VisitResultSharingService.getNotAccessResultType();
                 Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(visitResultsAvailable);
                 for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
-                    Boolean isResult = false;
                     List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                     List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
-                    String visitDate = DateService.format(patientVisit.Completed_Date__c, 'MMM, D YYYY');
-                    reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('Report_Dates'));
-                    reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitDate));
                     List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
-                    List<VisitResultWrapper> visitResultWrappers = new List<VisitResultWrapper>();
-                    for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
-                        visitResultWrappers.add(new VisitResultWrapper(visitResultTypeM));
-                    }
-                    visitResultWrappers.sort();
+                    Boolean isResult = false;
+                    this.fillFirstColumn(reportHeaderWrappers, reportRowWrappers, patientVisit.Completed_Date__c);
+                    List<VisitResultWrapper> visitResultWrappers = this.getSortVisitResultWrappers(visitResultGroupM);
                     for (VisitResultWrapper visitResultWrapper : visitResultWrappers) {
                         if (notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) continue;
                         if (visitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
-                            Visit_Result__c visitResult = visitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName);
-                            if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult));
-                            } else {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
-                            }
-                            Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP);
-                            String value = String.valueOf(rounded);
-                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c));
+                            this.fillDataFromExistingVisit(visitResultGroupM, reportHeaderWrappers, visitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName), reportRowWrappers);
                             isResult = true;
                         } else {
                             reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('______'));
@@ -72,14 +59,7 @@ public inherited sharing class VisitReportService {
                         if (result.get(visitResultGroupM.DeveloperName) != null) {
                             result.get(visitResultGroupM.DeveloperName).visitResultsWrapper.add(reportRowWrappers);
                         } else {
-                            VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
-                            reportDataTableWrapper.tHead = reportHeaderWrappers;
-                            reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
-                                    reportRowWrappers
-                            };
-                            reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header');
-                            reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
-                            reportDataTableWrapper.labsDescription = labsDescription;
+                            VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = this.getReportDataTableWrapper(reportHeaderWrappers, reportRowWrappers, visitResultGroupM, labsDescription);
                             result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
                         }
                     }
@@ -89,26 +69,11 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
-    private Map<String, Visit_Result__c> getVisitResultMapByResultType(List<Visit_Result__c> visitResults) {
-        Map<String, Visit_Result__c> result = new Map<String, Visit_Result__c>();
-        for (Visit_Result__c visitResult : visitResults) {
-            result.put(visitResult.Result_Type__c, visitResult);
-        }
-        return result;
-    }
-
-    private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
-        List<VisitReportContainerRemote.ReportDataTableWrapper> result = new List<VisitReportContainerRemote.ReportDataTableWrapper>();
-        for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
-            VisitReportContainerRemote.ReportDataTableWrapper rep = reportDataWrapperMap.get(visitResultGroupM.DeveloperName);
-            if (rep != null) {
-                result.add(rep);
-            }
-        }
-        return result;
-    }
-
-    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS, ParticipantService.ParticipantState pState) {
+    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
+            Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
+            , List<Visit_Result_GroupM__mdt> visitResultGroupMS
+    ) {
+        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
         result.dataTables = sortReportDataTableWrappers;
@@ -122,6 +87,62 @@ public inherited sharing class VisitReportService {
         result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
         result.studySiteName = pState.pe.Study_Site__r.Name;
         return result;
+    }
+
+    private VisitReportContainerRemote.ReportDataTableWrapper getReportDataTableWrapper(List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers, List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers, Visit_Result_GroupM__mdt visitResultGroupM, List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription) {
+        VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
+        reportDataTableWrapper.tHead = reportHeaderWrappers;
+        reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
+                reportRowWrappers
+        };
+        reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header');
+        reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
+        reportDataTableWrapper.labsDescription = labsDescription;
+        return reportDataTableWrapper;
+    }
+
+    private void fillDataFromExistingVisit(Visit_Result_GroupM__mdt visitResultGroupM, List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers, Visit_Result__c visitResult, List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers) {
+        if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
+            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult));
+        } else {
+            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
+        }
+        Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP);
+        String value = String.valueOf(rounded);
+        reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c));
+    }
+
+    private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+        List<VisitReportContainerRemote.ReportDataTableWrapper> result = new List<VisitReportContainerRemote.ReportDataTableWrapper>();
+        for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
+            VisitReportContainerRemote.ReportDataTableWrapper rep = reportDataWrapperMap.get(visitResultGroupM.DeveloperName);
+            if (rep != null) {
+                result.add(rep);
+            }
+        }
+        return result;
+    }
+
+    private List<VisitResultWrapper> getSortVisitResultWrappers(Visit_Result_GroupM__mdt visitResultGroupM) {
+        List<VisitResultWrapper> visitResultWrappers = new List<VisitResultWrapper>();
+        for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
+            visitResultWrappers.add(new VisitResultWrapper(visitResultTypeM));
+        }
+        visitResultWrappers.sort();
+        return visitResultWrappers;
+    }
+
+    private Map<String, Visit_Result__c> getVisitResultMapByResultType(List<Visit_Result__c> visitResults) {
+        Map<String, Visit_Result__c> result = new Map<String, Visit_Result__c>();
+        for (Visit_Result__c visitResult : visitResults) {
+            result.put(visitResult.Result_Type__c, visitResult);
+        }
+        return result;
+    }
+
+    private void fillFirstColumn(List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers, List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers, Date dateVisit) {
+        reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('Report_Dates'));
+        reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(DateService.format(dateVisit, 'MMM, D YYYY')));
     }
 
     public class VisitResultWrapper implements Comparable {

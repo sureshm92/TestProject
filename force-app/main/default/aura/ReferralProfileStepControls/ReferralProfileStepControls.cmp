@@ -3,16 +3,22 @@
  -->
 
 <aura:component description="ReferralProfileStepControls">
+
+    <!-- public attributes: -->
     <aura:attribute name="parent" type="Aura.Component" access="public" description="Parent component with method 'refresh'. Invoked on complete"/>
     <aura:attribute name="step" type="Object" access="public" description="step object"/>
     <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
-    <aura:attribute name="notesRequired" type="Boolean" access="private" default="false" description="other reason required notes"/>
-    <aura:attribute name="isShowPopup" type="Boolean" default="false" />
-    <aura:attribute name="entrollmentSuccess" type="Boolean" default="false" />
 
+    <!-- private attributes: -->
+    <aura:attribute name="notesRequired" type="Boolean" access="private" default="false" description="other reason required notes"/>
+
+    <!-- handlers: -->
     <aura:handler name="change" value="{!v.step.selectedStatus}" action="{!c.onStatusChange}"/>
+
+    <!-- methods: -->
     <aura:method name="statusSave" action="{!c.doSaveSelectedStatus}" access="public"/>
 
+    <!-- component body: -->
     <div class="{!'slds-col slds-grid pe-state-row ' + if(v.step.isCurrent, ' current', '')}">
         <div class="{!'slds-col line-div ' + v.step.nextState}">
             <div class="{!'state-ico-wrapper ' + v.step.state}">

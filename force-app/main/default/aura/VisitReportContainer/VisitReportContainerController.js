@@ -14,8 +14,7 @@
                     if (spinner) {
                         spinner.hide();
                     }
-                },
-                function (err) {
+                }, function (err) {
                     if (err && err[0].message) {
                         component.set('v.errorMessage', err[0].message);
                     }

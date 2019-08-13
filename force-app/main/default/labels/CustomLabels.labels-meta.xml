@@ -2845,34 +2845,6 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Glucose is a sugar, also called “blood sugar”. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
     <labels>
-        <fullName>Haematocrit</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Haematocrit</shortDescription>
-        <value>Hematocrit</value>
-    </labels>
-    <labels>
-        <fullName>Haematocrit_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Haematocrit Description</shortDescription>
-        <value>A hematocrit test measures the proportion of red blood cells in your blood. Your blood is made up of different components, such as red and white blood cells and blood platelets. The hematocrit value is the ratio of the volume of red blood cells compared to the total volume of all the components of the blood together. This value is expressed as a percentage. For example, if your hematocrit value is 50%, it means that there are 50 milliliters (mL) of red blood cells in 100 mL of blood. Hematocrit is measured to check your general health and to check for conditions that influence red blood cells.</value>
-    </labels>
-    <labels>
-        <fullName>Haemoglobin</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Haemoglobin</shortDescription>
-        <value>Hemoglobin</value>
-    </labels>
-    <labels>
-        <fullName>Haemoglobin_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Haemoglobin Description</shortDescription>
-        <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
-    </labels>
-    <labels>
         <fullName>Height</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8155,13 +8127,6 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Report Fasting Lipid Profile header</shortDescription>
         <value>Fasting Lipid Summary Table</value>
-    </labels>
-    <labels>
-        <fullName>Report_Haematology_header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Report Haematology header</shortDescription>
-        <value>Haematology Panel</value>
     </labels>
     <labels>
         <fullName>Report_Hematology_header</fullName>

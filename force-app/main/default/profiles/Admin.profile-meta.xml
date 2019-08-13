@@ -79,6 +79,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CopyEnrollmentHistory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -376,6 +380,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>InfoModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Injector</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -972,6 +980,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_BaselineSurveyRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4955,6 +4967,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icons_package__c-Icons package Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Injector_Binding__mdt-Injector Binding Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>

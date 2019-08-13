@@ -38,12 +38,14 @@
                 </aura:iteration>
 
                 <aura:set attribute="else">
-                    <c:VisitsCompliance contactId="{!v.initData.contact.Id}"
-                                        isOptIn="{!v.initData.contact.Visit_Results_Opt_In__c}"
-                                        optInChanged="{!v.optInChanged}"
-                                        isVisitResultsExist="{!v.initData.isResultsExist}"
-                                        isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
-                    />
+
+                    <c:RRInjector componentName="VisitsCompliance">
+                        <c:RRInjectorAttribute name="contactId" value="{!v.initData.contact.Id}"/>
+                        <c:RRInjectorAttribute name="isVisitResultsExist" value="{!v.initData.isResultsExist}"/>
+                        <c:RRInjectorAttribute name="isVisitResultsAvailable" value="{!v.initData.isVisitResultsAvailable}"/>
+                        <c:RRInjectorAttribute name="isOptIn" value="{!v.initData.contact.Visit_Results_Opt_In__c}"/>
+                        <c:RRInjectorAttribute name="optInChanged" value="{!v.optInChanged}" isReference="true"/>
+                    </c:RRInjector>
                 </aura:set>
             </aura:if>
 
