@@ -66,7 +66,8 @@ public without sharing class  DuplicateContactController {
                                 Last_Name__c,
                                 Phone__c,
                                 Email__c,
-                                Date_of_Birth__c
+                                Date_of_Birth__c,
+                                Birth_Year__c
                         FROM	Participants__r
                 )
                 FROM    Contact
