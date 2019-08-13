@@ -15,7 +15,7 @@
                 helper.cancel(component);
             });
         } else {
-            hepler.saveSelectedStatus(component);
+            helper.saveSelectedStatus(component);
         }
     },
 
