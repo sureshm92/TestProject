@@ -12,8 +12,8 @@ public without sharing class  DuplicateContactController {
         Integration_Patient_Referral__c tempRecord = new Integration_Patient_Referral__c(
                 firstName__c = participant.First_Name__c,
                 lastName__c = participant.Last_Name__c,
-                email__c = participant.email__c,
-                phone__c = participant.phone__c,
+                email__c = participant.Email__c,
+                phone__c = participant.Phone__c,
                 Phone_Type__c = participant.Phone_Type__c,
                 birthYear__c = participant.Date_of_Birth__c != null && participant.Date_of_Birth__c != '' ?  getYearOfBirth(participant.Date_of_Birth__c) : '',
                 Address_Country__c = participant.Mailing_Country_Code__c,
