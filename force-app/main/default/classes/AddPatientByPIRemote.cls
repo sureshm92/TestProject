@@ -62,7 +62,6 @@ public class AddPatientByPIRemote {
 
             List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
             for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
-                if(step.name == currentState.name) break;
                 if(step.name == PEStatusState.PE_ST_REFERRED) continue;
                 statusHistories.add(new Participant_Enrollment_Status_History__c(
                         Notes__c = pe.Last_Status_Changed_Notes__c,
@@ -70,6 +69,7 @@ public class AddPatientByPIRemote {
                         ParticipantEnrollment__c = pe.Id,
                         NewStatus__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
                 ));
+                if(step.name == currentState.name) break;
             }
 
             update pe;

@@ -317,7 +317,7 @@ public without sharing class PEStatusState {
         List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
         for(String status : PE_STATUS_GROUP_PARTICIPATION_FLOW) {
             translatedStatuses.add(new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status),
+                    TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
                     status
             ));
         }
