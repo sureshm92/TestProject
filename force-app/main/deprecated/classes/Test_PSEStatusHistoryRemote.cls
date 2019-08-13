@@ -4,7 +4,7 @@
 
 @IsTest
 private class Test_PSEStatusHistoryRemote {
-    
+    /*
     @IsTest
     static void test1() {
         TestData.loadTestData();
@@ -16,4 +16,5 @@ private class Test_PSEStatusHistoryRemote {
         }
         Test.stopTest();
     }
+    */
 }
