@@ -22,6 +22,7 @@ public without sharing class CTPSelector {
                         ,icons__c
                 FROM Visit__c
                 WHERE Visit_Plan__c = :visitPlanId
+                ORDER BY Visit_Number__c
         ];
     }
 
