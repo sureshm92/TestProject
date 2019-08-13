@@ -8,20 +8,20 @@ public without sharing class  DuplicateContactController {
         primaryPhoneEmailCheck(record);
     }
 
-	public static Participant__c communityReffering(Participant__c participant, Participant_Enrollment__c participantEnrollment){
+    public static Participant__c communityReffering(Participant__c participant, Participant_Enrollment__c participantEnrollment){
         Integration_Patient_Referral__c tempRecord = new Integration_Patient_Referral__c(
-			firstName__c = participant.First_Name__c,
-			lastName__c = participant.Last_Name__c,
-			email__c = participant.email__c,
-			phone__c = participant.phone__c,
-            Phone_Type__c = participant.Phone_Type__c,
-            birthYear__c = participant.Date_of_Birth__c != null && participant.Date_of_Birth__c != '' ?  getYearOfBirth(participant.Date_of_Birth__c) : '',
-            Address_Country__c = participant.Mailing_Country_Code__c,
-            Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
-            Data_Source__c = participantEnrollment.Referral_Source__c,
-            sex__c = participant.Gender__c,
-            Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
-		);
+                firstName__c = participant.First_Name__c,
+                lastName__c = participant.Last_Name__c,
+                email__c = participant.email__c,
+                phone__c = participant.phone__c,
+                Phone_Type__c = participant.Phone_Type__c,
+                birthYear__c = participant.Date_of_Birth__c != null && participant.Date_of_Birth__c != '' ?  getYearOfBirth(participant.Date_of_Birth__c) : '',
+                Address_Country__c = participant.Mailing_Country_Code__c,
+                Address_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c),
+                Data_Source__c = participantEnrollment.Referral_Source__c,
+                sex__c = participant.Gender__c,
+                Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
+        );
         if(participant.Date_of_Birth__c != null) {
             if (participant.Date_of_Birth__c.indexOf('-') == 4 || participant.Date_of_Birth__c.indexOf('/') == 4) {
                 tempRecord.BirthDate__c = participant.Date_of_Birth__c.replaceAll('/', '-');
@@ -31,77 +31,77 @@ public without sharing class  DuplicateContactController {
         }
         Participant__c participantRecord = primaryPhoneEmailCheck(tempRecord);
         isPERCreated = false;
-		return participantRecord;
-	}
-    
+        return participantRecord;
+    }
+
     private static Participant__c primaryPhoneEmailCheck(Integration_Patient_Referral__c record){
         Participant__c participant = new Participant__c();
         List<Contact> contactRecords = new List<Contact>();
-		List<Participant__c> participantRecords = new List<Participant__c>();
-		List<Id> contactsIds = new List<Id>();
+        List<Participant__c> participantRecords = new List<Participant__c>();
+        List<Id> contactsIds = new List<Id>();
         String email = record.email__c == null ? '+' : record.email__c;
         String phone = record.phone__c == null ? '+' : record.phone__c;
-        
-		participantRecords = [
-            SELECT 	id,
-            		Contact__c
-            FROM	Participant__c
-            WHERE 	(Email__c = :email OR
-            		Phone__c = :phone)
-        ];
-		for(Participant__c item : participantRecords){
-			contactsIds.add(item.Contact__c);
-		}
 
-		contactRecords = [
-            SELECT 	id,
-            		BirthDate,
-            		FirstName,
-            		LastName,
-            		userCommunityMode__c,
-					userCommunytyType__c,
-					(
-						SELECT	id,
-								First_Name__c,
-								Last_Name__c,
-								Phone__c,
-								Email__c,
+        participantRecords = [
+                SELECT  id,
+                        Contact__c
+                FROM    Participant__c
+                WHERE   (Email__c = :email OR
+                Phone__c = :phone)
+        ];
+        for(Participant__c item : participantRecords){
+            contactsIds.add(item.Contact__c);
+        }
+
+        contactRecords = [
+                SELECT 	id,
+                        BirthDate,
+                        FirstName,
+                        LastName,
+                        userCommunityMode__c,
+                        userCommunytyType__c,
+                (
+                        SELECT	id,
+                                First_Name__c,
+                                Last_Name__c,
+                                Phone__c,
+                                Email__c,
                                 Date_of_Birth__c
-						FROM	Participants__r
-					)
-            FROM	Contact
-            WHERE 	(Email = :email OR
-            		Phone = :phone OR Id IN:contactsIds)
+                        FROM	Participants__r
+                )
+                FROM    Contact
+                WHERE   (Email = :email OR
+                Phone = :phone OR Id IN:contactsIds)
         ];
 
-		Integer recordsContactCount = contactRecords.size();
-		if(recordsContactCount != 0){
-			if((record.BirthYear__c != null && record.BirthYear__c != '') || (record.BirthDate__c != null && record.BirthDate__c != '')){
+        Integer recordsContactCount = contactRecords.size();
+        if(recordsContactCount != 0){
+            if((record.BirthYear__c != null && record.BirthYear__c != '') || (record.BirthDate__c != null && record.BirthDate__c != '')){
                 for(Integer i = 0; i < recordsContactCount; i++){
                     if(checkBirthDate(record, contactRecords[i])){
                         System.debug('Passed checkBirthDate');
                         if(checkFirstName(record, contactRecords[i])){
                             System.debug('Passed checkFirstName');
                             participant = processedDuplicate(contactRecords[i].id, record);
-							break;
+                            break;
                         }else if(recordsContactCount == (i + 1)){
                             participant = createNewRecords(record);
-							break;
+                            break;
                         }
                     }else if(contactRecords[i].BirthDate == null && dateIsPresentInSystem(contactRecords[i]) && checkBirthDateWeak(record)){
-                       System.debug('BirthDate null');
-                       if(checkFirstName(record, contactRecords[i])){
+                        System.debug('BirthDate null');
+                        if(checkFirstName(record, contactRecords[i])){
                             System.debug('Passed checkBirthDate');
-                           	contactRecords[i].BirthDate = record.BirthDate__c != null ? convertBirthDate(record.BirthDate__c) : Date.newInstance(Integer.valueOf(record.BirthYear__c), 1, 1);
+                            contactRecords[i].BirthDate = record.BirthDate__c != null ? convertBirthDate(record.BirthDate__c) : Date.newInstance(Integer.valueOf(record.BirthYear__c), 1, 1);
                             participant = processedDuplicate(contactRecords[i].id, record);
-							break;
+                            break;
                         }else if(recordsContactCount == (i + 1)){
                             participant = createNewRecords(record);
-							break;
-                        } 	
+                            break;
+                        }
                     }else if(recordsContactCount == (i + 1)){
                         participant = createNewRecords(record);
-						break;
+                        break;
                     }
                 }
             }else{
@@ -112,19 +112,19 @@ public without sharing class  DuplicateContactController {
                             System.debug('Passed checkLastName');
                             if(contactRecords[i].userCommunytyType__c == null  || !contactRecords[i].userCommunytyType__c.contains(CommunityService.USER_MODE_PARTICIPANT)){
                                 participant = ParticipantDeduplicationController.checkPER(contactRecords[i].id, record);
-								break;
-							}else{
-                             	participant = processedDuplicate(contactRecords[i].id, record);  
-								break;
-						    }
-                            
+                                break;
+                            }else{
+                                participant = processedDuplicate(contactRecords[i].id, record);
+                                break;
+                            }
+
                         }else if(recordsContactCount == (i + 1)){
                             participant = createNewRecords(record);
-							break;
+                            break;
                         }
                     }else if(recordsContactCount == (i + 1)){
-                         participant = createNewRecords(record);
-						 break;
+                        participant = createNewRecords(record);
+                        break;
                     }
                 }
             }
@@ -136,12 +136,12 @@ public without sharing class  DuplicateContactController {
         }
         return participant;
     }
-    
+
     private static Participant__c createNewRecords(Integration_Patient_Referral__c record){
         System.debug('createNewRecords');
         return ParticipantDeduplicationController.checkPER(record);
     }
-    
+
     private static Participant__c processedDuplicate(String contactId, Integration_Patient_Referral__c record){
         System.debug('processedDuplicate');
         List<Participant__c> listOfParticipants = new List<Participant__c>();
@@ -159,47 +159,61 @@ public without sharing class  DuplicateContactController {
 
     private static boolean checkFirstName(Integration_Patient_Referral__c record, Contact contactRecord){
         System.debug('checkFirstName');
-        return  record.firstName__c  == contactRecord.FirstName || 
-                (   contactRecord.Participants__r != null && 
-                    contactRecord.Participants__r.size() != 0 && 
-                    contactRecord.Participants__r[0].First_Name__c == record.firstName__c
+        return  record.firstName__c  == contactRecord.FirstName ||
+                (   contactRecord.Participants__r != null &&
+                        contactRecord.Participants__r.size() != 0 &&
+                        contactRecord.Participants__r[0].First_Name__c == record.firstName__c
                 );
     }
 
     private static boolean checkLastName(Integration_Patient_Referral__c record, Contact contactRecord){
         System.debug('checkLastName');
-        return  record.lastName__c == contactRecord.LastName || 
+        return  record.lastName__c == contactRecord.LastName ||
                 (
-                    contactRecord.Participants__r != null && 
-                    contactRecord.Participants__r.size() != 0 && 
-                    contactRecord.Participants__r[0].Last_Name__c == record.lastName__c
+                        contactRecord.Participants__r != null &&
+                                contactRecord.Participants__r.size() != 0 &&
+                                contactRecord.Participants__r[0].Last_Name__c == record.lastName__c
                 );
     }
 
     private static boolean checkBirthDate(Integration_Patient_Referral__c record, Contact contactRecord){
         System.debug('checkBirthDate');
         if(record.BirthDate__c != null && record.BirthDate__c != ''){
-            return  (   
-                        contactRecord.BirthDate != null && 
-                        contactRecord.BirthDate == convertBirthDate(record.BirthDate__c)
-                    ) ||  
-                    (   
-                        contactRecord.Participants__r != null && 
-                        contactRecord.Participants__r.size() != 0 &&
-                        contactRecord.Participants__r[0].Date_of_Birth__c != null &&
-                        contactRecord.Participants__r[0].Date_of_Birth__c != '' &&   
-                        contactRecord.Participants__r[0].Date_of_Birth__c == record.BirthDate__c.substring(6) + '-' + record.BirthDate__c.substring(0,2) + '-' + record.BirthDate__c.substring(3,5)
+            return  (
+                    contactRecord.BirthDate != null &&
+                            contactRecord.BirthDate == convertBirthDate(record.BirthDate__c)
+            ) ||
+                    (
+                            contactRecord.Participants__r != null &&
+                                    contactRecord.Participants__r.size() != 0 &&
+                                    contactRecord.Participants__r[0].Date_of_Birth__c != null &&
+                                    contactRecord.Participants__r[0].Date_of_Birth__c != '' &&
+                                    contactRecord.Participants__r[0].Date_of_Birth__c == record.BirthDate__c.substring(6) + '-' + record.BirthDate__c.substring(0,2) + '-' + record.BirthDate__c.substring(3,5)
+                    ) ||
+                    (
+                            contactRecord.Participants__r != null &&
+                                    contactRecord.Participants__r.size() != 0 &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != null &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != '' &&
+                                    contactRecord.Participants__r[0].Birth_Year__c == record.BirthDate__c.substring(6)
                     );
         }else{
             return  (
-                        contactRecord.BirthDate != null && record.BirthYear__c == String.valueOf(contactRecord.BirthDate.year())
+                    contactRecord.BirthDate != null && record.BirthYear__c == String.valueOf(contactRecord.BirthDate.year())
+            ) ||
+                    (
+                            contactRecord.Participants__r != null &&
+                                    contactRecord.Participants__r.size() != 0 &&
+                                    contactRecord.Participants__r[0].Date_of_Birth__c != null &&
+                                    contactRecord.Participants__r[0].Date_of_Birth__c != '' &&
+                                    record.BirthYear__c == contactRecord.Participants__r[0].Date_of_Birth__c.substring(0,4)
                     ) ||
                     (
-                        contactRecord.Participants__r != null && 
-                        contactRecord.Participants__r.size() != 0 &&
-                        contactRecord.Participants__r[0].Date_of_Birth__c != null &&
-                        contactRecord.Participants__r[0].Date_of_Birth__c != '' &&  
-                        record.BirthYear__c == contactRecord.Participants__r[0].Date_of_Birth__c.substring(0,4)
+                            contactRecord.Participants__r != null &&
+                                    contactRecord.Participants__r.size() != 0 &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != null &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != '' &&
+                                    record.BirthYear__c == contactRecord.Participants__r[0].Birth_Year__c
                     );
         }
     }
@@ -208,16 +222,19 @@ public without sharing class  DuplicateContactController {
     private static boolean checkBirthDateWeak(Integration_Patient_Referral__c record){
         System.debug('checkBirthDate');
         if(record.BirthDate__c != null && record.BirthDate__c != ''){
-           return !checkBirthDate(getYearOfBirth(record.BirthDate__c));
+            return !checkBirthDate(getYearOfBirth(record.BirthDate__c));
         }else{
             return !checkBirthDate(record.BirthYear__c);
         }
     }
 
     private static boolean dateIsPresentInSystem(Contact contactRecord){
-            return  contactRecord.Participants__r == null || 
-                    contactRecord.Participants__r.size() == 0 ||
-                    contactRecord.Participants__r[0].Date_of_Birth__c == null;
+        return  contactRecord.Participants__r == null ||
+                contactRecord.Participants__r.size() == 0 ||
+                (
+                        contactRecord.Participants__r[0].Date_of_Birth__c == null &&
+                                contactRecord.Participants__r[0].Birth_Year__c == null
+                );
     }
 
     private static boolean checkBirthDate(String birthYear){
