@@ -23,7 +23,7 @@
             </div>
             <div class="{!'collapse-section ' + if(v.isCollapsed, '', ' opened')}">
             <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.isCollapsed}">
-                <c:PSEStatusHistory aura:id="statusHistory" pseId="{!v.pse.Id}"/>
+                <c:PSEStatusHistory aura:id="statusHistory" peId="{!v.pe.Id}"/>
             </c:RRCollapse>
         </div>
         </div>

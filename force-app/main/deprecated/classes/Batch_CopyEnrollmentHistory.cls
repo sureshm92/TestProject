@@ -7,49 +7,53 @@ public without sharing class Batch_CopyEnrollmentHistory implements Database.Bat
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
                 SELECT Id,
-                        Participant_Status__c,
-                        Participant_Study_Enrollment__c,
-                        Participant_Study_Enrollment__r.Status__c
-                FROM Participant_Enrollment__c
-                WHERE Participant_Study_Enrollment__c != NULL
-                AND Participant_Study_Enrollment__r.Status__c != :PSEService.PSE_STATUS_ENROLLED
+                        Status__c, (
+                        SELECT Id,
+                                Changed_Date__c,
+                                Status__c,
+                                PSE__c
+                        FROM PSE_Status_Histories__r
+                )
+                FROM Participant_Study_Enrollment__c
         ]);
     }
 
-    public void execute(Database.BatchableContext param1, List<Participant_Enrollment__c> enrollments) {
+    public void execute(Database.BatchableContext param1, List<Participant_Study_Enrollment__c> enrollments) {
         disableTriggers();
 
-        Map<Id, Id> psePe = new Map<Id, Id>();
-        List<Participant_Study_Enrollment__c> participantStudyEnrollments = new List<Participant_Study_Enrollment__c>();
-        for (Participant_Enrollment__c pe : enrollments) {
-            pe.Participant_Status__c = pe.Participant_Study_Enrollment__r.Status__c;
-            psePe.put(pe.Participant_Study_Enrollment__c, pe.Id);
-            participantStudyEnrollments.add(pe.Participant_Study_Enrollment__r);
-        }
+        List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
+        List<Participant_Enrollment_Status_History__c> peHistories = new List<Participant_Enrollment_Status_History__c>();
+        List<PSE_Status_History__c> pseStatusHistories = new List<PSE_Status_History__c>();
 
-        List<PSE_Status_History__c> pseStatusHistories = [
-                SELECT Id,
-                        Changed_Date__c,
-                        Status__c,
-                        PSE__c
-                FROM PSE_Status_History__c
-                WHERE PSE__c IN:participantStudyEnrollments
+        List<Participant_Enrollment__c> peList = [
+                SELECT Id, Participant_Study_Enrollment__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Study_Enrollment__c IN: enrollments
         ];
+        Map<Id, Participant_Enrollment__c> peByPSEIdMap = new Map<Id, Participant_Enrollment__c>();
+        for(Participant_Enrollment__c pe : peList) peByPSEIdMap.put(pe.Participant_Study_Enrollment__c, pe);
+        
+        for (Participant_Study_Enrollment__c pse : enrollments) {
+            Participant_Enrollment__c pe = peByPSEIdMap.get(pse.Id);
+            if(pe == null) continue;
+            pe.Participant_Status__c = pse.Status__c;
+            participantEnrollments.add(pe);
 
-        List<Participant_Enrollment_Status_History__c> enrollmentStatusHistories = new List<Participant_Enrollment_Status_History__c>();
-        for (PSE_Status_History__c pseHistory : pseStatusHistories) {
-            enrollmentStatusHistories.add(new Participant_Enrollment_Status_History__c(
-                    Date__c = pseHistory.Changed_Date__c,
-                    NewStatus__c = pseHistory.Status__c,
-                    ParticipantEnrollment__c = psePe.get(pseHistory.PSE__c)
-            ));
+            for (PSE_Status_History__c pseHistory : pse.PSE_Status_Histories__r) {
+                pseStatusHistories.add(pseHistory);
+                peHistories.add(new Participant_Enrollment_Status_History__c(
+                        Date__c = pseHistory.Changed_Date__c,
+                        NewStatus__c = pseHistory.Status__c,
+                        ParticipantEnrollment__c = pe.Id
+                ));
+            }
         }
 
-        if (!enrollmentStatusHistories.isEmpty()) insert enrollmentStatusHistories;
-        update enrollments;
+        update participantEnrollments;
+        if (!peHistories.isEmpty()) insert peHistories;
 
         if(!pseStatusHistories.isEmpty()) delete pseStatusHistories;
-        delete participantStudyEnrollments;
+        delete enrollments;
     }
 
     public static void disableTriggers() {

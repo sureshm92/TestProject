@@ -6,18 +6,44 @@
 private class Test_Batch_CopyEnrollmentHistory {
 
     @IsTest
-    static void testBehavior() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+    static void testReferred() {
+        disableTriggers();
 
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
+        PSE_Status_History__c pseHistoryBefore = [SELECT Id, Changed_Date__c, Status__c FROM PSE_Status_History__c];
 
-        Batch_CopyEnrollmentHistory.disableTriggers();
+        Test.startTest();
+        Batch_CopyEnrollmentHistory.run();
+        Test.stopTest();
+
+        Participant_Enrollment__c enrollment = [
+                SELECT Id,
+                        Participant_Status__c,
+                (SELECT
+                        Id,
+                        Date__c,
+                        NewStatus__c
+                FROM Participant_Enrollment_Status_History__r)
+                FROM Participant_Enrollment__c
+        ];
+        System.assertEquals(PSEService.PSE_STATUS_TREATMENT_PERIOD_STARTED, enrollment.Participant_Status__c);
+
+        List<Participant_Study_Enrollment__c> pse = [SELECT Id FROM Participant_Study_Enrollment__c];
+        System.assert(pse.isEmpty());
+
+        List<PSE_Status_History__c> pseHistoryAfter = [SELECT Id FROM PSE_Status_History__c];
+        System.assert(pseHistoryAfter.isEmpty());
+
+        for(Participant_Enrollment_Status_History__c history : enrollment.Participant_Enrollment_Status_History__r) {
+            if(history.Date__c.date() == System.today()) {
+                System.assertEquals(pseHistoryBefore.Changed_Date__c.date(), history.Date__c.date());
+                System.assertEquals(pseHistoryBefore.Status__c, history.NewStatus__c);
+            }
+        }
+    }
+
+    @TestSetup
+    private static void setup() {
+        disableTriggers();
 
         Participant__c participant = new Participant__c(
                 First_Name__c = 'Participant',
@@ -87,10 +113,11 @@ private class Test_Batch_CopyEnrollmentHistory {
 
         Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
                 Status__c = PSEService.PSE_STATUS_TREATMENT_PERIOD_STARTED,
-                Participant__c = participant.Id
+                Participant__c = participant.Id,
+                Participant_Enrollment__c = pe.Id
         );
         insert pse;
-
+        
         pe.Participant_Study_Enrollment__c = pse.Id;
         update pe;
 
@@ -100,29 +127,19 @@ private class Test_Batch_CopyEnrollmentHistory {
                 PSE__c = pse.Id
         );
         insert pseStatusHistory;
+    }
 
-        Test.startTest();
-        Batch_CopyEnrollmentHistory.run();
-        Test.stopTest();
+    private static void disableTriggers() {
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
 
-        Participant_Enrollment__c enrollment = [
-                SELECT Id,
-                        Participant_Status__c,
-                (SELECT
-                        Id,
-                        Date__c,
-                        NewStatus__c
-                FROM Participant_Enrollment_Status_History__r)
-                FROM Participant_Enrollment__c
-        ];
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
 
-        System.assertEquals(pse.Status__c, enrollment.Participant_Status__c);
-
-        for(Participant_Enrollment_Status_History__c history : enrollment.Participant_Enrollment_Status_History__r) {
-            if(history.Date__c.date() == System.today()) {
-                System.assertEquals(pseStatusHistory.Changed_Date__c.date(), history.Date__c.date());
-                System.assertEquals(pseStatusHistory.Status__c, history.NewStatus__c);
-            }
-        }
+        Batch_CopyEnrollmentHistory.disableTriggers();
     }
 }
