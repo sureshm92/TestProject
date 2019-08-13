@@ -170,6 +170,7 @@ public class TestData {
         insert studyTranslation;
     
         Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test SS',
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
