@@ -44,10 +44,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
 
         public override void afterInsert(List<SObject> newList) {
-            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList);
+            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, null);
         }
     }
 
@@ -377,18 +378,26 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void createPrimaryHistoryEntry(List<Participant_Enrollment__c> enrollments) {
+    private static void createPrimaryHistoryEntry(
+            List<Participant_Enrollment__c> enrollments,
+            Map<Id, Participant_Enrollment__c> oldMap
+    ) {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         for(Participant_Enrollment__c pe : enrollments) {
-            histories.add(new Participant_Enrollment_Status_History__c(
-                    Date__c = pe.Participant_Status_Last_Changed_Date__c,
-                    NewStatus__c = pe.Participant_Status__c,
-                    Notes__c = pe.Non_Referral_Notes__c,
-                    ParticipantEnrollment__c = pe.Id,
-                    Reason__c = pe.Non_Referral_Reason__c
-            ));
+            if(pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
+                if(oldMap == null ||
+                        (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI)) {
+                    histories.add(new Participant_Enrollment_Status_History__c(
+                            Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                            NewStatus__c = pe.Participant_Status__c,
+                            Notes__c = pe.Non_Referral_Notes__c,
+                            ParticipantEnrollment__c = pe.Id,
+                            Reason__c = pe.Non_Referral_Reason__c
+                    ));
+                }
+            }
         }
-        insert histories;
+        if(!histories.isEmpty()) insert histories;
     }
 
     // On study logic---------------------------------------------------------------------------------------------------
