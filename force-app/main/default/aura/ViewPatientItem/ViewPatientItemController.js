@@ -38,7 +38,12 @@
         var pe = component.get('v.pe');
         var status = event.currentTarget.dataset.statusName;
         var changePEStatusByPIAction = rootComponent.find('changePEStatusByPIAction');
-        changePEStatusByPIAction.execute(pe, status, null, null, rootComponent);
+        changePEStatusByPIAction.execute(pe, status, null, null, function (pe) {
+            component.set('v.pe', pe);
+            rootComponent.find('mainSpinner').hide();
+        }, function () {
+            rootComponent.find('mainSpinner').hide();
+        });
     }
 
 })

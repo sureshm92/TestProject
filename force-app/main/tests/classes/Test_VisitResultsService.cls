@@ -10,22 +10,11 @@ private class Test_VisitResultsService {
 
         VisitResultsService service = new VisitResultsService();
 
-        List<String> groupNames = new List<String>{
-                'first', 'second'
-        };
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubFactory.newInstance(VisitResultMService.class)
-                .when('getVisitResultGroupNames')
-                .then(groupNames)
-                .getInstance()
-        );
-
         Test.startTest();
-        List<String> testNames = service.getVisitResultsGroupNames(null);
+        List<String> testNames = service.getVisitResultsGroupNames('Vitals');
         Test.stopTest();
 
-        System.assertEquals(2, testNames.size());
+        System.assert( testNames[0].equals('Vitals'));
     }
 
     @IsTest
@@ -165,11 +154,6 @@ private class Test_VisitResultsService {
 
         System.runAs(testData.participantUser) {
             ClassFactory.clearStubTypesByClassNamesMap();
-            ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubFactory.newInstance(VisitResultMService.class)
-                    .when('getVisitResultTypeDashboardConfigs')
-                    .then(configs)
-                    .getInstance()
-            );
             List<VisitResultsService.VisitResultWrapper> wrappers = service.getVisitResultWrappersForDashboard();
             System.assert(wrappers != null);
         }
@@ -355,8 +339,8 @@ private class Test_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
-            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer(null);
-            System.assert(container != null);
+            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals');
+            System.assert(container.wrappers.size() > 4);
         }
 
         Test.stopTest();
