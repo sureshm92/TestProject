@@ -7,6 +7,7 @@ private class Test_PSEService {
     
     // Define mocks: ---------------------------------------------------------------------------------------------------
     
+    /*
     public class DatabaseServiceMock implements StubProvider {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
@@ -68,4 +69,6 @@ private class Test_PSEService {
         PSEService.getInstance().getPSEListForCurrentParticipant();
         Test.stopTest();
     }
+    
+    */
 }
