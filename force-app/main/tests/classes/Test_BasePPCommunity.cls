@@ -18,7 +18,6 @@ private class Test_BasePPCommunity {
                 .then(null)
                 .getInstance()
         );
-//        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TestData.loadTestData();
     }
     
@@ -49,7 +48,6 @@ private class Test_BasePPCommunity {
                 )
         };
         insert visits;
-//        TriggerHandlerExecutor.bypassHandler(PatientVisitTriggerHandler.UpdateMissedVisits.class);
         TestData testDataInstance = new TestData();
         testDataInstance.ctp.Visit_Plan__c = vp.Id;
         update testDataInstance.ctp;

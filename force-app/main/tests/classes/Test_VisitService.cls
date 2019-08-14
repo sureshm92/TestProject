@@ -144,12 +144,5 @@ private class Test_VisitService {
                 Participant__c = participant.Id
         );
         insert pe;
-//
-//        Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
-//                Clinical_Trial_Profile__c = trial.Id,
-//                Participant__c = participant.Id,
-//                Participant_Enrollment__c = pe.Id
-//        );
-//        insert pse;
     }
 }
