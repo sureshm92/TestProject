@@ -12,7 +12,7 @@
 
     <!-- handler: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!pse.Status__c}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!pe.Participant_Status__c}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.isCollapsed}" action="{!c.doProcessCollapse}"/>
 
     <!-- component body: -->

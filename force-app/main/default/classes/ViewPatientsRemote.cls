@@ -56,7 +56,6 @@ public without sharing class ViewPatientsRemote {
                     'Pre_screening_Status__c',
                     'Non_Referral_Reason__c',
                     'CreatedDate'
-
             };
             //add additional filtration:
             List<String> excludedStatuses = new List<String>{
