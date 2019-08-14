@@ -179,41 +179,33 @@ public without sharing class  DuplicateContactController {
 
     private static boolean checkBirthDate(Integration_Patient_Referral__c record, Contact contactRecord){
         System.debug('checkBirthDate');
-        if(record.BirthDate__c != null && record.BirthDate__c != ''){
+        if(!String.isEmpty(record.BirthDate__c)){
             return  (
                     contactRecord.BirthDate != null &&
                             contactRecord.BirthDate == convertBirthDate(record.BirthDate__c)
             ) ||
                     (
-                            contactRecord.Participants__r != null &&
-                                    contactRecord.Participants__r.size() != 0 &&
-                                    contactRecord.Participants__r[0].Date_of_Birth__c != null &&
-                                    contactRecord.Participants__r[0].Date_of_Birth__c != '' &&
-                                    contactRecord.Participants__r[0].Date_of_Birth__c == record.BirthDate__c.substring(6) + '-' + record.BirthDate__c.substring(0,2) + '-' + record.BirthDate__c.substring(3,5)
+                            !contactRecord.Participants__r.isEmpty() &&
+                                    !String.isEmpty(contactRecord.Participants__r[0].Date_of_Birth__c) &&
+                                    convertBirthDate(contactRecord.Participants__r[0].Date_of_Birth__c) == convertBirthDate(record.BirthDate__c)
                     ) ||
                     (
-                            contactRecord.Participants__r != null &&
-                                    contactRecord.Participants__r.size() != 0 &&
-                                    contactRecord.Participants__r[0].Birth_Year__c != null &&
-                                    contactRecord.Participants__r[0].Birth_Year__c != '' &&
-                                    contactRecord.Participants__r[0].Birth_Year__c == record.BirthDate__c.substring(6)
+                            !contactRecord.Participants__r.isEmpty() &&
+                                    !String.isEmpty(contactRecord.Participants__r[0].Birth_Year__c) &&
+                                    contactRecord.Participants__r[0].Birth_Year__c == getYearOfBirth(record.BirthDate__c)
                     );
         }else{
             return  (
                     contactRecord.BirthDate != null && record.BirthYear__c == String.valueOf(contactRecord.BirthDate.year())
             ) ||
                     (
-                            contactRecord.Participants__r != null &&
-                                    contactRecord.Participants__r.size() != 0 &&
-                                    contactRecord.Participants__r[0].Date_of_Birth__c != null &&
-                                    contactRecord.Participants__r[0].Date_of_Birth__c != '' &&
-                                    record.BirthYear__c == contactRecord.Participants__r[0].Date_of_Birth__c.substring(0,4)
+                            !contactRecord.Participants__r.isEmpty() &&
+                                    !String.isEmpty(contactRecord.Participants__r[0].Date_of_Birth__c) &&
+                                    record.BirthYear__c == getYearOfBirth(contactRecord.Participants__r[0].Date_of_Birth__c)
                     ) ||
                     (
-                            contactRecord.Participants__r != null &&
-                                    contactRecord.Participants__r.size() != 0 &&
-                                    contactRecord.Participants__r[0].Birth_Year__c != null &&
-                                    contactRecord.Participants__r[0].Birth_Year__c != '' &&
+                            !contactRecord.Participants__r.isEmpty() &&
+                                    !String.isEmpty(contactRecord.Participants__r[0].Birth_Year__c) &&
                                     record.BirthYear__c == contactRecord.Participants__r[0].Birth_Year__c
                     );
         }
@@ -240,7 +232,7 @@ public without sharing class  DuplicateContactController {
 
     private static boolean checkBirthDate(String birthYear){
         System.debug('birthYear:' + birthYear);
-        if(birthYear == null || birthYear == ''){
+        if(!String.isEmpty(birthYear)){
             System.debug('empty birthdate');
             return true;
         }
@@ -275,4 +267,5 @@ public without sharing class  DuplicateContactController {
         }
         return birthDate.substring(0,4);
     }
+
 }
