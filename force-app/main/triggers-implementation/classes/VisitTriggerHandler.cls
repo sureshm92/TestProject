@@ -29,24 +29,24 @@ public without sharing class VisitTriggerHandler {
                     FROM Clinical_Trial_Profile__c
                     WHERE Visit_Plan__c IN: visitPlanIds
             ];
-            List<Participant_Study_Enrollment__c> pseList = [
+            List<Participant_Enrollment__c> peList = [
                     SELECT Id, Clinical_Trial_Profile__r.Visit_Plan__c
-                    FROM Participant_Study_Enrollment__c
+                    FROM Participant_Enrollment__c
                     WHERE Clinical_Trial_Profile__c IN: clinicalTrialProfiles
             ];
-            Map<Id, List<Participant_Study_Enrollment__c>> pseListByVisitPlanIdMap = new Map<Id, List<Participant_Study_Enrollment__c>>();
-            for(Participant_Study_Enrollment__c pse : pseList){
-                List<Participant_Study_Enrollment__c> vpPseList = pseListByVisitPlanIdMap.get(pse.Clinical_Trial_Profile__r.Visit_Plan__c);
-                if(vpPseList == null) vpPseList = new List<Participant_Study_Enrollment__c>();
-                vpPseList.add(pse);
-                pseListByVisitPlanIdMap.put(pse.Clinical_Trial_Profile__r.Visit_Plan__c, vpPseList);
+            Map<Id, List<Participant_Enrollment__c>> peListByVisitPlanIdMap = new Map<Id, List<Participant_Enrollment__c>>();
+            for(Participant_Enrollment__c pe : peList){
+                List<Participant_Enrollment__c> vpPeList = peListByVisitPlanIdMap.get(pe.Clinical_Trial_Profile__r.Visit_Plan__c);
+                if(vpPeList == null) vpPeList = new List<Participant_Enrollment__c>();
+                vpPeList.add(pe);
+                peListByVisitPlanIdMap.put(pe.Clinical_Trial_Profile__r.Visit_Plan__c, vpPeList);
             }
             List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
             for(Visit__c visit : newVisits){
-                List<Participant_Study_Enrollment__c> vpPseList = pseListByVisitPlanIdMap.get(visit.Visit_Plan__c);
+                List<Participant_Enrollment__c> vpPseList = peListByVisitPlanIdMap.get(visit.Visit_Plan__c);
                 if(vpPseList == null) continue;
-                for(Participant_Study_Enrollment__c pse : vpPseList){
-                    patientVisits.add(VisitService.createPatientVisit(visit, pse.Id));
+                for(Participant_Enrollment__c pe : vpPseList){
+                    patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
                 }
             }
             if(patientVisits.size() > 0) insert patientVisits;
