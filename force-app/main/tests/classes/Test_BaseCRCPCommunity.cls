@@ -387,6 +387,7 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void baseHCPTest() {
         init();
+        initUsers();
         Test.startTest();
         System.runAs(hcpUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);

@@ -18,18 +18,18 @@ private class Test_BasePPCommunity {
                 .then(null)
                 .getInstance()
         );
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+//        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TestData.loadTestData();
     }
     
-    @IsTest
-    static void pseCreationTest() {
-        Test.startTest();
-        TestData testDataInstance = new TestData();
-        testDataInstance.createPSE();
-        Test.stopTest();
-        System.assert(testDataInstance.pe.Screening_ID__c == testDataInstance.pse.Screening_ID__c, 'ScreeningId not copied from PE to PSE');
-    }
+//    @IsTest
+//    static void pseCreationTest() {
+//        Test.startTest();
+//        TestData testDataInstance = new TestData();
+//        testDataInstance.createPSE();
+//        Test.stopTest();
+//        System.assert(testDataInstance.pe.Screening_ID__c == testDataInstance.pse.Screening_ID__c, 'ScreeningId not copied from PE to PSE');
+//    }
     
     @IsTest
     static void patientVisitSchedule(){
@@ -49,16 +49,16 @@ private class Test_BasePPCommunity {
                 )
         };
         insert visits;
-        TriggerHandlerExecutor.bypassHandler(PatientVisitTriggerHandler.UpdateMissedVisits.class);
+//        TriggerHandlerExecutor.bypassHandler(PatientVisitTriggerHandler.UpdateMissedVisits.class);
         TestData testDataInstance = new TestData();
         testDataInstance.ctp.Visit_Plan__c = vp.Id;
         update testDataInstance.ctp;
-        testDataInstance.createPSE();
+        testDataInstance.updatePEStatusEnrollmentSuccess();
         Test.stopTest();
         List<Patient_Visit__c> patientVisits = [
                 SELECT Id, Visit_Number__c, Visit_Schedule__c
                 FROM Patient_Visit__c
-                WHERE Participant_Study_Enrollment__c =: testDataInstance.pse.Id
+                WHERE Participant_Enrollment__c =: testDataInstance.pe.Id
         ];
         System.assert(patientVisits.size() == 2, 'Patient Visits not created');
     }
