@@ -49,18 +49,6 @@ public class Test_ParticipantService {
             return null;
         }
     }
-    
-    public class PSEServiceMock implements StubProvider {
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
-            if (stubbedMethodName == 'getPSEListForCurrentParticipant') {
-                return new List<Participant_Study_Enrollment__c>{
-                        getPSE(getPE(null))
-                };
-            }
-            return null;
-        }
-    }
 
     public class DatabaseServiceMock implements StubProvider {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
@@ -87,7 +75,6 @@ public class Test_ParticipantService {
     static void participantServiceTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
-        PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         // Test logic
@@ -101,7 +88,6 @@ public class Test_ParticipantService {
     static void participantServiceGROUP_FAILEDTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_FAILED));
-        PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         // Test logic
@@ -114,7 +100,6 @@ public class Test_ParticipantService {
     static void participantServiceENROLLMENT_SUCCESSTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS));
-        PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         // Test logic
@@ -127,7 +112,6 @@ public class Test_ParticipantService {
     static void showTermsTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
-        PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();
@@ -142,7 +126,6 @@ public class Test_ParticipantService {
     static void showVisitsTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
-        PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();
@@ -158,7 +141,6 @@ public class Test_ParticipantService {
     static void createParticipantAndUpdatePEImplTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
-        PSEService.setMock(new PSEServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
         DatabaseService.setMock(new DatabaseServiceMock());
 
@@ -227,7 +209,8 @@ public class Test_ParticipantService {
                 Participant__r = participant,
                 Clinical_Trial_Profile__c = trial.Id,
                 Clinical_Trial_Profile__r = trial,
-                Study_Site__r = studySite
+                Study_Site__r = studySite,
+                Study_Site__c = TestDataFactory.getFakeId(Study_Site__c.getSObjectType())
         );
     }
 
@@ -243,15 +226,6 @@ public class Test_ParticipantService {
                 Id = TestDataFactory.getFakeId(Participant__c.getSObjectType()),
                 First_Name__c = patientContact.FirstName,
                 Contact__r = patientContact
-        );
-    }
-
-    static Participant_Study_Enrollment__c getPSE(Participant_Enrollment__c pe) {
-        return new Participant_Study_Enrollment__c(
-                Clinical_Trial_Profile__r = pe.Clinical_Trial_Profile__r,
-                Participant__r = pe.Participant__r,
-                Status__c = PSEService.PSE_STATUS_PARTICIPATION_COMPLETE,
-                Participant_Enrollment__r = pe
         );
     }
 }
