@@ -43,10 +43,10 @@ public without sharing class  DuplicateContactController {
         String phone = record.phone__c == null ? '+' : record.phone__c;
 
         participantRecords = [
-                SELECT 	id,
+                SELECT  id,
                         Contact__c
-                FROM	Participant__c
-                WHERE 	(Email__c = :email OR
+                FROM    Participant__c
+                WHERE   (Email__c = :email OR
                 Phone__c = :phone)
         ];
         for(Participant__c item : participantRecords){
@@ -66,11 +66,12 @@ public without sharing class  DuplicateContactController {
                                 Last_Name__c,
                                 Phone__c,
                                 Email__c,
-                                Date_of_Birth__c
+                                Date_of_Birth__c,
+                                Birth_Year__c
                         FROM	Participants__r
                 )
-                FROM	Contact
-                WHERE 	(Email = :email OR
+                FROM    Contact
+                WHERE   (Email = :email OR
                 Phone = :phone OR Id IN:contactsIds)
         ];
 
@@ -189,6 +190,13 @@ public without sharing class  DuplicateContactController {
                                     contactRecord.Participants__r[0].Date_of_Birth__c != null &&
                                     contactRecord.Participants__r[0].Date_of_Birth__c != '' &&
                                     contactRecord.Participants__r[0].Date_of_Birth__c == record.BirthDate__c.substring(6) + '-' + record.BirthDate__c.substring(0,2) + '-' + record.BirthDate__c.substring(3,5)
+                    ) ||
+                    (
+                            contactRecord.Participants__r != null &&
+                                    contactRecord.Participants__r.size() != 0 &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != null &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != '' &&
+                                    contactRecord.Participants__r[0].Birth_Year__c == record.BirthDate__c.substring(6)
                     );
         }else{
             return  (
@@ -200,6 +208,13 @@ public without sharing class  DuplicateContactController {
                                     contactRecord.Participants__r[0].Date_of_Birth__c != null &&
                                     contactRecord.Participants__r[0].Date_of_Birth__c != '' &&
                                     record.BirthYear__c == contactRecord.Participants__r[0].Date_of_Birth__c.substring(0,4)
+                    ) ||
+                    (
+                            contactRecord.Participants__r != null &&
+                                    contactRecord.Participants__r.size() != 0 &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != null &&
+                                    contactRecord.Participants__r[0].Birth_Year__c != '' &&
+                                    record.BirthYear__c == contactRecord.Participants__r[0].Birth_Year__c
                     );
         }
     }
@@ -217,7 +232,10 @@ public without sharing class  DuplicateContactController {
     private static boolean dateIsPresentInSystem(Contact contactRecord){
         return  contactRecord.Participants__r == null ||
                 contactRecord.Participants__r.size() == 0 ||
-                contactRecord.Participants__r[0].Date_of_Birth__c == null;
+                (
+                        contactRecord.Participants__r[0].Date_of_Birth__c == null &&
+                                contactRecord.Participants__r[0].Birth_Year__c == null
+                );
     }
 
     private static boolean checkBirthDate(String birthYear){

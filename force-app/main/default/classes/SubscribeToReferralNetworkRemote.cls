@@ -60,8 +60,7 @@ public without sharing class SubscribeToReferralNetworkRemote {
         return result;
     }
 
-    @AuraEnabled
-    public static void deleteRecords(List<Id> recordIds) {
+    private static void deleteRecords(List<Id> recordIds) {
         try {
             if (recordIds != null && !recordIds.isEmpty()) {
                 List<SObject> records = new List<SObject>();
@@ -183,5 +182,11 @@ public without sharing class SubscribeToReferralNetworkRemote {
         }
 
         return results;
+    }
+
+    @AuraEnabled
+    public static List<ReferralNetworkWrapper> deleteAndGetRefferalNetworks(String sObjectType, List<Id> recordIds) {
+        deleteRecords(recordIds);
+        return getReferralNetworkRecords(sObjectType);
     }
 }
