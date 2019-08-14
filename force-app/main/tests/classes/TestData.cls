@@ -67,13 +67,6 @@ public class TestData {
     public void updatePEStatusEnrollmentSuccess(){
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
-//        pse = [
-//                SELECT Id,
-//                        Participant_Contact__c,
-//                        Screening_ID__c
-//                FROM Participant_Study_Enrollment__c
-//                WHERE Participant__c =: participant.Id
-//        ];
     }
     
     
