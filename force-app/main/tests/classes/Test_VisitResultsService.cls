@@ -9,24 +9,11 @@ private class Test_VisitResultsService {
     private static void getVisitResultsGroupNames_test() {
 
 
-        List<String> groupNames = new List<String>{
-                'first', 'second'
-        };
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubFactory.newInstance(VisitResultMService.class)
-                .when('getVisitResultGroupNames')
-                .then(groupNames)
-                .getInstance()
-        );
-        /* Instance of VisitResultMService is created in VisitResultsService's constructor. You need to create stub BEFORE creating an instance of VisitResultsService*/
-        VisitResultsService service = new VisitResultsService();
-
         Test.startTest();
-        List<String> testNames = service.getVisitResultsGroupNames(null);
+        List<String> testNames = service.getVisitResultsGroupNames('Vitals');
         Test.stopTest();
 
-        System.assertEquals(2, testNames.size());
+        System.assert( testNames[0].equals('Vitals'));
     }
 
     @IsTest
@@ -164,6 +151,7 @@ private class Test_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
+            ClassFactory.clearStubTypesByClassNamesMap();
             List<VisitResultsService.VisitResultWrapper> wrappers = service.getVisitResultWrappersForDashboard();
             System.assert(wrappers != null);
         }
@@ -349,8 +337,8 @@ private class Test_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
-            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer(null);
-            System.assert(container != null);
+            VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals');
+            System.assert(container.wrappers.size() > 4);
         }
 
         Test.stopTest();

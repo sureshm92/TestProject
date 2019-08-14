@@ -101,7 +101,7 @@ public with sharing class Test_VisitResultsRemote {
     @IsTest
     static void getVisitResultsContainer_test() {
         Patient_Visit__c patientVisit = new Patient_Visit__c(Id = TestDataFactory.getFakeId(Patient_Visit__c.getSObjectType()));
-        VisitResultsService.VisitResultsContainer container = new VisitResultsService.VisitResultsContainer(patientVisit, null, null);
+        VisitResultsService.VisitResultsContainer container = new VisitResultsService.VisitResultsContainer(patientVisit, null, 'Vitals');
 
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
@@ -112,9 +112,10 @@ public with sharing class Test_VisitResultsRemote {
 
         Test.startTest();
         VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('');
+        System.debug(tesContainer.groupName);
         Test.stopTest();
 
-        System.assert(tesContainer != null);
+        System.assert(tesContainer.groupName.equals('Vitals'));
     }
 
     @IsTest
