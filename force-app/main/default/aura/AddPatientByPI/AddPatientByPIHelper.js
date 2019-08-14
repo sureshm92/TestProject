@@ -33,12 +33,26 @@
     },
 
     saveParticipant : function (component, pe, callback) {
+        var helper = this;
         var participant = component.get('v.participant');
-        communityService.executeAction(component, 'saveParticipant', {
+        communityService.executeAction(component, 'createParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe)
+        }, function (createdPE) {
+            createdPE.Participant_Status__c = pe.Participant_Status__c;
+            helper.updatePE(component, createdPE, function () {
+                communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+                callback();
+            })
         }, function () {
-            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+            component.find('spinner').hide();
+        });
+    },
+
+    updatePE: function (component, pe, callback) {
+        communityService.executeAction(component, 'updatePE', {
+            peJSON: JSON.stringify(pe)
+        }, function () {
             callback();
         }, null, function () {
             component.find('spinner').hide();

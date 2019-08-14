@@ -49,7 +49,7 @@ public class AddPatientByPIRemote {
     }
     
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON){
+    public static Participant_Enrollment__c createParticipant(String participantJSON, String peJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
@@ -57,7 +57,18 @@ public class AddPatientByPIRemote {
             pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
-            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
+            update pe;
+            return pe;
+        }catch (Exception e){
+            return (Participant_Enrollment__c)AuraHelper.throwException(e);
+        }
+    }
+    
+    @AuraEnabled
+    public static void updatePE(String peJSON){
+        try{
+            Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
             List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
             for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
                 if(step.name == currentState.name) break;
@@ -70,7 +81,6 @@ public class AddPatientByPIRemote {
                 ));
             }
             insert statusHistories;
-            pe.Participant_Status__c = peStatus;
             update pe;
         }catch (Exception e){
             AuraHelper.throwException(e);
