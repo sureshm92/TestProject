@@ -232,7 +232,7 @@ public without sharing class  DuplicateContactController {
 
     private static boolean checkBirthDate(String birthYear){
         System.debug('birthYear:' + birthYear);
-        if(!String.isEmpty(birthYear)){
+        if(String.isEmpty(birthYear)){
             System.debug('empty birthdate');
             return true;
         }
