@@ -173,6 +173,29 @@ public without sharing class PEStatusState {
     public static List<String> STATUSES_IN_PROGRESS;
     public static List<String> STATUSES_ENROLLED;
 
+    public static Map<String, Integer> PE_ORDERED_STATUSES = new Map<String, Integer>{
+            PE_STATUS_REFERRAL_SENT_TO_PI => 1,
+            PE_STATUS_REFERRAL_ACCEPTED => 2,
+            PE_STATUS_REFERRAL_ON_HOLD => 3,
+            PE_STATUS_REFERRAL_DECLINED => 4,
+            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS => 5,
+            PE_STATUS_CONTACT_SUCCESSFUL => 6,
+            PE_STATUS_CONTACT_FAILED => 7,
+            PE_STATUS_ELIGIBILITY_PASSED => 8,
+            PE_STATUS_ELIGIBILITY_FAILED => 9,
+            PE_STATUS_SCREENING_COMPLETE => 10,
+            PE_STATUS_SCREENING_IN_PROGRESS => 11,
+            PE_STATUS_SCREENING_FAILED => 12,
+            PE_STATUS_ENROLLMENT_SUCCESS => 13,
+            PE_STATUS_ENROLLMENT_FAILED => 14,
+            PE_STATUS_TREATMENT_PERIOD_STARTED => 15,
+            PE_STATUS_FOLLOW_UP_PERIOD_STARTED => 16,
+            PE_STATUS_PARTICIPATION_COMPLETE => 17,
+            PE_STATUS_TRIAL_COMPLETE => 18,
+            PE_STATUS_DROP_OUT => 19,
+            PE_STATUS_DECEASED => 20
+    };
+
     static {
         PE_STATUS_GROUP_IN_PROGRESS_ALL = new List<String>();
         PE_STATUS_GROUP_IN_PROGRESS_ALL.addAll(PE_STATUS_GROUP_IN_PROGRESS);
@@ -294,7 +317,7 @@ public without sharing class PEStatusState {
         List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
         for(String status : PE_STATUS_GROUP_PARTICIPATION_FLOW) {
             translatedStatuses.add(new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, status),
+                    TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
                     status
             ));
         }

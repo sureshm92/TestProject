@@ -1,6 +1,4 @@
 public without sharing class TherapeuticAreaPatientService {
-    
-    /// TODO replace PSE on PE !!!!
 
     public Therapeutic_Area_Patient__c getRelatedToStudyTherapeuticAreaPatient(Id participantId, Id tAId) {
         return new Therapeutic_Area_Patient__c(
@@ -11,6 +9,7 @@ public without sharing class TherapeuticAreaPatientService {
         );
     }
 
+    // Deprecated
     public static void deleteTherapeuticAreaPatientFromPSE(List<Participant_Study_Enrollment__c> newPSEs,
             Map<Id, Participant_Study_Enrollment__c> oldPSEMap) {
         List<Participant_Study_Enrollment__c> changeList = new List<Participant_Study_Enrollment__c>();
@@ -33,8 +32,8 @@ public without sharing class TherapeuticAreaPatientService {
         List<Participant_Enrollment__c> changeList = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c participantEnrollment : newPE) {
             if (participantEnrollment.Participant_Status__c != oldPEMap.get(participantEnrollment.Id).Participant_Status__c) {
-                if ((PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(oldPEMap.get(participantEnrollment.Id).Participant_Status__c) || PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS.equalsIgnoreCase(oldPEMap.get(participantEnrollment.Id).Participant_Status__c)) &&
-                        (PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantEnrollment.Participant_Status__c))) {
+                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(oldPEMap.get(participantEnrollment.Id).Participant_Status__c) &&
+                        (PEStatusState.PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL.contains(participantEnrollment.Participant_Status__c))) {
                     changeList.add(participantEnrollment);
                 }
             }
@@ -52,7 +51,7 @@ public without sharing class TherapeuticAreaPatientService {
         }
         Map<Id, Participant__c> participantsByIds = TherapeuticAreaPatientService.getParticipantsByIds(participantIds);
         for (Participant_Enrollment__c pe : TherapeuticAreaPatientService.selectPEnrollmentsByIds(participantEnrollments)) {
-            if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(pe.Participant_Status__c) || PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS.equalsIgnoreCase(pe.Participant_Status__c)) {
+            if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(pe.Participant_Status__c)) {
                 Participant__c participant = participantsByIds.get(pe.Participant__c);
                 if (participant != null
                         && String.isNotBlank(pe.Clinical_Trial_Profile__r.Therapeutic_Area__c)
@@ -97,6 +96,7 @@ public without sharing class TherapeuticAreaPatientService {
         }
     }
 
+    // Deprecated
     private static void deleteTherapeuticAreaPatientFromPSE(List<Participant_Study_Enrollment__c> deleteList) {
         Set<Id> participantId = new Set<Id>();
         Map<Id, Therapeutic_Area_Patient__c> deleteAreaPatientsMap = new Map<Id, Therapeutic_Area_Patient__c>();
@@ -132,6 +132,7 @@ public without sharing class TherapeuticAreaPatientService {
         ];
     }
 
+    // Deprecated
     private static List<Participant_Study_Enrollment__c> selectPSEnrollmentsByIds(List<Participant_Study_Enrollment__c> participantStudyEnrollments) {
         return [
                 SELECT

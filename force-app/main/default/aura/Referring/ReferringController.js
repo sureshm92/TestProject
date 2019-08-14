@@ -181,7 +181,6 @@
         spinner.show();
 
         communityService.executeAction(component, 'saveParticipant', {
-            trialId: trial.Id,
             hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant)
