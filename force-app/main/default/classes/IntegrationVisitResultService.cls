@@ -121,7 +121,7 @@ public with sharing class IntegrationVisitResultService {
                         Min_Value__c,
                         Measurement__c,
                         Result_Type__c,
-                        Patient_Visit__r.Participant_Study_Enrollment__r.External_Key__c,
+                        Patient_Visit__r.Participant_Enrollment__r.External_Key__c,
                         Patient_Visit__r.Name,
                         Patient_Visit__r.Completed_Date__c,
                         SDH_Key__c
@@ -141,7 +141,7 @@ public with sharing class IntegrationVisitResultService {
                 SELECT
                         Id,
                         Name,
-                        Participant_Study_Enrollment__r.External_Key__c,
+                        Participant_Enrollment__r.External_Key__c,
                         Completed_Date__c,
                         SDH_Key__c
                 FROM    Patient_Visit__c

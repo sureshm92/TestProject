@@ -52,6 +52,7 @@ public class TestData {
         pe = [
                 SELECT Id,
                         Participant_Contact__c,
+                        Participant_Status__c,
                         Screening_ID__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: participant.Id
@@ -62,20 +63,7 @@ public class TestData {
                 WHERE HCP_Contact__r.LastName = 'HCP' LIMIT 1
         ];
     }
-    
-    public void createPSE(){
-        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update pe;
-        pse = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Participant__c =: participant.Id
-        ];
-    }
-    
-    
+
     public static void loadTestData(){
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
         

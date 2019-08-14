@@ -3,15 +3,12 @@
  */
 
 public with sharing class PatientVisitTriggerHandler {
-
     /*public class UpdateMissedVisits extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
             //updateMissedVisits(newList);
         }
-
     }
-
     private static void updateMissedVisits(List<Patient_Visit__c> patientVisits){
         Set<String> visitExternalKeys = new Set<String>();
         Set<Id> visitIds = new Set<Id>();

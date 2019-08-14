@@ -10,7 +10,6 @@ public class Test_MyTemRemote {
         TestData.loadTestData();
         Test.startTest();
         TestData testDatanstance = new TestData();
-        testDatanstance.createPSE();
         System.runAs(testDatanstance.participantUser){
             Contact delegateContact = new Contact(
                     FirstName = 'Del',
