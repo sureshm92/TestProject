@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Salesforce_Object__c</field>
-        <value xsi:type="xsd:string">Participant Study Enrollment</value>
+        <value xsi:type="xsd:string">Participant Enrollment</value>
     </values>
     <values>
         <field>Salesforce_Status__c</field>

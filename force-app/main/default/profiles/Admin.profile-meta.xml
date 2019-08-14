@@ -363,6 +363,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>HCPTrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>HelpController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -392,6 +396,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>IntegrationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationVisitResultService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -539,6 +547,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PITrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PSEService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -604,6 +616,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantTrialBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1264,6 +1280,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialDetail</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3872,6 +3900,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Patient_Visit__c.SDH_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Patient_Visit__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4878,6 +4911,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Visit_Result__c.Result_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result__c.SDH_Key__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

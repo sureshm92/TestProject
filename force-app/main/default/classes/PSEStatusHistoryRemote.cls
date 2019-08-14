@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class PSEStatusHistoryRemote {
+public without sharing class PSEStatusHistoryRemote {
     
     public class PathItem{
         @AuraEnabled public String state;
@@ -19,15 +19,17 @@ public class PSEStatusHistoryRemote {
     @AuraEnabled
     public static String getParticipationStatusHistory(Id peId){
         try{
-            List<Participant_Enrollment_Status_History__c> history = [
+            List<Participant_Enrollment_Status_History__c> histories = [
                     SELECT Id, NewStatus__c, Date__c
                     FROM Participant_Enrollment_Status_History__c
-                    WHERE ParticipantEnrollment__c =: peId AND NewStatus__c IN: PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW
+                    WHERE ParticipantEnrollment__c =: peId
+                    AND NewStatus__c IN: PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW
                     ORDER BY Date__c DESC
             ];
+
             List<PathItem> items = new List<PathItem>();
-            for(Participant_Enrollment_Status_History__c peSH : history) {
-                peSH.NewStatus__c = TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, peSH.NewStatus__c);
+            for(Participant_Enrollment_Status_History__c peSH : histories) {
+                peSH.NewStatus__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, peSH.NewStatus__c);
                 items.add(new PathItem(peSH));
             }
             return JSON.serialize(items);
