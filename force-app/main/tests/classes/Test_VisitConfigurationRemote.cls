@@ -1,4 +1,4 @@
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_VisitConfigurationRemote {
 
     @IsTest

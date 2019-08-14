@@ -1,7 +1,7 @@
 /**
  * Created by dmytro.fedchyshyn on 26.07.2019.
  */
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_IconPlanetVisitInfoEditRemote {
 
     @IsTest

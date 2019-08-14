@@ -8,6 +8,13 @@ public class Test_ResourceService {
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
 
         Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
         Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());

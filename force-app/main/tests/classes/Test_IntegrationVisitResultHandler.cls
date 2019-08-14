@@ -2,25 +2,32 @@
  * Created by Denis Z on 09-Jul-19.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_IntegrationVisitResultHandler {
 
     @TestSetup
     static void setup() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
         ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1', '2', '3');
-        List<Participant_Study_Enrollment__c> pseList = [
+        List<Participant_Enrollment__c> peList = [
                 SELECT Id,
                         External_Key__c
-                FROM Participant_Study_Enrollment__c
+                FROM Participant_Enrollment__c
                 WHERE External_Key__c = '1~2~3'
         ];
         Patient_Visit__c visit = new Patient_Visit__c();
         visit.Name = 'New Visit';
         visit.Completed_Date__c = Date.today();
-        visit.Participant_Study_Enrollment__c = pseList[0].Id;
+        visit.Participant_Enrollment__c = peList[0].Id;
         visit.SDH_Key__c = '1~2~3' + 'New Visit' + Date.today();
         insert visit;
     }

@@ -1,8 +1,15 @@
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 public class Test_FillTAOnParticipantsBatchHandler {
 
     @TestSetup
     public static void setup() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
 
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
         Account participantAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
