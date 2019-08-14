@@ -6,7 +6,7 @@ public without sharing class PSETriggerHandler {
 
     // Handlers: -------------------------------------------------------------------------------------------------------
 
-    public class SetDefaultFieldsBeforeUpsertHandler extends TriggerHandler {
+/*    public class SetDefaultFieldsBeforeUpsertHandler extends TriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
             setDefaultFieldsBeforeUpsert(newList);
@@ -341,4 +341,5 @@ public without sharing class PSETriggerHandler {
 
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
     }
+    */
 }
