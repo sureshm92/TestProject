@@ -582,4 +582,22 @@ public without sharing class ParticipantEnrollmentService {
         return currentSObject.get(pathItems[pathItems.size() - 1]);
     }
 
+    public static List<Participant_Enrollment__c> getEnrollmentsByExternalKey(List<String> externalKeys) {
+        return [
+                SELECT
+                        Id,
+                        External_Key__c,
+                        IsSubjectIDverifiedInSDH__c,
+                (
+                        SELECT
+                                Id,
+                                Date__c,
+                                NewStatus__c
+                        FROM    Participant_Enrollment_Status_History__r
+                )
+                FROM    Participant_Enrollment__c
+                WHERE   External_Key__c IN : externalKeys
+                LIMIT   10000
+        ];
+    }
 }
