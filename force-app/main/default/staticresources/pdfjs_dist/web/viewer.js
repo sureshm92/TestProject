@@ -3854,6 +3854,17 @@ function isDataSchema(url) {
 function getPDFFileNameFromURL(url) {
   var defaultFilename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'document.pdf';
 
+  var sPageURL = document.location.search.substring(1),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+  for (i = 0; i < sURLVariables.length; i++) {
+    sParameterName = sURLVariables[i].split('=');
+    if (sParameterName[0] === 'fileName') {
+      defaultFilename = sParameterName[1] === undefined ? 'document.pdf' : decodeURIComponent(sParameterName[1]);
+    }
+  }
+
   if (typeof url !== 'string') {
     return defaultFilename;
   }
