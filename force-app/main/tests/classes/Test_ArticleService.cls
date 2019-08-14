@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_ArticleService {
     public static final String X_3PARTY_HEALTH_DAY = 'HealthDay';
     public static final String X_3PARTY_IQVIA = 'IQVIA';
