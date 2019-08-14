@@ -44,14 +44,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
 
         public override void afterInsert(List<SObject> newList) {
-            createHistoryRecords(newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createHistoryRecords(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, null);
         }
     }
 
@@ -294,7 +291,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 IntegrationService.sendPEToStudyHubAsync(pe.Id);
             }
         }
-
     }
 
     @TestVisible
@@ -319,27 +315,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
             }
         }
-    }
-
-    @TestVisible
-    private static void createHistoryRecords(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Participant_Enrollment_Status_History__c> pesHistoryList = new List<Participant_Enrollment_Status_History__c>();
-        for (Participant_Enrollment__c pe : newList) {
-            if ((oldMap == null && pe.Participant_Status__c != null) ||
-                    (oldMap != null && (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
-                            pe.Participant_Status_Last_Changed_Date__c != oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c ||
-                            pe.Last_Status_Changed_Notes__c != oldMap.get(pe.Id).Last_Status_Changed_Notes__c)
-                    )) {
-                pesHistoryList.add(new Participant_Enrollment_Status_History__c(
-                        Notes__c = pe.Last_Status_Changed_Notes__c,
-                        Date__c = Datetime.now(),
-                        ParticipantEnrollment__c = pe.Id,
-                        NewStatus__c = pe.Participant_Status__c,
-                        Reason__c = pe.Non_Enrollment_Reason__c
-                ));
-            }
-        }
-        insert pesHistoryList;
     }
 
     @TestVisible
@@ -400,6 +375,29 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
+    }
+
+    @TestVisible
+    private static void createPrimaryHistoryEntry(
+            List<Participant_Enrollment__c> enrollments,
+            Map<Id, Participant_Enrollment__c> oldMap
+    ) {
+        List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
+        for(Participant_Enrollment__c pe : enrollments) {
+            if(pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
+                if(oldMap == null ||
+                        (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI)) {
+                    histories.add(new Participant_Enrollment_Status_History__c(
+                            Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                            NewStatus__c = pe.Participant_Status__c,
+                            Notes__c = pe.Non_Referral_Notes__c,
+                            ParticipantEnrollment__c = pe.Id,
+                            Reason__c = pe.Non_Referral_Reason__c
+                    ));
+                }
+            }
+        }
+        if(!histories.isEmpty()) insert histories;
     }
 
     // On study logic---------------------------------------------------------------------------------------------------
