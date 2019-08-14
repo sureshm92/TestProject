@@ -77,11 +77,11 @@
             helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
         }
         if (isSave) {
-            window.navigator.msSaveBlob(doc.output('blob'), component.get('v.documentName') + '.pdf');
+            window.navigator.msSaveBlob(doc.output('blob'), $A.get('$Label.c.Report_Document_Name') + '.pdf');
         } else {
             let urlPDF = doc.output('bloburi');
             let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-            window.open(urlViewer + '?file=' + urlPDF);
+            window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
         }
         reportData = {};
         component.set('v.reportData', reportData);
