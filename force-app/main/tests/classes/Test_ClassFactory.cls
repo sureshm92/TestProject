@@ -1,4 +1,4 @@
-@IsTest
+@IsTest(IsParallel=true)
 public class Test_ClassFactory {
 
     @IsTest

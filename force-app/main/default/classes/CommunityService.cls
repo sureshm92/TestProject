@@ -154,7 +154,7 @@ public without sharing class CommunityService {
         ];
     }
 
-    public static void createPortalUsers(Set<Id> contactIds){
+    public void createPortalUsers(Set<Id> contactIds){
         List<Contact> contacts = getContacts(contactIds);
         List<User> newPortalUsers = new List<User>();
         for (Contact cont : contacts) newPortalUsers.add(createUser(cont, null, null, null));
@@ -162,7 +162,7 @@ public without sharing class CommunityService {
     }
 
     //Create participant users, fill time zone, locale and language from HCP contact
-    public static void createParticipantUsers(Map<Id, Id> contactIdsMap) {
+    public void createParticipantUsers(Map<Id, Id> contactIdsMap) {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
         List<Contact> contacts = getContacts(contactIdsMap.keySet());
         List<User> hcpUsers = [

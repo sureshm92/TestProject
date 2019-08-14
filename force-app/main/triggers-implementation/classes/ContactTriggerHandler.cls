@@ -97,7 +97,7 @@ public without sharing class ContactTriggerHandler {
         for (Id contactId : filteredContactsByIds.keySet()) {
             if (!communityUsers.containsKey(contactId)) toCreateUser.add(contactId);
         }
-        if (!toCreateUser.isEmpty()) CommunityService.createPortalUsers(toCreateUser);
+        if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(toCreateUser);
     }
     
     @TestVisible

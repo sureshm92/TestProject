@@ -2,19 +2,26 @@
  * Created by Denis Z on 08-Jul-19.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_IntegrationVisitTriggerHandler {
 
     @TestSetup
     static void setup() {
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .getInstance()
+        );
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
         ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1','2','3');
-        List<Participant_Study_Enrollment__c> pseList = [
+        List<Participant_Enrollment__c> peList = [
                 SELECT  Id,
                         External_Key__c
-                FROM    Participant_Study_Enrollment__c
+                FROM    Participant_Enrollment__c
                 WHERE   External_Key__c = '1~2~3'
         ];
         List<Patient_Visit__c> visits = new List<Patient_Visit__c>();
@@ -23,7 +30,7 @@ private class Test_IntegrationVisitTriggerHandler {
             visit.Name = 'New Visit' + i;
             visit.Visit_Number__c = i;
             visit.Status__c = 'Pending';
-            visit.Participant_Study_Enrollment__c = pseList[0].Id;
+            visit.Participant_Enrollment__c = peList[0].Id;
             visits.add(visit);
         }
         insert visits;
@@ -75,7 +82,7 @@ private class Test_IntegrationVisitTriggerHandler {
                         Visit_Number__c,
                         Status__c
                 FROM    Patient_Visit__c
-                WHERE   Participant_Study_Enrollment__r.External_Key__c = '1~2~3'
+                WHERE   Participant_Enrollment__r.External_Key__c = '1~2~3'
                 ORDER BY Visit_Number__c
         ];
         return visits;

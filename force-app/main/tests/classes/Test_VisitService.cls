@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
  */
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_VisitService {
 
     @IsTest
@@ -138,17 +138,11 @@ private class Test_VisitService {
         insert participant;
 
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                Clinical_Trial_Profile__c = trial.Id,
                 Patient_ID__c = 'SomePatientId1',
                 Referral_Source__c = 'HCP',
                 Participant__c = participant.Id
         );
         insert pe;
-
-        Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
-                Clinical_Trial_Profile__c = trial.Id,
-                Participant__c = participant.Id,
-                Participant_Enrollment__c = pe.Id
-        );
-        insert pse;
     }
 }

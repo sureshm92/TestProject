@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_UserService {
     
     @IsTest
