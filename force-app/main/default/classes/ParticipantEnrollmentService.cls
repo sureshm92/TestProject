@@ -26,6 +26,14 @@ public without sharing class ParticipantEnrollmentService {
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
     public static final String NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED = 'Had Discussion, Not Interested';
+    //Referral Source
+    public static final String PE_REFERRAL_SOURCE_PATIENT = 'Patient';
+    public static final String PE_REFERRAL_SOURCE_HCP = 'HCP';
+    public static final String PE_REFERRAL_SOURCE_HCP_PRESCREEN = 'HCP Prescreen Log';
+    public static final String PE_REFERRAL_SOURCE_PI = 'PI';
+    public static final String PE_REFERRAL_SOURCE_EPR = 'ePR';
+    public static final String PE_REFERRAL_SOURCE_ACOE = 'ACOE';
+    public static final String PE_REFERRAL_SOURCE_3RD_PARTY = '3rd_Party';
 
     private static ParticipantEnrollmentService instance;
 
@@ -68,7 +76,7 @@ public without sharing class ParticipantEnrollmentService {
                 Pre_screening_Status__c = pesStatus,
                 Medical_Record_Review_Status__c = mrrStatus,
                 Patient_ID__c = participantId,
-                Referral_Source__c = 'HCP'
+                Referral_Source__c = PE_REFERRAL_SOURCE_HCP
         );
 
         if(hcpEnrollment!=null){

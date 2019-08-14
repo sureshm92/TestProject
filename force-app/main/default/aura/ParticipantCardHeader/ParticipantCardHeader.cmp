@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="isReferral" type="Boolean"/>
 
     <!-- component body: -->
     <div>
@@ -23,7 +24,7 @@
                     </div>
                 </div>
                 <aura:set attribute="else">
-                    <aura:if isTrue="{!v.pe.Participant_Study_Enrollment__r}">
+                    <aura:if isTrue="{!not(v.isReferral)}">
                         <div class="vpi-title">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</div>
                         <aura:set attribute="else">
                             <aura:if isTrue="{!v.userMode == 'HCP'}">

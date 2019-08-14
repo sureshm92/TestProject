@@ -3,7 +3,6 @@
  */
 ({
     doSaveSelectedStatus: function (component, event, helper) {
-        debugger;
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
@@ -15,7 +14,7 @@
                 helper.cancel(component);
             });
         } else {
-            hepler.saveSelectedStatus(component);
+            helper.saveSelectedStatus(component);
         }
     },
 
