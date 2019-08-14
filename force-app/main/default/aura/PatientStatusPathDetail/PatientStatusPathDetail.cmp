@@ -7,7 +7,7 @@
     <aura:attribute name="pathItems" type="List"/>
     <aura:attribute name="peId" type="String"/>
     <aura:attribute name="pathItemsReversed" type="List" access="private"/>
-    <aura:attribute name="historyLoaded" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="historyLoaded" type="Boolean" default="false" access="public"/>
     <aura:attribute name="showStepSpinner" type="Boolean" default="false" access="private"/>
 
     <!-- handlers -->
