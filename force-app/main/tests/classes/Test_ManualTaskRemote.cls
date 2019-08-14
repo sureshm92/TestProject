@@ -13,7 +13,7 @@ private class Test_ManualTaskRemote {
     @IsTest
     static void createTasksEnrolledTest() {
         ManualTaskFilter manualTaskFilter = new ManualTaskFilter();
-        manualTaskFilter.statuses.add(PSEService.PSE_STATUS_ENROLLED);
+        manualTaskFilter.statuses.add(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
 
         Task testTask = new Task(
                 Subject = 'TestTask',
@@ -156,19 +156,11 @@ private class Test_ManualTaskRemote {
         insert participant;
 
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
-                Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
                 Participant__c = participant.Id,
                 Clinical_Trial_Profile__c = trial.Id,
                 Study_Site__c = studySite.Id
         );
         insert pe;
-
-        Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
-                Clinical_Trial_Profile__c = trial.Id,
-                Participant__c = participant.Id,
-                Status__c = PSEService.PSE_STATUS_ENROLLED,
-                Participant_Enrollment__c = pe.Id
-        );
-        insert pse;
     }
 }

@@ -73,7 +73,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             if(surveys != null) {
                 for(Trial_Survey__c ts : surveys) {
                     if(ts.Active_After_Days__c == pe.Days_After_Referred__c) {
-                        if(ts.Is_Midpoint__c && PSEService.PSE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) continue;
+                        if(ts.Is_Midpoint__c && PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) continue;
                         String key = '' + pe.Id + ts.Id;
                         if(invitationMap.get(key) == null) {
                             newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pe.Id));
