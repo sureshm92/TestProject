@@ -64,6 +64,11 @@ public class TestData {
         ];
     }
 
+    public void updatePEStatusEnrollmentSuccess(){
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update pe;
+    }
+
     public static void loadTestData(){
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
         
