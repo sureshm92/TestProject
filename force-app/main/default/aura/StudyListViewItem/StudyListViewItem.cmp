@@ -446,14 +446,14 @@
                                                         </div>
                                                         <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
                                                             <aura:if
-                                                                    isTrue="{!v.editedAccount.BillingLatitude!=undefined &amp;&amp; v.editedAccount.BillingLongitude!=undefined &amp;&amp; !v.showPopUpSpinner}">
+                                                                    isTrue="{!v.editedAccount.BillingLatitude!=null &amp;&amp; v.editedAccount.BillingLongitude!=null &amp;&amp; !v.showPopUpSpinner}">
                                                                 <c:RRIcon
                                                                         class="{!v.checkIconStyle}"
                                                                         iconName="{!v.checkIcon}"/>
                                                                 <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Found}</div>
                                                             </aura:if>
                                                             <aura:if
-                                                                    isTrue="{!v.editedAccount.BillingLatitude==undefined &amp;&amp; v.editedAccount.BillingLongitude==undefined &amp;&amp; !v.showPopUpSpinner}">
+                                                                    isTrue="{!v.editedAccount.BillingLatitude==null &amp;&amp; v.editedAccount.BillingLongitude==null &amp;&amp; !v.showPopUpSpinner}">
                                                                 <c:RRIcon
                                                                         class="{!v.closeIconStyle}"
                                                                         iconName="{!v.closeIcon}"/>
