@@ -531,10 +531,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PSEService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PSEStatusHistoryRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
