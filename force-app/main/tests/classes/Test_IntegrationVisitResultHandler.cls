@@ -5,15 +5,7 @@
 @IsTest(IsParallel=true)
 private class Test_IntegrationVisitResultHandler {
 
-    @TestSetup
     static void setup() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
@@ -34,6 +26,16 @@ private class Test_IntegrationVisitResultHandler {
 
     @IsTest
     static void visitResultsUpdateTest() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
+
         IntegrationVisitResultService service = new IntegrationVisitResultService();
 
         Test.startTest();

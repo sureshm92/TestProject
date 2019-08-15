@@ -5,15 +5,7 @@
 @IsTest(IsParallel=true)
 private class Test_IntegrationVisitTriggerHandler {
 
-    @TestSetup
     static void setup() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
@@ -38,6 +30,16 @@ private class Test_IntegrationVisitTriggerHandler {
 
     @IsTest
     static void visitsUpdateTest() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
+
         List<Integration_Visit__c> externalVisits = new List<Integration_Visit__c>();
         externalVisits.add(createVisit(1,'N'));
         externalVisits.add(createVisit(3,'N'));

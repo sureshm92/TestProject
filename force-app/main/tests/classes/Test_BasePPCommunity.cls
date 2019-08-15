@@ -8,30 +8,18 @@
 
 @IsTest(IsParallel=true)
 private class Test_BasePPCommunity {
-    
-    @TestSetup
-    public static void init(){
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
-        TestData.loadTestData();
-    }
-    
-//    @IsTest
-//    static void pseCreationTest() {
-//        Test.startTest();
-//        TestData testDataInstance = new TestData();
-//        testDataInstance.createPSE();
-//        Test.stopTest();
-//        System.assert(testDataInstance.pe.Screening_ID__c == testDataInstance.pse.Screening_ID__c, 'ScreeningId not copied from PE to PSE');
-//    }
-    
+
     @IsTest
     static void patientVisitSchedule(){
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+            .when('createPortalUsers')
+            .then(null)
+            .when('createParticipantUsers')
+            .then(null)
+            .build()
+    );
+        TestData.loadTestData();
         Test.startTest();
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test VP');
         insert vp;

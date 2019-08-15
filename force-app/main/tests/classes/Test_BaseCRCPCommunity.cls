@@ -256,13 +256,14 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void testReferralNetworkService_AutoEmails() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+                .build()
+       );
         init();
         Clinical_Trial_Profile__c testStudy = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456790',
@@ -472,13 +473,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void emailTemplateController() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         Test.startTest();
         EmailTemplateController controller = new EmailTemplateController();
@@ -531,13 +532,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void miscTests() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         CountryStateUtil.getStateCodeByNameMap('US');
         TranslateHelper.convertBrowserLanguage(new List<String>{
@@ -549,13 +550,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void exportImportRemote() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         Test.startTest();
         String exportXML = TranslationExportImportRemote.export(study.Id, languageLocale, TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
@@ -565,13 +566,13 @@ private class Test_BaseCRCPCommunity {
 
     @IsTest
     static void batchUpdateRecordsTest() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         Test.startTest();
         Batch_UpdateRecords.run();

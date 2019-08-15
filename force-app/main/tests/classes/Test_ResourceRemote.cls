@@ -30,11 +30,11 @@ public class Test_ResourceRemote {
         pState.participant = participants[0];
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         ResourceRemote.setResourceAction(resources[0].Id, true, true);
@@ -57,11 +57,11 @@ public class Test_ResourceRemote {
         pState.participant = participants[0];
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         ResourceRemote.setResourceAction(resources[0].Id, true, true);
@@ -76,11 +76,11 @@ public class Test_ResourceRemote {
     public static void setResourceAction_Exception_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -96,11 +96,11 @@ public class Test_ResourceRemote {
     public static void getResources_FavoriteResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubBuilder.newInstance(ResourceDelegate.class)
                 .when('getFavoriteResources')
                 .then(new ResourceService.ResourceWrapperContainer(Label.Resources_No_Favorite_Articles))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = ResourceRemote.getResources('Article', 'Favorite');
         Test.stopTest();
@@ -113,11 +113,11 @@ public class Test_ResourceRemote {
     public static void getResources_DefaultResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubBuilder.newInstance(ResourceDelegate.class)
                 .when('getResources')
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = ResourceRemote.getResources('Article', 'Default');
         Test.stopTest();
@@ -130,11 +130,11 @@ public class Test_ResourceRemote {
     public static void getResources_DocumentsResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubBuilder.newInstance(ResourceDelegate.class)
                 .when('getStudyDocuments')
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
         Test.stopTest();
@@ -147,11 +147,11 @@ public class Test_ResourceRemote {
     public static void getResources_Exception_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getResources')
                 .then(new AuraHandledException('Test Exception'))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -167,11 +167,11 @@ public class Test_ResourceRemote {
     public static void getTrialId_Positive_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getParticipantState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         String trialId = ResourceRemote.getTrialId();
         Test.stopTest();
@@ -182,11 +182,11 @@ public class Test_ResourceRemote {
     public static void getTrialId_MissingStudyException_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getAlumniState())
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -202,11 +202,11 @@ public class Test_ResourceRemote {
     public static void getNoTAMessage_Exception_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(new AuraHandledException(('Test Exception')))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -222,11 +222,11 @@ public class Test_ResourceRemote {
     public static void getNoTAMessage_AlumniPatient_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getAlumniState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         String noTAMessage = ResourceRemote.getNoTAMessage();
         Test.stopTest();
@@ -237,11 +237,11 @@ public class Test_ResourceRemote {
     public static void getNoTAMessage_NotAlumniPatient_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getParticipantState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         String noTAMessage = ResourceRemote.getNoTAMessage();
         Test.stopTest();
