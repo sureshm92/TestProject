@@ -2,61 +2,63 @@
  * Created by Denis Z on 08-Jul-19.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_IntegrationVisitTriggerHandler {
 
-    @TestSetup
     static void setup() {
         Account acc = new Account();
         acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
         insert acc;
-
         ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1','2','3');
-        Participant_Enrollment__c pe = [
+        List<Participant_Enrollment__c> peList = [
                 SELECT  Id,
                         External_Key__c
                 FROM    Participant_Enrollment__c
                 WHERE   External_Key__c = '1~2~3'
         ];
-
         List<Patient_Visit__c> visits = new List<Patient_Visit__c>();
-        for(Integer i = 1; i < 4; i++){
-            visits.add(new Patient_Visit__c(
-                    Name = 'New Visit' + i,
-                    Visit_Number__c = i,
-                    Status__c = 'Pending',
-                    Participant_Enrollment__c = pe.Id
-            ));
+        for(Integer i = 1; i <= 3; i++){
+            Patient_Visit__c visit = new Patient_Visit__c();
+            visit.Name = 'New Visit' + i;
+            visit.Visit_Number__c = i;
+            visit.Status__c = 'Pending';
+            visit.Participant_Enrollment__c = peList[0].Id;
+            visits.add(visit);
         }
         insert visits;
     }
 
     @IsTest
     static void visitsUpdateTest() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
+
         List<Integration_Visit__c> externalVisits = new List<Integration_Visit__c>();
         externalVisits.add(createVisit(1,'N'));
         externalVisits.add(createVisit(3,'N'));
         externalVisits.add(createVisit(3.1,'N'));
         insert externalVisits;
-
         Test.startTest();
         IntegrationVisitTriggerHandler.updateVisits(externalVisits);
-
         List<Patient_Visit__c> patientVisits = getVisits();
         System.assertEquals(4, patientVisits.size());
         System.assertEquals('Completed', patientVisits[0].Status__c);
         System.assertEquals('Missed', patientVisits[1].Status__c);
         System.assertEquals(false, patientVisits[2].Is_Adhoc__c);
         System.assertEquals(true, patientVisits[3].Is_Adhoc__c);
-
         externalVisits = new List<Integration_Visit__c>();
         externalVisits.add(createVisit(3.1,'Y'));
         externalVisits.add(createVisit(1,'Y'));
         insert externalVisits;
-
         IntegrationVisitTriggerHandler.updateVisits(externalVisits);
         patientVisits = getVisits();
-
         System.assertEquals(3, patientVisits.size());
         System.assertEquals('Missed', patientVisits[0].Status__c);
         Test.stopTest();

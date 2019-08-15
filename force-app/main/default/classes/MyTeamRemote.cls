@@ -476,7 +476,7 @@ public without sharing class MyTeamRemote {
             delegate.delegateContact = delegateContact;
         }
 
-        CommunityService.createPortalUsers(new Set<Id>{
+        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
                 delegateContact.Id
         });
     }

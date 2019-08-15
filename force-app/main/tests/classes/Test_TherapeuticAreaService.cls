@@ -4,11 +4,6 @@
 @IsTest(IsParallel=true)
 public with sharing class Test_TherapeuticAreaService {
 
-    @TestSetup
-    public static void setup() {
-
-    }
-
     @IsTest
     public static void createThirdPartyCOIsByNames_Test() {
         Test.startTest();
@@ -59,11 +54,11 @@ public with sharing class Test_TherapeuticAreaService {
     @IsTest
     public static void getCOIWrappers_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         List<TherapeuticAreaService.CAWrapper> caWrappers = new TherapeuticAreaService().getCOIWrappers(new List<Therapeutic_Area__c>{
                 (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
@@ -97,11 +92,11 @@ public with sharing class Test_TherapeuticAreaService {
     @IsTest
     public static void getParticipant_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         Participant__c participant = new TherapeuticAreaService().getParticipant();
         Test.stopTest();

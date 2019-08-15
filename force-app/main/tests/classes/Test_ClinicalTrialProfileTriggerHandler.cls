@@ -1,11 +1,11 @@
 /**
  * Created by AlexKetch on 4/17/2019.
  */
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
-    @TestSetup
     public static void setup() {
+
 
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
         Account participantAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
@@ -113,7 +113,15 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @IsTest
     public static void updateCTP_ChangeTAOnCTP_Test() {
-
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
         List<Clinical_Trial_Profile__c> cTPs = [
                 SELECT Id,
                         Therapeutic_Area__c
@@ -152,7 +160,15 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @IsTest
     public static void updateCTP_RemoveTAOnCTP_Test() {
-
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
         List<Clinical_Trial_Profile__c> cTPs = [
                 SELECT Id,
                         Therapeutic_Area__c
@@ -178,6 +194,15 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @IsTest
     public static void deleteRelatedToStudyDocuments_Test_ResInDiffStudies() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
         delete [SELECT Id FROM Clinical_Trial_Profile__c];
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         t1.NCT_Number__c = 'NCT00000000';
@@ -261,6 +286,15 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @IsTest
     public static void deleteRelatedToStudyDocuments_TestAllResInStudies() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
         delete [SELECT Id FROM Clinical_Trial_Profile__c];
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         t1.NCT_Number__c = 'NCT00000000';
@@ -339,6 +373,15 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
 
     @IsTest
     public static void deleteRelatedToStudyDocuments_Test_NotCompletedStudy() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
         delete [SELECT Id FROM Clinical_Trial_Profile__c];
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         t1.NCT_Number__c = 'NCT00000000';

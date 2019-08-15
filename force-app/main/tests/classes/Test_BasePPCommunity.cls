@@ -6,17 +6,20 @@
  *
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_BasePPCommunity {
-    
-    @TestSetup
-    static void setup(){
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TestData.loadTestData();
-    }
-    
+
     @IsTest
     static void patientVisitSchedule(){
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+            .when('createPortalUsers')
+            .then(null)
+            .when('createParticipantUsers')
+            .then(null)
+            .build()
+    );
+        TestData.loadTestData();
         Test.startTest();
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test VP');
         insert vp;
@@ -33,14 +36,10 @@ private class Test_BasePPCommunity {
                 )
         };
         insert visits;
-
         TestData testDataInstance = new TestData();
         testDataInstance.ctp.Visit_Plan__c = vp.Id;
         update testDataInstance.ctp;
-
-        testDataInstance.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update testDataInstance.pe;
-
+        testDataInstance.updatePEStatusEnrollmentSuccess();
         Test.stopTest();
         List<Patient_Visit__c> patientVisits = [
                 SELECT Id, Visit_Number__c, Visit_Schedule__c
@@ -49,4 +48,5 @@ private class Test_BasePPCommunity {
         ];
         System.assert(patientVisits.size() == 2, 'Patient Visits not created');
     }
+    
 }

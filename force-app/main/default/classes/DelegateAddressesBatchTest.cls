@@ -1,4 +1,4 @@
-@isTest(IsParallel=false)
+@isTest(IsParallel=true)
 public class DelegateAddressesBatchTest {
 	
      public static void createData() {
@@ -122,6 +122,13 @@ public class DelegateAddressesBatchTest {
     
     @isTest
     public static void testDelegatesUpdates(){
+       ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         createData();
         Test.startTest();
 	 	DelegateAddressesBatch bt = new DelegateAddressesBatch();

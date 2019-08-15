@@ -1,11 +1,6 @@
 @IsTest
 public class Test_ContentDocumentTriggerHandler {
 
-    @TestSetup
-    public static void setup() {
-
-    }
-
     @IsTest
     public static void beforeDelete_Positive_Test() {
 

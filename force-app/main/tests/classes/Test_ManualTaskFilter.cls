@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 22.04.2019.
  */
 
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 private class Test_ManualTaskFilter {
 
     private static final String FIELD_JOIN_EXPECTED = 'Account IN (\'' +
