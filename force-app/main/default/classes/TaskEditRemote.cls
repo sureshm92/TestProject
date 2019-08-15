@@ -68,7 +68,9 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.WhatId = state.pse.Id;
             }
             if(reminderDate != null) {
-                taskToUpsert.Reminder_Date__c = TaskService.getUserDatetime(UserInfo.getTimeZone(),
+                Set<Id> contactIds = new Set<Id>{CommunityService.getInstance().getCurrentContactId()};
+                Map<Id, TimeZone> timeZonesByIds = TaskService.getUserTimezoneMap(contactIds);
+                taskToUpsert.Reminder_Date__c = TaskService.getUserDatetime(timeZonesByIds.get(taskToUpsert.OwnerId),
                         Datetime.newInstance(
                                 reminderDate.year(),
                                 reminderDate.month(),
