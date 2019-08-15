@@ -292,6 +292,11 @@ public without sharing class StudyListViewController {
         List<Account> acc = [SELECT Id, Name, BillingLongitude, BillingLatitude, BillingGeocodeAccuracy, BillingCity FROM Account WHERE Name = :DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId()];
         String valueToReturn;
         if (acc.size() > 0) {
+            if ('Address' != acc[0].BillingGeocodeAccuracy && 'NearAddress' != acc[0].BillingGeocodeAccuracy) {
+                acc[0].BillingGeocodeAccuracy = null;
+                acc[0].BillingLongitude = null;
+                acc[0].BillingLatitude = null;
+            }
             valueToReturn = JSON.serialize(acc[0]);
             delete acc;
         }
