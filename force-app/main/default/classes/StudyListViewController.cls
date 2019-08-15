@@ -369,6 +369,7 @@ public without sharing class StudyListViewController {
                                 Account.BillingStateCode,
                                 Account.BillingLatitude,
                                 Account.BillingLongitude,
+                                Account.BillingGeocodeAccuracy,
                                 Account.Driving_Directions__c,
                                 Account.Parking_Instructions__c
                         FROM AccountContactRelation
