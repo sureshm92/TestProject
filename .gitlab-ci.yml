@@ -131,7 +131,7 @@ DeployINF:
   - shell
   only:
   - Release-RH3.1-PP1.1-Fixes
-  - Sprint-RH3.11-PP1.11
+#  - Sprint-RH3.11-PP1.11
   except:
   - merge_requests
 
