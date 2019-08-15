@@ -14,11 +14,11 @@ private class Test_VisitService {
         ].get(0);
         state.ctp = state.pe.Clinical_Trial_Profile__r;
         state.showVisits = true;
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(state)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Visit__c> visits = VisitService.getInstance().getVisits(null);
@@ -55,11 +55,11 @@ private class Test_VisitService {
         ].get(0);
         state.ctp = state.pe.Clinical_Trial_Profile__r;
         state.showVisits = true;
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(state)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();

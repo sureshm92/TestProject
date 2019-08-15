@@ -122,12 +122,12 @@ public class DelegateAddressesBatchTest {
     
     @isTest
     public static void testDelegatesUpdates(){
-       ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+       ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
                .when('createPortalUsers')
                .then(null)
                .when('createParticipantUsers')
                .then(null)
-               .getInstance()
+               .build()
        );
         createData();
         Test.startTest();
