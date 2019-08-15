@@ -191,6 +191,7 @@ public without sharing class  DuplicateContactController {
                     (
                             !contactRecord.Participants__r.isEmpty() &&
                                     !String.isEmpty(contactRecord.Participants__r[0].Birth_Year__c) &&
+
                                     contactRecord.Participants__r[0].Birth_Year__c == getYearOfBirth(record.BirthDate__c)
                     );
         }else{
@@ -221,7 +222,7 @@ public without sharing class  DuplicateContactController {
     }
 
     private static boolean dateIsPresentInSystem(Contact contactRecord){
-        return  contactRecord.Participants__r.isEmpty() &&
+        return  contactRecord.Participants__r.isEmpty() ||
                 (
                         contactRecord.Participants__r[0].Date_of_Birth__c == null &&
                                 contactRecord.Participants__r[0].Birth_Year__c == null
