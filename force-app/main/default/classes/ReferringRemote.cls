@@ -152,7 +152,7 @@ public without sharing class ReferringRemote {
                 System.debug('STACK TRACE:' + e.getStackTraceString());
                 System.debug('MESSAGE:' + e.getMessage());
                 if(errorMsg.contains('DUPLICATE')) {
-                    errorMsg = 'This patient has already been referred to this study. A patient can only be referred to one trial at a time';
+                    errorMsg = Label.Error_Message_Participant_Duplicate;
                 }
                 System.debug('ERROR: ' + errorMsg);
                 throw new AuraHandledException(errorMsg);

@@ -289,9 +289,16 @@ public without sharing class StudyListViewController {
 
     @AuraEnabled
     public static String returnAndRemoveAccount() {
-        List<Account> acc = [SELECT Id,Name,BillingLongitude,BillingCity,BillingLatitude FROM Account WHERE Name = :DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId()];
+        List<Account> acc = [SELECT Id, Name, BillingLongitude, BillingLatitude, BillingGeocodeAccuracy, BillingCity, BillingCountry, BillingStreet FROM Account WHERE Name = :DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId()];
         String valueToReturn;
         if (acc.size() > 0) {
+            if ('Address' != acc[0].BillingGeocodeAccuracy && 'NearAddress' != acc[0].BillingGeocodeAccuracy) {
+                acc[0] = new Account(Id = acc[0].Id,
+                        Name = acc[0].Name,
+                        BillingStreet = acc[0].BillingStreet,
+                        BillingCountry = acc[0].BillingCountry,
+                        BillingCity = acc[0].BillingCity);
+            }
             valueToReturn = JSON.serialize(acc[0]);
             delete acc;
         }
