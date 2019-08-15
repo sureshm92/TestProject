@@ -293,7 +293,8 @@ public without sharing class StudyListViewController {
         String valueToReturn;
         if (acc.size() > 0) {
             if ('Address' != acc[0].BillingGeocodeAccuracy && 'NearAddress' != acc[0].BillingGeocodeAccuracy) {
-                acc[0] = new Account(Name = acc[0].Name,
+                acc[0] = new Account(Id = acc[0].Id,
+                                     Name = acc[0].Name,
                                      BillingStreet = acc[0].BillingStreet,
                                      BillingCountry = acc[0].BillingCountry,
                                      BillingCity = acc[0].BillingCity);
