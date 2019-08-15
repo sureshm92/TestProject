@@ -8,13 +8,6 @@ public class Test_ResourceService {
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
 
         Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
         Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
@@ -34,12 +27,11 @@ public class Test_ResourceService {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
         pState.participant = participants[0];
 
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         Participant__c participant = new ResourceService().getParticipant();
         Test.stopTest();
@@ -50,12 +42,11 @@ public class Test_ResourceService {
     public static void getResourceWrappers_NoActions_Test() {
         delete [SELECT Id FROM Resource_Action__c];
         List<Resource__c> resources = [SELECT Id, (SELECT Id, IsVoted__c, IsFavorite__c FROM Resource_Actions__r) FROM Resource__c];
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(new ParticipantService.ParticipantState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         List<ResourceService.ResourceWrapper> wrappers = new ResourceService().getResourceWrappers(resources);
         Test.stopTest();
@@ -67,12 +58,11 @@ public class Test_ResourceService {
     @IsTest
     public static void getResourceWrappers_OneAction_Test() {
         List<Resource__c> resources = [SELECT Id, (SELECT Id, IsVoted__c, IsFavorite__c FROM Resource_Actions__r) FROM Resource__c];
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(new ParticipantService.ParticipantState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         List<ResourceService.ResourceWrapper> wrappers = new ResourceService().getResourceWrappers(resources);
         Test.stopTest();

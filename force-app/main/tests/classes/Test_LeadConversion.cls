@@ -112,13 +112,14 @@ private class Test_LeadConversion {
     }
     @isTest
     static void mainConversionTest() {
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('createPortalUsers')
-                .then(null)
-                .when('createParticipantUsers')
-                .then(null)
-                .getInstance()
-        );
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         Test.startTest();
         Database.LeadConvert lc = new database.LeadConvert();
