@@ -199,6 +199,7 @@ public without sharing class StudySiteService {
             'Site__r.BillingStreet',
             'Site__r.BillingLatitude',
             'Site__r.BillingLongitude',
+            'Site__r.BillingGeocodeAccuracy',
             'Site__r.Driving_Directions__c',
             'Site__r.Parking_Instructions__c',
             'Site__r.ParentId',
@@ -234,6 +235,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingCountryCode',
             'Principal_Investigator__r.Account.BillingLatitude',
             'Principal_Investigator__r.Account.BillingLongitude',
+            'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
             'Principal_Investigator__r.Account.BillingAddress',
             'Site_Staff__r.Site_Contact__c'
     };
