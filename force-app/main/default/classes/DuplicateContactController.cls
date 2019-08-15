@@ -161,9 +161,9 @@ public without sharing class  DuplicateContactController {
     private static boolean checkFirstName(Integration_Patient_Referral__c record, Contact contactRecord){
         System.debug('checkFirstName');
         return  record.firstName__c  == contactRecord.FirstName ||
-                (   contactRecord.Participants__r != null &&
-                        contactRecord.Participants__r.size() != 0 &&
-                        contactRecord.Participants__r[0].First_Name__c == record.firstName__c
+                (
+                        !contactRecord.Participants__r.isEmpty() &&
+                            contactRecord.Participants__r[0].First_Name__c == record.firstName__c
                 );
     }
 
@@ -171,8 +171,7 @@ public without sharing class  DuplicateContactController {
         System.debug('checkLastName');
         return  record.lastName__c == contactRecord.LastName ||
                 (
-                        contactRecord.Participants__r != null &&
-                                contactRecord.Participants__r.size() != 0 &&
+                        !contactRecord.Participants__r.isEmpty() &&
                                 contactRecord.Participants__r[0].Last_Name__c == record.lastName__c
                 );
     }
@@ -222,8 +221,7 @@ public without sharing class  DuplicateContactController {
     }
 
     private static boolean dateIsPresentInSystem(Contact contactRecord){
-        return  contactRecord.Participants__r == null ||
-                contactRecord.Participants__r.size() == 0 ||
+        return  contactRecord.Participants__r.isEmpty() &&
                 (
                         contactRecord.Participants__r[0].Date_of_Birth__c == null &&
                                 contactRecord.Participants__r[0].Birth_Year__c == null

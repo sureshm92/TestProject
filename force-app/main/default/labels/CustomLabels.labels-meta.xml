@@ -2779,7 +2779,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
-        <value>This patient has already been referred to this study. A patient can only be referred to one trial at a time</value>
+        <value>This patient has already been referred to this study.</value>
     </labels>
     <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
