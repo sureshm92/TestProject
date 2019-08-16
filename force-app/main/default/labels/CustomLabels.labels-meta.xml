@@ -1120,6 +1120,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By closing this cookie message, you are agreeing to our use of cookies.</value>
     </labels>
     <labels>
+        <fullName>Create</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create</shortDescription>
+        <value>Create</value>
+    </labels>
+    <labels>
         <fullName>Created_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3626,7 +3633,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT PI S1 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&apos;s permissions for individual studies using the dropdowns.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&#39;s permissions for individual studies using the dropdowns.</value>
     </labels>
     <labels>
         <fullName>OT_PI_S2_T</fullName>
