@@ -79,6 +79,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_AssignLanguagePreferences</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -400,6 +404,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LabelValueItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguagePreferenceService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1044,6 +1052,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_IntegrationVisitTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_LanguagePreferenceService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3793,6 +3805,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
