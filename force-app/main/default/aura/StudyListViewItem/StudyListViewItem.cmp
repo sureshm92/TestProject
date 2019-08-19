@@ -2,7 +2,7 @@
  - Created by D.Yasinskyi on 08.02.2018.
  -->
 
-<aura:component description="StudyListViewItem">
+<aura:component description="StudyListViewItem" controller="StudyListViewController">
 
     <!-- attributes: -->
     <aura:attribute name="currentStudy" type="Object" required="true"/>
@@ -30,8 +30,6 @@
     <aura:attribute name="countryCodesMap" type="Object"/>
     <aura:attribute name="addressChecked" type="Boolean" default="false"/>
     <aura:attribute name="showPopUpSpinner" type="Boolean"/>
-    <aura:attribute name="checkedAccountWasCreated" type="Boolean"/>
-    <aura:attribute name="accountWithCheckedLocation" type="Object"/>
     <aura:attribute name="updateGeolocation" type="Boolean" default="false"/>
     <aura:attribute name="checkIconStyle" type="String" default="check-icon-style"/>
     <aura:attribute name="closeIconStyle" type="String" default="close-icon-style"/>
@@ -43,11 +41,6 @@
 
     <!-- <aura:handler name="change" value="{!v.detailsExpanded}" action="{!c.clampDrivingInstuctions}"/>-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.checkedAccountWasCreated}" action="{!c.removeCreatedAccount}"/>
-    <aura:handler name="change" value="{!v.accountWithCheckedLocation}" action="{!c.checkAccountWithLocation}"/>
-    <!--
-        <aura:handler name="change" value="{!v.currentCountry}" action="{!c.doCountryChange}"/>
-    -->
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
