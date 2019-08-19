@@ -1,0 +1,88 @@
+/**
+ * Created by Kryvolap on 13.08.2019.
+ */
+
+public without sharing class Action_InviteRPRemote {
+
+    @AuraEnabled
+    public static String getInviteDetail() {
+        InviteDetail inviteDetail = new InviteDetail();
+        try {
+            List<Study_Site__c> studySitesNotDelegate = StudySiteService.getStudySitesForPI();
+            inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
+            if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
+                Set<Id> studyIds = new Set<Id>();
+                for (Study_Site__c site : studySitesNotDelegate) {
+                    if (!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)) {
+                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id, site.Clinical_Trial_Profile__r.Protocol_ID__c);
+                        inviteDetail.studySitesForInvitation.add(sw);
+                        studyIds.add(site.Clinical_Trial_Profile__c);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+        return JSON.serialize(inviteDetail);
+    }
+
+    @AuraEnabled
+    public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String studySiteId, String protocolId){
+        try{
+            List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
+            AssignmentRule ar = new AssignmentRule();
+            ar = [
+                    SELECT 	id
+                    FROM 	AssignmentRule
+                    WHERE 	SobjectType = 'Lead' AND
+                    Active = true AND
+                    Name = 'SPNL Assignment Rule'
+                    LIMIT 1
+            ];
+
+            //Creating the DMLOptions for "Assign using active assignment rules" checkbox
+            Database.DMLOptions dmlOpts = new Database.DMLOptions();
+            dmlOpts.assignmentRuleHeader.assignmentRuleId= ar.id;
+
+            Lead l = new Lead();
+            l.FirstName = firstName;
+            l.LastName = lastName;
+            l.Phone = phone;
+            l.Company = clinicName;
+            l.Protocol_Number__c = protocolId;
+            l.Language__c = UserInfo.getLanguage();
+            if(studySiteId!= null && studySiteId != '')
+                l.Study_Site__c = studySiteId;
+            l.Status = 'New';
+            l.Invited_by_PI__c = CommunityService.getUserContact().Id;
+            if(invitationQueues.size() > 0){
+                l.OwnerId = invitationQueues[0].Id;
+            }
+            l.setOptions(dmlOpts);
+            insert l;
+        }catch(Exception e){
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    public class InviteDetail {
+        public  List<SiteWrapper> studySitesForInvitation;
+    }
+    public class SiteWrapper{
+        public String StudyName;
+        public String Id;
+        public Boolean selected;
+        public String protocolId;
+        public SiteWrapper(String StudyName, String Id){
+            this.StudyName = StudyName;
+            this.Id = Id;
+            this.selected = false;
+        }
+        public SiteWrapper(String StudyName, String Id, String protocolId){
+            this.StudyName = StudyName;
+            this.Id = Id;
+            this.selected = false;
+            this.protocolId = protocolId;
+        }
+    }
+}

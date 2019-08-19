@@ -69,6 +69,7 @@
                                    allRecordsCount="{!v.paginationData.allRecordsCount}"
                                    currentPageCount="{!if(v.showMore &amp;&amp; v.paginationData.allRecordsCount &lt;= 5, v.paginationData.allRecordsCount, 5)}"
                                    showMoreEnabled="true"
+                                   showEntriesVisble="false"
                                    showMore="{!v.showMore}" >
                         <aura:if isTrue="{!v.studyFilterEnabled}">
                             <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>

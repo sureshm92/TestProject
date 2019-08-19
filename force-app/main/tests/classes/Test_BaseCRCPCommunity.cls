@@ -536,16 +536,16 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-    @IsTest
-    static void myStudySiteDetail() {
-        init();
-        Test.startTest();
-        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
-        System.runAs(hcpUser) {
-            MyStudySitesController.getStudySiteDetail(study.Id);
-        }
-        Test.stopTest();
-    }
+//    @IsTest
+//    static void myStudySiteDetail() {
+//        init();
+//        Test.startTest();
+//        hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+//        System.runAs(hcpUser) {
+//            MyStudySitesController.getStudySiteDetail(study.Id);
+//        }
+//        Test.stopTest();
+//    }
 
     @IsTest
     static void hcpDelegateTest() {
@@ -667,9 +667,10 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         System.runAs(piUser) {
-            MyReferredZoneController.getStatusOptions(CommunityService.USER_MODE_PI);
-            MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI,null,false);
-            MyReferringClinicsController.getEnrollmentData(hcpEnrollment.Id, CommunityService.USER_MODE_PI);
+            //TODO Replace with MyReferringClinicsController test
+            //MyReferredZoneController.getStatusOptions(CommunityService.USER_MODE_PI);
+            //MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI,null,false);
+            //MyReferringClinicsController.getEnrollmentData(hcpEnrollment.Id, CommunityService.USER_MODE_PI);
 
         }
         Test.stopTest();
