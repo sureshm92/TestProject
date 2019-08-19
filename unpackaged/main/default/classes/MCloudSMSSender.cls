@@ -15,7 +15,7 @@ public class MCloudSMSSender {
         private Boolean			subscribe;
         private Boolean			resubscribe;
         private String			shortCode;
-        private Boolean			override_x;         // it's a trick, since the word 'override' is reserved
+        private Boolean			override_x;         // it's a workaround, since the word 'override' is reserved
         private String			messageText;
         private String			sendTime;
     }
@@ -43,12 +43,6 @@ public class MCloudSMSSender {
     }
     
     /**************************************************************************
-     * ConfigurationException
-     **************************************************************************/
-    public class ConfigurationException extends Exception {
-    }
-    
-    /**************************************************************************
      * UnauthorizedException
      **************************************************************************/
     public class AuthorizationException extends Exception {
@@ -64,7 +58,6 @@ public class MCloudSMSSender {
     private final String clientId;
     private final String clientSecret;
     private final String testPhone;
-    private final String loginURI;
     private final String restURI;
     private final String msgApiKey;
     private final String sendSMS;
@@ -82,10 +75,9 @@ public class MCloudSMSSender {
      * TODO: Custom metadata settings or a custom object
      ********************************************************************/
     public MCloudSMSSender () {
-        clientId        = 'lmqygxkpy599h99gw1xjlc8i';           // '{!$Credential.Username}';
-        clientSecret    = 'YgjRpY6Aj7oK234j6ELW2hvy';           // '{!$Credential.Password}';
+        clientId        = '{!$Credential.Username}';
+        clientSecret    = '{!$Credential.Password}';
         testPhone       = '16463311399';                        // this is the Dev test phone, it stands by 24x7
-        loginURI        = 'https://mc2gwv28hdsr86gd-sldnjzvzzgm.auth.marketingcloudapis.com/v1/requestToken';
         restURI			= 'https://mc2gwv28hdsr86gd-sldnjzvzzgm.rest.marketingcloudapis.com/';
         msgApiKey		= 'OTk6Nzg6MA';                         // RH_API_TEST (test API-triggered message)
         sendSMS			= 'sms/v1/messageContact/' + msgApiKey + '/send';
@@ -106,7 +98,7 @@ public class MCloudSMSSender {
         HttpRequest request         = new HttpRequest();
         request.setTimeout(60000);
         request.setMethod('POST');
-        request.setEndpoint(loginURI);
+        request.setEndpoint('callout:MCloudAuthorization');     //
         request.setHeader('Content-Type', 'application/json');
         request.setHeader('Content-Length', '' + body.length());
         request.setBody(body);
@@ -267,6 +259,5 @@ public class MCloudSMSSender {
             throw e;
         }
     }
-    
 }
 
