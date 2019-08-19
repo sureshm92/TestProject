@@ -48,7 +48,7 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_SCREENING_COMPLETE = 'Screening Complete';
     public static final String PE_STATUS_SCREENING_IN_PROGRESS= 'Screening In Progress';
     public static final String PE_STATUS_SCREENING_FAILED = 'Screening Failed';
-    public static final String PE_STATUS_ENROLLMENT_OLD = 'Enrollment';
+    public static final String PE_STATUS_ENROLLMENT_OLD = 'Enrolled';
     public static final String PE_STATUS_ENROLLMENT_SUCCESS = 'Enrollment Success';
     public static final String PE_STATUS_ENROLLMENT_FAILED = 'Enrollment Failed';
     
