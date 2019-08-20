@@ -22,8 +22,8 @@
         component.set('v.status', status);
         component.set('v.reason', reason);
         component.set('v.notes', notes);
-        component.set('v.callback', $A.getCallback(callback));
-        component.set('v.cancelCallback', $A.getCallback(cancelCallback));
+        if(callback) component.set('v.callback', $A.getCallback(callback));
+        if(cancelCallback) component.set('v.cancelCallback', $A.getCallback(cancelCallback));
 
         if(status === 'Referral Declined' && reason === null){
             var selectReferralDeclineReasonDialog = component.find('selectReferralDeclineReasonDialog');

@@ -51,20 +51,6 @@
             communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
             helper.init(component,event,helper);
         });
-    },
-
-    insertAccountForCheck: function(component,event,helper){
-        var param = event.getParam('arguments');
-        var currentAccount = param.currentAccount;
-        communityService.executeAction(component, 'checkAccountGeolocation', {account: JSON.stringify(currentAccount)}, function (returnValue) {
-            component.set('v.checkedAccountWasCreated',true);
-        });
-    },
-
-    removeCheckAccount: function(component,event,helper){
-        communityService.executeAction(component, 'returnAndRemoveAccount', null, function (returnValue) {
-            component.set('v.accountWithCheckedLocation',JSON.parse(returnValue));
-            component.set('v.showPopUpSpinner',false);
-        });
     }
+
 });

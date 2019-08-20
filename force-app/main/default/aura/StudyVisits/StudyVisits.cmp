@@ -57,7 +57,7 @@
                                 data-visit-id="{!visitWrapper.visit.Id}"
                                 data-task-id="{!visitWrapper.task.Id}"
                                 onclick="{!c.createEditTask}">
-                                {!visitWrapper.task == null ? 'Create' : visitWrapper.reminderDate}
+                                {!visitWrapper.task == null ? $Label.c.Create : visitWrapper.reminderDate}
                             </td>
                             <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
                         </tr>

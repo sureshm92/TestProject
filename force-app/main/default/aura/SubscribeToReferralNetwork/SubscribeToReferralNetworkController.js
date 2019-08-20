@@ -21,14 +21,11 @@
         recordIds.push(recordId);
         var records = component.get('v.records');
         if (recordIds) {
-            communityService.executeAction(component, 'deleteRecords', {
+            communityService.executeAction(component, 'deleteAndGetRefferalNetworks', {
+                sObjectType: component.get("v.sObjectType"),
                 recordIds: recordIds
-            }, function () {
-                var filterFunc = function(el){
-                    return el.Id !== recordId;
-                }
-                records = records.filter(filerFunc);
-                component.set('v.records', records);
+            }, function (returnValue) {
+                component.set('v.records', returnValue);
             });
         }
     }

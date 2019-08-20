@@ -9,6 +9,8 @@
                         }
                     });
                     component.set('v.visitResultWrappers', returnValue);
+                    var trialId = component.get('v.ctpId');
+                    component.set('v.VisitResultPage', 'study-workspace?id=' + trialId + '&tab=tab-lab-results');
                 });
             }
         },
