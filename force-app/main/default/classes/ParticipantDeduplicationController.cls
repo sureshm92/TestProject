@@ -113,6 +113,7 @@ public without sharing class ParticipantDeduplicationController {
         	Contact__c	                = 	contactId == null ? null : contactId,
 			First_Name__c               = referralRecord.firstName__c,
 			Last_Name__c                = referralRecord.lastName__c,
+            Middle_Name__c              = referralRecord.Middle_Name__c,
 			Email__c                    = referralRecord.email__c,
 			Phone__c                    = referralRecord.phone__c,
 			Mailing_State__c            = referralRecord.Address_State__c,
