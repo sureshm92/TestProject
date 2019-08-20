@@ -8532,7 +8532,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Add A Member</shortDescription>
-        <value>Please, Add a Member  To Your Team</value>
+        <value>Add a Member To Your Team</value>
     </labels>
     <labels>
         <fullName>SS_Address</fullName>
