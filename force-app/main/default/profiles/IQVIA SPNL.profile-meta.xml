@@ -79,7 +79,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateParticipants</apexClass>
+        <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -359,6 +359,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>HCPTrialBuilder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>HelpController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -379,11 +383,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Injector</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IntegrationPatientTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>IntegrationService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationVisitResultService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -531,6 +543,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PITrialBuilder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PSEService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -567,10 +583,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantEnrollmentFactory</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -595,7 +607,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
+        <apexClass>ParticipantTrialBuilder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -771,10 +783,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SdhIntegrationService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -816,6 +824,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SortOrder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubBuilder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -972,6 +984,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_BaselineSurveyRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1252,6 +1268,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialBuilder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialDetail</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -3170,6 +3198,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.Days_After_Enrolled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Days_After_Referred__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3857,6 +3890,11 @@
         <editable>true</editable>
         <field>Patient_Visit__c.Participant_Study_Enrollment__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Visit__c.SDH_Key__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4869,6 +4907,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Visit_Result__c.SDH_Key__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Visit__c.Icons__c</field>
         <readable>true</readable>
@@ -4955,6 +4998,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icons_package__c-Icons package Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Injector_Binding__mdt-Injector Binding Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Integration_Log__c-Integration Log Layout</layout>

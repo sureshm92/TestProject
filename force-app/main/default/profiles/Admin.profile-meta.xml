@@ -83,10 +83,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateParticipants</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -587,10 +583,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantEnrollmentFactory</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -612,10 +604,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -795,10 +783,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SdhIntegrationService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -840,6 +824,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SortOrder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3206,6 +3194,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Contacted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Days_After_Enrolled__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5600,6 +5593,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>SurveyInvitation</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Terms_And_Conditions_Acceptance__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -6101,6 +6103,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateContentSpace</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -6617,6 +6623,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewEventLogFiles</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewFlowUsageAndFlowEventData</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
