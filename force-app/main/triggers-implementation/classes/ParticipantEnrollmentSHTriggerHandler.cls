@@ -57,21 +57,22 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 WHERE Id IN:peIds
         ];
         for (Participant_Enrollment__c pe : enrollments) {
-            String largerStatus = pe.Participant_Status__c;
-            Integer largerStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(largerStatus);
+            Participant_Enrollment_Status_History__c headHistory = peToHistories.get(pe.Id).get(0);
             for (Participant_Enrollment_Status_History__c history : peToHistories.get(pe.Id)) {
-                Integer historyStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(history.NewStatus__c);
-                if (largerStatusValue != Math.max(largerStatusValue, historyStatusValue)) {
-                    largerStatus = history.NewStatus__c;
-                    largerStatusValue = historyStatusValue;
+                Integer headStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(headHistory.NewStatus__c);
+                Integer currentStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(history.NewStatus__c);
 
-                    pe.Last_Status_Changed_Notes__c = history.Notes__c;
-                    pe.Non_Enrollment_Reason__c = history.Reason__c;
-                    pe.Participant_Status_Last_Changed_Date__c = history.Date__c;
+                if((headStatusValue == currentStatusValue && headHistory.Date__c < history.Date__c)
+                        || headStatusValue != Math.max(headStatusValue, currentStatusValue)) {
+                    headHistory = history;
                 }
             }
-            pe.Participant_Status__c = largerStatus;
-            if(largerStatus == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) pe.Informed_Consent__c = true;
+
+            pe.Last_Status_Changed_Notes__c = headHistory.Notes__c;
+            pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
+            pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
+            pe.Participant_Status__c = headHistory.NewStatus__c;
+            if(headHistory.NewStatus__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) pe.Informed_Consent__c = true;
         }
 
         update enrollments;
