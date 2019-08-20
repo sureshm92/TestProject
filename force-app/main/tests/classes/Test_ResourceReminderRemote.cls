@@ -17,6 +17,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(!reminders.isEmpty());
     }
 
@@ -32,6 +33,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(!reminders.isEmpty());
     }
 
@@ -47,6 +49,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(!reminders.isEmpty());
     }
 
@@ -62,6 +65,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(!reminders.isEmpty());
     }
 
@@ -76,6 +80,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(!reminders.isEmpty());
     }
 
@@ -91,6 +96,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(!reminders.isEmpty());
     }
 
@@ -106,6 +112,7 @@ public with sharing class Test_ResourceReminderRemote {
         Test.startTest();
         List<ResourceReminderService.Reminder> reminders =  ResourceReminderRemote.getReminders(resource.Id);
         Test.stopTest();
+
         System.assert(reminders.isEmpty());
     }
 

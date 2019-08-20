@@ -17,15 +17,19 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
         };
 
         List<Resource__c> resources = new List<Resource__c>{
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()),Description__c = 'Re - 1'),
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()),Description__c = 'Re - 2'),
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()),Description__c = 'Re - 3'),
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()),Description__c = 'Re - 4')
+                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 1'),
+                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 2'),
+                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 3'),
+                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 4')
         };
 
         Test.startTest();
         service.createTAAsForResources(therapeuticAreas, resources);
         Test.stopTest();
+
+        List<Resource__c> resource = [SELECT Id FROM Resource__c];
+
+        System.assertEquals(4, resource.size());
     }
 
     @IsTest
@@ -57,22 +61,34 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
         Test.startTest();
         service.createDeleteTAAs(resources, resourceMap, therapeuticAreas);
         Test.stopTest();
+
+        List<Therapeutic_Area_Assignment__c> tAAsToCreate = [SELECT Id FROM Therapeutic_Area_Assignment__c];
+
+        System.assert(tAAsToCreate.size() >= 0);
     }
 
     @IsTest
     private static void deleteTAAs_test() {
         TherapeuticAreaAssignmentService service = new TherapeuticAreaAssignmentService();
 
-        List<Therapeutic_Area__c> therapeuticAreas = new List<Therapeutic_Area__c>{
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 1'),
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 2'),
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 3'),
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 4')
+        List<Therapeutic_Area__c> newTherapeuticAreas = new List<Therapeutic_Area__c>{
+                new Therapeutic_Area__c(Name = 'ThA - 1'),
+                new Therapeutic_Area__c(Name = 'ThA - 2'),
+                new Therapeutic_Area__c(Name = 'ThA - 3'),
+                new Therapeutic_Area__c(Name = 'ThA - 4')
         };
 
+        insert newTherapeuticAreas;
+
+        List<Therapeutic_Area__c> toDelete = [SELECT Id FROM Therapeutic_Area__c LIMIT 2];
+
         Test.startTest();
-        service.deleteTAAs(therapeuticAreas);
+        service.deleteTAAs(toDelete);
         Test.stopTest();
+
+        List<Therapeutic_Area__c> remnant = [SELECT Id FROM Therapeutic_Area__c LIMIT 2];
+
+        System.assertEquals(2, remnant.size());
     }
 
     @IsTest
@@ -84,8 +100,10 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
         Id thirdPartyCOIId = TestDataFactory.getFakeId(Resource__c.getSObjectType());
 
         Test.startTest();
-        service.getTAAWithFilledFields(COIId, resourceId, thirdPartyCOIId);
+        Therapeutic_Area_Assignment__c areaAssignment = service.getTAAWithFilledFields(COIId, resourceId, thirdPartyCOIId);
         Test.stopTest();
+
+        System.assertEquals(resourceId, areaAssignment.Resource__c);
     }
 
     @IsTest
@@ -99,9 +117,13 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
                 new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 4', Therapeutic_Areas__c = 'one; two; three')
         };
 
-        Set <String> toCreate = new Set<String>{'one', 'two', 'three'};
-        Set <String> toDelete = new Set<String>{'four', 'five', 'three'};
-        TherapeuticAreaAssignmentService.TAAWrapper  wrapper = new TherapeuticAreaAssignmentService.TAAWrapper(resources.get(0).Id, toCreate, toDelete);
+        Set <String> toCreate = new Set<String>{
+                'one', 'two', 'three'
+        };
+        Set <String> toDelete = new Set<String>{
+                'four', 'five', 'three'
+        };
+        TherapeuticAreaAssignmentService.TAAWrapper wrapper = new TherapeuticAreaAssignmentService.TAAWrapper(resources.get(0).Id, toCreate, toDelete);
 
         List<Therapeutic_Area_Assignment__c> areaAssignments = new List<Therapeutic_Area_Assignment__c>{
                 new Therapeutic_Area_Assignment__c(Resource__c = resources.get(1).Id),
@@ -115,7 +137,9 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
         resourceMap.put(resources.get(2).Id, areaAssignments);
 
         Test.startTest();
-        service.getTAAsToDelete(wrapper, resourceMap);
+        List<Therapeutic_Area_Assignment__c> areasAssignments = service.getTAAsToDelete(wrapper, resourceMap);
         Test.stopTest();
+
+        System.assert(areasAssignments.size() >= 0);
     }
 }
