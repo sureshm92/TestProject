@@ -107,10 +107,15 @@ public inherited sharing class VisitReportContainerRemote {
 
         public VisitDataWrapper(Visit_Result__c visitResult) {
             this.value = String.format(TranslateHelper.getLabelValue(visitResult.Result_Type__c), FORMAT_EMPTY_PARAMETERS);
-            this.minValue = visitResult.Min_Value__c;
-            this.maxValue = visitResult.Max_Value__c;
+            if (visitResult.Min_Value__c != null) {
+                this.minValue = visitResult.Min_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
+                this.isShowRange = true;
+            }
+            if (visitResult.Max_Value__c != null) {
+                this.maxValue = visitResult.Max_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
+                this.isShowRange = true;
+            }
             this.measurement = visitResult.Measurement__c;
-            this.isShowRange = true;
         }
 
         public VisitDataWrapper(String value, String measurement) {
