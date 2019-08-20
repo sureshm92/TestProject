@@ -15,12 +15,14 @@ public class Batch_UpdateScreeningIds implements Database.Batchable<SObject>{
     }
 
     public void execute(Database.BatchableContext bc, List<SObject> records) {
-//        PSEService.updateExternalKey((List<Participant_Enrollment__c>) records, null);
+        //PSEService.updateExternalKey((List<Participant_Enrollment__c>) records, null);
     }
 
     public void finish(Database.BatchableContext bc) {}
 
     public static void run(){
-//        Database.executeBatch(new Batch_UpdateScreeningIds('SELECT Id, Screening_ID__c FROM Participant_Enrollment__c'), 50);
+        Database.executeBatch(new Batch_UpdateScreeningIds('SELECT Id, Screening_ID__c FROM Participant_Enrollment__c'), 50);
     }
+
+
 }

@@ -25,7 +25,7 @@ private class Test_Batch_CopyEnrollmentHistory {
                 FROM Participant_Enrollment_Status_History__r)
                 FROM Participant_Enrollment__c
         ];
-        System.assertEquals(PSEService.PSE_STATUS_TREATMENT_PERIOD_STARTED, enrollment.Participant_Status__c);
+        System.assertEquals(PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED, enrollment.Participant_Status__c);
 
         List<Participant_Study_Enrollment__c> pse = [SELECT Id FROM Participant_Study_Enrollment__c];
         System.assert(pse.isEmpty());
@@ -112,7 +112,7 @@ private class Test_Batch_CopyEnrollmentHistory {
         insert pe;
 
         Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
-                Status__c = PSEService.PSE_STATUS_TREATMENT_PERIOD_STARTED,
+                Status__c = PEStatusState.PE_STATUS_TREATMENT_PERIOD_STARTED,
                 Participant__c = participant.Id,
                 Participant_Enrollment__c = pe.Id
         );

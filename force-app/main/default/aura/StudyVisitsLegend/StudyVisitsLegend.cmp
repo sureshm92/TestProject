@@ -18,7 +18,7 @@
                         <div class="svl-row">
                             <div class="svl-icon-label">
                                 <div class="svl-icon">
-                                    <c:RRIcon iconName="{!legend.iconId}"/>
+                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!legend.iconId}"/>
                                 </div>
                                 <div class="svl-label">{!legend.iconLabel}</div>
                             </div>

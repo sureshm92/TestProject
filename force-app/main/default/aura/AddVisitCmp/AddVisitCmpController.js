@@ -33,7 +33,11 @@
         component.find('mainSpinner').show();
 
         let icons = component.get('v.selectedIcons');
-        let strCoins = icons.join(';');
+        let iconsName = [];
+        for (let i = 0; i < icons.length; i++){
+            iconsName.push(icons[i].id);
+        }
+        let strCoins = iconsName.join(';');
         component.find('splittedIcons').set('v.value', strCoins);
         let name = component.find('nameId').get("v.value");
         if (name === null) {

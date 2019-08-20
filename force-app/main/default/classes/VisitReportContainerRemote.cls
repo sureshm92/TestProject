@@ -8,6 +8,23 @@ public inherited sharing class VisitReportContainerRemote {
             'AST',
             'ALT'
     };
+    public static final String IQVIA_LOGO = 'IQVIA';
+    private static String base64PNG = 'data:image/png;base64,';
+
+    @AuraEnabled
+    public static String getLogoFromStatic() {
+        try {
+            Blob imageLogo = [
+                    SELECT Body
+                    FROM StaticResource
+                    WHERE Name = :IQVIA_LOGO
+            ].Body;
+            return base64PNG + EncodingUtil.base64Encode(imageLogo);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return base64PNG;
+    }
 
     @AuraEnabled
     public static String getReportDataWrappers() {

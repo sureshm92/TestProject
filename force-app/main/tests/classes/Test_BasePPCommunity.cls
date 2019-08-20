@@ -6,47 +6,65 @@
  *
  */
 
-@IsTest(IsParallel=true)
+@IsTest(IsParallel=false)
 private class Test_BasePPCommunity {
-
-    @IsTest
-    static void patientVisitSchedule(){
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
-            .when('createPortalUsers')
-            .then(null)
-            .when('createParticipantUsers')
-            .then(null)
-            .build()
-    );
+    
+    @TestSetup
+    public static void init(){
         TestData.loadTestData();
-        Test.startTest();
-        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test VP');
-        insert vp;
-        List<Visit__c> visits = new List<Visit__c>{
-                new Visit__c(
-                        Visit_Plan__c = vp.Id,
-                        Order__c = 1,
-                        Visit_Number__c = 1
-                ),
-                new Visit__c(
-                        Visit_Plan__c = vp.Id,
-                        Order__c = 2,
-                        Visit_Number__c = 2
-                )
-        };
-        insert visits;
-        TestData testDataInstance = new TestData();
-        testDataInstance.ctp.Visit_Plan__c = vp.Id;
-        update testDataInstance.ctp;
-        testDataInstance.updatePEStatusEnrollmentSuccess();
-        Test.stopTest();
-        List<Patient_Visit__c> patientVisits = [
-                SELECT Id, Visit_Number__c, Visit_Schedule__c
-                FROM Patient_Visit__c
-                WHERE Participant_Enrollment__c =: testDataInstance.pe.Id
-        ];
-        System.assert(patientVisits.size() == 2, 'Patient Visits not created');
     }
     
+    @IsTest
+    static void test_AddPatientByPIRemote_getInitData() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.piUser){
+            AddPatientByPIRemote.getInitData(testDataInstance.ss.Id);
+        }
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void test_AddPatientByPIRemote_saveParticipant() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.piUser){
+            Participant__c participant = new Participant__c(
+                    First_Name__c = 'NewP',
+                    Last_Name__c = 'NewP',
+                    Phone__c = '11213232',
+                    Email__c = 'NewP@email.com',
+                    Mailing_Country_Code__c = 'US',
+                    Mailing_State_Code__c = 'NY'
+            
+            );
+            Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                    Study_Site__c = testDataInstance.ss.Id,
+                    Patient_ID__c = '12345678',
+                    Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+            );
+            try{
+                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe));
+                for(Participant_Enrollment__c pe2 : [SELECT Name, Referral_ID__c, Participant_Key__c FROM Participant_Enrollment__c]){
+                    System.debug('XXX_PE: ' + pe2);
+                }
+            }catch (Exception e){
+                System.debug('ERROR: ' + e.getMessage());
+            }
+        }
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void test_AlertRemote() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.participantUser){
+            List<Alert> alerts = (List<Alert>)JSON.deserialize(AlertsRemote.getAlerts(CommunityService.USER_MODE_PARTICIPANT), List<Alert>.class);
+            AlertsRemote.setAlertViewed(alerts[0].id);
+        }
+        Test.stopTest();
+    }
+
+
 }

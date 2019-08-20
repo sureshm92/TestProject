@@ -456,7 +456,7 @@
 
             <div class="rr-white-panel" style="padding: 30px">
 
-                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                <aura:if isTrue="{!and(v.userMode == 'Participant',!v.isDelegate)}">
                     <div class="as-title">{!$Label.c.PG_AS_H_Display_Vitals_and_Lab_Data}</div>
                     <div class="as-sub-title">{!$Label.c.PG_AS_T_Display_Vitals_and_Lab_Data}</div>
                     <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">

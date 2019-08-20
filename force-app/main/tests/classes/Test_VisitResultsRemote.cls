@@ -1,0 +1,282 @@
+/**
+ * Created by dmytro.fedchyshyn on 01.08.2019.
+ */
+@IsTest
+public with sharing class Test_VisitResultsRemote {
+    //TODO fix tests!!!
+/*
+    @TestSetup
+    static void setup() {
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+
+        List<Contact> contacts = new List<Contact>{
+                (Contact) TestDataFactory.getSObject(Contact.getSObjectType())
+        };
+        insert contacts;
+
+        List<Account> accounts = new List<Account>{
+                (Account) TestDataFactory.getSObject(Account.getSObjectType())
+        };
+        insert accounts;
+
+        List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
+                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType())
+        };
+        insert ctp;
+
+        List<Study_Site__c> studySites = new List<Study_Site__c>{
+                (Study_Site__c) TestDataFactory.getSObject(Study_Site__c.getSObjectType(),
+                        new Map<String, Object>{
+                                'Principal_Investigator__c' => contacts[0].Id,
+                                'Clinical_Trial_Profile__c' => ctp[0].Id,
+                                'Site__c' => accounts[0].Id
+                        })
+        };
+        insert studySites;
+
+        List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>{
+                (Participant_Enrollment__c) TestDataFactory.getSObject(Participant_Enrollment__c.getSObjectType(),
+                        new Map<String, Object>{
+                                'Study_Site__c' => studySites[0].Id
+                        })
+        };
+        insert participantEnrollments;
+    }
+
+    @IsTest
+    static void getInitData_test() {
+        List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
+                (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
+                        new Map<String, Object>{
+                                'Visit_Plan__c' => TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType())
+                        })
+        };
+
+        List<Visit__c> visits2 = new List<Visit__c>{
+                new Visit__c(Name = 'Test1'),
+                new Visit__c(Name = 'Test2')
+        };
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+                .when('getCtpById')
+                .then(ctp)
+                .when('getVisitsByCtpId')
+                .then(visits2)
+                .getInstance()
+        );
+        TestData.loadTestData();
+
+        Test.startTest();
+        TestData testData = new TestData();
+        testData.createPSE();
+        System.runAs(testData.participantUser) {
+            VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('');
+            System.assert(wrapper != null);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getVisitResultsGroupNames_test() {
+        List<String> visitResultGroupNames = new List<String>{
+                'test1',
+                'test2'
+        };
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+                .when('getVisitResultsGroupNames')
+                .then(visitResultGroupNames)
+                .getInstance()
+        );
+
+        Test.startTest();
+        List<String> names = VisitResultsRemote.getVisitResultsGroupNames('');
+        Test.stopTest();
+
+        System.assertEquals(2, names.size());
+    }
+
+    @IsTest
+    static void getVisitResultsContainer_test() {
+        Patient_Visit__c patientVisit = new Patient_Visit__c(Id = TestDataFactory.getFakeId(Patient_Visit__c.getSObjectType()));
+        VisitResultsService.VisitResultsContainer container = new VisitResultsService.VisitResultsContainer(patientVisit, null, 'Vitals');
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+                .when('getVisitResultsContainer')
+                .then(container)
+                .getInstance()
+        );
+
+        Test.startTest();
+        VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('');
+        System.debug(tesContainer.groupName);
+        Test.stopTest();
+
+        System.assert(tesContainer.groupName.equals('Vitals'));
+    }
+
+    @IsTest
+    static void getVisitResultWrappersForDashboard_test() {
+        List<VisitResultsService.VisitResultWrapper> wrappers = new List<VisitResultsService.VisitResultWrapper>{
+                new VisitResultsService.VisitResultWrapper(null, null, null)
+        };
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+                .when('getVisitResultWrappersForDashboard')
+                .then(wrappers)
+                .getInstance()
+        );
+
+        Test.startTest();
+        List<VisitResultsService.VisitResultWrapper> newWrappers = VisitResultsRemote.getVisitResultWrappersForDashboard();
+        Test.stopTest();
+
+        System.assert(newWrappers != null);
+    }
+
+    @IsTest
+    static void getInitDataWithException_test() {
+        Boolean isExceptionThrown = false;
+        TestData.loadTestData();
+
+        Test.startTest();
+        TestData testData = new TestData();
+        testData.createPSE();
+        testData.participant.Contact__c = null;
+        update testData.participant;
+        try {
+            System.runAs(testData.participantUser) {
+                VisitResultsRemote.getInitData('');
+            }
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getVisitResultsGroupNamesWithException_test() {
+        Boolean isExceptionThrown = false;
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+                .when('getVisitResultsGroupNames')
+                .then(new AuraHandledException('exception'))
+                .getInstance()
+        );
+        Test.startTest();
+        try {
+            VisitResultsRemote.getVisitResultsGroupNames(null);
+
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getVisitResultsContainerWithException_test() {
+        Boolean isExceptionThrown = false;
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+                .when('getVisitResultsContainer')
+                .then(new AuraHandledException('exception'))
+                .getInstance()
+        );
+        Test.startTest();
+        try {
+            VisitResultsRemote.getVisitResultsContainer(null);
+
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getVisitResultWrappersForDashboardWithException_test() {
+        Boolean isExceptionThrown = false;
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+                .when('getVisitResultWrappersForDashboard')
+                .then(new AuraHandledException('exception'))
+                .getInstance()
+        );
+        Test.startTest();
+        try {
+            VisitResultsRemote.getVisitResultWrappersForDashboard();
+
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+
+    @IsTest
+    static void changeOptInOnTrue_test() {
+        Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+                .when('updateRecord')
+                .then(null)
+                .getInstance()
+        );
+
+        TestData.loadTestData();
+
+        Test.startTest();
+        TestData testData = new TestData();
+        testData.createPSE();
+        testData.participant.Contact__c = contact.Id;
+        update testData.participant;
+        System.runAs(testData.participantUser) {
+            Boolean isOptOn = VisitResultsRemote.changeOptInOnTrue(contact.Id);
+
+            System.assert(isOptOn);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void changeOptInWithException_test() {
+        Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+                .when('updateRecord')
+                .then(new AuraHandledException('error'))
+                .getInstance()
+        );
+        TestData.loadTestData();
+
+        Test.startTest();
+        TestData testData = new TestData();
+        Boolean isExceptionThrown = false;
+        System.runAs(testData.participantUser) {
+            try {
+                VisitResultsRemote.changeOptInOnTrue(contact.Id);
+
+            } catch (Exception e) {
+                isExceptionThrown = true;
+                System.assert(e.getTypeName() == 'System.AuraHandledException');
+            }
+            System.assert(true, isExceptionThrown);
+        }
+        Test.stopTest();
+    }
+    */
+}

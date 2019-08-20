@@ -21,25 +21,29 @@
                     if (doc) {
                         let symbols = doc.getElementsByTagName('symbol');
                         let symbolNames = [];
+                        let iconsDetail = [];
                         for (let i = 0; i < symbols.length; i++) {
                             symbolNames.push(symbols[i].id);
+                            iconsDetail.push({id : symbols[i].id, name: symbols[i].getAttribute('name')});
                         }
+
                         component.set('v.iconNames',symbolNames);
                         let customIconDetails = [];
-                        if (symbolNames.length > 0) {
-                            symbolNames.map(function (el) {
+                        if (iconsDetail.length > 0) {
+                            iconsDetail.map(function (el) {
                                 let iconDetail = {
                                     Description__c: null,
                                     'Id': null,
                                     'Label__c': null,
                                     'Custom_Icon__c': true,
-                                    'Name': el
+                                    'Name': el.id,
+                                    'Icon_Label__c': el.name
                                 };
                                 customIconDetails.push(iconDetail);
                                 component.set("v.iconsDetail", customIconDetails);
                             });
                         }
-                        let result = {iconNames : symbolNames, iconsDetails: customIconDetails};
+                        let result = {iconNames : iconsDetail, iconsDetails: customIconDetails};
                         resolve(result)
                     } else {
                         reject($A.get('$Label.c.Icons_package_not_found'));
