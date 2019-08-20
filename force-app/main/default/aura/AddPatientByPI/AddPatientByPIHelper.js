@@ -36,26 +36,13 @@
         var helper = this;
         var participant = component.get('v.participant');
         debugger;
-        communityService.executeAction(component, 'createParticipant', {
+        communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe)
         }, function (createdPE) {
-            createdPE.Participant_Status__c = pe.Participant_Status__c;
-            helper.updatePE(component, createdPE, function () {
-                communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
-                callback();
-            })
-        }, function () {
-            component.find('spinner').hide();
-        });
-    },
-
-    updatePE: function (component, pe, callback) {
-        communityService.executeAction(component, 'updatePE', {
-            peJSON: JSON.stringify(pe)
-        }, function () {
+            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
-        }, null, function () {
+        }, function () {
             component.find('spinner').hide();
         });
     }
