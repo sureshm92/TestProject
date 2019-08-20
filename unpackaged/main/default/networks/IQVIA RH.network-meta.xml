@@ -36,7 +36,7 @@
         </navigationMenuItem>
     </navigationLinkSet>
     <networkMemberGroups>
-        <profile>IQVIA Customer Community Plus Login User</profile>
+        <profile>iqvia customer community plus login user</profile>
         <profile>Admin</profile>
     </networkMemberGroups>
     <networkPageOverrides>
