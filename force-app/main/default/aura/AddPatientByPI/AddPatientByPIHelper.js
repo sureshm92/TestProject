@@ -6,7 +6,7 @@
         var ss = component.get('v.ss');
         component.set('v.participant', {
             sobjectType: 'Participant__c',
-            Mailing_Country_Code__c: ss.Principal_Investigator__r.Account.BillingCountryCode,
+            Mailing_Country_Code__c: 'US',
             Mailing_State_Code__c: ss.Principal_Investigator__r.Account.BillingStateCode
         });
         component.set('v.pe', {
@@ -33,14 +33,16 @@
     },
 
     saveParticipant : function (component, pe, callback) {
+        var helper = this;
         var participant = component.get('v.participant');
+        debugger;
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe)
-        }, function () {
+        }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
-        }, null, function () {
+        }, function () {
             component.find('spinner').hide();
         });
     }

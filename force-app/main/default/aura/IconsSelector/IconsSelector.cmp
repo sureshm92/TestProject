@@ -4,6 +4,7 @@
 
 <aura:component description="IconsSelector">
     <aura:attribute name="name" type="String" description="ID for the SVG element"/>
+    <aura:attribute name="currIcon" type="Object" description="object with name and id"/>
     <aura:attribute name="content" type="Aura.component[]" description="block element to be iterated over"/>
     <aura:attribute name="selected" type="Boolean" />
             <div onclick="{!c.select}"  class="slds-visual-picker slds-visual-picker_medium">
