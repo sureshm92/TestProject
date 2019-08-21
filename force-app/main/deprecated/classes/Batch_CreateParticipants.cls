@@ -16,20 +16,20 @@ public without sharing class Batch_CreateParticipants implements Database.Batcha
     }
 
     public Iterable<String> start(Database.BatchableContext bc){
-        StaticResource sr = [SELECT Id, Body FROM StaticResource WHERE Name = 'PECreationData'];
-        List<String> dataLines = sr.Body.toString().split('\n');
+//        StaticResource sr = [SELECT Id, Body FROM StaticResource WHERE Name = 'PECreationData'];
+//        List<String> dataLines = sr.Body.toString().split('\n');
         List<String> resList = new List<String>();
-        Integer addedLines = 0;
-        for (Integer i = 1; i < dataLines.size(); i++) {
-            addedLines++;
-            resList.add(dataLines[i].split(',')[1]);
-            if(maxLines != null && addedLines >= maxLines) break;
-        }
+//        Integer addedLines = 0;
+//        for (Integer i = 1; i < dataLines.size(); i++) {
+//            addedLines++;
+//            resList.add(dataLines[i].split(',')[1]);
+//            if(maxLines != null && addedLines >= maxLines) break;
+//        }
         return resList;
     }
 
     public void execute(Database.BatchableContext bc, List<String> scope){
-       createdPEIds.addAll(ParticipantEnrollmentFactory.createParticipantEnrollmentRecords(scope, postfix));
+//       createdPEIds.addAll(ParticipantEnrollmentFactory.createParticipantEnrollmentRecords(scope, postfix));
     }
 
     public void finish(Database.BatchableContext bc){

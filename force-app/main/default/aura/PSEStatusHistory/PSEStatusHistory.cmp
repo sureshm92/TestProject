@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
-                            <div class="title">{!pathItem.peSH.NewStatus__c}</div>
+                            <div class="title">{!pathItem.peSH.Status__c}</div>
                             <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDate value="{!pathItem.peSH.Date__c}"/></div>
                         </div>
                     </div>

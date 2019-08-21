@@ -233,17 +233,17 @@ public without sharing class ReferralProfileRemote {
             i++;
         }
         List<Participant_Enrollment_Status_History__c> historyList = [
-                SELECT Id, Notes__c, NewStatus__c, Reason__c, Date__c
+                SELECT Id, Notes__c, Status__c, Reason__c, Date__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c =: pe.Id ORDER BY CreatedDate DESC
         ];
         for(Participant_Enrollment_Status_History__c hi : historyList){
-            PEStatusState state = PEStatusState.STATUSES_MAP.get(hi.NewStatus__c);
+            PEStatusState state = PEStatusState.STATUSES_MAP.get(hi.Status__c);
             if(state != null && steps != null && state.order > 0){
                 steps[state.order-1].history.add(new HistoryItem(
                         BTN_STYLE_MAP.get(state.state),
                         hi.Date__c,
-                        TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, hi.NewStatus__c) +
+                        TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, hi.Status__c) +
                                 (hi.Reason__c != null ? ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, hi.Reason__c) : '') +
                                 (hi.Notes__c != null && userMode == CommunityService.USER_MODE_PI  ? ':  ' + hi.Notes__c : '')
                 ));

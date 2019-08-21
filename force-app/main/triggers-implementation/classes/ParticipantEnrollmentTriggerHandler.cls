@@ -389,7 +389,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
-                            NewStatus__c = pe.Participant_Status__c,
+                            Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
                             Reason__c = pe.Non_Referral_Reason__c

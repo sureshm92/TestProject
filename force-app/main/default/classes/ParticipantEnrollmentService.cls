@@ -592,7 +592,7 @@ public without sharing class ParticipantEnrollmentService {
                         SELECT
                                 Id,
                                 Date__c,
-                                NewStatus__c
+                                Status__c
                         FROM    Participant_Enrollment_Status_History__r
                 )
                 FROM    Participant_Enrollment__c
