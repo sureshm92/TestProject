@@ -26,6 +26,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(
             List<Patient_Visit__c> patientVisits,
             List<Visit_Result_GroupM__mdt> visitResultGroupMS
@@ -85,6 +86,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
             Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
             , List<Visit_Result_GroupM__mdt> visitResultGroupMS
@@ -149,6 +151,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private Boolean isNotAccessReport() {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         return !ParticipantService.ParticipantStates.ALUMNI.equals(pState.value)
