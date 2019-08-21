@@ -4,8 +4,8 @@
 
 <aura:component implements="c:Modalable" description="AddVisitCmp">
     <aura:attribute name="allIcons" type="String[]"/>
-    <aura:attribute name="availableIcons" type="String[]"/>
-    <aura:attribute name="selectedIcons" type="String[]"/>
+    <aura:attribute name="availableIcons" type="Object[]"/>
+    <aura:attribute name="selectedIcons" type="Object[]"/>
     <aura:attribute name="visitId" type="String"/>
     <aura:attribute name="successCallback" type="Object"/>
     <aura:attribute name="visitPlanId" type="String"/>
@@ -24,7 +24,7 @@
             <lightning:inputField aura:id="Visit_Schedule__c" fieldName="Visit_Schedule__c"/>
             <lightning:inputField aura:id="Visit_Number__c" fieldName="Visit_Number__c"/>
             <lightning:inputField class="slds-hide" aura:id='splittedIcons' fieldName="Icons__c"/>
-            <lightning:inputField value="{!v.visitPlanId}" disabled="true" aura:id='visitPlan'
+            <lightning:inputField value="{!v.visitPlanId}" disabled="true" class="slds-is-disabled" aura:id='visitPlan'
                                   fieldName="Visit_Plan__c"/>
         </lightning:recordEditForm>
     </div>
@@ -36,9 +36,9 @@
                     </legend>
                     <div class="slds-form-element__control">
                         <aura:iteration items="{!v.availableIcons}" var="icon">
-                            <c:IconsSelector aura:Id="leftIcons" selected='{!false}' name='{!icon}'>
+                            <c:IconsSelector aura:Id="leftIcons" selected='{!false}' name='{!icon.name}' currIcon="{!icon}">
                                 <aura:set attribute="content">
-                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"/>
+                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.id}"/>
                                 </aura:set>
                             </c:IconsSelector>
                         </aura:iteration>
@@ -62,9 +62,9 @@
                     </legend>
                     <div class="slds-form-element__control">
                         <aura:iteration items="{!v.selectedIcons}" var="icon">
-                            <c:IconsSelector aura:Id="rightIcons" selected='{!false}' name='{!icon}'>
+                            <c:IconsSelector aura:Id="rightIcons" selected='{!false}' name='{!icon.name}' currIcon="{!icon}">
                                 <aura:set attribute="content">
-                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"/>
+                                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.id}"/>
                                 </aura:set>
                             </c:IconsSelector>
                         </aura:iteration>

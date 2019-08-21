@@ -16,9 +16,9 @@
     <aura:attribute name="currentVisits" type="Object[]"/>
     <aura:attribute name="newTaskRecord" type="Object"/>
     <aura:attribute name="error" type="String"/>
-    <aura:attribute name="allIcons" type="String[]"/>
-    <aura:attribute name="availableIcons" type="String[]"/>
-    <aura:attribute name="selectedIcons" type="String[]"/>
+    <aura:attribute name="allIcons" type="Object[]"/>
+    <aura:attribute name="availableIcons" type="Object[]"/>
+    <aura:attribute name="selectedIcons" type="Object[]"/>
     <aura:attribute name="visitId" type="String"/>
     <aura:attribute name="CTPrecord" type="Object" default='Object'/>
     <aura:attribute name="recordLoadError" type="Object" default='Object'/>
