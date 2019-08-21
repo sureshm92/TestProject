@@ -265,6 +265,7 @@ public without sharing class MyTeamRemote {
                     List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
                     List<Site_Staff__c> delegateRecordsToUpdate = new List<Site_Staff__c>();
                     List<Site_Staff__c> delegateRecordsToDelete = new List<Site_Staff__c>();
+                    Map<Id, String> levelByStudy = new Map<Id, String>();
                     for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
                         if (delegateRecord.delegateLevel != '') {
                             hasDelegateLevels = true;
@@ -286,6 +287,11 @@ public without sharing class MyTeamRemote {
                             } else if (delegateRecord.delegateLevel != curDelegateRecord.Delegate_Level__c) {
                                 curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
                                 delegateRecordsToUpdate.add(curDelegateRecord);
+                            }
+                            if (!levelByStudy.containsKey(curDelegateRecord.Clinical_Trial_Profile__c)) {
+                                levelByStudy.put(curDelegateRecord.Clinical_Trial_Profile__c, curDelegateRecord.Delegate_Level__c);
+                            } else if (levelByStudy.get(curDelegateRecord.Clinical_Trial_Profile__c) != curDelegateRecord.Delegate_Level__c) {
+                                 throw new AuraHandledException(Label.TST_Permissions_should_be_the_same_for_study);
                             }
                         }
                     }
