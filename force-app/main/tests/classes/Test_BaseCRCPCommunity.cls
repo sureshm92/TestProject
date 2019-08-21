@@ -658,7 +658,7 @@ private class Test_BaseCRCPCommunity {
         Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
         User piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         Participant__c   participant = [SELECT Id, Name FROM Participant__c WHERE Email__c = 'part1@email.com'];
-        User participantUser = [SELECT Id, Contact.Name FROM User WHERE Contact.Name = :participant.Name];
+        User participantUser = [SELECT Id FROM User WHERE Contact.LastName = :participant.Name];
         Test.startTest();
         System.runAs(piUser) {
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
