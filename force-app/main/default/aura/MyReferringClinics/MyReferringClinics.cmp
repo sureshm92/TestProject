@@ -14,13 +14,15 @@
     <aura:attribute name="paginationData" type="Object"/>
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="filterData" type="Object"/>
+    <aura:attribute name="filterValues" type="Object"/>
     <aura:attribute name="isInitialized"                type="Boolean" default="{!false}"   access="private"/>
 
 
     <!-- handlers: -->
-    <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.filterValues}" action="{!c.doUpdateRecords}"/>
     <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecords}"/>
     <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
+    <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}" action="{!c.doUpdateRecords}"/>
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
     <!-- methods: -->
@@ -44,7 +46,7 @@
                 </div>
                 <div class="mrz-filter">
 
-                    <c:FilterPanel searchText="{!v.filterData.searchText}"
+                    <c:FilterPanel searchText="{!v.filterValues.searchText}"
                                    searchTextPlaceHolder="{!v.filterData.searchTextPlaceholder}"
                                    recordsPerPage="{!v.paginationData.pageRecordsCount}"
                                    recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
@@ -54,16 +56,16 @@
                                    currentPageCount="{!v.paginationData.currentPageCount}"
                                    itemTitle="{!$Label.c.PG_MRZ_L_clinics}">
 
-                        <c:rrSelect value="{!v.filterData.statusFilter}" options="{!v.filterData.statusOptions}" placeholder="{!v.filterData.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
-                        <c:rrSelect value="{!v.filterData.trialId}" options="{!v.filterData.studyPickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
-                        <c:rrSelect value="{!v.filterData.ssId}" options="{!v.filterData.studySitePickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
+                        <c:rrSelect value="{!v.filterValues.statusFilter}" options="{!v.filterData.statusOptions}" placeholder="{!v.filterData.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
+                        <c:rrSelect value="{!v.filterValues.trialId}" options="{!v.filterData.studyPickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
+                        <c:rrSelect value="{!v.filterValues.ssId}" options="{!v.filterData.studySitePickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
                     </c:FilterPanel>
 
                 </div>
             <div class="slds-is-relative">
                 <c:RRSpinner aura:id="recordListSpinner" size="medium" showSpinner="false"/>
                 <aura:iteration items="{! v.filteredReferringClinics}" var="item">
-                    <c:ReferringClinicItem clinicWrapper="{!item}" userMode="{!v.userMode}" filterByStudy="{!true}" ssId="{!v.ssId}" parent="{!this}"/>
+                    <c:ReferringClinicItem clinicWrapper="{!item}" ssId="{!v.ssId}" parent="{!this}"/>
                 </aura:iteration>
                 <div class="stub">
                     <c:EmptyListStub targetList="{!v.filteredReferringClinics}"/>

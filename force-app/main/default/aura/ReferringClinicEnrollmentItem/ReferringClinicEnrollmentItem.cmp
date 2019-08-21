@@ -5,7 +5,6 @@
 
     <!-- attributes: -->
     <aura:attribute name="enrollmentData" type="Object" required="true"/>
-    <aura:attribute name="userMode" type="String" required="true"/>
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
 
     <!-- component body: -->

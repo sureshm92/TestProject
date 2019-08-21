@@ -12,6 +12,9 @@
             communityService.showErrorToast("Error", $A.get("$Label.c.TST_Something_went_wrong"));
             return;
         }
-        component.get('v.parent').find('changeHCPStatusByPIAction').execute(enrollment, actionId, component.get('v.parent'));
+        debugger;
+        var parent = component.get('v.parent');
+        var comp = parent.find('changeHCPStatusByPIAction');
+        comp.execute(enrollment, actionId, parent);
     }
 })

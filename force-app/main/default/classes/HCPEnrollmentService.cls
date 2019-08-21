@@ -165,6 +165,11 @@ public without sharing class HCPEnrollmentService {
             'HCP_Contact__r.Name',
             'HCP_Contact__r.AccountId',
             'HCP_Contact__r.Account.Name',
+            'HCP_Contact__r.Account.BillingStreet',
+            'HCP_Contact__r.Account.BillingState',
+            'HCP_Contact__r.Account.BillingPostalCode',
+            'HCP_Contact__r.Account.BillingCity',
+            'HCP_Contact__r.Account.Phone',
             'HCP_Contact__r.Salutation',
             'HCP_Name__c',
             'Study_Site__r.Id',
@@ -247,12 +252,18 @@ public without sharing class HCPEnrollmentService {
     }
 
     public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds){
-        return getEnrollmentsForPIByTrialIds(trialIds, null);
+        return getEnrollmentsForPIByTrialIds(trialIds, null, false);
     }
 
-    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> excludeStatuses) {
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> statusesList, Boolean excludeStatuses){
+        return getEnrollmentsForPIByTrialIds(trialIds, statusesList, excludeStatuses, null);
+    }
+
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> statusesList, Boolean excludeStatuses, String sortString) {
         String filter = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join( new List<Id>(trialIds), '\',\'') + '\') ';
-        if(excludeStatuses != null) filter += ' AND Status__c NOT IN (\'' + String.join(excludeStatuses, '\',\'') + '\')';
+        if(statusesList != null && excludeStatuses) filter += ' AND Status__c NOT IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(statusesList != null && !excludeStatuses) filter += ' AND Status__c IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(sortString != null) filter += ' ORDER BY ' + sortString;
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_PI,
                 filter,
@@ -261,9 +272,20 @@ public without sharing class HCPEnrollmentService {
     }
 
     public static List<HCP_Enrollment__c> getEnrollmentsForPIByStudySiteId(Id studySiteId) {
+        return getEnrollmentsForPIByStudySiteId(studySiteId, null, false);
+    }
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByStudySiteId(Id studySiteId, List<String> statusesList, Boolean excludeStatuses) {
+        return getEnrollmentsForPIByStudySiteId(studySiteId, statusesList, excludeStatuses, null);
+    }
+
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByStudySiteId(Id studySiteId, List<String> statusesList, Boolean excludeStatuses, String sortString) {
+        String filter = ' AND Study_Site__c =\'' + studySiteId + '\' ';
+        if(statusesList != null && excludeStatuses) filter += ' AND Status__c NOT IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(statusesList != null && !excludeStatuses) filter += ' AND Status__c IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(sortString != null) filter += ' ORDER BY ' + sortString;
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_PI,
-                ' AND Study_Site__c =\'' + studySiteId + '\' ',
+                filter,
                 false
         );
     }

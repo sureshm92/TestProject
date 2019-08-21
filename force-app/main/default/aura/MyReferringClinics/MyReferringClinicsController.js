@@ -14,6 +14,7 @@
             component.set('v.skipUpdate', true);
             console.log('FILTER DATA>>',initData);
             component.set("v.filterData", initData.filterData);
+            component.set("v.filterValues", initData.filterValues);
             component.set("v.sortData", initData.sortData);
             component.set("v.paginationData", initData.paginationData);
             component.set("v.filteredReferringClinics", initData.filteredReferringClinics);
@@ -26,20 +27,33 @@
     },
 
     doUpdateRecords: function (component){
+        debugger;
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordListSpinner');
         spinner.show();
-        var trialId = component.get('v.filterData.trialId');
-        var ssId = component.get('v.filterData.ssId');
-        communityService.executeAction(component, 'getInitData', {
-            trialId: trialId ? trialId : null,
-            ssId: ssId ? ssId : null
+        var filterValues = component.get('v.filterValues');
+        var sortDataJSON = JSON.stringify(component.get('v.sortData'));
+        var paginationDataJSON = JSON.stringify(component.get('v.paginationData'));
+        var trialId = component.get('v.trialId');
+        var trialChanged = trialId !== filterValues.trialId;
+        communityService.executeAction(component, 'searchReferringClinics', {
+            filterValuesJSON: JSON.stringify(filterValues),
+            sortDataJSON: sortDataJSON,
+            paginationDataJSON: paginationDataJSON,
+            trialChanged: trialChanged
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
+            debugger;
             component.set('v.skipUpdate', true);
-            component.set("v.filterData", initData.filterData);
-            component.set("v.sortData", initData.sortData);
-            component.set("v.paginationData", initData.paginationData);
+            if(trialChanged){
+                component.set("v.filterData.studySitePickList", initData.filterData.studySitePickList);
+            }
+            component.set("v.filterValues.statusFilter", initData.filterValues.statusFilter);
+            component.set("v.filterValues.trialId", initData.filterValues.trialId);
+            component.set("v.filterValues.ssId", initData.filterValues.ssId);
+            component.set('v.paginationData.allRecordsCount', initData.paginationData.allRecordsCount);
+            component.set('v.paginationData.currentPage', initData.paginationData.currentPage);
+            component.set('v.paginationData.currentPageCount', initData.paginationData.currentPageCount);
             component.set("v.filteredReferringClinics", initData.filteredReferringClinics);
             component.set('v.trialId',initData.trialId);
             component.set('v.ssId',initData.ssId);
