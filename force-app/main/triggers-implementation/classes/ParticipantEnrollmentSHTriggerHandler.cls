@@ -48,6 +48,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
 
         List<Participant_Enrollment__c> enrollments = [
                 SELECT Id,
+                        Enrolled_Date__c,
                         Informed_Consent__c,
                         Last_Status_Changed_Notes__c,
                         Non_Enrollment_Reason__c,
@@ -72,7 +73,10 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
             pe.Participant_Status__c = headHistory.NewStatus__c;
-            if(headHistory.NewStatus__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) pe.Informed_Consent__c = true;
+            if(headHistory.NewStatus__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+                pe.Informed_Consent__c = true;
+                pe.Enrolled_Date__c = headHistory.Date__c.date();
+            }
         }
 
         update enrollments;
