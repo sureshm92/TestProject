@@ -347,38 +347,12 @@
     checkAddress: function (component, event, helper) {
         component.set('v.showPopUpSpinner', true);
         var currentAccount = component.get('v.editedAccount');
-        var parent = component.get('v.parent');
-        parent.insertAccountForCheck(currentAccount);
-    },
-
-    removeCreatedAccount: function (component, event, helper) {
-        var check = component.get('v.checkedAccountWasCreated');
-        if (check) {
-            component.set('v.checkedAccountWasCreated', false);
-            window.setTimeout($A.getCallback(function () {
-                var parent = component.get('v.parent');
-                parent.removeCheckAccount();
-            }), 5000);
-        }
-    },
-
-    checkAccountWithLocation: function (component, event, helper) {
-        var newAcc = component.get('v.accountWithCheckedLocation');
-        if (newAcc) {
-            var editAcc = component.get('v.editedAccount');
-            if (newAcc.BillingLongitude && newAcc.BillingLatitude) {
-                editAcc.BillingLongitude = newAcc.BillingLongitude;
-                editAcc.BillingLatitude = newAcc.BillingLatitude;
-                editAcc.BillingCity = newAcc.BillingCity;
-                component.set('v.editedAccount', editAcc);
-            } else{
-                editAcc.BillingLongitude = null;
-                editAcc.BillingLatitude = null;
-                component.set('v.editedAccount', editAcc);
-            }
-            helper.setCoordinates(component,editAcc);
-            component.set('v.showPopUpSpinner', false);
-            component.set('v.accountWithCheckedLocation', null);
-        }
+        communityService.executeAction(component, 'createTmpAccountForLocationCheck', {
+            account: JSON.stringify(currentAccount)
+        }, function (createdAccountId) {
+            helper.waitAccountCheckResult(component, createdAccountId, 0);
+        });
     }
+
+
 })

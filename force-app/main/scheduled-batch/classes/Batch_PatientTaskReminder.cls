@@ -26,7 +26,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                         WhatId,
                         WhoId
                 FROM Task
-                WHERE Reminder_Date__c <= :Datetime.now()
+                WHERE ReminderDateTime <= :Datetime.now()
                 AND Is_Reminder_Sent__c = FALSE
                 AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
         ]);
@@ -37,17 +37,22 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
     }
 
     private void checkReminder(List<Task> tasks) {
+        Set<Id> contactIds = new Set<Id>();
+        for(Task t : tasks) contactIds.add(t.WhoId);
+        Map<Id, TimeZone> timeZonesByUser = DateTimeConverterUtil.getUsersTimezoneMap(contactIds);
+
         for (Task t : tasks) {
             t.Is_Reminder_Sent__c = true;
             if (t.Reminder_Schedule__c == null) continue;
+
             Integer secondReminder = (Integer) t.Reminder_Schedule__r.Second_Reminder_day__c;
             if (secondReminder != null) {
-                Datetime reminderDate = t.Start_Date__c.addDays(secondReminder);
+                Datetime reminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(t.Reminder_Date__c, t.WhoId, secondReminder);
                 if (t.Reminder_Date__c.date() < reminderDate.date()) {
                     t.Reminder_Date__c = reminderDate;
+                    t.ReminderDateTime = DateTimeConverterUtil.convertUserDatetimeToGMT(reminderDate, timeZonesByUser.get(t.OwnerId));
                     t.Is_Reminder_Sent__c = false;
                 }
-
             }
         }
     }
