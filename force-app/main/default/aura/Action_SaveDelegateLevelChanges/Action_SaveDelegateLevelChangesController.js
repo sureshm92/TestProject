@@ -27,9 +27,7 @@
             }
 
             refreshSource.refresh();
-        }, function () {
-            communityService.showToast("Error", "error", $A.get("$Label.c.TST_Permissions_should_be_the_same_for_study"));
-        }, function () {
+        }, null, function () {
             component.set('v.saveInProgress', false);
             mainspinner.hide();
         });
