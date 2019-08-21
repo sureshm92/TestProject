@@ -227,6 +227,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ContactTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContentDocumentLinkService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -459,6 +463,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -548,6 +556,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PITrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -839,6 +851,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StubBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StubFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -979,6 +995,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_AlertsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1052,6 +1072,18 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DelegateLevelWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DistanceHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DuplicateContactController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1132,6 +1164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PatientVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientVisitSchedule</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6669,10 +6705,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
