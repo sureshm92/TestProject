@@ -71,7 +71,7 @@ public without sharing class Batch_CopyEnrollmentHistory implements Database.Bat
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
 
-        TriggerHandlerExecutor.bypassHandler(ParticipantStudyEnrollmentTriggerHandler.class);
+//        TriggerHandlerExecutor.bypassHandler(ParticipantStudyEnrollmentTriggerHandler.class);
         TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.SetDefaultFieldsBeforeUpsertHandler.class);
         TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.ProcessStatusHistoryHandler.class);
         TriggerHandlerExecutor.bypassHandler(PSETriggerHandler.DeactivateDeceasedUsersHandler.class);
