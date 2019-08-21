@@ -11,5 +11,4 @@ public with sharing class PETriggerHandler  extends TriggerHandler {
         TherapeuticAreaPatientService.deleteTherapeuticAreaPatientFromPE(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         TherapeuticAreaPatientService.createTAP(newList);
     }
-
 }

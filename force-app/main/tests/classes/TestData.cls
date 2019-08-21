@@ -12,7 +12,6 @@ public class TestData {
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
     public Study_Site__c ss;
-    public Participant_Study_Enrollment__c pse;
     public Participant_Enrollment__c pe;
     public HCP_Enrollment__c hcpEnrollment;
     private static Contact hcpContact;

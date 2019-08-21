@@ -63,17 +63,18 @@
         let newLeft = [];
         if (elements instanceof Array) {
             for (let i = 0; i < elements.length; i++) {
+                console.log(JSON.stringify(elements[i]));
                 if (elements[i].get('v.selected')) {
-                    selectedNames.push(elements[i].get('v.name'));
+                    selectedNames.push(elements[i].get('v.currIcon'));
                 } else {
-                    newLeft.push(elements[i].get('v.name'));
+                    newLeft.push(elements[i].get('v.currIcon'));
                 }
             }
         } else {
             if (elements.get('v.selected')) {
-                selectedNames.push(elements.get('v.name'));
+                selectedNames.push(elements.get('v.currIcon'));
             } else {
-                newLeft.push(elements.get('v.name'));
+                newLeft.push(elements.get('v.currIcon'));
             }
         }
         let selectedIcons = component.get('v.selectedIcons');
@@ -90,18 +91,19 @@
         let newRight = [];
         if (elements instanceof Array) {
             for (let i = 0; i < elements.length; i++) {
+                console.log(JSON.stringify(elements[i]));
                 if (elements[i].get('v.selected')) {
-                    selectedNames.push(elements[i].get('v.name'));
+                    selectedNames.push(elements[i].get('v.currIcon'));
                 } else {
-                    newRight.push(elements[i].get('v.name'));
+                    newRight.push(elements[i].get('v.currIcon'));
                 }
             }
 
         } else {
             if (elements.get('v.selected')) {
-                selectedNames.push(elements.get('v.name'));
+                selectedNames.push(elements.get('v.currIcon'));
             } else {
-                newRight.push(elements.get('v.name'));
+                newRight.push(elements.get('v.currIcon'));
             }
         }
 
@@ -123,17 +125,21 @@
             splittedIcons = record.Icons__c.split(';');
         }
         let icons = Object.assign([], component.get('v.allIcons'));
+
+        let iconArr = [];
         for (let i = 0; i < splittedIcons.length; i++) {
             let index = icons.findIndex(function (item) {
-                return item == splittedIcons[i];
+                return item.id === splittedIcons[i];
             });
             if (index > -1) {
+                iconArr.push(icons[index]);
                 icons.splice(index, 1);
             }
         }
         //todo need load of all icons;
         component.set('v.availableIcons', icons);
-        component.set('v.selectedIcons', splittedIcons);
+        // component.set('v.selectedIcons', splittedIcons);
+        component.set('v.selectedIcons', iconArr);
     },
     handleSuccessVP: function (component, event, helper) {
         debugger;

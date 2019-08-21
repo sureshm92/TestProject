@@ -33,7 +33,7 @@
             setTimeout($A.getCallback(function() {
                 helper.setFieldsValidity(component);
                 component.showHelpMessageIfInvalid();
-            }), 300);
+            }), 1000);
             component.set('v.isInitialized', true);
         }, null, function () {
             component.find('spinner').hide();

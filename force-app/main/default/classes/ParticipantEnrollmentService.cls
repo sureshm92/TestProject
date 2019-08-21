@@ -271,6 +271,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
+            'Participant__r.Middle_Name__c',
             'Participant__r.Full_Name__c',
             'Participant__r.Date_of_Birth__c',
             'Participant__r.Birth_Year__c',
@@ -326,8 +327,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
             'Study_Site__r.Visit_Results_Sharing__c',
-            'Screening_ID__c',
-            'Participant_Study_Enrollment__c'
+            'Screening_ID__c'
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){

@@ -33,8 +33,7 @@ public inherited sharing class VisitService {
         );
     }
     private List<Visit__c> getVisits(String filter, Integer limitNumber) {
-
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        ParticipantService.ParticipantState pState = ParticipantService.getInstance().getState();
         if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || !pState.showVisits) {
             return null;
         }
@@ -54,7 +53,7 @@ public inherited sharing class VisitService {
             visitsQuery += ' LIMIT ' + limitNumber;
         }
 
-        List<Visit__c> visits = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
+        List<Visit__c> visits = DatabaseService.getInstance().queryImpl(visitsQuery);
         TranslateHelper.translate(visits);
         return visits;
     }

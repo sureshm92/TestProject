@@ -157,13 +157,17 @@ public without sharing class CommunityFacadeRemote {
 
     }
     public static Boolean urlExists(String url) {
-        if (Test.isRunningTest()) return true;
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint(url);
-        req.setMethod('GET');
-        Http http = new Http();
-        HttpResponse res = http.send(req);
-        return res.getStatusCode() == 200;
+        try{
+            if (Test.isRunningTest()) return true;
+            HttpRequest req = new HttpRequest();
+            req.setEndpoint(url);
+            req.setMethod('GET');
+            Http http = new Http();
+            HttpResponse res = http.send(req);
+            return res.getStatusCode() == 200;
+        }catch (Exception e){
+            return false;
+        }
     }
     
 }
