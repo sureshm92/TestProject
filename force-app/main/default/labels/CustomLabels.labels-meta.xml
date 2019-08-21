@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ALT</shortDescription>
-        <value>{4}ALT{1}</value>
+        <value>ALT</value>
     </labels>
     <labels>
         <fullName>ALT_Description</fullName>
@@ -13,6 +13,13 @@
         <protected>false</protected>
         <shortDescription>ALT Description</shortDescription>
         <value>ALT is a protein found throughout your body, but mainly in your liver and kidneys. ALT helps with producing energy for your body. This test measures the amount of ALT in your blood sample. ALT is measured to check the health of your liver.</value>
+    </labels>
+    <labels>
+        <fullName>ALT_Name_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ALT Name Labs</shortDescription>
+        <value>Alanine aminotransferase (ALT)</value>
     </labels>
     <labels>
         <fullName>AL_Body_Assigned_as_Delegate</fullName>
@@ -114,7 +121,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AST</shortDescription>
-        <value>{5}AST{1}</value>
+        <value>AST</value>
     </labels>
     <labels>
         <fullName>AST_Description</fullName>
@@ -122,6 +129,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>AST Description</shortDescription>
         <value>AST is a protein found throughout your body, but most is found in your heart and liver. AST is released by the cells in the liver or muscles when they are damaged. This test measures the amount of AST in your blood sample. AST is measured to check the health of your liver.</value>
+    </labels>
+    <labels>
+        <fullName>AST_Name_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AST Name Labs</shortDescription>
+        <value>Aspartate aminotransferase (AST)</value>
     </labels>
     <labels>
         <fullName>About_the_Study</fullName>
@@ -990,7 +1004,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUN</shortDescription>
-        <value>{3}BUN{1}</value>
+        <value>BUN</value>
     </labels>
     <labels>
         <fullName>BUN_Description</fullName>
@@ -1000,11 +1014,18 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Urea is a waste product of the liver. The liver changes ammonia (a toxin) into urea. Urea is removed from bloodstream by the kidneys and then leaves the body through urine. Nitrogen is a substance present in urea. This test measures the amount of urea and nitrogen in your blood sample to check whether your kidneys are working properly.</value>
     </labels>
     <labels>
+        <fullName>BUN_Name_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BUN Name Labs</shortDescription>
+        <value>Blood urea nitrogen (BUN)</value>
+    </labels>
+    <labels>
         <fullName>Body_Mass_Index</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index</shortDescription>
-        <value>Body mass index {2}</value>
+        <value>Body mass index</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Description</fullName>
@@ -1012,6 +1033,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Body Mass Index Description</shortDescription>
         <value>BMI is a measure that shows a person’s weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
+    </labels>
+    <labels>
+        <fullName>Body_Mass_Index_Name_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Body Mass Index Name Labs</shortDescription>
+        <value>Body mass index (BMI)</value>
     </labels>
     <labels>
         <fullName>Button_Edit_Details</fullName>
