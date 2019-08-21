@@ -44,9 +44,9 @@ public without sharing class ParticipantDuplicateService {
         return resultMap.get(participantId);
     }
     
-    private void setParticipantResult(Participant__c participant, Boolean result){
+    private void setParticipantResult(Participant__c participant){
         Integer participantId = JSON.serialize(participant).hashCode();
-        resultMap.put(participantId, result);
+        resultMap.put(participantId, participant);
     }
     
     private static String getYearOfBirth(String birthDate){

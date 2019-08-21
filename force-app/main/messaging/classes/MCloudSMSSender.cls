@@ -68,6 +68,10 @@ public class MCloudSMSSender {
     private String tokenId;					// Token Id is returned if Send was successful
     /******************************************************************************************************************/
     
+    private static MCloudSMSSender instance = new MCloudSMSSender();
+    public static MCloudSMSSender getInstance(){
+        return instance;
+    }
     
     /********************************************************************
      * constructor
@@ -121,8 +125,8 @@ public class MCloudSMSSender {
      * @param message
      **************************************************************************/
     @Future(Callout=true)
-    private static void sendSMSAsync (List<String> mobileNumbers, String message) {
-        new MCloudSMSSender().sendSMS(mobileNumbers, message);
+    public static void sendSMSAsync (List<String> mobileNumbers, String message) {
+        MCloudSMSSender.getInstance().sendSMS(mobileNumbers, message);
     }
     
     /**************************************************************************
@@ -141,7 +145,7 @@ public class MCloudSMSSender {
         try {
             validateMobileNumbers(mobileNumbers);
             if (accessToken == null) authorize();
-    
+            
             RequestBean requestBean     = new RequestBean();
             requestBean.mobileNumbers   = new List<String>();
             requestBean.mobileNumbers.addAll(mobileNumbers);
@@ -149,7 +153,7 @@ public class MCloudSMSSender {
             requestBean.subscribe       = true;
             requestBean.resubscribe     = true;
             requestBean.keyword         = 'STOP01';
-    
+            
             if (String.isBlank(message)) {
                 requestBean.override_x  = false;
             } else {
@@ -167,10 +171,10 @@ public class MCloudSMSSender {
             request.setHeader('Authorization', 'Bearer ' + accessToken);
             request.setHeader('Content-Length', '' + body.length());
             request.setBody(body);
-
+            
             HttpResponse response = new Http().send(request);
             ResponseBean responseBean = (ResponseBean) JSON.deserialize(response.getBody(), ResponseBean.class);
-
+            
             if (response.getStatusCode() == 202) {
                 //--------------------------------------------------------------------------------------//
                 // Send request was accepted, but we have to check if any phone numbers were declined	//
