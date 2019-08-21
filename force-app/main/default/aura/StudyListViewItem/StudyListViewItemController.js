@@ -350,7 +350,6 @@
         communityService.executeAction(component, 'createTmpAccountForLocationCheck', {
             account: JSON.stringify(currentAccount)
         }, function (createdAccountId) {
-            debugger;
             helper.waitAccountCheckResult(component, createdAccountId, 0);
         });
     }
