@@ -289,7 +289,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(hcpUser) {
             List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> recordsRN = SubscribeToReferralNetworkRemote.getReferralNetworkRecords('Referral_Network__c');
             SubscribeToReferralNetworkRemote.searchForReferralNetworks(recordsRN[0].Name, 'Referral_Network__c');
-            SubscribeToReferralNetworkRemote.deleteRecords(new List<Id>{
+            SubscribeToReferralNetworkRemote.deleteAndGetRefferalNetworks('Referral_Network__c', new List<Id>{
                     recordsRN[0].Id
             });
 
@@ -300,7 +300,7 @@ private class Test_BaseCRCPCommunity {
 
             List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> recordsTA = SubscribeToReferralNetworkRemote.getReferralNetworkRecords('Therapeutic_Area__c');
             SubscribeToReferralNetworkRemote.searchForReferralNetworks(recordsTA[0].Name, 'Therapeutic_Area__c');
-            SubscribeToReferralNetworkRemote.deleteRecords(new List<Id>{
+            SubscribeToReferralNetworkRemote.deleteAndGetRefferalNetworks('Referral_Network__c', new List<Id>{
                     recordsTA[0].Id
             });
 
@@ -869,19 +869,4 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-    @IsTest
-    static void checkDummyAccountsTest(){
-        String accountName = 'Dummy Account For Location Check '+ UserInfo.getUserId();
-        Account acc = new Account(BillingStreet = 'Test Street',
-                                  BillingCountry = 'United States',
-                                  BillingCity = 'Test City');
-        Test.startTest();
-            StudyListViewController.checkAccountGeolocation(JSON.serialize(acc));
-            List<Account> accListForCheck = [SELECT Id FROM Account WHERE Name=:accountName];
-            System.assertEquals(1,accListForCheck.size());
-            StudyListViewController.returnAndRemoveAccount();
-            List<Account> accListForCheckAfterDel = [SELECT Id FROM Account WHERE Name=:accountName];
-            System.assertEquals(0,accListForCheckAfterDel.size());
-        Test.stopTest();
-    }
 }

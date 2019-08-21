@@ -9,6 +9,8 @@
 
     <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
 
+    <aura:attribute name="VisitResultPage" type="String" access="private"/>
+
     <!-- HANDLERS -->
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -19,8 +21,17 @@
         <c:RRPanel>
 
             <aura:set attribute="header">
-                <div>{!$Label.c.Visit_Results_Dashboard_My_Results}</div>
-                <div class="visit-results-disclaimer">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
+                <div class="objective-link">
+                    <div>{!$Label.c.Visit_Results_Dashboard_My_Results}</div>
+                    <div class="objective-section">
+                        <div class="visit-results-disclaimer objective-text">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
+                        <div class="objective-link">
+                            <c:RRLink page="{!v.VisitResultPage}">{!$Label.c.BTN_Learn_More}
+                                <c:RRIcon iconName="icon-chevron-right"/>
+                            </c:RRLink>
+                        </div>
+                    </div>
+                </div>
             </aura:set>
 
             <aura:set attribute="body">

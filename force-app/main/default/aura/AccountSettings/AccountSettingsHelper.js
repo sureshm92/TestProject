@@ -8,6 +8,7 @@
         if(!participant.First_Name__c) participant.First_Name__c = '';
         if(!participant.Last_Name__c) participant.Last_Name__c = '';
         if(!participant.Middle_Name__c) participant.Middle_Name__c = '';
+        if(!participant.Gender__c) participant.Gender__c = '';
         if(!participant.Date_of_Birth__c) participant.Date_of_Birth__c = null;
         component.set('v.participantSnapshot', JSON.stringify(participant));
         component.set('v.participantChanged', false);
@@ -25,7 +26,6 @@
     },
 
     setFieldsValidity: function(component){
-        debugger;
         var fieldsGroup = 'cField';
         if(component.get('v.participant')) fieldsGroup = 'pField';
         var allValid = component.find(fieldsGroup).reduce(function (validSoFar, inputCmp) {

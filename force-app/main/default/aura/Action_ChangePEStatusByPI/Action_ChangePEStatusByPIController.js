@@ -10,35 +10,48 @@
     },
 
     doExecute: function(component, event, helper){
-        var pe = event.getParam('arguments').pe;
-        var status = event.getParam('arguments').status;
-        var reason = event.getParam('arguments').reason;
-        var notes = event.getParam('arguments').notes;
-        var refreshSource = event.getParam('arguments').refreshSource;
+        var params = event.getParam('arguments');
+        var pe = params.pe;
+        var status = params.status;
+        var reason = params.reason;
+        var notes = params.notes;
+        var callback = params.callback;
+        var cancelCallback = params.cancelCallback;
 
         component.set('v.peId', pe.Id);
         component.set('v.status', status);
         component.set('v.reason', reason);
         component.set('v.notes', notes);
-        component.set('v.refreshSource', refreshSource);
+        if(callback) component.set('v.callback', $A.getCallback(callback));
+        if(cancelCallback) component.set('v.cancelCallback', $A.getCallback(cancelCallback));
 
         if(status === 'Referral Declined' && reason === null){
-            component.find('selectReferralDeclineReasonDialog').show();
+            var selectReferralDeclineReasonDialog = component.find('selectReferralDeclineReasonDialog');
+            selectReferralDeclineReasonDialog.set('v.closeCallback', $A.getCallback(cancelCallback));
+            selectReferralDeclineReasonDialog.show();
+        }else if(status === 'Enrollment Success') {
+            if (pe.Informed_Consent__c !== true) {
+                component.find('actionApprove').execute(function () {
+                    helper.updatePE(component);
+                }, function () {
+                    communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
+                    helper.cancel(component);
+                });
+            }else{
+                helper.updatePE(component);
+            }
         }else{
             helper.updatePE(component);
         }
+
     },
 
     doUpdatePE: function (component, event, helper) {
         helper.updatePE(component);
     },
 
-    doHideDialogs: function (component, event, hepler) {
-        hepler.hideDialogs(component);
-    },
-
-    doHideSpinner: function (component) {
-        if(!component.get('v.inProgress')) component.get('v.refreshSource').find('mainSpinner').hide();
+    doCancel: function (component, event, helper) {
+        helper.cancel(component);
     }
 
 })

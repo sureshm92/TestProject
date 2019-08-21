@@ -99,4 +99,41 @@
             component.set('v.zoomLevel', 0);
         }
     },
+
+    waitAccountCheckResult: function(component, tmpAccountId, iteration){
+        debugger;
+        if(iteration === 15) {
+            var acc = component.get('v.editedAccount');
+            acc.BillingGeocodeAccuracy = null;
+            acc.BillingLongitude = null;
+            acc.BillingLatitude = null;
+            component.set('v.editedAccount', acc);
+            component.set('v.showPopUpSpinner', false);
+            communityService.executeAction(component, 'deleteTmpAccount', {
+                tmpAccountId: tmpAccountId
+            });
+            return;
+        }
+        var helper = this;
+        communityService.executeAction(component, 'getTmpAccount', {
+            tmpAccountId: tmpAccountId
+        }, function (tmpAccount) {
+            if(!tmpAccount.BillingGeocodeAccuracy){
+                window.setTimeout(
+                    $A.getCallback(function() {
+                        helper.waitAccountCheckResult(component, tmpAccountId, iteration + 1);
+                    }), 500
+                );
+            }else{
+                var acc = component.get('v.editedAccount');
+                acc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
+                acc.BillingLongitude = tmpAccount.BillingLongitude;
+                acc.BillingLatitude = tmpAccount.BillingLatitude;
+                component.set('v.editedAccount', acc);
+                component.set('v.showPopUpSpinner', false);
+            }
+        });
+    }
+
+
 })
