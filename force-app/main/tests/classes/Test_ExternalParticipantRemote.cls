@@ -28,6 +28,9 @@ public class Test_ExternalParticipantRemote {
         ep.countryCode = 'USA';
         ExternalParticipantRemote.saveParticipant(JSON.serialize(ep));
     
+        httpMock.returnEmpty = true;
+        ExternalParticipantRemote.saveParticipant(JSON.serialize(ep));
+    
         ExternalParticipantRemote.getExternalParticipants('patientId');
     }
 }

@@ -5,6 +5,7 @@
 @IsTest
 public class Test_ExternalParticipantHttpMock implements HttpCalloutMock {
     public Integer statusCode = 200;
+    public Boolean returnEmpty = false;
     private HttpResponse response;
     
     public HttpResponse respond (HttpRequest request) {
@@ -28,7 +29,14 @@ public class Test_ExternalParticipantHttpMock implements HttpCalloutMock {
         ep.phone            = 'phone';
         ep.mobile           = 'mobile';
     
-        response.setBody(JSON.serialize(new List<ExternalParticipantsService.ExternalParticipant> { ep }));
+        if (returnEmpty) {
+            response.setBody(JSON.serialize(new List<ExternalParticipantsService.ExternalParticipant>{
+            }));
+        } else {
+            response.setBody(JSON.serialize(new List<ExternalParticipantsService.ExternalParticipant>{
+                    ep
+            }));
+        }
         response.setStatus('OK');
         response.setStatusCode(statusCode);
         return response;
