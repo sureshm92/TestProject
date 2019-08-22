@@ -35,7 +35,7 @@
                 <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}" formData="{!v.formData}" isValid="{!v.isValid}"/>
             </div>
             <div class="ap-bottom-info">
-                {!$Label.c.PG_AP_T_Sub_Info}
+                {!$Label.c.PG_AP_T_Additional_Info}&nbsp;{!$Label.c.PG_AP_T_Sub_Info}
             </div>
             <div class="ap-buttons">
                 <button class="apollo-btn secondary custom-cancel"
