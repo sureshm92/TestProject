@@ -675,18 +675,48 @@ public without sharing class StudyTrialService {
         }
     }
 
-    public static void saveSSChanges(String studySiteInfo) {
+    public static Study_Site__c saveSSChanges(String studySiteInfo) {
         try {
+            System.debug('studySiteInfo>>>'+studySiteInfo);
             Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
-            Study_Site__c ssToUpdate = [SELECT Id, Site_Staff__c, Study_Site_Email__c,Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :ss.Id LIMIT 1];
+            System.debug('ss>>>>>'+ss);
+            Study_Site__c ssToUpdate = [
+                    SELECT Id,
+                            Site_Staff__c,
+                            Study_Site_Phone__c,
+                            Site__c,
+                            Study_Site_Email__c,
+                            Site__r.Name,
+                            Site__r.BillingAddress,
+                            Site__r.BillingCountry,
+                            Site__r.BillingState,
+                            Site__r.BillingStateCode,
+                            Site__r.BillingPostalCode,
+                            Site__r.BillingCity,
+                            Site__r.BillingStreet,
+                            Site__r.BillingLatitude,
+                            Site__r.BillingLongitude,
+                            Site__r.BillingGeocodeAccuracy,
+                            Site__r.Driving_Directions__c,
+                            Site__r.Parking_Instructions__c,
+                            Site__r.ParentId
+                    FROM Study_Site__c
+                    WHERE Id = :ss.Id
+                    LIMIT 1
+            ];
+            System.debug('ssToUpdate>>'+ssToUpdate);
             ssToUpdate.Study_Site_Phone__c = ss.Study_Site_Phone__c;
             ssToUpdate.Study_Site_Email__c = ss.Study_Site_Email__c;
             ssToUpdate.Site_Staff__c = ss.Site_Staff__c;
             ssToUpdate.Name = ss.Name;
             ssToUpdate.Site__c = ss.Site__c;
+            ssToUpdate.Site__r = ss.Site__r;
+            System.debug('ssToUpdate2>>'+ssToUpdate);
             update ssToUpdate;
+            return ssToUpdate;
         } catch (Exception e) {
             String status = (String) AuraHelper.throwException(e);
+            return null;
         }
     }
 

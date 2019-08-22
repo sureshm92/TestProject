@@ -1,7 +1,6 @@
 ({
     doInit: function (component, event, helper) {
-        helper.init(component,event,helper);
-
+        helper.init(component, event, helper);
     },
 
     doUpdateRecords: function (cmp, event, helper) {
@@ -25,31 +24,31 @@
         helper.searchForRecords(cmp, helper);
     },
 
-    clampTitle:function(component,event,helper){
+    clampTitle: function (component, event, helper) {
         setTimeout($A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }), 10);
     },
 
-    saveSSDetails: function (component, event, helper){
+    saveSSDetails: function (component, event, helper) {
         var param = event.getParam('arguments');
         var currentSS = param.currentSS;
         if (!communityService.isInitialized()) return;
         component.set("v.showSpinner", true);
-       communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
-           communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
-           helper.init(component,event,helper);
-       });
+        communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
+            communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
+            helper.init(component, event, helper);
+        });
     },
 
-    saveSSnewAddress:function (component,event,helper) {
+    saveSSnewAddress: function (component, event, helper) {
         var param = event.getParam('arguments');
         var currentSS = param.currentSS;
         if (!communityService.isInitialized()) return;
         component.set("v.showSpinner", true);
         communityService.executeAction(component, 'saveSSAddress', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
             communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
-            helper.init(component,event,helper);
+            helper.init(component, event, helper);
         });
     }
 

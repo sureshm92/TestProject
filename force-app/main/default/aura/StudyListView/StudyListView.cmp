@@ -129,8 +129,9 @@
                 <div style="position: relative; min-height: 100px;" class="slds-gutters_">
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
-                        <c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
-                                             userMode="{!v.userMode}" parent="{!this}" accessUserLevel="{!v.accessUserLevel}"/>
+                        <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                        <!--<c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
+                                             userMode="{!v.userMode}" parent="{!this}" accessUserLevel="{!v.accessUserLevel}"/>-->
                     </aura:iteration>
                 </div>
             </div>
@@ -151,7 +152,8 @@
                         <!--<div class="slv-category">{!trialsSubList.name}</div>-->
                         <div class="slv-category"></div>
                         <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}"
+                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                           <!-- <c:StudyListViewItem currentStudy="{!trial}"
                                                  delegatePicklist="{!v.delegatesPicklist}"
                                                  userMode="{!v.userMode}"
                                                  parent="{!this}"
@@ -159,7 +161,7 @@
                                                  countryPicklist = "{!v.countryPicklist}"
                                                  statesByCountryMap="{!v.statesByCountryMap}"
                                                  countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}"/>
+                                                 countryCodesMap="{!v.countryCodesMap}"/>-->
                         </aura:iteration>
                     <!--</aura:iteration>-->
                 </aura:if>
@@ -170,9 +172,7 @@
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
                        <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
-                                                 countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}"/>
+                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
                         </aura:iteration>
                     </aura:if>
                 </aura:if>
@@ -187,6 +187,12 @@
 
         <!-- Share dialog -->
         <c:ShareModal aura:id="shareModal" parent="{!this}"/>
+
+        <!-- Email Modal -->
+        <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
+
+        <!-- ManageLocationDetails dialog -->
+        <c:Action_ManageLocationDetails aura:id="actionManageLocationDetails"/>
     </aura:if>
 
 </aura:component>

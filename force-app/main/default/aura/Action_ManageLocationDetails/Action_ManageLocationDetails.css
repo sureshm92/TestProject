@@ -1,0 +1,91 @@
+/**
+ * Created by user on 20-Aug-19.
+ */
+
+.THIS .my-location-label{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.THIS .locationContainer{
+    box-sizing: border-box;
+    border: 1px solid #F2F2F2;
+    background-color: #F2F2F2;
+    min-height: 100px;
+    margin-top: 14px;
+    padding: 8px 11px 13px 0px;
+    width: 100%;
+}
+
+.THIS .popup-account-name{
+    width:100%;
+    margin-bottom:1%;
+    padding-left:1%;
+}
+
+.THIS .popup-account-name:first-child{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.THIS .edit-btn{
+    color: #2E7CEB;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.THIS .manage-location-info{
+    text-align: left;
+    font-weight: 500;
+    padding-right:5%;
+}
+
+.THIS .ss-info-headers {
+    height: 24px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom:5px;
+    vertical-align: top;
+}
+
+.THIS .ss-info-address{
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .driving-instructions{
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS #addNewLocation span{
+    font-size: 32px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+@media (max-width: 925px) {
+    .THIS .ss-info-headers {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .THIS .ss-info-buttons{
+        margin-top:10%;
+    }
+}
+
+@media all and (max-width: 600px) {
+    .THIS .ss-info-address{
+        word-wrap: break-word;
+    }
+}
