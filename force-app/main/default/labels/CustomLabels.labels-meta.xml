@@ -9249,6 +9249,13 @@ Please check your CAPS lock key.</value>
         <value>Invalid email address!</value>
     </labels>
     <labels>
+        <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Permissions should be the same for study!</shortDescription>
+        <value>Access permissions should be the same level for among study!</value>
+    </labels>
+    <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
         <language>en_US</language>
         <protected>false</protected>
