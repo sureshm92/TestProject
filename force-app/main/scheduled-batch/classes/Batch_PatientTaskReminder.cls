@@ -47,7 +47,10 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
 
             Integer secondReminder = (Integer) t.Reminder_Schedule__r.Second_Reminder_day__c;
             if (secondReminder != null) {
-                Datetime reminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(t.Reminder_Date__c, t.WhoId, secondReminder);
+                Integer firstReminder = (Integer) t.Reminder_Schedule__r.First_Reminder_day__c;
+                Datetime startDT = DateTimeConverterUtil.addDaysInUserTimeZone(t.Reminder_Date__c, t.WhoId, -firstReminder);
+                Datetime reminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, t.WhoId, secondReminder);
+
                 if (t.Reminder_Date__c < reminderDate) {
                     t.Reminder_Date__c = reminderDate;
                     t.ReminderDateTime = DateTimeConverterUtil.convertUserDatetimeToGMT(reminderDate, timeZonesByUser.get(t.OwnerId));
