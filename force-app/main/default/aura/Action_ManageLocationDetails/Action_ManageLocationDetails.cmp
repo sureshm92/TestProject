@@ -3,17 +3,21 @@
  -->
 
 <aura:component description="Action_ManageLocationDetails" controller = "StudyListViewController">
+
+    <!-- attributes: -->
     <aura:attribute name="studySite" type="Object"/>
     <aura:attribute name="studySiteAccounts" type="List"/>
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="locationWasChanged" type="Boolean" default="false"/>
     <aura:attribute name="checkedAccount" type="Account"/>
 
+    <!-- methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="studySiteWrapper" type="Object"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
+    <!-- component body -->
     <div class="mrc-invite-popup">
         <c:Popup aura:id="manageLocation" title="{!$Label.c.SS_Manage_Location_Details}"
                  size="large"
@@ -59,17 +63,15 @@
                                         <div class="slds-col slds-size--3-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
                                             <div class="ss-info-address">{!account.BillingStreet}</div>
-                                            <div class="ss-info-address">{!if(account.BillingCity!=null, account.BillingCity + ', ', '') +account.BillingStateCode + ' ' + account.BillingPostalCode}</div>
+                                            <div class="ss-info-address">{!if(account.BillingCity!=null, account.BillingCity + ', ', '') + account.BillingStateCode + ' ' + account.BillingPostalCode}</div>
                                         </div>
                                         <div class="slds-col slds-size_4-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
-                                            <div aura:id="driving-instructions"
-                                                 class="driving-instructions">{!account.Driving_Directions__c}</div>
+                                            <div class="driving-instructions">{!account.Driving_Directions__c}</div>
                                         </div>
                                         <div class="slds-col slds-size_4-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
-                                            <div aura:id="driving-instructions"
-                                                 class="driving-instructions">{!account.Parking_Instructions__c}</div>
+                                            <div class="driving-instructions">{!account.Parking_Instructions__c}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -90,6 +92,4 @@
         </c:Popup>
     </div>
 
-    <!--Edit Location dialog-->
-    <!--<c:Action_ManageLocationDetails aura:id="actionEditLocation"/>-->
 </aura:component>
