@@ -20,6 +20,7 @@ public without sharing class TaskEditRemote {
         };
 
         @AuraEnabled public Task task;
+        @AuraEnabled public Date today;
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Boolean notReferral;
         @AuraEnabled public String errorMessage;
@@ -35,6 +36,9 @@ public without sharing class TaskEditRemote {
             createdByAdmin = false;
 
             task = new Task();
+
+            TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+            today = DateTimeConverterUtil.getUserDatetime(timeZone, null).dateGmt();
         }
     }
 
