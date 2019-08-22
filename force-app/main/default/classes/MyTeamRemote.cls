@@ -256,20 +256,11 @@ public without sharing class MyTeamRemote {
             DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(delegate, DelegateWrapper.class);
 
             if (dw.delegateContact.Id == null) {
-                createDelegate(dw, userMode);
+                return createDelegate(dw, userMode);
             } else {
                 Boolean hasDelegateLevels = false;
                 if (userMode == CommunityService.USER_MODE_PI) {
                     Map<String, String> levelByStudy = new Map<String, String>();
-                    Map<String, String> studySiteByStudy = new Map<String, String>();
-                    for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
-                        studySiteByStudy.put(delegateRecord.enrollmentOrStudySiteId, null);
-                    }
-                    for (Study_Site__c studySite : [SELECT Id, Clinical_Trial_Profile__c
-                                                    FROM Study_Site__c
-                                                    WHERE Id IN :studySiteByStudy.keySet()]) {
-                        studySiteByStudy.put(studySite.Id, studySite.Clinical_Trial_Profile__c);
-                    }
                     Map<Id, Site_Staff__c> delegateSiteStaffMap =
                             DelegateService.getPITeamStaffTrialMap().get(dw.delegateContact.Id);
                     List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
@@ -289,10 +280,10 @@ public without sharing class MyTeamRemote {
                                 newDelegateRecord.Site_Contact__c = dw.delegateContact.Id;
                                 delegateRecordsToInsert.add(newDelegateRecord);
                             }
-                            String studyId = studySiteByStudy.get(delegateRecord.enrollmentOrStudySiteId);
-                            if (!levelByStudy.containsKey(studyId)) {
-                                levelByStudy.put(studyId, delegateRecord.delegateLevel);
-                            } else if (levelByStudy.get(studyId) != delegateRecord.delegateLevel) {
+                            String studyName = delegateRecord.trialName.substringBefore('(');
+                            if (!levelByStudy.containsKey(studyName)) {
+                                levelByStudy.put(studyName, delegateRecord.delegateLevel);
+                            } else if (levelByStudy.get(studyName) != delegateRecord.delegateLevel) {
                                 return 'ERROR: ' + Label.TST_Permissions_should_be_the_same_for_study;
                             }
                         } else {
@@ -419,7 +410,7 @@ public without sharing class MyTeamRemote {
         }
     }
 
-    private static void createDelegate(DelegateWrapper delegate, String userMode) {
+    private static String createDelegate(DelegateWrapper delegate, String userMode) {
         Contact delegateContact = new Contact();
         delegateContact.FirstName = delegate.delegateContact.FirstName;
         delegateContact.LastName = delegate.delegateContact.LastName;
@@ -448,6 +439,7 @@ public without sharing class MyTeamRemote {
         insert delegateContact;
 
         if (userMode == CommunityService.USER_MODE_PI) {
+            Map<String, String> levelByStudy = new Map<String, String>();
             List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
             for (TrialDelegateLevelWrapper delegateRecord : delegate.trialLevels) {
                 if (delegateRecord.delegateLevel != '') {
@@ -456,6 +448,12 @@ public without sharing class MyTeamRemote {
                     newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                     newDelegateRecord.Site_Contact__c = delegateContact.Id;
                     delegateRecordsToInsert.add(newDelegateRecord);
+                }
+                String studyName = delegateRecord.trialName.substringBefore('(');
+                if (!levelByStudy.containsKey(studyName)) {
+                    levelByStudy.put(studyName, delegateRecord.delegateLevel);
+                } else if (levelByStudy.get(studyName) != delegateRecord.delegateLevel) {
+                    return 'ERROR: ' + Label.TST_Permissions_should_be_the_same_for_study;
                 }
             }
             if (!delegateRecordsToInsert.isEmpty()) {
@@ -503,6 +501,8 @@ public without sharing class MyTeamRemote {
         CommunityService.createPortalUsers(new Set<Id>{
                 delegateContact.Id
         });
+
+        return 'SUCCESS';
     }
 
     public class MyTeamDetail {
