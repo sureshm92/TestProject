@@ -4331,6 +4331,13 @@ View study documents and other resources including articles and videos related t
         <value>You have successfully added a patient.</value>
     </labels>
     <labels>
+        <fullName>PG_AP_T_Additional_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Additional Info</shortDescription>
+        <value>Adding a patient will invite them to the Patient Portal. Please add only patients who have agreed to be contacted by IQVIA.</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_T_Indicate_Add_Fields</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4349,7 +4356,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP T Sub Info</shortDescription>
-        <value>Please advise Participants to view their Account Settings to update their personal information.</value>
+        <value>Participants may also update their personal information on the Account Setting page in the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
