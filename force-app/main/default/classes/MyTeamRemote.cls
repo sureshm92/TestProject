@@ -265,6 +265,7 @@ public without sharing class MyTeamRemote {
                     List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
                     List<Site_Staff__c> delegateRecordsToUpdate = new List<Site_Staff__c>();
                     List<Site_Staff__c> delegateRecordsToDelete = new List<Site_Staff__c>();
+                    Map<String, String> levelByStudy = new Map<String, String>();
                     for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
                         if (delegateRecord.delegateLevel != '') {
                             hasDelegateLevels = true;
@@ -353,7 +354,7 @@ public without sharing class MyTeamRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
 
-        return '';
+        return 'SUCCESS';
     }
     private static void sendEmailNotification(Contact delegateContact) {
         Map<Id, String> toSendNotificationMap = new Map<Id, String>();
