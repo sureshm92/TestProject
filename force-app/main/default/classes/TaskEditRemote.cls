@@ -49,7 +49,7 @@ public without sharing class TaskEditRemote {
             if (taskId != null) {
                 Task task = TaskService.getInstance().getTask(taskId);
                 wrapper.task = task;
-                wrapper.reminderDate = task.Reminder_Date__c != null ? task.Reminder_Date__c.date() : null;
+                wrapper.reminderDate = task.Reminder_Date__c != null ? task.Reminder_Date__c.dateGmt() : null;
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
             return wrapper;
