@@ -260,12 +260,22 @@ public without sharing class MyTeamRemote {
             } else {
                 Boolean hasDelegateLevels = false;
                 if (userMode == CommunityService.USER_MODE_PI) {
+                    Map<String, String> levelByStudy = new Map<String, String>();
+                    Map<String, String> studySiteByStudy = new Map<String, String>();
+                    for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
+                        studySiteByStudy.put(delegateRecord.enrollmentOrStudySiteId, null);
+                    }
+                    for (Study_Site__c studySite : [SELECT Id, Clinical_Trial_Profile__c
+                                                    FROM Study_Site__c
+                                                    WHERE Id IN :studySiteByStudy.keySet()]) {
+                        studySiteByStudy.put(studySite.Id, studySite.Clinical_Trial_Profile__c);
+                    }
                     Map<Id, Site_Staff__c> delegateSiteStaffMap =
                             DelegateService.getPITeamStaffTrialMap().get(dw.delegateContact.Id);
                     List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
                     List<Site_Staff__c> delegateRecordsToUpdate = new List<Site_Staff__c>();
                     List<Site_Staff__c> delegateRecordsToDelete = new List<Site_Staff__c>();
-                    Map<String, String> levelByStudy = new Map<String, String>();
+
                     for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
                         if (delegateRecord.delegateLevel != '') {
                             hasDelegateLevels = true;
@@ -278,6 +288,12 @@ public without sharing class MyTeamRemote {
                                 newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                                 newDelegateRecord.Site_Contact__c = dw.delegateContact.Id;
                                 delegateRecordsToInsert.add(newDelegateRecord);
+                            }
+                            String studyId = studySiteByStudy.get(delegateRecord.enrollmentOrStudySiteId);
+                            if (!levelByStudy.containsKey(studyId)) {
+                                levelByStudy.put(studyId, delegateRecord.delegateLevel);
+                            } else if (levelByStudy.get(studyId) != delegateRecord.delegateLevel) {
+                                return 'ERROR: ' + Label.TST_Permissions_should_be_the_same_for_study;
                             }
                         } else {
                             Site_Staff__c curDelegateRecord =
