@@ -897,7 +897,7 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-
+    /*
     @IsTest
     static void testSaveSSDetails() {
         init();
@@ -911,6 +911,6 @@ private class Test_BaseCRCPCommunity {
             Study_Site__c updatedSS = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
             System.assertEquals(studySite.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
         Test.stopTest();
-    }
+    }*/
 
 }

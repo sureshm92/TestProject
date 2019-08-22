@@ -10,15 +10,6 @@
         component.set('v.studySiteAccounts', ssWrapper.accounts);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         component.find('manageLocation').show();
-        setTimeout($A.getCallback(function () {
-            /*var instructions = document.getElementsByClassName("driving-instructions");
-            for (var i = 0; i < instructions.length; i++) {
-                var instruction = instructions.item(i);
-                if (instruction != null) {
-                    helper.clampLine(instruction, 3);
-                }
-            }*/
-        }), 5);
     },
 
     changeRadioMarker: function (component, event, helper) {

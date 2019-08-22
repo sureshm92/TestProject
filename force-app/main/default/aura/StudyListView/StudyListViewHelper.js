@@ -159,15 +159,6 @@
                     }
                 }
             }
-            if (component.get('v.userMode') == 'PI') {
-                var instructions = document.getElementsByClassName("driving-instructions");
-                for (var i = 0; i < instructions.length; i++) {
-                    var instruction = instructions.item(i);
-                    if (instruction != null) {
-                        this.clampLine(instruction, 3);
-                    }
-                }
-            }
         }
     },
 

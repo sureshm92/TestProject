@@ -44,10 +44,9 @@
 
     showManageLocationDetails: function(component, event, helper){
         var siteWrapper = component.get('v.siteWrapper');
-    	var studyListView = component.get('v.studyListViewComponent');
+        var studyListView = component.get('v.studyListViewComponent');
         studyListView.find('actionManageLocationDetails').execute(siteWrapper, function(studySite){
             component.set('v.siteWrapper.studySite', studySite); 
-            alert(studySite.Site__r.Driving_Directions__c);
         });
     },
 

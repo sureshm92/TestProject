@@ -3,13 +3,15 @@
  -->
 
 <aura:component description="StudySiteCardForPI" controller="StudyListViewController">
+
+    <!-- attributes: -->
     <aura:attribute name="siteWrapper" type="Object"/>
     <aura:attribute name="rerenderComponent" type="Boolean" description="false"/>
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="studyListViewComponent" type="Aura.Component"/>
 
-    <aura:if isTrue="true">
+    <!-- component body: -->
     <div class="slds-p-horizontal_medium slds-p-bottom_small">
         <aura:if isTrue="{!v.siteWrapper.studySite}">
             <div class="manage-location-details">
@@ -87,11 +89,11 @@
                                     <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                     <div 
                                          class="driving-instructions">{!v.siteWrapper.studySite.Site__r.Driving_Directions__c}</div>
+                                    <div>{!v.siteWrapper.studySite.Site__r.Driving_Directions__c}</div>
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                     <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
-                                    <div 
-                                         class="driving-instructions">{!v.siteWrapper.studySite.Site__r.Parking_Instructions__c}</div>
+                                    <div class="driving-instructions">{!v.siteWrapper.studySite.Site__r.Parking_Instructions__c}</div>
                                 </div>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3">
@@ -113,5 +115,4 @@
             </div>
         </aura:if>
     </div>
-    </aura:if>
 </aura:component>
