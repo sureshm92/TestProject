@@ -32,82 +32,51 @@
     },
 
     saveChanges: function (component, event, helper) {
+        var studyListViewComponent = component.get('v.studyListViewComponent');
+        studyListViewComponent.find('mainSpinner').show();
         var siteWrapper = component.get('v.siteWrapper');
         var currentSS = siteWrapper.studySite;
-        communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function (returnValue) {
+        communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(currentSS)}, function () {
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
             currentSS.isRecordUpdated = false;
             currentSS.isEmailValid = true;
             component.set('v.siteWrapper.studySite', currentSS);
+            studyListViewComponent.find('mainSpinner').hide();
         });
     },
 
-    showManageLocationDetails: function(component, event, helper){
+    showManageLocationDetails: function (component, event, helper) {
         var siteWrapper = component.get('v.siteWrapper');
         var studyListView = component.get('v.studyListViewComponent');
-        studyListView.find('actionManageLocationDetails').execute(siteWrapper, function(studySite){
-            component.set('v.siteWrapper.studySite', studySite); 
+        studyListView.find('actionManageLocationDetails').execute(siteWrapper, function (studySite) {
+            component.set('v.siteWrapper.studySite', studySite);
         });
     },
 
     doAction: function (component, event) {
-        var currentStudy = component.get('v.currentStudy');
-        var trial = currentStudy.trial;
-        var trialId = trial.Id;
-        var parent = component.get('v.parent');
+        var siteWrapper = component.get('v.siteWrapper');
+        var studySiteId = siteWrapper.studySite.Id;
+        var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
+        var trial = siteWrapper.studySite.Clinical_Trial_Profile__r;
+        var studyListViewComponent = component.get('v.studyListViewComponent');
         var actionId = event.currentTarget.id;
         if (!actionId) actionId = event.getSource().getLocalId();
         switch (actionId) {
-            case 'medicalRecordReview':
-                communityService.navigateToPage('referring?id=' + trialId);
-                //communityService.navigateToPage('referring?id=' + trialId);
-                break;
-            case 'referToThisStudy':
-            case 'refer':
-                communityService.navigateToPage('referring?id=' + trialId);
-                break;
-            case 'share':
-                //pass trial to 'Share' dialog:
-                parent.find('shareModal').show(trial.Id, currentStudy.hcpe.HCP_Contact__c);
-                break;
-            case 'viewTermsAndConditions':
-                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
-                break;
-            case 'findStudySites':
-                communityService.navigateToPage('sites-search?id=' + trialId);
-                break;
-            case 'myPatients':
-                communityService.navigateToPage('my-patients?id=' + trialId);
-                break;
             case 'noThanks':
-                var studySiteId = component.get('v.siteWrapper').studySite.Id;
-                parent.showOpenNoTanksModal(trialId,studySiteId);
-                break;
-            case 'manageReferrals':
-                communityService.navigateToPage("my-referrals?id=" + trialId);
+                studyListViewComponent.showOpenNoTanksModal(trialId, studySiteId);
                 break;
             case 'manageReferralsBySS':
-                var studySiteId = component.get('v.siteWrapper').studySite.Id;
-                communityService.navigateToPage("my-referrals?id=" +trialId+"&siteId="+studySiteId);
-                break;
-            case 'manageReferringClinics':
-                communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");
+                communityService.navigateToPage('my-referrals?id=' + trialId + '&siteId=' + studySiteId);
                 break;
             case 'manageReferringClinicsBySS':
-                var studySiteId = component.get('v.siteWrapper').studySite.Id;
-                communityService.navigateToPage("my-referring-clinics?id=" + trialId + "&ssId="+studySiteId);
+                communityService.navigateToPage('my-referring-clinics?id=' + trialId + '&ssId=' + studySiteId);
                 break;
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
-                var studySiteId = component.get('v.siteWrapper').studySite.Id;
-                parent.find('receiveReferralsModal').show(trial,studySiteId);
-                break;
-            case 'linkToStudySites':
-                communityService.navigateToPage('sites-search?id=' + trialId);
+                studyListViewComponent.find('receiveReferralsModal').show(trial, studySiteId);
                 break;
             case 'addPatient':
-                var studySiteId = component.get('v.siteWrapper').studySite.Id;
-                communityService.navigateToPage('add-patient?id=' + trialId + "&ssId=" + studySiteId);
+                communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
                 break;
         }
     },

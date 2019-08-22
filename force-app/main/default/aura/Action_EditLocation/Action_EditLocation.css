@@ -1,0 +1,75 @@
+/**
+ * Created by user on 22-Aug-19.
+ */
+
+.THIS  .popup-address-inputs{
+    padding: 16px 8px 0px 8px;
+}
+
+.THIS .edit-address-container{
+    font-weight: 500;
+    text-align: left;
+}
+
+.THIS .ss-lightning-input label{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+    margin-bottom: 4px;
+}
+
+.THIS .delegate-select{
+    width: 100%;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .input-fields-labels{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS .postal-code-input{
+    margin-top: 2px;
+}
+
+.THIS .google-map-style{
+    padding: 12% 0% 0% 1%;
+}
+
+.THIS .check-button-container{
+    padding-top: 12%;
+}
+
+.THIS .check-address-btn{
+    padding:9px 7px;
+    max-height: 44px;
+}
+
+.THIS .indicator-containers{
+    margin-top:6%;
+}
+
+.THIS .text-area-height textarea{
+    min-height: 158px;
+}
+
+.THIS .check-icon-style{
+    width: 16px;
+    height: 16px;
+    fill: #00C221;
+}
+
+.THIS .close-icon-style{
+    width: 16px;
+    height: 16px;
+    fill: #E20000;
+}

@@ -27,7 +27,7 @@
         var studySite = component.get('v.studySite');
         studySite.Site__r = component.get('v.checkedAccount');
         studySite.Site__c = component.get('v.checkedAccount').Id;
-        communityService.executeAction(component, 'saveSSChanges', {studySiteInfo: JSON.stringify(studySite)}, function (returnValue) {
+        communityService.executeAction(component, 'changeSSAccount', {ssId : studySite.Id, accountId : studySite.Site__c}, function () {
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
             component.set('v.locationWasChanged', false);
             component.find('modalSpinner').hide();
@@ -38,5 +38,14 @@
 
     closeModal: function (component, event, helper) {
         component.find('manageLocation').hide();
+    },
+
+    editAccountAddress: function(component, event, helper){
+        console.log('event.currentTarget.value',event.currentTarget.dataset.index);
+        var account = component.get('v.studySiteAccounts')[event.currentTarget.dataset.index];
+        component.find('manageLocation').hide();
+    	component.find('editLocation').execute(account,function(){
+    	    console.log('callback');
+        });
     },
 });

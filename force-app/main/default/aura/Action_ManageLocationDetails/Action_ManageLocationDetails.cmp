@@ -48,7 +48,7 @@
                                                 {!account.Name + ' ' + $Label.c.SS_Location}
                                             </div>
                                             <div class="slds-col slds-size--1-of-2 slds-grid slds-grid_align-end edit-btn"
-                                                 onclick="{!c.editAccountAddress}">
+                                                 onclick="{!c.editAccountAddress}" data-index="{!accIndex}">
                                                 {!$Label.c.SS_Btn_Edit}
                                             </div>
                                         </div>
@@ -92,4 +92,5 @@
         </c:Popup>
     </div>
 
+    <c:Action_EditLocation aura:id="editLocation"/>
 </aura:component>

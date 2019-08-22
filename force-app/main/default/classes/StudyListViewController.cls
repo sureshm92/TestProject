@@ -252,14 +252,20 @@ public without sharing class StudyListViewController {
     }
 
     @AuraEnabled
-    public static Study_Site__c saveSSChanges(String studySiteInfo) {
+    public static void changeSSAccount(Id ssId, Id accountId) {
         try {
-            Study_Site__c updatedSS =  StudyTrialService.saveSSChanges(studySiteInfo);
-           // String newInitData = getStudyTrialList(CommunityService.USER_MODE_PI);
-            return updatedSS;
+            update new Study_Site__c(Id = ssId, Site__c = accountId);
         } catch (Exception e) {
-            String status = (String) AuraHelper.throwException(e);
-            return null;
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void saveSSChanges(String studySiteInfo) {
+        try {
+            StudyTrialService.saveSSChanges(studySiteInfo);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
         }
     }
 
