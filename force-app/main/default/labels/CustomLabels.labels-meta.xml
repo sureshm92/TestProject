@@ -1306,7 +1306,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Refer a patient</value>
+        <value>Add a patient</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -8553,7 +8553,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Address Is Checking</shortDescription>
-        <value>Address is checking</value>
+        <value>Checking address</value>
     </labels>
     <labels>
         <fullName>SS_Address_Not_Found</fullName>
@@ -8742,7 +8742,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Save New Account</shortDescription>
-        <value>Save New Location</value>
+        <value>Save Location</value>
     </labels>
     <labels>
         <fullName>SS_Site</fullName>
