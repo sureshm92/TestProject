@@ -9,6 +9,7 @@
     <!-- attributes: -->
     <aura:attribute name="account" type="Object"/>
     <aura:attribute name="ssId" type="String"/>
+    <aura:attribute name="piId" type="String"/>
     <aura:attribute name="accountStamp" type="String"/>
     <aura:attribute name="isAccountModified" type="Boolean" default="false"/>
     <aura:attribute name="showContent" type="Boolean" default="false"/>
@@ -24,6 +25,7 @@
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="account" type="Object"/>
         <aura:attribute name="ssId" type="String"/>
+        <aura:attribute name="piId" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 

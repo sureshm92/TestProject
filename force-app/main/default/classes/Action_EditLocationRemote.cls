@@ -62,15 +62,73 @@ public without sharing class Action_EditLocationRemote {
             return (Account) AuraHelper.throwException(e);
         }
     }
-    
+
     @AuraEnabled
-    public static void upsertAccount(String accountJSON, Id ssId) {
+    public static void upsertAccount(String accountJSON, Id ssId, Id piId) {
         try {
-            //TODO add logic here
+            Contact currentContact = [
+                    SELECT Id,
+                            OwnerId,
+                            AccountId
+                    FROM Contact
+                    WHERE Id = :piId
+            ];
+            Account newAccount = (Account) JSON.deserialize(accountJSON, Account.class);
+            Account createAccount = new Account();
+            //create new account
+            if (newAccount.Id == null) {
+                createAccount = setFields(newAccount, currentContact, false);
+                insert createAccount;
+                currentContact.AccountId = createAccount.Id;
+                update currentContact;
+            } else {
+                //create new sub Account and remove AccountContactRelation for main Account
+                if (newAccount.ParentId == null) {
+                    newAccount.ParentId = newAccount.Id;
+                    createAccount = setFields(newAccount, currentContact, false);
+                    insert createAccount;
+                    List<AccountContactRelation> removeAccContRelation = [
+                            SELECT Id,
+                                    IsDirect
+                            FROM AccountContactRelation
+                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id
+                            LIMIT 1
+                    ];
+                    currentContact.AccountId = createAccount.Id;
+                    update currentContact;
+                    if (!removeAccContRelation.isEmpty()) {
+                        delete removeAccContRelation[0];
+                    }
+                } else {
+                    //update sub Account
+                    createAccount = setFields(newAccount, currentContact, true);
+                    update createAccount;
+                    if (currentContact.AccountId != createAccount.Id) {
+                        currentContact.AccountId = createAccount.Id;
+                        update currentContact;
+                    }
+                }
+            }
+            Study_Site__c updSS = new Study_Site__c(Id = ssId, Account_Was_Changed__c = true, Site__c = createAccount.Id);
+            update updSS;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
 
+    private static Account setFields(Account newAccount, Contact currentContact, Boolean setId) {
+        Account acc = new Account(Id = setId ? newAccount.Id : null,
+                Name = newAccount.Name,
+                ParentId = newAccount.ParentId,
+                BillingCountry = newAccount.BillingCountry,
+                BillingStreet = newAccount.BillingStreet,
+                BillingCity = newAccount.BillingCity,
+                BillingPostalCode = newAccount.BillingPostalCode,
+                Driving_Directions__c = newAccount.Driving_Directions__c,
+                Parking_Instructions__c = newAccount.Parking_Instructions__c,
+                BillingState = newAccount.BillingState,
+                OwnerId = currentContact.OwnerId);
+        return acc;
+    }
 
 }

@@ -30,7 +30,7 @@
         }), 10);
     },
 
-    saveSSDetails: function (component, event, helper) {
+    /*saveSSDetails: function (component, event, helper) {
         var param = event.getParam('arguments');
         var currentSS = param.currentSS;
         if (!communityService.isInitialized()) return;
@@ -50,6 +50,6 @@
             communityService.showToast('success', 'success', $A.get("$Label.c.SS_Success_Save_Message"));
             helper.init(component, event, helper);
         });
-    }
+    }*/
 
 });

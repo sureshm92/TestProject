@@ -40,11 +40,15 @@
         component.find('manageLocation').cancel();
     },
 
-    editAccountAddress: function(component, event, helper){
-        var account = component.get('v.studySiteAccounts')[event.currentTarget.dataset.index];
+    editAccountAddress: function (component, event, helper) {
+        var index = event.currentTarget.dataset.index;
+        var accountsList = component.get('v.studySiteAccounts');
+        var account = accountsList[index];
         var studySite = component.get('v.studySite');
-        component.find('editLocation').execute(account,studySite.Id, function(account){
-            //TODO
+        component.find('editLocation').execute(account, studySite.Id, studySite.Principal_Investigator__c, function (account) {
+            accountsList[index] = account;
+            component.set('v.studySiteAccounts', accountsList);
+            communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
         });
     },
 });

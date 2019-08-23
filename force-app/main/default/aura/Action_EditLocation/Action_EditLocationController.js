@@ -28,6 +28,7 @@
         }
         component.set('v.account', account);
         component.set('v.ssId', params.ssId);
+        component.set('v.piId', params.piId);
         component.set('v.accountStamp', JSON.stringify(account));
         helper.checkAccountModified(component);
         helper.setCoordinates(component);
@@ -78,7 +79,8 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'upsertAccount', {
             accountJSON: JSON.stringify(account),
-            ssId: component.get('v.ssId')
+            ssId: component.get('v.ssId'),
+            piId: component.get('v.piId')
         }, function () {
             component.find('editLocation').hide();
             component.get('v.callback')(account);
