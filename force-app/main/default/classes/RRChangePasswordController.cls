@@ -22,6 +22,10 @@ public without sharing class RRChangePasswordController {
     public Account account {get; set;}
     public Contact contact {get; set;}
     public User userVal {get; set;}
+    
+    public String helpText_1st_Language { get; private set; }
+    public String helpText_2nd_Language { get; private set; }
+    public String helpText_3rd_Language { get; private set; }
 
     public String userLocale {get; set;}
     public transient String userLanguage {get; set;}
@@ -50,14 +54,22 @@ public without sharing class RRChangePasswordController {
                         Contact.MailingAddress,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
+                        Contact.SecondChoiceLanguage__c,
+                        Contact.ThirdChoiceLanguage__c,
                         Contact.userCommunityMode__c,
                         Contact.UserCommunityIsDelegate__c,
                         LanguageLocaleKey,
+                        TimeZoneSidKey,
                         LocaleSidKey
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
-        
+    
+        Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
+        helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
+        helpText_2nd_Language = fieldMap.get('SecondChoiceLanguage__c').getDescribe().inlineHelpText;
+        helpText_3rd_Language = fieldMap.get('ThirdChoiceLanguage__c').getDescribe().inlineHelpText;
+    
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
                         Account.BillingCity, Account.BillingState, Account.Fax,
@@ -164,6 +176,7 @@ public without sharing class RRChangePasswordController {
                 Id = userVal.Id,
                 LanguageLocaleKey = translation.Language__c
         );
+        update userVal.Contact;
         updateTranslations();
     }
     
