@@ -82,6 +82,8 @@
         }, function () {
             component.find('editLocation').hide();
             component.get('v.callback')(account);
+        }, null, function () {
+            component.find('spinner').hide();
         });
     },
 
