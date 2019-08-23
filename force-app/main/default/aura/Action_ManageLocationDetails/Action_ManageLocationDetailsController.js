@@ -32,20 +32,19 @@
             component.set('v.locationWasChanged', false);
             component.find('modalSpinner').hide();
             component.find('manageLocation').hide();
-            component.get('v.callback')(studySite); 
+            component.get('v.callback')(studySite);
         });
     },
 
-    closeModal: function (component, event, helper) {
-        component.find('manageLocation').hide();
+    doCancel: function (component, event, helper) {
+        component.find('manageLocation').cancel();
     },
 
     editAccountAddress: function(component, event, helper){
-        console.log('event.currentTarget.value',event.currentTarget.dataset.index);
         var account = component.get('v.studySiteAccounts')[event.currentTarget.dataset.index];
-        component.find('manageLocation').hide();
-    	component.find('editLocation').execute(account,function(){
-    	    console.log('callback');
+        var studySite = component.get('v.studySite');
+        component.find('editLocation').execute(account,studySite.Id, function(account){
+            //TODO
         });
     },
 });

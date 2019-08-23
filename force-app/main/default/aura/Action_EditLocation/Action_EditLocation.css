@@ -58,6 +58,13 @@
     margin-top:6%;
 }
 
+.THIS .address-spinner-indicator-container{
+    margin-top: 4%;
+    margin-left: 2%;
+    position: unset;
+}
+
+
 .THIS .text-area-height textarea{
     min-height: 158px;
 }

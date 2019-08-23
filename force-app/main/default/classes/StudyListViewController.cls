@@ -4,7 +4,6 @@
 
 public without sharing class StudyListViewController {
 
-    private static final String DUMMY_ACCOUNT_NAME = 'Dummy Account For Location Check';
 
     class StudiesGroup {
         String name;
@@ -282,47 +281,6 @@ public without sharing class StudyListViewController {
         }
     }
 
-    @AuraEnabled
-    public static String createTmpAccountForLocationCheck(String account) {
-        try{
-            Account newAccount = (Account) JSON.deserialize(account, Account.class);
-            Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId(),
-                    BillingStreet = newAccount.BillingStreet,
-                    BillingCountry = newAccount.BillingCountry,
-                    BillingCity = newAccount.BillingCity);
-            insert accForCheck;
-            return accForCheck.Id;
-        }catch (Exception e){
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-    
-    @AuraEnabled
-    public static void deleteTmpAccount(Id tmpAccountId){
-        try{
-            delete new Account(Id = tmpAccountId);
-        }catch (Exception e){
-            AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static Account getTmpAccount(Id tmpAccountId) {
-        try{
-            Account acc = [
-                    SELECT Id,
-                            BillingGeocodeAccuracy,
-                            BillingLongitude,
-                            BillingLatitude
-                    FROM Account
-                    WHERE Id =: tmpAccountId
-            ];
-            if(acc.BillingGeocodeAccuracy != null) delete acc;
-            return acc;
-        }catch (Exception e){
-            return (Account) AuraHelper.throwException(e);
-        }
-    }
 
 
     private static Map<String, List<Site_Staff__c>> getDelegates(Set<Id> triaIds) {

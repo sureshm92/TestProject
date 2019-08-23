@@ -122,7 +122,7 @@
             </div>
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
                     <aura:iteration items="{!v.currentStudy.ssList}" var="siteWrapper" indexVar="siteWrappIndx">
-                        <c:StudySiteCardForPI siteWrapper="{!siteWrapper}" userMode="{!v.userMode}" parent="{!this}" studyListViewComponent="{!v.parent}"/>
+                        <c:StudySiteCardForPI siteWrapper="{!siteWrapper}" userMode="{!v.userMode}" studyListViewComponent="{!v.parent}"/>
                     </aura:iteration>
             </div>
         </aura:if>
