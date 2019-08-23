@@ -43,7 +43,7 @@
     },
 
     doCheckAddress: function (component, event, helper) {
-        component.set('v.showPopUpSpinner', true);
+        component.set('v.showAddressValidationSpinner', true);
         var currentAccount = component.get('v.account');
         communityService.executeAction(component, 'createTmpAccountForLocationCheck', {
             account: JSON.stringify(currentAccount)
@@ -80,6 +80,7 @@
             accountJSON: JSON.stringify(account),
             ssId: component.get('v.ssId')
         }, function () {
+            component.find('editLocation').hide();
             component.get('v.callback')(account);
         });
     },

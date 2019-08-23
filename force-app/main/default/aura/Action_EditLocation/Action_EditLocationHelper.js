@@ -9,7 +9,7 @@
             acc.BillingLongitude = null;
             acc.BillingLatitude = null;
             component.set('v.account', acc);
-            component.set('v.showPopUpSpinner', false);
+            component.set('v.showAddressValidationSpinner', false);
             helper.setCoordinates(component);
             communityService.executeAction(component, 'deleteTmpAccount', {
                 tmpAccountId: tmpAccountId
@@ -32,7 +32,7 @@
                 acc.BillingLongitude = tmpAccount.BillingLongitude;
                 acc.BillingLatitude = tmpAccount.BillingLatitude;
                 component.set('v.account', acc);
-                component.set('v.showPopUpSpinner', false);
+                component.set('v.showAddressValidationSpinner', false);
                 helper.setCoordinates(component);
             }
         });

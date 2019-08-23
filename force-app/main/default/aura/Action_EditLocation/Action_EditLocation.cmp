@@ -12,12 +12,13 @@
     <aura:attribute name="accountStamp" type="String"/>
     <aura:attribute name="isAccountModified" type="Boolean" default="false"/>
     <aura:attribute name="showContent" type="Boolean" default="false"/>
-    <aura:attribute name="showPopUpSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="showAddressValidationSpinner" type="Boolean" default="false"/>
     <aura:attribute name="mapMarkers" type="List" default="[]"/>
     <aura:attribute name="zoomLevel" type="Integer"/>
     <aura:attribute name="countriesLVList" type="List"/>
     <aura:attribute name="statesLVList" type="List"/>
     <aura:attribute name="statesByCountryMap" type="Object"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
 
     <!-- methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
@@ -110,11 +111,11 @@
                                 <div class="slds-col slds-size--2-of-6 popup-address-inputs">
                                     <div class="rr-form-element check-button-container">
                                         <button class="apollo-btn primary check-address-btn"
-                                                disabled="{!v.showPopUpSpinner ? v.showPopUpSpinner :
+                                                disabled="{!v.showAddressValidationSpinner ? v.showAddressValidationSpinner :
                                                                                     !v.account.BillingStreet ? true :
                                                                                     !v.account.BillingCountryCode ? true :
                                                                                     !v.account.BillingCity ? true : false}"
-                                                title="{!v.showPopUpSpinner ? $Label.c.SS_Address_Is_Checking :
+                                                title="{!v.showAddressValidationSpinner ? $Label.c.SS_Address_Is_Checking :
                                                                                  !v.account.BillingStreet ? $Label.c.SS_Fill_Address :
                                                                                  !v.account.BillingCountry ? $Label.c.SS_Choose_Country :
                                                                                  !v.account.BillingCity ? $Label.c.SS_Fill_City : $Label.c.SS_Press_To_Check}"
@@ -123,16 +124,16 @@
                                 </div>
                                 <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
                                     <aura:if
-                                            isTrue="{!v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showPopUpSpinner}">
+                                            isTrue="{!v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">
                                         <c:RRIcon class="check-icon-style" iconName="icon-check"/>
                                         <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Found}</div>
                                     </aura:if>
                                     <aura:if
-                                            isTrue="{!v.account.BillingLatitude==undefined &amp;&amp; v.account.BillingLongitude==undefined &amp;&amp; !v.showPopUpSpinner}">
+                                            isTrue="{!v.account.BillingLatitude==undefined &amp;&amp; v.account.BillingLongitude==undefined &amp;&amp; !v.showAddressValidationSpinner}">
                                         <c:RRIcon class="close-icon-style" iconName="icon-close"/>
                                         <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Not_Found}</div>
                                     </aura:if>
-                                    <aura:if isTrue="{!v.showPopUpSpinner}">
+                                    <aura:if isTrue="{!v.showAddressValidationSpinner}">
                                         <div role="status"
                                              class="slds-spinner slds-spinner_xx-small address-spinner-indicator-container">
                                             <div class="slds-spinner__dot-a"></div>

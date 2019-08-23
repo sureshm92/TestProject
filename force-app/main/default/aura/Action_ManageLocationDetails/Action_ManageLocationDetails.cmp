@@ -20,6 +20,7 @@
     <!-- component body -->
     <div class="mrc-invite-popup">
         <c:Popup aura:id="manageLocation" title="{!$Label.c.SS_Manage_Location_Details}" size="large" showScroll="true">
+            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size--1-of-5 my-location-label">{!$Label.c.SS_My_Locations}</div>
@@ -79,7 +80,6 @@
                 </aura:if>
             </div>
             <aura:set attribute="footerButtons">
-                <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <button class="apollo-btn secondary"
                         onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
                 <button class="apollo-btn primary"
