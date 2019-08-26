@@ -11,10 +11,9 @@ public class ParticipantItem {
     @AuraEnabled public Boolean showParticipationSteps;
     
     public ParticipantItem(Participant_Enrollment__c pe){
-        Boolean isParticipant = CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         pe.Referral_Source__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Referral_Source__c, pe.Referral_Source__c);
         this.pe = pe;
-        this.showParticipationSteps = pe.Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes' || !isParticipant ;
+        this.showParticipationSteps = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW.contains(pe.Participant_Status__c);
     }
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {

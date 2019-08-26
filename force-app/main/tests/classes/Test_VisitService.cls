@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 19.04.2019.
  */
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_VisitService {
 
     @IsTest
@@ -14,11 +14,11 @@ private class Test_VisitService {
         ].get(0);
         state.ctp = state.pe.Clinical_Trial_Profile__r;
         state.showVisits = true;
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(state)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Visit__c> visits = VisitService.getInstance().getVisits(null);
@@ -55,11 +55,11 @@ private class Test_VisitService {
         ].get(0);
         state.ctp = state.pe.Clinical_Trial_Profile__r;
         state.showVisits = true;
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(state)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Visit__c> previewVisits = VisitService.getInstance().getPreviewVisits();
@@ -138,17 +138,11 @@ private class Test_VisitService {
         insert participant;
 
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                Clinical_Trial_Profile__c = trial.Id,
                 Patient_ID__c = 'SomePatientId1',
                 Referral_Source__c = 'HCP',
                 Participant__c = participant.Id
         );
         insert pe;
-
-        Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c(
-                Clinical_Trial_Profile__c = trial.Id,
-                Participant__c = participant.Id,
-                Participant_Enrollment__c = pe.Id
-        );
-        insert pse;
     }
 }

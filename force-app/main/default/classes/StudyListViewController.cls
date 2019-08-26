@@ -43,7 +43,6 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static String getStudyTrialList(String userMode) {
         try {
-            returnAndRemoveAccount();
             InitData initData = new InitData();
             List<StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
@@ -278,24 +277,45 @@ public without sharing class StudyListViewController {
     }
 
     @AuraEnabled
-    public static void checkAccountGeolocation(String account) {
-        Account newAccount = (Account) JSON.deserialize(account, Account.class);
-        Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId(),
-                BillingStreet = newAccount.BillingStreet,
-                BillingCountry = newAccount.BillingCountry,
-                BillingCity = newAccount.BillingCity);
-        insert accForCheck;
+    public static String createTmpAccountForLocationCheck(String account) {
+        try{
+            Account newAccount = (Account) JSON.deserialize(account, Account.class);
+            Account accForCheck = new Account(Name = DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId(),
+                    BillingStreet = newAccount.BillingStreet,
+                    BillingCountry = newAccount.BillingCountry,
+                    BillingCity = newAccount.BillingCity);
+            insert accForCheck;
+            return accForCheck.Id;
+        }catch (Exception e){
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+    
+    @AuraEnabled
+    public static void deleteTmpAccount(Id tmpAccountId){
+        try{
+            delete new Account(Id = tmpAccountId);
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
     }
 
     @AuraEnabled
-    public static String returnAndRemoveAccount() {
-        List<Account> acc = [SELECT Id,Name,BillingLongitude,BillingCity,BillingLatitude FROM Account WHERE Name = :DUMMY_ACCOUNT_NAME + ' ' + UserInfo.getUserId()];
-        String valueToReturn;
-        if (acc.size() > 0) {
-            valueToReturn = JSON.serialize(acc[0]);
-            delete acc;
+    public static Account getTmpAccount(Id tmpAccountId) {
+        try{
+            Account acc = [
+                    SELECT Id,
+                            BillingGeocodeAccuracy,
+                            BillingLongitude,
+                            BillingLatitude
+                    FROM Account
+                    WHERE Id =: tmpAccountId
+            ];
+            if(acc.BillingGeocodeAccuracy != null) delete acc;
+            return acc;
+        }catch (Exception e){
+            return (Account) AuraHelper.throwException(e);
         }
-        return valueToReturn;
     }
 
 
@@ -362,6 +382,7 @@ public without sharing class StudyListViewController {
                                 Account.BillingStateCode,
                                 Account.BillingLatitude,
                                 Account.BillingLongitude,
+                                Account.BillingGeocodeAccuracy,
                                 Account.Driving_Directions__c,
                                 Account.Parking_Instructions__c
                         FROM AccountContactRelation

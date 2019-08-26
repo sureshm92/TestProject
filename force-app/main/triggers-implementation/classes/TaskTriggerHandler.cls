@@ -24,7 +24,6 @@ public without sharing class TaskTriggerHandler {
         }
     }
 
-
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible

@@ -1,7 +1,7 @@
 /**
  * Created by dmytro.fedchyshyn on 26.07.2019.
  */
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_IconPlanetVisitInfoEditRemote {
 
     @IsTest
@@ -14,17 +14,17 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
                 new Icon_Details__c()};
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getCtpById')
                 .then(ctp)
-                .getInstance()
-        );
+                .build()
+       );
 
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
                 .when('upsertRecords')
                 .then(null)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         IconPlanetVisitInfoEditRemote.saveIconInfo(iconDetails, null);
@@ -34,11 +34,11 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
     @IsTest
     static void saveIconInfoWithException_test(){
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(new AuraHandledException('Something wrong'))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -58,11 +58,11 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
                 new Icon_Details__c()};
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(iconDetails)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(
@@ -75,11 +75,11 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
     @IsTest
     static void getIconDetailsWithoutExistingIconDetails_test(){
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(null)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Icon_Details__c> iconDetailsTest = IconPlanetVisitInfoEditRemote.getIconDetails(
@@ -92,11 +92,11 @@ public with sharing class Test_IconPlanetVisitInfoEditRemote {
     @IsTest
     static void getIconDetailsWithException_test(){
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getIconDetailsByVisitPlanInCTP')
                 .then(new AuraHandledException('error'))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {

@@ -15,7 +15,7 @@ public class Batch_UpdateScreeningIds implements Database.Batchable<SObject>{
     }
 
     public void execute(Database.BatchableContext bc, List<SObject> records) {
-        PSEService.updateExternalKey((List<Participant_Enrollment__c>) records, null);
+        //PSEService.updateExternalKey((List<Participant_Enrollment__c>) records, null);
     }
 
     public void finish(Database.BatchableContext bc) {}

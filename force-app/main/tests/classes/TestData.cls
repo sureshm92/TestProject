@@ -12,10 +12,10 @@ public class TestData {
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
     public Study_Site__c ss;
-    public Participant_Study_Enrollment__c pse;
     public Participant_Enrollment__c pe;
     public HCP_Enrollment__c hcpEnrollment;
-    
+    private static Contact hcpContact;
+    private static Terms_And_Conditions__c studyTC;
     public TestData(){
         participant = [
                 SELECT Id, Name
@@ -63,16 +63,9 @@ public class TestData {
         ];
     }
     
-    public void createPSE(){
+    public void updatePEStatusEnrollmentSuccess(){
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
-        pse = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Participant__c =: participant.Id
-        ];
     }
     
     
@@ -85,7 +78,7 @@ public class TestData {
         );
         tcList.add(portalTC);
     
-        Terms_And_Conditions__c studyTC = new Terms_And_Conditions__c();
+        studyTC = new Terms_And_Conditions__c();
         tcList.add(studyTC);
         insert tcList;
     
@@ -126,8 +119,8 @@ public class TestData {
                 AccountId = piAccount.Id
         );
         contacts.add(piContact);
-        
-        Contact hcpContact = new Contact(
+
+        hcpContact = new Contact(
                 FirstName = 'HCP',
                 LastName = 'HCP',
                 Email = 'hcp@emil.com',
@@ -232,8 +225,12 @@ public class TestData {
         );
         insert contactTherapeuticArea;
     
+
+    }
+
+    public static void createTCAcceptance() {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
-    
+
         Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
                 User__c = hcpUser.Id,
                 Terms_And_Conditions__c = studyTC.Id

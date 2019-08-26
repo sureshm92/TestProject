@@ -46,7 +46,7 @@ public without sharing class ParticipantService {
         participantState = new ParticipantState();
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
         if (peList.size() > 0) {
-            if(peList[0].Study_Site__c == null) {
+            if (peList[0].Study_Site__c == null) {
                 throw new ParticipantServiceException('Study Site cannot be null on peId = ' + peList[0].Id);
             }
 
@@ -118,19 +118,17 @@ public without sharing class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        if (participant.Id == null) {
-            DuplicateContactController.isPERCreated = true;
-            participant = DuplicateContactController.communityReffering(participant, pe);
-        }
+        DuplicateContactController.isPERCreated = true;
+        participant = DuplicateContactController.communityReffering(participant, pe);
 
         if (participant.Id != null) {
             pe.Participant__c = participant.Id;
+            if (pe.Participant_Name__c == null) pe.Participant_Name__c = participant.First_Name__c;
+            if (pe.Participant_Surname__c == null) pe.Participant_Surname__c = participant.Last_Name__c;
             try {
                 DatabaseService.getInstance().upsertToDB(pe);
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
-                System.debug('STACK TRACE:' + e.getStackTraceString());
-                System.debug('MESSAGE:' + e.getMessage());
                 if (errorMsg.contains('DUPLICATE')) {
                     errorMsg = Label.Error_Message_Participant_Duplicate;
                 }

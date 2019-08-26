@@ -26,6 +26,14 @@ public without sharing class ParticipantEnrollmentService {
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
     public static final String NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED = 'Had Discussion, Not Interested';
+    //Referral Source
+    public static final String PE_REFERRAL_SOURCE_PATIENT = 'Patient';
+    public static final String PE_REFERRAL_SOURCE_HCP = 'HCP';
+    public static final String PE_REFERRAL_SOURCE_HCP_PRESCREEN = 'HCP Prescreen Log';
+    public static final String PE_REFERRAL_SOURCE_PI = 'PI';
+    public static final String PE_REFERRAL_SOURCE_EPR = 'ePR';
+    public static final String PE_REFERRAL_SOURCE_ACOE = 'ACOE';
+    public static final String PE_REFERRAL_SOURCE_3RD_PARTY = '3rd_Party';
 
     private static ParticipantEnrollmentService instance;
 
@@ -68,7 +76,7 @@ public without sharing class ParticipantEnrollmentService {
                 Pre_screening_Status__c = pesStatus,
                 Medical_Record_Review_Status__c = mrrStatus,
                 Patient_ID__c = participantId,
-                Referral_Source__c = 'HCP'
+                Referral_Source__c = PE_REFERRAL_SOURCE_HCP
         );
 
         if(hcpEnrollment!=null){
@@ -235,6 +243,7 @@ public without sharing class ParticipantEnrollmentService {
             'Id',
             'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'CreatedDate',
+            'Enrolled_Date__c',
             'HCP__c',
             'HCP__r.Status__c',
             'HCP__r.HCP_Contact__c',
@@ -263,6 +272,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
+            'Participant__r.Middle_Name__c',
             'Participant__r.Full_Name__c',
             'Participant__r.Date_of_Birth__c',
             'Participant__r.Birth_Year__c',
@@ -318,8 +328,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
             'Study_Site__r.Visit_Results_Sharing__c',
-            'Screening_ID__c',
-            'Participant_Study_Enrollment__c'
+            'Screening_ID__c'
     };
     
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
@@ -574,4 +583,22 @@ public without sharing class ParticipantEnrollmentService {
         return currentSObject.get(pathItems[pathItems.size() - 1]);
     }
 
+    public static List<Participant_Enrollment__c> getEnrollmentsByExternalKey(List<String> externalKeys) {
+        return [
+                SELECT
+                        Id,
+                        External_Key__c,
+                        IsSubjectIDverifiedInSDH__c,
+                (
+                        SELECT
+                                Id,
+                                Date__c,
+                                NewStatus__c
+                        FROM    Participant_Enrollment_Status_History__r
+                )
+                FROM    Participant_Enrollment__c
+                WHERE   External_Key__c IN : externalKeys
+                LIMIT   10000
+        ];
+    }
 }

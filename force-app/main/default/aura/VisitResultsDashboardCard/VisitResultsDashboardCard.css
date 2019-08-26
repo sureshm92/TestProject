@@ -31,15 +31,15 @@
 }
 
 .THIS .visit-results-footer {
-	width: 100%;
-	color: #297DFD;
-	font-family: "Proxima Nova";
-	font-size: 13px;
-	font-weight: 600;
-	line-height: 20px;
-	text-align: center;
-	background-color: rgba(216, 216, 216, 0.25);
-	cursor: pointer;
+    width: 100%;
+    color: #297DFD;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+    background-color: rgba(216, 216, 216, 0.25);
+    cursor: pointer;
 }
 
 .THIS .visit-results-item {
@@ -95,4 +95,27 @@
 
 .THIS .hptp-body {
     padding-top: 10px;
+}
+
+.THIS .objective-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.THIS .objective-section .objective-text {
+    height: 16px;
+    color: #333333;
+    font-size: 13px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .objective-section .objective-link {
+    white-space: nowrap;
+    margin-left: 3px;
+    font-size: 13px;
+    flex-shrink: 0;
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Kryvolap on 23.10.2018.
  */
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 private class Test_LeadConversion {
     static Account piAccount;
     static Account studySiteAccount;
@@ -112,6 +112,14 @@ private class Test_LeadConversion {
     }
     @isTest
     static void mainConversionTest() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         Test.startTest();
         Database.LeadConvert lc = new database.LeadConvert();

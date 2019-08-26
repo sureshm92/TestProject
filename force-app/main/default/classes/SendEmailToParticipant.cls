@@ -36,7 +36,7 @@ public without sharing class SendEmailToParticipant {
 
     public static void sendEmailReminderForTask(Task task) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
+        if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
             System.debug('WhatId != null');
             Participant_Enrollment__c pe = [
                     SELECT

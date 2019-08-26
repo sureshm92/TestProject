@@ -10,16 +10,16 @@
         if (elements instanceof Array) {
             for (let i = 0; i < elements.length; i++) {
                 if (elements[i].get('v.selected')) {
-                    selectedNames.push(elements[i].get('v.name'));
+                    selectedNames.push(elements[i].get('v.currIcon'));
                 } else {
-                    newLeft.push(elements[i].get('v.name'));
+                    newLeft.push(elements[i].get('v.currIcon'));
                 }
             }
         } else {
             if (elements.get('v.selected')) {
-                selectedNames.push(elements.get('v.name'));
+                selectedNames.push(elements.get('v.currIcon'));
             } else {
-                newLeft.push(elements.get('v.name'));
+                newLeft.push(elements.get('v.currIcon'));
             }
         }
         let selectedIcons = component.get('v.selectedIcons');
@@ -37,17 +37,16 @@
         if (elements instanceof Array) {
             for (let i = 0; i < elements.length; i++) {
                 if (elements[i].get('v.selected')) {
-                    selectedNames.push(elements[i].get('v.name'));
+                    selectedNames.push(elements[i].get('v.currIcon'));
                 } else {
-                    newRight.push(elements[i].get('v.name'));
+                    newRight.push(elements[i].get('v.currIcon'));
                 }
             }
-
         } else {
             if (elements.get('v.selected')) {
-                selectedNames.push(elements.get('v.name'));
+                selectedNames.push(elements.get('v.currIcon'));
             } else {
-                newRight.push(elements.get('v.name'));
+                newRight.push(elements.get('v.currIcon'));
             }
         }
 
