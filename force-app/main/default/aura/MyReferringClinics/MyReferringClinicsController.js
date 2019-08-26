@@ -13,9 +13,9 @@
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
             console.log('FILTER DATA>>',initData);
-            component.set("v.filterData", initData.filterData);
-            component.set("v.filterValues", initData.filterValues);
-            component.set("v.sortData", initData.sortData);
+            component.set("v.filterData", initData.referringClinicsFilter.filterData);
+            component.set("v.filterValues", initData.referringClinicsFilter.filterValues);
+            component.set("v.sortData", initData.referringClinicsFilter.sortData);
             component.set("v.paginationData", initData.paginationData);
             component.set("v.filteredReferringClinics", initData.filteredReferringClinics);
             component.set('v.trialId',initData.trialId);
@@ -46,11 +46,11 @@
             debugger;
             component.set('v.skipUpdate', true);
             if(trialChanged){
-                component.set("v.filterData.studySitePickList", initData.filterData.studySitePickList);
+                component.set("v.filterData.studySitePickList", initData.referringClinicsFilter.filterData.studySitePickList);
             }
-            component.set("v.filterValues.statusFilter", initData.filterValues.statusFilter);
-            component.set("v.filterValues.trialId", initData.filterValues.trialId);
-            component.set("v.filterValues.ssId", initData.filterValues.ssId);
+            component.set("v.filterValues.statusFilter", initData.referringClinicsFilter.filterValues.statusFilter);
+            component.set("v.filterValues.trialId", initData.referringClinicsFilter.filterValues.trialId);
+            component.set("v.filterValues.ssId", initData.referringClinicsFilter.filterValues.ssId);
             component.set('v.paginationData.allRecordsCount', initData.paginationData.allRecordsCount);
             component.set('v.paginationData.currentPage', initData.paginationData.currentPage);
             component.set('v.paginationData.currentPageCount', initData.paginationData.currentPageCount);
