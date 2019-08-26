@@ -23,6 +23,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_InviteRPRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_RequestToReferByHCPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -116,10 +120,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -220,6 +220,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -451,6 +455,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSDemoController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -535,6 +547,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PSEStatusHistoryRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -567,6 +583,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantDuplicateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -588,6 +608,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -672,6 +696,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ReferralProfileRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferringClinicsFilter</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -771,6 +799,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SearchFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SelectStateModalController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -812,10 +848,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StubBuilder</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>StubFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -900,10 +932,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TaskService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TaskTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1108,6 +1136,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PatientVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientVisitSchedule</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -5081,6 +5113,9 @@
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5476,6 +5511,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>RP_Delegate_Relationship__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Referral_Network__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -5585,15 +5629,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Study_Site__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>SurveyInvitation</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -5779,6 +5814,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InMaintenance</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>MCloudSMSDemo</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
@@ -6103,6 +6142,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateContentSpace</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -6622,6 +6665,10 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
+        <name>ViewFlowUsageAndFlowEventData</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
         <name>ViewHealthCheck</name>
     </userPermissions>
     <userPermissions>
@@ -6647,6 +6694,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

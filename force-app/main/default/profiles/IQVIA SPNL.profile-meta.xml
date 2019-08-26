@@ -23,6 +23,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_InviteRPRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_RequestToReferByHCPRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -116,10 +120,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -455,6 +455,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSDemoController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -575,6 +583,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantDuplicateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -596,6 +608,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -680,6 +696,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ReferralProfileRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferringClinicsFilter</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -779,6 +799,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SearchFilter</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SelectStateModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -820,10 +848,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StubBuilder</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>StubFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -908,10 +932,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TaskService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TaskTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1119,6 +1139,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_PatientVisitSchedule</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_PlatformEventService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1219,7 +1243,23 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitReportService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -5073,6 +5113,9 @@
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5519,6 +5562,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InMaintenance</apexPage>
+        <enabled>false</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>MCloudSMSDemo</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
