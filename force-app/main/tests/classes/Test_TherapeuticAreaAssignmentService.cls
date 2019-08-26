@@ -10,18 +10,20 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
         TherapeuticAreaAssignmentService service = new TherapeuticAreaAssignmentService();
 
         List<Therapeutic_Area__c> therapeuticAreas = new List<Therapeutic_Area__c>{
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 1'),
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 2'),
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 3'),
-                new Therapeutic_Area__c(Id = TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType()), Name = 'ThA - 4')
+                new Therapeutic_Area__c(Name = 'one'),
+                new Therapeutic_Area__c(Name = 'two'),
+                new Therapeutic_Area__c(Name = 'three'),
+                new Therapeutic_Area__c(Name = 'ThA - 4')
         };
+        insert therapeuticAreas;
 
         List<Resource__c> resources = new List<Resource__c>{
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 1'),
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 2'),
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 3'),
-                new Resource__c(Id = TestDataFactory.getFakeId(Resource__c.getSObjectType()), Description__c = 'Re - 4')
+                new Resource__c( Description__c = 'Re - 1', Therapeutic_Areas__c = 'one; two; three'),
+                new Resource__c( Description__c = 'Re - 2', Therapeutic_Areas__c = 'one; two; three'),
+                new Resource__c( Description__c = 'Re - 3', Therapeutic_Areas__c = 'one; two; three'),
+                new Resource__c( Description__c = 'Re - 4', Therapeutic_Areas__c = 'one; two; three')
         };
+        insert resources;
 
         Test.startTest();
         service.createTAAsForResources(therapeuticAreas, resources);
@@ -29,7 +31,7 @@ public with sharing class Test_TherapeuticAreaAssignmentService {
 
         List<Resource__c> resource = [SELECT Id FROM Resource__c];
 
-//        System.assertEquals(4, resource.size());
+        System.assertEquals(4, resource.size());
     }
 
     @IsTest
