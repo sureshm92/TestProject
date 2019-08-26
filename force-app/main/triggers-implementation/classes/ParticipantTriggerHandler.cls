@@ -37,7 +37,15 @@ public without sharing class ParticipantTriggerHandler {
             prepareCityStateFields(newList, (Map<Id, Participant__c>)oldMap);
         }
     }
-
+    
+    public class CheckDuplicatesHandler extends TriggerHandler{
+        
+        public override void beforeInsert(List<SObject> newList) {
+            checkDuplicates(newList);
+        }
+    }
+    
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -205,5 +213,15 @@ public without sharing class ParticipantTriggerHandler {
                 Account.getSObjectType(),
                 DatabaseService.fieldEqual('Name', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME)
         ).get(0).Id;
+    }
+    
+    private static void checkDuplicates(List<Participant__c> newList){
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(newList);
+        for(Participant__c participant : newList){
+            Participant__c duplicateParticipant = duplicateService.findDuplicate(participant);
+            if(duplicateParticipant != null){
+                participant.addError('Duplicate found: ' + duplicateParticipant.Id);
+            }
+        }
     }
 }
