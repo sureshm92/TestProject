@@ -1,4 +1,4 @@
 <!--Created by D.Yasinskyi on 22.03.2018-->
-<aura:component description="MyStudySites">
+<aura:component description="MyStudySites" implements="forceCommunity:availableForAllPageTypes">
     <!--DEPRECATED!-->
 </aura:component>
