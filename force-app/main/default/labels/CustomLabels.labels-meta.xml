@@ -4584,11 +4584,67 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred language</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Preferred_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Preferred Language</shortDescription>
+        <value>Preferred language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_2nd_Choice_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 2nd Choice Language</shortDescription>
+        <value>2nd choice language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_3rd_Choice_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 3rd Choice Language</shortDescription>
+        <value>3rd choice language</value>
+    </labels>
+	<labels>
+		<fullName>PG_AS_F_Preferred_Language_Help_Text</fullName>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>PG AS F Preferred Language Help Text</shortDescription>
+		<value>This will be your default language to display study information whenever possible.</value>
+	</labels>
+	<labels>
+		<fullName>PG_AS_F_2nd_Choice_Language_Help_Text</fullName>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>PG AS F 2nd Choice Language Help Text</shortDescription>
+		<value>This will be used to display study information when your Preferred Language is not available.</value>
+	</labels>
+	<labels>
+		<fullName>PG_AS_F_3rd_Choice_Language_Help_Text</fullName>
+		<language>en_US</language>
+		<protected>false</protected>
+		<shortDescription>PG AS F 3rd Choice Language Help Text</shortDescription>
+		<value>This will be used to display study information when your other 2 choices are not available.</value>
+	</labels>
+    <labels>
         <fullName>PG_AS_F_Select_Preferred_Timezone</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_AS_F_Select_Preferred_Timezone</shortDescription>
         <value>Select preferred timezone</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Preferred_Timezone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
+        <value>Preferred timezone</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Locale_For_Date_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Locale_For_Date_Format</shortDescription>
+        <value>Locale for date format</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Username</fullName>
@@ -5529,8 +5585,30 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Contact Information</shortDescription>
-        <value>Contact Information</value>
+        <value>Contact Info</value>
     </labels>
+    <labels>
+        <fullName>PG_Login_H_Language_Options</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Language Options</shortDescription>
+        <value>Language Options</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_H_Language_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Language Description</shortDescription>
+        <value>Content will be displayed in your preferred language wherever possible. Alternate languages will be used when content is not available in your preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_H_Date_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Date Format</shortDescription>
+        <value>Date Format</value>
+    </labels>
+
     <labels>
         <fullName>PG_Login_H_Date_Language</fullName>
         <language>en_US</language>
@@ -5543,14 +5621,14 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Login Information</shortDescription>
-        <value>Login Information</value>
+        <value>Login Info</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Profile_Information</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Profile Information</shortDescription>
-        <value>Profile Information</value>
+        <value>Profile Info</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Terms_And_Conditions</fullName>
