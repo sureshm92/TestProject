@@ -458,7 +458,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add patient</value>
+        <value>Add Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
