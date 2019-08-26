@@ -714,7 +714,7 @@ public without sharing class StudyTrialService {
                             SELECT Id,
                                     IsDirect
                             FROM AccountContactRelation
-                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id
+                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id AND IsDirect = FALSE
                             LIMIT 1
                     ];
                     //currentContact.AccountId = createAccount.Id;
