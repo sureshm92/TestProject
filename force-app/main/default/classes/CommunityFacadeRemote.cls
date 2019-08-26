@@ -24,7 +24,8 @@ public without sharing class CommunityFacadeRemote {
 
     private class CommunityData {
         String communityMode;
-        List<String> communityTypes;
+        String communityDelegateId;
+        List<CommunityType> communityTypes;
         Boolean isDelegate;
         String state;
         String pathPrefix;
@@ -33,33 +34,60 @@ public without sharing class CommunityFacadeRemote {
         List<String> preventedCookies;
     }
 
+    private class CommunityType{
+        String value;
+        String label;
+        String delegateId;
+        public CommunityType(String value, String label, String delegateId){
+            this.value = value;
+            this.label = label;
+            this.delegateId = delegateId;
+        }
+    }
+
     @AuraEnabled
     public static String getCommunityData() {
         try {
             Contact userContact = CommunityService.getUserContact();
             CommunityData cd = new CommunityData();
+            cd.communityTypes = new List<CommunityFacadeRemote.CommunityType>();
             Set<String> availableModes = new Set<String>();
-            if(HCPEnrollmentService.getHCPEnrollmentsForHCP().size() > 0) availableModes.add(CommunityService.USER_MODE_HCP);
-            if(StudySiteService.getStudySitesForPI().size() > 0) availableModes.add(CommunityService.USER_MODE_PI);
+            if(HCPEnrollmentService.getHCPEnrollmentsForHCP(true).size() > 0) {
+                availableModes.add(CommunityService.USER_MODE_HCP);
+                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_MODE,''));
+            }
+            for(RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()){
+                availableModes.add(CommunityService.USER_MODE_HCP + ';' + delegate.Id);
+                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName',delegate.Referring_Provider__r.Full_Name__c),delegate.Id));
+            }
+            if(StudySiteService.getStudySitesForPI().size() > 0){
+                availableModes.add(CommunityService.USER_MODE_PI);
+                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PI,Label.CTL_L_PI_MODE,''));
+            }
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
             if(participantState.pe != null) {
                 availableModes.add(CommunityService.USER_MODE_PARTICIPANT);
+                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PARTICIPANT,Label.CTL_L_Patricipant_MODE,''));
             }
             if (availableModes.size() == 0) {
                 if (userContact.userCommunityMode__c == CommunityService.USER_MODE_HCP) {
                     availableModes.add(CommunityService.USER_MODE_HCP);
+                    cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_MODE,''));
                 }
             }
-
-            List<String> modesList = new List<String>(availableModes);
-            if (!availableModes.contains(userContact.userCommunityMode__c)) {
+            if (!availableModes.contains(userContact.userCommunityMode__c + (userContact.userCommunityDelegateId__c==null
+                    || userContact.userCommunityDelegateId__c ==''?'':';'+userContact.userCommunityDelegateId__c))) {
                 userContact.userCommunityMode__c = null;
-                if (modesList.size() > 0) userContact.userCommunityMode__c = modesList[0];
+                userContact.userCommunityDelegateId__c = null;
+                if (cd.communityTypes.size() > 0) {
+                    userContact.userCommunityMode__c = cd.communityTypes[0].value;
+                    userContact.userCommunityDelegateId__c = cd.communityTypes[0].delegateId;
+                }
                 upsert userContact;
             }
             cd.isTCAccepted = isTCAccepted();
             cd.communityMode = userContact.userCommunityMode__c;
-            cd.communityTypes = modesList;
+            cd.communityDelegateId = userContact.userCommunityDelegateId__c!=null?userContact.userCommunityDelegateId__c:'';
             cd.state = participantState.value.name();
             cd.pathPrefix = Site.getPathPrefix();
             cd.language = UserInfo.getLanguage();
@@ -121,11 +149,12 @@ public without sharing class CommunityFacadeRemote {
 
 
     @AuraEnabled
-    public static void changeMode(String mode) {
+    public static void changeMode(String mode, String delegateId) {
         try {
-            User user = [SELECT Id, Contact.userCommunityMode__c, Contact.userCommunytyType__c, Contact.Id FROM User WHERE Id = :UserInfo.getUserId()];
+            User user = [SELECT Id, Contact.userCommunityMode__c, Contact.userCommunityDelegateId__c , Contact.userCommunytyType__c, Contact.Id FROM User WHERE Id = :UserInfo.getUserId()];
             Contact cont = user.Contact;
             cont.userCommunityMode__c = mode;
+            cont.userCommunityDelegateId__c = delegateId;
             update cont;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

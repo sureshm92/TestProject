@@ -16,6 +16,7 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
 
     <aura:attribute name="mode" type="String"/>
+    <aura:attribute name="delegateId" type="String"/>
     <aura:attribute name="availableModes" type="String[]"/>
 
     <!-- events: -->
@@ -43,7 +44,7 @@
                     <c:CommunityNavigation mode="{!v.mode}" />
                 </div>
                 <div class="right-block">
-                    <c:ModeSelector currentMode="{!v.mode}" availableModes="{!v.availableModes}"/>
+                    <c:ModeSelector currentMode="{!v.mode}" currentDelegateId="{!v.delegateId}" availableModes="{!v.availableModes}"/>
                     <!--<c:RRNotification />-->
                     <c:RRProfile profileMenu="{!v.profileMenu}" userMode="{!v.mode}"/>
                 </div>

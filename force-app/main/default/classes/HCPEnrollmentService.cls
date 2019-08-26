@@ -325,6 +325,10 @@ public without sharing class HCPEnrollmentService {
         return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, false);
     }
 
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCP(Boolean excludeDelegates) {
+        return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, excludeDelegates);
+    }
+
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCPByTrial(Id trialId) {
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,

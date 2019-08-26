@@ -29,6 +29,8 @@ public without sharing class DelegateService {
     private Map<Id, Map<Id,Site_Staff__c>> piTeamStaffTrialMap;
     private Map<Id, Map<Id,Referring_HCP_Staff__c>> hcpTeamStaffTrialMap;
 
+    private List<RP_Delegate_Relationship__c> hcpDelegatesList;
+
     
     private static DelegateService instance;
     
@@ -102,6 +104,13 @@ public without sharing class DelegateService {
                 hcpTeamStaffTrialMap.get(hcpStaff.Contact__c).put(hcpStaff.HCP_Enrollment__c,hcpStaff);
             }
         }
+        hcpDelegatesList = [
+                SELECT Id, Referring_Provider__r.Full_Name__c,
+                        Referring_Provider__c, Delegate__c,
+                        Delegate_Access_Level__c
+                FROM RP_Delegate_Relationship__c
+                WHERE Delegate__c = :CommunityService.getUserContact().Id
+        ];
     }
     
     public static DelegateService getInstance(){
@@ -189,6 +198,11 @@ public without sharing class DelegateService {
         }
         return hcpTeamLevelMapByHCP;
     }
+
+    public List<RP_Delegate_Relationship__c> getHCPDelegatesImpl(){
+        return hcpDelegatesList;
+    }
+
     
     // Static facade: --------------------------------------------------------------------------------------------------
     
@@ -234,5 +248,9 @@ public without sharing class DelegateService {
 
     public static Map<Id, Map<Id,String>> getHCPTeamLevelMapByHCP(Set<Id> hcpIds){
         return getHCPTeamLevelMapByHCPImpl(hcpIds);
+    }
+
+    public static List<RP_Delegate_Relationship__c> getHCPDelegates(){
+        return getInstance().getHCPDelegatesImpl();
     }
 }

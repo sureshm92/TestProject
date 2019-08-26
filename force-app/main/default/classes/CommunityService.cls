@@ -241,6 +241,7 @@ public without sharing class CommunityService {
                         Name,
                         primaryContact__c,
                         userCommunityMode__c,
+                        userCommunityDelegateId__c,
                         userCommunytyType__c,
                         UserCommunityIsDelegate__c,
                         HCP_DelegateAccessLevel__c,

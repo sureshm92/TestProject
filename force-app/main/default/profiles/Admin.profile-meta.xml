@@ -2165,6 +2165,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.userCommunityDelegateId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.userCommunityMode__c</field>
         <readable>true</readable>
     </fieldPermissions>
