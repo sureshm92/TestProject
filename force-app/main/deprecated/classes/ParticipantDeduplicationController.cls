@@ -1,6 +1,9 @@
 /**
  * Created by Denis Shpilevsky
  */
+
+//TODO !!! DEPRECATED MUST BE REMOVED!!!
+
 public without sharing class ParticipantDeduplicationController {
     public static Boolean changeLastName = true;
     public static Boolean checkLastName(){

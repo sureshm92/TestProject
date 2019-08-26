@@ -118,25 +118,24 @@ public without sharing class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        DuplicateContactController.isPERCreated = true;
-        participant = DuplicateContactController.communityReffering(participant, pe);
-
-        if (participant.Id != null) {
-            pe.Participant__c = participant.Id;
-            if (pe.Participant_Name__c == null) pe.Participant_Name__c = participant.First_Name__c;
-            if (pe.Participant_Surname__c == null) pe.Participant_Surname__c = participant.Last_Name__c;
-            try {
-                DatabaseService.getInstance().upsertToDB(pe);
-            } catch (Exception e) {
-                String errorMsg = e.getMessage();
-                if (errorMsg.contains('DUPLICATE')) {
-                    errorMsg = Label.Error_Message_Participant_Duplicate;
-                }
-                System.debug('ERROR: ' + errorMsg);
-                throw new ParticipantServiceException(errorMsg);
+        Participant__c participantFromDatabase = new ParticipantDuplicateService(participant).findDuplicate(participant);
+        if(participantFromDatabase != null){
+            participant = participantFromDatabase;
+        }else{
+            insert participant;
+        }
+        pe.Participant__c = participant.Id;
+        if (pe.Participant_Name__c == null) pe.Participant_Name__c = participant.First_Name__c;
+        if (pe.Participant_Surname__c == null) pe.Participant_Surname__c = participant.Last_Name__c;
+        try {
+            DatabaseService.getInstance().upsertToDB(pe);
+        } catch (Exception e) {
+            String errorMsg = e.getMessage();
+            if (errorMsg.contains('DUPLICATE')) {
+                errorMsg = Label.Error_Message_Participant_Duplicate;
             }
-        } else {
-            throw new ParticipantServiceException(Label.Error_Message_Can_Not_Create_Participant);
+            System.debug('ERROR: ' + errorMsg);
+            throw new ParticipantServiceException(errorMsg);
         }
     }
 
