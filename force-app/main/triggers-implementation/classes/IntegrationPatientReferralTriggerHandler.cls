@@ -10,7 +10,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             StudySiteService.PI_S_INVITATION_SENT
     };
     
-    public class RequiredFieldsAndParticipantDuplicatesCheck extends TriggerHandler {
+    public class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         
         public override void beforeInsert(List<SObject> newList) {
             setNewList(newList);
@@ -26,43 +26,43 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         private void setNewList(List<Integration_Patient_Referral__c> newList){
             this.newList = newList;
             List<String> protocolIds = new List<String>();
-            List<String> ssNumberList = new List<String>();
-            for (Integration_Patient_Referral__c record : newList) {
-                protocolIds.add(record.protocolId__c);
-                ssNumberList.add(record.protocolId__c + '_' + record.siteSelected__c);
+            List<String> ssNumbersList = new List<String>();
+            for (Integration_Patient_Referral__c ipr : newList) {
+                protocolIds.add(ipr.protocolId__c);
+                ssNumbersList.add(getSitePrimaryKeyEPR(ipr));
             }
             //SS Map
             List<Study_Site__c> ssList = [
-                    SELECT Id, Protocol_ID__c,
+                    SELECT Id, Protocol_ID__c, Primary_Key_ePR__c,
                             Override_PI_Referral_Status__c
                     FROM Study_Site__c
-                    WHERE Primary_Key_ePR__c IN:ssNumberList
+                    WHERE Primary_Key_ePR__c IN: ssNumbersList
             ];
             for (Study_Site__c ss : ssList) ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);
     
             //CTP Map
             List<Clinical_Trial_Profile__c> ctpList = [
-                    SELECT id, Override_Recruitment_Status__c
+                    SELECT id, Override_Recruitment_Status__c, Protocol_ID__c
                     FROM Clinical_Trial_Profile__c
-                    WHERE Protocol_Id__c IN:protocolIds
+                    WHERE Protocol_Id__c IN: protocolIds
             ];
             for (Clinical_Trial_Profile__c ctp : ctpList) ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
         }
     
         private void checkFields() {
             //process items:
-            for (Integration_Patient_Referral__c record : newList) {
+            for (Integration_Patient_Referral__c ipr : newList) {
                 List<String> errorsLog = new List<String>();
                 //Required fields check:
-                if (String.isEmpty(record.siteSelected__c)) errorsLog.add('Required field is missing: siteSelected;');
-                if (String.isEmpty(record.protocolId__c)) errorsLog.add('Required field is missing: protocolId;');
-                if (String.isEmpty(record.firstName__c)) errorsLog.add('Required field is missing: firstName__c;');
-                if (String.isEmpty(record.lastName__c)) errorsLog.add('Required field is missing: lastName__c;');
-                if (String.isEmpty(record.email__c) &&
-                        String.isEmpty(record.phone__c)) errorsLog.add('Either email or phone number must be provided;');
+                if (String.isEmpty(ipr.siteSelected__c)) errorsLog.add('Required field is missing: siteSelected;');
+                if (String.isEmpty(ipr.protocolId__c)) errorsLog.add('Required field is missing: protocolId;');
+                if (String.isEmpty(ipr.firstName__c)) errorsLog.add('Required field is missing: firstName__c;');
+                if (String.isEmpty(ipr.lastName__c)) errorsLog.add('Required field is missing: lastName__c;');
+                if (String.isEmpty(ipr.email__c) &&
+                        String.isEmpty(ipr.phone__c)) errorsLog.add('Either email or phone number must be provided;');
             
                 //Check SS
-                String studySiteNumber = record.protocolId__c + '_' + record.siteSelected__c;
+                String studySiteNumber = getSitePrimaryKeyEPR(ipr);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
                 if (ss == null) {
                     errorsLog.add('Study Site: ' + studySiteNumber + ' not found;');
@@ -71,39 +71,46 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 }
             
                 //Check CTP
-                Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap.get(record.protocolId__c);
+                Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap.get(ipr.protocolId__c);
                 if (ctp == null) {
-                    errorsLog.add('Study: ' + record.protocolId__c + ' not found;');
+                    errorsLog.add('Study: ' + ipr.protocolId__c + ' not found;');
                 } else if (ctp.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
                     errorsLog.add('Study is not accepting referrals;');
                 }
-                if (errorsLog.size() > 0) throw new PatientIntegrationException(String.join(errorsLog, '\n'));
+                if (errorsLog.size() > 0) ipr.addError(String.join(errorsLog, '\n'));
             }
         }
     
         private void upsertParticipantAndPE() {
-            List<String> refIds = new List<String>();
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
-            for (Integration_Patient_Referral__c ipr : newList) {
-                newParticipantsMap.put(ipr.ePRPatient_ID_Number__c, convertToParticipant(ipr));
-                refIds.add(ipr.ePRPatient_ID_Number__c);
-            }
+            for (Integration_Patient_Referral__c ipr : newList) newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
         
             //Duplicates check and upsert participant
             ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(newParticipantsMap.values());
             for (Integration_Patient_Referral__c ipr : newList) {
-                Participant__c participant = newParticipantsMap.get(ipr.ePRPatient_ID_Number__c);
-                Participant__c duplicate = duplicateService.findDuplicate(participant);
-                if (duplicate != null) newParticipantsMap.put(ipr.ePRPatient_ID_Number__c, duplicate);
+                Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
+                Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
+                if (participantDuplicate != null) {
+                    String refSourceStr = participantDuplicate.Secondary_Source__c;
+                    if(refSourceStr == null) refSourceStr = '';
+                    Set<String> refSources = new Set<String>(refSourceStr.split(';'));
+                    refSources.add(ipr.Data_Source__c);
+                    participantDuplicate.Secondary_Source__c = String.join(new List<String>(refSources), ';');
+                    newParticipantsMap.put(ipr.referralID__c, participantDuplicate);
+                }else{
+                    Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
+                    if(contactDuplicate != null) participant.Contact__c = contactDuplicate.Id;
+                    newParticipantsMap.put(ipr.referralID__c, participant);
+                }
             }
             upsert newParticipantsMap.values();
         
             //Insert PE
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
             for (Integration_Patient_Referral__c ipr : newList) {
-                Participant__c participant = newParticipantsMap.get(ipr.ePRPatient_ID_Number__c);
-                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(ipr.ePRPatient_ID_Number__c);
-                peList.add(createPE(ipr, participant.Id, ss.Id));
+                Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
+                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
+                if(ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
             }
             insert peList;
         }
@@ -124,7 +131,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Mailing_City__c = ipr.Address_City__c,
                 Mailing_Zip_Postal_Code__c = ipr.Address_ZipCode__c,
                 Mailing_Street__c = ipr.Address_AddressLine1__c,
-                Gender__c = ipr.sex__c
+                Gender__c = ipr.sex__c,
+                Secondary_Source__c = ipr.Data_Source__c
         );
     }
     
@@ -141,6 +149,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Referred_Date__c = ipr.Referred_Date__c != null ? Date.valueOf(ipr.Referred_Date__c) : null,
                 Referred_By__c = 'Other'
         );
+    }
+    
+    private static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr){
+        return ipr.protocolId__c + '_' + ipr.siteSelected__c;
     }
 
 
