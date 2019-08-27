@@ -23,18 +23,12 @@
     <aura:attribute name="searchResumeChanged" type="Boolean" default="false" access="private"/>
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
-    <aura:attribute name="delegatesPicklist" type="List"/>
-    <aura:attribute name="contactAccountsList" type="List"/>
-    <aura:attribute name="countryPicklist" type="Object[]"/>
     <aura:attribute name="paginationData" type="Object"/>
     <aura:attribute name="filterData" type="Object"/>
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
     <aura:attribute name="accessUserLevel" type="String"/>
-    <aura:attribute name="statesByCountryMap" type="Object"/>
-    <aura:attribute name="countriesMap" type="Object"/>
-    <aura:attribute name="countryCodesMap" type="Object"/>
     <aura:attribute name="checkedAccountWasCreated" type="Boolean" default="false"/>
     <aura:attribute name="showPopUpSpinner" type="Boolean" default="false"/>
 
@@ -129,9 +123,7 @@
                 <div style="position: relative; min-height: 100px;" class="slds-gutters_">
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
-                        <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
-                        <!--<c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
-                                             userMode="{!v.userMode}" parent="{!this}" accessUserLevel="{!v.accessUserLevel}"/>-->
+                        <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="false"/>
                     </aura:iteration>
                 </div>
             </div>
@@ -148,22 +140,10 @@
                 <!-- Output currently recruiting trials -->
                 <aura:if isTrue="{!v.currentTab == 'recruiting'}">
                     <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
-                    <!--<aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">-->
-                        <!--<div class="slv-category">{!trialsSubList.name}</div>-->
                         <div class="slv-category"></div>
                         <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">
-                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
-                           <!-- <c:StudyListViewItem currentStudy="{!trial}"
-                                                 delegatePicklist="{!v.delegatesPicklist}"
-                                                 userMode="{!v.userMode}"
-                                                 parent="{!this}"
-                                                 contactAccounts="{!v.contactAccountsList}"
-                                                 countryPicklist = "{!v.countryPicklist}"
-                                                 statesByCountryMap="{!v.statesByCountryMap}"
-                                                 countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}"/>-->
+                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>
                         </aura:iteration>
-                    <!--</aura:iteration>-->
                 </aura:if>
 
                 <!-- Trials no longer recruiting -->
@@ -172,7 +152,7 @@
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
                        <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
-                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>
                         </aura:iteration>
                     </aura:if>
                 </aura:if>

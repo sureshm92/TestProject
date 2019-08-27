@@ -1,5 +1,5 @@
 /**
- * Created by user on 21-Aug-19.
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
  */
 
 ({
@@ -48,8 +48,11 @@
     showManageLocationDetails: function (component, event, helper) {
         var siteWrapper = component.get('v.siteWrapper');
         var studyListView = component.get('v.studyListViewComponent');
-        studyListView.find('actionManageLocationDetails').execute(siteWrapper, function (studySite) {
+        studyListView.find('actionManageLocationDetails').execute(siteWrapper, function (studySite, accounts) {
             component.set('v.siteWrapper.studySite', studySite);
+            if (accounts) {
+                component.set('v.siteWrapper.accounts', accounts);
+            }
         });
     },
 

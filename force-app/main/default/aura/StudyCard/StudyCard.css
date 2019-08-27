@@ -1,5 +1,5 @@
 /**
- * Created by user on 21-Aug-19.
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
  */
 .THIS.slvi-container {
     padding-top: 17px;
@@ -11,8 +11,6 @@
 }
 
 .THIS .study-name {
-    /*text-overflow: ellipsis;*/
-    /*white-space: nowrap;*/
     overflow: hidden;
 }
 
@@ -73,6 +71,7 @@
 }
 
 .THIS .slvi-top-container-hcp {
+    min-height: 100px;
     padding-left: 17px;
     padding-right: 17px;
 }
@@ -87,7 +86,7 @@
     line-height: 10px;
 }
 
-.THIS .rri-icon-pi svg{
+.THIS .rri-icon-pi svg {
     height: 18px;
     width: 18px;
 }
@@ -109,7 +108,6 @@
 }
 
 .THIS .slvi-status-item {
-    /*text-align: right; */
     font-size: 14px;
     color: #666666;
 }
@@ -126,7 +124,7 @@
     cursor: not-allowed;
 }
 
-.THIS .btn-pi-border{
+.THIS .btn-pi-border {
     border-right: 1px solid #F2F2F2;
 }
 
@@ -175,7 +173,6 @@
 }
 
 .THIS .slvi-btn:active {
-    /*box-shadow: inset 0 0 7px rgba(0,0,0,0.25);*/
     box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, 0.35);
 }
 
@@ -222,14 +219,38 @@
     transform: rotate(0deg);
 }
 
+.THIS .orange-icon {
+    fill: #FF9301;
+}
 
-@media (max-width: 768px) {
+.THIS .red-icon {
+    fill: #E20000;
+}
+
+.THIS .blue-icon {
+    fill: #005587;
+}
+
+.THIS .green-icon {
+    fill: #55C200;
+}
+
+.THIS .slvi-search-site-btn {
+    width: 100%;
+}
+
+
+@media (max-width: 767px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #F2F2F2;
     }
 
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #F2F2F2;
+    }
+
+    .THIS .slvi-header-item + .slvi-header-item {
+        margin-top: 16px;
     }
 
     .THIS .rri-icon svg {
@@ -249,13 +270,24 @@
     .THIS .rri-icon-pi span {
         margin: .125rem !important;
     }
+
+    .THIS .slvi-objective-section{
+        margin-bottom: 3%;
+    }
 }
-@media (min-width: 768px) {
+
+@media (min-width: 767px) {
     .THIS .site-distance {
         text-align: right;
     }
 
-    .THIS .slvi-top-container-hcp {
-        height: 100px;
+    .THIS .slvi-padded-panel-left {
+        padding-left: 9rem;
+        padding-right: 1rem;
+        text-align: right;
+    }
+
+    .THIS .slvi-padded-panel-right {
+        padding-right: 9rem;
     }
 }

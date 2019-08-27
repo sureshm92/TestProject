@@ -7,7 +7,7 @@
         var params = event.getParam('arguments');
         var ssWrapper = JSON.parse(JSON.stringify(params.studySiteWrapper));
         component.set('v.studySite', ssWrapper.studySite);
-        component.set('v.studySiteAccounts', ssWrapper.accounts);
+        helper.sortAndSetAccountsByName(component, ssWrapper.accounts);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         component.find('manageLocation').show();
     },
@@ -45,9 +45,24 @@
         var accountsList = component.get('v.studySiteAccounts');
         var account = accountsList[index];
         var studySite = component.get('v.studySite');
-        component.find('editLocation').execute(account, studySite.Id, studySite.Principal_Investigator__c, function (account) {
-            accountsList[index] = account;
-            component.set('v.studySiteAccounts', accountsList);
+        component.find('editLocation').execute(account, studySite.Id, function (account) {
+            if(index){
+                accountsList[index] = account;
+            } else{
+                accountsList.push(account);
+            }
+            helper.sortAndSetAccountsByName(component, accountsList);
+            studySite.Site__c = account.Id;
+            studySite.Site__r = account;
+            var radioBtns = component.find('radioBtn');
+            for (let i = 0; i < radioBtns.length; i++) {
+                if(radioBtns[i].get('v.value').Id == account.Id){
+                    radioBtns[i].set('v.checked', true);
+                } else {
+                    radioBtns[i].set('v.checked', false);
+                }
+            }
+            component.get('v.callback')(studySite, accountsList);
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
         });
     },

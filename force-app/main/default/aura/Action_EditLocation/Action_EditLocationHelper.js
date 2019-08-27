@@ -2,8 +2,8 @@
  * Created by Leonid Bartenev
  */
 ({
-    waitAccountCheckResult: function(component, tmpAccountId, iteration){
-        if(iteration === 15) {
+    waitAccountCheckResult: function (component, tmpAccountId, iteration) {
+        if (iteration === 15) {
             var acc = component.get('v.account');
             acc.BillingGeocodeAccuracy = null;
             acc.BillingLongitude = null;
@@ -20,13 +20,13 @@
         communityService.executeAction(component, 'getTmpAccount', {
             tmpAccountId: tmpAccountId
         }, function (tmpAccount) {
-            if(!tmpAccount.BillingGeocodeAccuracy){
+            if (!tmpAccount.BillingGeocodeAccuracy) {
                 window.setTimeout(
-                    $A.getCallback(function() {
+                    $A.getCallback(function () {
                         helper.waitAccountCheckResult(component, tmpAccountId, iteration + 1);
                     }), 500
                 );
-            }else{
+            } else {
                 var acc = component.get('v.account');
                 acc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                 acc.BillingLongitude = tmpAccount.BillingLongitude;
@@ -38,9 +38,9 @@
         });
     },
 
-    setCoordinates:function(component){
+    setCoordinates: function (component) {
         var account = component.get('v.account');
-        component.set('v.mapMarkers',[
+        component.set('v.mapMarkers', [
             {
                 location: {
                     Latitude: account.BillingLatitude,
@@ -51,19 +51,23 @@
                     account.BillingStateCode + ' ' + account.BillingPostalCode
             }
         ]);
-        if(account.BillingLatitude && account.BillingLongitude) {
+        if (account.BillingLatitude && account.BillingLongitude) {
             component.set('v.zoomLevel', 17);
-        } else{
+        } else {
             component.set('v.zoomLevel', 0);
         }
     },
 
     checkAccountModified: function (component) {
         var account = component.get('v.account');
-        var newAccountStamp = JSON.stringify(account);
+        var newAccountStamp = JSON.parse(JSON.stringify(account));
         var accountStamp = component.get('v.accountStamp');
+        for(var key in newAccountStamp){
+            if(newAccountStamp[key] == ''){
+                delete newAccountStamp[key];
+            }
+        }
+        newAccountStamp = JSON.stringify(newAccountStamp);
         component.set('v.isAccountModified', newAccountStamp !== accountStamp);
     }
-
-
 })

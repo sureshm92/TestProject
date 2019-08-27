@@ -23,7 +23,7 @@
     background-color: #FFFFFF;
     margin-bottom: 30px;
     margin-top: 0;
-    padding: 16px ;
+    padding: 16px;
 }
 
 .THIS .header-white-panel {
@@ -32,6 +32,7 @@
     font-size: 20px;
     line-height: 26px;
 }
+
 .THIS .search-more-btn {
     width: 100%;
 }
@@ -46,6 +47,7 @@
         padding-left: 4.5rem;
     }
 }
+
 @media all and (max-width: 767px) {
     .THIS .slv-header-item + .slv-header-item {
         margin-top: 16px;

@@ -1,8 +1,8 @@
 /**
- * Created by user on 21-Aug-19.
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
  */
 
-.THIS .manage-location-details{
+.THIS .manage-location-details {
     height: 24px;
     color: #297DFD;
     font-family: "Proxima Nova";
@@ -11,55 +11,55 @@
     line-height: 24px;
     text-align: right;
     margin: 24px 0 0 auto;
-    padding:6px 10px 0 0;
+    padding: 6px 10px 0 0;
     background-color: #F2F2F2;
     border-top: 1px solid #F2F2F2;
     border-left: 1px solid #F2F2F2;
     border-right: 1px solid #F2F2F2;
 }
 
-.THIS .manage-location-details span{
+.THIS .manage-location-details span {
     cursor: pointer;
 }
 
-.THIS #ssInformation .ss-info-container:first-child{
+.THIS #ssInformation .ss-info-container:first-child {
     display: inline-block;
     vertical-align: top;
     margin-left: auto;
 }
 
-.THIS .ss-info-container{
+.THIS .ss-info-container {
     display: inline-block;
     vertical-align: top;
     margin-left: 24px;
 }
 
-.THIS #ssInformation .ss-info-container:first-child{
+.THIS #ssInformation .ss-info-container:first-child {
     display: inline-block;
     vertical-align: top;
     margin-left: auto;
 }
 
-.THIS .ss-container-border{
+.THIS .ss-container-border {
     border-right: 1px solid #E9E9E9;
 }
 
-.THIS .ss-info-details{
+.THIS .ss-info-details {
     display: inline-block;
     vertical-align: top;
     margin-top: 8px;
 }
 
-.THIS #contactInformation .ss-info-details:nth-child(4){
+.THIS #contactInformation .ss-info-details:nth-child(4) {
     margin-left: 16px;
 }
 
-.THIS #contactInformation .ss-info-details:last-child{
+.THIS #contactInformation .ss-info-details:last-child {
     margin-left: 16px;
     padding-top: 24px;
 }
 
-.THIS .ss-lightning-input label{
+.THIS .ss-lightning-input label {
     height: 21px;
     color: #666666;
     font-family: "Proxima Nova";
@@ -69,7 +69,7 @@
     margin-bottom: 4px;
 }
 
-.THIS .clinic-type{
+.THIS .clinic-type {
     color: #4A4A4A;
     font-family: "Proxima Nova";
     font-size: 15px;
@@ -79,7 +79,7 @@
     vertical-align: bottom;
 }
 
-.THIS .input-fields-labels{
+.THIS .input-fields-labels {
     height: 21px;
     color: #666666;
     font-family: "Proxima Nova";
@@ -88,31 +88,31 @@
     line-height: 21px;
 }
 
-.THIS .delegate-select{
+.THIS .delegate-select {
     width: 100%;
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 14px;
 }
 
-.THIS .pi-save-btn{
+.THIS .pi-save-btn {
     width: 100%;
     min-width: 100%;
 }
 
-.THIS .other-ss-info{
+.THIS .other-ss-info {
     display: inline-block;
     padding-top: 3.3%;
     padding-left: 24px;
 }
 
-.THIS .other-ss-info-height-control{
+.THIS .other-ss-info-height-control {
     min-height: 107px;
 }
 
-.THIS .other-ss-info-container{
+.THIS .other-ss-info-container {
     display: inline-block;
-    padding-right:5%;
+    padding-right: 5%;
     vertical-align: top;
 }
 
@@ -123,30 +123,30 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     vertical-align: top;
 }
 
-.THIS .check-icon-style{
+.THIS .check-icon-style {
     width: 16px;
     height: 16px;
     fill: #00C221;
 }
 
-.THIS .close-icon-style{
+.THIS .close-icon-style {
     width: 16px;
     height: 16px;
     fill: #E20000;
 }
 
-.THIS .driving-instructions{
+.THIS .driving-instructions {
     color: #333333;
     font-family: "Proxima Nova";
     font-size: 14px;
 }
 
-.THIS .ss-info-buttons{
-    margin-top:6%;
+.THIS .ss-info-buttons {
+    margin-top: 6%;
 }
 
 @media (max-width: 925px) {
@@ -154,36 +154,54 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .THIS .ss-info-buttons{
-        margin-top:10%;
+
+    .THIS .ss-info-buttons {
+        margin-top: 10%;
     }
 }
 
-@media (max-width: 768px) {
-    .THIS .ss-container-border{
+@media (max-width: 800px) {
+    .THIS .ss-info-buttons .apollo-btn {
+       font-size: 12px;
+       min-height: 58px;
+    }
+}
+
+@media (max-width: 767px) {
+    .THIS .ss-container-border {
         border-right: none;
     }
 
-    .THIS .ss-info-buttons{
-        margin-top:5%;
+    .THIS .ss-info-buttons {
+        margin-top: 5%;
         display: block;
     }
 
-    .THIS .clinic-type{
+    .THIS .clinic-type {
         padding-left: 0px;
         padding-bottom: 0px;
     }
 
-    .THIS #contactInformation .ss-info-details:nth-child(4){
+    .THIS #contactInformation .ss-info-details:nth-child(4) {
         margin-left: 0px;
     }
 
-    .THIS #contactInformation .ss-info-details:last-child{
+    .THIS #contactInformation .ss-info-details:last-child {
         margin-left: 0px;
         padding-top: 24px;
     }
 
-    .THIS .other-ss-info{
-        padding-left:0px;
+    .THIS .other-ss-info {
+        padding-left: 0px;
+    }
+
+    .THIS .apollo-btn {
+        margin: 0px 0px 10px 0px;
+        width: 100%;
+    }
+
+    .THIS .ss-info-buttons .apollo-btn {
+        font-size: 14px;
+        min-height: unset;
     }
 }

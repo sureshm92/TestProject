@@ -1,11 +1,12 @@
 <!--
- - Created by user on 21-Aug-19.
+ - Created by Nikita Abrazhevitch on 21-Aug-19.
  -->
 
 <aura:component description="StudySiteCardForPI" controller="StudyListViewController">
 
     <!-- attributes: -->
     <aura:attribute name="siteWrapper" type="Object"/>
+    <aura:attribute name="delegatePicklist" type="List"/>
     <aura:attribute name="rerenderComponent" type="Boolean" description="false"/>
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
     <aura:attribute name="studyListViewComponent" type="Aura.Component"/>
@@ -36,13 +37,13 @@
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details">
                             <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
-                                <c:rrSelect id="delegatesPicklist"
-                                            options="{!v.currentStudy.delegatePicklist}"
-                                            value="{!v.siteWrapper.studySite.Site_Staff__c}"
-                                            class="delegate-select"
-                                            placeholder="{!if(v.currentStudy.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
-                                            onchange="{!c.changeUpdatedStatus}"
-                                            useSentenceFont="false"/>
+                            <c:rrSelect id="delegatesPicklist"
+                                        options="{!v.delegatePicklist}"
+                                        value="{!v.siteWrapper.studySite.Site_Staff__c}"
+                                        class="delegate-select"
+                                        placeholder="{!if(v.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
+                                        onchange="{!c.changeUpdatedStatus}"
+                                        useSentenceFont="false"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details">
                             <div class="input-fields-labels"
@@ -76,7 +77,7 @@
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3 other-ss-info-height-control">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                     <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
-                                    <div class="ss-info-address">{!v.siteWrapper.studySite.Site__r.BillingStreet}</div>
+                                    <div class="ss-info-address">{!v.siteWrapper.studySite.Site__r.BillingStreet + ', ' + v.siteWrapper.studySite.Site__r.BillingCountryCode}</div>
                                     <div class="ss-info-address">{!if(v.siteWrapper.studySite.Site__r.BillingCity!=null, v.siteWrapper.studySite.Site__r.BillingCity + ', ', '') +v.siteWrapper.studySite.Site__r.BillingStateCode + ' ' + v.siteWrapper.studySite.Site__r.BillingPostalCode}</div>
                                     <c:RRIcon
                                             class="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"

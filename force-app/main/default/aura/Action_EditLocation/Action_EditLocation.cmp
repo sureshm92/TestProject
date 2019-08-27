@@ -9,7 +9,6 @@
     <!-- attributes: -->
     <aura:attribute name="account" type="Object"/>
     <aura:attribute name="ssId" type="String"/>
-    <aura:attribute name="piId" type="String"/>
     <aura:attribute name="accountStamp" type="String"/>
     <aura:attribute name="isAccountModified" type="Boolean" default="false"/>
     <aura:attribute name="showContent" type="Boolean" default="false"/>
@@ -25,7 +24,6 @@
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="account" type="Object"/>
         <aura:attribute name="ssId" type="String"/>
-        <aura:attribute name="piId" type="String"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
@@ -73,7 +71,7 @@
                                 </div>
                                 <div class="slds-col slds-size--2-of-6 popup-address-inputs">
                                     <div class="input-fields-labels">{!$Label.c.SS_State}</div>
-                                    <c:rrSelect placeholder="{!$Label.c.PG_AC_Select}"
+                                    <c:rrSelect placeholder="{!if(empty(v.statesLVList), '', $Label.c.PG_AC_Select)}"
                                                 otherOptionLabel="{!null}"
                                                 options="{!v.statesLVList}"
                                                 value="{!v.account.BillingStateCode}"
@@ -109,7 +107,7 @@
                         </div>
                         <div class="slds-col slds-size--1-of-2 slds-grid slds-wrap">
                             <lightning:map class="google-map-style" mapMarkers="{!v.mapMarkers}" zoomLevel="{!v.zoomLevel}"/>
-                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                            <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap" style="padding-top: 2.5%">
                                 <div class="slds-col slds-size--2-of-6 popup-address-inputs">
                                     <div class="rr-form-element check-button-container">
                                         <button class="apollo-btn primary check-address-btn"

@@ -4,16 +4,6 @@
 
 public without sharing class StudyListViewController {
 
-
-    class StudiesGroup {
-        String name;
-        List<StudyDetailItem> studies = new List<StudyDetailItem>();
-
-        StudiesGroup(String name) {
-            this.name = name;
-        }
-    }
-
     class InitData {
         List<StudyDetailItem> trialsNoLongerRecruiting = new List<StudyDetailItem>();
         List<StudyDetailItem> currentlyRecruitingTrials = new List<StudyDetailItem>();
@@ -21,7 +11,6 @@ public without sharing class StudyListViewController {
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         List<ParticipantItem> peList = new List<ParticipantItem>();
         List<ParticipantItem> peListNoLongerRecr = new List<ParticipantItem>();
-        List<Account> contactAccounts = new List<Account>();
         List<LabelValueItem> countries = new List<LabelValueItem>{
                 new LabelValueItem('None', null)
         };
@@ -46,10 +35,10 @@ public without sharing class StudyListViewController {
             List<StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
                 studies = getStudiesForHCP();
-                groupTrials(initData, studies, userMode);
+                groupTrials(initData, studies);
             } else if (userMode == CommunityService.USER_MODE_PI) {
                 studies = getStudiesForPI();
-                groupTrials(initData, studies, userMode);
+                groupTrials(initData, studies);
                 initData.countries.addAll(CountryStateUtil.getCountries());
                 initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
                 initData.countriesMap = CountryStateUtil.COUNTRY_MAP;
@@ -135,7 +124,7 @@ public without sharing class StudyListViewController {
         // prepare map trialId -> StudySite
         Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
         List<Study_Site__c> piStudySites = StudySiteService.getStudySitesForPI();
-        Map<Id,Map<Id,Account>> piAccounts = getPiAccounts(piStudySites);
+        Map<Id, Map<Id, Account>> piAccounts = getPiAccounts(piStudySites);
         for (Study_Site__c studySite : piStudySites) {
             if (!trialStudySiteMap.keySet().contains(studySite.Clinical_Trial_Profile__c)) {
                 trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, new List<Study_Site__c>{
@@ -157,45 +146,17 @@ public without sharing class StudyListViewController {
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
             studyDetailItem.delegatePicklist = getDelegatePickList(delegatesMap.get(trial.Id));
-            Study_Site__c initionSS = new Study_Site__c();
-            Map<String, Study_Site__c> statusMap = new Map<String, Study_Site__c>();
             for (Integer i = 0; i < ss.size(); i++) {
                 studyDetailItem.ssList.add(new StudyDetailItem.StudySiteWithActions(ss[i], new StudyActionsPI(ss[i]).studySitePiActions, piAccounts.get(ss[i].Principal_Investigator__c).values()));
-                /* if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
-                    statusMap.put(StudySiteService.PI_S_INVITATION_SENT, ss[i]);
-                } else if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DECLINED_ACCEPTANCE || ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_NON_RESPONCIVE_A) {
-                    statusMap.put(StudySiteService.PI_S_DECLINED_ACCEPTANCE, ss[i]);
-                } else if (ss[i].Override_PI_Referral_Status__c == StudySiteService.PI_S_DEACTIVATED_A) {
-                    statusMap.put(StudySiteService.PI_S_DEACTIVATED_A, ss[i]);
-                } else {
-                    statusMap.put(StudySiteService.PI_S_ACCEPTED, ss[i]);
-                }
             }
-            if (statusMap.containsKey(StudySiteService.PI_S_INVITATION_SENT)) {
-                initionSS = statusMap.get(StudySiteService.PI_S_INVITATION_SENT);
-            } else if (statusMap.containsKey(StudySiteService.PI_S_DECLINED_ACCEPTANCE)) {
-                initionSS = statusMap.get(StudySiteService.PI_S_DECLINED_ACCEPTANCE);
-            } else if (statusMap.size() == 1 && statusMap.containsKey(StudySiteService.PI_S_DEACTIVATED_A)) {
-                initionSS = statusMap.get(StudySiteService.PI_S_DEACTIVATED_A);
-            } else {
-                initionSS = statusMap.get(StudySiteService.PI_S_ACCEPTED);
-            }*/
-            }
-                studyDetailItem.studyActions = new StudyActionsPI(ss[0]).studyListViewItemActions;
+            studyDetailItem.studyActions = new StudyActionsPI(ss[0]).studyListViewItemActions;
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }
         return studies;
     }
 
-    public static void groupTrials(InitData initData, List<StudyDetailItem> allStudies, String userMode) {
-        StudiesGroup activated = new StudiesGroup(userMode == CommunityService.USER_MODE_PI ? Label.SGT_Accepted_and_active : Label.SGT_Activated);
-        StudiesGroup pendingStudySiteAction = new StudiesGroup(Label.SGT_Pending_Study_Site_s_Action);
-        StudiesGroup onHold = new StudiesGroup(Label.SGT_On_hold);
-        StudiesGroup pendingYourAction = new StudiesGroup(Label.SGT_Pending_Your_Action);
-        StudiesGroup declined = new StudiesGroup(Label.SGT_Declined_Acceptance);
-        StudiesGroup declinedOther = new StudiesGroup(Label.SGT_Declined_by_Others);
-        StudiesGroup deactivated = new StudiesGroup(Label.SGT_Deactivated);
+    public static void groupTrials(InitData initData, List<StudyDetailItem> allStudies) {
         for (StudyDetailItem item : allStudies) {
             TranslateHelper.translate(item.trial);
             if (item.trial.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING) {
@@ -207,47 +168,6 @@ public without sharing class StudyListViewController {
         StudyDetailItem.sortType = 'Name';
         initData.currentlyRecruitingTrials.sort();
         initData.trialsNoLongerRecruiting.sort();
-        /*if (item.studyStatus.startsWith('Activated') || item.studyStatus.startsWith('Accepted')) {
-                activated.studies.add(item);
-            } else if (item.studyStatus == StudySiteService.PI_S_INVITATION_SENT) {
-                pendingYourAction.studies.add(item);
-            } else if (item.studyStatus.contains('Pending')) {
-                pendingStudySiteAction.studies.add(item);
-            } else if (item.studyStatus.startsWith('On Hold')) {
-                onHold.studies.add(item);
-            } else if (item.studyStatus == 'Declined (Acceptance)' || item.studyStatus == 'Non-Responsive (Admin)') {
-                declined.studies.add(item);
-            } else if (item.studyStatus.contains('Declined')) {
-                declinedOther.studies.add(item);
-            } else if (item.studyStatus == 'Deactivated (Admin)') {
-                deactivated.studies.add(item);
-            }
-        }
-        if (activated.studies.size() > 0) initData.currentlyRecruitingTrials.add(activated);
-        if (pendingYourAction.studies.size() > 0) initData.currentlyRecruitingTrials.add(pendingYourAction);
-        if (pendingStudySiteAction.studies.size() > 0) initData.currentlyRecruitingTrials.add(pendingStudySiteAction);
-        if (onHold.studies.size() > 0) initData.currentlyRecruitingTrials.add(onHold);
-        if (declined.studies.size() > 0) initData.currentlyRecruitingTrials.add(declined);
-        if (declinedOther.studies.size() > 0) initData.currentlyRecruitingTrials.add(declinedOther);
-        if (deactivated.studies.size() > 0) initData.currentlyRecruitingTrials.add(deactivated);*/
-    }
-
-
-    public static void loadStatistics(List<StudyDetailItem> studies) {
-        Map<Id, Integer> referredCountMap = ParticipantEnrollmentService.getReferredByTrial();
-        String allReviewedFilter = ' AND Participant_Status__c IN (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES_WITH_REFERRING), '\',\'') + '\') ';
-        Map<Id, Integer> allCountMap = ParticipantEnrollmentService.getPECountMapByTrialsForPI(allReviewedFilter);
-        for (StudyDetailItem item : studies) {
-            item.statistics.add(new StudyTotalPassed('all',
-                    allCountMap.get(item.trial.Id),
-                    referredCountMap.get(item.trial.Id)
-            ));
-        }
-    }
-
-    public static List<Account> getPIAccounts(List<StudyDetailItem> studies) {
-        List<Account> accounts = StudyTrialService.getAccounts(studies);
-        return accounts;
     }
 
     @AuraEnabled
@@ -262,26 +182,11 @@ public without sharing class StudyListViewController {
     @AuraEnabled
     public static void saveSSChanges(String studySiteInfo) {
         try {
-            StudyTrialService.saveSSChanges(studySiteInfo);
+            update (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
-
-
-    @AuraEnabled
-    public static String saveSSAddress(String studySiteInfo) {
-        try {
-            StudyTrialService.saveSSAddress(studySiteInfo);
-            String newInitData = getStudyTrialList(CommunityService.USER_MODE_PI);
-            return newInitData;
-        } catch (Exception e) {
-            String status = (String) AuraHelper.throwException(e);
-            return status;
-        }
-    }
-
-
 
     private static Map<String, List<Site_Staff__c>> getDelegates(Set<Id> triaIds) {
         Map<String, List<Site_Staff__c>> delegatesMap = new Map<String, List<Site_Staff__c>>();
@@ -297,7 +202,9 @@ public without sharing class StudyListViewController {
             if (delegatesMap.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__c)) {
                 delegatesMap.get(ss.Study_Site__r.Clinical_Trial_Profile__c).add(ss);
             } else {
-                delegatesMap.put(ss.Study_Site__r.Clinical_Trial_Profile__c, new List<Site_Staff__c>{ss});
+                delegatesMap.put(ss.Study_Site__r.Clinical_Trial_Profile__c, new List<Site_Staff__c>{
+                        ss
+                });
             }
         }
         return delegatesMap;
@@ -322,14 +229,14 @@ public without sharing class StudyListViewController {
         }
     }
 
-    private static Map<Id,Map<Id,Account>> getPiAccounts(List<Study_Site__c> studies) {
+    private static Map<Id, Map<Id, Account>> getPiAccounts(List<Study_Site__c> studies) {
         Set<Id> piIds = new Set<Id>();
-        for (Integer i = 0; i <studies.size() ; i++) {
+        for (Integer i = 0; i < studies.size(); i++) {
             piIds.add(studies[i].Principal_Investigator__c);
         }
         try {
-            Map<Id, Map<Id,Account>> accountMap = new Map<Id, Map<Id,Account>>();
-            if(!piIds.isEmpty()) {
+            Map<Id, Map<Id, Account>> accountMap = new Map<Id, Map<Id, Account>>();
+            if (!piIds.isEmpty()) {
                 for (AccountContactRelation piAccounts : [
                         SELECT Id,
                                 Contact.Id,
@@ -339,6 +246,7 @@ public without sharing class StudyListViewController {
                                 Account.Name,
                                 Account.ParentId,
                                 Account.BillingCountry,
+                                Account.BillingCountryCode,
                                 Account.BillingCity,
                                 Account.BillingStreet,
                                 Account.BillingPostalCode,
@@ -353,9 +261,11 @@ public without sharing class StudyListViewController {
                         WHERE ContactId IN :piIds
                 ]) {
                     if (accountMap.containsKey(piAccounts.Contact.Id)) {
-                        accountMap.get(piAccounts.Contact.Id).put(piAccounts.Account.Id,piAccounts.Account);
+                        accountMap.get(piAccounts.Contact.Id).put(piAccounts.Account.Id, piAccounts.Account);
                     } else {
-                        accountMap.put(piAccounts.Contact.Id, new Map<Id, Account>{piAccounts.Account.Id => piAccounts.Account});
+                        accountMap.put(piAccounts.Contact.Id, new Map<Id, Account>{
+                                piAccounts.Account.Id => piAccounts.Account
+                        });
                     }
                 }
 
@@ -363,10 +273,11 @@ public without sharing class StudyListViewController {
                     if (!studies[i].Account_Was_Changed__c) {
                         if (accountMap.containsKey(studies[i].Principal_Investigator__c)) {
                             Map<Id, Account> accMap = accountMap.get(studies[i].Principal_Investigator__c);
-                                accMap.put(studies[i].Site__c,studies[i].Site__r);
+                            accMap.put(studies[i].Site__c, studies[i].Site__r);
                         } else {
                             accountMap.put(studies[i].Principal_Investigator__c, new Map<Id, Account>{
-                                    studies[i].Site__c =>  studies[i].Site__r});
+                                    studies[i].Site__c => studies[i].Site__r
+                            });
                         }
                     }
                 }

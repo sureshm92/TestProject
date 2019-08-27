@@ -3,7 +3,7 @@
  */
 
 .THIS  .popup-address-inputs{
-    padding: 16px 8px 0px 8px;
+    padding: 20px 8px 0px 8px;
 }
 
 .THIS .edit-address-container{
@@ -79,4 +79,75 @@
     width: 16px;
     height: 16px;
     fill: #E20000;
+}
+
+@media all and (max-width: 767px) {
+    .THIS .slvi-header-item + .slvi-header-item {
+        margin-top: 16px;
+    }
+
+    .THIS .apollo-btn.primary{
+        font-size:12px;
+        width:100%;
+        display:block;
+        margin:2% 0 0 0;
+    }
+
+    .THIS .site-distance {
+        margin-top: .5rem;
+    }
+
+    .THIS .rri-icon svg {
+        height: 18px;
+        width: 18px;
+    }
+
+    .THIS .rri-icon span {
+        margin: .125rem !important;
+    }
+    .THIS .rri-icon-pi svg {
+        height: 18px;
+        width: 18px;
+    }
+
+    .THIS .rri-icon-pi span {
+        margin: .125rem !important;
+    }
+
+    .THIS .edit-address-container .slds-size--4-of-6{
+        width:100%;
+    }
+    .THIS .edit-address-container .slds-size--2-of-6{
+        width:100%;
+    }
+    .THIS .edit-address-container .slds-size--1-of-2{
+        width:100%
+    }
+
+    .THIS .check-button-container {
+        padding-top: unset;
+    }
+
+    .THIS .indicator-containers {
+        margin-top: unset;
+    }
+
+    .THIS .google-map-style {
+        padding: 5% 0% 0% 1%;
+    }
+    .THIS .edit-address-container .slds-map{
+        min-width:35.75rem;
+    }
+}
+
+@media all and (max-width: 644px) {
+    .THIS .edit-address-container .slds-map{
+        min-width:25.75rem;
+    }
+}
+
+@media all and (max-width: 482px) {
+    .THIS .edit-address-container .slds-map{
+        min-width:15.75rem;
+    }
 }

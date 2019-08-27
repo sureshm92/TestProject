@@ -1,5 +1,5 @@
 /**
- * Created by user on 21-Aug-19.
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
  */
 
 ({
@@ -25,8 +25,7 @@
 
     doAction: function (component, event) {
         var currentStudy = component.get('v.currentStudy');
-        var trial = currentStudy.trial;
-        var trialId = trial.Id;
+        var trialId = currentStudy.trial.Id;
         var parent = component.get('v.parent');
         var actionId = event.currentTarget.id;
         if (!actionId) actionId = event.getSource().getLocalId();
@@ -39,8 +38,7 @@
                 communityService.navigateToPage('referring?id=' + trialId);
                 break;
             case 'share':
-                //pass trial to 'Share' dialog:
-                parent.find('shareModal').show(trial.Id, currentStudy.hcpe.HCP_Contact__c);
+                parent.find('shareModal').show(trialId, currentStudy.hcpe.HCP_Contact__c);
                 break;
             case 'viewTermsAndConditions':
                 communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
@@ -51,47 +49,25 @@
             case 'myPatients':
                 communityService.navigateToPage('my-patients?id=' + trialId);
                 break;
-            case 'noThanks':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                parent.showOpenNoTanksModal(trialId,studySiteId);
-                break;
-            case 'manageReferrals':
-                communityService.navigateToPage("my-referrals?id=" + trialId);
-                break;
-            case 'manageReferralsBySS':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage("my-referrals?id=" +trialId+"&siteId="+studySiteId);
-                break;
-            case 'manageReferringClinics':
-                communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");
-                break;
-            case 'manageReferringClinicsBySS':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage("my-referring-clinics?id=" + trialId + "&ssId="+studySiteId);
-                break;
-            case 'openToReceiveReferrals':
-                //pass trial to 'Iam open to receive...' dialog:
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                console.log('studySiteId',studySiteId);
-                parent.find('receiveReferralsModal').show(trial,studySiteId);
-                break;
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
-                break;
-            case 'addPatient':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage('add-patient?id=' + trialId + "&ssId=" + studySiteId);
                 break;
         }
     },
 
     toggleStudySiteListView: function (cmp, event, helper) {
-        let detailsExpanded = cmp.get("v.detailsExpanded");
+        let detailsExpanded = cmp.get('v.detailsExpanded');
         if (detailsExpanded) {
-            cmp.set("v.detailsExpanded", false);
+            cmp.set('v.detailsExpanded', false);
         } else {
-            cmp.set("v.detailsExpanded", true);
+            cmp.set('v.detailsExpanded', true);
         }
+    },
+
+    navigateToSitesSearch: function (component, event, helper) {
+        var currentStudy = component.get('v.currentStudy');
+        var trialId = currentStudy.trial.Id;
+        communityService.navigateToPage("sites-search?id=" + trialId);
     },
 
 });
