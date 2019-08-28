@@ -11,19 +11,33 @@
         <label>Russian</label>
     </customValue>
     <customValue>
-        <fullName>fr_CA</fullName>
-        <default>false</default>
-        <label>French (Canada)</label>
-    </customValue>
-    <customValue>
-        <fullName>it</fullName>
-        <default>false</default>
-        <label>Italiano</label>
-    </customValue>
-    <customValue>
         <fullName>uk</fullName>
         <default>false</default>
         <label>Ukranian</label>
+    </customValue>
+    <customValue>
+        <fullName>en_UK</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>English (UK)</label>
+    </customValue>
+    <customValue>
+        <fullName>es_US</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Spanish (US)/espanol (EU)</label>
+    </customValue>
+    <customValue>
+        <fullName>fr_CA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>French (Canada)</label>
+    </customValue>
+    <customValue>
+        <fullName>fr</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>fr</label>
     </customValue>
     <customValue>
         <fullName>en_PH</fullName>
@@ -104,28 +118,16 @@
         <label>Australian English</label>
     </customValue>
     <customValue>
-        <fullName>fr</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>fr</label>
-    </customValue>
-    <customValue>
-        <fullName>es_US</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Spanish (US)/espanol (EU)</label>
-    </customValue>
-    <customValue>
-        <fullName>en_UK</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>English (UK)</label>
-    </customValue>
-    <customValue>
         <fullName>ur</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>Urdu</label>
+    </customValue>
+    <customValue>
+        <fullName>bn</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Label Names</label>
     </customValue>
     <customValue>
         <fullName>hi</fullName>
@@ -134,10 +136,10 @@
         <label>Hindi</label>
     </customValue>
     <customValue>
-        <fullName>bn</fullName>
+        <fullName>it</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>Label Names</label>
+        <label>Italiano</label>
     </customValue>
     <masterLabel>Languages</masterLabel>
     <sorted>false</sorted>

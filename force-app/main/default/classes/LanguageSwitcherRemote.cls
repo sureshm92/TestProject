@@ -35,14 +35,14 @@ public without sharing class LanguageSwitcherRemote {
             User user = [
                     SELECT  ContactId,
                             Contact.Language__c,
-                            Contact.SecondChoiceLanguage__c,
-                            Contact.ThirdChoiceLanguage__c
+                            Contact.Second_Choice_Language__c,
+                            Contact.Third_Choice_Language__c
                     FROM    User
                     WHERE   Id = :UserInfo.getUserId()];
     
             initData.languageKey   = UserInfo.getLanguage();
-            initData.secondLangKey = user.Contact.SecondChoiceLanguage__c;
-            initData.thirdLangKey  = user.Contact.ThirdChoiceLanguage__c;
+            initData.secondLangKey = user.Contact.Second_Choice_Language__c;
+            initData.thirdLangKey  = user.Contact.Third_Choice_Language__c;
             initData.localeKey     = UserInfo.getLocale();
             initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());
             return JSON.serialize(initData);
@@ -65,8 +65,8 @@ public without sharing class LanguageSwitcherRemote {
             
             update new Contact(
                     Id = user.ContactId,
-                    SecondChoiceLanguage__c = secondLangKey,
-                    ThirdChoiceLanguage__c = thirdLangKey
+                    Second_Choice_Language__c = secondLangKey,
+                    Third_Choice_Language__c = thirdLangKey
             );
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '<br/>' + e.getStackTraceString());

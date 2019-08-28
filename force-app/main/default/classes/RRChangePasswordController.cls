@@ -56,8 +56,8 @@ public without sharing class RRChangePasswordController {
                         Contact.MailingAddress,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
-                        Contact.SecondChoiceLanguage__c,
-                        Contact.ThirdChoiceLanguage__c,
+                        Contact.Second_Choice_Language__c,
+                        Contact.Third_Choice_Language__c,
                         Contact.userCommunityMode__c,
                         Contact.UserCommunityIsDelegate__c,
                         LanguageLocaleKey,
@@ -70,8 +70,8 @@ public without sharing class RRChangePasswordController {
     
         Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
         helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
-        helpText_2nd_Language = fieldMap.get('SecondChoiceLanguage__c').getDescribe().inlineHelpText;
-        helpText_3rd_Language = fieldMap.get('ThirdChoiceLanguage__c').getDescribe().inlineHelpText;
+        helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c').getDescribe().inlineHelpText;
+        helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c').getDescribe().inlineHelpText;
     
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
@@ -191,11 +191,11 @@ public without sharing class RRChangePasswordController {
             }
 
             if (String.isNotBlank(secondLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage }) != null) {
-                contact.SecondChoiceLanguage__c = TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage });
+                contact.Second_Choice_Language__c = TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage });
             }
 
             if (String.isNotBlank(thirdLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage }) != null) {
-                contact.ThirdChoiceLanguage__c = TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage });
+                contact.Third_Choice_Language__c = TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage });
             }
 
             translation.Language__c = contact.Language__c;  //TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
