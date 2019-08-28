@@ -459,10 +459,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MCloudSMSDemoController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MCloudSMSSender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
