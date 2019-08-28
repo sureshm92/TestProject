@@ -8,55 +8,22 @@
     <customValue>
         <fullName>ru</fullName>
         <default>false</default>
-        <label>Русский</label>
-    </customValue>
-    <customValue>
-        <fullName>hi</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Hindi</label>
-    </customValue>
-    <customValue>
-        <fullName>it</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Italiano</label>
-    </customValue>
-    <customValue>
-        <fullName>bn</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Label Names</label>
-    </customValue>
-    <customValue>
-        <fullName>ur</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Urdu</label>
-    </customValue>
-    <customValue>
-        <fullName>en_UK</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>English (UK)</label>
-    </customValue>
-    <customValue>
-        <fullName>es_US</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Spanish (US)/espanol (EU)</label>
+        <label>Russian</label>
     </customValue>
     <customValue>
         <fullName>fr_CA</fullName>
         <default>false</default>
-        <isActive>false</isActive>
         <label>French (Canada)</label>
     </customValue>
     <customValue>
-        <fullName>fr</fullName>
+        <fullName>it</fullName>
         <default>false</default>
-        <isActive>false</isActive>
-        <label>fr</label>
+        <label>Italiano</label>
+    </customValue>
+    <customValue>
+        <fullName>uk</fullName>
+        <default>false</default>
+        <label>Ukranian</label>
     </customValue>
     <customValue>
         <fullName>en_PH</fullName>
@@ -116,7 +83,7 @@
         <fullName>de</fullName>
         <default>false</default>
         <isActive>false</isActive>
-        <label>de</label>
+        <label>Deutch</label>
     </customValue>
     <customValue>
         <fullName>es</fullName>
@@ -136,6 +103,42 @@
         <isActive>false</isActive>
         <label>Australian English</label>
     </customValue>
+    <customValue>
+        <fullName>fr</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>fr</label>
+    </customValue>
+    <customValue>
+        <fullName>es_US</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Spanish (US)/espanol (EU)</label>
+    </customValue>
+    <customValue>
+        <fullName>en_UK</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>English (UK)</label>
+    </customValue>
+    <customValue>
+        <fullName>ur</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Urdu</label>
+    </customValue>
+    <customValue>
+        <fullName>hi</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Hindi</label>
+    </customValue>
+    <customValue>
+        <fullName>bn</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Label Names</label>
+    </customValue>
     <masterLabel>Languages</masterLabel>
-    <sorted>true</sorted>
+    <sorted>false</sorted>
 </GlobalValueSet>

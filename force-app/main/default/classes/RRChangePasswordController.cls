@@ -39,6 +39,8 @@ public without sharing class RRChangePasswordController {
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
     
+    private String previousLanguage;
+    
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -64,6 +66,7 @@ public without sharing class RRChangePasswordController {
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
+        previousLanguage = contact.Language__c;
     
         Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
         helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
@@ -163,20 +166,60 @@ public without sharing class RRChangePasswordController {
         if(contact != null && contact.Is_First_Logon__c && contact.Language__c != null && contact.Language__c != ''
                 && (translation.Language__c == null || translation.Language__c == '')) {
             translation.Language__c = contact.Language__c;
-        }
-        else{
-            translation.Language__c = TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
+        } else {
+
+            List<String> browserLanguages = (List<String>)JSON.deserialize(browserLanguage, List<String>.class);
+            String firstLanguage  = browserLanguages.get(0);
+            String secondLanguage = browserLanguages.get(1);
+            String thirdLanguage  = browserLanguages.get(2);
+
+            if (String.isNotBlank(firstLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { firstLanguage }) != null) {
+                if (String.isBlank(contact.Language__c)) {
+                    contact.Language__c = TranslateHelper.convertBrowserLanguage(new List<String>{
+                            firstLanguage
+                    });
+                }
+            } else {
+                List<Schema.PicklistEntry> entries = Translation__c.Language__c.getDescribe().getPicklistValues();
+                for (PicklistEntry entry : entries) {
+                    if (entry.getValue().startsWithIgnoreCase('en')) {
+                        contact.Language__c = entry.getValue();
+                        break;
+                    }
+                }
+//              contact.Language__c = Translation__c.Language__c.getDescribe().getPicklistValues().get(0).getValue();
+            }
+
+            if (String.isNotBlank(secondLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage }) != null) {
+                contact.SecondChoiceLanguage__c = TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage });
+            }
+
+            if (String.isNotBlank(thirdLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage }) != null) {
+                contact.ThirdChoiceLanguage__c = TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage });
+            }
+
+            translation.Language__c = contact.Language__c;  //TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
         }
         if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
         updateLanguageAction();
     }
     
     public void updateLanguageAction(){
-        update new User(
-                Id = userVal.Id,
-                LanguageLocaleKey = translation.Language__c
-        );
+        try {
+System.debug('=========== userVal.Name = '+userVal.Name);
+System.debug('=========== userVal.LanguageLocaleKey BEFORE = '+userVal.LanguageLocaleKey);
+            userVal.LanguageLocaleKey = contact.Language__c;
+            update userVal;
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+            contact.Language__c = previousLanguage;
+            return;
+        }
+
         update userVal.Contact;
+        
+System.debug('=========== userVal.LanguageLocaleKey AFTER = '+userVal.LanguageLocaleKey);
+System.debug('=========== contact.Language__c = '+userVal.Contact.Language__c);
         updateTranslations();
     }
     

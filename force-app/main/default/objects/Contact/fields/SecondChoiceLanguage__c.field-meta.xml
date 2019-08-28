@@ -9,18 +9,7 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>en_US</fullName>
-                <default>false</default>
-                <label>English</label>
-            </value>
-            <value>
-                <fullName>ru</fullName>
-                <default>false</default>
-                <label>Русский</label>
-            </value>
-        </valueSetDefinition>
+        <restricted>true</restricted>
+        <valueSetName>Languages</valueSetName>
     </valueSet>
 </CustomField>
