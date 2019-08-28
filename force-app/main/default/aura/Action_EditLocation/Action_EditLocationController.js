@@ -1,5 +1,5 @@
 /**
- * Created by user on 21-Aug-19.
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
  */
 
 ({
@@ -29,7 +29,7 @@
         component.set('v.account', account);
         component.set('v.ssId', params.ssId);
         component.set('v.accountStamp', JSON.stringify(account));
-        helper.checkAccountModified(component);
+        helper.checkAccountModified(component, helper);
         helper.setCoordinates(component);
         //reset content:
         component.set('v.showContent', false);
@@ -53,7 +53,7 @@
     },
 
     doCheckFields: function (component, event, helper) {
-        helper.checkAccountModified(component);
+        helper.checkAccountModified(component, helper);
     },
 
     doTrimChanges: function (component, event, helper) {
@@ -68,9 +68,9 @@
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var account = component.get('v.account');
         var states = statesByCountryMap[account.BillingCountryCode];
-        helper.checkAccountModified(component);
+        component.set('v.account.BillingStateCode', undefined);
+        helper.checkAccountModified(component, helper);
         component.set('v.statesLVList', states);
-        component.set('v.account.BillingStateCode', null);
     },
 
     doUpsertAccount: function (component, event, helper) {

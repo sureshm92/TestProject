@@ -73,7 +73,6 @@ public without sharing class Action_EditLocationRemote {
                     WHERE Id = :ssId
             ];
             Account account = (Account) JSON.deserialize(accountJSON, Account.class);
-            System.debug('account>>'+ account);
             //create new account
             if (account.Id == null) {
                 insert account;
@@ -98,7 +97,6 @@ public without sharing class Action_EditLocationRemote {
             } else {
                 //update sub Account
                 update account;
-                System.debug('after update>>'+[select ParentId, BillingCountryCode,BillingCountry FROM Account WHERE id = :account.Id]);
             }
             return account;
         } catch (Exception e) {

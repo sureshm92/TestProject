@@ -863,7 +863,7 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
 
-    @IsTest
+   /* @IsTest
     static void testSaveNewAddress() {
         init();
         initUsers();
@@ -895,22 +895,61 @@ private class Test_BaseCRCPCommunity {
         Study_Site__c testStudySite3 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
         System.assertEquals(testStudySite2.Site__r.Id, testStudySite3.Site__r.Id);
         Test.stopTest();
-    }
+    }*/
 
-    /*
+
     @IsTest
     static void testSaveSSDetails() {
         init();
         initUsers();
         Test.startTest();
-        studySite = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
+        studySite = [
+                SELECT Id,
+                        Site_Staff__c,
+                        Study_Site_Email__c,
+                        Study_Site_Phone__c,
+                        Site__c
+                FROM Study_Site__c
+                WHERE Id = :studySite.Id
+        ];
         System.runAs(piUser) {
             studySite.Study_Site_Phone__c = '123456789';
-            String status = StudyListViewController.saveSSChanges(JSON.serialize(studySite));
+            StudyListViewController.saveSSChanges(JSON.serialize(studySite));
         }
-            Study_Site__c updatedSS = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
-            System.assertEquals(studySite.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
+        Study_Site__c updatedSS = [
+                SELECT Id,
+                        Site_Staff__c,
+                        Study_Site_Email__c,
+                        Study_Site_Phone__c,
+                        Site__c
+                FROM Study_Site__c
+                WHERE Id = :studySite.Id
+        ];
+        System.assertEquals(studySite.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
         Test.stopTest();
-    }*/
+    }
+
+    @IsTest
+    static void changeSSAccountTest() {
+        init();
+        initUsers();
+        Test.startTest();
+        Account newAcc = new Account(Name='TestChangeAccount');
+        insert newAcc;
+        System.runAs(piUser) {
+            StudyListViewController.changeSSAccount(studySite.Id, newAcc.Id);
+        }
+        Study_Site__c updatedSS = [
+                SELECT Id,
+                        Site_Staff__c,
+                        Study_Site_Email__c,
+                        Study_Site_Phone__c,
+                        Site__c
+                FROM Study_Site__c
+                WHERE Id = :studySite.Id
+        ];
+        System.assertEquals(newAcc.Id, updatedSS.Site__c);
+        Test.stopTest();
+    }
 
 }

@@ -252,11 +252,11 @@ public without sharing class StudyListViewController {
                                 Account.BillingPostalCode,
                                 Account.BillingState,
                                 Account.BillingStateCode,
-                                Account.BillingLatitude,
-                                Account.BillingLongitude,
                                 Account.BillingGeocodeAccuracy,
                                 Account.Driving_Directions__c,
-                                Account.Parking_Instructions__c
+                                Account.Parking_Instructions__c,
+                                Account.BillingLatitude,
+                                Account.BillingLongitude
                         FROM AccountContactRelation
                         WHERE ContactId IN :piIds
                 ]) {

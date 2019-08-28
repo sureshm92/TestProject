@@ -58,16 +58,39 @@
         }
     },
 
-    checkAccountModified: function (component) {
+    checkAccountModified: function(component, helper) {
         var account = component.get('v.account');
         var newAccountStamp = JSON.parse(JSON.stringify(account));
-        var accountStamp = component.get('v.accountStamp');
+        var accountStamp = JSON.parse(component.get('v.accountStamp'));
+        var coordinatesWasChanged = false;
         for(var key in newAccountStamp){
-            if(newAccountStamp[key] == ''){
+            if(key.includes('Billing') && !coordinatesWasChanged){
+                if(newAccountStamp[key] != accountStamp[key]){
+                    newAccountStamp.BillingLatitude = undefined;
+                    newAccountStamp.BillingLongitude = undefined;
+                    coordinatesWasChanged = true;
+                }
+                else {
+                    newAccountStamp.BillingLatitude = accountStamp.BillingLatitude;
+                    newAccountStamp.BillingLongitude = accountStamp.BillingLongitude;
+                }
+                component.set('v.account', newAccountStamp);
+            }
+            if(newAccountStamp[key] === ''){
                 delete newAccountStamp[key];
             }
         }
+        newAccountStamp = helper.sortObject(newAccountStamp);
+        accountStamp = helper.sortObject(accountStamp);
         newAccountStamp = JSON.stringify(newAccountStamp);
-        component.set('v.isAccountModified', newAccountStamp !== accountStamp);
-    }
+        component.set('v.isAccountModified', newAccountStamp !== JSON.stringify(accountStamp))
+    },
+
+    sortObject: function(obj){
+        var ordered = {};
+        Object.keys(obj).sort().forEach(function(key) {
+            ordered[key] = obj[key];
+        });
+        return ordered;
+    },
 })
