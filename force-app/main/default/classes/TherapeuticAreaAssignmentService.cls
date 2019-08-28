@@ -47,7 +47,6 @@ public with sharing class TherapeuticAreaAssignmentService {
     }
 
     private void deleteTAAsByWrappers(List<TAAWrapper> wrappers) {
-
         List<Therapeutic_Area_Assignment__c> tAAs = this.getTAAsByTAAWrappers(wrappers);
         if (tAAs == null || tAAs.isEmpty()) {
             return;
@@ -71,6 +70,7 @@ public with sharing class TherapeuticAreaAssignmentService {
         insert tAAsToCreate;
     }
 
+    @TestVisible
     private List<Therapeutic_Area_Assignment__c> getTAAsToDelete(TAAWrapper wrapper, Map<Id, List<Therapeutic_Area_Assignment__c>> tAAsByResourceId) {
 
         List<Therapeutic_Area_Assignment__c> tAAsToDelete = new List<Therapeutic_Area_Assignment__c>();

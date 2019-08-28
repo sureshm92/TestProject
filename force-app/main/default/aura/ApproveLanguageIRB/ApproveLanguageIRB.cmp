@@ -1,0 +1,139 @@
+<!--
+ - Created by Igor Malyuta on 22.08.2019.
+ -->
+
+<aura:component description="ApproveLanguageIRB" controller="ApprovedLangRemote"
+                implements="force:hasRecordId, flexipage:availableForAllPageTypes">
+
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!--attributes-->
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="ssItems" type="List"/>
+    <aura:attribute name="selectedSSIds" type="String" default=""/>
+    <aura:attribute name="countryFilterType" type="String" default="All"/>
+    <aura:attribute name="countryCodes" type="String"/>
+    <aura:attribute name="languages" type="List"/>
+    <aura:attribute name="langCodes" type="String" default=""/>
+    <aura:attribute name="langFilterType" type="String" default="All"/>
+
+    <!-- component body: -->
+    <div class="panel">
+        <c:RRSpinner aura:id="spinner"/>
+        <lightning:navigation aura:id="navLink"/>
+
+        <!--Filters-->
+        <aura:if isTrue="{!v.initialized}">
+            <div class="filters-section">
+                <div class="slds-grid slds-gutters">
+                    <!--Country Filter-->
+                    <div class="slds-col slds-size--1-of-2">
+                        <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">
+                            <lightning:select label="Hidden" variant="label-hidden" value="{!v.countryFilterType}"
+                                              onchange="{!c.whenCountryFilterChanged}"
+                            >
+                                <option label="All Countries" value="All"></option>
+                                <option label="Selected Countries" value="filter"></option>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.countryCodes}"
+                                                                   isMultiEntry="true"
+                                                                   onchange="{!c.getFilteredSS}"
+                                                                   placeholder="Select country"
+                                                                   placeholderSelected="Select another country"
+                                                                   ctpId="{!v.recordId}" includeStates="false"
+                                                                   isInclude="true"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <!--Language Filter-->
+                    <div class="slds-col slds-size--1-of-2">
+                        <aura:if isTrue="{!equals(v.langFilterType, 'All')}">
+                            <lightning:select label="Hidden" variant="label-hidden" value="{!v.langFilterType}"
+                                              onchange="{!c.whenLangFilterChanged}">
+                                <option label="All Languages" value="All"></option>
+                                <option label="Selected Languages" value="filter"></option>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                <c:GlobalLanguagesLookup aura:id="langsLookup" value="{!v.langCodes}" isMultiEntry="true"
+                                                         onchange="{!c.getFilteredSS}"
+                                                         placeholder="Select Language"
+                                                         placeholderSelected="Select another language"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <!--Study Site Filter-->
+                    <div class="slds-col slds-size--1-of-2">
+                        <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
+                                                      value="{!v.selectedSSIds}"
+                                                      onchange="{!c.getFilteredSS}"
+                                                      ctpId="{!v.recordId}"
+                                                      placeholder="Select Study Site"
+                                                      includeSS="true"/>
+                    </div>
+                    <!--Save changes button-->
+                    <div class="slds-col slds-size--1-of-2 save-btn">
+                            <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
+                    </div>
+                </div>
+            </div>
+            <!--Study Site Table-->
+            <div class="slds-scrollable_x">
+                <table aria-multiselectable="true"
+                       class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" role="grid">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center">Country</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center">Study Site</div>
+                        </th>
+                        <th class="cell-wrap" scope="col">
+                            <div>Study Site Number</div>
+                        </th>
+                        <aura:if isTrue="{!v.languages}">
+                            <aura:iteration items="{!v.languages}" var="lang">
+                                <th class="" scope="col">
+                                    <c:uiIndeterminatedCheckbox aura:id="columnLang" keyId="{!lang.value}"
+                                                                fieldLabel="{!lang.label}"
+                                                                onvaluechanged="{!c.columnCheckboxStateChange}"/>
+                                </th>
+                            </aura:iteration>
+                        </aura:if>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:if isTrue="{!v.ssItems}">
+                        <aura:iteration items="{!v.ssItems}" var="item">
+                            <tr>
+                                <th data-label="Country" scope="row">
+                                    <div class="slds-truncate slds-text-align--center" title="">{!item.country.label}</div>
+                                </th>
+                                <td data-label="Study Site">
+                                    <div class="slds-truncate slds-text-align--center" title="">
+                                        <a href="javascript:void(0);" tabindex="-1" data-ssid="{!item.ss.Id}"
+                                           onclick="{!c.viewStudySite}">{!item.name}</a>
+                                    </div>
+                                </td>
+                                <td data-label="Name">
+                                    <div class="slds-truncate slds-text-align--center" title="">{!item.ss.Study_Site_Number__c}</div>
+                                </td>
+                                <aura:iteration items="{!item.approvedLangCodes}" var="appLang">
+                                    <td>
+                                        <c:uiCheckbox keyId="{!item.ss.Id}" forField="{!appLang.value}"
+                                                      fieldValue="{!appLang.state}"
+                                                      onvaluechanged="{!c.sscCheckboxStateChange}"/>
+                                    </td>
+                                </aura:iteration>
+                            </tr>
+                        </aura:iteration>
+                    </aura:if>
+                    </tbody>
+                </table>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

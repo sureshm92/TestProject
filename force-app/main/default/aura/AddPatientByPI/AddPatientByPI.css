@@ -7,24 +7,7 @@
 }
 
 .THIS .ap-bottom-info{
-    margin-top: 15px;
-}
-
-.THIS .rr-form-element + .rr-form-element{
-    margin-top: 0;
-}
-
-.THIS .rr-form-element{
-    margin-bottom: 10px;
-}
-
-.THIS .ap-section-title{
-    font-size: 20px;
-    line-height: 36px;
-}
-
-.THIS .ap-section + .ap-section{
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
 .THIS .ap-buttons{
@@ -32,23 +15,5 @@
     justify-content: flex-end;
     margin-top: 10px;
     margin-bottom: 80px;
-}
-
-.THIS .apollo-btn.custom-cancel{
-   background-color: #e8e8e8;
-}
-
-.THIS .rr-form-element .slds-form-element__label{
-    display: none;
-}
-
-.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select{
-    margin-top: 0;
-}
-
-@media all and (max-width: 768px){
-    .THIS .rr-form-element{
-        width: 100%
-    }
 }
 

@@ -37,7 +37,6 @@
     <aura:attribute name="countryCodesMap" type="Object"/>
     <aura:attribute name="checkedAccountWasCreated" type="Boolean" default="false"/>
     <aura:attribute name="showPopUpSpinner" type="Boolean" default="false"/>
-    <aura:attribute name="accountWithCheckedLocation" type="Object"/>
 
     <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}"
                   action="{!c.doUpdateRecordsWithFirstPage}"/>
@@ -61,10 +60,6 @@
     <aura:method name="saveSSnewAddress" action="{!c.saveSSnewAddress}" access="public">
         <aura:attribute name="currentSS" type="Object"/>
     </aura:method>
-    <aura:method name="insertAccountForCheck" action="{!c.insertAccountForCheck}" access="public">
-        <aura:attribute name="currentAccount" type="Object"/>
-    </aura:method>
-    <aura:method name="removeCheckAccount" action="{!c.removeCheckAccount}" access="public"/>
 
     <!-- component body: -->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
@@ -164,9 +159,7 @@
                                                  countryPicklist = "{!v.countryPicklist}"
                                                  statesByCountryMap="{!v.statesByCountryMap}"
                                                  countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}"
-                                                 checkedAccountWasCreated= "{!v.checkedAccountWasCreated}"
-                                                 accountWithCheckedLocation="{!v.accountWithCheckedLocation}"/>
+                                                 countryCodesMap="{!v.countryCodesMap}"/>
                         </aura:iteration>
                     <!--</aura:iteration>-->
                 </aura:if>
@@ -179,7 +172,7 @@
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
                             <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
                                                  countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}" checkedAccountWasCreated= "{!v.checkedAccountWasCreated}"     accountWithCheckedLocation="{!v.accountWithCheckedLocation}"/>
+                                                 countryCodesMap="{!v.countryCodesMap}"/>
                         </aura:iteration>
                     </aura:if>
                 </aura:if>

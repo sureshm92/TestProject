@@ -3,7 +3,9 @@
  */
 
 public class DatabaseService {
-    
+
+    public static final String SEPARATOR = '\',\'';
+
     private static DatabaseService instance;
     
     public static DatabaseService getInstance(){
@@ -65,5 +67,9 @@ public class DatabaseService {
     
     public static String fieldIn(String field, List<SObject> sObjects){
         return ' ' + field + ' IN ' + listToString(sObjects) + ' ' ;
+    }
+
+    public static String fieldJoin(String fieldName, List<String> items) {
+        return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
     }
 }

@@ -2,7 +2,7 @@
  - Created by D.Yasinskyi on 08.02.2018.
  -->
 
-<aura:component description="StudyListViewItem">
+<aura:component description="StudyListViewItem" controller="StudyListViewController">
 
     <!-- attributes: -->
     <aura:attribute name="currentStudy" type="Object" required="true"/>
@@ -30,8 +30,6 @@
     <aura:attribute name="countryCodesMap" type="Object"/>
     <aura:attribute name="addressChecked" type="Boolean" default="false"/>
     <aura:attribute name="showPopUpSpinner" type="Boolean"/>
-    <aura:attribute name="checkedAccountWasCreated" type="Boolean"/>
-    <aura:attribute name="accountWithCheckedLocation" type="Object"/>
     <aura:attribute name="updateGeolocation" type="Boolean" default="false"/>
     <aura:attribute name="checkIconStyle" type="String" default="check-icon-style"/>
     <aura:attribute name="closeIconStyle" type="String" default="close-icon-style"/>
@@ -43,11 +41,6 @@
 
     <!-- <aura:handler name="change" value="{!v.detailsExpanded}" action="{!c.clampDrivingInstuctions}"/>-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.checkedAccountWasCreated}" action="{!c.removeCreatedAccount}"/>
-    <aura:handler name="change" value="{!v.accountWithCheckedLocation}" action="{!c.checkAccountWithLocation}"/>
-    <!--
-        <aura:handler name="change" value="{!v.currentCountry}" action="{!c.doCountryChange}"/>
-    -->
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
@@ -586,10 +579,10 @@
                                                     <div class="ss-info-address">{!siteWrapper.studySite.Site__r.BillingStreet}</div>
                                                     <div class="ss-info-address">{!if(siteWrapper.studySite.Site__r.BillingCity!=null, siteWrapper.studySite.Site__r.BillingCity + ', ', '') +siteWrapper.studySite.Site__r.BillingStateCode + ' ' + siteWrapper.studySite.Site__r.BillingPostalCode}</div>
                                                     <c:RRIcon
-                                                            class="{!siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
-                                                            iconName="{!siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ?'icon-check':'icon-close'}"/>
+                                                            class="{!('Address' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Block' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Street' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'ExtendedZip' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
+                                                            iconName="{!('Address' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Block' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Street' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'ExtendedZip' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ?'icon-check':'icon-close'}"/>
                                                     <div style="display:inline-block;"
-                                                         class="input-fields-labels">{!siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                                         class="input-fields-labels">{!('Address' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Block' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Street' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'ExtendedZip' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
                                                 </div>
                                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                                     <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>

@@ -12,24 +12,18 @@
             return;
         }
         component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
-        var peId = communityService.getUrlParameter("id");
+        var peId = communityService.getUrlParameter('id');
         if(!peId) {
             communityService.navigateToPage('');
             return;
         }
-
-        component.set('v.peId', peId);
-
         communityService.executeAction(component, 'getReferralProfileDetail',{
             peId: peId,
             userMode: communityService.getUserMode()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            console.log('initData>>>>',initData);
             component.set('v.statusSteps', initData.steps);
-            component.set('v.enrollment', initData.enrollment);
-            component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
-            component.set('v.currentScreeningId', initData.enrollment.Screening_ID__c || '');
+            component.set('v.pe', initData.enrollment);
             //set sticky bar position in browser window
             if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
@@ -37,57 +31,12 @@
             spinner.hide();
         });
     },
-    saveScreeningId: function (component, event, hepler) {
-        var spinner = component.find('mainSpinner');
-        spinner.show();
-        communityService.executeAction(component, 'savePEScreeningId',{
-            peId: component.get('v.enrollment.Id'),
-            newScreeningId: component.get('v.enrollment.Screening_ID__c')
-        }, function (returnValue) {
-            var enrollment = JSON.parse(returnValue);
-            component.set('v.enrollment.Screening_ID__c', enrollment.Screening_ID__c || '');
-            component.set('v.currentScreeningId', enrollment.Screening_ID__c || '');
-        }, null, function () {
-            spinner.hide();
+
+    doEditPatientInfo: function(component, event, helper){
+        var pe = component.get('v.pe');
+        component.find('updatePatientInfoAction').execute(pe, false, function (pe) {
+            component.set('v.pe', pe);
         });
-    },
-
-    updateParticipant: function(component, event, helper){
-        var participant = component.get('v.participantRecord');
-        var peRecord = component.get('v.peRecord');
-        console.log('participant:', participant);
-        communityService.executeAction(component, 'updateParticipantData', {
-            participantJSON: JSON.stringify(participant),
-            perJSON : JSON.stringify(peRecord)
-        }, function () {
-            communityService.showSuccessToast('', $A.get('$Label.c.PG_EP_Success_Message'));
-            console.log('component.get(\'v.entrollmentSuccess\')',component.get('v.entrollmentSuccess'));
-            debugger;
-            if (!component.get('v.entrollmentSuccess')) {
-                communityService.navigateToPage('referral-profile?id=' + communityService.getUrlParameter('id'));
-            } else{
-                var child = component.find('stepControls');
-                child[child.length-1].statusSave();
-                component.set('v.isShowPopup',false);
-            }
-        }, null, function () {
-            component.find('spinner').hide();
-        });
-    },
-
-    openPopup: function(component, event, helper){
-        component.set('v.isShowPopup', true);
-    },
-
-    closePopup: function(component, event, helper){
-        //component.set('v.entrollmentSuccess',false);
-        component.set('v.isShowPopup', false);
-    },
-
-    checkClosePopup: function(component,event,helper){
-        if(!component.get('v.isShowPopup')) {
-            component.set('v.entrollmentSuccess', false);
-        }
-    },
+    }
 
 })

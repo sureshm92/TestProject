@@ -56,4 +56,13 @@ private class Test_BasePPCommunity {
         System.assert(patientVisits.size() == 2, 'Patient Visits not created');
     }
     
+    @IsTest
+    static void visitResultSharingSSLookupRemote(){
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        VisitResultSharingSSLookupRemote.searchSSByTerm(testDataInstance.ctp.Id, 'Test', 'vv', true);
+        VisitResultSharingSSLookupRemote.searchSSByIds(testDataInstance.ss.Id, true);
+        Test.stopTest();
+    }
+    
 }
