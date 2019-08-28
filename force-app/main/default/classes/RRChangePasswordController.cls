@@ -206,8 +206,6 @@ public without sharing class RRChangePasswordController {
     
     public void updateLanguageAction(){
         try {
-System.debug('=========== userVal.Name = '+userVal.Name);
-System.debug('=========== userVal.LanguageLocaleKey BEFORE = '+userVal.LanguageLocaleKey);
             userVal.LanguageLocaleKey = contact.Language__c;
             update userVal;
         } catch (Exception e) {
@@ -217,9 +215,6 @@ System.debug('=========== userVal.LanguageLocaleKey BEFORE = '+userVal.LanguageL
         }
 
         update userVal.Contact;
-        
-System.debug('=========== userVal.LanguageLocaleKey AFTER = '+userVal.LanguageLocaleKey);
-System.debug('=========== contact.Language__c = '+userVal.Contact.Language__c);
         updateTranslations();
     }
     
