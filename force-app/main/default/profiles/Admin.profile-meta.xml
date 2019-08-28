@@ -83,10 +83,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateParticipants</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -303,10 +299,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>DuplicateContactController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -388,6 +380,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Injector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationPatientReferralTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -503,15 +499,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MyReferredZoneController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MyStudySitesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -551,6 +539,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PSEStatusHistoryRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -575,15 +567,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDeduplicationController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantDeduplicationService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantEnrollmentFactory</apexClass>
+        <apexClass>ParticipantDuplicateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -608,10 +592,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantStateRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -660,10 +640,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>QualityCheckController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -791,10 +767,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SdhIntegrationService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -836,6 +808,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SortOrder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1063,6 +1039,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_IntegrationPatientReferralHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_IntegrationPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1111,6 +1091,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantDuplicateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1132,6 +1116,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PatientVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientVisitSchedule</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1235,7 +1223,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitReportService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3202,6 +3206,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Contacted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Days_After_Enrolled__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5588,6 +5597,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Study_Site__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>SurveyInvitation</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

@@ -243,6 +243,7 @@ public without sharing class ParticipantEnrollmentService {
             'Id',
             'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'CreatedDate',
+            'Enrolled_Date__c',
             'HCP__c',
             'HCP__r.Status__c',
             'HCP__r.HCP_Contact__c',

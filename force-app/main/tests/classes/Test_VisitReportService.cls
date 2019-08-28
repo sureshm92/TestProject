@@ -3,9 +3,7 @@
  */
 @IsTest
 private class Test_VisitReportService {
-    //TODO Fix Tests!!!
-    
-/*
+
     private static VisitReportService service = new VisitReportService();
 
     @IsTest
@@ -45,39 +43,39 @@ private class Test_VisitReportService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1,
                 Completed_Date__c = Date.newInstance(2019, 12, 17)
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2,
                 Completed_Date__c = Date.newInstance(2019, 12, 17)
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3,
                 Completed_Date__c = Date.newInstance(2019, 12, 17)
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1,
                 Completed_Date__c = Date.newInstance(2019, 12, 17)
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4,
@@ -107,7 +105,7 @@ private class Test_VisitReportService {
                 SELECT
                         Id,
                         Completed_Date__c,
-                        Participant_Study_Enrollment__c,
+                        Participant_Enrollment__c,
                         Visit_Number__c, (
                         SELECT
                                 Id,
@@ -120,30 +118,30 @@ private class Test_VisitReportService {
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
-                WHERE Participant_Study_Enrollment__c = :testData.pse.Id
+                WHERE Participant_Enrollment__c = :testData.pe.Id
                 AND Status__c = 'Completed'
                 ORDER BY Completed_Date__c
         ];
 
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        pState.pse = [
+        pState.pe = [
                 SELECT Id,
                         Participant_Contact__c,
                         Screening_ID__c,
                         CreatedDate,
                         Study_Site__r.Name
-                FROM Participant_Study_Enrollment__c
+                FROM Participant_Enrollment__c
                 WHERE Participant__c = :testData.participant.Id
         ];
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
+                .build()
         );
         System.runAs(testData.participantUser) {
             Map<String, VisitReportContainerRemote.ReportDataTableWrapper> dataTableWrapperMap = service.getDataTableWrappersByGroupName(patientsVisits, groupMS);
-            VisitReportContainerRemote.ReportDataWrapper wrapper = service.getFillReportData(dataTableWrapperMap, groupMS, pState);
+            VisitReportContainerRemote.ReportDataWrapper wrapper = service.getFillReportData(dataTableWrapperMap, groupMS);
 
             System.assertEquals(1, dataTableWrapperMap.size());
             System.assertEquals(1, wrapper.dataTables.size());
@@ -155,10 +153,10 @@ private class Test_VisitReportService {
     static void getReportDataWrapperFirstIf_test() {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
+                .build()
         );
 
         Test.startTest();
@@ -173,18 +171,18 @@ private class Test_VisitReportService {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
+                .build()
         );
 
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('checkOnAccess')
                 .then(false)
                 .when('getPatientVisitsForReport')
                 .then(patientVisits)
-                .getInstance()
+                .build()
         );
 
         Test.startTest();
@@ -199,10 +197,10 @@ private class Test_VisitReportService {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
+        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
                 .when('getState')
                 .then(pState)
-                .getInstance()
+                .build()
         );
 
         TestData.loadTestData();
@@ -233,35 +231,35 @@ private class Test_VisitReportService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
@@ -286,12 +284,12 @@ private class Test_VisitReportService {
         ));
         insert visitResults;
 
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('checkOnAccess')
                 .then(false)
                 .when('getPatientVisitsForReport')
                 .then(patientVisits)
-                .getInstance()
+                .build()
         );
         List<VisitReportContainerRemote.ReportDataWrapper> wrappers = service.getReportDataWrapper();
         Test.stopTest();
@@ -299,5 +297,4 @@ private class Test_VisitReportService {
         System.assert(wrappers != null);
     }
     
-    */
 }

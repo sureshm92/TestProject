@@ -128,8 +128,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         ssMap = new Map<Id, Study_Site__c>([
                 SELECT Id, Principal_Investigator__c,
+                        Principal_Investigator__r.Name,
+                        Principal_Investigator__r.Full_Name__c,
+                        Principal_Investigator__r.Phone,
                         Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.Study_Code_Name__c,
                         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
                         Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
@@ -146,6 +150,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         participantMap = new Map<Id, Participant__c>([
                 SELECT Id,
                         Contact__c,
+                        Full_Name__c,
                         Contact__r.Visit_Results_Opt_In__c,
                         Name,
                         IsCountry_NOT_Eligible_for_Emails__c
@@ -272,6 +277,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Id = participant.Contact__c,
                         userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
                 ));
+                
+                //TODO Just POC:
+                if(ss.Principal_Investigator__r.Phone != null){
+                    MCloudSMSSender.sendSMSAsync(new List<String>{ss.Principal_Investigator__r.Phone},
+                            'A referral has been received for Study ' + ss.Clinical_Trial_Profile__r.Study_Code_Name__c +
+                                    ' from Dr.' + ss.Principal_Investigator__r.Full_Name__c +
+                            '\n Reply “A” to Accept.');
+                }
             }
         }
 
