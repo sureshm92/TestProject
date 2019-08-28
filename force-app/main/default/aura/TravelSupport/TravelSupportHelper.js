@@ -3,22 +3,19 @@
  */
 
 ({
-    getAvailableVendors: function (component, event, helper) {
-        helper.enqueue(component, 'c.getVendors'
-        //     {
-        //     // userId: component.get('v.recordId')
-        // }
-        ).then(function (result) {
-            console.log(JSON.stringify(result));
-            component.set('v.vendors', result)
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-        })
+    checkOnShowMore: function (component, event) {
+        let isShowMore = component.get("v.isShowMore");
+        if (isShowMore) {
+            component.set("v.isShowMore", false);
+        }
     },
+
+    redirectToUrl: function (component, event) {
+        let eUrl= $A.get("e.force:navigateToURL");
+        eUrl.setParams({
+            "url": 'https://uberwork.com.ua'
+        });
+        component.find('popup').cancel();
+        eUrl.fire();
+    }
 });
