@@ -100,8 +100,8 @@ private class Test_BaseCRCPCommunity {
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
                 Visit_Plan__c = vp.Id
         );
         insert study;

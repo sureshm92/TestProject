@@ -143,9 +143,7 @@ public without sharing class VisitResultSharingPanelRemote {
             initData.options.ssSelectionType = ssSelectionType;
             initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
-            initData.options.inPatientPortal =
-                    (ctp.Participating_in_Patient_Portal__c != null && ctp.Participating_in_Patient_Portal__c == 'Yes')
-                            ? true : false;
+            initData.options.inPatientPortal = ctp.Include_in_patient_trial_search__c;
 
             return initData;
         } catch (Exception e) {
