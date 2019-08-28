@@ -458,7 +458,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add patient</value>
+        <value>Add Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -1306,7 +1306,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Refer a patient</value>
+        <value>Add a patient</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -4331,6 +4331,13 @@ View study documents and other resources including articles and videos related t
         <value>You have successfully added a patient.</value>
     </labels>
     <labels>
+        <fullName>PG_AP_T_Additional_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Additional Info</shortDescription>
+        <value>Adding a patient will invite them to the Patient Portal. Please add only patients who have agreed to be contacted by IQVIA.</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_T_Indicate_Add_Fields</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4349,7 +4356,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP T Sub Info</shortDescription>
-        <value>Please advise Participants to view their Account Settings to update their personal information.</value>
+        <value>Participants may also update their personal information on the Account Setting page in the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
@@ -8553,7 +8560,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Address Is Checking</shortDescription>
-        <value>Address is checking</value>
+        <value>Checking address</value>
     </labels>
     <labels>
         <fullName>SS_Address_Not_Found</fullName>
@@ -8742,7 +8749,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Save New Account</shortDescription>
-        <value>Save New Location</value>
+        <value>Save Location</value>
     </labels>
     <labels>
         <fullName>SS_Site</fullName>
@@ -9247,6 +9254,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>TST Invalid email address!</shortDescription>
         <value>Invalid email address!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Permissions should be the same for study!</shortDescription>
+        <value>A team member’s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
     </labels>
     <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
