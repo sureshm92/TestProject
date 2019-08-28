@@ -2060,11 +2060,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.SecondChoiceLanguage__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Second_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2076,11 +2071,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Specialty__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.ThirdChoiceLanguage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6571,10 +6561,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewEventLogFiles</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewFlowUsageAndFlowEventData</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
