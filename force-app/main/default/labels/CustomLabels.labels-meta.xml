@@ -458,7 +458,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add patient</value>
+        <value>Add Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -9260,7 +9260,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Permissions should be the same for study!</shortDescription>
-        <value>Access permissions should be the same level for among study!</value>
+        <value>A team member’s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
     </labels>
     <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
