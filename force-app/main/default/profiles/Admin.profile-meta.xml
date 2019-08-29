@@ -803,10 +803,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>StubFactory</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>StudyActions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
