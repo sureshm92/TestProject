@@ -18,11 +18,6 @@
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
 
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
-    <c:RRActionApprove aura:id="popup"
-                       dialogTitle="{!$Label.c.Home_Page_StudyVisit_Btn}"
-                       message="{!$Label.c.StudyVisit_Popup_Text}"
-                       approveBtnName="{!$Label.c.BTN_OK}"
-                       cancelBtnName="{!$Label.c.BTN_Cancel}"/>
 
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
@@ -75,4 +70,6 @@
             <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
         </aura:if>
     </div>
+
+    <c:TravelSupport aura:id="showVendors" hasDefault="true"/>
 </aura:component>
