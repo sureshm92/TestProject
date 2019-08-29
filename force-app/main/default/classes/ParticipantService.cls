@@ -55,7 +55,7 @@ public without sharing class ParticipantService {
             participantState.isDelegate = peList[0].Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
             participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
             participantState.showTerms = showTerms();
-            participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
+            participantState.isPremium = participantState.ctp.Include_in_patient_trial_search__c;
 
             if ((PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) ||
                     PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(participantState.pe.Participant_Status__c)

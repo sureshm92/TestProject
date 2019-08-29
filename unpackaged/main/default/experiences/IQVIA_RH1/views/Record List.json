@@ -20,9 +20,9 @@
       "componentAttributes" : {
         "layout" : "FULL",
         "showDisplay" : "showall",
-        "showActionBar" : "true",
-        "showPinnedList" : "true",
         "scope" : "{!objectName}",
+        "showPinnedList" : "true",
+        "showActionBar" : "true",
         "filterName" : "{!filterId}",
         "pageSize" : "25",
         "enableInlineEdit" : "true",
