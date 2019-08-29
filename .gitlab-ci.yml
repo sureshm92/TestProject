@@ -1,8 +1,8 @@
 stages:
-  - deployINT-3.2
-  - deployINT-1.1
-  - runTestINT-3.2
-  - runTestINT-1.1
+  - deployINT-RH3.2-PP1.2
+  - deployINT-RH3.1.1-PP1.1.1
+  - runTestINT-RH3.2-PP1.2
+  - runTestINT-RH3.1.1-PP1.1.1
   - VALIDATE
 cache:
   paths:
@@ -54,7 +54,7 @@ VALIDATE_INT-3.2:
     - echo "validate Int3.2 success"
 
 
-deployINT-1.1:
+deployINT-RH3.1.1-PP1.1.1:
   tags:
     - shell
   only:
@@ -62,7 +62,7 @@ deployINT-1.1:
   except:
     - merge_requests
 
-  stage: deployINT-1.1
+  stage: deployINT-RH3.1.1-PP1.1.1
   script:
     - echo "$INTOneOne" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
@@ -76,7 +76,7 @@ deployINT-1.1:
     - sfdx force:mdapi:deploy -d output -u INT1.1  -w 60
     - echo "deploy Int1.1 success"
 
-DeployINT-3.2:
+deployINT-RH3.2-PP1.2:
   tags:
     - shell
   only:
@@ -84,7 +84,7 @@ DeployINT-3.2:
   except:
     - merge_requests
 
-  stage: deployINT-3.2
+  stage: deployINT-RH3.2-PP1.2
   script:
     - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
@@ -97,29 +97,29 @@ DeployINT-3.2:
     - sfdx force:mdapi:deploy -d output -u INT3.2  -w 60
     - echo "deploy INT3.2 success"
 
-runTestINT-1.1:
+runTestINT-RH3.1.1-PP1.1.1:
   tags:
     - shell
   only:
-    - Sprint-RH3.11-PP1.11
+    - Sprint-RH3.1.1-PP1.1.1
   except:
     - merge_requests
 
-  stage: runTestINT-1.1
+  stage: runTestINT-RH3.1.1-PP1.1.1
   script:
     - echo "$INTOneOne" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
     - sfdx force:apex:test:run -u INT1.1 --testlevel=RunLocalTests -w 60
 
-runTestINT-3.2:
+runTestINT-RH3.2-PP1.2:
   tags:
     - shell
   only:
-    - Sprint-RH3.2-PP3.2-Refactoring
+    - Sprint-RH3.2-PP1.2-Refactoring
   except:
     - merge_requests
 
-  stage: runTestINT-3.2
+  stage: runTestINT-RH3.2-PP1.2
   script:
     - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
