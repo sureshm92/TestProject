@@ -622,40 +622,10 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>SecondChoiceLanguage__c</picklist>
-        <values>
-            <fullName>fr_CA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>it</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>uk</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>SitesInterested__c</picklist>
         <values>
             <fullName>TestSite</fullName>
             <default>true</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>ThirdChoiceLanguage__c</picklist>
-        <values>
-            <fullName>fr_CA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>it</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>uk</fullName>
-            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

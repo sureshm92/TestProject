@@ -5180,9 +5180,6 @@
         <layout>User-User Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>UserAlt-User Profile Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>VisitPackage__c-VisitPackage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
