@@ -49,29 +49,21 @@ public without sharing class ParticipantService {
             if (peList[0].Study_Site__c == null) {
                 throw new ParticipantServiceException('Study Site cannot be null on peId = ' + peList[0].Id);
             }
-
             participantState.pe = peList[0];
             participantState.participant = participantState.pe.Participant__r;
             participantState.isDelegate = peList[0].Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
             participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
             participantState.showTerms = showTerms();
             participantState.isPremium = participantState.ctp.Include_in_patient_trial_search__c;
-
-            if ((PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) ||
-                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(participantState.pe.Participant_Status__c)
-            ) && participantState.isPremium) {
+            if (PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(participantState.pe.Participant_Status__c)) {
                 participantState.value = ParticipantStates.ALUMNI;
             } else if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                 participantState.value = ParticipantStates.REFERRAL;
             } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
-                if (participantState.isPremium) {
-                    participantState.value = ParticipantStates.PARTICIPANT;
-                    participantState.showVisits = showVisits();
-                    participantState.isDelegate =
-                            participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-                } else {
-                    participantState.value = ParticipantStates.REFERRAL;
-                }
+                participantState.value = ParticipantStates.PARTICIPANT;
+                participantState.showVisits = showVisits();
+            }else{
+                participantState.value = ParticipantStates.REFERRAL;
             }
             participantState.welcomeMessage = getWelcomeMessage();
         }

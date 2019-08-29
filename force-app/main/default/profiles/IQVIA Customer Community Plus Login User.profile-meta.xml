@@ -543,10 +543,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDeduplicationService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ParticipantEnrollmentFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
