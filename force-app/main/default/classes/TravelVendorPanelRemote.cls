@@ -16,7 +16,7 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public InitData getInitData() {
+    public InitData getInitData(Id ctpId) {
         return null;
     }
 
