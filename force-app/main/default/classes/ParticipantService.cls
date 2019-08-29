@@ -118,10 +118,15 @@ public without sharing class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        Participant__c participantFromDatabase = new ParticipantDuplicateService(participant).findDuplicate(participant);
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
+        Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if(participantFromDatabase != null){
             participant = participantFromDatabase;
-        }else{
+        }else {
+            //check contact duplicate:
+            if(duplicateService.findDuplicateContact(participant) != null){
+                participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+            }
             insert participant;
         }
         pe.Participant__c = participant.Id;

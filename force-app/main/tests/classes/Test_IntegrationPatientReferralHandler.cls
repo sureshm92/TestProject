@@ -81,6 +81,14 @@ private class Test_IntegrationPatientReferralHandler {
                 Email__c = 'MaxJames@mail.com'
         );
         insert participantWithBY;
+        
+        Contact exitedContact = new Contact(
+                FirstName = 'Leo',
+                LastName = 'Win',
+                Email = 'leo@mail.com',
+                AccountId = participantsAccount.Id
+        );
+        insert exitedContact;
     
     
         Test.startTest();
@@ -121,13 +129,33 @@ private class Test_IntegrationPatientReferralHandler {
                 Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
+        Integration_Patient_Referral__c ipr3 = new Integration_Patient_Referral__c(
+                Address_Country__c = 'US',
+                Address_State__c = 'NY',
+                Address_ZipCode__c = '12312',
+                birthYear__c = '1985',
+                Data_Source__c = 'Autorecruitment',
+                email__c = 'leo@mail.com',
+                firstName__c = 'Leo',
+                lastName__c = 'Wide',
+                Language_Preference__c = 'en_US',
+                phone__c = '321234243',
+                protocolId__c = 'CTP1',
+                siteSelected__c = 'US_SS1',
+                Referred_Date__c  = '2019-10-02T10:00:00-05:00',
+                referralID__c = '444323423',
+                Referral_Sent_to_PI__c = 'Referral Sent to PI',
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
+        );
         iprList.add(ipr);
         iprList.add(ipr2);
+        iprList.add(ipr3);
         insert iprList;
         test.stopTest();
     
         System.assert([SELECT Id, Phone__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Phone__c == '13245215333');
         System.assert([SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'some@dssd.cre'].Secondary_Source__c == 'Autorecruitment');
+        System.assert([SELECT Id, Contact__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Contact__c == exitedContact.Id);
 
     }
     
