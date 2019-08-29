@@ -16,6 +16,6 @@
             communityService.showErrorToast("Error", $A.get("$Label.c.TST_Something_went_wrong"));
             return;
         }
-        component.get('v.parentComponent').find('requestToReferByHCPAction').execute(studySiteWrapper.site.Clinical_Trial_Profile__r, studySiteWrapper.site.Id, studySiteWrapper.hcpe?studySiteWrapper.hcpe.Id:null, refreshSource);
+        component.get('v.parentComponent').find('requestToReferByHCPAction').execute(studySiteWrapper.site.Clinical_Trial_Profile__r, studySiteWrapper.site.Id, studySiteWrapper.hcpe?studySiteWrapper.hcpe.Id:null, refreshSource, communityService.getDelegateId());
     }
 })

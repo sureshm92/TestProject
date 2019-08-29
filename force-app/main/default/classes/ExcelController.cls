@@ -4,6 +4,7 @@ public class ExcelController {
     private String study;
     private String referringClinic;
     private String dateRange;
+    private String delegateId;
     
     private List<String> peFields;
     private List<FieldSetMember> peFSMList;
@@ -23,6 +24,7 @@ public class ExcelController {
             study = ApexPages.currentPage().getParameters().get('study');
             referringClinic = ApexPages.currentPage().getParameters().get('referringClinic');
             dateRange = ApexPages.currentPage().getParameters().get('dateRange');
+            delegateId = ApexPages.currentPage().getParameters().get('delegateId');
         }
         peFields = new List<String>();
         peFSMList = SObjectType.Participant_Enrollment__c.FieldSets.ExportExcel.getFields();
@@ -48,7 +50,7 @@ public class ExcelController {
         if (!filters.isEmpty()) filter = 'AND ' + String.join(filters, ' AND ');
         
         System.debug('FILTER: ' + filter);
-        return ParticipantEnrollmentService.getPEnrolmentsCommonCustomFields(userMode, peFields, filter);
+        return ParticipantEnrollmentService.getPEnrolmentsCommonCustomFields(userMode, peFields, filter, delegateId);
     }
 
     public List<HCP_Enrollment__c> getHCPEList(){
@@ -63,7 +65,7 @@ public class ExcelController {
         if (!filters.isEmpty()) filter = 'AND ' + String.join(filters, ' AND ');
         
         System.debug('FILTER: ' + filter);
-        return HCPEnrollmentService.getHCPEnrollmentsCommonCustomFields(userMode, hcpeFields, filter, false);
+        return HCPEnrollmentService.getHCPEnrollmentsCommonCustomFields(userMode, delegateId, hcpeFields, filter, false);
     }
     
 }

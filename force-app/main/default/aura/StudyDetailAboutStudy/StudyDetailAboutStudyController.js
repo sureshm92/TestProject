@@ -2,25 +2,6 @@
  * Created by Leonid Bartenev
  */
 ({
-    doChangeStudySite: function (component, event, helper) {
-        communityService.logError(function () {
-            var refreshSource = component.get('v.parent');
-            var study = component.get('v.studyDetail').trial;
-            var studySiteId = event.currentTarget.id;
-            var hcpeId = component.get('v.studyDetail').hcpe.Id;
-            component.find('sendSiteRequestAction').execute(study, studySiteId, hcpeId, refreshSource);
-        });
-    },
-
-
-    doSelectNoSites: function(component){
-        communityService.logError(function () {
-            var refreshSource = component.get('v.parent');
-            var study = component.get('v.studyDetail').trial;
-            var hcpeId = component.get('v.studyDetail').hcpe.Id;
-            component.find('sendSiteRequestAction').execute(study, null, hcpeId, refreshSource);
-        });
-    },
 
     doAction: function(component, event){
         var actionId = event.currentTarget.id;

@@ -30,7 +30,7 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode){
+    public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode, String delegateId){
         //try{
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(trialId);
@@ -39,23 +39,23 @@ public without sharing class ReferringRemote {
             initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(initData.trial.Link_to_Pre_screening__c);
         }
         if(hcpeId != null){
-            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
+            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode,delegateId);//getHCPEnrollmentForHCPByTrial(trialId);
         }
         //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
 
         //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
         if(peId != null) {
-            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
+            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
         }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
             initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
         }
         if(initData.trial.Link_to_Medical_Record_Review__c != null) {
-            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null);
+            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null, delegateId);
         }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
 
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
-        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true);
+        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true,delegateId);
         initData.markers = new List<ReferringRemote.AccountWrapper>();
         initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
         initData.studiesPending = new List<StudySiteService.StudySiteDistanceWrapper>();
@@ -91,7 +91,7 @@ public without sharing class ReferringRemote {
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
+        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
         return JSON.serialize(initData);
         /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -100,7 +100,7 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON){
+    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String delegateId){
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
 
@@ -113,7 +113,7 @@ public without sharing class ReferringRemote {
             }
 
             HCP_Enrollment__c hcpEnrollment =
-                    HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
+                    HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId);
             enrollment.HCP__c = hcpEnrollment.Id;
             enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
             enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;

@@ -10,7 +10,8 @@
 
         communityService.executeAction(component, 'getInitData', {
             trialId: component.get('v.trialId'),
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.reportsFilterData', initData.filterData);
@@ -33,7 +34,8 @@
             studySiteId: component.get('v.studySite'),
             referringClinicId: component.get('v.referringClinic'),
             dateRange: component.get('v.dateRange'),
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         }, function (retrunValue) {
             var analitics = JSON.parse(retrunValue);
             component.set('v.mrrPassedFailed', analitics.mrrPassedFailed);
@@ -50,7 +52,7 @@
         var studySiteId = component.get('v.studySite');
         var referringClinicId = component.get('v.referringClinic');
         var dateRange = component.get('v.dateRange');
-
+        var delegateId = communityService.getDelegateId();
         var params = [];
         params.push('userMode=' + component.get('v.userMode'));
         if(trialId) {
@@ -63,6 +65,10 @@
             if(referringClinicId) params.push('referringClinic=' + referringClinicId);
         }else{
             if(studySiteId) params.push('studySite=' + studySiteId);
+        }
+
+        if(delegateId){
+            params.push('delegateId='+delegateId);
         }
 
         if(dateRange) params.push('dateRange=' + encodeURIComponent(dateRange));

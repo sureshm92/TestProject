@@ -9,6 +9,8 @@
         var studySiteId = params.studySiteId;
         var hcpeId = params.hcpeId;
         var refreshSource = params.refreshSource;
+        var delegateId = params.delegateId;
+
         var mainspinner =  refreshSource.find('mainSpinner');
         mainspinner.show();
         component.set('v.study', study);
@@ -18,6 +20,7 @@
             communityService.executeAction(component, 'requestToReferForHCP', {
                 studySiteId: studySiteId,
                 hcpeId: hcpeId,
+                delegateId: delegateId
             }, function (returnValue) {
                 refreshSource.refresh();
                 component.find('requestReferralDialog').show();

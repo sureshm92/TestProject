@@ -4,19 +4,22 @@
 ({
     doInit: function (component) {
 
-        debugger;
         if(!communityService.isInitialized()) return;
         if(communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
         var spinner = component.find('mainSpinner');
         spinner.show();
         var recId = communityService.getUrlParameter("id");
         var hcpeId = communityService.getUrlParameter("hcpeid");
+        var delegateId = communityService.getDelegateId();
+        debugger;
+
         if(recId){
             component.set('v.trialId', recId);
             component.set('v.hcpeId', hcpeId);
             communityService.executeAction(component, 'getInitData', {
                 trialId: recId,
-                hcpeId: hcpeId
+                hcpeId: hcpeId,
+                delegateId : delegateId
             }, function (returnValue) {
                 debugger;
                 var initData = JSON.parse(returnValue);

@@ -61,13 +61,13 @@ public without sharing class CommunityService {
         return CommunityService.getUserContact().Id;
     }
 
-    public String getUserAccessLevel(){
+    public String getUserAccessLevel(String delegateId){
         String accessLevel;
         try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-            accessLevel = [ SELECT Delegate_Level__c
-                            FROM Referring_HCP_Staff__c
-                            WHERE Contact__c = :currentContactId LIMIT 1].Delegate_Level__c;
+            accessLevel = [ SELECT Delegate_Access_Level__c
+                            FROM RP_Delegate_Relationship__c
+                            WHERE Delegate__c = :currentContactId AND Referring_Provider__c = :delegateId LIMIT 1].Delegate_Access_Level__c;
         } catch (Exception ex){
             accessLevel=null;
         }

@@ -6,9 +6,12 @@ public with sharing class HCPTrialBuilder extends TrialBuilder {
 
     private HCP_Enrollment__c hcpEnrollment;
 
-    public HCPTrialBuilder(String trialId) {
+    public HCPTrialBuilder(String trialId){
+        this(trialId,null);
+    }
+    public HCPTrialBuilder(String trialId, String delegateId) {
         super(trialId);
-        this.hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId);
+        this.hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentForHCPByTrial(trialId,delegateId);
         this.studyAction = this.getStudyActions();
         this.trialDetail.tabs = this.getStudyTabs();
     }

@@ -19,7 +19,8 @@
         }
         communityService.executeAction(component, 'getReferralProfileDetail',{
             peId: peId,
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId(),
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.statusSteps', initData.steps);
