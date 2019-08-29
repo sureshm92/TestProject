@@ -20,9 +20,11 @@
     },
 
     onTravel : function (component, event, helper) {
-        component.find('popup').execute(function () {
-            window.open($A.get('$Label.c.Travel_Support_Link'), '_blank');
-        });
+        component.find('showVendors').show();
+    },
+
+    closeModal : function (component, event, helper) {
+        component.find('showVendors').hide();
     },
 
     createEditTask : function (component, event, helper) {
