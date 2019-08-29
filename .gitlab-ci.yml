@@ -9,7 +9,7 @@ cache:
     - node_modules
     - ~/.sfdx
     - .sfdx
-VALIDATE_INT1.1:
+VALIDATE_INT-3.1.1:
   tags:
     - shell
   only:
