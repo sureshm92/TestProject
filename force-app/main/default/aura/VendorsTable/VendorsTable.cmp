@@ -7,7 +7,7 @@
 
     <aura:attribute name="vendors" type="Object[]"/>
     <aura:attribute name="hasDefault" type="Boolean"/>
-
+    <c:RRTable>
                 <div class="slds-scrollable">
                     <table class="slds-table slds-table_bordered slds-table_striped">
                         <thead>
@@ -35,4 +35,5 @@
                         </tbody>
                     </table>
                 </div>
+    </c:RRTable>
 </aura:component>
