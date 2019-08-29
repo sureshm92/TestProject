@@ -168,7 +168,7 @@ public class Test_ParticipantService {
                 Protocol_ID__c = 'Prot-333',
                 NCT_Number__c = 'NCT02804789',
                 Therapeutic_Area__r = new Therapeutic_Area__c(Name = 'Test Area'),
-                Participating_in_Patient_Portal__c = 'Yes',
+                Include_in_patient_trial_search__c = true,
                 Terms_And_Conditions_ID__r = tc,
                 Visit_Plan__c = TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType())
         );
