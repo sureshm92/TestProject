@@ -57,4 +57,6 @@
    2. Open HCP Enrollment for edit and change Stats to "Activated" 
    3. Login to community under PI User, HCP user or Participant user on your choice 
 
-
+----------------------------------------------------------------------------------
+If merge request fails on the error 
+just remove <userPermission> with the name ViewFlowUsageAndFlowEventData from Admin.profile

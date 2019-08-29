@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>ThirdChoiceLanguage__c</fullName>
+    <fullName>Third_Choice_Language__c</fullName>
     <externalId>false</externalId>
     <inlineHelpText>This will be used to display study information when your other two choices are not available.</inlineHelpText>
     <label>3rd Choice Language</label>
@@ -9,18 +9,7 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>en_US</fullName>
-                <default>false</default>
-                <label>English</label>
-            </value>
-            <value>
-                <fullName>ru</fullName>
-                <default>false</default>
-                <label>Русский</label>
-            </value>
-        </valueSetDefinition>
+        <restricted>true</restricted>
+        <valueSetName>Languages</valueSetName>
     </valueSet>
 </CustomField>
