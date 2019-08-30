@@ -290,7 +290,7 @@ private class Test_BaseCRCPCommunity {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         Test.startTest();
         System.runAs(hcpUser) {
-            String stringData = StudyListViewController.getHCPInitData();
+            String stringData = StudyListViewController.getHCPInitData(null);
             StudyListViewController.HCPInitData initData = (StudyListViewController.HCPInitData) JSON.deserializeStrict(stringData, StudyListViewController.HCPInitData.class);
 
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), false);
@@ -359,7 +359,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(hcpUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_HCP);
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
             TermsAndConditionsRemote.getPortalTcData();
             TermsAndConditionsRemote.getTrialTcData(study.Id);
@@ -442,7 +442,7 @@ private class Test_BaseCRCPCommunity {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         Test.startTest();
         System.runAs(hcpUser) {
-            Action_RequestToReferByHCPRemote.requestToReferForHCP(studySite.Id,hcpEnrollment.Id);
+            Action_RequestToReferByHCPRemote.requestToReferForHCP(studySite.Id,hcpEnrollment.Id, null);
         }
         Test.stopTest();
     }
@@ -555,17 +555,17 @@ private class Test_BaseCRCPCommunity {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         Test.startTest();
         System.runAs(hcpUser) {
-            MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP);
-            MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_HCP, 'hcp_delegate@emil.com'), MyTeamRemote.MyTeamDetail.class);
+            MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP, null);
+            MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_HCP, 'hcp_delegate@emil.com', null), MyTeamRemote.MyTeamDetail.class);
             detail.delegates[0].trialLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_2;
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]));
+            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]),null);
             detail.delegates[0].trialLevels[0].delegateLevel = '';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]));
-            detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_HCP, 'hcp_delegate_new@emil.com'), MyTeamRemote.MyTeamDetail.class);
+            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]),null);
+            detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_HCP, 'hcp_delegate_new@emil.com',null), MyTeamRemote.MyTeamDetail.class);
             detail.delegates[0].trialLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_2;
             detail.delegates[0].delegateContact.LastName = 'Test New HCP Delegate';
             detail.delegates[0].delegateContact.FirstName = 'Test New HCP Delegate';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]));
+            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]), null);
         }
         Test.stopTest();
     }
@@ -576,17 +576,17 @@ private class Test_BaseCRCPCommunity {
         User piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
         Test.startTest();
         System.runAs(piUser) {
-            MyTeamRemote.getInitData(CommunityService.USER_MODE_PI);
-            MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_PI, 'pi_delegate@emil.com'), MyTeamRemote.MyTeamDetail.class);
+            MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, null);
+            MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_PI, 'pi_delegate@emil.com', null), MyTeamRemote.MyTeamDetail.class);
             detail.delegates[0].trialLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_2;
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]));
+            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]), null);
             detail.delegates[0].trialLevels[0].delegateLevel = '';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]));
-            detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_PI, 'pi_delegate_new@emil.com'), MyTeamRemote.MyTeamDetail.class);
+            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]), null);
+            detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_PI, 'pi_delegate_new@emil.com', null), MyTeamRemote.MyTeamDetail.class);
             detail.delegates[0].trialLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_2;
             detail.delegates[0].delegateContact.LastName = 'Test New PI Delegate';
             detail.delegates[0].delegateContact.FirstName = 'Test New PI Delegate';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]));
+            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]), null);
         }
         Test.stopTest();
     }
@@ -602,13 +602,13 @@ private class Test_BaseCRCPCommunity {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_PI);
             StudyDetailAboutStudyRemote.setTrialAcceptedForPI(study.Id, null,null);
-            DashboardRemote.getInitData(CommunityService.USER_MODE_HCP);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_HCP, null);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.changeEmail('new@emil.com');
             AccountSettingsController.changePassword('Dd231324d13', 'Dd231324d13', '11111');
             ClinicProfileRemote.getClinicProfileData(hcpAccount.Id);
             CommunityFacadeRemote.getCommunityData();
-            CommunityFacadeRemote.changeMode(CommunityService.USER_MODE_PI);
+            CommunityFacadeRemote.changeMode(CommunityService.USER_MODE_PI, null);
         }
         Test.stopTest();
     }
@@ -623,12 +623,12 @@ private class Test_BaseCRCPCommunity {
         Participant__c   participant = [SELECT Id FROM Participant__c WHERE Email__c = 'part1@email.com'];
         Test.startTest();
         System.runAs(piUser) {
-            String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_PI, null, CommunityService.USER_MODE_PI);
+            String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_PI, null, CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
-            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI);
-            ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_PI);
-            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI);
-            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false);
+            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
+            ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_PI, null);
+            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
+            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null);
             StudyClinicDashboardRemote.getInitData(study.Id, studySiteAccount.Id);
         }
         Test.stopTest();
@@ -700,10 +700,10 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(piUser) {
             ReferralProfileRemote.getReferralProfileDetail(passedMrrPE.Id, CommunityService.USER_MODE_PI);
-            ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI);
+            ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI, null);
             ReferralProfileRemote.changePEStatusByBtn(passedMrrPE.Id, 'Referral Accepted');
             ReferralProfileRemote.changePEStatus(passedMrrPE.Id, 'Contact Successful', 'Some Notes', CommunityService.USER_MODE_PI);
-            ReportsRemote.getInitData(study.Id, CommunityService.USER_MODE_PI);
+            ReportsRemote.getInitData(study.Id, CommunityService.USER_MODE_PI, null);
             RRIconTableController.getFilterInfoAndSummaryInfo();
             RRProfileController.getUser();
             RRProfileController.getLogoutURL();
@@ -721,7 +721,7 @@ private class Test_BaseCRCPCommunity {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         Test.startTest();
         System.runAs(hcpUser) {
-            String jsonResult = MedicalRecordReviewRemote.getInitData(study.Id, hcpEnrollment.Id);
+            String jsonResult = MedicalRecordReviewRemote.getInitData(study.Id, hcpEnrollment.Id, null);
         }
         Test.stopTest();
     }
@@ -736,12 +736,12 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
-            String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(study.Id, 'participan01', 'AAA', 'BBB');
+            String jsonResult = MedicalRecordReviewRemote.createParticipantEnrollment(study.Id, 'participan01', 'AAA', 'BBB', null);
             MedicalRecordReviewRemote.SearchPEResult searchPEResult = (MedicalRecordReviewRemote.SearchPEResult) JSON.deserialize(jsonResult, MedicalRecordReviewRemote.SearchPEResult.class);
             String peJSON = JSON.serialize(searchPEResult.pe);
             MedicalRecordReviewRemote.setMRRStatus(peJSON, ParticipantEnrollmentService.PES_STATUS_PASS);
             Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
-            String refInitDataJSON = ReferringRemote.getInitData(study.Id, pe.Id, hcpEnrollment.Id, CommunityService.USER_MODE_HCP);
+            String refInitDataJSON = ReferringRemote.getInitData(study.Id, pe.Id, hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
             insert new Participant__c();
             Participant__c participant2 = new Participant__c(
@@ -750,9 +750,9 @@ private class Test_BaseCRCPCommunity {
                     Phone__c = '12123123',
                     Email__c = 'NewTestPart@email.com'
             );
-            ReferringRemote.saveParticipant(hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2));
+            ReferringRemote.saveParticipant(hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null);
             participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
-            String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP);
+            String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
         }
         Test.stopTest();
@@ -769,12 +769,12 @@ private class Test_BaseCRCPCommunity {
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
 
-            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP);
-            ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_HCP);
-            String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false);
-            mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(null, CommunityService.USER_MODE_HCP, false);
+            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP, null);
+            ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_HCP, null);
+            String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false, null);
+            mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(null, CommunityService.USER_MODE_HCP, false,null);
             MedicalRecordReviewLogController.ParticipantDetail participantDetail = (MedicalRecordReviewLogController.ParticipantDetail) JSON.deserialize(mrrLogResStr, MedicalRecordReviewLogController.ParticipantDetail.class);
-            MedicalRecordReviewLogController.getRecords(JSON.serialize(participantDetail.peFilter), JSON.serialize(participantDetail.paginationData), false);
+            MedicalRecordReviewLogController.getRecords(JSON.serialize(participantDetail.peFilter), JSON.serialize(participantDetail.paginationData), false, null);
             MedicalRecordReviewLogItemController.changeStatusToExcludeFromReferring(mrrPE.Id);
             ExcelController excelController = new ExcelController();
             excelController.getPEList();
@@ -846,9 +846,9 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
-            String jsonResult = SitesSearchRemote.getInitData(study.Id);
+            String jsonResult = SitesSearchRemote.getInitData(study.Id, null);
             SitesSearchRemote.InitData data = (SitesSearchRemote.InitData)JSON.deserialize(jsonResult, SitesSearchRemote.InitData.class);
-            SitesSearchRemote.getRecords(JSON.serialize(data.siteFilter),JSON.serialize(data.PaginationData));
+            SitesSearchRemote.getRecords(JSON.serialize(data.siteFilter),JSON.serialize(data.PaginationData), null);
 
         }
         Test.stopTest();

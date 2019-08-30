@@ -11,9 +11,11 @@
         window.addEventListener('resize', $A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }));
-
+        debugger;
         if (userMode === 'HCP') {
-            communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
+            communityService.executeAction(component, 'getHCPInitData', {
+                    delegateId: communityService.getDelegateId()
+                }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
@@ -58,6 +60,7 @@
     },
 
     searchForRecords: function (cmp, helper, fromFirstPage) {
+        debugger;
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
@@ -82,7 +85,8 @@
             filterData: filterJSON,
             sortData: sortJSON,
             paginationData: paginationJSON,
-            isSearchResume: isSearch
+            isSearchResume: isSearch,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             if (cmp.get('v.filterData').searchText !== searchText) return;
             let result = JSON.parse(returnValue);

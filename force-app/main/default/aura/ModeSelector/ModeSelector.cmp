@@ -4,12 +4,14 @@
 
 <aura:component description="ModeSelector" controller="CommunityFacadeRemote">
     <aura:attribute name="currentMode" type="String"/>
+    <aura:attribute name="currentDelegateId" type="String"/>
     <aura:attribute name="availableModes" type="Object[]"/>
     <aura:attribute name="currentLabel" type="String"/>
     <aura:attribute name="showMenu" type="Boolean" default="false"/>
     <aura:attribute name="showSelector" type="Boolean" default="{!v.availableModes.length > 1}"/>
 
     <aura:handler name="change" value="{!v.currentMode}" action="{!c.doChangeMode}"/>
+    <aura:handler name="change" value="{!v.currentDelegateId}" action="{!c.doChangeMode}"/>
     <aura:handler name="change" value="{!v.availableModes}" action="{!c.doChangeMode}"/>
 
     <aura:if isTrue="{!v.showSelector}">
@@ -21,7 +23,7 @@
             </div>
             <ul class="{! v.showMenu ? 'mode-menu' : 'mode-menu hide' }" onclick="{!c.selectItem}" tabindex="-1" aura:id="modeMenu">
                 <aura:iteration var="item" items="{!v.availableModes}">
-                    <li data-menu-item-id="{!item.value}" class="{!v.currentMode == item.value ? 'active' : ''}">{!item.label}</li>
+                    <li data-menu-item-id="{!item.value}" data-delegate-id="{!item.delegateId}" class="{!and(v.currentMode==item.value, v.currentDelegateId == item.delegateId) ? 'active' : ''}">{!item.label}</li>
                 </aura:iteration>
             </ul>
         </div>

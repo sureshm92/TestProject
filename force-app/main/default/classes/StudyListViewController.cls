@@ -40,13 +40,19 @@ public without sharing class StudyListViewController {
         public String delegateAccessLevel;
     }
 
+
     @AuraEnabled
-    public static String getStudyTrialList(String userMode) {
+    public static String getStudyTrialList(String userMode){
+        return getStudyTrialList(userMode, null);
+    }
+
+    @AuraEnabled
+    public static String getStudyTrialList(String userMode, String delegateId) {
         try {
             InitData initData = new InitData();
             List<StudyDetailItem> studies;
             if (userMode == CommunityService.USER_MODE_HCP) {
-                studies = getStudiesForHCP();
+                studies = getStudiesForHCP(delegateId);
                 groupTrials(initData, studies, userMode);
             } else if (userMode == CommunityService.USER_MODE_PI) {
                 studies = getStudiesForPI();
@@ -73,8 +79,13 @@ public without sharing class StudyListViewController {
 
     @AuraEnabled
     public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume) {
+        return searchStudies(filterData, sortData, paginationData, isSearchResume, null);
+    }
+
+    @AuraEnabled
+    public static String searchStudies(String filterData, String sortData, String paginationData, Boolean isSearchResume, String delegateId) {
         try {
-            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume);
+            String studiesJSON = StudyTrialService.getStudiesJSON(filterData, sortData, paginationData, isSearchResume, delegateId);
             return studiesJSON;
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -82,7 +93,7 @@ public without sharing class StudyListViewController {
     }
 
     @AuraEnabled
-    public static String getHCPInitData() {
+    public static String getHCPInitData(String delegateId) {
         try {
             HCPInitData initData = new HCPInitData();
 
@@ -96,22 +107,23 @@ public without sharing class StudyListViewController {
             initData.filterData = StudyTrialService.getStudyFilterData();
 
             //records for current filter, sort and pagination:
-            initData.currentPageList = StudyTrialService.getStudies(initData.filterData, initData.sortData, initData.paginationData);
-
+            System.debug('DELEGATEID getHCPInitData:'+delegateId);
+            initData.currentPageList = StudyTrialService.getStudies(initData.filterData, initData.sortData, initData.paginationData, delegateId);
+            System.debug('CURRENT PAGE LIST:' + initData.currentPageList);
             // refresh filter data with TA options list
             initData.filterData = StudyTrialService.getStudyFilterData();
 
-            initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
+            initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
             return JSON.serialize(initData);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
 
-    public static List<StudyDetailItem> getStudiesForHCP() {
+    public static List<StudyDetailItem> getStudiesForHCP(String delegateId) {
         // prepare map trialId -> HCPEnrollment:
         Map<Id, HCP_Enrollment__c> trialHCPEnrollmentMap = new Map<Id, HCP_Enrollment__c>();
-        for (HCP_Enrollment__c enrollment : HCPEnrollmentService.getHCPEnrollmentsForHCP()) {
+        for (HCP_Enrollment__c enrollment : HCPEnrollmentService.getHCPEnrollmentsForHCP(delegateId)) {
             trialHCPEnrollmentMap.put(enrollment.Study_Site__r.Clinical_Trial_Profile__c, enrollment);
         }
 
@@ -125,7 +137,7 @@ public without sharing class StudyListViewController {
             studyDetailItem.hcpe = hcpe;
             studyDetailItem.trial = trial;
             studyDetailItem.studyStatus = hcpe.Status__c;
-            studyDetailItem.studyActions = new StudyActionsHCP(hcpe).studyListViewItemActions;
+            studyDetailItem.studyActions = new StudyActionsHCP(hcpe, delegateId).studyListViewItemActions;
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             studies.add(studyDetailItem);
         }
@@ -234,17 +246,17 @@ public without sharing class StudyListViewController {
     }
 
 
-    public static void loadStatistics(List<StudyDetailItem> studies) {
-        Map<Id, Integer> referredCountMap = ParticipantEnrollmentService.getReferredByTrial();
-        String allReviewedFilter = ' AND Participant_Status__c IN (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES_WITH_REFERRING), '\',\'') + '\') ';
-        Map<Id, Integer> allCountMap = ParticipantEnrollmentService.getPECountMapByTrialsForPI(allReviewedFilter);
-        for (StudyDetailItem item : studies) {
-            item.statistics.add(new StudyTotalPassed('all',
-                    allCountMap.get(item.trial.Id),
-                    referredCountMap.get(item.trial.Id)
-            ));
-        }
-    }
+//    public static void loadStatistics(List<StudyDetailItem> studies) {
+//        Map<Id, Integer> referredCountMap = ParticipantEnrollmentService.getReferredByTrial();
+//        String allReviewedFilter = ' AND Participant_Status__c IN (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES_WITH_REFERRING), '\',\'') + '\') ';
+//        Map<Id, Integer> allCountMap = ParticipantEnrollmentService.getPECountMapByTrialsForPI(allReviewedFilter);
+//        for (StudyDetailItem item : studies) {
+//            item.statistics.add(new StudyTotalPassed('all',
+//                    allCountMap.get(item.trial.Id),
+//                    referredCountMap.get(item.trial.Id)
+//            ));
+//        }
+//    }
 
     public static List<Account> getPIAccounts(List<StudyDetailItem> studies) {
         List<Account> accounts = StudyTrialService.getAccounts(studies);

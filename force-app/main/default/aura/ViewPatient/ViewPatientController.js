@@ -13,7 +13,8 @@
         var action = component.get('c.getInitDataForPatientProfile');
         action.setParams({
             participantId: participantId,
-            mode: communityService.getUserMode()
+            mode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         });
         action.setCallback(this, function (response) {
             if (response.getState() === "SUCCESS") {

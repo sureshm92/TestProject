@@ -25,8 +25,10 @@
 
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
-            contactEmail: ''
+            contactEmail: '',
+            parentId: communityService.getDelegateId()
         }, function (returnValue) {
+            debugger;
             var contactData = JSON.parse(returnValue);
             component.set('v.delegate', contactData.delegates[0]);
             component.set('v.delegateOptions', contactData.delegateOptions);
@@ -66,21 +68,20 @@
 
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
-            contactEmail: delegate.delegateContact.Email.toLowerCase()
+            contactEmail: delegate.delegateContact.Email.toLowerCase(),
+            parentId: communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);
+            var userMode = component.get('v.userMode');
             component.set('v.delegate', contactData.delegates[0]);
-            if (component.get('v.userMode') !== 'HCP'){
+            if (userMode !== 'HCP'){
                 component.set('v.currentTab', 'by-study');
             }
             else{
                 component.set('v.currentTab', 'all-same');
             }
             debugger;
-            component.set('v.alreadyExists',contactData.alreadyExists);
-            component.set('v.alreadyExistsTitle','Team member ' + contactData.delegates[0].delegateContact.Name
-                + ' already exists. Name populated from existing database values.');
             if (contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId) {
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_yourself_as_a_delegate'));
             } else if (contactData.delegates[0].delegateContact.Id === undefined) {
@@ -91,8 +92,10 @@
             var allTrialLevel = {
                 delegateLevel: '',
                 trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies'),
-                readOnly: contactData.alreadyExists
             };
+            if (userMode === 'HCP'){
+                allTrialLevel.delegateLevel = contactData.delegates[0].trialLevel.delegateLevel;
+            }
             component.set('v.allTrialLevel', allTrialLevel);
             var studyDelegateLavelItems = component.find('study-level');
             if (studyDelegateLavelItems) {
@@ -114,6 +117,7 @@
         if (currentTab === 'all-same') {
             for (var i = 0; i < delegate.trialLevels.length; i++) {
                 delegate.trialLevels[i].delegateLevel = allTrialLevel.delegateLevel;
+                delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
             }
         }
 

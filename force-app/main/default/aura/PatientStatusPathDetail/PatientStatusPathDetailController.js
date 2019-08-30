@@ -25,7 +25,8 @@
         var action = component.get('c.getPEStatusHistory');
         action.setParams({
             peId: component.get('v.peId'),
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         });
         action.setCallback(this, function (response) {
             if (response.getState() === "SUCCESS") {

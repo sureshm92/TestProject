@@ -15,15 +15,16 @@
     setAvailableModes : function(component){
         component.set('v.isInitialized', true);
         component.set('v.mode', communityService.getUserMode());
-        var modes = communityService.getCommunityTypes();
-        var resModes = [];
-        for(var i = 0; i< modes.length; i++){
-            resModes.push({
-                label: this.getModeLabel(modes[i]),
-                value: modes[i]
-            })
-        }
-        component.set('v.availableModes', resModes);
+        component.set('v.delegateId', communityService.getDelegateId());
+        // var modes = communityService.getCommunityTypes();
+        // var resModes = [];
+        // for(var i = 0; i< modes.length; i++){
+        //     resModes.push({
+        //         label: this.getModeLabel(modes[i]),
+        //         value: modes[i],
+        //     })
+        // }
+        component.set('v.availableModes', communityService.getCommunityTypes());
     }
 
 })
