@@ -40,6 +40,15 @@ public without sharing class StudySiteTriggerHandler {
         }
     }
     
+    public class PrepareAdditionalFieldsHandler extends TriggerHandler{
+        
+        public override void beforeInsert(List<SObject> newList) {
+            prepareAdditionalFields(newList);
+        }
+    
+    }
+    
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
     
     @TestVisible
@@ -100,5 +109,46 @@ public without sharing class StudySiteTriggerHandler {
     @TestVisible
     private static void deleteStatusHistory(List<Study_Site__c> oldList) {
         delete [SELECT Id FROM Status_History__c WHERE StudySite__c IN: oldList];
+    }
+    
+    private static void prepareAdditionalFields(List<Study_Site__c> newList){
+        List<Id> ctpIds = new List<Id>();
+        List<Id> siteAccountIds = new List<Id>();
+        List<Id> piIds = new List<Id>();
+        for(Study_Site__c ss : newList){
+            if(ss.Clinical_Trial_Profile__c != null) ctpIds.add(ss.Clinical_Trial_Profile__c);
+            if(ss.Site__c != null) siteAccountIds.add(ss.Site__c);
+            if(ss.Principal_Investigator__c != null) piIds.add(ss.Principal_Investigator__c);
+        }
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>([
+                SELECT Id, Protocol_ID__c
+                FROM Clinical_Trial_Profile__c WHERE Id IN: ctpIds
+        ]);
+        Map<Id, Account> sitesMap = new Map<Id, Account>([
+                SELECT Id, BillingCountryCode FROM Account WHERE Id IN: siteAccountIds
+        ]);
+        Map<Id, Contact> piMap = new Map<Id, Contact>([
+                SELECT Id, Investigator_Key__c
+                FROM Contact
+                WHERE Id IN: piIds
+        ]);
+    
+        for(Study_Site__c ss : newList){
+            Clinical_Trial_Profile__c ctp;
+            if(ss.Protocol_ID__c != null) ctp = ctpMap.get(ss.Clinical_Trial_Profile__c);
+            Account site;
+            if(ss.Site__c != null) site = sitesMap.get(ss.Site__c);
+            Contact pi;
+            if(ss.Principal_Investigator__c != null) pi = piMap.get(ss.Principal_Investigator__c);
+            //Set autopopulated fields:
+            //Primary_Key_ePR__c
+            if(ctp != null && site != null && ss.Study_Site_Number__c != null){
+                ss.Primary_Key_ePR__c = ctp.Protocol_ID__c + '_' + site.BillingCountryCode + '_' + ss.Study_Site_Number__c;
+            }
+            //Primary_Key__c
+            if(ctp != null && pi != null){
+                ss.Primary_Key__c = ss.Study_Site_Key__c + '_' + pi.Investigator_Key__c + '_' + ctp.Protocol_ID__c;
+            }
+        }
     }
 }

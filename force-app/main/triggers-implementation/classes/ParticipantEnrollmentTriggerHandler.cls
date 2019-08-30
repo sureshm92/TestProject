@@ -137,7 +137,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
                         Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
-                        Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c,
+                        Clinical_Trial_Profile__r.Include_in_patient_trial_search__c,
                         Clinical_Trial_Profile__r.NCT_Number__c
                 FROM Study_Site__c
                 WHERE Id IN:ssIds
@@ -353,7 +353,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
-                AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
 
@@ -464,7 +464,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+                WHERE Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
                 AND Id IN:peEnrollSuccessIds
         ];
 
@@ -514,7 +514,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 SELECT Id, Participant_Contact__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN:peEnrollSuccessIds
-                AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
         ];
 
         List<Alert__c> alerts = new List<Alert__c>();
