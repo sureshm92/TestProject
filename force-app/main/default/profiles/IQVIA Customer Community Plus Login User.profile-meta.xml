@@ -3740,11 +3740,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.Current_Participant_Enrollment__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant__c.Date_of_Birth__c</field>
         <readable>false</readable>
     </fieldPermissions>
