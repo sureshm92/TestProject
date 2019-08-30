@@ -2,11 +2,11 @@
  - Created by Vitalii Aheienko on 8/27/2019.
  -->
 
-<aura:component description="TravelVendorPanel" controller="TravelVendorPanelRemote" implements="flexipage:availableForAllPageTypes">
+<aura:component description="TravelVendorPanel" controller="TravelVendorPanelRemote" implements="force:hasRecordId, flexipage:availableForAllPageTypes">
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="vendors" type="List" access="public"/>
-    <aura:attribute name="items" type="List"/>
+    <aura:attribute name="vendorItems" type="List"/>
     <aura:attribute name="selectedSSIds" type="String" default=""/>
     <aura:attribute name="countryFilterType" type="String" default="All"/>
     <aura:attribute name="countryCodes" type="String"/>
@@ -85,30 +85,30 @@
                         <aura:if isTrue="{!v.vendors}">
                             <aura:iteration items="{!v.vendors}" var="vendor">
                                 <th class="cell-wrap" scope="col">
-                                    <div>{!vendor}</div>
+                                    <div>{!vendor.Name}</div>
                                 </th>
                             </aura:iteration>
                         </aura:if>
                     </tr>
                     </thead>
                     <tbody>
-                    <aura:if isTrue="{!v.ssItems}">
-                        <aura:iteration items="{!v.ssItems}" var="item">
+                    <aura:if isTrue="{!v.vendorItems}">
+                        <aura:iteration items="{!v.vendorItems}" var="item">
                             <tr>
                                 <th data-label="Country" scope="row">
-                                    <div class="slds-truncate slds-text-align--center" title="">{!item.country.label}</div>
+                                    <div class="slds-truncate slds-text-align--center" title="">{!item.studySite.Site__r.BillingCountry}</div>
                                 </th>
                                 <td data-label="Study Site">
                                     <div class="slds-truncate slds-text-align--center" title="">
-                                        <a href="javascript:void(0);" tabindex="-1" data-ssid="{!item.ss.Id}">{!item.name}</a>
+                                        <a href="javascript:void(0);" tabindex="-1" data-ssid="{!item.studySite.Id}">{!item.studySite.Name}</a>
                                     </div>
                                 </td>
                                 <td data-label="Name">
-                                    <div class="slds-truncate slds-text-align--center" title="">{!item.ss.Study_Site_Number__c}</div>
+                                    <div class="slds-truncate slds-text-align--center" title="">{!item.studySite.Study_Site_Number__c}</div>
                                 </td>
-                                <aura:iteration items="{!item.selectedVendorSettings}" var="selectedVendorSetting">
+                                <aura:iteration items="{!item.vendorSettings}" var="selectedVendorSetting">
                                     <td>
-                                        <ui:inputCheckbox value="{!selectedVendorSettings.isEnable__c}"/>
+                                        <ui:inputCheckbox value="{!selectedVendorSetting.isEnable__c}"/>
 <!--                                        <c:uiCheckbox keyId="{!item.ss.Id}" forField="{!appLang.value}"-->
 <!--                                                      fieldValue="{!appLang.state}"/>-->
 

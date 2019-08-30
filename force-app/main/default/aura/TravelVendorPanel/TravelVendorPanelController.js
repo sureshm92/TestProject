@@ -9,9 +9,9 @@
         communityService.executeAction(component, 'getInitData', {
             'ctpId' : component.get('v.recordId')
         }, function(data) {
-            component.set('v.ssItems', data.studySiteItems);
+            component.set('v.vendorItems', data.vendorItems);
             component.set('v.countryCodes', data.countryCodes);
-            component.set('v.languages', data.languages);
+            component.set('v.vendors', data.vendors);
             component.set('v.initialized', true);
 
             component.find('spinner').hide();
@@ -28,8 +28,9 @@
             'countryCodes' : component.get('v.countryCodes'),
             'vendors' : component.get('v.vendors')
         }, function(data) {
-            component.set('v.ssItems', data.studySiteItems);
+            component.set('v.vendorItems', data);
 
+            console.log('vendorItems ', data);
             component.find('spinner').hide();
         })
     },

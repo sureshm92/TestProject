@@ -78,11 +78,19 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static List<VendorItem> getFilteredItems(Id ctpId, List<Id> ssIds, List<String> countryCodes, List<TravelVendor__c> vendors) {
+    public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<TravelVendor__c> vendors) {
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         try {
-            result = supportHelper.getVendorItems(countryCodes, ctpId, ssIds, vendors);
+            List<String> countryCodeList;
+            if (countryCodes != null && String.isNotBlank(countryCodes)) {
+                countryCodeList = countryCodes.split(';');
+            }
+            List<String> studyIds;
+            if(ssIds != null && String.isNotBlank(ssIds)) {
+                studyIds = ssIds.split(';');
+            }
+            result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendors);
             for (TravelVendor__c vendor : vendors) {
                 for (VendorItem vendorItem : result) {
                     List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
