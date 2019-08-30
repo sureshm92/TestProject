@@ -38,14 +38,8 @@
                 component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
                 component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
-               // helper.prepareIconsForPI(initData);
-                component.set('v.countryPicklist', initData.countries);
-                component.set('v.statesByCountryMap',initData.statesByCountryMap);
-                component.set('v.countriesMap',initData.countriesMap);
-                component.set('v.countryCodesMap',initData.countryCodesMap);
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
-                //component.set("v.showSpinner", false);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
                     component.set("v.showSpinner", false);
@@ -162,15 +156,6 @@
                         this.clampLine(studyTitle, 3);
                     } else {
                         this.clampLine(studyTitle, 1);
-                    }
-                }
-            }
-            if (component.get('v.userMode') == 'PI') {
-                var instructions = document.getElementsByClassName("driving-instructions");
-                for (var i = 0; i < instructions.length; i++) {
-                    var instruction = instructions.item(i);
-                    if (instruction != null) {
-                        this.clampLine(instruction, 3);
                     }
                 }
             }

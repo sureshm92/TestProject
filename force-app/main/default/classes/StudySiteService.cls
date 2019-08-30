@@ -194,6 +194,7 @@ public without sharing class StudySiteService {
             'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
+            'Site__r.BillingCountryCode',
             'Site__r.BillingState',
             'Site__r.BillingStateCode',
             'Site__r.BillingPostalCode',
@@ -408,6 +409,7 @@ public without sharing class StudySiteService {
         public Map<String, StudyActions.Action> actions;
         public String sortType;
         public Boolean hasActiveHCPE;
+        public Boolean hasPatients;
         public Datetime hcpCreatedDate;
 
         public StudySiteDistanceWrapper() {

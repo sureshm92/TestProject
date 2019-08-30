@@ -4,7 +4,7 @@
 
 public without sharing class StudyTrialService {
     public static String ACTIVELY_ENROLLING_STATUS = 'Actively Enrolling';
-
+    
     private static List<String> TRIAL_FIELDS = new List<String>{
             'Id',
             'Name',
@@ -25,7 +25,7 @@ public without sharing class StudyTrialService {
             'Therapeutic_Area__r.Name',
             'NCT_Number__c'
     };
-
+    
     private static List<String> TRIAL_SEARCH_FIELDS = new List<String>{
             'Official_Title__c',
             'Study_Code_Name__c',
@@ -33,7 +33,7 @@ public without sharing class StudyTrialService {
             'Override_Inclusion_Criteria__c',
             'Brief_Summary__c'
     };
-
+    
     public class StudyFilterData {
         public String enrollmentStatus;
         public List<LabelValueItem> enrollmentStatuses;
@@ -43,25 +43,25 @@ public without sharing class StudyTrialService {
         public List<LabelValueItem> distances;
         public String searchText;
     }
-
+    
     public class StudySortData {
         public String sortType;
         public List<LabelValueItem> sortVariants;
     }
-
+    
     public class EnrollmentWrapper {
         public HCP_Enrollment__c enrollment;
         public Boolean isActivated;
         public Boolean isDeclined;
         public Boolean isPending;
     }
-
+    
     public class SearchResults {
         public List<StudyDetailItem> records;
         public List<LabelValueItem> therapeuticAreas;
         public PaginationData paginationData;
     }
-
+    
     private static List<LabelValueItem> studyEnrollmentStatuses = null;
     public static List<LabelValueItem> getStudyEnrollmentStatuses {
         get {
@@ -71,24 +71,24 @@ public without sharing class StudyTrialService {
                 for (Schema.PicklistEntry currPicklistEntry : statusDescribe.getPicklistValues()) {
                     enrollmentStatuses.add(new LabelValueItem(currPicklistEntry.getLabel(), currPicklistEntry.getValue()));
                 }
-
+                
                 studyEnrollmentStatuses = enrollmentStatuses;
             }
             return studyEnrollmentStatuses;
         }
     }
-
+    
     public static List<LabelValueItem> therapeuticAreaFilterOptions;
-
+    
     public static StudyFilterData getStudyFilterData() {
         StudyFilterData filterData = new StudyFilterData();
-
+        
         filterData.enrollmentStatuses = getStudyEnrollmentStatuses;
         filterData.enrollmentStatus = getStudyEnrollmentStatuses[0].value;
-
+        
         filterData.therapeuticAreas = therapeuticAreaFilterOptions;
         filterData.therapeuticArea = null;
-
+        
         filterData.distances = new List<LabelValueItem>{
                 new LabelValueItem(Label.PG_SFS_L_Any_distance, null),
                 new LabelValueItem('5   ' + DistanceHelper.getUnitsOfMeasurementLabel(), '5'),
@@ -99,18 +99,18 @@ public without sharing class StudyTrialService {
                 new LabelValueItem('300 ' + DistanceHelper.getUnitsOfMeasurementLabel(), '300')
         };
         filterData.distance = null;
-
+        
         return filterData;
     }
-
+    
     public static StudySortData getStudySortData() {
         StudySortData sortData = new StudySortData();
         sortData.sortType = SortOrder.SORT_TYPES[0].value;
         sortData.sortVariants = SortOrder.SORT_TYPES;
-
+        
         return sortData;
     }
-
+    
     public static PaginationData getPaginationData() {
         PaginationData pd = new PaginationData();
         pd.pageRecordsCount = 5;
@@ -119,27 +119,27 @@ public without sharing class StudyTrialService {
                 new LabelValueItem('5', '5'),
                 new LabelValueItem('10', '10')
         };
-
+        
         return pd;
     }
-
+    
     public static StudySortData getStudySortDataForHCP() {
         StudySortData sortData = new StudySortData();
         sortData.sortType = SortOrder.STUDIES_HCP_SORT_TYPES[0].value;
         sortData.sortVariants = SortOrder.STUDIES_HCP_SORT_TYPES;
-
+        
         return sortData;
     }
-
+    
     public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume) {
         return getStudiesJSON(filterDataJSON, sortDataJSON, paginationDataJSON, isSearchResume, null);
     }
-
+    
     public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume, String delegateId) {
         StudyFilterData filterData = (StudyFilterData) JSON.deserialize(filterDataJSON, StudyFilterData.class);
         StudySortData sortData = (StudySortData) JSON.deserialize(sortDataJSON, StudySortData.class);
         PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
-
+        
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
         System.debug('IS SEARCH RESUME>>>>>' + isSearchResume);
         if (isSearchResume) {
@@ -147,26 +147,26 @@ public without sharing class StudyTrialService {
         } else {
             studies = getStudies(filterData, sortData, paginationData, delegateId);
         }
-
+        
         SearchResults sr = new SearchResults();
         sr.records = studies;
         sr.paginationData = paginationData;
         sr.therapeuticAreas = therapeuticAreaFilterOptions;
-
+        
         return JSON.serialize(sr);
     }
-
+    
     public static List<String> transformToStudySiteFields(List<String> fields) {
         String prefix = 'Clinical_Trial_Profile__r.';
-
+        
         List<String> res = new List<String>();
         for (String currField : fields) {
             res.add(prefix + currField);
         }
-
+        
         return res;
     }
-
+    
     public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData, String delegateId) {
         Location userLocation = DistanceHelper.getUserLocation();
         Contact userContact = CommunityService.getUserContact();
@@ -183,11 +183,11 @@ public without sharing class StudyTrialService {
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
                 '  AND Principal_Investigator__r.Account.BillingCountry = :userCountry '+
                 ') ';
-
+        
         if (sortData.sortType == 'CreatedDate DESC') {
             query += 'ORDER BY CreatedDate DESC ';
         }
-
+        
         if (sortData.sortType == 'Distance ASC') {
             if (userLocation != null) {
                 query += 'ORDER BY DISTANCE(Principal_Investigator__r.Account.BillingAddress, GEOLOCATION(' + userLocation.Latitude + ', ' + userLocation.Longitude + '), \'mi\') ASC NULLS LAST ';
@@ -203,7 +203,7 @@ public without sharing class StudyTrialService {
             }
             trialIdToStudySites.get(currStudySite.Clinical_Trial_Profile__r.Id).add(currStudySite);
         }
-
+        
         Map<Id, Double> trialIdToDistance = new Map<Id, Double>();
         Set<Id> trialsWithVirtualSites = new Set<Id>();
         for (Id currTrialId : trialIdToStudySites.keySet()) {
@@ -259,16 +259,16 @@ public without sharing class StudyTrialService {
                     }
                 }
             }
-
+            
             if (String.isNotBlank(filterData.therapeuticArea) && currTrial.Therapeutic_Area__r.Name != filterData.therapeuticArea) {
                 isMatchTherapeuticAreaFilter = false;
             }
-
+            
             Double distance = trialIdToDistance.get(currTrial.Id);
             if (currMaxDistance != null && (distance == null || distance > currMaxDistance)&& !trialsWithVirtualSites.contains(currTrial.Id)) {
                 isMatchDistance = false;
             }
-
+            
             if (isMatchTerm && isMatchTherapeuticAreaFilter && isMatchDistance) {
                 filteredTrials.add(currTrial);
             }
@@ -276,9 +276,9 @@ public without sharing class StudyTrialService {
                 filteredByDistanceTrials.add(currTrial);
             }
         }
-
+        
         setTherapeuticAreaFilterOptions(filteredByDistanceTrials, filterData.therapeuticArea);
-
+        
         List<Clinical_Trial_Profile__c> trialsOnPage = new List<Clinical_Trial_Profile__c>();
         Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
         Integer rightRecord = Math.min(leftRecord + paginationData.pageRecordsCount, filteredTrials.size());
@@ -286,11 +286,11 @@ public without sharing class StudyTrialService {
             trialsOnPage.add(filteredTrials[i]);
         }
         paginationData.setRecordsCount(filteredTrials.size());
-
+        
         Map<Id, List<HCP_Enrollment__c>> trialIdToEnrollments = getTrialIdToEnrollments();
-
+        
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
-
+        
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
             StudyActions.Action openStudySite = new StudyActionsHCP(trial,null,null, delegateId).actions.get(StudyActions.ACT_HCP_LINK_STUDY_SITES);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
@@ -306,10 +306,10 @@ public without sharing class StudyTrialService {
             studyDetailItem.therapeuticArea = trial.Therapeutic_Area__r.Name;
             pageRecords.add(studyDetailItem);
         }
-
+        
         return pageRecords;
     }
-
+    
     private static Map<Id, List<HCP_Enrollment__c>> getTrialIdToEnrollments() {
         String contactId = CommunityService.getUserContact().Id;
         List<HCP_Enrollment__c> relatedEnrollments = [
@@ -327,7 +327,7 @@ public without sharing class StudyTrialService {
         }
         return trialIdToEnrollments;
     }
-
+    
     public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData, String delegateId) {
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
         siteFilter.sortType = StudySiteService.SS_SORT_TYPE_DISTANCE;
@@ -344,10 +344,10 @@ public without sharing class StudyTrialService {
                 trialsWithActiveEnrollments.add(siteWrapper.site.Clinical_Trial_Profile__c);
             }
         }
-
+        
         // get trials with fields and TC:
         List<Clinical_Trial_Profile__c> trials = StudyTrialService.searchTrials(trialStudyMap.keySet(), filterData, sortData);
-
+        
         Set<Id> trialsWithPatients = new Set<Id>();
         Set<Id> trialIds = new Set<Id>();
         for (Clinical_Trial_Profile__c trial : trials) {
@@ -367,11 +367,11 @@ public without sharing class StudyTrialService {
         for (Participant_Enrollment__c pe : Database.query(query)) {
             trialsWithPatients.add(pe.Clinical_Trial_Profile__c);
         }
-
+        
         // prepare list of studies:
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : trials) {
-
+            
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.sites = trialStudyMap.get(trial.Id);
             studyDetailItem.maxHCPCreatedDate = getMaxHCPCreatedDate(trialStudyMap.get(trial.Id));
@@ -401,12 +401,12 @@ public without sharing class StudyTrialService {
                     currActions.add(myPatients);
                 }
                 if(studyDetailItem.trial.Terms_And_Conditions_ID__c != null){
-                	StudyActions.Action tcAction = currSA.actions.get(StudyActions.ACT_VIEW_TC);
-					currActions.add(tcAction);
+                    StudyActions.Action tcAction = currSA.actions.get(StudyActions.ACT_VIEW_TC);
+                    currActions.add(tcAction);
                 }
                 availableActions.addAll(currActions);
             }
-
+            
             Map<String, StudyActions.Action> actionIdToAction = new Map<String, StudyActions.Action>();
             for (StudyActions.Action currAction : availableActions) {
                 if (actionIdToAction.containsKey(currAction.id)) {
@@ -418,18 +418,18 @@ public without sharing class StudyTrialService {
                     actionIdToAction.put(currAction.id, currAction);
                 }
             }
-
+            
             studyDetailItem.studyActions = actionIdToAction.values();
-
+            
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
             pageRecords.add(studyDetailItem);
         }
-
+        
         if (sortData.sortType != null) {
             StudyDetailItem.sortType = sortData.sortType;
             pageRecords.sort();
         }
-
+        
         paginationData.setRecordsCount(pageRecords.size());
         List<StudyDetailItem> trialsOnPage = new List<StudyDetailItem>();
         Integer leftRecord = (paginationData.currentPage - 1) * paginationData.pageRecordsCount;
@@ -437,10 +437,10 @@ public without sharing class StudyTrialService {
         for (Integer i = leftRecord; i < rightRecord; i++) {
             trialsOnPage.add(pageRecords[i]);
         }
-
+        
         return trialsOnPage;
     }
-
+    
     private static Datetime getMaxHCPCreatedDate(List<StudySiteService.StudySiteDistanceWrapper> studySites) {
         Datetime res = null;
         if (studySites != null) {
@@ -456,21 +456,21 @@ public without sharing class StudyTrialService {
 
     public static List<Clinical_Trial_Profile__c> getTrials(Set<Id> trialsId) {
         return [
-                SELECT Id
-                        , Name
-                        , Study_Sponsor__c
-                        , Detailed_Description__c
-                        , Brief_Summary__c
-                        , Override_Recruitment_Status__c
-                        , Terms_And_Conditions_ID__c
-                        , Link_to_Medical_Record_Review__c
-                        , Link_to_Pre_screening__c
-                        , Study_Title__c
-                        , Study_Code_Name__c
-                        , Official_Title__c
-                        , Sponsor_Pays_for_Referral_Activity__c
-                        , NCT_Number__c
-                        ,Share_URL__c
+                SELECT Id,
+                        Name,
+                        Study_Sponsor__c,
+                        Detailed_Description__c,
+                        Brief_Summary__c,
+                        Override_Recruitment_Status__c,
+                        Terms_And_Conditions_ID__c,
+                        Link_to_Medical_Record_Review__c,
+                        Link_to_Pre_screening__c,
+                        Study_Title__c,
+                        Study_Code_Name__c,
+                        Official_Title__c,
+                        Sponsor_Pays_for_Referral_Activity__c,
+                        NCT_Number__c,
+                        Share_URL__c
 
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
@@ -488,10 +488,8 @@ public without sharing class StudyTrialService {
         if (String.isNotBlank(selectedOption)) {
             options.add(selectedOption);
         }
-
         List<String> sortedOptions = new List<String>(options);
         sortedOptions.sort();
-
         therapeuticAreaFilterOptions = new List<LabelValueItem>();
         therapeuticAreaFilterOptions.add(new LabelValueItem(Label.PG_SFS_L_All_Therapeutic_Areas, null));
         for (String currOption : sortedOptions) {
@@ -547,31 +545,31 @@ public without sharing class StudyTrialService {
 
     public static List<Clinical_Trial_Profile__c> getFullTrials(Set<Id> trialsId) {
         return [
-                SELECT Id
-                        , Orientation_Required__c
-                        , Name
-                        , Terms_And_Conditions_ID__c
-                        , Study_Sponsor__c
-                        , Study_Type__c
-                        , Detailed_Description__c
-                        , Override_Recruitment_Status__c
-                        , Brief_Summary__c
-                        , Override_Description__c
-                        , Override_Inclusion_Criteria__c
-                        , Override_Exclusion_Criteria__c
-                        , Condition_s_Therapeutic_Area__c
-                        , Sponsor_Pays_for_Referral_Activity__c
-                        , Study_Phase__c
-                        , NCT_Number__c
-                        , Protocol_ID__c
-                        , Enrollment_Start_Date__c
-                        , Enrolled_End_Date__c
-                        , Link_to_Medical_Record_Review__c
-                        , Link_to_Pre_screening__c
-                        , Study_Title__c
-                        , Study_Code_Name__c
-                        , Official_Title__c
-                        , Interventions__c
+                SELECT Id,
+                        Orientation_Required__c,
+                        Name,
+                        Terms_And_Conditions_ID__c,
+                        Study_Sponsor__c,
+                        Study_Type__c,
+                        Detailed_Description__c,
+                        Override_Recruitment_Status__c,
+                        Brief_Summary__c,
+                        Override_Description__c,
+                        Override_Inclusion_Criteria__c,
+                        Override_Exclusion_Criteria__c,
+                        Condition_s_Therapeutic_Area__c,
+                        Sponsor_Pays_for_Referral_Activity__c,
+                        Study_Phase__c,
+                        NCT_Number__c,
+                        Protocol_ID__c,
+                        Enrollment_Start_Date__c,
+                        Enrolled_End_Date__c,
+                        Link_to_Medical_Record_Review__c,
+                        Link_to_Pre_screening__c,
+                        Study_Title__c,
+                        Study_Code_Name__c,
+                        Official_Title__c,
+                        Interventions__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
         ];
@@ -584,179 +582,5 @@ public without sharing class StudyTrialService {
         if (trials.size() > 0) return trials[0];
         return null;
     }
-
-    public static List<Account> getAccounts(List<StudyDetailItem> studies) {
-        try {
-            Map<Id,Account> accountMap = new Map<Id,Account>();
-            for (AccountContactRelation piAccounts : [SELECT Id,
-                                                             Contact.Id,
-                                                             Contact.Name,
-                                                             Contact.primaryContact__c,
-                                                             Account.Id,
-                                                             Account.Name,
-                                                             Account.ParentId,
-                                                             Account.BillingCountry,
-                                                             Account.BillingCity,
-                                                             Account.BillingStreet,
-                                                             Account.BillingPostalCode,
-                                                             Account.BillingState,
-                                                             Account.BillingStateCode,
-                                                             Account.BillingLatitude,
-                                                             Account.BillingLongitude,
-                                                             Account.BillingGeocodeAccuracy,
-                                                             Account.Driving_Directions__c,
-                                                             Account.Parking_Instructions__c
-                                                             FROM AccountContactRelation
-                                                             WHERE ContactId = : CommunityService.getInstance().getCurrentContactId()]) {
-                accountMap.put(piAccounts.Account.Id,piAccounts.Account);
-            }
-                    for(StudyDetailItem sdi : studies){
-                        for(StudyDetailItem.StudySiteWithActions ss : sdi.ssList) {
-                            if(!ss.studySite.Account_Was_Changed__c) {
-                                accountMap.put(ss.studySite.Site__r.Id,ss.studySite.Site__r);
-                            }
-                        }
-                    }
-            List<Account> accountsToReturn = accountMap.values();
-
-            //accountsToReturn.sort();
-            return accountsToReturn;
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    private static String checkIfNull(String value){
-        if(value==null){
-            return '';
-        } else{
-            return value;
-        }
-    }
-
-    public static List<LabelValueItem> getDelegatePicklistValues(Id piId) {
-        try {
-            Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
-            List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
-            piDelegates = [
-                    SELECT Id,
-                            Site_Contact__r.Name,
-                            Site_Contact__c
-                    FROM Site_Staff__c
-                    WHERE Study_Site__r.Principal_Investigator__c = :piId
-            ];
-           /* if (piDelegates.isEmpty()) {
-                Set<Id> piSet = new Set<Id>();
-                for (Site_Staff__c delegatesSites : [
-                        SELECT Id,
-                                Study_Site__r.Principal_Investigator__c,
-                                Site_Contact__r.Name,
-                                Site_Contact__c
-                        FROM Site_Staff__c
-                        WHERE Site_Contact__c = :CommunityService.getInstance().getCurrentContactId()
-                ]) {
-                    piSet.add(delegatesSites.Study_Site__r.Principal_Investigator__c);
-                }
-                if (!piSet.isEmpty()) {
-                    piDelegates = [
-                            SELECT Id,
-                                    Site_Contact__r.Name,
-                                    Site_Contact__c
-                            FROM Site_Staff__c
-                            WHERE Study_Site__r.Principal_Investigator__c IN :piSet
-                    ];
-                }
-            }*/
-            if (!piDelegates.isEmpty()) {
-                for (Site_Staff__c delegatesSites : piDelegates) {
-                    delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
-                }
-            }
-            List<LabelValueItem> labelList = new List<LabelValueItem>();
-            if (!delegates.isEmpty()) {
-                labelList.add(new LabelValueItem('None', ' '));
-                labelList.addAll(delegates.values());
-            }
-            return labelList;
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    public static void saveSSChanges(String studySiteInfo) {
-        try {
-            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
-            Study_Site__c ssToUpdate = [SELECT Id, Site_Staff__c, Study_Site_Email__c,Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :ss.Id LIMIT 1];
-            ssToUpdate.Study_Site_Phone__c = ss.Study_Site_Phone__c;
-            ssToUpdate.Study_Site_Email__c = ss.Study_Site_Email__c;
-            ssToUpdate.Site_Staff__c = ss.Site_Staff__c;
-            ssToUpdate.Name = ss.Name;
-            ssToUpdate.Site__c = ss.Site__c;
-            update ssToUpdate;
-        } catch (Exception e) {
-            String status = (String) AuraHelper.throwException(e);
-        }
-    }
-
-    public static void saveSSAddress(String studySiteInfo) {
-        try {
-            Study_Site__c ss = (Study_Site__c) JSON.deserialize(studySiteInfo, Study_Site__c.class);
-            Contact currentContact = [SELECT Id, OwnerId, AccountId FROM Contact WHERE Id = :ss.Principal_Investigator__c];
-            Map<String, Object> acc = (Map<String, Object>) JSON.deserializeUntyped(studySiteInfo);
-            String accString = JSON.serialize(acc.get('Site__r'));
-            Account newAccount = (Account) JSON.deserialize(accString, Account.class);
-            Account createAccount = new Account();
-            if (newAccount.Id == null) {
-                createAccount = setFields(newAccount,currentContact,false);
-                insert createAccount;
-                currentContact.AccountId = createAccount.Id;
-                update currentContact;
-            } else {
-                if (newAccount.ParentId == null) {
-                    newAccount.ParentId = newAccount.Id;
-                    createAccount = setFields(newAccount,currentContact,false);
-                    insert createAccount;
-                    List<AccountContactRelation> removeAccContRelation = [
-                            SELECT Id,
-                                    IsDirect
-                            FROM AccountContactRelation
-                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id
-                            LIMIT 1
-                    ];
-                    currentContact.AccountId = createAccount.Id;
-                    update currentContact;
-                    if (!removeAccContRelation.isEmpty()) {
-                        delete removeAccContRelation[0];
-                    }
-                } else {
-                    createAccount = setFields(newAccount,currentContact,true);
-                    update createAccount;
-                    if (currentContact.AccountId != createAccount.Id) {
-                        currentContact.AccountId = createAccount.Id;
-                        update currentContact;
-                    }
-                }
-            }
-            Study_Site__c updSS = new Study_Site__c(Id = ss.Id, Account_Was_Changed__c = true, Site__c = createAccount.Id);
-            update updSS;
-        } catch (Exception e) {
-            String status = (String) AuraHelper.throwException(e);
-        }
-    }
-
-    private static Account setFields(Account newAccount,Contact currentContact,Boolean setId){
-        System.debug('newAccount>>'+newAccount);
-        Account acc =  new Account(  Id = setId ? newAccount.Id : null,
-                Name = newAccount.Name,
-                ParentId = newAccount.ParentId,
-                BillingCountry = newAccount.BillingCountry,
-                BillingStreet = newAccount.BillingStreet,
-                BillingCity = newAccount.BillingCity,
-                BillingPostalCode = newAccount.BillingPostalCode,
-                Driving_Directions__c = newAccount.Driving_Directions__c,
-                Parking_Instructions__c = newAccount.Parking_Instructions__c,
-                BillingState = newAccount.BillingState,
-                OwnerId = currentContact.OwnerId);
-        return acc;
-    }
+    
 }

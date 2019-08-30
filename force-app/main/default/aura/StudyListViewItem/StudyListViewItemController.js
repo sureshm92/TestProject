@@ -185,6 +185,17 @@
     },
 
     showManageLocationDetails: function (component, event, helper) {
+        var parent = component.get('v.parent');
+        var popupIndex = event.currentTarget.dataset.index;
+        var currentStudy = component.get('v.currentStudy');
+        var studySiteWrapper = currentStudy.ssList[popupIndex];
+        parent.find('actionManageLocationDetails').execute(studySiteWrapper, function(ss){
+            currentStudy.ssList[popupIndex].studySite = ss;
+            component.set('v.currentStudy',currentStudy);
+        });
+
+
+/*
         component.set('v.editAddress', false);
         component.set('v.checkedAccount', null);
         component.set('v.locationWasChanged', false);
@@ -208,11 +219,11 @@
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(component);
             }), 5);
-        }
+        }*/
 
     },
 
-    changeRadioMarker: function (component, event, helper) {
+    /*changeRadioMarker: function (component, event, helper) {
         var radioBtns = component.find('radioBtn');
         for (let i = 0; i < radioBtns.length; i++) {
             radioBtns[i].set('v.checked', false);
@@ -220,9 +231,9 @@
         event.getSource().set('v.checked',true);
         component.set('v.checkedAccount', event.getSource().get('v.value'));
         component.set('v.locationWasChanged', true);
-    },
+    },*/
 
-    changeStudySiteAddress: function (component, event, helper) {
+    /*changeStudySiteAddress: function (component, event, helper) {
         var ctarget = event.currentTarget.value;
         var element = component.get('v.currentStudy.ssList');
         var currentSS = element[ctarget].studySite;
@@ -231,7 +242,7 @@
         var parent = component.get('v.parent');
         component.set('v.locationWasChanged', false);
         parent.saveSSDetails(currentSS);
-    },
+    },*/
 
 
     editAccountAddress: function (component, event, helper) {
