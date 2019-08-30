@@ -563,10 +563,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDeduplicationService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ParticipantDuplicateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -3737,11 +3733,6 @@
         <editable>true</editable>
         <field>Participant__c.Country__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Current_Participant_Enrollment__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
