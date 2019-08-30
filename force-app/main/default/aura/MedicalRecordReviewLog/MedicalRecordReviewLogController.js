@@ -10,7 +10,8 @@
         communityService.executeAction(component, 'getParticipantDetail', {
             trialId: trialId ? trialId : null,
             userMode: component.get('v.userMode'),
-            applyPendingFilter: isFilterActive
+            applyPendingFilter: isFilterActive,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             component.set("v.skipUpdate", true);
             var initData = JSON.parse(returnValue);
@@ -41,7 +42,8 @@
         communityService.executeAction(component, 'getRecords', {
             filterJSON: JSON.stringify(filter),
             paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
-            applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false
+            applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
 
             if(component.get('v.peFilter').searchText !== searchText) return;

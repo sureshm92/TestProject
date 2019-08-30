@@ -121,7 +121,7 @@ public inherited sharing class VisitReportContainerRemote {
         public String measurement;
 
         public VisitValueWrapper(Decimal value, String measurement) {
-            this.value = String.valueOf(value);
+            this.value = value.toPlainString();
             this.measurement = measurement;
         }
         public VisitValueWrapper(String value) {

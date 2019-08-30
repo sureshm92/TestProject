@@ -1063,6 +1063,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
+        <value>View as ##RPName</value>
+    </labels>
+    <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
         <language>en_US</language>
         <protected>false</protected>

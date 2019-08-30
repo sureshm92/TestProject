@@ -1,179 +1,127 @@
 stages:
-- deployINT
-- validateINT
-- validateINF
-- deployINF
-- runTestINF
-- runTestINT
-- VALIDATE
-- DEPOLOY_DRYRUN
+  - DeployINT3.2
+  - DeployINT3.1.1
+  - RunTestINT3.2
+  - RunTestINT3.1.1
+  - VALIDATE
 cache:
   paths:
-  - node_modules
-  - ~/.sfdx
-  - .sfdx
-  # VALIDATE_DRYRUN:
-  #tags:
-  #- shell_2
-  #only:
-  #- PH_R1_Sprint
-  #- Sprint
-  #- merge_requests
-  #except:
-  #- push
-  #- commit
-
-  # stage: VALIDATE
-  #script:
-  #- echo "$SFDX_AUTH_URL_DRY_RUN" > sfdx-auth-url
-  #- sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a DRYRUN -d
-  # - sfdx --version
-  #- cd Nodejs
-  # - node convert.js
-  # - cd ..
-  # - rm -rf output
-  # - sfdx force:source:convert -d output
-  #- sfdx force:mdapi:deploy -d output -u DRYRUN -c --testlevel=RunLocalTests -w 60
-  #- echo "validate Int success"
-
-VALIDATE_INF:
+    - node_modules
+    - ~/.sfdx
+    - .sfdx
+VALIDATE_INT-3.1.1:
   tags:
-  - shell
+    - shell
   only:
-  - Informal
-  - merge_requests
+    - merge_requests
   except:
-  - push
-  - commit
+    - push
+    - commit
 
   stage: VALIDATE
   script:
-  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u INF -c -w 60
-  - echo "validate Inf success"
+    - echo "$INTOneOne" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INT1.1 -c -w 60
+    - echo "validate INT1.1 success"
 
-VALIDATE_INT:
+VALIDATE_INT-3.2:
   tags:
-  - shell_2
+    - shell_2
   only:
-  - merge_requests
+    - merge_requests
   except:
-  - push
-  - commit
+    - push
+    - commit
 
   stage: VALIDATE
   script:
-  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u INT -c -w 60
-  - echo "validate Inf success"
+    - echo "$INTTreeTwo" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INT3.2 -c -w 60
+    - echo "validate Int3.2 success"
 
 
-DEPOLOY_DRYRUN:
+DeployINT3.1.1:
   tags:
-  - shell_2
+    - shell
   only:
-  - PH_R1_Sprint
+    - Sprint-RH3.1.1-PP1.1.1
   except:
-  - merge_requests
+    - merge_requests
 
-  stage: DEPOLOY_DRYRUN
+  stage: DeployINT3.1.1
   script:
-  - echo "$SFDX_AUTH_URL_DRY_RUN" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a DRYRUN -d
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u DRYRUN  -w 60
-  - echo "validate Int success"
+    - echo "$INTOneOne" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
+    - echo "test1"
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INT1.1  -w 60
+    - echo "deploy Int1.1 success"
 
-
-deployINT:
+DeployINT3.2:
   tags:
-  - shell
+    - shell
   only:
-  -  Sprint-RH3.2-PP3.2-Refactoring
+    - Sprint-RH3.2-PP1.2-Refactoring
   except:
-  - merge_requests
+    - merge_requests
 
-  stage: deployINT
+  stage: DeployINT3.2
   script:
-  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-  - echo "test1"
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u INT  -w 60
-  - echo "deploy Int success"
+    - echo "$INTTreeTwo" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INT3.2  -w 60
+    - echo "deploy INT3.2 success"
 
-DeployINF:
+RunTestINT3.1.1:
   tags:
-  - shell
+    - shell
   only:
-  - Release-RH3.1-PP1.1-Fixes
-  - Sprint-RH3.11-PP1.11
+    - Sprint-RH3.1.1-PP1.1.1
   except:
-  - merge_requests
+    - merge_requests
 
-  stage: deployINF
+  stage: RunTestINT3.1.1
   script:
-  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u INF  -w 60
-  - echo "deploy Inf success"
+    - echo "$INTOneOne" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
+    - sfdx force:apex:test:run -u INT1.1 --testlevel=RunLocalTests -w 60
 
-runTestINT:
+RunTestINT3.2:
   tags:
-  - shell
+    - shell
   only:
-  - Sprint-RH3.2-PP3.2-Refactoring
+    - Sprint-RH3.2-PP1.2-Refactoring
   except:
-  - merge_requests
+    - merge_requests
 
-  stage: runTestINT
+  stage: RunTestINT3.2
   script:
-  - echo "$SFDX_AUTH_URL" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
-  - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
-
-runTestINF:
-  tags:
-  - shell
-  only:
-  - Release-RH3.1-PP1.1-Fixes
-  - Sprint-RH3.11-PP1.11
-  except:
-  - merge_requests
-
-  stage: runTestINF
-  script:
-  - echo "$SFDX_AUTH_URL_INF" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
-  - sfdx force:apex:test:run -u INF --testlevel=RunLocalTests -w 60
+    - echo "$INTTreeTwo" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
+    - sfdx force:apex:test:run -u INT3.2 --testlevel=RunLocalTests -w 60
 

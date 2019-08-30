@@ -50,7 +50,7 @@ public without sharing class PSETriggerHandler {
                     SELECT Id, Participant_Contact__c, Participant_Enrollment__c
                     FROM Participant_Study_Enrollment__c
                     WHERE Id IN: newList
-                            AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+                            AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
             ];
 
             List<Alert__c> alerts = new List<Alert__c>();
@@ -236,7 +236,7 @@ public without sharing class PSETriggerHandler {
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
                 AND Clinical_Trial_Profile__c IN:ctpPSE.keySet()
-                AND Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c = 'Yes'
+                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
         ];
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();

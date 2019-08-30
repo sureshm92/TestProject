@@ -10,7 +10,8 @@
         component.set('v.userMode', communityService.getUserMode());
 
         communityService.executeAction(component, 'getInitData', {
-            userMode:communityService.getUserMode()
+            userMode:communityService.getUserMode(),
+            delegateId:communityService.getDelegateId(),
         }, function (returnValue) {
             if(!returnValue) communityService.navigateToPage('');
             var responseData = JSON.parse(returnValue);

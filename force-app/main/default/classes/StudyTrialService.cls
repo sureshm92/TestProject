@@ -132,6 +132,10 @@ public without sharing class StudyTrialService {
     }
 
     public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume) {
+        return getStudiesJSON(filterDataJSON, sortDataJSON, paginationDataJSON, isSearchResume, null);
+    }
+
+    public static String getStudiesJSON(String filterDataJSON, String sortDataJSON, String paginationDataJSON, Boolean isSearchResume, String delegateId) {
         StudyFilterData filterData = (StudyFilterData) JSON.deserialize(filterDataJSON, StudyFilterData.class);
         StudySortData sortData = (StudySortData) JSON.deserialize(sortDataJSON, StudySortData.class);
         PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
@@ -139,9 +143,9 @@ public without sharing class StudyTrialService {
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
         System.debug('IS SEARCH RESUME>>>>>' + isSearchResume);
         if (isSearchResume) {
-            studies = searchStudiesGlobal(filterData, sortData, paginationData);
+            studies = searchStudiesGlobal(filterData, sortData, paginationData, delegateId);
         } else {
-            studies = getStudies(filterData, sortData, paginationData);
+            studies = getStudies(filterData, sortData, paginationData, delegateId);
         }
 
         SearchResults sr = new SearchResults();
@@ -163,7 +167,7 @@ public without sharing class StudyTrialService {
         return res;
     }
 
-    public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
+    public static List<StudyDetailItem> searchStudiesGlobal(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData, String delegateId) {
         Location userLocation = DistanceHelper.getUserLocation();
         Contact userContact = CommunityService.getUserContact();
         String userCountry;
@@ -288,7 +292,7 @@ public without sharing class StudyTrialService {
         List<StudyDetailItem> pageRecords = new List<StudyDetailItem>();
 
         for (Clinical_Trial_Profile__c trial : trialsOnPage) {
-            StudyActions.Action openStudySite = new StudyActionsHCP(trial,null,null).actions.get(StudyActions.ACT_HCP_LINK_STUDY_SITES);
+            StudyActions.Action openStudySite = new StudyActionsHCP(trial,null,null, delegateId).actions.get(StudyActions.ACT_HCP_LINK_STUDY_SITES);
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
             studyDetailItem.studyActions = new List<StudyActions.Action>{
@@ -324,11 +328,11 @@ public without sharing class StudyTrialService {
         return trialIdToEnrollments;
     }
 
-    public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData) {
+    public static List<StudyDetailItem> getStudies(StudyFilterData filterData, StudySortData sortData, PaginationData paginationData, String delegateId) {
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(new StudySiteService.SiteFilterData());
         siteFilter.sortType = StudySiteService.SS_SORT_TYPE_DISTANCE;
         siteFilter.onlyAcceptedSites = false;
-        List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true);
+        List<StudySiteService.StudySiteDistanceWrapper> studySites = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(siteFilter, null, true, delegateId);
         Set<Id> trialsWithActiveEnrollments = new Set<Id>();
         Map<Id, List<StudySiteService.StudySiteDistanceWrapper>> trialStudyMap = new Map<Id, List<StudySiteService.StudySiteDistanceWrapper>>();
         for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studySites) {
@@ -349,12 +353,16 @@ public without sharing class StudyTrialService {
         for (Clinical_Trial_Profile__c trial : trials) {
             trialIds.add(trial.Id);
         }
-        String delegatesFilter = '';
-        List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
-        if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
+//        String delegatesFilter = '';
+//        List<Id> delegatedHCPEIds = DelegateService.getDelegatedHCPEnrollmentIds();
+//        if(delegatedHCPEIds.size() > 0) delegatesFilter = '   OR HCP__c IN (\'' + String.join(delegatedHCPEIds, '\',\'') + '\')';
+        String contactId = CommunityService.getUserContact().Id;
+        if(delegateId != null && delegateId != ''){
+            contactId = delegateId;
+        }
         String query = 'SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds AND ' + '(' +
-                '   HCP__r.HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
-                delegatesFilter +
+                '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
+//                delegatesFilter +
                 ') ';
         for (Participant_Enrollment__c pe : Database.query(query)) {
             trialsWithPatients.add(pe.Clinical_Trial_Profile__c);
@@ -381,7 +389,7 @@ public without sharing class StudyTrialService {
             studyDetailItem.hasPatients = trialsWithPatients.contains(trial.Id);
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
-                StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe);
+                StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe, delegateId);
                 studyDetailItem.actionsMap = currSA.actions;
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;
                 if (!studyDetailItem.hasActiveHCPEnrollments) {

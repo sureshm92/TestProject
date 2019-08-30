@@ -26,6 +26,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(
             List<Patient_Visit__c> patientVisits,
             List<Visit_Result_GroupM__mdt> visitResultGroupMS
@@ -85,6 +86,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
             Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
             , List<Visit_Result_GroupM__mdt> visitResultGroupMS
@@ -98,9 +100,11 @@ public inherited sharing class VisitReportService {
         result.profilePicture = pState.ctp.Profile_Picture__c;
         result.participantFullName = pState.participant.Full_Name__c;
         result.participantLastName = pState.participant.Last_Name__c;
-        Datetime dT = pState.pe.CreatedDate;
-        Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-        result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+        if (pState.pe.Enrolled_Date__c != null) {
+            Datetime dT = pState.pe.Enrolled_Date__c;
+            Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
+            result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+        }
         result.studySiteName = pState.pe.Study_Site__r.Name;
         return result;
     }
@@ -149,6 +153,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private Boolean isNotAccessReport() {
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         return !ParticipantService.ParticipantStates.ALUMNI.equals(pState.value)

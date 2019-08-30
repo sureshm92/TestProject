@@ -74,9 +74,9 @@ private class Test_Batch_CopyEnrollmentHistory {
                 Study_Title__c = 'Some Title',
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes',
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Include_in_patient_trial_search__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true

@@ -4,6 +4,9 @@
 
 public with sharing class TrialFactory {
     public static TrialDetail getTrial(String userMode, String trialId) {
+        return getTrial(userMode, trialId, null);
+    }
+    public static TrialDetail getTrial(String userMode, String trialId, String delegateId) {
         if (trialId == null && userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
             if (peList.size() > 0) {
@@ -15,7 +18,7 @@ public with sharing class TrialFactory {
         } else if (userMode == CommunityService.USER_MODE_PI) {
             return new PITrialBuilder(trialId).createTrial();
         } else if (userMode == CommunityService.USER_MODE_HCP) {
-            return new HCPTrialBuilder(trialId).createTrial();
+            return new HCPTrialBuilder(trialId, delegateId).createTrial();
         }
         return null;
     }

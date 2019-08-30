@@ -10,7 +10,8 @@
             //hcpeId: component.get('v.hcpEnrollment').Id,
             participantId: searchData.participantId,
             firstName: searchData.firstName,
-            lastName: searchData.lastName
+            lastName: searchData.lastName,
+            delegateId : communityService.getDelegateId()
         }, function (returnValue) {
             var searchResult = JSON.parse(returnValue);
             component.set("v.searchResult", searchResult);
