@@ -225,5 +225,85 @@ public without sharing class PatientDelegateService {
 
         return contacts;
     }
+    
+    public static Map<Id, List<Id>> getDelegatedContactIdsByParticipantIdMap(List<Id> participantIds) {
+        List<Patient_Delegate__c> delegatesList = [
+                SELECT Id, Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__c IN: participantIds
+        ];
+        Map<Id, List<Id>> delegatedContactsByParticipantMap = new Map<Id, List<Id>>();
+        for(Patient_Delegate__c pd : delegatesList) {
+            List<Id> delegatedContacts = delegatedContactsByParticipantMap.get(pd.Participant__c);
+            if(delegatedContacts == null) delegatedContacts = new List<Id>();
+            delegatedContacts.add(pd.Contact__c);
+            delegatedContactsByParticipantMap.put(pd.Participant__c, delegatedContacts);
+        }
+        return delegatedContactsByParticipantMap;
+    }
+    
+    public static Map<Id, List<Id>> getParticipantIdsByDelegatedContactIdMap(List<Id> contactIds){
+        List<Patient_Delegate__c> pdList = [
+                SELECT Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c IN: contactIds
+        ];
+        Map<Id, List<Id>> resultMap = new Map<Id, List<Id>>();
+        for(Patient_Delegate__c pd : pdList){
+            List<Id> participantIds = resultMap.get(pd.Contact__c);
+            if(participantIds == null) participantIds = new List<Id>();
+            participantIds.add(pd.Participant__c);
+            resultMap.put(pd.Contact__c, participantIds);
+        }
+        return resultMap;
+    }
+    
+    public static Map<Id, List<Id>> getAvailablePEIdsListByContactIdMap(List<Id> contactIds) {
+        List<Participant_Enrollment__c> ownPEList = [
+                SELECT Id, Participant__c, Participant__r.Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__r.Contact__c IN: contactIds
+                AND Participant_Status__c NOT IN: PEStatusState.PE_STATUS_GROUP_ALUMNI
+        ];
+        Map<Id, List<Id>> resultMap = new Map<Id, List<Id>>();
+        for(Participant_Enrollment__c pe : ownPEList){
+            List<Id> ownPEIdsForContact = resultMap.get(pe.Participant__r.Contact__c);
+            if(ownPEIdsForContact == null) ownPEIdsForContact = new List<Id>();
+            ownPEIdsForContact.add(pe.Id);
+            resultMap.put(pe.Participant__r.Contact__c, ownPEIdsForContact);
+        }
+        Map<Id, List<Id>> participantIdsByDelegatedContactIdMap = getParticipantIdsByDelegatedContactIdMap(contactIds);
+        List<Id> delegatedParticipantIds = new List<Id>();
+        for(List<Id> participantIds : participantIdsByDelegatedContactIdMap.values()) delegatedParticipantIds.addAll(participantIds);
+        List<Participant__c> allDelegatedParticipants = [
+                SELECT Id, (
+                        SELECT Id
+                        FROM Participant_Profile__r
+                        WHERE Participant_Status__c NOT IN: PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                FROM Participant__c
+                WHERE Id IN: delegatedParticipantIds
+        ];
+        Map<Id, List<Id>> peIdsByParticipantIdMap = new Map<Id, List<Id>>();
+        for(Participant__c participant : allDelegatedParticipants){
+            List<Id> peIdsForParticipant = new List<Id>();
+            for(Participant_Enrollment__c pe : participant.Participant_Profile__r) peIdsForParticipant.add(pe.Id);
+            peIdsByParticipantIdMap.put(participant.Id, peIdsForParticipant);
+        }
+        
+        for(Id contactId : participantIdsByDelegatedContactIdMap.keySet()){
+            List<Id> delegatedParticipantIdsForContact = participantIdsByDelegatedContactIdMap.get(contactId);
+            if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
+            List<Id> delegatedPEIdsForContact = new List<Id>();
+            for(Id participantId : delegatedParticipantIdsForContact){
+                delegatedPEIdsForContact.addAll(peIdsByParticipantIdMap.get(participantId));
+            }
+            List<Id> allPEIdsForContact = resultMap.get(contactId);
+            if(allPEIdsForContact == null) allPEIdsForContact = new List<Id>();
+            allPEIdsForContact.addAll(delegatedPEIdsForContact);
+            resultMap.put(contactId, allPEIdsForContact);
+        }
+        return resultMap;
+    }
+    
 }
 

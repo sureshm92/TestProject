@@ -87,11 +87,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateParticipants</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_IntegrationVisitResultProcess</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -220,6 +228,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -455,6 +467,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -575,6 +591,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantEnrollmentFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -624,6 +644,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -776,6 +800,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SchemaUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SdhIntegrationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -991,6 +1019,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_PSECreateInvitation</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1028,6 +1060,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContactService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1660,6 +1696,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Include_in_RP_trial_search__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Include_in_patient_trial_search__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Interventions__c</field>
         <readable>true</readable>
@@ -1910,6 +1956,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Synch_with_TMDH__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Terms_And_Conditions_ID__c</field>
         <readable>true</readable>
@@ -1950,6 +2001,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Accepts_Reimbursement_for_Referral__c</field>
         <readable>true</readable>
@@ -1977,6 +2033,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Contact_Method_Preference__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Current_Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3757,11 +3818,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Country__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Current_Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
