@@ -79,10 +79,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateParticipants</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -747,10 +743,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SdhIntegrationService</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -792,10 +784,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SortOrder</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>StubFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>

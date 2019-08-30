@@ -811,10 +811,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>StubFactory</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>StudyActions</apexClass>
         <enabled>false</enabled>
     </classAccesses>

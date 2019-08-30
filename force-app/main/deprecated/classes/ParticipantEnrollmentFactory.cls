@@ -13,7 +13,7 @@ public without sharing class ParticipantEnrollmentFactory {
             this.pe = pe;
         }
     }
-    
+
     public static Map<String, Clinical_Trial_Profile__c> ctpMap = new Map<String, Clinical_Trial_Profile__c>();
     public static Map<String, Study_Site__c> ssMap = new Map<String, Study_Site__c>();
     //public static Id TA_ID = [SElECT Id FROM Therapeutic_Area__c LIMIT 1].Id;
@@ -135,9 +135,9 @@ public without sharing class ParticipantEnrollmentFactory {
                 Study_Code_Name__c = 'Some Code Name ' + protocolId,
                 Suppress_Participant_Emails__c = false,
                 //Therapeutic_Area__c = TA_ID,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes',
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Include_in_patient_trial_search__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true

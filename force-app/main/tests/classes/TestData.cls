@@ -39,6 +39,7 @@ public class TestData {
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
+                        Include_in_patient_trial_search__c,
                         Terms_and_Conditions__c
                 FROM Clinical_Trial_Profile__c
                 WHERE NCT_Number__c = 'NCT99999999'
@@ -144,9 +145,9 @@ public class TestData {
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes',
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Include_in_patient_trial_search__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true
