@@ -28,8 +28,8 @@
         }
         component.set('v.account', account);
         component.set('v.ssId', params.ssId);
-        component.set('v.accountStamp', JSON.stringify(account));
-        helper.checkAccountModified(component, helper);
+        component.set('v.accountInitial', JSON.parse(JSON.stringify(account)));
+        helper.checkAccountModified(component);
         helper.setCoordinates(component);
         //reset content:
         component.set('v.showContent', false);
@@ -53,7 +53,7 @@
     },
 
     doCheckFields: function (component, event, helper) {
-        helper.checkAccountModified(component, helper);
+        helper.checkAccountModified(component);
     },
 
     doTrimChanges: function (component, event, helper) {
@@ -68,8 +68,8 @@
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var account = component.get('v.account');
         var states = statesByCountryMap[account.BillingCountryCode];
-        component.set('v.account.BillingStateCode', undefined);
-        helper.checkAccountModified(component, helper);
+        component.set('v.account.BillingStateCode', null);
+        helper.checkAccountModified(component);
         component.set('v.statesLVList', states);
     },
 

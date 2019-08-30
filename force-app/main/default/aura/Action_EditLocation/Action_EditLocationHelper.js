@@ -17,6 +17,7 @@
             return;
         }
         var helper = this;
+        console.log('tmpAccountId>>',tmpAccountId);
         communityService.executeAction(component, 'getTmpAccount', {
             tmpAccountId: tmpAccountId
         }, function (tmpAccount) {
@@ -28,10 +29,18 @@
                 );
             } else {
                 var acc = component.get('v.account');
+                var initAcc = component.get('v.accountInitial');
                 acc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                 acc.BillingLongitude = tmpAccount.BillingLongitude;
                 acc.BillingLatitude = tmpAccount.BillingLatitude;
+                if(tmpAccount.BillingGeocodeAccuracy == 'Address' || tmpAccount.BillingGeocodeAccuracy == 'NearAddress'){
+                    initAcc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
+                    initAcc.BillingLongitude = tmpAccount.BillingLongitude;
+                    initAcc.BillingLatitude = tmpAccount.BillingLatitude;
+                    component.set('v.accountInitial', initAcc);
+                }
                 component.set('v.account', acc);
+                component.set('v.isAccountAddress', true);
                 component.set('v.showAddressValidationSpinner', false);
                 helper.setCoordinates(component);
             }
@@ -58,39 +67,35 @@
         }
     },
 
-    checkAccountModified: function(component, helper) {
-        var account = component.get('v.account');
-        var newAccountStamp = JSON.parse(JSON.stringify(account));
-        var accountStamp = JSON.parse(component.get('v.accountStamp'));
-        var coordinatesWasChanged = false;
-        for(var key in newAccountStamp){
-            if(key.includes('Billing') && !coordinatesWasChanged){
-                if(newAccountStamp[key] != accountStamp[key]){
-                    newAccountStamp.BillingLatitude = undefined;
-                    newAccountStamp.BillingLongitude = undefined;
-                    coordinatesWasChanged = true;
+    checkAccountModified: function (component) {
+        var currentAccount = component.get('v.account');
+        var accountInitial = component.get('v.accountInitial');
+        var infoWasChanged = false;
+        var addressWasChanged = false;
+        var fieldsToCheck = ['Name', 'Parking_Instructions__c', 'Driving_Directions__c', 'BillingStreet', 'BillingCity', 'BillingCountryCode', 'BillingStateCode', 'BillingPostalCode'];
+        for (let i = 0; i < fieldsToCheck.length; i++) {
+            if (currentAccount[fieldsToCheck[i]] != accountInitial[fieldsToCheck[i]]) {
+                if(!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
+                    infoWasChanged = true;
                 }
-                else {
-                    newAccountStamp.BillingLatitude = accountStamp.BillingLatitude;
-                    newAccountStamp.BillingLongitude = accountStamp.BillingLongitude;
-                }
-                component.set('v.account', newAccountStamp);
             }
-            if(newAccountStamp[key] === ''){
-                delete newAccountStamp[key];
+            if (fieldsToCheck[i].includes('Billing') && currentAccount[fieldsToCheck[i]] != accountInitial[fieldsToCheck[i]] && !addressWasChanged) {
+                if(!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
+                    currentAccount.BillingGeocodeAccuracy = null;
+                    currentAccount.BillingLatitude = null;
+                    currentAccount.BillingLongitude = null;
+                    component.set('v.account', currentAccount);
+                    addressWasChanged = true;
+                }
+            } else if (fieldsToCheck[i].includes('Billing') && currentAccount[fieldsToCheck[i]] == accountInitial[fieldsToCheck[i]] && !addressWasChanged) {
+                if(!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
+                    currentAccount.BillingGeocodeAccuracy = accountInitial.BillingGeocodeAccuracy;
+                    currentAccount.BillingLatitude = accountInitial.BillingLatitude;
+                    currentAccount.BillingLongitude = accountInitial.BillingLongitude;
+                    component.set('v.account', currentAccount);
+                }
             }
         }
-        newAccountStamp = helper.sortObject(newAccountStamp);
-        accountStamp = helper.sortObject(accountStamp);
-        newAccountStamp = JSON.stringify(newAccountStamp);
-        component.set('v.isAccountModified', newAccountStamp !== JSON.stringify(accountStamp))
-    },
-
-    sortObject: function(obj){
-        var ordered = {};
-        Object.keys(obj).sort().forEach(function(key) {
-            ordered[key] = obj[key];
-        });
-        return ordered;
-    },
+        component.set('v.isAccountModified', infoWasChanged);
+    }
 })

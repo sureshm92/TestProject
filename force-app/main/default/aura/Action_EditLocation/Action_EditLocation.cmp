@@ -9,7 +9,8 @@
     <!-- attributes: -->
     <aura:attribute name="account" type="Object"/>
     <aura:attribute name="ssId" type="String"/>
-    <aura:attribute name="accountStamp" type="String"/>
+    <aura:attribute name="accountInitial" type="Object"/>
+    <aura:attribute name="accountValidatedAddress" type="Object"/>
     <aura:attribute name="isAccountModified" type="Boolean" default="false"/>
     <aura:attribute name="showContent" type="Boolean" default="false"/>
     <aura:attribute name="showAddressValidationSpinner" type="Boolean" default="false"/>
@@ -124,12 +125,12 @@
                                 </div>
                                 <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
                                     <aura:if
-                                            isTrue="{!v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">
+                                            isTrue="{!('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy) &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">
                                         <c:RRIcon class="check-icon-style" iconName="icon-check"/>
                                         <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Found}</div>
                                     </aura:if>
                                     <aura:if
-                                            isTrue="{!v.account.BillingLatitude==undefined &amp;&amp; v.account.BillingLongitude==undefined &amp;&amp; !v.showAddressValidationSpinner}">
+                                            isTrue="{!!(('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy) &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined) &amp;&amp; !v.showAddressValidationSpinner}">
                                         <c:RRIcon class="close-icon-style" iconName="icon-close"/>
                                         <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Not_Found}</div>
                                     </aura:if>
@@ -148,7 +149,7 @@
                             <div class="slds-col slds-size--1-of-2 popup-address-inputs">
                                 <div class="input-fields-labels">{!$Label.c.SS_Driving_Instructions}</div>
                                 <div class="rr-form-element">
-                                    <lightning:textarea aura:id="locationDrivingInstructions"
+                                    <lightning:textarea aura:id="Driving_Directions__c"
                                                         class="text-area-height"
                                                         value="{!v.account.Driving_Directions__c}"
                                                         onchange="{!c.doCheckFields}"/>
@@ -157,7 +158,7 @@
                             <div class="slds-col slds-size--1-of-2 popup-address-inputs">
                                 <div class="input-fields-labels">{!$Label.c.SS_Parking_Instructions}</div>
                                 <div class="rr-form-element">
-                                    <lightning:textarea aura:id="locationParkingInstructions"
+                                    <lightning:textarea aura:id="Parking_Instructions__c"
                                                         class="text-area-height"
                                                         value="{!v.account.Parking_Instructions__c}"
                                                         onchange="{!c.doCheckFields}"/>
