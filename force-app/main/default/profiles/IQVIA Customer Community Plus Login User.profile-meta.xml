@@ -451,14 +451,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MCloudSMSDemoController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -5563,10 +5555,6 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>InMaintenance</apexPage>
-        <enabled>false</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>MCloudSMSDemo</apexPage>
         <enabled>false</enabled>
     </pageAccesses>
     <pageAccesses>
