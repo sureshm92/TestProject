@@ -591,6 +591,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantEnrollmentFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -856,6 +860,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StubBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

@@ -43,7 +43,7 @@ public without sharing class Batch_CopyEnrollmentHistory implements Database.Bat
                 pseStatusHistories.add(pseHistory);
                 peHistories.add(new Participant_Enrollment_Status_History__c(
                         Date__c = pseHistory.Changed_Date__c,
-                        NewStatus__c = pseHistory.Status__c,
+                        Status__c = pseHistory.Status__c,
                         ParticipantEnrollment__c = pe.Id
                 ));
             }

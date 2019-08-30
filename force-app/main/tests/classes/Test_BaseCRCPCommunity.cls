@@ -4,41 +4,41 @@
 
 @IsTest(IsParallel=false)
 private class Test_BaseCRCPCommunity {
-
+    
     @TestSetup
     static void init() {
-
+        
         List<Terms_And_Conditions__c> termsAndConditions = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
         );
         termsAndConditions.add(portalTC);
-
+        
         Terms_And_Conditions__c studyTC = new Terms_And_Conditions__c();
         termsAndConditions.add(studyTC);
         insert termsAndConditions;
-
+        
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
                 Name = 'Participant'
         );
         accounts.add(participantsAccount);
-
+        
         Account piAccount = new Account(
                 Name = 'PI Account'
         );
         accounts.add(piAccount);
-
+        
         Account hcpAccount = new Account(
                 Name = 'HCP Account'
         );
         accounts.add(hcpAccount);
-
+        
         Account delegateAccount = new Account(
                 Name = CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME
         );
         accounts.add(delegateAccount);
-
+        
         Account studySiteAccount = new Account(
                 Name = 'Study Site Account',
                 BillingLatitude = 41.766594,
@@ -46,7 +46,7 @@ private class Test_BaseCRCPCommunity {
         );
         accounts.add(studySiteAccount);
         insert accounts;
-
+        
         List<Contact> contacts = new List<Contact>();
         Contact piContact = new Contact(
                 FirstName = 'PI',
@@ -55,7 +55,7 @@ private class Test_BaseCRCPCommunity {
                 AccountId = piAccount.Id
         );
         contacts.add(piContact);
-
+        
         Contact piDelegateContact = new Contact(
                 FirstName = 'PI_Delegate',
                 LastName = 'PI_Delegate',
@@ -64,7 +64,7 @@ private class Test_BaseCRCPCommunity {
                 userCommunityMode__c = 'PI'
         );
         contacts.add(piDelegateContact);
-
+        
         Contact hcpContact = new Contact(
                 FirstName = 'PI',
                 LastName = 'PI',
@@ -74,7 +74,7 @@ private class Test_BaseCRCPCommunity {
                 MailingLongitude = -73.991509
         );
         contacts.add(hcpContact);
-
+        
         Contact  hcpDelegateContact = new Contact(
                 FirstName = 'HCP_Delegate',
                 LastName = 'HCP_Delegate',
@@ -83,13 +83,13 @@ private class Test_BaseCRCPCommunity {
         );
         contacts.add(hcpDelegateContact);
         insert contacts;
-
+        
         Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA');
         insert area;
-
+        
         Visit_Plan__c vp = new Visit_Plan__c();
         insert vp;
-
+        
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'tt123456789',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -105,7 +105,7 @@ private class Test_BaseCRCPCommunity {
                 Visit_Plan__c = vp.Id
         );
         insert study;
-
+        
         String languageLocale;
         Schema.DescribeFieldResult fieldResult = Translation__c.Language__c.getDescribe();
         List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
@@ -115,7 +115,7 @@ private class Test_BaseCRCPCommunity {
                 break;
             }
         }
-
+        
         Translation__c  studyTranslation = new Translation__c(
                 Language__c = languageLocale,
                 Record_Id__c = study.Id,
@@ -123,7 +123,7 @@ private class Test_BaseCRCPCommunity {
                 Value__c = 'Some translated value'
         );
         insert studyTranslation;
-
+        
         Study_Site__c  studySite = new Study_Site__c(
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
@@ -135,7 +135,7 @@ private class Test_BaseCRCPCommunity {
         insert studySite;
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
         update studySite;
-
+        
         HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
                 Study_Site__c = studySite.Id,
                 HCP_Contact__c = hcpContact.Id,
@@ -144,21 +144,21 @@ private class Test_BaseCRCPCommunity {
         insert hcpEnrollment;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
-
+        
         Site_Staff__c  siteStaff = new Site_Staff__c(
                 Site_Contact__c = piDelegateContact.Id,
                 Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
                 Study_Site__c = studySite.Id
         );
         insert siteStaff;
-
+        
         Referring_HCP_Staff__c   referringHcpStaff = new Referring_HCP_Staff__c(
                 Contact__c = hcpDelegateContact.Id,
                 Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
                 HCP_Enrollment__c = hcpEnrollment.Id
         );
         insert referringHcpStaff;
-
+        
         Participant__c   participant = new Participant__c(
                 First_Name__c = 'Part1',
                 Last_Name__c = 'Part1',
@@ -168,7 +168,7 @@ private class Test_BaseCRCPCommunity {
                 Mailing_State_Code__c = 'AL'
         );
         insert participant;
-
+        
         List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
         Participant_Enrollment__c   mrrPE = new Participant_Enrollment__c(
                 HCP__c = hcpEnrollment.Id,
@@ -180,7 +180,7 @@ private class Test_BaseCRCPCommunity {
                 Referral_Source__c = 'HCP'
         );
         participantEnrollments.add(mrrPE);
-
+        
         Participant_Enrollment__c   passedMrrPE = new Participant_Enrollment__c(
                 HCP__c = hcpEnrollment.Id,
                 Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
@@ -194,32 +194,32 @@ private class Test_BaseCRCPCommunity {
         );
         participantEnrollments.add(passedMrrPE);
         insert participantEnrollments;
-
+        
         Referral_Network__c   referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
         );
         insert referralNetwork;
-
+        
         Contact_Referral_Network__c   contactReferralNetwork = new Contact_Referral_Network__c(
                 ContactId__c = hcpContact.Id,
                 ReferralNetworkId__c = referralNetwork.Id
         );
         insert contactReferralNetwork;
-
+        
         Contact_Therapeutic_Area__c   contactTherapeuticArea = new Contact_Therapeutic_Area__c(
                 ContactId__c = hcpContact.Id,
                 TherapeuticAreaId__c = area.Id
         );
         insert contactTherapeuticArea;
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
-
+        
         Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
                 User__c = hcpUser.Id,
                 Terms_And_Conditions__c = studyTC.Id
         );
         insert tc_acceptance;
     }
-
+    
     @IsTest
     static void testReferralNetworkService_AutoEmails() {
         Terms_And_Conditions__c studyTC = [SELECT Id FROM Terms_And_Conditions__c WHERE Active__c != TRUE];
@@ -252,7 +252,7 @@ private class Test_BaseCRCPCommunity {
         insert studySite;
         Test.stopTest();
     }
-
+    
     @IsTest
     static void testReferralNetworkService_Subscription() {
         Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
@@ -264,18 +264,18 @@ private class Test_BaseCRCPCommunity {
             SubscribeToReferralNetworkRemote.deleteAndGetRefferalNetworks('Referral_Network__c', new List<Id>{
                     recordsRN[0].Id
             });
-
+            
             SubscribeToReferralNetworkRemote.ReferralNetworkWrapper newRecordRN = new SubscribeToReferralNetworkRemote.ReferralNetworkWrapper();
             newRecordRN.Id = recordsRN[0].Id;
             newRecordRN.isSelected = true;
             SubscribeToReferralNetworkRemote.saveReferralNetworks(JSON.serialize(newRecordRN));
-
+            
             List<SubscribeToReferralNetworkRemote.ReferralNetworkWrapper> recordsTA = SubscribeToReferralNetworkRemote.getReferralNetworkRecords('Therapeutic_Area__c');
             SubscribeToReferralNetworkRemote.searchForReferralNetworks(recordsTA[0].Name, 'Therapeutic_Area__c');
             SubscribeToReferralNetworkRemote.deleteAndGetRefferalNetworks('Referral_Network__c', new List<Id>{
                     recordsTA[0].Id
             });
-
+            
             SubscribeToReferralNetworkRemote.ReferralNetworkWrapper newRecordTA = new SubscribeToReferralNetworkRemote.ReferralNetworkWrapper();
             newRecordTA.Id = recordsTA[0].Id;
             newRecordTA.isSelected = true;
@@ -283,7 +283,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void baseHCPAdvancedTest() {
         Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
@@ -292,44 +292,44 @@ private class Test_BaseCRCPCommunity {
         System.runAs(hcpUser) {
             String stringData = StudyListViewController.getHCPInitData(null);
             StudyListViewController.HCPInitData initData = (StudyListViewController.HCPInitData) JSON.deserializeStrict(stringData, StudyListViewController.HCPInitData.class);
-
+            
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), false);
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), true);
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void testStudyDetailItem() {
         StudyDetailItem sdi1 = new StudyDetailItem();
         sdi1.maxHCPCreatedDate = Datetime.now();
         sdi1.sites = new List<StudySiteService.StudySiteDistanceWrapper>();
         sdi1.studyActions = new List<StudyActions.Action>();
-
+        
         StudySiteService.StudySiteDistanceWrapper site1 = new StudySiteService.StudySiteDistanceWrapper();
         site1.distance = 12;
         sdi1.sites.add(site1);
-
+        
         StudyDetailItem sdi2 = new StudyDetailItem();
         sdi2.maxHCPCreatedDate = Datetime.now().addDays(-100);
         sdi2.sites = new List<StudySiteService.StudySiteDistanceWrapper>();
         StudySiteService.StudySiteDistanceWrapper site2 = new StudySiteService.StudySiteDistanceWrapper();
         site2.distance = 100;
         sdi2.sites.add(site2);
-
+        
         StudyDetailItem sdi3 = new StudyDetailItem();
         sdi3.maxHCPCreatedDate = Datetime.now().addDays(-50);
         sdi3.sites = new List<StudySiteService.StudySiteDistanceWrapper>();
-
-
+        
+        
         StudyDetailItem sdi4 = new StudyDetailItem();
         sdi4.sites = new List<StudySiteService.StudySiteDistanceWrapper>();
         StudySiteService.StudySiteDistanceWrapper site3 = new StudySiteService.StudySiteDistanceWrapper();
         site3.distance = null;
         sdi4.sites.add(site3);
-
+        
         Test.startTest();
-
+        
         StudyDetailItem.sortType = 'Distance ASC';
         sdi1.compareTo(sdi2);
         sdi2.compareTo(sdi3);
@@ -338,15 +338,15 @@ private class Test_BaseCRCPCommunity {
         sdi1.compareTo(sdi4);
         sdi4.compareTo(sdi1);
         sdi3.compareTo(sdi3);
-
+        
         StudyDetailItem.sortType = 'CreatedDate DESC';
         sdi1.compareTo(sdi2);
         sdi2.compareTo(sdi1);
         sdi1.compareTo(sdi1);
-
+        
         Test.stopTest();
     }
-
+    
     @IsTest
     static void baseHCPTest() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -376,7 +376,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void baseHCPTest2() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -389,14 +389,14 @@ private class Test_BaseCRCPCommunity {
         update studySite;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         update hcpEnrollment;
-
+        
         System.runAs(hcpUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.changeStudyForHCP(studySite.Id, hcpEnrollment.Id);
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void baseHCPTest3() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -409,14 +409,14 @@ private class Test_BaseCRCPCommunity {
         update studySite;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         update hcpEnrollment;
-
+        
         System.runAs(hcpUser) {
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             Action_SendSiteRequestByHCPRemote.selectNoSites(hcpEnrollment.Id);
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void baseHCPTest4() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -446,7 +446,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void emailTemplateController() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -459,31 +459,31 @@ private class Test_BaseCRCPCommunity {
         controller.userCommunityType = CommunityService.USER_MODE_PI;
         controller.outputMode = 'HTML';
         controller.getParameters();
-
+        
         controller = new EmailTemplateController();
         controller.sourceRecordId = hcpEnrollment.Id;
         controller.userCommunityType = CommunityService.USER_MODE_HCP;
         controller.outputMode = 'HTML';
         controller.getParameters();
-
+        
         controller = new EmailTemplateController();
         controller.sourceRecordId = passedMrrPE.Id;
         controller.userCommunityType = CommunityService.USER_MODE_PARTICIPANT;
         controller.outputMode = 'HTML';
-
+        
         controller.getParameters();
         controller.getDelegateLevelsPI();
         controller.getDelegateLevelsHCP();
         controller.getResultUserMode();
         controller.getParameters();
-
+        
         EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
         String url = emailActionBtnController.getResultURL();
         url = emailActionBtnController.getResultURL();
-
+        
         Test.stopTest();
     }
-
+    
     @IsTest
     static void slideTour() {
         Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
@@ -500,18 +500,18 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
-
+    
+    
     @IsTest
     static void miscTests() {
         CountryStateUtil.getStateCodeByNameMap('US');
         TranslateHelper.convertBrowserLanguage(new List<String>{
                 'en-US', 'it'
         });
-
+    
     }
-
-
+    
+    
     @IsTest
     static void exportImportRemote() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -529,14 +529,14 @@ private class Test_BaseCRCPCommunity {
         TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
         Test.stopTest();
     }
-
+    
     @IsTest
     static void batchUpdateRecordsTest() {
         Test.startTest();
         Batch_UpdateRecords.run();
         Test.stopTest();
     }
-
+    
     @IsTest
     static void myStudySiteDetail() {
 //        Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -548,7 +548,7 @@ private class Test_BaseCRCPCommunity {
 //        }
 //        Test.stopTest();
     }
-
+    
     @IsTest
     static void hcpDelegateTest() {
         Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
@@ -569,7 +569,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void piDelegateTest() {
         Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
@@ -590,7 +590,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void basePITest1() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -612,7 +612,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void basePITest2() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -633,7 +633,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void basePITest3() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -652,7 +652,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void accountSettingsControllerTest() {
         Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
@@ -673,7 +673,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void myReferringClinics() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -686,11 +686,11 @@ private class Test_BaseCRCPCommunity {
 //            MyReferredZoneController.getStatusOptions(CommunityService.USER_MODE_PI);
 //            MyReferringClinicsController.getClinicDetail(study.Id, CommunityService.USER_MODE_PI,null,false);
 //            MyReferringClinicsController.getEnrollmentData(hcpEnrollment.Id, CommunityService.USER_MODE_PI);
-
+        
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void referralProfileTest() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -757,7 +757,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void mrrAndReferringTest2() {
         Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
@@ -768,7 +768,7 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
-
+            
             ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP, null);
             ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_HCP, null);
             String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false, null);
@@ -798,7 +798,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     public class IntegrationCalloutMock implements HttpCalloutMock {
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse response = new HttpResponse();
@@ -806,7 +806,7 @@ private class Test_BaseCRCPCommunity {
             return response;
         }
     }
-
+    
     @IsTest
     static void integrationStudyHubTest() {
         Study_Site__c studySite = [SELECT Id, Study_Site_Type__c FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -822,7 +822,7 @@ private class Test_BaseCRCPCommunity {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void integrationServiceNowTest() {
         Study_Site__c studySite = [SELECT Id, Study_Site_Type__c FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -849,11 +849,11 @@ private class Test_BaseCRCPCommunity {
             String jsonResult = SitesSearchRemote.getInitData(study.Id, null);
             SitesSearchRemote.InitData data = (SitesSearchRemote.InitData)JSON.deserialize(jsonResult, SitesSearchRemote.InitData.class);
             SitesSearchRemote.getRecords(JSON.serialize(data.siteFilter),JSON.serialize(data.PaginationData), null);
-
+        
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void testSaveNewAddress() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
@@ -870,26 +870,23 @@ private class Test_BaseCRCPCommunity {
             studySite.Site__r.BillingStreet = 'Test Street';
             ssId = studySite.Site__r.Id;
             studySite.Site__r.Id = null;
-            String status = StudyListViewController.saveSSAddress(JSON.serialize(studySite));
         }
         Study_Site__c testStudySite = [SELECT Id, Principal_Investigator__c, Name, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Id = :studySite.Id];
         System.assertNotEquals(ssId, testStudySite.Site__r.Id);
         System.runAs(piUser) {
             testStudySite.Site__r.BillingStreet = 'Test Street 2';
-            String status2 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite));
         }
         Study_Site__c testStudySite2 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 2'];
         System.assertEquals(testStudySite2.Site__r.ParentId, testStudySite.Site__r.Id);
         System.runAs(piUser) {
             testStudySite2.Site__r.BillingStreet = 'Test Street 3';
-            String status3 = StudyListViewController.saveSSAddress(JSON.serialize(testStudySite2));
         }
         Study_Site__c testStudySite3 = [SELECT Id, Name, Principal_Investigator__c, Site__r.ParentId,Site__r.Name, Site__r.BillingStreet FROM Study_Site__c WHERE Site__r.BillingStreet = 'Test Street 3'];
         System.assertEquals(testStudySite2.Site__r.Id, testStudySite3.Site__r.Id);
         Test.stopTest();
     }
-
-
+    
+    
     @IsTest
     static void testSaveSSDetails() {
         Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
@@ -898,7 +895,6 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(piUser) {
             studySite.Study_Site_Phone__c = '123456789';
-            String status = StudyListViewController.saveSSChanges(JSON.serialize(studySite));
         }
         Study_Site__c updatedSS = [SELECT Id, Site_Staff__c, Study_Site_Email__c, Study_Site_Phone__c, Site__c FROM Study_Site__c WHERE Id = :studySite.Id];
         System.assertEquals(studySite.Study_Site_Phone__c, updatedSS.Study_Site_Phone__c);
