@@ -78,15 +78,12 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.value == ParticipantStates.ALUMNI) return false;
-
-        if (participantState.ctp.Visit_Plan__c != null) {
+        if (participantState.ctp != null && participantState.ctp.Visit_Plan__c != null) {
             List<Visit__c> visitsList = (List<Visit__c>) DatabaseService.query(
                     'SELECT Id FROM Visit__c WHERE Visit_Plan__c = \''
                             + participantState.ctp.Visit_Plan__c + '\'');
-            return !visitsList.isEmpty();
+            return visitsList.size() > 0;
         }
-
         return false;
     }
 
