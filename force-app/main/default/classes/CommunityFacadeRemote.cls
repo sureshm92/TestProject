@@ -58,7 +58,8 @@ public without sharing class CommunityFacadeRemote {
             }
             for(RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()){
                 availableModes.add(CommunityService.USER_MODE_HCP + ';' + delegate.Referring_Provider__c);
-                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName',delegate.Referring_Provider__r.Full_Name__c),delegate.Referring_Provider__c));
+                String RPFullName = delegate.Referring_Provider__r.Salutation + ' ' + delegate.Referring_Provider__r.Full_Name__c + ' ' + delegate.Referring_Provider__r.Suffix;
+                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName',RPFullName),delegate.Referring_Provider__c));
             }
             if(StudySiteService.getStudySitesForPI().size() > 0){
                 availableModes.add(CommunityService.USER_MODE_PI);

@@ -1067,7 +1067,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
-        <value>View as ##RPName Delegate</value>
+        <value>View as ##RPName</value>
     </labels>
     <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
