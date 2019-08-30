@@ -128,7 +128,7 @@ public without sharing class DelegateService {
                 return getHCPDelegateLevelMapImpl().get(delegateId);
             }
         }
-        else{
+        else if(userMode == CommunityService.USER_MODE_PI){
             String accessLevel = getStudiesAccessLevelMapImpl(userMode).get(studyId);
             if(accessLevel != null) return accessLevel;
         }
