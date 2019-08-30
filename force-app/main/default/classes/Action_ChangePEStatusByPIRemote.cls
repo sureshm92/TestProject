@@ -22,7 +22,7 @@ public without sharing class Action_ChangePEStatusByPIRemote {
         try {
             Participant_Enrollment_Status_History__c history = new Participant_Enrollment_Status_History__c(
                     Date__c = Datetime.now(),
-                    NewStatus__c = status,
+                    Status__c = status,
                     Notes__c = notes,
                     ParticipantEnrollment__c = peId,
                     Reason__c = reason
