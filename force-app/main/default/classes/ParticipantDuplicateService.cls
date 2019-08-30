@@ -150,11 +150,13 @@ public without sharing class ParticipantDuplicateService {
     
     private static void mergeParticipants(Participant__c sourceParticipant, Participant__c newParticipant){
         if(sourceParticipant == null || newParticipant == null) return;
-        if(newParticipant.Phone__c != null) sourceParticipant.Phone__c = newParticipant.Phone__c;
+        //if(newParticipant.Phone__c != null) sourceParticipant.Phone__c = newParticipant.Phone__c;
         //if(newParticipant.Email__c == null) sourceParticipant.Email__c = newParticipant.Email__c;
         if(newParticipant.Mailing_Country_Code__c != null) sourceParticipant.Mailing_Country_Code__c = newParticipant.Mailing_Country_Code__c;
         if(newParticipant.Mailing_State_Code__c != null) sourceParticipant.Mailing_State_Code__c = newParticipant.Mailing_State_Code__c;
         if(newParticipant.Mailing_Zip_Postal_Code__c != null) sourceParticipant.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
+        if(newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
+        if(newParticipant.Middle_Name__c != null) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
     }
 
 

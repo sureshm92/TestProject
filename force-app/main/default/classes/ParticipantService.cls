@@ -22,11 +22,12 @@ public without sharing class ParticipantService {
         @AuraEnabled public Boolean isPremium;
 
         public ParticipantState() {
-            value = ParticipantStates.PROSPECT;
+            value = ParticipantStates.ALUMNI;
             isDelegate = false;
             isPremium = false;
             showTerms = false;
             showVisits = false;
+
         }
     }
 
@@ -44,37 +45,29 @@ public without sharing class ParticipantService {
 
     public ParticipantService() {
         participantState = new ParticipantState();
-        List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-        if (peList.size() > 0) {
-            if (peList[0].Study_Site__c == null) {
-                throw new ParticipantServiceException('Study Site cannot be null on peId = ' + peList[0].Id);
-            }
-
-            participantState.pe = peList[0];
-            participantState.participant = participantState.pe.Participant__r;
-            participantState.isDelegate = peList[0].Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-            participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
-            participantState.showTerms = showTerms();
-            participantState.isPremium = participantState.ctp.Include_in_patient_trial_search__c;
-
-            if ((PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) ||
-                    PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(participantState.pe.Participant_Status__c)
-            ) && participantState.isPremium) {
-                participantState.value = ParticipantStates.ALUMNI;
-            } else if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
-                participantState.value = ParticipantStates.REFERRAL;
-            } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
-                if (participantState.isPremium) {
+        Id userContactId = CommunityService.getInstance().getCurrentContactId();
+        ContactService.updateCurrentPEOnContacts(new List<Id>{userContactId});
+        Contact userContact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: userContactId];
+        if(userContact.Current_Participant_Enrollment__c != null){
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
+            if(pe != null){
+                participantState.pe = pe;
+                participantState.participant = participantState.pe.Participant__r;
+                participantState.isDelegate = pe.Participant__r.Contact__c != userContactId;
+                participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+                participantState.showTerms = showTerms();
+                participantState.isPremium = participantState.ctp.Include_in_patient_trial_search__c;
+                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
+                    participantState.value = ParticipantStates.REFERRAL;
+                } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
-                    participantState.isDelegate =
-                            participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-                } else {
+                }else{
                     participantState.value = ParticipantStates.REFERRAL;
                 }
             }
-            participantState.welcomeMessage = getWelcomeMessage();
         }
+        participantState.welcomeMessage = getWelcomeMessage();
     }
 
     @TestVisible
@@ -99,17 +92,22 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private String getWelcomeMessage() {
-        String fullName;
-        if (participantState.isDelegate) {
-            fullName = (String) CommunityService.getUserContact().get('Name');
+        String userName;
+        List<Participant__c> participants = [
+                SELECT Full_Name__c
+                FROM Participant__c
+                WHERE Contact__c =: CommunityService.getInstance().getCurrentContactId()
+        ];
+        if (participants.size() == 0) {
+            userName = (String) CommunityService.getUserContact().get('Name');
         } else {
-            fullName = participantState.pe.Participant__r.Full_Name__c;
+            userName = participants[0].Full_Name__c;
         }
 
         String message = participantState.value == ParticipantStates.ALUMNI
                 ? Label.PG_Home_Welcome_Message_Alumni : Label.PG_Home_Welcome_Message;
 
-        return message.replace('##UserName', fullName);
+        return message.replace('##UserName', userName);
     }
 
     public ParticipantState getState() {
@@ -118,10 +116,15 @@ public without sharing class ParticipantService {
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
         participant.Language_Preference_Code__c = UserInfo.getLanguage();
-        Participant__c participantFromDatabase = new ParticipantDuplicateService(participant).findDuplicate(participant);
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
+        Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if(participantFromDatabase != null){
             participant = participantFromDatabase;
-        }else{
+        }else {
+            //check contact duplicate:
+            if(duplicateService.findDuplicateContact(participant) != null){
+                participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+            }
             insert participant;
         }
         pe.Participant__c = participant.Id;

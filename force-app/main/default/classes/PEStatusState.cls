@@ -75,6 +75,20 @@ public without sharing class PEStatusState {
             PE_STATUS_FAILED_REFERRAL,
             PE_STATUS_EXCLUDED_FROM_REFERRING
     };
+    
+    public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{
+            PE_STATUS_REFERRAL_DECLINED,
+            PE_STATUS_ELIGIBILITY_FAILED,
+            PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_ENROLLMENT_FAILED,
+            PE_STATUS_FAILED_REVIEW,
+            PE_STATUS_FAILED_REFERRAL,
+            PE_STATUS_EXCLUDED_FROM_REFERRING,
+            PE_STATUS_PARTICIPATION_COMPLETE,
+            PE_STATUS_TRIAL_COMPLETE,
+            PE_STATUS_DROP_OUT
+    };
+    
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS = new List<String>{
             PE_STATUS_REFERRAL_SENT_TO_PI,
             PE_STATUS_REFERRAL_ACCEPTED,
@@ -85,6 +99,7 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_COMPLETE,
             PE_STATUS_SCREENING_IN_PROGRESS
     };
+    
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD = new List<String>{
             PE_STATUS_REFERRAL_SENT_TO_PI,
             PE_STATUS_REFERRAL_ACCEPTED,
