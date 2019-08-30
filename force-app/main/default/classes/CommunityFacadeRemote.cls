@@ -4,12 +4,12 @@
 
 public without sharing class CommunityFacadeRemote {
     public static String COOKIE_FIELD_MARK = 'AllowedCookie__c';
-
+    
     @AuraEnabled
     public static Boolean isFirstLogon() {
         return [SELECT Id, Contact.Is_First_Logon__c FROM User WHERE Id = :UserInfo.getUserId()].Contact.Is_First_Logon__c;
     }
-
+    
     @AuraEnabled
     public static void accpetTerms() {
         try {
@@ -21,7 +21,7 @@ public without sharing class CommunityFacadeRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     private class CommunityData {
         String communityMode;
         String communityDelegateId;
@@ -33,7 +33,7 @@ public without sharing class CommunityFacadeRemote {
         String language;
         List<String> preventedCookies;
     }
-
+    
     private class CommunityType{
         String value;
         String label;
@@ -44,7 +44,7 @@ public without sharing class CommunityFacadeRemote {
             this.delegateId = delegateId;
         }
     }
-
+    
     @AuraEnabled
     public static String getCommunityData() {
         try {
@@ -58,20 +58,19 @@ public without sharing class CommunityFacadeRemote {
             }
             for(RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()){
                 availableModes.add(CommunityService.USER_MODE_HCP + ';' + delegate.Referring_Provider__c);
-                String RPFullName = delegate.Referring_Provider__r.Salutation + ' ' + delegate.Referring_Provider__r.Full_Name__c + ' ' + delegate.Referring_Provider__r.Suffix;
+                String RPFullName = delegate.Referring_Provider__r.Salutation + ' ' + delegate.Referring_Provider__r.Full_Name__c; //+ ' ' + delegate.Referring_Provider__r.Suffix;
                 cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName',RPFullName),delegate.Referring_Provider__c));
             }
             if(StudySiteService.getStudySitesForPI().size() > 0){
                 availableModes.add(CommunityService.USER_MODE_PI);
                 cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PI,Label.CTL_L_PI_MODE,''));
             }
-            ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-            if(participantState.pe != null) {
+            if(userContact.userCommunytyType__c.contains(CommunityService.USER_MODE_PARTICIPANT)) {
                 availableModes.add(CommunityService.USER_MODE_PARTICIPANT);
-                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PARTICIPANT,Label.CTL_L_Patricipant_MODE,''));
+                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PARTICIPANT, Label.CTL_L_Patricipant_MODE, ''));
             }
             if (availableModes.size() == 0) {
-                if (userContact.userCommunityMode__c == CommunityService.USER_MODE_HCP) {
+                if (userContact.userCommunytyType__c == CommunityService.USER_MODE_HCP) {
                     availableModes.add(CommunityService.USER_MODE_HCP);
                     cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_MODE,''));
                 }
@@ -89,21 +88,21 @@ public without sharing class CommunityFacadeRemote {
             cd.isTCAccepted = isTCAccepted();
             cd.communityMode = userContact.userCommunityMode__c;
             cd.communityDelegateId = userContact.userCommunityDelegateId__c!=null?userContact.userCommunityDelegateId__c:'';
-            cd.state = participantState.value.name();
+            cd.state = ParticipantService.getParticipantState().value.name();
             cd.pathPrefix = Site.getPathPrefix();
             cd.language = UserInfo.getLanguage();
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
-
+            
             return JSON.serialize(cd);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     private static List<String> getPreventedCookies(Id contactId) {
         List<String> preventedCookies = new List<String>();
-
+        
         List<String> cookieFields = new List<String>();
         Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
         for (String currField : fields.keySet()) {
@@ -112,7 +111,7 @@ public without sharing class CommunityFacadeRemote {
                 cookieFields.add(fieldName);
             }
         }
-
+        
         if (!cookieFields.isEmpty()) {
             String query = 'SELECT ' + String.join(cookieFields, ', ') + ' FROM Contact WHERE Id = \'' + contactId + '\'';
             List<Contact> currContacts = Database.query(query);
@@ -128,10 +127,10 @@ public without sharing class CommunityFacadeRemote {
                 }
             }
         }
-
+        
         return preventedCookies;
     }
-
+    
     public static String extractCookieName(String fieldName) {
         if (String.isNotBlank(fieldName)) {
             Integer pos = fieldName.indexOf(COOKIE_FIELD_MARK);
@@ -141,14 +140,14 @@ public without sharing class CommunityFacadeRemote {
             return null;
         }
     }
-
+    
     public static Boolean isTCAccepted() {
         Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
     }
-
-
+    
+    
     @AuraEnabled
     public static void changeMode(String mode, String delegateId) {
         try {
@@ -161,7 +160,7 @@ public without sharing class CommunityFacadeRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     @AuraEnabled
     public static String getPreferredLanguageCode(String browserLanguages) {
         try {
@@ -170,7 +169,7 @@ public without sharing class CommunityFacadeRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    
     public static String getLocalizedURL(String defaultURL) {
         String lang = UserInfo.getLanguage();
         lang = lang.replace('_', '-');
@@ -184,7 +183,7 @@ public without sharing class CommunityFacadeRemote {
             return url2;
         }
         return defaultURL;
-
+    
     }
     public static Boolean urlExists(String url) {
         try{
@@ -199,5 +198,5 @@ public without sharing class CommunityFacadeRemote {
             return false;
         }
     }
-    
+
 }
