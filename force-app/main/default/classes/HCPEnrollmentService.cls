@@ -165,6 +165,11 @@ public without sharing class HCPEnrollmentService {
             'HCP_Contact__r.Name',
             'HCP_Contact__r.AccountId',
             'HCP_Contact__r.Account.Name',
+            'HCP_Contact__r.Account.BillingStreet',
+            'HCP_Contact__r.Account.BillingState',
+            'HCP_Contact__r.Account.BillingPostalCode',
+            'HCP_Contact__r.Account.BillingCity',
+            'HCP_Contact__r.Account.Phone',
             'HCP_Contact__r.Salutation',
             'HCP_Name__c',
             'Study_Site__r.Id',
@@ -196,9 +201,13 @@ public without sharing class HCPEnrollmentService {
     };
     
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommonCustomFields(String userMode, List<String> customFields, String filter, Boolean excludeDelegates){
+        return getHCPEnrollmentsCommonCustomFields(userMode, null, customFields, filter, excludeDelegates);
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsCommonCustomFields(String userMode, String delegateId, List<String> customFields, String filter, Boolean excludeDelegates){
         String query = 'SELECT ' + String.join(customFields, ',') +
                 ' FROM HCP_Enrollment__c ' +
-                ' WHERE ' + getUserModeFilter(userMode, excludeDelegates);
+                ' WHERE ' + getUserModeFilter(userMode, delegateId, excludeDelegates);
         if(filter != null) query += ' ' + filter;
         System.debug('EXECUTE QUERY: ' + query);
 
@@ -210,27 +219,40 @@ public without sharing class HCPEnrollmentService {
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommon(String userMode, String filter, Boolean excludeDelegates){
-        return getHCPEnrollmentsCommonCustomFields(userMode, HCPE_COMMON_FIELDS, filter, excludeDelegates);
+        return getHCPEnrollmentsCommon(userMode, null, filter, excludeDelegates);
     }
 
-    public static List<HCP_Enrollment__c> getHCPEnrollmentsWithDelegateLevelFiltered(String filter, Set<String> delegateLevels){
-        List<HCP_Enrollment__c> hcpeList = new List<HCP_Enrollment__c>();
-        Map<Id, String> delegateLevelMap = DelegateService.getHCPEnrollmentAccessLevelMap();
-        for(HCP_Enrollment__c hcpe : getHCPEnrollmentsCommonCustomFields(CommunityService.USER_MODE_HCP, HCPE_COMMON_FIELDS, filter, false)){
-            if(!delegateLevelMap.containsKey(hcpe.Id) || delegateLevels.contains(delegateLevelMap.get(hcpe.Id))){
-                hcpeList.add(hcpe);
-            }
-        }
-        return hcpeList;
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsCommon(String userMode, String delegateId, String filter, Boolean excludeDelegates){
+        return getHCPEnrollmentsCommonCustomFields(userMode, delegateId, HCPE_COMMON_FIELDS, filter, excludeDelegates);
     }
+
+//    public static List<HCP_Enrollment__c> getHCPEnrollmentsWithDelegateLevelFiltered(String filter, Set<String> delegateLevels){
+//        List<HCP_Enrollment__c> hcpeList = new List<HCP_Enrollment__c>();
+//        Map<Id, String> delegateLevelMap = DelegateService.getHCPEnrollmentAccessLevelMap();
+//        for(HCP_Enrollment__c hcpe : getHCPEnrollmentsCommonCustomFields(CommunityService.USER_MODE_HCP, HCPE_COMMON_FIELDS, filter, false)){
+//            if(!delegateLevelMap.containsKey(hcpe.Id) || delegateLevels.contains(delegateLevelMap.get(hcpe.Id))){
+//                hcpeList.add(hcpe);
+//            }
+//        }
+//        return hcpeList;
+//    }
 
     public static HCP_Enrollment__c getHCPEnrollmentForHCPById(Id hcpeId){
-        return getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP);
+        return getHCPEnrollmentForHCPById(hcpeId, null);
+    }
+
+    public static HCP_Enrollment__c getHCPEnrollmentForHCPById(Id hcpeId, String delegateId){
+        return getHCPEnrollmentById(hcpeId, CommunityService.USER_MODE_HCP, delegateId);
     }
 
     public HCP_Enrollment__c getHCPEnrollmentByIdImpl(Id hcpeId, String userMode){
+        return getHCPEnrollmentByIdImpl(hcpeId, userMode, null);
+    }
+
+    public HCP_Enrollment__c getHCPEnrollmentByIdImpl(Id hcpeId, String userMode, String delegateId){
         List<HCP_Enrollment__c> hcpeList = getHCPEnrollmentsCommon(
                 userMode,
+                delegateId,
                 ' AND Id =\'' + hcpeId + '\'',
                 false
         );
@@ -242,17 +264,27 @@ public without sharing class HCPEnrollmentService {
         return HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, userMode);
     }
 
+    public static HCP_Enrollment__c getHCPEnrollmentById(Id hcpeId, String userMode, String delegateId){
+        return HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, userMode, delegateId);
+    }
+
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForPI(){
         return getHCPEnrollmentsCommon(CommunityService.USER_MODE_PI, null, false);
     }
 
     public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds){
-        return getEnrollmentsForPIByTrialIds(trialIds, null);
+        return getEnrollmentsForPIByTrialIds(trialIds, null, false);
     }
 
-    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> excludeStatuses) {
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> statusesList, Boolean excludeStatuses){
+        return getEnrollmentsForPIByTrialIds(trialIds, statusesList, excludeStatuses, null);
+    }
+
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> statusesList, Boolean excludeStatuses, String sortString) {
         String filter = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join( new List<Id>(trialIds), '\',\'') + '\') ';
-        if(excludeStatuses != null) filter += ' AND Status__c NOT IN (\'' + String.join(excludeStatuses, '\',\'') + '\')';
+        if(statusesList != null && excludeStatuses) filter += ' AND Status__c NOT IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(statusesList != null && !excludeStatuses) filter += ' AND Status__c IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(sortString != null) filter += ' ORDER BY ' + sortString;
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_PI,
                 filter,
@@ -261,17 +293,33 @@ public without sharing class HCPEnrollmentService {
     }
 
     public static List<HCP_Enrollment__c> getEnrollmentsForPIByStudySiteId(Id studySiteId) {
+        return getEnrollmentsForPIByStudySiteId(studySiteId, null, false);
+    }
+
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByStudySiteId(Id studySiteId, List<String> statusesList, Boolean excludeStatuses) {
+        return getEnrollmentsForPIByStudySiteId(studySiteId, statusesList, excludeStatuses, null);
+    }
+
+    public static List<HCP_Enrollment__c> getEnrollmentsForPIByStudySiteId(Id studySiteId, List<String> statusesList, Boolean excludeStatuses, String sortString) {
+        String filter = ' AND Study_Site__c =\'' + studySiteId + '\' ';
+        if(statusesList != null && excludeStatuses) filter += ' AND Status__c NOT IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(statusesList != null && !excludeStatuses) filter += ' AND Status__c IN (\'' + String.join(statusesList, '\',\'') + '\')';
+        if(sortString != null) filter += ' ORDER BY ' + sortString;
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_PI,
-                ' AND Study_Site__c =\'' + studySiteId + '\' ',
+                filter,
                 false
         );
     }
 
     public static List<HCP_Enrollment__c> getEnrollmentsForHCPOnStudySite(String trialId){
+        return getEnrollmentsForHCPOnStudySite(trialId, null);
+    }
+
+    public static List<HCP_Enrollment__c> getEnrollmentsForHCPOnStudySite(String trialId, String delegateId){
         String filter  = ' AND Status__c NOT IN (\'' + String.join(HCP_E_S_INVISIBLE_ON_STUDY_SITE_P, '\',\'') + '\') ';
         if(!String.isEmpty(trialId)) filter += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + trialId + '\' ';
-        return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, filter, false);
+        return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, delegateId, filter, false);
     }
     
     public static List<Account> getReferringClinics(List<Id> trialIds){
@@ -300,27 +348,53 @@ public without sharing class HCPEnrollmentService {
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCP() {
-        return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, null, false);
+        return getHCPEnrollmentsForHCP(null,false);
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCP(Boolean excludeDelegates) {
+        return getHCPEnrollmentsForHCP(null, excludeDelegates);
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCP(String delegateId) {
+        return getHCPEnrollmentsForHCP(delegateId, false);
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCP(String delegateId, Boolean excludeDelegates) {
+        return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, delegateId, null, excludeDelegates);
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCPByTrial(Id trialId) {
+        return getHCPEnrollmentsForHCPByTrial(trialId, null);
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCPByTrial(Id trialId, String delegateId ) {
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,
+                delegateId,
                 ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + trialId + '\' ',
                 false
         );
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCPByTrials(List<Id> trialIds) {
+        return getHCPEnrollmentsForHCPByTrials( trialIds, null);
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCPByTrials(List<Id> trialIds, String delegateId) {
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,
+                delegateId,
                 ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(trialIds,'\',\'') + '\' )',
                 false
         );
     }
 
     public static HCP_Enrollment__c getHCPEnrollmentForHCPByTrial(Id trialId) {
-        List<HCP_Enrollment__c> enrollments = getHCPEnrollmentsForHCPByTrial(trialId);
+        return getHCPEnrollmentForHCPByTrial(trialId, null);
+    }
+
+    public static HCP_Enrollment__c getHCPEnrollmentForHCPByTrial(Id trialId, String delegateId) {
+        List<HCP_Enrollment__c> enrollments = getHCPEnrollmentsForHCPByTrial(trialId, delegateId);
         if(enrollments.size() > 0) return enrollments[0];
         return null;
     }
@@ -331,23 +405,35 @@ public without sharing class HCPEnrollmentService {
     }
     
     public static Integer getAttendedRequiredCount(String userMode, Boolean attended, String filterAdd){
+        return getAttendedRequiredCount(userMode, null, attended, filterAdd);
+    }
+
+    public static Integer getAttendedRequiredCount(String userMode, String delegateId, Boolean attended, String filterAdd){
         String filter = ' AND Orientation_Date__c ' + (attended ? ' != ' : ' = ') + ' null ';
         filter += ' AND Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c = true ';
         filter += filterAdd;
-        return getHCPECountCommon(userMode, filter, false);
+        return getHCPECountCommon(userMode, delegateId, filter, false);
     }
     
     public static Integer getHCPECountCommon(String userMode, String filter, Boolean excludeDelegates){
+        return getHCPECountCommon(userMode, null, filter, excludeDelegates);
+    }
+
+    public static Integer getHCPECountCommon(String userMode, String delegateId, String filter, Boolean excludeDelegates){
         String query =
                 'SELECT COUNT() ' +
                         'FROM HCP_Enrollment__c ' +
-                        'WHERE ' + getUserModeFilter(userMode, excludeDelegates);
+                        'WHERE ' + getUserModeFilter(userMode, delegateId, excludeDelegates);
         if(filter != null) query += filter;
         System.debug('QUERY: ' + query);
         return Database.countQuery(query);
     }
 
     public static String getUserModeFilter(String userMode, Boolean excludeDelegates){
+        return getUserModeFilter(userMode, null, excludeDelegates);
+    }
+
+    public static String getUserModeFilter(String userMode, String delegateId, Boolean excludeDelegates){
         String filter;
         if(userMode == CommunityService.USER_MODE_PI){
             if(excludeDelegates){
@@ -355,26 +441,23 @@ public without sharing class HCPEnrollmentService {
             }
             else{
                 filter =    '(' +
-                            '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
-                            '   OR Study_Site__c IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
-                            ') ';
+                        '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                        '   OR Study_Site__c IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
+                        ') ';
             }
 
         }else {
-            if(excludeDelegates){
+            if(delegateId == null || delegateId == ''){
                 filter =    ' HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\' ';
             }
             else{
-                filter =    '(' +
-                            '   HCP_Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
-                            '   OR Id IN (\'' + String.join(DelegateService.getDelegatedHCPEnrollmentIds(), '\',\'') + '\')' +
-                            ') ';
+                filter =    ' HCP_Contact__c = \'' + delegateId + '\' ';
             }
         }
         filter +=
                 ' AND Status__c != NULL ' +
-                ' AND Override_PI_Status__c != NULL ' +
-                ' AND Study_Site__r.Clinical_Trial_Profile__c != NULL ';
+                        ' AND Override_PI_Status__c != NULL ' +
+                        ' AND Study_Site__r.Clinical_Trial_Profile__c != NULL ';
         System.debug('HCPE filter' + filter);
         return filter;
     }

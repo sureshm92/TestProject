@@ -22,7 +22,7 @@ public without sharing class VisitResultSharingService {
         if (!onStudy) return false;
 
         return state.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
-                state.ctp.Participating_in_Patient_Portal__c == 'Yes' &&
+                state.ctp.Include_in_patient_trial_search__c &&
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
@@ -88,46 +88,57 @@ public without sharing class VisitResultSharingService {
         return filteredResults;
     }
 
-    public static List<Visit_Result__c> getAvailableVisitResultsForReport(List<Visit_Result__c> visitResults) {
-        List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
+    public  Map<Id, Map<String, Visit_Result__c>> getAvailableVisitResultsByPatientVisitIds(List<Patient_Visit__c> patientVisits) {
+        Map<Id, Map<String, Visit_Result__c>> resultMap = new Map<Id, Map<String, Visit_Result__c>>();
         if (visitResultTypeSharingByType == null) {
             visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
         }
         String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
-        for (Visit_Result__c result : visitResults) {
-            if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
-                Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
-                if (resultTypeSharing.Sharing_Countries__c == 'All' ||
-                        (resultTypeSharing.Include_Countries__c &&
-                                resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
-                        ) {
-                    filteredResults.add(result);
-                } else {
-                    notAccessResultType.add(result.Result_Type__c);
+        for (Patient_Visit__c patientVisit : patientVisits) {
+            Map<String, Visit_Result__c> filteredResultsByType = new Map<String, Visit_Result__c>();
+            if (!patientVisit.Visit_Results__r.isEmpty()) {
+                for (Visit_Result__c result : patientVisit.Visit_Results__r) {
+                    if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                        Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(result.Result_Type__c);
+                        if (resultTypeSharing.Sharing_Countries__c == 'All' ||
+                                (resultTypeSharing.Include_Countries__c &&
+                                        resultTypeSharing.Sharing_Countries__c.contains(mailingCountryCode))
+                                ) {
+                            filteredResultsByType.put(result.Result_Type__c, result);
+                        } else {
+                            notAccessResultType.add(result.Result_Type__c);
+                        }
+                    }
                 }
-            } else {
-                notAccessResultType.add(result.Result_Type__c);
+            }
+            if (!filteredResultsByType.isEmpty()) {
+                resultMap.put(patientVisit.Id, filteredResultsByType);
             }
         }
-        return filteredResults;
+        return resultMap;
     }
 
-    public static Set<String> getNotAccessResultType() {
+    public Set<String> getNotAccessResultType() {
         return notAccessResultType;
     }
 
-    public static Set<String> getNotAccessResultType(List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+    public Map<Id, List<VisitReportService.VisitResultWrapper>> geAvailableVisitResultTypeMSByGroupIds(List<Visit_Result_GroupM__mdt> visitResultGroupMs) {
         if (visitResultTypeSharingByType == null) {
             visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
         }
-        for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
-            for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
-                if (!visitResultTypeSharingByType.containsKey(visitResultTypeM.DeveloperName)) {
-                    notAccessResultType.add(visitResultTypeM.DeveloperName);
+        Map<Id, List<VisitReportService.VisitResultWrapper>> visitResultTypeMSByGroupIds = new Map<Id, List<VisitReportService.VisitResultWrapper>>();
+        for (Visit_Result_GroupM__mdt groupM : visitResultGroupMs) {
+            List<VisitReportService.VisitResultWrapper> visitResultWrappers = new List<VisitReportService.VisitResultWrapper>();
+            for (Visit_Result_TypeM__mdt visitResultTypeM : groupM.Visit_Result_Types__r) {
+                if (visitResultTypeSharingByType.containsKey(visitResultTypeM.DeveloperName)) {
+                    visitResultWrappers.add(new VisitReportService.VisitResultWrapper(visitResultTypeM));
                 }
             }
+            visitResultWrappers.sort();
+            visitResultTypeMSByGroupIds.put(groupM.Id, visitResultWrappers);
         }
-        return notAccessResultType;
+
+        return visitResultTypeMSByGroupIds;
     }
 
     private static Map<String, Visit_Result_Type_Sharing__c> getResultTypeSharingsByType(
@@ -188,13 +199,16 @@ public without sharing class VisitResultSharingService {
     public static Clinical_Trial_Profile__c getCTP(String ctpId) {
         return [
                 SELECT
-                        Participating_in_Patient_Portal__c,
+                        Include_in_patient_trial_search__c,
                         Shareback_Availability_Status__c,
                         Shareback_Availability_Timing__c,
                         Shareback_Settings_On_Participant_Level__c,
                         Shareback_Settings_on_StudySites__c,
                         Visit_Data_Shareback__c, (
-                        SELECT Id, Include_Countries__c, Type__c, Sharing_Countries__c
+                        SELECT Id,
+                                Include_Countries__c,
+                                Type__c,
+                                Sharing_Countries__c
                         FROM Visit_Result_Type_Sharings__r
                 )
                 FROM Clinical_Trial_Profile__c

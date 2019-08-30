@@ -42,7 +42,7 @@ public inherited sharing class VisitResultsService {
 
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || pState.pe == null) {
-            return null;
+            return new List<Patient_Visit__c>();
         }
 
         String visitsQuery = 'SELECT ' +

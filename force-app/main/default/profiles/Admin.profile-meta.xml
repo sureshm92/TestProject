@@ -23,6 +23,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_InviteRPRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_RequestToReferByHCPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -83,10 +87,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateParticipants</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -120,10 +120,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -303,10 +299,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>DuplicateContactController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -388,6 +380,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Injector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationPatientReferralTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -503,15 +499,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MyReferredZoneController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MyStudySitesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -579,15 +567,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDeduplicationController</apexClass>
+        <apexClass>ParticipantDuplicateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDeduplicationService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantEnrollmentFactory</apexClass>
+        <apexClass>ParticipantDuplicateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -667,10 +651,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>QualityCheckController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -700,6 +680,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ReferralProfileRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferringClinicsFilter</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -795,11 +779,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SdhIntegrationService</apexClass>
+        <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SearchConditionsOfInterestRemote</apexClass>
+        <apexClass>SearchFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -935,10 +923,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TaskTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TasksRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1071,6 +1055,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_IntegrationPatientReferralHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_IntegrationPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1116,6 +1104,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PSEStatusHistoryRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantDuplicateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2165,6 +2157,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.primaryContact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.userCommunityDelegateId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3230,6 +3227,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Contacted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Days_After_Enrolled__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5112,6 +5114,9 @@
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Referral_Network__c-Referral Network Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5499,6 +5504,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Point_of_Contact__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>RP_Delegate_Relationship__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
