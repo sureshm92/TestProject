@@ -8,7 +8,17 @@ public without sharing class StudyActionsHCP extends StudyActions{
         this(
                 hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
                 hcpEnrollment.Study_Site__r,
-                hcpEnrollment
+                hcpEnrollment,
+                null
+        );
+    }
+
+    public StudyActionsHCP(HCP_Enrollment__c hcpEnrollment, String delegateId){
+        this(
+                hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
+                hcpEnrollment.Study_Site__r,
+                hcpEnrollment,
+                delegateId
         );
     }
 
@@ -16,12 +26,31 @@ public without sharing class StudyActionsHCP extends StudyActions{
         this(
                 pe.Study_Site__r.Clinical_Trial_Profile__r,
                 pe.Study_Site__r,
-                pe.HCP__r
+                pe.HCP__r,
+                null
+        );
+    }
+
+    public StudyActionsHCP(Participant_Enrollment__c pe, String delegateId){
+        this(
+                pe.Study_Site__r.Clinical_Trial_Profile__r,
+                pe.Study_Site__r,
+                pe.HCP__r,
+                delegateId
         );
     }
 
     public StudyActionsHCP(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment){
-        super(study,studySite, hcpEnrollment, CommunityService.USER_MODE_HCP);
+        this(
+                study,
+                studySite,
+                hcpEnrollment,
+                null
+        );
+    }
+
+    public StudyActionsHCP(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String delegateId){
+        super(study,studySite, hcpEnrollment, CommunityService.USER_MODE_HCP, delegateId);
 
         //init actions:
         actions.put(ACT_MEDICAL_RECORD_REVIEW, new Action(

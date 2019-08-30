@@ -6,7 +6,6 @@
     <!-- attributes: -->
     <aura:attribute name="delegate" type="Object"/>
     <aura:attribute name="refreshSource" type="Aura.Component"/>
-    <aura:attribute name="saveInProgress" type="Boolean" default="{!false}"/>
     <aura:attribute name="userMode" type="String" default="" required="true"/>
 
     <!-- methods: -->
