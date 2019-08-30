@@ -73,8 +73,8 @@ public without sharing class DelegateService {
                         Referring_Provider__c, Delegate__c,
                         Delegate_Access_Level__c,
                         Referring_Provider__r.Salutation,
-                        Referring_Provider__r.Title,
-                        Referring_Provider__r.Suffix
+                        Referring_Provider__r.Title
+                        //Referring_Provider__r.Suffix
                 FROM RP_Delegate_Relationship__c
                 WHERE Delegate__c = :CommunityService.getUserContact().Id
         ];
