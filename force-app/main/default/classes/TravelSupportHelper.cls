@@ -7,7 +7,10 @@ public without sharing class TravelSupportHelper {
             List<String> studySiteIds, List<TravelVendor__c> vendors) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String clauseChild = '';
-        if (vendors != null && !vendors.isEmpty()) {
+        Boolean isVendors = vendors != null && !vendors.isEmpty();
+        Boolean isCountryCodes = countryCodes != null && !countryCodes.isEmpty();
+        Boolean isStudySiteIds = studySiteIds != null && !studySiteIds.isEmpty();
+        if (isVendors) {
             Set<Id> venIds = new Map<Id, TravelVendor__c>(vendors).keySet();
             clauseChild = ' WHERE TravelVendor__c IN ' + '(\'' + String.join(new List<Id>(venIds), '\',\'') + '\')';
         }
@@ -20,11 +23,11 @@ public without sharing class TravelSupportHelper {
                 '(SELECT Id, isEnable__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
                 'FROM Study_Site__c ';
         String clause = ' WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
-        if (countryCodes != null && !countryCodes.isEmpty()) {
-            clause += ' AND Site__r.BillingCountryCode IN ' + '(\'' + String.join(countryCodes, '\',\'') + '\')';
+        if (isCountryCodes) {
+            clause += ' AND ' + (isStudySiteIds ? '(' : '') + 'Site__r.BillingCountryCode IN ' + '(\'' + String.join(countryCodes, '\',\'') + '\')';
         }
-        if (studySiteIds != null && !studySiteIds.isEmpty()) {
-            clause += ' AND Id IN ' + '(\'' + String.join(studySiteIds, '\',\'') + '\')';
+        if (isStudySiteIds) {
+            clause += (isCountryCodes ? ' OR' : ' AND') + ' Id IN ' + '(\'' + String.join(studySiteIds, '\',\'') + '\')' + (isCountryCodes ? ') ' : '');
         }
         String order = ' ORDER BY Name';
         query += clause;
