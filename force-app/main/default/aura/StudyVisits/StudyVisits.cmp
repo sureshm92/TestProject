@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 12.04.2019.
  -->
 
-<aura:component description="StudyVisits" controller="ParticipantVisitsRemote">
+<aura:component description="StudyVisits" controller="ParticipantVisitsRemote" extends="c:LightningService">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -13,6 +13,8 @@
     <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
     <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>
     <aura:attribute name="iconNames" type="String" default=""/>
+    <aura:attribute name="vendors" type="Object[]"/>
+    <aura:attribute name="hasVendors" type="Boolean"/>
 
     <!--HANDLERS-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
@@ -22,7 +24,9 @@
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
             {!$Label.c.Home_Page_StudyVisit_Title}
-            <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>
+            <aura:if isTrue="{!v.hasVendors}">
+                <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>
+            </aura:if>
         </div>
 
         <ui:scrollerWrapper class="rr-white-panel">
@@ -71,5 +75,5 @@
         </aura:if>
     </div>
 
-    <c:TravelSupport aura:id="showVendors" hasDefault="true"/>
+    <c:TravelSupport aura:id="showVendors" vendors="{!v.vendors}"/>
 </aura:component>

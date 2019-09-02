@@ -2,7 +2,7 @@
  - Created by dmytro.fedchyshyn on 28.08.2019.
  -->
 
-<aura:component description="TravelSupport" controller="TravelSupportRemote">
+<aura:component description="TravelSupport">
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
@@ -10,23 +10,22 @@
     <aura:method name="hide" action="{!c.hide}"/>
 
 
-    <aura:attribute name="hasDefault" type="Boolean"/>
     <aura:attribute name="isShowMore" type="Boolean"/>
-    <aura:attribute name="defaultVendor" type="Object"/>
+    <aura:attribute name="vendors" type="Object[]"/>
 
     <aura:attribute name="htmlMessage" type="String"/>
     <aura:attribute name="message" type="String" default="{!$Label.c.StudyVisit_Popup_Text}"/>
 
 
     <c:Popup aura:id="popup" title="{!$Label.c.Home_Page_StudyVisit_Btn}" size="small">
-        <aura:if isTrue="{!or(v.isShowMore, !v.hasDefault)}">
-            <c:VendorsTable/>
+        <aura:if isTrue="{!v.isShowMore}">
+            <c:VendorsTable vendors="{!v.vendors}"/>
             <aura:set attribute="else">
                 <aura:unescapedHtml value="{!v.htmlMessage}"/>
             </aura:set>
         </aura:if>
         <aura:set attribute="footerButtons">
-            <aura:if isTrue="{!or(v.isShowMore, !v.hasDefault)}">
+            <aura:if isTrue="{!v.isShowMore}">
                 <button class="apollo-btn tertiary" onclick="{!c.hide}">{!$Label.c.BTN_Close}</button>
                 <aura:set attribute="else">
                     <div class="slds-text-align--center">

@@ -4,8 +4,18 @@
 
 public with sharing class TravelSupportService {
 
-    public class TravelSupportWrapper{
-
+    public List<TravelVendor__c> getVendors() {
+        try {
+            String vendorsQuery = 'SELECT ' +
+                    'Name, ' +
+                    'Id, ' +
+                    'Link_Vendor__c, ' +
+                    'Disclosure__c ' +
+                    'FROM TravelVendor__c ';
+            return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(vendorsQuery, true);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
     }
-
 }

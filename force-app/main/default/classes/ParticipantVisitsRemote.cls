@@ -54,6 +54,17 @@ public with sharing class ParticipantVisitsRemote {
         }
     }
 
+    @AuraEnabled
+    public static List<TravelVendor__c> getVendors() {
+        try {
+            TravelSupportService service = ((TravelSupportService) ClassFactory.newInstance(TravelSupportService.class));
+            return service.getVendors();
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
     public class Legend {
         public String iconId;
         public String iconLabel;
