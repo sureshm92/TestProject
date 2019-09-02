@@ -6,6 +6,8 @@
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
+    <aura:attribute name="showLangPopup" type="Boolean" default="false"/>
+    <aura:attribute name="popupHeader" type="String"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -59,16 +61,26 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
-                        <c:VisitResultsDashboardCard ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                        <c:VisitResultsDashboardCard
+                                ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                         <!--Hidden until the next release-->
-<!--                        <c:RRPanel>-->
-<!--                            <aura:set attribute="header">My Results</aura:set>-->
-<!--                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>-->
-<!--                        </c:RRPanel>-->
+                        <!--                        <c:RRPanel>-->
+                        <!--                            <aura:set attribute="header">My Results</aura:set>-->
+                        <!--                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>-->
+                        <!--                        </c:RRPanel>-->
                     </aura:if>
                     <c:ResourceDashboardCard/>
                 </div>
             </div>
+
+            <!--No IRB-Approved Languages popup-->
+            <c:Popup title="{!$Label.c.PP_IRB_Popup_Title}" showModal="{!v.showLangPopup}" size="small"
+                     headerText="{!v.popupHeader}">
+                <aura:set attribute="footerButtons">
+                    <button class="apollo-btn primary" onclick="{!c.handleOkClick}"
+                            tabindex="0">{!$Label.c.PP_IRB_Button_Review}</button>
+                </aura:set>
+            </c:Popup>
         </aura:if>
         <div style="height: 30px"/>
     </div>

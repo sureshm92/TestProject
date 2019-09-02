@@ -9,29 +9,45 @@
 
     <!--attributes-->
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="data" type="Object"/>
     <aura:attribute name="ssItems" type="List"/>
-    <aura:attribute name="selectedSSIds" type="String" default=""/>
+    <aura:attribute name="haveEmptyLangSS" type="Boolean"/>
+    <aura:attribute name="selectedSSIds" type="String"/>
+
     <aura:attribute name="countryFilterType" type="String" default="All"/>
     <aura:attribute name="countryCodes" type="String"/>
+
     <aura:attribute name="languages" type="List"/>
-    <aura:attribute name="langCodes" type="String" default=""/>
+    <aura:attribute name="langCodes" type="String"/>
     <aura:attribute name="langFilterType" type="String" default="All"/>
+
+    <aura:attribute name="pageRecordsCount" type="Integer"/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    <aura:attribute name="allRecordsCount" type="Integer"/>
+
+    <aura:attribute name="sortOrder" type="String"/>
+    <aura:attribute name="countrySortType" type="Boolean"/>
+    <aura:attribute name="nameSortType" type="Boolean"/>
+    <aura:attribute name="numberSortType" type="Boolean"/>
+
+    <!--handlers: -->
+    <aura:handler name="change" value="{!v.pageRecordsCount}" action="{!c.doLoadNextData}"/>
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.doLoadNextData}"/>
 
     <!-- component body: -->
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
         <lightning:navigation aura:id="navLink"/>
 
-        <!--Filters-->
         <aura:if isTrue="{!v.initialized}">
-            <div class="filters-section">
+            <!--Filters-->
+            <div class="slds-m-bottom--small">
                 <div class="slds-grid slds-gutters">
                     <!--Country Filter-->
                     <div class="slds-col slds-size--1-of-2">
                         <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">
                             <lightning:select label="Hidden" variant="label-hidden" value="{!v.countryFilterType}"
-                                              onchange="{!c.whenCountryFilterChanged}"
-                            >
+                                              onchange="{!c.whenCountryFilterChanged}">
                                 <option label="All Countries" value="All"></option>
                                 <option label="Selected Countries" value="filter"></option>
                             </lightning:select>
@@ -55,7 +71,8 @@
                                 <option label="Selected Languages" value="filter"></option>
                             </lightning:select>
                             <aura:set attribute="else">
-                                <c:GlobalLanguagesLookup aura:id="langsLookup" value="{!v.langCodes}" isMultiEntry="true"
+                                <c:GlobalLanguagesLookup aura:id="langsLookup" value="{!v.langCodes}"
+                                                         isMultiEntry="true"
                                                          onchange="{!c.getFilteredSS}"
                                                          placeholder="Select Language"
                                                          placeholderSelected="Select another language"/>
@@ -66,33 +83,75 @@
                 <div class="slds-grid slds-gutters">
                     <!--Study Site Filter-->
                     <div class="slds-col slds-size--1-of-2">
-                        <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
-                                                      value="{!v.selectedSSIds}"
-                                                      onchange="{!c.getFilteredSS}"
-                                                      ctpId="{!v.recordId}"
-                                                      placeholder="Select Study Site"
-                                                      includeSS="true"/>
+                        <c:IRBStudySitesLookup value="{!v.selectedSSIds}" ctpId="{!v.recordId}"
+                                               selectedCountries="{!v.countryCodes}"
+                                               onchange="{!c.getFilteredSS}" placeholder="Select Study Site"/>
                     </div>
                     <!--Save changes button-->
-                    <div class="slds-col slds-size--1-of-2 save-btn">
-                            <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
+                    <div class="slds-col slds-size--1-of-2 slds-p-left--small save-btn">
+                        <aura:if isTrue="{!v.haveEmptyLangSS}">
+                            <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"
+                                            size="small"/>
+                            <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_IRB_SS_Empty_AppLAng}</p>
+                        </aura:if>
+                        <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
                     </div>
                 </div>
             </div>
             <!--Study Site Table-->
-            <div class="slds-scrollable_x">
+            <div class="slds-scrollable irb-table">
                 <table aria-multiselectable="true"
-                       class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" role="grid">
+                       class="slds-table slds-table_cell-buffer slds-table_bordered" role="grid">
                     <thead>
                     <tr class="slds-line-height_reset">
-                        <th class="" scope="col">
-                            <div class="slds-truncate slds-text-align--center">Country</div>
+                        <th scope="col">
+                            <div data-order="country" style="display: flex" onclick="{!c.getFilteredSS}">
+                                <div class="slds-truncate slds-text-align--center">
+                                    Country
+                                </div>
+                                <div class="slds-m-left--x-small">
+                                    <aura:if isTrue="{!v.countrySortType}">
+                                        <lightning:icon iconName="utility:arrowdown" alternativeText=""
+                                                        size="xx-small"/>
+                                        <aura:set attribute="else">
+                                            <lightning:icon iconName="utility:arrowup" alternativeText=""
+                                                            size="xx-small"/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
                         </th>
-                        <th class="" scope="col">
-                            <div class="slds-truncate slds-text-align--center">Study Site</div>
+                        <th scope="col">
+                            <div data-order="name" style="display: flex" onclick="{!c.getFilteredSS}">
+                                <div class="slds-truncate slds-text-align--center">
+                                    Study Site
+                                </div>
+                                <div class="slds-m-left--x-small">
+                                    <aura:if isTrue="{!v.nameSortType}">
+                                        <lightning:icon iconName="utility:arrowdown" alternativeText=""
+                                                        size="xx-small"/>
+                                        <aura:set attribute="else">
+                                            <lightning:icon iconName="utility:arrowup" alternativeText=""
+                                                            size="xx-small"/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
                         </th>
                         <th class="cell-wrap" scope="col">
-                            <div>Study Site Number</div>
+                            <div data-order="number" style="display: flex; align-items: center" onclick="{!c.getFilteredSS}">
+                                <div>Study Site Number</div>
+                                <div class="slds-m-left--x-small">
+                                    <aura:if isTrue="{!v.numberSortType}">
+                                        <lightning:icon iconName="utility:arrowdown" alternativeText=""
+                                                        size="xx-small"/>
+                                        <aura:set attribute="else">
+                                            <lightning:icon iconName="utility:arrowup" alternativeText=""
+                                                            size="xx-small"/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
                         </th>
                         <aura:if isTrue="{!v.languages}">
                             <aura:iteration items="{!v.languages}" var="lang">
@@ -108,9 +167,10 @@
                     <tbody>
                     <aura:if isTrue="{!v.ssItems}">
                         <aura:iteration items="{!v.ssItems}" var="item">
-                            <tr>
+                            <tr class="{!if(item.emptyAppLangs, 'empty-approved-lang', '')}">
                                 <th data-label="Country" scope="row">
-                                    <div class="slds-truncate slds-text-align--center" title="">{!item.country.label}</div>
+                                    <div class="slds-truncate slds-text-align--center"
+                                         title="">{!item.country.label}</div>
                                 </th>
                                 <td data-label="Study Site">
                                     <div class="slds-truncate slds-text-align--center" title="">
@@ -119,7 +179,8 @@
                                     </div>
                                 </td>
                                 <td data-label="Name">
-                                    <div class="slds-truncate slds-text-align--center" title="">{!item.ss.Study_Site_Number__c}</div>
+                                    <div class="slds-truncate slds-text-align--center"
+                                         title="">{!item.ss.Study_Site_Number__c}</div>
                                 </td>
                                 <aura:iteration items="{!item.approvedLangCodes}" var="appLang">
                                     <td>
@@ -133,6 +194,17 @@
                     </aura:if>
                     </tbody>
                 </table>
+            </div>
+            <!--Pagination-->
+            <div>
+                <c:RRPaginationRemote entriesOnPage="{!v.pageRecordsCount}"
+                                      currentPage="{!v.currentPage}"
+                                      allRecordsCount="{!v.allRecordsCount}"/>
+                <div class="padding-info">
+                    <lightning:icon class="slds-m-left--x-small" iconName="utility:save" alternativeText=""
+                                    variant="warning" size="small"/>
+                    <p style="font-size: 11px; padding: 5px;">{!$Label.c.IRB_Padding_Info}</p>
+                </div>
             </div>
         </aura:if>
     </div>

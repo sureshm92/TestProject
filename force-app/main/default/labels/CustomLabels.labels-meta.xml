@@ -3027,6 +3027,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>IRB_Padding_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IRB Padding Info</shortDescription>
+        <value>Changes will be saved as you go to the next page!</value>
+    </labels>
+    <labels>
         <fullName>Icons_package_not_found</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4444,6 +4451,34 @@ View study documents and other resources including articles and videos related t
         <value>Update My Password</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_2nd_Choice_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 2nd Choice Language</shortDescription>
+        <value>2nd choice language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_2nd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 2nd Choice Language Help Text</shortDescription>
+        <value>This will be used to display study information when your Preferred Language is not available.</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_3rd_Choice_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 3rd Choice Language</shortDescription>
+        <value>3rd choice language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_3rd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 3rd Choice Language Help Text</shortDescription>
+        <value>This will be used to display study information when your other 2 choices are not available.</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Date_of_Birth</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4542,6 +4577,13 @@ View study documents and other resources including articles and videos related t
         <value>Last name</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Locale_For_Date_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Locale_For_Date_Format</shortDescription>
+        <value>Locale for date format</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Middle_name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4577,6 +4619,27 @@ View study documents and other resources including articles and videos related t
         <value>Enter text...</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Preferred_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Preferred Language</shortDescription>
+        <value>Preferred language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Preferred_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Preferred Language Help Text</shortDescription>
+        <value>This will be your default language to display study information whenever possible.</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Preferred_Timezone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
+        <value>Preferred timezone</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Re_enter_new_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4598,67 +4661,11 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred language</value>
     </labels>
     <labels>
-        <fullName>PG_AS_F_Preferred_Language</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG AS F Preferred Language</shortDescription>
-        <value>Preferred language</value>
-    </labels>
-    <labels>
-        <fullName>PG_AS_F_2nd_Choice_Language</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG AS F 2nd Choice Language</shortDescription>
-        <value>2nd choice language</value>
-    </labels>
-    <labels>
-        <fullName>PG_AS_F_3rd_Choice_Language</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG AS F 3rd Choice Language</shortDescription>
-        <value>3rd choice language</value>
-    </labels>
-	<labels>
-		<fullName>PG_AS_F_Preferred_Language_Help_Text</fullName>
-		<language>en_US</language>
-		<protected>false</protected>
-		<shortDescription>PG AS F Preferred Language Help Text</shortDescription>
-		<value>This will be your default language to display study information whenever possible.</value>
-	</labels>
-	<labels>
-		<fullName>PG_AS_F_2nd_Choice_Language_Help_Text</fullName>
-		<language>en_US</language>
-		<protected>false</protected>
-		<shortDescription>PG AS F 2nd Choice Language Help Text</shortDescription>
-		<value>This will be used to display study information when your Preferred Language is not available.</value>
-	</labels>
-	<labels>
-		<fullName>PG_AS_F_3rd_Choice_Language_Help_Text</fullName>
-		<language>en_US</language>
-		<protected>false</protected>
-		<shortDescription>PG AS F 3rd Choice Language Help Text</shortDescription>
-		<value>This will be used to display study information when your other 2 choices are not available.</value>
-	</labels>
-    <labels>
         <fullName>PG_AS_F_Select_Preferred_Timezone</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_AS_F_Select_Preferred_Timezone</shortDescription>
         <value>Select preferred timezone</value>
-    </labels>
-    <labels>
-        <fullName>PG_AS_F_Preferred_Timezone</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
-        <value>Preferred timezone</value>
-    </labels>
-    <labels>
-        <fullName>PG_AS_F_Locale_For_Date_Format</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG_AS_F_Locale_For_Date_Format</shortDescription>
-        <value>Locale for date format</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Username</fullName>
@@ -5602,11 +5609,18 @@ View study documents and other resources including articles and videos related t
         <value>Contact Info</value>
     </labels>
     <labels>
-        <fullName>PG_Login_H_Language_Options</fullName>
+        <fullName>PG_Login_H_Date_Format</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Login H Language Options</shortDescription>
-        <value>Language Options</value>
+        <shortDescription>PG Login H Date Format</shortDescription>
+        <value>Date Format</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_H_Date_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Date Language</shortDescription>
+        <value>Date Format and Preferred Language</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Language_Description</fullName>
@@ -5616,19 +5630,11 @@ View study documents and other resources including articles and videos related t
         <value>Content will be displayed in your preferred language wherever possible. Alternate languages will be used when content is not available in your preferred language.</value>
     </labels>
     <labels>
-        <fullName>PG_Login_H_Date_Format</fullName>
+        <fullName>PG_Login_H_Language_Options</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Login H Date Format</shortDescription>
-        <value>Date Format</value>
-    </labels>
-
-    <labels>
-        <fullName>PG_Login_H_Date_Language</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG Login H Date Language</shortDescription>
-        <value>Date Format and Preferred Language</value>
+        <shortDescription>PG Login H Language Options</shortDescription>
+        <value>Language Options</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Login_Information</fullName>
@@ -7932,6 +7938,34 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP HLP T2 Feedback</shortDescription>
         <value>This form is for providing feedback about how our features can be improved and should not be used to report content on the IQVIA™ Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_Button_Review</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB Button Review</shortDescription>
+        <value>Review my language options</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_LangList</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB LangList</shortDescription>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList.</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_Popup_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB Popup Title</shortDescription>
+        <value>Check your languages</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_SS_Empty_AppLAng</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB SS Empty AppLAng</shortDescription>
+        <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site as at least one IRB-Approved language to let Patients see Study Content.</value>
     </labels>
     <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>

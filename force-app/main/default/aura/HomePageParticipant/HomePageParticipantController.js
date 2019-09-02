@@ -11,6 +11,9 @@
                         + "&ret=" + communityService.createRetString());
                 } else {
                     component.set('v.participantState', ps);
+
+                    var irbText = $A.get('$Label.c.PP_IRB_LangList');
+
                     component.find('spinner').hide();
                 }
             });
