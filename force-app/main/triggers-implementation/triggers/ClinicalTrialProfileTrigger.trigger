@@ -4,5 +4,5 @@
 
 trigger ClinicalTrialProfileTrigger on Clinical_Trial_Profile__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
 
-    TriggerHandlerExecutor.execute(ClinicalTrialProfileTriggerHandler.class);
+    TriggerHandlerExecutor.execute(ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class);
 }
