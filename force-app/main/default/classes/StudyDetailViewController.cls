@@ -145,16 +145,16 @@ public without sharing class StudyDetailViewController {
                     langToTranslate = approvedLangs.get(0);
 
                     String primaryContactLang = pe.Participant__r.Contact__r.Language__c;
-                    String altContactLang = pe.Participant__r.Contact__r.SecondChoiceLanguage__c;
-                    String secondAltContactLang = pe.Participant__r.Contact__r.ThirdChoiceLanguage__c;
+//                    String altContactLang = pe.Participant__r.Contact__r.SecondChoiceLanguage__c;
+//                    String secondAltContactLang = pe.Participant__r.Contact__r.ThirdChoiceLanguage__c;
 
-                    if(approvedLangs.contains(primaryContactLang)) {
-                        langToTranslate = primaryContactLang;
-                    } else if(approvedLangs.contains(altContactLang)) {
-                        langToTranslate = altContactLang;
-                    } else if(approvedLangs.contains(secondAltContactLang)) {
-                        langToTranslate = secondAltContactLang;
-                    }
+//                    if(approvedLangs.contains(primaryContactLang)) {
+//                        langToTranslate = primaryContactLang;
+//                    } else if(approvedLangs.contains(altContactLang)) {
+//                        langToTranslate = altContactLang;
+//                    } else if(approvedLangs.contains(secondAltContactLang)) {
+//                        langToTranslate = secondAltContactLang;
+//                    }
                 }
                 TranslateHelper.translate(trialDetail.trial, langToTranslate);
 
