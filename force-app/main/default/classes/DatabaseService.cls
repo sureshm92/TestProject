@@ -33,7 +33,19 @@ public class DatabaseService {
         if(limitNumber != null) queryString += ' LIMIT ' + limitNumber;
         return queryImpl(queryString);
     }
-    
+
+    public List<SObject> queryImpl(List<String> fields, SObjectType objectType, String filter, String orderBy,
+            Integer offset, Integer limitNumber
+    ){
+        String queryString = 'SELECT ' + String.join(fields, ',') + ' FROM ' + objectType;
+        if(filter != null) queryString += ' WHERE ' + filter;
+        if(orderBy != null) queryString += ' ORDER BY ' + orderBy;
+        if(limitNumber != null) queryString += ' LIMIT ' + limitNumber;
+        if(offset != null) queryString += ' OFFSET ' + offset;
+
+        return queryImpl(queryString);
+    }
+
     public Database.SaveResult insertSObjImpl(SObject sObj, Boolean allOrNothing){
         return Database.insert(sObj, allOrNothing);
     }
@@ -71,5 +83,9 @@ public class DatabaseService {
 
     public static String fieldJoin(String fieldName, List<String> items) {
         return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
+    }
+
+    public static String fieldJoinNot(String fieldName, List<String> items) {
+        return fieldName + ' NOT IN (\'' + String.join(items, SEPARATOR) + '\') ';
     }
 }
