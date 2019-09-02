@@ -79,6 +79,7 @@ public with sharing class TravelVendorPanelRemote {
 
     @AuraEnabled
     public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<TravelVendor__c> vendors) {
+//        System.debug('ssIns: '+ssIds);
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         try {
@@ -91,24 +92,26 @@ public with sharing class TravelVendorPanelRemote {
                 studyIds = ssIds.split(';');
             }
             result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendors);
-            for (TravelVendor__c vendor : vendors) {
-                for (VendorItem vendorItem : result) {
-                    List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
-                    Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
-                    for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
-                        travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
+            if (vendors != null && !vendors.isEmpty()){
+                for (TravelVendor__c vendor : vendors) {
+                    for (VendorItem vendorItem : result) {
+                        List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
+                        Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
+                        for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
+                            travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
+                        }
+                        if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
+                            vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
+                        } else {
+                            vendorSettingsWithStub.add(
+                                    new TravelVendorSettings__c (
+                                            isEnable__c = false,
+                                            TravelVendor__r = vendor
+                                    )
+                            );
+                        }
+                        vendorItem.vendorSettings = vendorSettingsWithStub;
                     }
-                    if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
-                        vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
-                    } else {
-                        vendorSettingsWithStub.add(
-                                new TravelVendorSettings__c (
-                                        isEnable__c = false,
-                                        TravelVendor__r = vendor
-                                )
-                        );
-                    }
-                    vendorItem.vendorSettings = vendorSettingsWithStub;
                 }
             }
         } catch (Exception e) {

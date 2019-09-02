@@ -46,6 +46,14 @@
         }
     },
 
+    onNewVendor: function(component, event, controller) {
+        var createRecordEvent = $A.get("e.force:createRecord");
+        createRecordEvent.setParams({
+            "entityApiName": "TravelVendor__c"
+        });
+        createRecordEvent.fire();
+    },
+
     doSave : function(component, event, controller) {
 
     }

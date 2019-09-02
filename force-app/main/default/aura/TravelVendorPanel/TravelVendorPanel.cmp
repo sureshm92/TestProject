@@ -5,12 +5,15 @@
 <aura:component description="TravelVendorPanel" controller="TravelVendorPanelRemote" implements="force:hasRecordId, flexipage:availableForAllPageTypes">
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="vendors" type="List" access="public"/>
-    <aura:attribute name="vendorItems" type="List"/>
-    <aura:attribute name="selectedSSIds" type="String" default=""/>
-    <aura:attribute name="countryFilterType" type="String" default="All"/>
     <aura:attribute name="countryCodes" type="String"/>
-    <aura:attribute name="vendorFilterType" type="String" default="All"/>
+    <aura:attribute name="countryFilterType" type="String" default="All"/>
+    <aura:attribute name="selectedCountryCodes" type="String"/>
+    <aura:attribute name="selectedByCountrySSIds" type="List"/>
+    <aura:attribute name="selectedManuallySSIds" type="List"/>
+    <aura:attribute name="allSelectedSSIds" type="List"/>
+    <aura:attribute name="selectedVendorIds" type="List" default="{}"/>
+    <aura:attribute name="vendorItems" type="List" default="{}"/>
+
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -31,8 +34,9 @@
                                 <option label="Selected Countries" value="filter"></option>
                             </lightning:select>
                             <aura:set attribute="else">
-                                <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.countryCodes}"
+                                <c:VisitResultSharingCountryLookup aura:id="countryLookup"
                                                                    isMultiEntry="true"
+                                                                   value="{!v.countryCodes}"
                                                                    onchange="{!c.getFilteredSS}"
                                                                    placeholder="Select country"
                                                                    placeholderSelected="Select another country"
@@ -41,25 +45,10 @@
                             </aura:set>
                         </aura:if>
                     </div>
-                    <!--Travel Vendor Filter-->
                     <div class="slds-col slds-size--1-of-2">
-                        <c:TravelVendorLookup aura:id="ssSelectLookup"
-                                                      value="{!v.selectedSSIds}"
-                                                      onchange="{!c.getFilteredSS}"
-                                                      ctpId="{!v.recordId}"
-                                                      placeholder="Select Vendor"
-                                                      includeSS="true"/>
-                    </div>
-                </div>
-                <div class="slds-grid slds-gutters">
-                    <!--Study Site Filter-->
-                    <div class="slds-col slds-size--1-of-2">
-                        <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
-                                                      value="{!v.selectedSSIds}"
-                                                      onchange="{!c.getFilteredSS}"
-                                                      ctpId="{!v.recordId}"
-                                                      placeholder="Select Study Site"
-                                                      includeSS="true"/>
+                        <c:RRLookup
+                                objectMame="TravelVendorSettings__c"
+                                lookupName="Study_Site__c"/>
                     </div>
                     <!--Save changes button-->
                     <div class="slds-col slds-size--1-of-2 save-btn">
@@ -82,8 +71,8 @@
                         <th class="cell-wrap" scope="col">
                             <div>Study Site Number</div>
                         </th>
-                        <aura:if isTrue="{!v.vendors}">
-                            <aura:iteration items="{!v.vendors}" var="vendor">
+                        <aura:if isTrue="{!v.selectedVendorIds}">
+                            <aura:iteration items="{!v.selectedVendorIds}" var="vendor">
                                 <th class="cell-wrap" scope="col">
                                     <div>{!vendor.Name}</div>
                                 </th>
@@ -106,9 +95,9 @@
                                 <td data-label="Name">
                                     <div class="slds-truncate slds-text-align--center" title="">{!item.studySite.Study_Site_Number__c}</div>
                                 </td>
-                                <aura:iteration items="{!item.vendorSettings}" var="selectedVendorSetting">
+                                <aura:iteration items="{!item.vendorSettings}" var="selectedVendorIdSetting">
                                     <td>
-                                        <ui:inputCheckbox value="{!selectedVendorSetting.isEnable__c}"/>
+                                        <ui:inputCheckbox value="{!selectedVendorIdSetting.isEnable__c}"/>
 <!--                                        <c:uiCheckbox keyId="{!item.ss.Id}" forField="{!appLang.value}"-->
 <!--                                                      fieldValue="{!appLang.state}"/>-->
 
