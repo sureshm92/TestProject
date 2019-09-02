@@ -125,12 +125,14 @@
                                 </div>
                                 <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
                                     <aura:if
-                                            isTrue="{!('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy) &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">
+                                            isTrue="{!('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy ||
+                                                        v.account.BillingGeocodeAccuracy == 'Block' || v.account.BillingGeocodeAccuracy == 'Street' || v.account.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">
                                         <c:RRIcon class="check-icon-style" iconName="icon-check"/>
                                         <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Found}</div>
                                     </aura:if>
                                     <aura:if
-                                            isTrue="{!!(('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy) &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined) &amp;&amp; !v.showAddressValidationSpinner}">
+                                            isTrue="{!!(('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy ||
+                                                          v.account.BillingGeocodeAccuracy == 'Block' || v.account.BillingGeocodeAccuracy == 'Street' || v.account.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined) &amp;&amp; !v.showAddressValidationSpinner}">
                                         <c:RRIcon class="close-icon-style" iconName="icon-close"/>
                                         <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Not_Found}</div>
                                     </aura:if>
