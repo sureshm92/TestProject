@@ -21,4 +21,14 @@
             }
         })
     },
+
+    redirectToUrla: function (component, event) {
+        let eUrl= $A.get("e.force:navigateToURL");
+        var index = event.currentTarget.dataset.ind;
+        console.log("index " + index);
+        eUrl.setParams({
+            "url": index
+        });
+        eUrl.fire();
+    }
 });

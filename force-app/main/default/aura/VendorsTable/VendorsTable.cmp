@@ -18,17 +18,23 @@
                             <th>
                                 <div class="slds-truncate slds-text-align--center" title="Vendor Link">Link</div>
                             </th>
+                            <th>
+                                <div class="slds-truncate slds-text-align--center" title="Vendor Link">Default Vendor</div>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <aura:iteration var="vendor" items="{!v.vendors}">
+                        <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
                             <tr class="slds-hint-parent">
                                 <td>
-                                    <p class="slds-text-align--center">{!vendor.Name}</p>
+                                    <p class="slds-text-align--center">{!vendor.travelVendor.Name}</p>
+                                </td>
+                                <td class="slds-text-align--center" onclick="{!c.redirectToLink}" data-ind="{!vendor.Link_Vendor__c}">
+                                    <label class=" slds-text-link" >{!vendor.travelVendor.ink_Vendor__c}</label>
                                 </td>
                                 <td class="slds-text-align--center">
-                                    <a href="{!vendor.Link_Vendor__c}"
-                                       class=" slds-text-link">{!vendor.Link_Vendor__c}</a>
+                                    <ui:inputCheckbox aura:id="checkbox"
+                                                      value="{!vendor.travelVendor.isDefault}"/>
                                 </td>
                             </tr>
                         </aura:iteration>
