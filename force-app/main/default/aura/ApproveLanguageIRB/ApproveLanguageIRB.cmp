@@ -105,8 +105,8 @@
                     <thead>
                     <tr class="slds-line-height_reset">
                         <th scope="col">
-                            <div style="display: flex" onclick="{!c.getFilteredSS}">
-                                <div data-order="country" class="slds-truncate slds-text-align--center">
+                            <div data-order="country" style="display: flex" onclick="{!c.getFilteredSS}">
+                                <div class="slds-truncate slds-text-align--center">
                                     Country
                                 </div>
                                 <div class="slds-m-left--x-small">
@@ -122,8 +122,8 @@
                             </div>
                         </th>
                         <th scope="col">
-                            <div style="display: flex" onclick="{!c.getFilteredSS}">
-                                <div data-order="name" class="slds-truncate slds-text-align--center">
+                            <div data-order="name" style="display: flex" onclick="{!c.getFilteredSS}">
+                                <div class="slds-truncate slds-text-align--center">
                                     Study Site
                                 </div>
                                 <div class="slds-m-left--x-small">
@@ -139,8 +139,8 @@
                             </div>
                         </th>
                         <th class="cell-wrap" scope="col">
-                            <div style="display: flex; align-items: center" onclick="{!c.getFilteredSS}">
-                                <div data-order="number">Study Site Number</div>
+                            <div data-order="number" style="display: flex; align-items: center" onclick="{!c.getFilteredSS}">
+                                <div>Study Site Number</div>
                                 <div class="slds-m-left--x-small">
                                     <aura:if isTrue="{!v.numberSortType}">
                                         <lightning:icon iconName="utility:arrowdown" alternativeText=""
