@@ -6,7 +6,7 @@
         component.set('v.data', data);
         component.set('v.ssItems', data.studySiteItems);
         component.set('v.haveEmptyLangSS', data.haveEmptyLangSS);
-        component.set('v.countryCodes', data.countryCodes);
+        // component.set('v.countryCodes', data.countryCodes);
         component.set('v.languages', data.languages);
 
         component.set('v.allRecordsCount', data.paginationData.allRecordsCount);

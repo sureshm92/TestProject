@@ -48,7 +48,7 @@
         var cCodes = component.get('v.countryCodes');
         if(!cCodes) {
             component.set('v.countryFilterType', 'All');
-            component.set('v.countryCodes', data.countryCodes);
+            // component.set('v.countryCodes', data.countryCodes);
         }
 
         var langCodes = component.get('v.langCodes');
@@ -89,6 +89,7 @@
 
     doSave : function (component, event, helper) {
         var data = component.get('v.data');
+        data.studySiteItems = component.get('v.ssItems');
 
         component.find('spinner').show();
         communityService.executeAction(component, 'save', {
@@ -96,7 +97,6 @@
         }, function () {
             component.find('spinner').hide();
             communityService.showSuccessToast('Success', 'Changes was saved!');
-            $A.enqueueAction(component.get('c.doInit'));
         });
     },
 
