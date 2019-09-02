@@ -17,7 +17,6 @@
             return;
         }
         var helper = this;
-        console.log('tmpAccountId>>',tmpAccountId);
         communityService.executeAction(component, 'getTmpAccount', {
             tmpAccountId: tmpAccountId
         }, function (tmpAccount) {
