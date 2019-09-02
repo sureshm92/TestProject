@@ -2100,12 +2100,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Second_Choice_Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.SitesInterested__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Specialty__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Third_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6066,14 +6076,18 @@
         <enabled>true</enabled>
         <name>ContentAdministrator</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ContentWorkspaces</name>
-    </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>ContentWorkspaces</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
     </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>CreateContentSpace</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateCustomizeDashboards</name>
@@ -6106,10 +6120,10 @@
         <enabled>true</enabled>
         <name>CreateWorkBadgeDefinition</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>CreateWorkspaces</name>
-    </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>CreateWorkspaces</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CustomizeApplication</name>
