@@ -10,6 +10,8 @@ public with sharing class TravelVendorPanelRemote {
         @AuraEnabled
         public String countryCodes;
         @AuraEnabled
+        public String selectedSSIds;
+        @AuraEnabled
         public List<VendorItem> vendorItems;
     }
 
@@ -37,21 +39,33 @@ public with sharing class TravelVendorPanelRemote {
             }
             Set<String> uniqueCC = new Set<String>();
             Set<Id> vendorIds = new Set<Id>();
+            Set<Id> manualSsIds = new Set<Id>();
             for (VendorItem item : initData.vendorItems) {
                 if (!item.studySite.TravelVendorSettings__r.isEmpty()) {
-                    String countryName = item.studySite.Site__r.BillingCountry;
-                    String countryCode = item.studySite.Site__r.BillingCountryCode;
-                    if ((countryCode != null && countryName != null) && !uniqueCC.contains(countryCode)) {
-                        uniqueCC.add(countryCode);
-                        initData.countryCodes += countryCode + ';';
-                    }
+                    Boolean isManual = false;
                     for (TravelVendorSettings__c travelVendorSettings : item.studySite.TravelVendorSettings__r) {
                         vendorIds.add(travelVendorSettings.TravelVendor__c);
+                        if (travelVendorSettings.Is_Manual__c) {
+                            manualSsIds.add(travelVendorSettings.Study_Site__c);
+                            isManual = true;
+                        }
                     }
+                    if (!isManual) {
+                        String countryName = item.studySite.Site__r.BillingCountry;
+                        String countryCode = item.studySite.Site__r.BillingCountryCode;
+                        if ((countryCode != null && countryName != null) && !uniqueCC.contains(countryCode)) {
+                            uniqueCC.add(countryCode);
+                            initData.countryCodes += countryCode + ';';
+                        }
+                    }
+
                 }
             }
             if (vendorIds.isEmpty()) {
                 return new InitData();
+            }
+            if (!manualSsIds.isEmpty()) {
+                initData.selectedSSIds = String.join(new List<Id>(manualSsIds), ';');
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
             List<TravelVendor__c> travelVendors = supportHelper.getTravelVendorsByIds(new List<Id>(vendorIds));
