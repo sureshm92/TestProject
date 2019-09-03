@@ -7965,7 +7965,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB SS Empty AppLAng</shortDescription>
-        <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site as at least one IRB-Approved language to let Patients see Study Content.</value>
+        <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>

@@ -25,7 +25,7 @@
     <aura:attribute name="currentPage" type="Integer" default="1"/>
     <aura:attribute name="allRecordsCount" type="Integer"/>
 
-    <aura:attribute name="sortOrder" type="String"/>
+    <aura:attribute name="sortOrder" type="String" default="country"/>
     <aura:attribute name="countrySortType" type="Boolean"/>
     <aura:attribute name="nameSortType" type="Boolean"/>
     <aura:attribute name="numberSortType" type="Boolean"/>
@@ -105,16 +105,18 @@
                     <thead>
                     <tr class="slds-line-height_reset">
                         <th scope="col">
-                            <div data-order="country" style="display: flex" onclick="{!c.getFilteredSS}">
+                            <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
                                 <div class="slds-truncate slds-text-align--center">
                                     Country
                                 </div>
                                 <div class="slds-m-left--x-small">
                                     <aura:if isTrue="{!v.countrySortType}">
                                         <lightning:icon iconName="utility:arrowdown" alternativeText=""
+                                                        variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
                                                         size="xx-small"/>
                                         <aura:set attribute="else">
                                             <lightning:icon iconName="utility:arrowup" alternativeText=""
+                                                            variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
                                                             size="xx-small"/>
                                         </aura:set>
                                     </aura:if>
@@ -122,16 +124,18 @@
                             </div>
                         </th>
                         <th scope="col">
-                            <div data-order="name" style="display: flex" onclick="{!c.getFilteredSS}">
+                            <div data-order="name" class="sorted-column" onclick="{!c.doSort}">
                                 <div class="slds-truncate slds-text-align--center">
                                     Study Site
                                 </div>
                                 <div class="slds-m-left--x-small">
                                     <aura:if isTrue="{!v.nameSortType}">
                                         <lightning:icon iconName="utility:arrowdown" alternativeText=""
+                                                        variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
                                                         size="xx-small"/>
                                         <aura:set attribute="else">
                                             <lightning:icon iconName="utility:arrowup" alternativeText=""
+                                                            variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
                                                             size="xx-small"/>
                                         </aura:set>
                                     </aura:if>
@@ -139,14 +143,16 @@
                             </div>
                         </th>
                         <th class="cell-wrap" scope="col">
-                            <div data-order="number" style="display: flex; align-items: center" onclick="{!c.getFilteredSS}">
+                            <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
                                 <div>Study Site Number</div>
                                 <div class="slds-m-left--x-small">
                                     <aura:if isTrue="{!v.numberSortType}">
                                         <lightning:icon iconName="utility:arrowdown" alternativeText=""
+                                                        variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
                                                         size="xx-small"/>
                                         <aura:set attribute="else">
                                             <lightning:icon iconName="utility:arrowup" alternativeText=""
+                                                            variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
                                                             size="xx-small"/>
                                         </aura:set>
                                     </aura:if>

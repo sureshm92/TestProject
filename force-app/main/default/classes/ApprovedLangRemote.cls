@@ -95,7 +95,7 @@ public without sharing class ApprovedLangRemote {
     }
 
     @AuraEnabled
-    public static InitData getFilteredItems(String data, String countryCodes, String langCodes, String ssId, String sortOrder) {
+    public static InitData getFilteredItems(String data, String countryCodes, String langCodes, String ssId) {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
 
@@ -111,7 +111,8 @@ public without sharing class ApprovedLangRemote {
                 }
             }
 
-            List<Study_Site__c> studySites = getStudySites(initData.ctpId, countries, studyIds, sortOrder, -1, 0);
+            List<Study_Site__c> studySites =
+                    getStudySites(initData.ctpId, countries, studyIds, null, 'ASC', -1, 0);
             initData.paginationData.setRecordsCount(studySites.size());
 
             List<Study_Site__c> ssPart = new List<Study_Site__c>();
@@ -145,6 +146,26 @@ public without sharing class ApprovedLangRemote {
                 }
             }
             initData.selectedSSIds = initData.selectedSSIds.removeEnd(';');
+            return initData;
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static InitData getSortedItems(String data, String langCodes, String sortOrder, Boolean sortDirection) {
+        try {
+            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+
+            List<String> ssIds = new List<String>();
+            for(StudySiteItem item : initData.studySiteItems) ssIds.add(item.ss.Id);
+
+            String direction = sortDirection ? 'ASC' : 'DESC';
+
+            List<Study_Site__c> studySites =
+                    getStudySites(initData.ctpId, null, ssIds, sortOrder, direction, -1, QUERY_LIMIT);
+            initData.studySiteItems = getStudySiteItems(studySites, getListByString(langCodes));
+
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -340,7 +361,7 @@ public without sharing class ApprovedLangRemote {
 
     private static void initPageItems(InitData initData, String countryCodes, String langCodes, String ssId) {
         initData.studySiteItems = getStudySiteItems(
-                getStudySites(initData.ctpId, getListByString(countryCodes), getListByString(ssId), null,
+                getStudySites(initData.ctpId, getListByString(countryCodes), getListByString(ssId), null, 'ASC',
                         initData.paginationData.offset, QUERY_LIMIT
                 ),
                getListByString(langCodes)
@@ -380,7 +401,7 @@ public without sharing class ApprovedLangRemote {
     }
 
     private static List<Study_Site__c> getStudySites(Id ctpId, List<String> countryCodes, List<String> ssIds,
-            String sortOrder, Integer offset, Integer queryLimit
+            String sortOrder, String sortDirection, Integer offset, Integer queryLimit
     ) {
         String filter = QUERY_MAIN_FILTER.replace('ctpId', ctpId);
 
@@ -407,7 +428,7 @@ public without sharing class ApprovedLangRemote {
             }
         }
 
-        filter += ' ORDER BY ' + sortOrder;
+        filter += ' ORDER BY ' + sortOrder + ' ' + sortDirection;
         if(queryLimit > 0) {
             filter += ' LIMIT ' + queryLimit;
             if(offset > 0) filter += ' OFFSET ' + offset;
@@ -416,7 +437,7 @@ public without sharing class ApprovedLangRemote {
         return getStudySites(filter);
     }
 
-    private static List<LabelValueItem> getLanguages() {
+    public static List<LabelValueItem> getLanguages() {
         List<LabelValueItem> languages = new List<LabelValueItem>();
         Schema.DescribeFieldResult fieldResult = Study_Site__c.Approved_Lng__c.getDescribe();
         List<Schema.PicklistEntry> entries = fieldResult.getPicklistValues();
