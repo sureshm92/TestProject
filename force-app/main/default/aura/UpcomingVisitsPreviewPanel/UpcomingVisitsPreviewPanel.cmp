@@ -1,20 +1,16 @@
-<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel" extends="c:LightningService">
+<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel" >
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
-    <aura:attribute name="vendors" type="Object[]"/>
-    <aura:attribute name="hasVendors" type="Boolean"/>
 
     <div class="sv-panel rr-white-panel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <div class="sv-header">
             <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
-            <aura:if isTrue="{!v.hasVendors}">
-                <button class="apollo-btn primary sv-btn" onclick="{!c.onTravel}">
-                    {!$Label.c.Home_Page_StudyVisit_Btn}
-                </button>
-            </aura:if>
+            <div class="apollo-btn">
+            <c:TravelSupport/>
+            </div>
         </div>
         <div class="sv-body">
             <aura:if isTrue="{!!empty(v.visitWrappers)}">
@@ -42,5 +38,4 @@
             <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>
         </div>
     </div>
-    <c:TravelSupport aura:id="showVendors" vendors="{!v.vendors}"/>
 </aura:component>

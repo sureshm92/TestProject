@@ -3,19 +3,48 @@
  */
 
 ({
-    checkOnShowMore: function (component, event) {
-        let isShowMore = component.get("v.isShowMore");
+    checkOnDisclaimer: function (component, event) {
+        let isShowMore = component.get("v.isShowDisclaimer");
         if (isShowMore) {
-            component.set("v.isShowMore", false);
+            component.set("v.isShowDisclaimer", false);
+            component.set("v.selectedVendor", null);
         }
     },
 
     redirectToUrl: function (component, event) {
         let eUrl= $A.get("e.force:navigateToURL");
         eUrl.setParams({
-            "url": 'https://uberwork.com.ua'
+            "url": component.get('v.selectedVendor').Link_Vendor__c
         });
         component.find('popup').cancel();
         eUrl.fire();
-    }
+    },
+
+    transformToHtmlMessage: function (component, event) {
+        let message = component.get('v.message');
+        let htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
+        component.set('v.htmlMessage', htmlMessage);
+    },
+
+    getAvailableVendors: function (component, event, helper) {
+        helper.enqueue(component, 'c.getVendors'
+            //     {
+            //     // userId: component.get('v.recordId')
+            // }
+        ).then(function (result) {
+            console.log(JSON.stringify(result));
+            if (result) {
+                component.set('v.vendors', result);
+            }
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+        })
+        component.find('spinner').hide();
+    },
 });

@@ -3,12 +3,15 @@
  */
 
 ({
-    redirectToUrl: function (component, event) {
-        let eUrl= $A.get("e.force:navigateToURL");
-        let index = event.currentTarget.dataset.ind;
-        eUrl.setParams({
-            "url": index
+    makeUnique: function (component, event) {
+        let values = component.find('checkBoxBtn');
+        let value = event.getSource().get('v.value');
+        let isChecked = event.getSource().get('v.checked');
+        values.forEach(function (item) {
+            if (item.get('v.value') !== value && item.get("v.checked") === true) {
+                item.set("v.checked", false);
+            }
         });
-        eUrl.fire();
+        component.set("v.selectedVendor", isChecked ? value : '');
     }
 });

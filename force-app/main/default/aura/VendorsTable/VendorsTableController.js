@@ -3,7 +3,7 @@
  */
 
 ({
-    redirectToLink: function (component, event, helper) {
-        helper.redirectToUrl(component, event, helper);
-    },
+    makeUnique: function (component, event, helper) {
+        helper.makeUnique(component, event);
+    }
 });
