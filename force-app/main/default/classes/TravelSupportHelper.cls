@@ -60,4 +60,40 @@ public without sharing class TravelSupportHelper {
         return travelVendors;
     }
 
+    public void fillVendorSettingsWithStub(List<TravelVendor__c> travelVendors, List<TravelVendorPanelRemote.VendorItem> vendorItemsResult) {
+        for (TravelVendor__c vendor : travelVendors) {
+            for (TravelVendorPanelRemote.VendorItem vendorItem : vendorItemsResult) {
+                List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
+                Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
+                for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
+                    travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
+                }
+                if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
+                    vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
+                } else {
+                    vendorSettingsWithStub.add(
+                            new TravelVendorSettings__c (
+                                    isEnable__c = false,
+                                    TravelVendor__c = vendor.Id,
+                                    TravelVendor__r = vendor,
+                                    Study_Site__c = vendorItem.studySite.Id
+                            )
+                    );
+                }
+                vendorItem.vendorSettings = vendorSettingsWithStub;
+            }
+        }
+    }
+
+    public void deleteTravelSettings(Id ctpId, Set<Id> travelVendorSettingsIds) {
+        String query = 'SELECT ' +
+                'Id ' +
+                'FROM TravelVendorSettings__c ' +
+                'WHERE Study_Site__r.Clinical_Trial_Profile__c = \'' + ctpId + '\'' +
+                (travelVendorSettingsIds.isEmpty() ? '' : ' AND Id NOT IN ' + '(\'' + String.join(new List<Id>(travelVendorSettingsIds), '\',\'') + '\')');
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        List<TravelVendorSettings__c> ts = (List<TravelVendorSettings__c>) databaseProxy.query(query);
+        delete ts;
+    }
+
 }
