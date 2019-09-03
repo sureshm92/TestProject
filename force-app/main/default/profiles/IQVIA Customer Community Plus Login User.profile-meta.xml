@@ -4699,16 +4699,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>TravelVendorSettings__c.Study_Site__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>TravelVendorSettings__c.TravelVendor__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>TravelVendorSettings__c.Is_Manual__c</field>
         <readable>true</readable>
