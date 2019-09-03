@@ -178,7 +178,7 @@ public without sharing class StudyTrialService {
             userCountry='United States';
         }
         String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Principal_Investigator__r.Account.BillingGeocodeAccuracy, Site__c, Study_Site_Type__c FROM Study_Site__c WHERE ';
-        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\''+
+        query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Include_in_RP_trial_search__c'+
                 '  AND Override_PI_Referral_Status__c != NULL ' +
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
                 '  AND Principal_Investigator__r.Account.BillingCountry = :userCountry '+
