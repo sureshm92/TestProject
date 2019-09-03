@@ -15,7 +15,6 @@
             }
             component.set('v.iconNames', iconNames);
             component.set('v.initialized', true);
-            helper.getAvailableVendors(component, event, helper);
             component.find('spinner').hide();
         });
     },
