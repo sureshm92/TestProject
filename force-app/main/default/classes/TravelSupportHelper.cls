@@ -61,13 +61,13 @@ public without sharing class TravelSupportHelper {
     }
 
     public void fillVendorSettingsWithStub(List<TravelVendor__c> travelVendors, List<TravelVendorPanelRemote.VendorItem> vendorItemsResult) {
-        for (TravelVendor__c vendor : travelVendors) {
-            for (TravelVendorPanelRemote.VendorItem vendorItem : vendorItemsResult) {
-                List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
-                Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
-                for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
-                    travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
-                }
+        for (TravelVendorPanelRemote.VendorItem vendorItem : vendorItemsResult) {
+            List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
+            Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
+            for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
+                travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
+            }
+            for (TravelVendor__c vendor : travelVendors) {
                 if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
                     vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
                 } else {
@@ -75,13 +75,12 @@ public without sharing class TravelSupportHelper {
                             new TravelVendorSettings__c (
                                     isEnable__c = false,
                                     TravelVendor__c = vendor.Id,
-                                    TravelVendor__r = vendor,
                                     Study_Site__c = vendorItem.studySite.Id
                             )
                     );
                 }
-                vendorItem.vendorSettings = vendorSettingsWithStub;
             }
+            vendorItem.vendorSettings = vendorSettingsWithStub;
         }
     }
 
