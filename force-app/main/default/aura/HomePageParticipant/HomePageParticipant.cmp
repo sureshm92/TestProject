@@ -6,8 +6,6 @@
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
-    <aura:attribute name="showLangPopup" type="Boolean" default="false"/>
-    <aura:attribute name="popupHeader" type="String"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -72,15 +70,7 @@
                     <c:ResourceDashboardCard/>
                 </div>
             </div>
-
-            <!--No IRB-Approved Languages popup-->
-            <c:Popup title="{!$Label.c.PP_IRB_Popup_Title}" showModal="{!v.showLangPopup}" size="small"
-                     headerText="{!v.popupHeader}">
-                <aura:set attribute="footerButtons">
-                    <button class="apollo-btn primary" onclick="{!c.handleOkClick}"
-                            tabindex="0">{!$Label.c.PP_IRB_Button_Review}</button>
-                </aura:set>
-            </c:Popup>
+            <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>
         </aura:if>
         <div style="height: 30px"/>
     </div>

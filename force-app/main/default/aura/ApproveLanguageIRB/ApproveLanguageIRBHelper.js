@@ -2,16 +2,6 @@
  * Created by Igor Malyuta on 26.08.2019.
  */
 ({
-    initData : function (component, data) {
-        component.set('v.data', data);
-        component.set('v.ssItems', data.studySiteItems);
-        component.set('v.haveEmptyLangSS', data.haveEmptyLangSS);
-        // component.set('v.countryCodes', data.countryCodes);
-        component.set('v.languages', data.languages);
-
-        component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
-    },
-
     setColumnCheckboxState: function (component) {
         var ssItems = component.get('v.ssItems');
         var langColumns = component.find('columnLang');

@@ -14,6 +14,11 @@
     max-height: 500px;
 }
 
+.THIS .sorted-column {
+    display: flex;
+    justify-content: center;
+}
+
 .THIS .empty-approved-lang {
     background-color: antiquewhite;
 }
