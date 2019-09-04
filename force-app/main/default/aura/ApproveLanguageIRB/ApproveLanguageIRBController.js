@@ -48,31 +48,31 @@
         });
     },
 
-    getFilteredSS: function (component, event, helper) {
-        var data = component.get('v.data');
-        var cCodes = component.get('v.countryCodes');
-        if (!cCodes) component.set('v.countryFilterType', 'All');
+    onCountriesChange: function (component, event, helper) {
+        var ccCodes = component.get('v.countryCodes').split(';');
+        var newSelectedSSIds = new Set();
 
-        var langCodes = component.get('v.langCodes');
-        if (!langCodes) component.set('v.langFilterType', 'All');
+        var count = 0;
+        var items = component.get('v.ssItems');
+        for (let i = 0; i < items.length; i++) {
+            if (ccCodes.indexOf(items[i].ss.Site__r.BillingCountryCode) > -1) {
+                newSelectedSSIds.add(items[i].ss.Id);
+                count++;
+            }
+        }
+
+        var newSSIds = Array.from(newSelectedSSIds).join(';');
+        if(count === items.length) newSSIds = '';
+
+        component.set('v.selectedSSIds', newSSIds);
 
         component.find('spinner').show();
-        communityService.executeAction(component, 'getFilteredItems', {
-            'data': JSON.stringify(data),
-            'countryCodes': cCodes,
-            'langCodes': langCodes,
-            'ssId': component.get('v.selectedSSIds'),
-            'ssItems': JSON.stringify(component.get('v.ssItems')),
-        }, function (data) {
-            component.set('v.ssItems', data.studySiteItems);
-            component.set('v.haveEmptyLangSS', data.haveEmptyLangSS);
+        helper.updateTable(component);
+    },
 
-            component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
-            component.set('v.currentPage', data.paginationData.currentPage);
-            component.set('v.languages', data.languages);
-
-            component.find('spinner').hide();
-        });
+    getFilteredSS: function (component, event, helper) {
+        component.find('spinner').show();
+        helper.updateTable(component);
     },
 
     doSort: function (component, event, helper) {
@@ -115,7 +115,8 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'save', {
             'data': JSON.stringify(data)
-        }, function () {
+        }, function (data) {
+            component.set('v.haveEmptyLangSS', data.haveEmptyLangSS);
             component.find('spinner').hide();
             communityService.showSuccessToast('Success', 'Changes was saved!');
         });
@@ -147,7 +148,6 @@
         var lang = event.getParam('keyId');
         var state = event.getParam('value');
 
-        // var haveEmptyLng = false;
         var ssItems = component.get('v.ssItems');
         for (var i = 0; i < ssItems.length; i++) {
             var appCount = 0;
@@ -159,76 +159,9 @@
                 if (appLangs[j].state) appCount++;
             }
 
-            // ssItems[i].emptyAppLangs = appCount === 0;
-            // if(ssItems[i].emptyAppLangs) haveEmptyLng = true;
+            ssItems[i].emptyAppLangs = appCount === 0;
         }
 
-        // component.set('v.haveEmptyLangSS', haveEmptyLng);
         component.set('v.ssItems', ssItems);
-    },
-
-    sscCheckboxStateChange: function (component, event, helper) {
-        var keyId = event.getParam('keyId');
-        var lang = event.getParam('field');
-        var state = event.getParam('value');
-        // console.log('Lang: ' + lang + ' state: ' + state);
-
-        var ssItems = component.get('v.ssItems');
-        // var haveEmptyLng = false;
-        var selectedCount = 0;
-        for (var i = 0; i < ssItems.length; i++) {
-            var appLangs = ssItems[i].approvedLangCodes;
-            var appCount = 0;
-            for (var j = 0; j < appLangs.length; j++) {
-                if (appLangs[j].value === lang) {
-                    if (ssItems[i].ss.Id === keyId) appLangs[j].state = state;
-                    if (appLangs[j].state) selectedCount++;
-                }
-                if (appLangs[j].state) appCount++;
-            }
-            // ssItems[i].emptyAppLangs = appCount === 0;
-            // if(ssItems[i].emptyAppLangs) haveEmptyLng = true;
-        }
-        component.set('v.ssItems', ssItems);
-        // component.set('v.haveEmptyLangSS', haveEmptyLng);
-
-        var langColumnState = 'none';
-        if (selectedCount === ssItems.length) {
-            langColumnState = 'all';
-        } else if (selectedCount > 0 && selectedCount < ssItems.length) {
-            langColumnState = 'indeterminate';
-        }
-
-        var langColumns = component.find('columnLang');
-        for (var k = 0; k < langColumns.length; k++) {
-            var column = langColumns[k];
-            if (column.get('v.keyId') === lang) {
-                switch (langColumnState) {
-                    case 'all':
-                        column.setState(true, false);
-                        break;
-                    case 'indeterminate':
-                        column.setState(false, true);
-                        break;
-                    default:
-                        column.setState(false, false);
-                }
-                break;
-            }
-        }
-    },
-
-    viewStudySite: function (component, event, helper) {
-        var ssId = event.currentTarget.dataset.ssid;
-        var pageRef = {
-            type: 'standard__recordPage',
-            attributes: {
-                actionName: 'view',
-                objectApiName: 'Study_Site__c',
-                recordId: ssId
-            },
-        };
-
-        component.find('navLink').navigate(pageRef);
     }
 });
