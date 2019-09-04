@@ -375,6 +375,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IRBParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -588,6 +592,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantIRBCheckerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
