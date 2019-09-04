@@ -5,3 +5,9 @@
 .THIS.empty-approved-lang {
     background-color: antiquewhite;
 }
+
+.THIS .name-overflow {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

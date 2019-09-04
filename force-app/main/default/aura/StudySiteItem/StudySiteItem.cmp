@@ -13,7 +13,7 @@
                  title="">{!v.item.country.label}</div>
         </th>
         <td data-label="Study Site Name">
-            <div class="slds-truncate slds-text-align--center" title="">
+            <div class="slds-truncate slds-text-align--center name-overflow" title="">
                 <a href="javascript:void(0);" tabindex="-1" data-ssid="{!v.item.ss.Id}"
                    onclick="{!c.viewStudySite}">{!v.item.name}</a>
             </div>
