@@ -8,11 +8,14 @@
         if (isShowMore) {
             component.set("v.isShowDisclaimer", false);
             component.set("v.selectedVendor", null);
+            let message = component.get('v.message');
+            let htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
+            component.set('v.htmlMessage', htmlMessage);
         }
     },
 
     redirectToUrl: function (component, event) {
-        let eUrl= $A.get("e.force:navigateToURL");
+        let eUrl = $A.get("e.force:navigateToURL");
         eUrl.setParams({
             "url": component.get('v.selectedVendor').Link_Vendor__c
         });
