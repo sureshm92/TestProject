@@ -10,6 +10,8 @@ public with sharing class TravelVendorPanelRemote {
         @AuraEnabled
         public String countryCodes;
         @AuraEnabled
+        public String selectedSSIds;
+        @AuraEnabled
         public List<VendorItem> vendorItems;
     }
 
@@ -32,48 +34,43 @@ public with sharing class TravelVendorPanelRemote {
         try {
             initData.countryCodes = '';
             initData.vendorItems = supportHelper.getVendorItems(null, ctpId, null, null);
+            if (initData.vendorItems.isEmpty()) {
+                return new InitData();
+            }
             Set<String> uniqueCC = new Set<String>();
             Set<Id> vendorIds = new Set<Id>();
+            Set<Id> manualSsIds = new Set<Id>();
             for (VendorItem item : initData.vendorItems) {
-                String countryName = item.studySite.Site__r.BillingCountry;
-                String countryCode = item.studySite.Site__r.BillingCountryCode;
-                if ((countryCode != null && countryName != null) && !uniqueCC.contains(countryCode)) {
-                    uniqueCC.add(countryCode);
-                    initData.countryCodes += countryCode + ';';
-                }
                 if (!item.studySite.TravelVendorSettings__r.isEmpty()) {
+                    Boolean isManual = false;
                     for (TravelVendorSettings__c travelVendorSettings : item.studySite.TravelVendorSettings__r) {
                         vendorIds.add(travelVendorSettings.TravelVendor__c);
+                        if (travelVendorSettings.Is_Manual__c) {
+                            manualSsIds.add(travelVendorSettings.Study_Site__c);
+                            isManual = true;
+                        }
                     }
+                    if (!isManual) {
+                        String countryName = item.studySite.Site__r.BillingCountry;
+                        String countryCode = item.studySite.Site__r.BillingCountryCode;
+                        if ((countryCode != null && countryName != null) && !uniqueCC.contains(countryCode)) {
+                            uniqueCC.add(countryCode);
+                            initData.countryCodes += countryCode + ';';
+                        }
+                    }
+
                 }
+            }
+            if (vendorIds.isEmpty()) {
+                return new InitData();
+            }
+            if (!manualSsIds.isEmpty()) {
+                initData.selectedSSIds = String.join(new List<Id>(manualSsIds), ';');
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
-
             List<TravelVendor__c> travelVendors = supportHelper.getTravelVendorsByIds(new List<Id>(vendorIds));
             initData.vendors = travelVendors;
-            for (TravelVendor__c vendor : travelVendors) {
-                for (VendorItem vendorItem : initData.vendorItems) {
-                    List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
-                    Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
-                    for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
-                        travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
-                    }
-                    if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
-                        vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
-                    } else {
-                        vendorSettingsWithStub.add(
-                                new TravelVendorSettings__c (
-                                        isEnable__c = false,
-                                        TravelVendor__c = vendor.Id,
-                                        TravelVendor__r = vendor,
-                                        Study_Site__c = vendorItem.studySite.Id,
-                                        Study_Site__r = vendorItem.studySite
-                                )
-                        );
-                    }
-                    vendorItem.vendorSettings = vendorSettingsWithStub;
-                }
-            }
+            supportHelper.fillVendorSettingsWithStub(travelVendors, initData.vendorItems);
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
@@ -84,42 +81,25 @@ public with sharing class TravelVendorPanelRemote {
     public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<TravelVendor__c> vendors) {
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
+        Boolean isCountryCodes = countryCodes != null && String.isNotBlank(countryCodes);
+        Boolean isStudySiteIds = ssIds != null && String.isNotBlank(ssIds);
+        Boolean isVendors = vendors != null && !vendors.isEmpty();
+        if (!isCountryCodes && !isStudySiteIds) {
+            return result;
+        }
         try {
             List<String> countryCodeList;
-            if (countryCodes != null && String.isNotBlank(countryCodes)) {
+            if (isCountryCodes) {
                 countryCodeList = countryCodes.split(';');
             }
             List<String> studyIds;
-            if(ssIds != null && String.isNotBlank(ssIds)) {
+            if (isStudySiteIds) {
                 studyIds = ssIds.split(';');
             }
             result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendors);
-            if (vendors != null && !vendors.isEmpty()) {
-                for (TravelVendor__c vendor : vendors) {
-                    for (VendorItem vendorItem : result) {
-                        List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
-                        Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
-                        for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
-                            travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
-                        }
-                        if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
-                            vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
-                        } else {
-                            vendorSettingsWithStub.add(
-                                    new TravelVendorSettings__c (
-                                            isEnable__c = false,
-                                            TravelVendor__c = vendor.Id,
-                                            TravelVendor__r = vendor,
-                                            Study_Site__c = vendorItem.studySite.Id,
-                                            Study_Site__r = vendorItem.studySite
-                                    )
-                            );
-                        }
-                        vendorItem.vendorSettings = vendorSettingsWithStub;
-                    }
-                }
+            if (isVendors) {
+                supportHelper.fillVendorSettingsWithStub(vendors, result);
             }
-
         } catch (Exception e) {
             return (List<VendorItem>) AuraHelper.throwException(e);
         }
@@ -127,42 +107,36 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static void saveData(Id ctpId, String items) {
-        System.debug('saveData ===> ' + ctpId +  '\n' + items);
-        List<VendorItem> vendorItems = (List<VendorItem>) JSON.deserialize(items, VendorItem.class);
-        System.debug('vendorItems ===> ' + vendorItems);
-       /* List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>();
+    public static void saveData(Id ctpId, List<TravelVendorSettings__c> settings) {
+        TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
+        List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>();
         Set<Id> travelVendorSettingsIds = new Set<Id>();
         try {
-            if (items != null && !items.isEmpty()) {
-                for (VendorItem vendor : items) {
-                    if (vendor.vendorSettings != null && !vendor.vendorSettings.isEmpty()) {
-                        for (TravelVendorSettings__c vendorSetting : vendor.vendorSettings) {
-                            if (vendorSetting.isEnable__c) {
-                                travelVendorSettings.add(vendorSetting);
-                                if (vendorSetting.Id != null) {
-                                    travelVendorSettingsIds.add(vendorSetting.Id);
-                                }
-                            }
+            if (settings != null && !settings.isEmpty()) {
+                for (TravelVendorSettings__c vendorSetting : settings) {
+                    if (vendorSetting.isEnable__c) {
+                        travelVendorSettings.add(vendorSetting);
+                        if (vendorSetting.Id != null) {
+                            travelVendorSettingsIds.add(vendorSetting.Id);
                         }
                     }
                 }
             }
-            if (!travelVendorSettingsIds.isEmpty()) {
-                delete [SELECT Id FROM TravelVendorSettings__c WHERE Study_Site__r.Clinical_Trial_Profile__c = :ctpId AND Id NOT IN :travelVendorSettingsIds];
-            }
+            supportHelper.deleteTravelSettings(ctpId, travelVendorSettingsIds);
             if (!travelVendorSettings.isEmpty()) {
                 upsert travelVendorSettings;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
-        }*/
+        }
     }
 
     @AuraEnabled
     public static TravelVendor__c createVendor(TravelVendor__c newVendor) {
         try {
-            insert newVendor;
+            if (newVendor != null) {
+                insert newVendor;
+            }
         } catch (Exception e) {
             return (TravelVendor__c) AuraHelper.throwException(e);
         }

@@ -20,7 +20,7 @@ public without sharing class TravelSupportHelper {
                 'Site__r.BillingCountry, ' +
                 'Site__r.BillingCountryCode, ' +
                 'Study_Site_Number__c, ' +
-                '(SELECT Id, isEnable__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
+                '(SELECT Id, isEnable__c, Is_Manual__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c, Study_Site__c FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
                 'FROM Study_Site__c ';
         String clause = ' WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
         if (isCountryCodes) {
@@ -58,6 +58,41 @@ public without sharing class TravelSupportHelper {
         query += order;
         List<TravelVendor__c> travelVendors = databaseProxy.query(query);
         return travelVendors;
+    }
+
+    public void fillVendorSettingsWithStub(List<TravelVendor__c> travelVendors, List<TravelVendorPanelRemote.VendorItem> vendorItemsResult) {
+        for (TravelVendorPanelRemote.VendorItem vendorItem : vendorItemsResult) {
+            List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
+            Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
+            for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
+                travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
+            }
+            for (TravelVendor__c vendor : travelVendors) {
+                if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
+                    vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
+                } else {
+                    vendorSettingsWithStub.add(
+                            new TravelVendorSettings__c (
+                                    isEnable__c = false,
+                                    TravelVendor__c = vendor.Id,
+                                    Study_Site__c = vendorItem.studySite.Id
+                            )
+                    );
+                }
+            }
+            vendorItem.vendorSettings = vendorSettingsWithStub;
+        }
+    }
+
+    public void deleteTravelSettings(Id ctpId, Set<Id> travelVendorSettingsIds) {
+        String query = 'SELECT ' +
+                'Id ' +
+                'FROM TravelVendorSettings__c ' +
+                'WHERE Study_Site__r.Clinical_Trial_Profile__c = \'' + ctpId + '\'' +
+                (travelVendorSettingsIds.isEmpty() ? '' : ' AND Id NOT IN ' + '(\'' + String.join(new List<Id>(travelVendorSettingsIds), '\',\'') + '\')');
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        List<TravelVendorSettings__c> ts = (List<TravelVendorSettings__c>) databaseProxy.query(query);
+        delete ts;
     }
 
 }

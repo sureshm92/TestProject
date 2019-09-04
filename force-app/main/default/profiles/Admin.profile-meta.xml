@@ -1279,6 +1279,22 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TravelSupportHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelSupportRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelVendorLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4786,12 +4802,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>TravelVendorSettings__c.Study_Site__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>TravelVendorSettings__c.TravelVendor__c</field>
+        <field>TravelVendorSettings__c.Is_Manual__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
