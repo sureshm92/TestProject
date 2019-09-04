@@ -229,7 +229,7 @@ public without sharing class CommunityService {
 
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
-                SELECT Id, Email, FirstName, LastName, Name, Language__c
+                SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c
                 FROM Contact
                 WHERE Id = :contactIds
         ];

@@ -1531,7 +1531,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>EmailPreferencesIsOff</shortDescription>
-        <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;settings?tab=account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
+        <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
     </labels>
     <labels>
         <fullName>Email_Action_Complete_Baseline_Survey</fullName>

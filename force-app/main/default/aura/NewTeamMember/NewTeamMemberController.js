@@ -1,7 +1,7 @@
 ({
     doInit: function (component, event, helper) {
-        var spinner = component.find('mainSpinner');
-        spinner.show();
+        // var spinner = component.find('mainSpinner');
+        // spinner.show();
         component.set('v.showSpinner', true);
 
         if (!communityService.isInitialized()) return;
@@ -26,7 +26,7 @@
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
             contactEmail: '',
-            parentId: communityService.getDelegateId()
+            parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);
@@ -69,7 +69,7 @@
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
             contactEmail: delegate.delegateContact.Email.toLowerCase(),
-            parentId: communityService.getDelegateId()
+            parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);

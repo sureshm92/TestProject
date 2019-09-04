@@ -11,6 +11,13 @@ public without sharing class MyTeamRemote {
         try {
             MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
             detail.currentUserContactId = CommunityService.getUserContact().Id;
+            if(userMode == CommunityService.USER_MODE_PI && (parentId == null || parentId == '')){
+                detail.piDelegateParents = getDelegateParents();
+                if(detail.piDelegateParents.size()>0){
+                    detail.piSelectedParent = detail.piDelegateParents[0].value;
+                    parentId = detail.piDelegateParents[0].value;
+                }
+            }
             detail.delegates = getDelegates(userMode, userMode != CommunityService.USER_MODE_HCP, null, parentId);
             detail.delegateOptions = getDelegateOptions(userMode);
             if (userMode == CommunityService.USER_MODE_PI) {
@@ -113,7 +120,11 @@ public without sharing class MyTeamRemote {
                     if (!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
                         DelegateWrapper dw = new DelegateWrapper();
                         dw.delegateContact = delegateContact;
+                        Boolean isDelegate = false;
                         for (Study_Site__c study : studySites) {
+                            if(parentId!=null && parentId !='' && study.Principal_Investigator__c != parentId){
+                                continue;
+                            }
                             TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
                             trialLevel.trialName = study.Clinical_Trial_Profile__r.Study_Code_Name__c + '(' + study.Name + ')';
                             trialLevel.enrollmentOrStudySiteId = study.Id;
@@ -123,13 +134,15 @@ public without sharing class MyTeamRemote {
                                     (staffTrialMap.get(delegateContact.Id) == null)
                                             ? null : (staffTrialMap.get(delegateContact.Id).get(study.Id));
                             if (delegateRecord != null) {
+                                isDelegate = true;
                                 trialLevel.delegateLevel = delegateRecord.Delegate_Level__c;
                             }
                             dw.trialLevels.add(trialLevel);
                         }
                         dw.trialLevels.sort();
-
-                        delegates.add(dw);
+                        if(useProvidedContacts || isDelegate){
+                            delegates.add(dw);
+                        }
                     }
                 }
             }
@@ -243,6 +256,18 @@ public without sharing class MyTeamRemote {
         }
 
         return delegateOptions;
+    }
+
+    private static List<LabelValueItem> getDelegateParents(){
+        Set<Id> piDelegateParentIds = DelegateService.getPIDelegateParents();
+        List<LabelValueItem> parents = new List<LabelValueItem>();
+        if(StudySiteService.getStudySitesForPI().size()>0){
+            parents.add(new LabelValueItem(Label.PG_MT_L_My_Team, CommunityService.getUserContact().Id));
+        }
+        for(Contact parent : CommunityService.getContacts(piDelegateParentIds)){
+            parents.add(new LabelValueItem(Label.PG_MT_L_Team_for.replace('##PIName',parent.Full_Name__c), parent.Id));
+        }
+        return parents;
     }
 
     @AuraEnabled
@@ -465,6 +490,8 @@ public without sharing class MyTeamRemote {
     }
 
     public class MyTeamDetail {
+        public List<LabelValueItem> piDelegateParents;
+        public String piSelectedParent;
         public List<LabelValueItem> delegateOptions;
         public List<DelegateWrapper> delegates;
         public Id currentUserContactId;

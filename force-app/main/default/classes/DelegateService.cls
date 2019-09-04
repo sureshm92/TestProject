@@ -28,7 +28,7 @@ public without sharing class DelegateService {
     private List<RP_Delegate_Relationship__c> hcpDelegatesList;
     private Map<Id, String> hcpDelegateLevelMap;
 
-
+    private  Set<Id> piDelegateParents;
 
     private static DelegateService instance;
     
@@ -37,6 +37,7 @@ public without sharing class DelegateService {
         for(Site_Staff__c del : [SELECT Id, Study_Site__c FROM Site_Staff__c WHERE Site_Contact__c = : CommunityService.getUserContact().Id]){
             siteIds.add(del.Study_Site__c);
         }
+        piDelegateParents = new Set<Id>();
         List<Site_Staff__c> piStaffs = [
                 SELECT Id, Study_Site__c,
                         Study_Site__r.Principal_Investigator__c,
@@ -54,6 +55,7 @@ public without sharing class DelegateService {
         piTeamStaffTrialMap = new Map<Id, Map<Id,Site_Staff__c>>();
         for(Site_Staff__c siteStaff : piStaffs) {
             if(siteStaff.Site_Contact__c == CommunityService.getUserContact().Id){
+                piDelegateParents.add(siteStaff.Study_Site__r.Principal_Investigator__c);
                 piStudySitesAccessLevelMap.put(siteStaff.Study_Site__c, siteStaff.Delegate_Level__c);
                 piStudiesAccessLevel.put(siteStaff.Study_Site__r.Clinical_Trial_Profile__c, siteStaff.Delegate_Level__c);
                 studyPIContactsMap.put(siteStaff.Study_Site__r.Clinical_Trial_Profile__c, siteStaff.Study_Site__r.Principal_Investigator__c);
@@ -142,6 +144,9 @@ public without sharing class DelegateService {
     public Map<Id,String> getHCPDelegateLevelMapImpl(){
         return hcpDelegateLevelMap;
     }
+    public  Set<Id> getPIDelegateParentsImpl(){
+        return piDelegateParents;
+    }
 
     
     // Static facade: --------------------------------------------------------------------------------------------------
@@ -180,5 +185,8 @@ public without sharing class DelegateService {
 
     public static Map<Id,String> getHCPDelegateLevelMap(){
         return getInstance().getHCPDelegateLevelMapImpl();
+    }
+    public static Set<Id> getPIDelegateParents(){
+        return getInstance().getPIDelegateParentsImpl();
     }
 }

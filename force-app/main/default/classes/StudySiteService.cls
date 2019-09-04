@@ -240,6 +240,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingLongitude',
             'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
             'Principal_Investigator__r.Account.BillingAddress',
+            'Principal_Investigator__r.Full_Name__c',
             'Site_Staff__r.Site_Contact__c'
     };
 
