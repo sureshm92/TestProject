@@ -65,6 +65,8 @@ public inherited sharing class VisitReportContainerRemote {
         public String enrollmentDate;
         @AuraEnabled
         public String studySiteName;
+        @AuraEnabled
+        public String peId;
     }
 
     public class ReportDataTableWrapper {
@@ -90,6 +92,12 @@ public inherited sharing class VisitReportContainerRemote {
 
             this.nameLabs = String.format(TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName), FORMAT_PARAMETERS);
             this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c);
+        }
+
+        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM, String languageToTranslate) {
+
+            this.nameLabs = String.format(TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName, languageToTranslate), FORMAT_PARAMETERS);
+            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c, languageToTranslate);
         }
     }
 
@@ -118,13 +126,32 @@ public inherited sharing class VisitReportContainerRemote {
             this.measurement = visitResult.Measurement__c;
         }
 
-        public VisitDataWrapper(String value, String measurement) {
-            this.value = TranslateHelper.getLabelValue(value);
+        public VisitDataWrapper(Visit_Result__c visitResult, String languageToTranslate) {
+            this.value = String.format(TranslateHelper.getLabelValue(visitResult.Result_Type__c, languageToTranslate), FORMAT_EMPTY_PARAMETERS);
+            if (visitResult.Min_Value__c != null) {
+                this.minValue = visitResult.Min_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
+                this.isShowRange = true;
+            }
+            if (visitResult.Max_Value__c != null) {
+                this.maxValue = visitResult.Max_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
+                this.isShowRange = true;
+            }
+            this.measurement = visitResult.Measurement__c;
+        }
+
+
+        public VisitDataWrapper(String value, String measurement, String languageToTranslate) {
+            this.value = TranslateHelper.getLabelValue(value, languageToTranslate);
             this.measurement = measurement;
         }
 
         public VisitDataWrapper(String value) {
             this.value = String.format(TranslateHelper.getLabelValue(value), FORMAT_EMPTY_PARAMETERS);
+            this.isShowRange = false;
+        }
+
+        public VisitDataWrapper(String value, String languageToTranslate) {
+            this.value = String.format(TranslateHelper.getLabelValue(value, languageToTranslate), FORMAT_EMPTY_PARAMETERS);
             this.isShowRange = false;
         }
     }

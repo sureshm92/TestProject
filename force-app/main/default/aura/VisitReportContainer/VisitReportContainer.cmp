@@ -13,6 +13,7 @@
     <aura:attribute name="reportData" type="Object"/>
     <aura:attribute name="isReportData" type="Boolean"/>
     <aura:attribute name="documentName" type="String" default="Visit Summary Report"/>
+    <aura:attribute name="peId" type="String" />
 
     <aura:attribute name="errorMessage" type="String" default=""/>
 
@@ -109,4 +110,6 @@
             </table>
         </aura:iteration>
     </div>
+
+    <c:ParticipantIRBChecker peId="{!v.peId}"/>
 </aura:component>
