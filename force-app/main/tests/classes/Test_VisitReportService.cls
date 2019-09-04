@@ -296,4 +296,58 @@ private class Test_VisitReportService {
 
         System.assert(wrappers != null);
     }
+
+    @IsTest
+    private static void getLogoFromStatic_test(){
+        Test.startTest();
+        String logo = VisitReportContainerRemote.getLogoFromStatic();
+        Test.stopTest();
+
+        System.assert(!String.isBlank(logo));
+    }
+
+    @IsTest
+    private static void getReportDataWrappers_test(){
+        List<VisitReportContainerRemote.ReportDataWrapper> reportDataWrappers = new List<VisitReportContainerRemote.ReportDataWrapper>{
+                new VisitReportContainerRemote.ReportDataWrapper(),
+                new VisitReportContainerRemote.ReportDataWrapper()
+        };
+        VisitReportContainerRemote.ReportDataWrapper wrapper = new VisitReportContainerRemote.ReportDataWrapper();
+        wrapper.studyTitle = 'title';
+        reportDataWrappers.add(wrapper);
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitReportService.class, StubFactory.newInstance(VisitReportService.class)
+                .when('getReportDataWrapper')
+                .then(reportDataWrappers)
+                .getInstance()
+        );
+
+        Test.startTest();
+        String data = VisitReportContainerRemote.getReportDataWrappers();
+        Test.stopTest();
+
+        System.assert(data.contains('title'));
+    }
+
+    @IsTest
+    static void getReportDataWrappers_testWithException_test() {
+        Boolean isExceptionThrown = false;
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(VisitReportService.class, StubFactory.newInstance(VisitReportService.class)
+                .when('getReportDataWrapper')
+                .then(new AuraHandledException('exception'))
+                .getInstance()
+        );
+        Test.startTest();
+        try {
+            VisitReportContainerRemote.getReportDataWrappers();
+
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
 }

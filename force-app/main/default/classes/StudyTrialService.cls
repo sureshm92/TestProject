@@ -173,7 +173,7 @@ public without sharing class StudyTrialService {
         else{
             userCountry='United States';
         }
-        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Site__c, Study_Site_Type__c FROM Study_Site__c WHERE ';
+        String query = 'SELECT ' + String.join(transformToStudySiteFields(TRIAL_FIELDS), ', ') + ', Name, Principal_Investigator__r.Account.BillingLatitude, Principal_Investigator__r.Account.BillingLongitude, Principal_Investigator__r.Account.BillingGeocodeAccuracy, Site__c, Study_Site_Type__c FROM Study_Site__c WHERE ';
         query += '(Clinical_Trial_Profile__r.Override_Recruitment_Status__c = \'' + ACTIVELY_ENROLLING_STATUS + '\' AND Clinical_Trial_Profile__r.Participating_in_Rocket_Referral__c = \'Yes\''+
                 '  AND Override_PI_Referral_Status__c != NULL ' +
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(StudySiteService.STATUS_GROUP_ACCEPTED, '\',\'') + '\')'+
@@ -595,6 +595,7 @@ public without sharing class StudyTrialService {
                                                              Account.BillingStateCode,
                                                              Account.BillingLatitude,
                                                              Account.BillingLongitude,
+                                                             Account.BillingGeocodeAccuracy,
                                                              Account.Driving_Directions__c,
                                                              Account.Parking_Instructions__c
                                                              FROM AccountContactRelation
@@ -700,8 +701,10 @@ public without sharing class StudyTrialService {
             if (newAccount.Id == null) {
                 createAccount = setFields(newAccount,currentContact,false);
                 insert createAccount;
-                currentContact.AccountId = createAccount.Id;
-                update currentContact;
+                //currentContact.AccountId = createAccount.Id;
+                //update currentContact;
+                insert new AccountContactRelation(AccountId = createAccount.Id, ContactId = currentContact.Id);
+                update new Study_Site__c(Id = ss.Id, Account_Was_Changed__c = true, Site__c = createAccount.Id);
             } else {
                 if (newAccount.ParentId == null) {
                     newAccount.ParentId = newAccount.Id;
@@ -711,25 +714,21 @@ public without sharing class StudyTrialService {
                             SELECT Id,
                                     IsDirect
                             FROM AccountContactRelation
-                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id
+                            WHERE AccountId = :newAccount.Id AND ContactId = :currentContact.Id AND IsDirect = FALSE
                             LIMIT 1
                     ];
-                    currentContact.AccountId = createAccount.Id;
-                    update currentContact;
+                    //currentContact.AccountId = createAccount.Id;
+                    //update currentContact;
                     if (!removeAccContRelation.isEmpty()) {
                         delete removeAccContRelation[0];
                     }
+                    insert new AccountContactRelation(AccountId = createAccount.Id, ContactId = currentContact.Id);
+                    update new Study_Site__c(Id = ss.Id, Account_Was_Changed__c = true, Site__c = createAccount.Id);
                 } else {
                     createAccount = setFields(newAccount,currentContact,true);
                     update createAccount;
-                    if (currentContact.AccountId != createAccount.Id) {
-                        currentContact.AccountId = createAccount.Id;
-                        update currentContact;
-                    }
                 }
             }
-            Study_Site__c updSS = new Study_Site__c(Id = ss.Id, Account_Was_Changed__c = true, Site__c = createAccount.Id);
-            update updSS;
         } catch (Exception e) {
             String status = (String) AuraHelper.throwException(e);
         }

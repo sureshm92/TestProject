@@ -22,7 +22,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
     <c:RRTopBar backLabel="{!$Label.c.PG_TOP_Bar_Back_To_My_Referrals}"
-                backPage="{!'study-workspace?tab=tab-referrals&amp;id=' + v.ctp.Id}"
+                backPage=""
                 smallTitle="{!v.ctp.Study_Code_Name__c}"
                 bigTitle="{!$Label.c.PG_Add_Patient_Header}">
     </c:RRTopBar>
@@ -35,7 +35,7 @@
                 <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}" formData="{!v.formData}" isValid="{!v.isValid}"/>
             </div>
             <div class="ap-bottom-info">
-                {!$Label.c.PG_AP_T_Sub_Info}
+                {!$Label.c.PG_AP_T_Additional_Info}&nbsp;{!$Label.c.PG_AP_T_Sub_Info}
             </div>
             <div class="ap-buttons">
                 <button class="apollo-btn secondary custom-cancel"

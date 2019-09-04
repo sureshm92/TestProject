@@ -20,6 +20,7 @@ public without sharing class TaskEditRemote {
         };
 
         @AuraEnabled public Task task;
+        @AuraEnabled public Date today;
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Boolean notReferral;
         @AuraEnabled public String errorMessage;
@@ -35,6 +36,9 @@ public without sharing class TaskEditRemote {
             createdByAdmin = false;
 
             task = new Task();
+
+            TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+            today = DateTimeConverterUtil.getUserDatetime(timeZone, null).dateGmt();
         }
     }
 
@@ -45,7 +49,7 @@ public without sharing class TaskEditRemote {
             if (taskId != null) {
                 Task task = TaskService.getInstance().getTask(taskId);
                 wrapper.task = task;
-                wrapper.reminderDate = task.Reminder_Date__c != null ? task.Reminder_Date__c.date() : null;
+                wrapper.reminderDate = task.Reminder_Date__c != null ? task.Reminder_Date__c.dateGmt() : null;
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
             return wrapper;
@@ -68,13 +72,15 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.WhatId = state.pse.Id;
             }
             if(reminderDate != null) {
-                taskToUpsert.Reminder_Date__c = TaskService.getUserDatetime(UserInfo.getTimeZone(),
+                TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+                taskToUpsert.Reminder_Date__c = DateTimeConverterUtil.getUserDatetime(timeZone,
                         Datetime.newInstance(
                                 reminderDate.year(),
                                 reminderDate.month(),
                                 reminderDate.day()
                         )
                 ).addHours(12);
+                taskToUpsert.ReminderDateTime = DateTimeConverterUtil.convertUserDatetimeToGMT(taskToUpsert.Reminder_Date__c, timeZone);
             }
 
             upsert taskToUpsert;

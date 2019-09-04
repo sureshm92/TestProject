@@ -54,6 +54,8 @@ public class ParticipantService {
 
             if (participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+                TranslateHelper.translate(participantState.ctp,
+                        IRBParticipantService.getIRBLanguageMode(participantState.pe.Id).languageToTranslate);
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
             }

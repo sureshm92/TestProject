@@ -31,6 +31,7 @@ public with sharing class ManualTaskRemote {
                                 Start_Date__c = newTask.Start_Date__c,
                                 ActivityDate = newTask.ActivityDate,
                                 Reminder_Date__c = newTask.Reminder_Date__c,
+                                ReminderDateTime = newTask.Reminder_Date__c,
                                 Visible_For__c = newTask.Visible_For__c)
                 );
             }
