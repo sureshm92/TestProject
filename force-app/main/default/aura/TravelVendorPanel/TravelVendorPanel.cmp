@@ -1,0 +1,127 @@
+<!--
+ - Created by Vitalii Aheienko on 8/27/2019.
+ -->
+
+<aura:component description="TravelVendorPanel" controller="TravelVendorPanelRemote" implements="force:hasRecordId, flexipage:availableForAllPageTypes">
+
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="vendors" type="List" access="public"/>
+    <aura:attribute name="vendorItems" type="List"/>
+    <aura:attribute name="selectedSSIds" type="String" default=""/>
+    <aura:attribute name="countryFilterType" type="String" default="All"/>
+    <aura:attribute name="countryCodes" type="String"/>
+    <aura:attribute name="vendorFilterType" type="String" default="All"/>
+
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
+
+    <div class="panel">
+        <c:RRSpinner aura:id="spinner"/>
+
+        <!--Filters-->
+        <aura:if isTrue="{!v.initialized}">
+            <div class="filters-section">
+                <div class="slds-grid slds-gutters">
+                    <!--Country Filter-->
+                    <div class="slds-col slds-size--1-of-2">
+                        <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">
+                            <lightning:select label="Hidden" variant="label-hidden" value="{!v.countryFilterType}"
+                                              onchange="{!c.whenCountryFilterChanged}">
+                                <option label="All Countries" value="All"></option>
+                                <option label="Selected Countries" value="filter"></option>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.countryCodes}"
+                                                                   isMultiEntry="true"
+                                                                   onchange="{!c.getFilteredSS}"
+                                                                   placeholder="Select country"
+                                                                   placeholderSelected="Select another country"
+                                                                   ctpId="{!v.recordId}" includeStates="false"
+                                                                   isInclude="true"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <!--Travel Vendor Filter-->
+                    <div class="slds-col slds-size--1-of-2">
+                        <c:TravelVendorLookup aura:id="ssSelectLookup"
+                                                      value="{!v.selectedSSIds}"
+                                                      onchange="{!c.getFilteredSS}"
+                                                      ctpId="{!v.recordId}"
+                                                      placeholder="Select Vendor"
+                                                      includeSS="true"/>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters">
+                    <!--Study Site Filter-->
+                    <div class="slds-col slds-size--1-of-2">
+                        <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
+                                                      value="{!v.selectedSSIds}"
+                                                      onchange="{!c.getFilteredSS}"
+                                                      ctpId="{!v.recordId}"
+                                                      placeholder="Select Study Site"
+                                                      includeSS="true"/>
+                    </div>
+                    <!--Save changes button-->
+                    <div class="slds-col slds-size--1-of-2 save-btn">
+                        <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
+                    </div>
+                </div>
+            </div>
+            <!--Study Site Table-->
+            <div class="slds-scrollable_x">
+                <table aria-multiselectable="true"
+                       class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" role="grid">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center">Country</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-text-align--center">Study Site</div>
+                        </th>
+                        <th class="cell-wrap" scope="col">
+                            <div>Study Site Number</div>
+                        </th>
+                        <aura:if isTrue="{!v.vendors}">
+                            <aura:iteration items="{!v.vendors}" var="vendor">
+                                <th class="cell-wrap" scope="col">
+                                    <div>{!vendor.Name}</div>
+                                </th>
+                            </aura:iteration>
+                        </aura:if>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:if isTrue="{!v.vendorItems}">
+                        <aura:iteration items="{!v.vendorItems}" var="item">
+                            <tr>
+                                <th data-label="Country" scope="row">
+                                    <div class="slds-truncate slds-text-align--center" title="">{!item.studySite.Site__r.BillingCountry}</div>
+                                </th>
+                                <td data-label="Study Site">
+                                    <div class="slds-truncate slds-text-align--center" title="">
+                                        <a href="javascript:void(0);" tabindex="-1" data-ssid="{!item.studySite.Id}">{!item.studySite.Name}</a>
+                                    </div>
+                                </td>
+                                <td data-label="Name">
+                                    <div class="slds-truncate slds-text-align--center" title="">{!item.studySite.Study_Site_Number__c}</div>
+                                </td>
+                                <aura:iteration items="{!item.vendorSettings}" var="selectedVendorSetting">
+                                    <td>
+                                        <ui:inputCheckbox value="{!selectedVendorSetting.isEnable__c}"/>
+<!--                                        <c:uiCheckbox keyId="{!item.ss.Id}" forField="{!appLang.value}"-->
+<!--                                                      fieldValue="{!appLang.state}"/>-->
+
+                                    </td>
+                                </aura:iteration>
+                            </tr>
+                        </aura:iteration>
+                    </aura:if>
+                    </tbody>
+                </table>
+            </div>
+        </aura:if>
+    </div>
+
+
+</aura:component>
