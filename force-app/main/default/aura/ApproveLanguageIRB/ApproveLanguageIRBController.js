@@ -71,6 +71,7 @@
     },
 
     getFilteredSS: function (component, event, helper) {
+        component.find('spinner').show();
         helper.updateTable(component);
     },
 
