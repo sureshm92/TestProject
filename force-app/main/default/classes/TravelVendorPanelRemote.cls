@@ -64,7 +64,10 @@ public with sharing class TravelVendorPanelRemote {
                         vendorSettingsWithStub.add(
                                 new TravelVendorSettings__c (
                                         isEnable__c = false,
-                                        TravelVendor__r = vendor
+                                        TravelVendor__c = vendor.Id,
+                                        TravelVendor__r = vendor,
+                                        Study_Site__c = vendorItem.studySite.Id,
+                                        Study_Site__r = vendorItem.studySite
                                 )
                         );
                     }
@@ -79,7 +82,6 @@ public with sharing class TravelVendorPanelRemote {
 
     @AuraEnabled
     public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<TravelVendor__c> vendors) {
-//        System.debug('ssIns: '+ssIds);
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         try {
@@ -92,7 +94,7 @@ public with sharing class TravelVendorPanelRemote {
                 studyIds = ssIds.split(';');
             }
             result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendors);
-            if (vendors != null && !vendors.isEmpty()){
+            if (vendors != null && !vendors.isEmpty()) {
                 for (TravelVendor__c vendor : vendors) {
                     for (VendorItem vendorItem : result) {
                         List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
@@ -106,7 +108,10 @@ public with sharing class TravelVendorPanelRemote {
                             vendorSettingsWithStub.add(
                                     new TravelVendorSettings__c (
                                             isEnable__c = false,
-                                            TravelVendor__r = vendor
+                                            TravelVendor__c = vendor.Id,
+                                            TravelVendor__r = vendor,
+                                            Study_Site__c = vendorItem.studySite.Id,
+                                            Study_Site__r = vendorItem.studySite
                                     )
                             );
                         }
@@ -114,6 +119,7 @@ public with sharing class TravelVendorPanelRemote {
                     }
                 }
             }
+
         } catch (Exception e) {
             return (List<VendorItem>) AuraHelper.throwException(e);
         }
@@ -121,22 +127,36 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static void saveData(List<VendorItem> items) {
-        List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>();
+    public static void saveData(Id ctpId, String items) {
+        System.debug('saveData ===> ' + ctpId +  '\n' + items);
+        List<VendorItem> vendorItems = (List<VendorItem>) JSON.deserialize(items, VendorItem.class);
+        System.debug('vendorItems ===> ' + vendorItems);
+       /* List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>();
+        Set<Id> travelVendorSettingsIds = new Set<Id>();
         try {
             if (items != null && !items.isEmpty()) {
                 for (VendorItem vendor : items) {
                     if (vendor.vendorSettings != null && !vendor.vendorSettings.isEmpty()) {
-                        travelVendorSettings.addAll(vendor.vendorSettings);
+                        for (TravelVendorSettings__c vendorSetting : vendor.vendorSettings) {
+                            if (vendorSetting.isEnable__c) {
+                                travelVendorSettings.add(vendorSetting);
+                                if (vendorSetting.Id != null) {
+                                    travelVendorSettingsIds.add(vendorSetting.Id);
+                                }
+                            }
+                        }
                     }
                 }
+            }
+            if (!travelVendorSettingsIds.isEmpty()) {
+                delete [SELECT Id FROM TravelVendorSettings__c WHERE Study_Site__r.Clinical_Trial_Profile__c = :ctpId AND Id NOT IN :travelVendorSettingsIds];
             }
             if (!travelVendorSettings.isEmpty()) {
                 upsert travelVendorSettings;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
-        }
+        }*/
     }
 
     @AuraEnabled

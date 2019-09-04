@@ -9,8 +9,7 @@
     <aura:attribute name="countryFilterType" type="String" default="All"/>
     <aura:attribute name="selectedCountryCodes" type="String"/>
     <aura:attribute name="selectedByCountrySSIds" type="List"/>
-    <aura:attribute name="selectedManuallySSIds" type="List"/>
-    <aura:attribute name="allSelectedSSIds" type="List"/>
+    <aura:attribute name="selectedManuallySSIds" type="String"/>
     <aura:attribute name="selectedVendorIds" type="List" default="{}"/>
     <aura:attribute name="vendorItems" type="List" default="{}"/>
 
@@ -24,16 +23,16 @@
         <!--Filters-->
         <aura:if isTrue="{!v.initialized}">
             <div class="filters-section">
-                <div class="slds-grid slds-gutters">
+                <div class="slds-grid slds-wrap">
                     <!--Country Filter-->
-                    <div class="slds-col slds-size--1-of-2">
-                        <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">
-                            <lightning:select label="Hidden" variant="label-hidden" value="{!v.countryFilterType}"
-                                              onchange="{!c.whenCountryFilterChanged}">
-                                <option label="All Countries" value="All"></option>
-                                <option label="Selected Countries" value="filter"></option>
-                            </lightning:select>
-                            <aura:set attribute="else">
+                    <div class="slds-col slds-size--1-of-2 slds-p-horizontal_medium" >
+<!--                        <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">-->
+<!--                            <lightning:select label="Hidden" variant="label-hidden" value="{!v.countryFilterType}"-->
+<!--                                              onchange="{!c.whenCountryFilterChanged}">-->
+<!--                                <option label="All Countries" value="All"></option>-->
+<!--                                <option label="Selected Countries" value="filter"></option>-->
+<!--                            </lightning:select>-->
+<!--                            <aura:set attribute="else">-->
                                 <c:VisitResultSharingCountryLookup aura:id="countryLookup"
                                                                    isMultiEntry="true"
                                                                    value="{!v.countryCodes}"
@@ -42,16 +41,28 @@
                                                                    placeholderSelected="Select another country"
                                                                    ctpId="{!v.recordId}" includeStates="false"
                                                                    isInclude="true"/>
-                            </aura:set>
-                        </aura:if>
+<!--                            </aura:set>-->
+<!--                        </aura:if>-->
                     </div>
-                    <div class="slds-col slds-size--1-of-2">
+                    <div class="slds-col slds-size--1-of-2 slds-p-horizontal_medium">
+                        <c:VisitResultSharingSSLookup
+                                ctpId="{!v.recordId}"
+                                isMultiEntry="true"
+                                value="{!v.selectedManuallySSIds}"
+                                onchange="{!c.getFilteredSS}"
+                                placeholder="Select Study Site"
+                                placeholderSelected="Select another Study Site"
+                                includeSS="true"/>
+                    </div>
+                    <div class="slds-col slds-size--1-of-2 slds-p-horizontal_medium">
                         <c:RRLookup
-                                objectMame="TravelVendorSettings__c"
-                                lookupName="Study_Site__c"/>
+                                objectName="TravelVendorSettings__c"
+                                lookupName="TravelVendor__c"
+                                value="{!v.selectedVendorIds}"
+                        />
                     </div>
                     <!--Save changes button-->
-                    <div class="slds-col slds-size--1-of-2 save-btn">
+                    <div class="slds-col slds-size--1-of-2 save-btn slds-p-horizontal_medium">
                         <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
                     </div>
                 </div>
