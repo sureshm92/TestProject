@@ -54,7 +54,7 @@
                             <aura:set attribute="else">
                                 <c:VisitResultSharingCountryLookup aura:id="countryLookup" value="{!v.countryCodes}"
                                                                    isMultiEntry="true"
-                                                                   onchange="{!c.getFilteredSS}"
+                                                                   onchange="{!c.onCountriesChange}"
                                                                    placeholder="Select country"
                                                                    placeholderSelected="Select another country"
                                                                    ctpId="{!v.recordId}" includeStates="false"
@@ -173,29 +173,7 @@
                     <tbody>
                     <aura:if isTrue="{!v.ssItems}">
                         <aura:iteration items="{!v.ssItems}" var="item">
-                            <tr class="{!if(item.emptyAppLangs, 'empty-approved-lang', '')}">
-                                <th data-label="Country" scope="row">
-                                    <div class="slds-truncate slds-text-align--center"
-                                         title="">{!item.country.label}</div>
-                                </th>
-                                <td data-label="Study Site">
-                                    <div class="slds-truncate slds-text-align--center" title="">
-                                        <a href="javascript:void(0);" tabindex="-1" data-ssid="{!item.ss.Id}"
-                                           onclick="{!c.viewStudySite}">{!item.name}</a>
-                                    </div>
-                                </td>
-                                <td data-label="Name">
-                                    <div class="slds-truncate slds-text-align--center"
-                                         title="">{!item.ss.Study_Site_Number__c}</div>
-                                </td>
-                                <aura:iteration items="{!item.approvedLangCodes}" var="appLang">
-                                    <td>
-                                        <c:uiCheckbox keyId="{!item.ss.Id}" forField="{!appLang.value}"
-                                                      fieldValue="{!appLang.state}"
-                                                      onvaluechanged="{!c.sscCheckboxStateChange}"/>
-                                    </td>
-                                </aura:iteration>
-                            </tr>
+                            <c:StudySiteItem item="{!item}" parent="{!this}"/>
                         </aura:iteration>
                     </aura:if>
                     </tbody>
