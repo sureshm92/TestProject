@@ -8,7 +8,6 @@
             'countryCodes' : component.get('v.countryCodes'),
             'vendorIds' : helper.getVendorIds(component.get('v.vendors'))
         }, function(data) {
-            console.log(data);
             component.set('v.vendorItems', data);
             component.find('spinner').hide();
         })
@@ -20,6 +19,15 @@
             vendorIds.push(vendors[i].Id);
         }
         return vendorIds;
+    },
+
+    markSettingsIsManual : function (settings, manualSSIds) {
+        if (manualSSIds !== null && manualSSIds !== undefined)
+        for (let i = 0; i < settings.length; i++) {
+            if (manualSSIds.includes(settings[i].Study_Site__c)) {
+                settings[i].Is_Manual__c = true;
+            }
+        }
     }
 
 });

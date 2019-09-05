@@ -11,7 +11,8 @@
         }, function(data) {
             component.set('v.vendorItems', data.vendorItems);
             component.set('v.vendors', data.vendors);
-            component.set('v.countryCodes', data.countrycodes);
+            component.set('v.countryCodes', data.countryCodes);
+            component.set('v.selectedManuallySSIds', data.selectedSSIds);
             component.set('v.initialized', true);
 
             component.find('spinner').hide();
@@ -64,6 +65,7 @@
             allSettings = allSettings.concat(vendorItems[i].vendorSettings);
         }
 
+        helper.markSettingsIsManual(allSettings, component.get('v.selectedManuallySSIds'));
         communityService.executeAction(component, 'saveData', {
             'ctpId' : component.get('v.recordId'),
             'settings' : allSettings
