@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="siteWrapper" type="Object"/>
+    <aura:attribute name="hasPatients" type="Boolean"/>
 
     <!-- component body: -->
     <div class="slds-p-horizontal_medium slds-p-bottom_small">
@@ -44,7 +45,7 @@
                             <aura:if isTrue="{!not(and(v.siteWrapper.actions.refer.disabled,v.siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
                                 <div class="slds-col slds-size_1-of-2">
-                                    <aura:if isTrue="{!v.siteWrapper.hasPatients}">
+                                    <aura:if isTrue="{!v.hasPatients}">
                                         <button data-site-id="{!v.siteWrapper.site.Id}"
                                                 class="apollo-btn primary slvi-site-btn"
                                                 style="background-color: white; color: #297DFD; box-shadow: none;"
