@@ -58,7 +58,8 @@ public with sharing class ResourceRemote {
             if (state.ctp != null) {
                 trialId = state.ctp.Id;
             } else {
-                throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
+                return null;
+                //throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
             }
             return trialId;
         } catch (Exception e) {

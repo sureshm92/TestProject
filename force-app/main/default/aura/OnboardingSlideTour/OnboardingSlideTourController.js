@@ -25,7 +25,7 @@
             communityService.executeAction(component, 'getSlides', {
                 userMode: userMode,
                 formFactor: $A.get('$Browser.formFactor'),
-                multimode: communityService.getCommunityTypes().length > 1
+                multimode: communityService.getAllUserModes().length > 1
             }, function (returnValue) {
                 var tour = JSON.parse(returnValue);
                 component.set('v.showOnLogin', tour.showOnStartup);

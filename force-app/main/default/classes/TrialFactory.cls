@@ -7,12 +7,6 @@ public with sharing class TrialFactory {
         return getTrial(userMode, trialId, null);
     }
     public static TrialDetail getTrial(String userMode, String trialId, String delegateId) {
-        if (trialId == null && userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-            if (peList.size() > 0) {
-                trialId = peList[0].Study_Site__r.Clinical_Trial_Profile__c;
-            }
-        }
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             return new ParticipantTrialBuilder(trialId).createTrial();
         } else if (userMode == CommunityService.USER_MODE_PI) {
