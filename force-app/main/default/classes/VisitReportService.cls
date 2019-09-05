@@ -3,7 +3,7 @@
  */
 public inherited sharing class VisitReportService {
 
-    public static final String VISIT_RECORD_TYPE_LABS = 'LVisitDataWrapperabs';
+    public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
     public static String languageToTranslate;
 
     public List<VisitReportContainerRemote.ReportDataWrapper> getReportDataWrapper() {
