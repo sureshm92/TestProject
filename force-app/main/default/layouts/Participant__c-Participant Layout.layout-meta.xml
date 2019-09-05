@@ -79,10 +79,6 @@
                 <field>Language_Preference__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Language_Preference_Code__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Marketing_Flag__c</field>
             </layoutItems>
