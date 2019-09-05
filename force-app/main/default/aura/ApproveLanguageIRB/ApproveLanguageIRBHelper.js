@@ -2,53 +2,29 @@
  * Created by Igor Malyuta on 26.08.2019.
  */
 ({
-    setColumnCheckboxState: function (component) {
-        var ssItems = component.get('v.ssItems');
-        var langColumns = component.find('columnLang');
+    updateTable : function (component) {
+        var data = component.get('v.data');
+        var cCodes = component.get('v.countryCodes');
+        if (!cCodes) component.set('v.countryFilterType', 'All');
 
-        var langBySelected = {};
+        var langCodes = component.get('v.langCodes');
+        if (!langCodes) component.set('v.langFilterType', 'All');
 
-        for (var i = 0; i < ssItems.length; i++) {
-            var appLangs = ssItems[i].approvedLangCodes;
-            for (var j = 0; j < appLangs.length; j++) {
-                if (!langBySelected[appLangs[j].value]) {
-                    langBySelected[appLangs[j].value] = {lang: appLangs[j].value, sum: 0};
-                }
-                if (appLangs[j].state) {
-                    langBySelected[appLangs[j].value] = {
-                        lang: langBySelected[appLangs[j].value].lang,
-                        sum: langBySelected[appLangs[j].value].sum + 1
-                    };
-                }
-            }
-        }
+        component.find('spinner').show();
+        communityService.executeAction(component, 'getFilteredItems', {
+            'data': JSON.stringify(data),
+            'countryCodes': cCodes,
+            'langCodes': langCodes,
+            'ssId': component.get('v.selectedSSIds'),
+        }, function (data) {
+            component.set('v.data', data);
+            component.set('v.ssItems', data.studySiteItems);
 
-        if(langColumns) {
-            for (var k = 0; k < langColumns.length; k++) {
-                var column = langColumns[k];
-                var langCode = column.get('v.keyId');
-                if(langCode === undefined) continue;
+            component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
+            component.set('v.currentPage', data.paginationData.currentPage);
+            component.set('v.languages', data.languages);
 
-                var count = langBySelected[langCode].sum;
-
-                var langColumnState = 'none';
-                if (count === ssItems.length) {
-                    langColumnState = 'all';
-                } else if (count > 0 && count < ssItems.length) {
-                    langColumnState = 'indeterminate';
-                }
-                console.log('Count = ' + count + ' lang = ' + langCode + ' langColumnState = ' + langColumnState);
-                switch (langColumnState) {
-                    case 'all':
-                        column.setState(true, false);
-                        break;
-                    case 'indeterminate':
-                        column.setState(false, true);
-                        break;
-                    default:
-                        column.setState(false, false);
-                }
-            }
-        }
+            component.find('spinner').hide();
+        });
     }
 });

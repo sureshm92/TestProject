@@ -3,7 +3,7 @@
  */
 
 @IsTest
-public class TestData {
+public without sharing class TestData {
     
     public User piUser;
     public User hcpUser;
@@ -77,7 +77,7 @@ public class TestData {
                         Clinical_Trial_Profile__c,
                         CreatedDate
                 FROM Participant_Study_Enrollment__c
-                WHERE Participant__c =: participant.Id
+                WHERE Participant_Enrollment__c =: pe.Id
         ];
     }
     
