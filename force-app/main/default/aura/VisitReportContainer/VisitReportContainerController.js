@@ -6,13 +6,10 @@
         helper.spinnerShow(component);
         helper.enqueue(component, 'c.getReportDataWrappers', {})
             .then(function (res) {
-                console.log(res);
                 let reportDataList = JSON.parse(res);
-                component.set('v.reportDataList', reportDataList);
-                console.log(reportDataList[0]);
                 component.set('v.peId', reportDataList[0].peId);
+                component.set('v.reportDataList', reportDataList);
                 helper.spinnerHide(component);
-                console.log('res', reportDataList[0].peId);
             }, function (err) {
                 if (err && err[0].message) {
                     component.set('v.errorMessage', err[0].message);
