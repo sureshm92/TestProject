@@ -127,11 +127,22 @@ private class Test_VisitReportService {
         pState.pse = [
                 SELECT Id,
                         Participant_Contact__c,
+                        Participant_Enrollment__c,
                         Screening_ID__c,
                         CreatedDate,
                         Study_Site__r.Name
                 FROM Participant_Study_Enrollment__c
                 WHERE Participant__c = :testData.participant.Id
+        ];
+        pState.pe = [
+                SELECT Id,
+                        Participant_Contact__c,
+                        Screening_ID__c,
+                        Clinical_Trial_Profile__c,
+                        Participant__c,
+                        Study_Site__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c =:testData.participant.Id
         ];
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
@@ -195,6 +206,7 @@ private class Test_VisitReportService {
     @IsTest
     static void getReportDataWrapperThirdIf_test() {
         ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
+
 
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
