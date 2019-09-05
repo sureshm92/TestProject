@@ -121,7 +121,7 @@ public without sharing class ParticipantDeduplicationController {
 			Mailing_Zip_Postal_Code__c  = referralRecord.Address_ZipCode__c,
 			Mailing_Country_Code__c     = referralRecord.Address_Country__c,
 			Mailing_City__c             = referralRecord.Address_City__c,
-			Language_Preference_Code__c = referralRecord.Language_Preference__c,
+            Preferred_Language__c       = LanguagePreferenceService.getLanguageCode(referralRecord.Language_Preference__c),
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
             Gender__c                   = referralRecord.sex__c,

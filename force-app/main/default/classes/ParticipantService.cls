@@ -127,7 +127,7 @@ public class ParticipantService {
     }
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
-        participant.Language_Preference_Code__c = UserInfo.getLanguage();
+        participant.Preferred_Language__c = UserInfo.getLanguage();
         if(participant.Id == null){
             DuplicateContactController.isPERCreated = true;
             participant = DuplicateContactController.communityReffering(participant, pe);
