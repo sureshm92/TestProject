@@ -1283,10 +1283,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TravelSupportRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TravelVendorLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
