@@ -8,7 +8,6 @@
             recordData.set('v.recordId', recordId);
             recordData.reloadRecord(true);
         }
-
     },
 
     handleRecordUpdated : function(component, event, helper) {

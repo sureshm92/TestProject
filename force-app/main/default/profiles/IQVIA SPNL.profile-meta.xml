@@ -5,11 +5,6 @@
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
-    <applicationVisibilities>
-        <application>IQVIA_RR_CRM</application>
-        <default>true</default>
-        <visible>true</visible>
-    </applicationVisibilities>
     <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>false</enabled>
@@ -1252,10 +1247,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TravelSupportRemote</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TravelVendorLookupRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>

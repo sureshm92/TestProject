@@ -4,15 +4,14 @@
 public without sharing class TravelSupportHelper {
 
     public List<TravelVendorPanelRemote.VendorItem> getVendorItems(List<String> countryCodes, Id ctpId,
-            List<String> studySiteIds, List<TravelVendor__c> vendors) {
+            List<String> studySiteIds, List<Id> vendorIds) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String clauseChild = '';
-        Boolean isVendors = vendors != null && !vendors.isEmpty();
+        Boolean isVendors = vendorIds != null && !vendorIds.isEmpty();
         Boolean isCountryCodes = countryCodes != null && !countryCodes.isEmpty();
         Boolean isStudySiteIds = studySiteIds != null && !studySiteIds.isEmpty();
         if (isVendors) {
-            Set<Id> venIds = new Map<Id, TravelVendor__c>(vendors).keySet();
-            clauseChild = ' WHERE TravelVendor__c IN ' + '(\'' + String.join(new List<Id>(venIds), '\',\'') + '\')';
+            clauseChild = ' WHERE TravelVendor__c IN ' + '(\'' + String.join(new List<Id>(vendorIds), '\',\'') + '\')';
         }
         String query = 'SELECT Id, ' +
                 'Name, ' +
@@ -60,21 +59,21 @@ public without sharing class TravelSupportHelper {
         return travelVendors;
     }
 
-    public void fillVendorSettingsWithStub(List<TravelVendor__c> travelVendors, List<TravelVendorPanelRemote.VendorItem> vendorItemsResult) {
+    public void fillVendorSettingsWithStub(List<Id> travelVendorIds, List<TravelVendorPanelRemote.VendorItem> vendorItemsResult) {
         for (TravelVendorPanelRemote.VendorItem vendorItem : vendorItemsResult) {
             List<TravelVendorSettings__c> vendorSettingsWithStub = new List<TravelVendorSettings__c>();
             Map<Id, TravelVendorSettings__c> travelVendorSettingsByVendorId = new Map<Id, TravelVendorSettings__c>();
             for (TravelVendorSettings__c travelVendorSettings : vendorItem.vendorSettings) {
                 travelVendorSettingsByVendorId.put(travelVendorSettings.TravelVendor__c, travelVendorSettings);
             }
-            for (TravelVendor__c vendor : travelVendors) {
-                if (travelVendorSettingsByVendorId.containsKey(vendor.Id)) {
-                    vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendor.Id));
+            for (Id vendorId : travelVendorIds) {
+                if (travelVendorSettingsByVendorId.containsKey(vendorId)) {
+                    vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendorId));
                 } else {
                     vendorSettingsWithStub.add(
                             new TravelVendorSettings__c (
                                     isEnable__c = false,
-                                    TravelVendor__c = vendor.Id,
+                                    TravelVendor__c = vendorId,
                                     Study_Site__c = vendorItem.studySite.Id
                             )
                     );

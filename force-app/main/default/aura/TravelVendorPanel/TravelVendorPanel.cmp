@@ -11,8 +11,10 @@
     <aura:attribute name="selectedByCountrySSIds" type="List"/>
     <aura:attribute name="selectedManuallySSIds" type="String"/>
     <aura:attribute name="selectedVendorIds" type="List" default="{}"/>
+    <aura:attribute name="vendors" type="List" default="{}"/>
     <aura:attribute name="vendorItems" type="List" default="{}"/>
 
+    <aura:handler name="vendorCreated" event="c:TravelVendorCreateEvt" action="{!c.onAddTravelVendor}"/>
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -26,23 +28,15 @@
                 <div class="slds-grid slds-wrap">
                     <!--Country Filter-->
                     <div class="slds-col slds-size--1-of-2 slds-p-horizontal_medium" >
-<!--                        <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">-->
-<!--                            <lightning:select label="Hidden" variant="label-hidden" value="{!v.countryFilterType}"-->
-<!--                                              onchange="{!c.whenCountryFilterChanged}">-->
-<!--                                <option label="All Countries" value="All"></option>-->
-<!--                                <option label="Selected Countries" value="filter"></option>-->
-<!--                            </lightning:select>-->
-<!--                            <aura:set attribute="else">-->
-                                <c:VisitResultSharingCountryLookup aura:id="countryLookup"
-                                                                   isMultiEntry="true"
-                                                                   value="{!v.countryCodes}"
-                                                                   onchange="{!c.getFilteredSS}"
-                                                                   placeholder="Select country"
-                                                                   placeholderSelected="Select another country"
-                                                                   ctpId="{!v.recordId}" includeStates="false"
-                                                                   isInclude="true"/>
-<!--                            </aura:set>-->
-<!--                        </aura:if>-->
+                            <c:VisitResultSharingCountryLookup
+                                   aura:id="countryLookup"
+                                   isMultiEntry="true"
+                                   value="{!v.countryCodes}"
+                                   onchange="{!c.getFilteredSS}"
+                                   placeholder="Select country"
+                                   placeholderSelected="Select another country"
+                                   ctpId="{!v.recordId}" includeStates="false"
+                                   isInclude="true"/>
                     </div>
                     <div class="slds-col slds-size--1-of-2 slds-p-horizontal_medium">
                         <c:VisitResultSharingSSLookup
@@ -61,6 +55,21 @@
                                 value="{!v.selectedVendorIds}"
                         />
                     </div>
+                    <div class="slds-col slds-size--1-of-2">
+                        <lightning:button onclick="{!c.showModal}"
+                                          class="slds-theme_neutral"
+                                          variant="neutral"
+                                          label="Add Vendor"/>
+                    </div>
+                    <c:CustomModal aura:Id='customModal' size="small">
+                        <c:AddTravelVendorCmp aura:id="addTravelVendor"/>
+                        <aura:set attribute="footer">
+                            <lightning:button variant="neutral" type="button" name="close" label="Close"
+                                              onclick="{!c.closeModal}"/>
+                            <lightning:button variant="brand" type="button" name="save" label="Save"
+                                              onclick="{!c.submitForm}"/>
+                        </aura:set>
+                    </c:CustomModal>
                     <!--Save changes button-->
                     <div class="slds-col slds-size--1-of-2 save-btn slds-p-horizontal_medium">
                         <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
@@ -82,8 +91,8 @@
                         <th class="cell-wrap" scope="col">
                             <div>Study Site Number</div>
                         </th>
-                        <aura:if isTrue="{!v.selectedVendorIds}">
-                            <aura:iteration items="{!v.selectedVendorIds}" var="vendor">
+                        <aura:if isTrue="{!v.vendors}">
+                            <aura:iteration items="{!v.vendors}" var="vendor">
                                 <th class="cell-wrap" scope="col">
                                     <div>{!vendor.Name}</div>
                                 </th>

@@ -68,9 +68,7 @@ public with sharing class TravelVendorPanelRemote {
                 initData.selectedSSIds = String.join(new List<Id>(manualSsIds), ';');
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
-            List<TravelVendor__c> travelVendors = supportHelper.getTravelVendorsByIds(new List<Id>(vendorIds));
-            initData.vendors = travelVendors;
-            supportHelper.fillVendorSettingsWithStub(travelVendors, initData.vendorItems);
+            supportHelper.fillVendorSettingsWithStub(new List<Id>(vendorIds), initData.vendorItems);
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
@@ -78,12 +76,12 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<TravelVendor__c> vendors) {
+    public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<Id> vendorIds) {
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         Boolean isCountryCodes = countryCodes != null && String.isNotBlank(countryCodes);
         Boolean isStudySiteIds = ssIds != null && String.isNotBlank(ssIds);
-        Boolean isVendors = vendors != null && !vendors.isEmpty();
+        Boolean isVendors = vendorIds != null && !vendorIds.isEmpty();
         if (!isCountryCodes && !isStudySiteIds) {
             return result;
         }
@@ -96,9 +94,9 @@ public with sharing class TravelVendorPanelRemote {
             if (isStudySiteIds) {
                 studyIds = ssIds.split(';');
             }
-            result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendors);
+            result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendorIds);
             if (isVendors) {
-                supportHelper.fillVendorSettingsWithStub(vendors, result);
+                supportHelper.fillVendorSettingsWithStub(vendorIds, result);
             }
         } catch (Exception e) {
             return (List<VendorItem>) AuraHelper.throwException(e);
