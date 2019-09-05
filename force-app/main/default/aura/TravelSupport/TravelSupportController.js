@@ -22,8 +22,8 @@
     },
     showDisclaimer: function (component, event, helper) {
         let vendor = component.get("v.selectedVendor");
-        if (vendor.Disclosure__c){
-            component.set('v.htmlMessage', vendor.Disclosure__c);
+        if (vendor.TravelVendor__r.Disclosure__c){
+            component.set('v.htmlMessage', vendor.TravelVendor__r.Disclosure__c);
         }
         component.set("v.isShowDisclaimer", true);
     },

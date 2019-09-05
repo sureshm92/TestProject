@@ -13,6 +13,7 @@
     <aura:attribute name="isShowDisclaimer" type="Boolean"/>
     <aura:attribute name="vendors" type="Object[]"/>
     <aura:attribute name="selectedVendor" type="Object"/>
+    <aura:attribute name="studySiteId" type="String"/>
 
 
     <aura:attribute name="htmlMessage" type="String"/>

@@ -55,14 +55,23 @@ public with sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
-    public static List<TravelVendor__c> getVendors() {
+    public static List<TravelVendor__c> getVendors(String studySiteId) {
         try {
             TravelSupportService service = ((TravelSupportService) ClassFactory.newInstance(TravelSupportService.class));
-            return service.getVendors();
+            return service.getVendors(studySiteId);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
+    }
+
+    @AuraEnabled
+    public static String getInitData(){
+        try{
+            return JSON.serialize(ParticipantService.getInstance().getState());
+        }catch (Exception e){
+            return (String) AuraHelper.throwException(e);
+        }
     }
 
     public class Legend {

@@ -17,7 +17,7 @@
     redirectToUrl: function (component, event) {
         let eUrl = $A.get("e.force:navigateToURL");
         eUrl.setParams({
-            "url": component.get('v.selectedVendor').Link_Vendor__c
+            "url": component.get('v.selectedVendor').TravelVendor__r.Link_Vendor__c
         });
         component.find('popup').cancel();
         eUrl.fire();
@@ -30,24 +30,41 @@
     },
 
     getAvailableVendors: function (component, event, helper) {
-        helper.enqueue(component, 'c.getVendors'
-            //     {
-            //     // userId: component.get('v.recordId')
-            // }
-        ).then(function (result) {
-            console.log(JSON.stringify(result));
-            if (result) {
-                component.set('v.vendors', result);
-            }
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-        })
+        helper.enqueue(component, 'c.getInitData')
+            .then(function (result) {
+                let ps = JSON.parse(result);
+                if (result) {
+                    let studySiteId = ps.pe.Study_Site__c;
+                    component.set('v.studySiteId', ps.pe.Study_Site__c);
+                    helper.enqueue(component, 'c.getVendors',
+                        {
+                            studySiteId: studySiteId
+                        }
+                    ).then(function (result) {
+                        console.log(JSON.stringify(result));
+                        if (result) {
+                            component.set('v.vendors', result);
+                        }
+                    }, function (err) {
+                        if (err && err[0].message) {
+                            helper.notify({
+                                title: 'error',
+                                message: err[0].message,
+                                type: 'error',
+                            });
+                        }
+                    });
+                }
+            }, function (err) {
+                if (err && err[0].message) {
+                    helper.notify({
+                        title: 'error',
+                        message: err[0].message,
+                        type: 'error',
+                    });
+                }
+            });
+
         component.find('spinner').hide();
     },
 });
