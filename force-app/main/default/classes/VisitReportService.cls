@@ -11,7 +11,9 @@ public inherited sharing class VisitReportService {
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        VisitReportService.languageToTranslate = IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate;
+        if (pState.pe != null) {
+            VisitReportService.languageToTranslate = IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate;
+        }
         if (visitResultsService.checkOnAccess(pState)) {
             return result;
         }
