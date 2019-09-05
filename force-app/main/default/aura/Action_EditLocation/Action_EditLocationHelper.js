@@ -17,7 +17,6 @@
             return;
         }
         var helper = this;
-        console.log('tmpAccountId>>',tmpAccountId);
         communityService.executeAction(component, 'getTmpAccount', {
             tmpAccountId: tmpAccountId
         }, function (tmpAccount) {
@@ -33,7 +32,8 @@
                 acc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                 acc.BillingLongitude = tmpAccount.BillingLongitude;
                 acc.BillingLatitude = tmpAccount.BillingLatitude;
-                if(tmpAccount.BillingGeocodeAccuracy == 'Address' || tmpAccount.BillingGeocodeAccuracy == 'NearAddress'){
+                if(tmpAccount.BillingGeocodeAccuracy == 'Address' || tmpAccount.BillingGeocodeAccuracy == 'NearAddress' ||
+                    tmpAccount.BillingGeocodeAccuracy == 'Block' || tmpAccount.BillingGeocodeAccuracy == 'Street' || tmpAccount.BillingGeocodeAccuracy == 'ExtendedZip'){
                     initAcc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                     initAcc.BillingLongitude = tmpAccount.BillingLongitude;
                     initAcc.BillingLatitude = tmpAccount.BillingLatitude;
