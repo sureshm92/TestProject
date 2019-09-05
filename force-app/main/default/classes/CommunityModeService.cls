@@ -40,7 +40,7 @@ public without sharing class CommunityModeService {
                     delegate.Referring_Provider__r.Full_Name__c + ' ' +
                     delegate.Referring_Provider__r.Suffix;
             String itemLabel = Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName', rpFullName);
-            modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, delegate.Referring_Provider__c, itemLabel));
+            modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, itemLabel, delegate.Referring_Provider__c));
         }
         
         if(availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
