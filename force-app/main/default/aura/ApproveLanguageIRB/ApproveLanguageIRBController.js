@@ -118,7 +118,7 @@
         }, function (data) {
             component.set('v.haveEmptyLangSS', data.haveEmptyLangSS);
             component.find('spinner').hide();
-            communityService.showSuccessToast('Success', 'Changes was saved!');
+            communityService.showSuccessToast('Success', 'Changes were saved!');
         });
     },
 
