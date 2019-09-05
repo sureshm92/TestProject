@@ -39,7 +39,6 @@ window.communityService = (function () {
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 language = communityData.language;
                 participantState = communityData.state;
-                isNewSession = communityData.isNewSession;
                 isInitializedFlag = true;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');

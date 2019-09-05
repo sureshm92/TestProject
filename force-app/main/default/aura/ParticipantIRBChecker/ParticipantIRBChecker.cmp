@@ -8,6 +8,7 @@
 
     <aura:attribute name="peId" type="Id"/>
     <aura:attribute name="displayText" type="String" access="private"/>
+    <aura:attribute name="isNewSession" type="Boolean" default="false"/>
 
     <!--No IRB-Approved Languages popup-->
     <c:Popup aura:id="popup" title="{!$Label.c.PP_IRB_Popup_Title}" headerText="{!v.displayText}"
