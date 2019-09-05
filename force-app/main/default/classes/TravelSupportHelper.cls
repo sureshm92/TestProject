@@ -70,6 +70,8 @@ public without sharing class TravelSupportHelper {
                 if (travelVendorSettingsByVendorId.containsKey(vendorId)) {
                     vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendorId));
                 } else {
+                    System.debug('here!');
+                    System.debug(vendorId);
                     vendorSettingsWithStub.add(
                             new TravelVendorSettings__c (
                                     isEnable__c = false,

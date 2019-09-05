@@ -4,8 +4,9 @@
     <aura:attribute name="record" type="Object" access="public"/>
     <aura:attribute name="callback" type="Aura.Action" access="public"/>
 
+    <aura:attribute name="onSubmit" type="Aura.Action"/>
+
     <aura:method name="submitForm" access="global" action="{!c.onSubmit}"/>
-    <aura:registerEvent name="vendorCreated" type="c:TravelVendorCreateEvt"/>
 
     <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="false"/>
 

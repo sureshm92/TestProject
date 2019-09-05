@@ -2,9 +2,13 @@
 
     handleSuccess: function (component, event, helper) {
         let payload = event.getParams().response;
-        component.set('v.record', payload);
-        let evt = component.getEvent('vendorCreated');
-        evt.fire();
+        let newRecord = {
+            'Id' : payload.id,
+            'Name' : payload.fields.Name.value
+        };
+        component.set('v.record', newRecord);
+        let submitAction = component.get('v.onSubmit');
+        if (submitAction) $A.enqueueAction(submitAction);
     },
 
     onSubmit : function(component, event, helper) {

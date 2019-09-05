@@ -13,6 +13,13 @@ public with sharing class TravelVendorPanelRemote {
         public String selectedSSIds;
         @AuraEnabled
         public List<VendorItem> vendorItems;
+
+        public InitData() {
+            vendors = new List<TravelVendor__c>();
+            vendorItems = new List<VendorItem>();
+            countryCodes = '';
+            selectedSSIds = '';
+        }
     }
 
     public class VendorItem {
@@ -68,7 +75,9 @@ public with sharing class TravelVendorPanelRemote {
                 initData.selectedSSIds = String.join(new List<Id>(manualSsIds), ';');
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
-            supportHelper.fillVendorSettingsWithStub(new List<Id>(vendorIds), initData.vendorItems);
+            List<Id> vendorIdsList = new List<Id>(vendorIds);
+            initData.vendors = supportHelper.getTravelVendorsByIds(vendorIdsList);
+            supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
@@ -77,6 +86,7 @@ public with sharing class TravelVendorPanelRemote {
 
     @AuraEnabled
     public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<Id> vendorIds) {
+        System.debug('vendorIds' + JSON.serializePretty(vendorIds));
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         Boolean isCountryCodes = countryCodes != null && String.isNotBlank(countryCodes);
