@@ -125,8 +125,8 @@ public class ReportsRemote {
                 new DonutItem(Label.PG_PrS_R_Failed, preScreeningFailed , DonutItem.Type.DECLINED)
         });
         analitics.studyOrientationAttVsNotAtt.addAll(new List<DonutItem>{
-                new DonutItem(Label.PG_Or_R_Attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, true, filterHCPE) , DonutItem.Type.SUCCSESS),
-                new DonutItem(Label.PG_Or_R_Not_attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, false, filterHCPE) , DonutItem.Type.DECLINED)
+                new DonutItem(Label.PG_Or_R_Attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, delegateId, true, filterHCPE) , DonutItem.Type.SUCCSESS),
+                new DonutItem(Label.PG_Or_R_Not_attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, delegateId, false, filterHCPE) , DonutItem.Type.DECLINED)
         });
         
         return analitics;

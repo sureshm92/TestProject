@@ -1,0 +1,21 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="uiMenuItem" extends="ui:menuItem">
+
+    <!-- attributes: -->
+    <aura:attribute name="itemValue" type="Object" access="public"/>
+    <aura:attribute name="isSelected" type="Boolean" access="public"/>
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+
+    <!-- methods: -->
+    <aura:method name="select" action="{!c.select}"/>
+    <aura:method name="setFocus" action="{!c.setFocus}"/>
+
+    <!-- component body: -->
+    <li class="{!v.isSelected ? 'active' : ''}" onclick="{!c.doOnClick}" title="{!v.label}">{!v.label}</li>
+
+</aura:component>
