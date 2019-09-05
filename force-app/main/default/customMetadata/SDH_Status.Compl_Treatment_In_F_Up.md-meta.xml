@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Salesforce_Status__c</field>
-        <value xsi:type="xsd:string">Participation Complete</value>
+        <value xsi:type="xsd:string">Follow-Up Period Started</value>
     </values>
 </CustomMetadata>

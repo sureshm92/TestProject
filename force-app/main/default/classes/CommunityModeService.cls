@@ -33,7 +33,7 @@ public without sharing class CommunityModeService {
             modes.add(new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_PI_MODE, null));
         }
         if (availableModes.contains(CommunityService.USER_MODE_HCP)) {
-            modes.add(new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_HCP_MODE, null));
+            modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, Label.CTL_L_HCP_MODE, null));
         }
         for (RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()) {
             String rpFullName = delegate.Referring_Provider__r.Salutation + ' ' +
