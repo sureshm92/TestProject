@@ -10,6 +10,7 @@ public without sharing class IRBParticipantService {
         @AuraEnabled public String mode;
         @AuraEnabled public String languageToTranslate;
         @AuraEnabled public String message;
+        @AuraEnabled public Boolean isNewSession;
     }
 
     public static IRBModeWrapper getIRBLanguageMode(Id peId) {
@@ -29,6 +30,7 @@ public without sharing class IRBParticipantService {
                 new List<String>() : pe.get(0).Study_Site__r.Approved_Lng__c.split(';');
 
         IRBModeWrapper wrapper = new IRBModeWrapper();
+        wrapper.isNewSession = CommunityService.isNewSession();
         wrapper.mode = 'no-approved';
 
         if (siteApprovedLng.isEmpty()) {
