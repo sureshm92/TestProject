@@ -204,12 +204,14 @@ public without sharing class ApprovedLangRemote {
                 ss.Approved_Lng__c = ss.Approved_Lng__c.removeEnd(';');
                 studySites.add(ss);
             }
-
             update studySites;
 
-            for (Study_Site__c studySite : getStudySites(QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId))) {
-                if (studySite.Approved_Lng__c == null) initData.haveEmptyLangSS = true;
-            }
+            Integer withoutApprove = Database.countQuery(
+                    'SELECT count() FROM Study_Site__c WHERE '
+                            + QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId)
+                            + ' AND Approved_Lng__c = NULL');
+            initData.haveEmptyLangSS = withoutApprove > 0;
+
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -337,7 +339,7 @@ public without sharing class ApprovedLangRemote {
     //Inner logic: -----------------------------------------------------------------------------------------------------
     private static void loadInitData(InitData initData) {
         for (Study_Site__c ss : ctpStudySites) {
-            if (!initData.countryCodes.contains(ss.Site__r.BillingCountryCode)) {
+            if (ss.Site__r.BillingCountryCode != null && !initData.countryCodes.contains(ss.Site__r.BillingCountryCode)) {
                 initData.countryCodes += ss.Site__r.BillingCountryCode + ';';
             }
             if (ss.Approved_Lng__c == null) initData.haveEmptyLangSS = true;

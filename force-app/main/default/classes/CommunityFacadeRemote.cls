@@ -66,7 +66,6 @@ public without sharing class CommunityFacadeRemote {
             cd.language = UserInfo.getLanguage();
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
-            cd.isNewSession = CommunityService.isNewSession();
 
             return JSON.serialize(cd);
         } catch (Exception e) {
