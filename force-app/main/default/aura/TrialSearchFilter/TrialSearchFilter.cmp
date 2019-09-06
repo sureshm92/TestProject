@@ -1,0 +1,6 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component description="TrialSearchFilter">
+    Filter Clause
+</aura:component>

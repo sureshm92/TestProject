@@ -20,8 +20,16 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div class="hp-welcome-msg">{!v.participantState.welcomeMessage}</div>
-
+        <div style="display: inline-grid; width: 100%">
+            <div class="hp-welcome-msg">{!v.participantState.welcomeMessage}
+                <aura:if isTrue="{!and(v.participantState.value == 'ALUMNI', !v.participantState.participant.Marketing_Flag__c)}">
+                <button class="{!'apollo-btn primary dark'}" style="float: right" onclick="{!c.navigateToTrialSearchPage}">
+                    <c:RRIcon iconName="icon-search"/>
+                    Find another study
+                </button>
+                </aura:if>
+            </div>
+        </div>
         <aura:if isTrue="{!v.initialized}">
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
@@ -61,7 +69,8 @@
                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
                         <c:RRInjector componentName="VisitResultsDashboardCard">
-                            <c:RRInjectorAttribute name="ctpId" value="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                            <c:RRInjectorAttribute name="ctpId"
+                                                   value="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                         </c:RRInjector>
                     </aura:if>
                     <c:RRInjector componentName="ResourceDashboardCard"/>

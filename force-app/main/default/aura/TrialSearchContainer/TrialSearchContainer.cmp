@@ -1,0 +1,42 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component description="TrialSearchContainer" implements="forceCommunity:availableForAllPageTypes"
+                controller="ConditionOfInterestRemote">
+    <aura:attribute name="searchCriterias" type="String[]"/>
+    <aura:attribute name="originalItems" type="Object[]" default=""/>
+    <aura:attribute name="displayedItems" type="List" default=""/>
+    <aura:attribute name="conditionsOfInterest" type="List" default=""/>
+    <aura:attribute name="conditionsOfInterestTemp" type="List" default=""/>
+    <aura:attribute name="isSaveList" type="Boolean"/>
+
+    <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
+    <aura:attribute name="bypass" type="Boolean" default=""/>
+
+    <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+
+
+    <lightning:layout horizontalAlign="center" class="width-limiter">
+        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" flexibility="auto"
+                              size="12" class="trials-side">
+            <div class="sdv-top-bar" id="stickyBar" aura:id="stickyBar">
+                <div class="navigation rr-width-limiter side-padding">
+                    <c:RRNavigationPath>
+                        <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
+                        <c:RRNPathItem label="Studies you may be interested in"/>
+                    </c:RRNavigationPath>
+                </div>
+            </div>
+            <div class="trials-container">
+            <c:TrialsContainer/>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
+                              size="12">
+            <div class="filter-side">
+                <c:TrialSearchFilter/>
+            </div>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

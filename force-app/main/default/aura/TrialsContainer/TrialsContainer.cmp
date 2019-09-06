@@ -1,0 +1,6 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component description="TrialsContainer">
+    Trial List
+</aura:component>
