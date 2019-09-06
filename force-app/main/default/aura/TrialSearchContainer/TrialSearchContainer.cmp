@@ -2,18 +2,10 @@
   - Created by Yehor Dobrovolskyi
  -->
 <aura:component description="TrialSearchContainer" implements="forceCommunity:availableForAllPageTypes"
-                controller="ConditionOfInterestRemote">
-    <aura:attribute name="searchCriterias" type="String[]"/>
-    <aura:attribute name="originalItems" type="Object[]" default=""/>
-    <aura:attribute name="displayedItems" type="List" default=""/>
-    <aura:attribute name="conditionsOfInterest" type="List" default=""/>
-    <aura:attribute name="conditionsOfInterestTemp" type="List" default=""/>
-    <aura:attribute name="isSaveList" type="Boolean"/>
+                controller="TrialSearchContainerRemote" extends="c:LightningService">
 
-    <!--    <aura:attribute name="displayFooter" type="Boolean" default=""/>-->
-    <aura:attribute name="bypass" type="Boolean" default=""/>
 
-    <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
 
     <lightning:layout horizontalAlign="center" class="width-limiter">
@@ -28,7 +20,7 @@
                 </div>
             </div>
             <div class="trials-container">
-            <c:TrialsContainer/>
+                <c:TrialsContainer/>
             </div>
         </lightning:layoutItem>
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
