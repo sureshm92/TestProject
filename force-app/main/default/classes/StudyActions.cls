@@ -164,13 +164,23 @@ public abstract class StudyActions {
     private static Map<Id, Boolean> tcAcceptanceMap;
 
     public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode){
+        this(
+                study,
+                studySite,
+                hcpEnrollment,
+                userMode,
+                null
+        );
+    }
+
+    public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode, String delegateId){
         this.userMode = userMode;
         this.study = study;
         this.studySite = studySite;
         this.hcpEnrollment = hcpEnrollment;
 
         isStudyTCAccepted = isTCAccepted(study.Id);
-        studyAccessLevel = DelegateService.getStudyAccessLevel(study.Id, userMode);
+        studyAccessLevel = DelegateService.getStudyAccessLevel(study.Id, userMode, delegateId);
 
         isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && isStudyTCAccepted!= null && !isStudyTCAccepted;
 

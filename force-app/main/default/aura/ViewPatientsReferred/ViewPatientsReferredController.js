@@ -17,7 +17,8 @@
             siteId: siteId,
             mode: communityService.getUserMode(),
             btnFilter: paramFilter,
-            userMode: component.get('v.userMode')
+            userMode: component.get('v.userMode'),
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.piBtnFilter', paramFilter);
@@ -59,7 +60,8 @@
             paginationJSON: paginationJSON,
             piBtnFilter: piBtnFilter,
             userMode: communityService.getUserMode(),
-            studyChanged: studyWasChanged
+            studyChanged: studyWasChanged,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);
@@ -82,7 +84,8 @@
 
     doUpdateStatistics: function (component) {
         communityService.executeAction(component, 'getStatistics', {
-            mode: communityService.getUserMode()
+            mode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var statistics = JSON.parse(returnValue);
             component.set('v.statistics', statistics);

@@ -17,9 +17,8 @@ public class ParticipantItem {
     }
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {
-        Boolean isParticipant = CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         this.pe = participantState.pe;
         Boolean isPEInParticipationFlow = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW.contains(participantState.pe.Participant_Status__c);
-        this.showParticipationSteps = (isPEInParticipationFlow && participantState.isPremium) || !isParticipant;
+        this.showParticipationSteps = isPEInParticipationFlow;
     }
 }

@@ -10,12 +10,14 @@
         var isCreate = params.isCreate;
         var mainspinner = refreshSource.find('mainSpinner');
         mainspinner.show();
+        debugger;
         component.set('v.delegate', delegate);
         component.set('v.refreshSource', refreshSource);
-        component.set('v.saveInProgress', true);
+        var test = JSON.stringify(delegate);
         communityService.executeAction(component, 'saveDelegateLevelChanges', {
             userMode: userMode,
-            delegate: JSON.stringify(delegate)
+            delegate: JSON.stringify(delegate),
+            parentId: communityService.getDelegateId()
         }, function (returnValue) {
             if(isCreate){
                 communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_created_permissions_for") + " " +
@@ -28,7 +30,6 @@
 
             refreshSource.refresh();
         }, null, function () {
-            component.set('v.saveInProgress', false);
             mainspinner.hide();
         });
 

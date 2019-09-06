@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Failed Referral</fullName>
+        <default>false</default>
+        <label>Failed Referral</label>
+    </customValue>
+    <customValue>
+        <fullName>Failed Review</fullName>
+        <default>false</default>
+        <label>Failed Review</label>
+    </customValue>
+    <customValue>
+        <fullName>Pending Referral</fullName>
+        <default>false</default>
+        <label>Pending Referral</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Sent to PI</fullName>
+        <default>false</default>
+        <label>Referral Sent to PI</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Accepted</fullName>
+        <default>false</default>
+        <label>Referral Accepted</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral On Hold</fullName>
+        <default>false</default>
+        <label>Referral On Hold</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Declined</fullName>
+        <default>false</default>
+        <label>Referral Declined</label>
+    </customValue>
+    <customValue>
+        <fullName>Excluded from Referring</fullName>
+        <default>false</default>
+        <label>Excluded from Referring</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Successful</fullName>
+        <default>false</default>
+        <label>Contact Successful</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Attempt In Progress</fullName>
+        <default>false</default>
+        <label>Contact Attempt In Progress</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Failed</fullName>
+        <default>false</default>
+        <label>Contact Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Eligibility Passed</fullName>
+        <default>false</default>
+        <label>Eligibility Passed</label>
+    </customValue>
+    <customValue>
+        <fullName>Eligibility Failed</fullName>
+        <default>false</default>
+        <label>Eligibility Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening Complete</fullName>
+        <default>false</default>
+        <label>Screening Complete</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening In Progress</fullName>
+        <default>false</default>
+        <label>Screening In Progress</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening Failed</fullName>
+        <default>false</default>
+        <label>Screening Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Enrollment Success</fullName>
+        <default>false</default>
+        <label>Enrollment Success</label>
+    </customValue>
+    <customValue>
+        <fullName>Enrollment Failed</fullName>
+        <default>false</default>
+        <label>Enrollment Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Treatment Period Started</fullName>
+        <default>false</default>
+        <label>Treatment Period Started</label>
+    </customValue>
+    <customValue>
+        <fullName>Follow-Up Period Started</fullName>
+        <default>false</default>
+        <label>Follow-Up Period Started</label>
+    </customValue>
+    <customValue>
+        <fullName>Participation Complete</fullName>
+        <default>false</default>
+        <label>Participation Complete</label>
+    </customValue>
+    <customValue>
+        <fullName>Trial Complete</fullName>
+        <default>false</default>
+        <label>Trial Complete</label>
+    </customValue>
+    <customValue>
+        <fullName>Drop Out</fullName>
+        <default>false</default>
+        <label>Drop Out</label>
+    </customValue>
+    <customValue>
+        <fullName>Deceased</fullName>
+        <default>false</default>
+        <label>Deceased</label>
+    </customValue>
+    <masterLabel>Participant Statuses</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

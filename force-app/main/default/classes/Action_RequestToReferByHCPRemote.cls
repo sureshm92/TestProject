@@ -5,19 +5,21 @@
 public without sharing class Action_RequestToReferByHCPRemote {
 
     @AuraEnabled
-    public static void requestToReferForHCP(String studySiteId, String hcpeId) {
+    public static void requestToReferForHCP(String studySiteId, String hcpeId, String delegateId) {
+        System.debug('delegateId1:'+delegateId);
         Savepoint sp = Database.setSavepoint();
         try {
             HCP_Enrollment__c hcpEnrollment;
             Study_Site__c studySite = StudySiteService.getStudySiteForHCPById(studySiteId);
             if(hcpeId==null || hcpeId == ''){
                 Id userContactId = CommunityService.getUserContact().Id;
-                System.debug('DelegateMap: ' +DelegateService.getStudyHCPContactsMap());
-                if(!DelegateService.getStudyHCPContactsMap().isEmpty()){
-                    userContactId = DelegateService.getStudyHCPContactsMap().values()[0];
+                if( delegateId!=null && delegateId != ''){
+                    userContactId = (Id)delegateId;
                 }
+                System.debug('delegateId:'+delegateId);
+                System.debug('userContactId:'+userContactId);
                 hcpEnrollment = new HCP_Enrollment__c();
-                new StudyActionsHCP(studySite.Clinical_Trial_Profile__r, studySite, null).checkAction(StudyActions.ACT_REQUEST_TO_REFER);
+                new StudyActionsHCP(studySite.Clinical_Trial_Profile__r, studySite, null, delegateId).checkAction(StudyActions.ACT_REQUEST_TO_REFER);
                 hcpEnrollment.HCP_Contact__c = userContactId;
                 hcpEnrollment.Study_Site__c = studySiteId;
             }

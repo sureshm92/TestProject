@@ -10,7 +10,8 @@
     <aura:attribute name="delegates" type="List" access="private"/>
     <aura:attribute name="delegateOptions" type="List" access="private"/>
     <aura:attribute name="hasStudies" type="Boolean" access="private"/>
-    <aura:attribute name="saveInProgress" type="Boolean" default="false"/>
+    <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
+
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -25,7 +26,7 @@
     <!--component body-->
     <div class="mt-container">
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
-        <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges" saveInProgress="{!v.saveInProgress}"
+        <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"
                                            userMode="{!v.userMode}"/>
         <div class="slds-grid slds-wrap slds-gutters">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1">
@@ -53,7 +54,7 @@
                                               userMode="{!v.userMode}"
                                               parentComponent="{!this}"
                                               options="{!v.delegateOptions}"
-                                              saveInProgress="{!v.saveInProgress}"/>
+                                              ignoreUpdates="{!v.ignoreUpdates}"/>
                                 <aura:set attribute="else">
                                     <c:PatientDelegateItem contact="{!delegate.delegateContact}" parentComponent="{!this}"/>
                                 </aura:set>

@@ -69,12 +69,17 @@ public without sharing class ReferralProfileRemote {
 
     @AuraEnabled
     public static String getReferralProfileDetail(String peId, String userMode){
+        return getReferralProfileDetail(peId, userMode, null);
+    }
+
+    @AuraEnabled
+    public static String getReferralProfileDetail(String peId, String userMode, String delegateId){
         try{
             InitData initData = new InitData();
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode,delegateId);
             if(pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
-            initData.steps = loadSteps(pe, userMode);
+            initData.steps = loadSteps(pe, userMode, delegateId);
             return JSON.serialize(initData);
         }catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -104,7 +109,7 @@ public without sharing class ReferralProfileRemote {
             );
             upsert pe;
             pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
-            return JSON.serialize(loadSteps(pe, userMode));
+            return JSON.serialize(loadSteps(pe, userMode, null));
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -142,10 +147,10 @@ public without sharing class ReferralProfileRemote {
     }
     
     @AuraEnabled
-    public static String getPEStatusHistory(Id peId, String userMode){
+    public static String getPEStatusHistory(Id peId, String userMode, String delegateId){
         try{
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
-            List<StatusStep> steps = loadSteps(pe, userMode);
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            List<StatusStep> steps = loadSteps(pe, userMode, delegateId);
             Map<String, List<HistoryItem>> historyMap = new Map<String, List<HistoryItem>>();
             for(StatusStep step : steps){
                 historyMap.put(step.name, step.history);
@@ -161,13 +166,13 @@ public without sharing class ReferralProfileRemote {
             Participant_Enrollment__c.Participant_Status__c
     );
 
-    private static List<StatusStep> loadSteps(Participant_Enrollment__c pe, String userMode) {
+    private static List<StatusStep> loadSteps(Participant_Enrollment__c pe, String userMode, String delegateId) {
         if (pe == null) return null;
         StudyActions sActions;
         if(userMode == CommunityService.USER_MODE_PI){
             sActions = new StudyActionsPI(pe);
         }else if(userMode == CommunityService.USER_MODE_HCP){
-            sActions = new StudyActionsHCP(pe);
+            sActions = new StudyActionsHCP(pe, delegateId);
         }
         Integer i = 1;
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
@@ -233,17 +238,17 @@ public without sharing class ReferralProfileRemote {
             i++;
         }
         List<Participant_Enrollment_Status_History__c> historyList = [
-                SELECT Id, Notes__c, NewStatus__c, Reason__c, Date__c
+                SELECT Id, Notes__c, Status__c, Reason__c, Date__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c =: pe.Id ORDER BY CreatedDate DESC
         ];
         for(Participant_Enrollment_Status_History__c hi : historyList){
-            PEStatusState state = PEStatusState.STATUSES_MAP.get(hi.NewStatus__c);
+            PEStatusState state = PEStatusState.STATUSES_MAP.get(hi.Status__c);
             if(state != null && steps != null && state.order > 0){
                 steps[state.order-1].history.add(new HistoryItem(
                         BTN_STYLE_MAP.get(state.state),
                         hi.Date__c,
-                        TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, hi.NewStatus__c) +
+                        TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, hi.Status__c) +
                                 (hi.Reason__c != null ? ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, hi.Reason__c) : '') +
                                 (hi.Notes__c != null && userMode == CommunityService.USER_MODE_PI  ? ':  ' + hi.Notes__c : '')
                 ));

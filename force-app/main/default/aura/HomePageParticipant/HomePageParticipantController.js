@@ -13,6 +13,7 @@
                     component.set('v.participantState', ps);
                     component.find('spinner').hide();
                 }
+                component.set('v.initialized', true);
             });
     }
 })

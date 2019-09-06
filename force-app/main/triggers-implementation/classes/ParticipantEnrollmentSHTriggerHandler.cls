@@ -35,7 +35,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 new Map<Id, List<Participant_Enrollment_Status_History__c>>();
 
         for (Participant_Enrollment_Status_History__c history : histories) {
-            if(history.NewStatus__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) continue;
+            if(history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) continue;
 
             Id peId = history.ParticipantEnrollment__c;
             peIds.add(peId);
@@ -60,8 +60,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         for (Participant_Enrollment__c pe : enrollments) {
             Participant_Enrollment_Status_History__c headHistory = peToHistories.get(pe.Id).get(0);
             for (Participant_Enrollment_Status_History__c history : peToHistories.get(pe.Id)) {
-                Integer headStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(headHistory.NewStatus__c);
-                Integer currentStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(history.NewStatus__c);
+                Integer headStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(headHistory.Status__c);
+                Integer currentStatusValue = PEStatusState.PE_ORDERED_STATUSES.get(history.Status__c);
 
                 if((headStatusValue == currentStatusValue && headHistory.Date__c < history.Date__c)
                         || headStatusValue != Math.max(headStatusValue, currentStatusValue)) {
@@ -72,8 +72,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             pe.Last_Status_Changed_Notes__c = headHistory.Notes__c;
             pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
-            pe.Participant_Status__c = headHistory.NewStatus__c;
-            if(headHistory.NewStatus__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+            pe.Participant_Status__c = headHistory.Status__c;
+            if(headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
                 pe.Informed_Consent__c = true;
                 pe.Enrolled_Date__c = headHistory.Date__c.date();
             }
