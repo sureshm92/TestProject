@@ -17,4 +17,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetParticipantStatusHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
 }
