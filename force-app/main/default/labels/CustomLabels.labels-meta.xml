@@ -4590,7 +4590,7 @@ View study documents and other resources including articles and videos related t
         <shortDescription>PG AS F Middle name</shortDescription>
         <value>Middle Initial</value>
     </labels>
-    <labels>
+	<labels>
         <fullName>PG_AS_F_New_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
