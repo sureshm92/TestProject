@@ -10,8 +10,9 @@
             'ctpId' : component.get('v.recordId')
         }, function(data) {
             component.set('v.vendorItems', data.vendorItems);
-            component.set('v.countryCodes', data.countryCodes);
             component.set('v.vendors', data.vendors);
+            component.set('v.countryCodes', data.countryCodes);
+            component.set('v.selectedManuallySSIds', data.selectedSSIds);
             component.set('v.initialized', true);
 
             component.find('spinner').hide();
@@ -20,19 +21,7 @@
     },
 
     getFilteredSS : function (component, event, helper) {
-        component.find('spinner').show();
-
-        communityService.executeAction(component, 'getFilteredItems', {
-            'ctpId' : component.get('v.recordId'),
-            'ssIds' : component.get('v.selectedSSIds'),
-            'countryCodes' : component.get('v.countryCodes'),
-            'vendors' : component.get('v.vendors')
-        }, function(data) {
-            component.set('v.vendorItems', data);
-
-            console.log('vendorItems ', data);
-            component.find('spinner').hide();
-        })
+        helper.getFilteredItems(component, helper);
     },
 
     whenCountryFilterChanged : function (component, event, helper) {
@@ -46,8 +35,43 @@
         }
     },
 
-    doSave : function(component, event, controller) {
+    onAddTravelVendor: function(component, event, helper) {
+        let newVendor = component.find('addTravelVendor').get('v.record');
+        let vendors = component.get('v.vendors');
+        vendors.push(newVendor);
+        component.set('v.vendors', vendors);
+        helper.getFilteredItems(component, helper);
+        component.find('customModal').hide();
+    },
 
+    showModal : function(component, event, helper) {
+        component.find('customModal').show();
+    },
+
+    closeModal: function (component, event, helper) {
+        component.find('customModal').hide();
+    },
+
+    submitForm: function (component, event, helper) {
+        component.find('addTravelVendor').submitForm();
+    },
+
+    doSave : function(component, event, helper) {
+        component.find('spinner').show();
+
+        let vendorItems = component.get('v.vendorItems');
+        let allSettings = [];
+        for (let i = 0; i < vendorItems.length; i++) {
+            allSettings = allSettings.concat(vendorItems[i].vendorSettings);
+        }
+
+        helper.markSettingsIsManual(allSettings, component.get('v.selectedManuallySSIds'));
+        communityService.executeAction(component, 'saveData', {
+            'ctpId' : component.get('v.recordId'),
+            'settings' : allSettings
+        }, function() {
+            component.find('spinner').hide();
+        })
     }
 
 });
