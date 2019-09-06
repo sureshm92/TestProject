@@ -55,9 +55,9 @@ public with sharing class ParticipantVisitsRemote {
     }
 
     @AuraEnabled
-    public static List<TravelVendor__c> getVendors(String studySiteId) {
+    public static List<TravelVendorSettings__c> getVendors(String studySiteId) {
         try {
-            TravelSupportService service = ((TravelSupportService) ClassFactory.newInstance(TravelSupportService.class));
+            TravelSupportHelper service = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
             return service.getVendors(studySiteId);
         } catch (Exception e) {
             AuraHelper.throwException(e);

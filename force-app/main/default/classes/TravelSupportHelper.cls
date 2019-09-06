@@ -96,4 +96,22 @@ public without sharing class TravelSupportHelper {
         delete ts;
     }
 
+    public List<TravelVendorSettings__c> getVendors(Id studySiteId) {
+        try {
+            String vendorsQuery = 'SELECT ' +
+                    'Id, ' +
+                    'TravelVendor__c, ' +
+                    'TravelVendor__r.Name, ' +
+                    'TravelVendor__r.Link_Vendor__c, ' +
+                    'TravelVendor__r.Disclosure__c ' +
+                    'FROM TravelVendorSettings__c '+
+                    'WHERE Study_Site__c =  \'' + studySiteId + '\' ' +
+                    'AND isEnable__c = ' + true;
+            return (List<TravelVendorSettings__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(vendorsQuery, false);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
 }
