@@ -21,7 +21,7 @@ public without sharing class LanguageSwitcherRemote {
         try{
             InitData initData = new InitData();
             List<PicklistEntry> listPLE = Translation__c.Language__c.getDescribe().getPicklistValues();
-            initData.optionalLanguages.add(new LabelValueItem(Label.PG_AS_F_Language_Not_Selected, null));
+            initData.optionalLanguages.add(new LabelValueItem('--' + Label.None + '--', null));
             for(PicklistEntry ple : listPLE){
                 initData.languages.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
                 initData.optionalLanguages.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
