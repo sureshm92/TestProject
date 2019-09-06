@@ -2,70 +2,89 @@
  * Created by Yehor Dobrovolskyi
  */
 ({
-    onGenerateReport: function (component, helper) {
-        var doc = new jsPDF('l', 'pt', 'A4', true);
-        let reportData = component.get('v.reportData');
-        const url = new URL(window.location.href);
-        const resourceRelPath = $A.get('$Resource.PH_Default_Image') + '/IQVIA.png';
-        const resourceUrl = ''.concat(url.origin).concat(resourceRelPath);
+    generateReport: function (component, helper) {
+        let ie = navigator.userAgent.match(/.NET/g);
+        let oldIE = navigator.userAgent.match(/MSIE/g);
+        let ieEDGE = navigator.userAgent.match(/Edge/g);
+        if (ie || oldIE) {
+            helper.getLogoFromIE(component, helper);
+        } else {
+            helper.getLogo(component, helper, ieEDGE);
+        }
+    },
+
+    getLogo: function (component, helper, isSave) {
+        const url = window.location.hostname;
+        const resourceRelPath = $A.get('$Resource.IQVIA');
+        const resourceUrl = 'https://'.concat(url).concat(resourceRelPath);
         window.fetch(resourceUrl)
-            .then($A.getCallback(function(response)  {
+            .then($A.getCallback(function (response) {
                 console.log(response);
                 if (!response.ok) {
                     throw new Error('HTTP error, status = '.concat(response.status));
                 }
                 response.blob()
-                    .then($A.getCallback(function(data) {
-                        let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
-                        let numberPageForTable = 0;
-                        doc.setFontSize(8);
-                        doc.setTextColor('#6e6e6e');
-                        let splitTextFooter = doc.splitTextToSize(textFooter, 650);
+                    .then($A.getCallback(function (data) {
                         let reader = new FileReader();
                         reader.readAsDataURL(data);
                         reader.onloadend = function () {
                             let iqviaLogo = reader.result;
-                            helper.generateFirstPage(reportData, doc, helper);
-                            doc.addPage();
-                            doc.setFontSize(16);
-                            doc.setTextColor('#000096');
-                            doc.setFontType('bold');
-                            doc.text(reportData.participantFullName, 80, 120);
-                            doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
-                            doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
-                            doc.setFontType('normal');
-                            numberPageForTable = helper.generateTable(reportData, doc, helper);
-                            for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
-                                doc.setPage(i);
-                                helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
-                            }
-                            // doc.save(component.get('v.documentName') + '.pdf');
-                            let ieEDGE = navigator.userAgent.match(/Edge/g);
-                            let ie = navigator.userAgent.match(/.NET/g);
-                            let oldIE = navigator.userAgent.match(/MSIE/g);
-                            if (ie || oldIE || ieEDGE) {
-                                window.navigator.msSaveBlob(doc.output('blob'), component.get('v.documentName') + '.pdf');
-                            } else {
-                                let urlPDF = doc.output('bloburi');
-                                let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-                                window.open(urlViewer + '?file=' + urlPDF);
-                            }
-                            reportData = {};
-                            component.set('v.reportData', reportData);
-                            let spinner = component.find('spinner');
-                            if (spinner) {
-                                spinner.hide();
-                            }
+                            helper.fillData(component, helper, iqviaLogo, isSave);
+                            helper.spinnerHide(component);
                         };
                     }));
             }))
-            .catch($A.getCallback(function(error) {
+            .catch($A.getCallback(function (error) {
                 console.error('Fetch Error :-S', error);
-                let spinner = component.find('spinner');
-                if (spinner) {
-                    spinner.hide();
-                }
+                helper.spinnerHide(component);
             }));
+    },
+
+    getLogoFromIE: function (component, helper, isSave) {
+        helper.enqueue(component, 'c.getLogoFromStatic', {})
+            .then(function (iqviaLogo) {
+                helper.fillData(component, helper, iqviaLogo, isSave);
+                helper.spinnerHide(component);
+            }, function (err) {
+                if (err && err[0].message) {
+                    component.set('v.errorMessage', err[0].message);
+                }
+                console.log('error:', err[0].message);
+                helper.spinnerHide(component);
+            });
+    },
+
+    fillData: function (component, helper, iqviaLogo, isSave) {
+        var doc = new jsPDF('l', 'pt', 'A4', true);
+        let reportData = component.get('v.reportData');
+        let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
+        let numberPageForTable = 0;
+        doc.setFontSize(8);
+        doc.setTextColor('#6e6e6e');
+        let splitTextFooter = doc.splitTextToSize(textFooter, 650);
+        helper.generateFirstPage(reportData, doc, helper);
+        doc.addPage();
+        doc.setFontSize(16);
+        doc.setTextColor('#000096');
+        doc.setFontType('bold');
+        doc.text(reportData.participantFullName, 80, 120);
+        doc.text($A.get('$Label.c.Report_Enrollment_Date') + ' ' + reportData.enrollmentDate, 80, 140);
+        doc.text($A.get('$Label.c.Report_Study_Site') + ': ' + reportData.studySiteName, 80, 160);
+        doc.setFontType('normal');
+        numberPageForTable = helper.generateTable(reportData, doc, helper);
+        for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
+            doc.setPage(i);
+            helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1);
+        }
+        if (isSave) {
+            window.navigator.msSaveBlob(doc.output('blob'), $A.get('$Label.c.Report_Document_Name') + '.pdf');
+        } else {
+            let urlPDF = doc.output('bloburi');
+            let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+            window.open(urlViewer + '?file=' + urlPDF + '&fileName=' + encodeURIComponent($A.get('$Label.c.Report_Document_Name')));
+        }
+        reportData = {};
+        component.set('v.reportData', reportData);
     },
 
     generateTable: function (reportData, doc, helper) {
@@ -147,7 +166,9 @@
         doc.line(30.8, 35, 97, 35);
         doc.line(193, 35, 841, 35);
         doc.line(30.8, 550, 841, 550);
-        doc.addImage(logo, 'PNG', 100, 12, 90, 35);
+        if (logo) {
+            doc.addImage(logo, 'PNG', 100, 12, 90, 35);
+        }
         let helperT = this;
         splitTextFooter.forEach(function (el, ind) {
             doc.setFontSize(8);
@@ -204,5 +225,19 @@
             heightY += 100;
         }
         helper.centeredText($A.get('$Label.c.Report_My_Study_Data'), 50 + heightY, doc);
-    }
+    },
+
+    spinnerShow: function (component) {
+        let spinner = component.find('spinner');
+        if (spinner) {
+            spinner.show();
+        }
+    },
+
+    spinnerHide: function (component) {
+        let spinner = component.find('spinner');
+        if (spinner) {
+            spinner.hide();
+        }
+    },
 });

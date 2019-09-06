@@ -181,6 +181,7 @@ public without sharing class StudySiteService {
 
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
+            'Approved_Lng__c',
             'Name',
             'Site__c',
             'Override_PI_Referral_Status__c',
@@ -199,6 +200,7 @@ public without sharing class StudySiteService {
             'Site__r.BillingStreet',
             'Site__r.BillingLatitude',
             'Site__r.BillingLongitude',
+            'Site__r.BillingGeocodeAccuracy',
             'Site__r.Driving_Directions__c',
             'Site__r.Parking_Instructions__c',
             'Site__r.ParentId',
@@ -231,8 +233,10 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingStateCode',
             'Principal_Investigator__r.Account.BillingPostalCode',
             'Principal_Investigator__r.Account.BillingCountry',
+            'Principal_Investigator__r.Account.BillingCountryCode',
             'Principal_Investigator__r.Account.BillingLatitude',
             'Principal_Investigator__r.Account.BillingLongitude',
+            'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
             'Principal_Investigator__r.Account.BillingAddress',
             'Site_Staff__r.Site_Contact__c'
     };
@@ -270,7 +274,7 @@ public without sharing class StudySiteService {
         }
         return filter;
     }
-
+    
     public static Study_Site__c getStudySiteForHCPById(Id ssId) {
         List<Study_Site__c> studySites = getStudySitesCommon(
                 CommunityService.USER_MODE_HCP,
@@ -280,7 +284,17 @@ public without sharing class StudySiteService {
         if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
         return studySites[0];
     }
-
+    
+    public static Study_Site__c getStudySiteForPIById(Id ssId) {
+        List<Study_Site__c> studySites = getStudySitesCommon(
+                CommunityService.USER_MODE_PI,
+                ' AND Id = \'' + ssId + '\' ',
+                false
+        );
+        if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
+        return studySites[0];
+    }
+    
     public static List<Study_Site__c> getStudySiteForPIByTrialId(Id trialId) {
         return getStudySitesCommon(
                 CommunityService.USER_MODE_PI,

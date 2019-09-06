@@ -31,6 +31,10 @@
                 <field>Date_of_Birth__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Birth_Year__c</field>
+            </layoutItems>
+            <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
@@ -44,6 +48,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Phone_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Preferred_Language__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -71,8 +79,12 @@
                 <field>Language_Preference__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Marketing_Flag__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Language_Preference_Code__c</field>
+                <field>Secondary_Source__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -190,7 +202,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h2D000000M2JJ</masterLabel>
+        <masterLabel>00h1j000000YqQB</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

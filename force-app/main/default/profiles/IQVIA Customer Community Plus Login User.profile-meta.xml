@@ -267,6 +267,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DateTimeConverterUtil</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DelegateAddressesBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1095,6 +1099,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1143,6 +1151,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceReminderRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1152,6 +1164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourcesDetailRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1195,6 +1211,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TherapeuticAreaAssignmentService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_TherapeuticAreaService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1211,7 +1231,23 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitReportService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2060,11 +2096,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Contact.SecondChoiceLanguage__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Contact.Second_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2077,11 +2108,6 @@
         <editable>false</editable>
         <field>Contact.Specialty__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.ThirdChoiceLanguage__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4265,6 +4291,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Approved_Lng__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Billable_Code_CRM_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5143,9 +5174,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>UserAlt-User Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>VisitPackage__c-VisitPackage Layout</layout>

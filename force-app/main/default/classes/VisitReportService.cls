@@ -4,13 +4,17 @@
 public inherited sharing class VisitReportService {
 
     public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
+    public static String languageToTranslate;
 
     public List<VisitReportContainerRemote.ReportDataWrapper> getReportDataWrapper() {
         List<VisitReportContainerRemote.ReportDataWrapper> result = new List<VisitReportContainerRemote.ReportDataWrapper>();
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (!ParticipantService.ParticipantStates.ALUMNI.equals(pState.value) || pState.isDelegate || !VisitResultSharingService.isVisitResultAvailable() || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c) {
+        if (pState.pe != null) {
+            VisitReportService.languageToTranslate = IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate;
+        }
+        if (visitResultsService.checkOnAccess(pState)) {
             return result;
         }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
@@ -27,6 +31,8 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+
+    @TestVisible
     private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(List<Patient_Visit__c> patientVisits, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
         for (Patient_Visit__c patientVisit : patientVisits) {
@@ -40,8 +46,8 @@ public inherited sharing class VisitReportService {
                     List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                     List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
                     String visitDate = DateService.format(patientVisit.Completed_Date__c, 'MMM, D YYYY');
-                    reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('Report_Dates'));
-                    reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitDate));
+                    reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('Report_Dates', VisitReportService.languageToTranslate));
+                    reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitDate, VisitReportService.languageToTranslate));
                     List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
                     List<VisitResultWrapper> visitResultWrappers = new List<VisitResultWrapper>();
                     for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
@@ -53,20 +59,20 @@ public inherited sharing class VisitReportService {
                         if (visitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
                             Visit_Result__c visitResult = visitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName);
                             if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult));
+                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult, VisitReportService.languageToTranslate));
                             } else {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c));
+                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c, VisitReportService.languageToTranslate));
                             }
-                            Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP);
-                            String value = String.valueOf(rounded);
-                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c));
+                            Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
+                            String value = rounded.toPlainString();
+                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c, VisitReportService.languageToTranslate));
                             isResult = true;
                         } else {
-                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('______'));
-                            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResultWrapper.visitResultTypeM.DeveloperName));
+                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('______', VisitReportService.languageToTranslate));
+                            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResultWrapper.visitResultTypeM.DeveloperName, VisitReportService.languageToTranslate));
 
                         }
-                        labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM));
+                        labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM, VisitReportService.languageToTranslate));
                     }
                     if (isResult) {
                         if (result.get(visitResultGroupM.DeveloperName) != null) {
@@ -77,7 +83,7 @@ public inherited sharing class VisitReportService {
                             reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
                                     reportRowWrappers
                             };
-                            reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header');
+                            reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header', VisitReportService.languageToTranslate);
                             reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
                             reportDataTableWrapper.labsDescription = labsDescription;
                             result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
@@ -108,6 +114,7 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
+    @TestVisible
     private VisitReportContainerRemote.ReportDataWrapper getFillReportData(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS, ParticipantService.ParticipantState pState) {
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
@@ -121,6 +128,7 @@ public inherited sharing class VisitReportService {
         Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
         result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
         result.studySiteName = pState.pse.Study_Site__r.Name;
+        result.peId = pState.pe.Id;
         return result;
     }
 

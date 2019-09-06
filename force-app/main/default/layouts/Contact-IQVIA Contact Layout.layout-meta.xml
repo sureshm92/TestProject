@@ -78,14 +78,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>SecondChoiceLanguage__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ThirdChoiceLanguage__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Second_Choice_Language__c</field>
             </layoutItems>
             <layoutItems>

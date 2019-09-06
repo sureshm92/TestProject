@@ -503,7 +503,7 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
-            <fullName>uk</fullName>
+            <fullName>en_US</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -622,17 +622,13 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>SecondChoiceLanguage__c</picklist>
+        <picklist>Second_Choice_Language__c</picklist>
         <values>
-            <fullName>fr_CA</fullName>
+            <fullName>en_US</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>it</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>uk</fullName>
+            <fullName>ru</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -644,17 +640,13 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>ThirdChoiceLanguage__c</picklist>
+        <picklist>Third_Choice_Language__c</picklist>
         <values>
-            <fullName>fr_CA</fullName>
-            <default>false</default>
+            <fullName>en_US</fullName>
+            <default>true</default>
         </values>
         <values>
-            <fullName>it</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>uk</fullName>
+            <fullName>ru</fullName>
             <default>false</default>
         </values>
     </picklistValues>

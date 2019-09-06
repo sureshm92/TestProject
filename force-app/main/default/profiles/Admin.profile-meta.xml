@@ -55,6 +55,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovedLangRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -76,6 +80,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>BatchProcess</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_AssignLanguagePreferences</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -267,6 +275,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DateTimeConverterUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DelegateAddressesBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -367,6 +379,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IRBParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -400,6 +416,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LabelValueItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguagePreferenceService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -580,6 +600,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantIRBCheckerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1055,6 +1079,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_LanguagePreferenceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1092,6 +1120,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ParticipantStateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1143,6 +1175,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceReminderRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1152,6 +1188,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourcesDetailRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1195,6 +1235,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TherapeuticAreaAssignmentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_TherapeuticAreaService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1211,7 +1255,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitReportService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3814,6 +3874,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Preferred_Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Secondary_Source__c</field>
         <readable>true</readable>
@@ -4251,6 +4316,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Agrees_to_Referral_Reimbursement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Approved_Lng__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5133,9 +5203,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>UserAlt-User Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>VisitPackage__c-VisitPackage Layout</layout>

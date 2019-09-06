@@ -138,6 +138,9 @@ public without sharing class StudyDetailViewController {
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
+
+                TranslateHelper.translate(trialDetail.trial, IRBParticipantService.getIRBLanguageMode(pe.Id).languageToTranslate);
+
                 trialDetail.pe = pe;
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);

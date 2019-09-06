@@ -171,7 +171,7 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
-            <fullName>uk</fullName>
+            <fullName>en_US</fullName>
             <default>false</default>
         </values>
     </picklistValues>

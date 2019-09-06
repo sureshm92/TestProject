@@ -23,6 +23,7 @@ public class TasksRemote {
 
     public class OpenTask{
         @AuraEnabled public Task openTask;
+        @AuraEnabled public Date reminderDate;
         @AuraEnabled public String originator;
     }
     
@@ -36,6 +37,7 @@ public class TasksRemote {
             for(Task task : openTasks){
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
+                taskWrapper.reminderDate = task.Reminder_Date__c != null ? task.Reminder_Date__c.dateGmt() : null;
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
 

@@ -33,7 +33,7 @@ public without sharing class ParticipantEnrollmentFactory {
         Participant__c participant = new Participant__c();
         participant.Contact__c = contact.Id;
         participant.Mailing_Country_Code__c = 'US';
-        participant.Mailing_Country__c = 'United States';
+        //participant.Mailing_Country__c = 'United States';
         insert participant;
         Participant_Enrollment__c pe = new Participant_Enrollment__c();
         pe.Clinical_Trial_Profile__c = ctp.Id;

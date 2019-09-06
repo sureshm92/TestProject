@@ -102,7 +102,7 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static void saveParticipant(Id trialId, Id hcpeId, String pEnrollmentJSON, String participantJSON){
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
-        participant.Language_Preference_Code__c = UserInfo.getLanguage();
+        participant.Preferred_Language__c = UserInfo.getLanguage();
         HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
         participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI;
@@ -152,7 +152,7 @@ public without sharing class ReferringRemote {
                 System.debug('STACK TRACE:' + e.getStackTraceString());
                 System.debug('MESSAGE:' + e.getMessage());
                 if(errorMsg.contains('DUPLICATE')) {
-                    errorMsg = 'This patient has already been referred to this study. A patient can only be referred to one trial at a time';
+                    errorMsg = Label.Error_Message_Participant_Duplicate;
                 }
                 System.debug('ERROR: ' + errorMsg);
                 throw new AuraHandledException(errorMsg);

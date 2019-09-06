@@ -4,19 +4,18 @@
 
 @IsTest
 private without sharing class Test_AddPatientByPIRemote {
-    
-    @IsTest
+
+    /*@IsTest
     static void testGetInitData() {
         TestData.loadTestData();
         Test.startTest();
         TestData testData = new TestData();
         System.runAs(testData.piUser){
-            AddPatientByPIRemote.getInitData(testData.ctp.Id,null);
-            AddPatientByPIRemote.getInitData(testData.ctp.Id,testData.ss.Id);
+            AddPatientByPIRemote.getInitData(testData.ss.Id);
         }
         Test.stopTest();
     }
-    
+
     @IsTest
     static void testSaveParticipant() {
         TestData.loadTestData();
@@ -47,5 +46,5 @@ private without sharing class Test_AddPatientByPIRemote {
             }
         }
         Test.stopTest();
-    }
+    }*/
 }

@@ -326,4 +326,14 @@ public without sharing class CommunityService {
         if(name != null) nameFilter = ' WHERE Name = \'' + name + '\' ';
         return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
     }
+
+    public static Boolean isNewSession(){
+        Contact userContact = getUserContact();
+        Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
+        if(isNewSession) {
+            userContact.Last_Session_Id__c = UserInfo.getSessionId();
+            update userContact;
+        }
+        return isNewSession;
+    }
 }

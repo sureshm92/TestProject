@@ -3,7 +3,7 @@
  */
 
 @IsTest
-public class TestData {
+public without sharing class TestData {
     
     public User piUser;
     public User hcpUser;
@@ -39,9 +39,10 @@ public class TestData {
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
-                        Terms_and_Conditions__c
+                        Terms_and_Conditions__c,
+                        Visit_Plan__c
                 FROM Clinical_Trial_Profile__c
-                WHERE NCT_Number__c = 'NCT00000001'
+                WHERE NCT_Number__c = 'NCT99999999'
         ];
         ss = [
                 SELECT Id, Visit_Results_Sharing__c,
@@ -52,7 +53,10 @@ public class TestData {
         pe = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Screening_ID__c
+                        Screening_ID__c,
+                        Clinical_Trial_Profile__c,
+                        Participant__c,
+                        Study_Site__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: participant.Id
         ];
@@ -69,9 +73,11 @@ public class TestData {
         pse = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Screening_ID__c
+                        Screening_ID__c,
+                        Clinical_Trial_Profile__c,
+                        CreatedDate
                 FROM Participant_Study_Enrollment__c
-                WHERE Participant__c =: participant.Id
+                WHERE Participant_Enrollment__c =: pe.Id
         ];
     }
     
@@ -144,7 +150,7 @@ public class TestData {
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'CTP1',
                 Override_Recruitment_Status__c = 'Actively Enrolling',
-                NCT_Number__c = 'NCT00000001',
+                NCT_Number__c = 'NCT99999999',
                 Link_to_Pre_screening__c = 'some link',
                 Terms_And_Conditions_ID__c = studyTC.Id,
                 Study_Title__c = 'Some Title',
@@ -170,6 +176,7 @@ public class TestData {
         insert studyTranslation;
     
         Study_Site__c studySite = new Study_Site__c(
+                Name = 'Test SS',
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,

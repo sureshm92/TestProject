@@ -140,7 +140,7 @@
                             </aura:iteration>
                         </ul>
                     </div>
-                    <lightning:buttonIcon iconName="utility:close"  size="x-small" alternativeText="Close" onclick="{!c.onClearSelection}" class="close-btn"/>
+                    <lightning:buttonIcon iconName="utility:close"  size="x-small" alternativeText="Close" onclick="{!c.onClearSelection}" class="{!'close-btn' + (empty(v.selection) ? ' slds-hide' : '')}"/>
                 </div>
             </aura:if>
 
