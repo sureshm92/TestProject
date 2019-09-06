@@ -3,22 +3,22 @@
  */
 
 ({
-    getAvailableVendors: function (component, event, helper) {
-        helper.enqueue(component, 'c.getVendors'
-            //     {
-            //     // userId: component.get('v.recordId')
-            // }
-        ).then(function (result) {
-            console.log(JSON.stringify(result));
-            component.set('v.vendors', result)
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-        })
-    },
+    makeUnique: function (component, event) {
+        let values = component.find('checkBoxBtn');
+        if (values.length > 1)
+        {
+            let value = event.getSource().get('v.value');
+            let isChecked = event.getSource().get('v.checked');
+            values.forEach(function (item) {
+                if (item.get('v.value') !== value && item.get("v.checked") === true) {
+                    item.set("v.checked", false);
+                }
+            });
+            component.set("v.selectedVendor", isChecked ? value : '');
+        } else {
+            let value = event.getSource().get('v.value');
+            let isChecked = event.getSource().get('v.checked');
+            component.set("v.selectedVendor", isChecked ? value : '');
+        }
+    }
 });

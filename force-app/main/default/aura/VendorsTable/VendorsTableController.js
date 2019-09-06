@@ -3,7 +3,7 @@
  */
 
 ({
-    doInit: function (component, event, helper) {
-        helper.getAvailableVendors(component, event, helper);
-    },
+    makeUnique: function (component, event, helper) {
+        helper.makeUnique(component, event);
+    }
 });

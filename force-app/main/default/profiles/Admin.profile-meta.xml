@@ -1375,10 +1375,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TravelSupportRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TravelVendorPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>

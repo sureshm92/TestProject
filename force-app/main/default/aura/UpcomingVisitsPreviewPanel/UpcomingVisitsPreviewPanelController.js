@@ -9,10 +9,6 @@
         });
     },
 
-    onTravel : function (component, event, helper) {
-        component.find('showVendors').show();
-    },
-
     closeModal : function (component, event, helper) {
         component.find('showVendors').hide();
     },

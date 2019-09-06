@@ -22,7 +22,9 @@
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
             {!$Label.c.Home_Page_StudyVisit_Title}
-            <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>
+            <div class="apollo-btn">
+                <c:TravelSupport/>
+            </div>
         </div>
 
         <ui:scrollerWrapper class="rr-white-panel">
@@ -70,6 +72,4 @@
             <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
         </aura:if>
     </div>
-
-    <c:TravelSupport aura:id="showVendors" hasDefault="true"/>
 </aura:component>

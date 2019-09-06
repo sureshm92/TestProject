@@ -4,28 +4,28 @@
 
 ({
     doInit: function (component, event, helper) {
-        if (component.get("v.hasDefault") === true) {
-            let message = component.get('v.message');
-            let htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
-            component.set('v.htmlMessage', htmlMessage);
-        }
+        helper.getAvailableVendors(component, event, helper);
+        helper.transformToHtmlMessage(component, event);
     },
 
     show: function (component, event, helper) {
         component.find('popup').show();
-        helper.checkOnShowMore(component, event);
+        helper.checkOnDisclaimer(component, event);
     },
 
     hide: function (component, event, helper) {
         component.find('popup').cancel();
     },
 
-    showAllVendors: function (component, event, helper) {
-        component.set("v.isShowMore", true);
-    },
-
-    doSuccess: function (component, event, helper) {
+    redirectToUrl: function (component, event, helper) {
         helper.redirectToUrl(component,event)
+    },
+    showDisclaimer: function (component, event, helper) {
+        let vendor = component.get("v.selectedVendor");
+        if (vendor.TravelVendor__r.Disclosure__c){
+            component.set('v.htmlMessage', vendor.TravelVendor__r.Disclosure__c);
+        }
+        component.set("v.isShowDisclaimer", true);
     },
 
 });
