@@ -2314,6 +2314,10 @@
         <name>PG_AS_F_Select_Preferred_Language</name>
     </customLabels>
     <customLabels>
+        <label>--Нет--</label>
+        <name>PG_AS_F_Language_Not_Selected</name>
+    </customLabels>
+    <customLabels>
         <label>Выберите предпочтительный язык</label>
         <name>PG_AS_F_Preferred_Language</name>
     </customLabels>

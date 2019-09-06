@@ -7,6 +7,7 @@ public without sharing class LanguageSwitcherRemote {
     public class InitData{
         String languageKey;
         List<LabelValueItem> languages = new List<LabelValueItem>();
+        List<LabelValueItem> optionalLanguages = new List<LabelValueItem>();
         String localeKey;
         List<LabelValueItem> locales = new List<LabelValueItem>();
         String timezoneKey;
@@ -20,8 +21,10 @@ public without sharing class LanguageSwitcherRemote {
         try{
             InitData initData = new InitData();
             List<PicklistEntry> listPLE = Translation__c.Language__c.getDescribe().getPicklistValues();
+            initData.optionalLanguages.add(new LabelValueItem(Label.PG_AS_F_Language_Not_Selected, null));
             for(PicklistEntry ple : listPLE){
                 initData.languages.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
+                initData.optionalLanguages.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
             listPLE = User.LocaleSidKey.getDescribe().getPicklistValues();
             for(PicklistEntry ple : listPLE){

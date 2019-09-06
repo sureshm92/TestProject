@@ -4584,6 +4584,13 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred language</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Language_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Language Not Selected</shortDescription>
+        <value>--None--</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Preferred_Language</fullName>
         <language>en_US</language>
         <protected>false</protected>
