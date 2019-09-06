@@ -54,26 +54,6 @@ public with sharing class ParticipantVisitsRemote {
         }
     }
 
-    @AuraEnabled
-    public static List<TravelVendorSettings__c> getVendors(String studySiteId) {
-        try {
-            TravelSupportHelper service = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-            return service.getVendors(studySiteId);
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
-
-    @AuraEnabled
-    public static String getInitData(){
-        try{
-            return JSON.serialize(ParticipantService.getInstance().getState());
-        }catch (Exception e){
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-
     public class Legend {
         public String iconId;
         public String iconLabel;

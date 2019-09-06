@@ -97,7 +97,6 @@ public without sharing class TravelSupportHelper {
     }
 
     public List<TravelVendorSettings__c> getVendors(Id studySiteId) {
-        try {
             String vendorsQuery = 'SELECT ' +
                     'Id, ' +
                     'TravelVendor__c, ' +
@@ -108,10 +107,6 @@ public without sharing class TravelSupportHelper {
                     'WHERE Study_Site__c =  \'' + studySiteId + '\' ' +
                     'AND isEnable__c = ' + true;
             return (List<TravelVendorSettings__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(vendorsQuery, false);
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-        return null;
     }
 
 }
