@@ -3307,6 +3307,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>My Study Sites</value>
     </labels>
     <labels>
+        <fullName>Navigation_Past_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Past Studies</shortDescription>
+        <value>Past Studies</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Reports</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8365,6 +8372,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Resource Tab Study Video And Articles</shortDescription>
         <value>Video and Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title Document Name</shortDescription>
+        <value>Document Name</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title Study Name</shortDescription>
+        <value>Study Name</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>

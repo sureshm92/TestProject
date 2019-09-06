@@ -9,6 +9,14 @@
         <name>IQVIA_RR_CRM</name>
     </customApplications>
     <customLabels>
+        <label><!-- ALT --></label>
+        <name>ALT</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ALT Description --></label>
+        <name>ALT_Description</name>
+    </customLabels>
+    <customLabels>
         <label><!-- AL_Body_Assigned_as_Delegate --></label>
         <name>AL_Body_Assigned_as_Delegate</name>
     </customLabels>
@@ -41,6 +49,10 @@
         <name>AL_Body_Welcome_to_PH</name>
     </customLabels>
     <customLabels>
+        <label><!-- AL Body Welcome to PH Delegate --></label>
+        <name>AL_Body_Welcome_to_PH_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label><!-- AL_Body_Welcome_to_PH_Delegates --></label>
         <name>AL_Body_Welcome_to_PH_Delegates</name>
     </customLabels>
@@ -51,6 +63,14 @@
     <customLabels>
         <label>Добро пожаловать в PH</label>
         <name>AL_Title_Welcome_To_The_PH</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AST --></label>
+        <name>AST</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AST Description --></label>
+        <name>AST_Description</name>
     </customLabels>
     <customLabels>
         <label><!-- About the Study --></label>
@@ -209,8 +229,32 @@
         <name>Admin</name>
     </customLabels>
     <customLabels>
+        <label><!-- Albumin --></label>
+        <name>Albumin</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Albumin Description --></label>
+        <name>Albumin_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Alkaline Phosphatase --></label>
+        <name>Alkaline_Phosphatase</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Alkaline Phosphatase Description --></label>
+        <name>Alkaline_Phosphatase_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Avaliable Icons --></label>
+        <name>Avaliable_Icons</name>
+    </customLabels>
+    <customLabels>
         <label>Принимаю</label>
         <name>BTN_Accept</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN_Account_Settings_Save_Updates --></label>
+        <name>BTN_Account_Settings_Save_Updates</name>
     </customLabels>
     <customLabels>
         <label>RU Activate</label>
@@ -259,6 +303,10 @@
     <customLabels>
         <label><!-- BTN Confirm --></label>
         <name>BTN_Confirm</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN Create New Task --></label>
+        <name>BTN_Create_New_Task</name>
     </customLabels>
     <customLabels>
         <label>Деактивировать</label>
@@ -379,6 +427,10 @@
     <customLabels>
         <label><!-- BTN PES --></label>
         <name>BTN_PES</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BTN PES2 --></label>
+        <name>BTN_PES2</name>
     </customLabels>
     <customLabels>
         <label>Пациент больше не заинтересован</label>
@@ -513,6 +565,22 @@
         <name>BTN_Yes_decline</name>
     </customLabels>
     <customLabels>
+        <label><!-- BUN --></label>
+        <name>BUN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BUN Description --></label>
+        <name>BUN_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Body Mass Index --></label>
+        <name>Body_Mass_Index</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Body Mass Index Description --></label>
+        <name>Body_Mass_Index_Description</name>
+    </customLabels>
+    <customLabels>
         <label>Изменить сведения</label>
         <name>Button_Edit_Details</name>
     </customLabels>
@@ -535,6 +603,14 @@
     <customLabels>
         <label>Просмотреть в роли пациента</label>
         <name>CTL_L_Patricipant_MODE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Calcium --></label>
+        <name>Calcium</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Calcium Description --></label>
+        <name>Calcium_Description</name>
     </customLabels>
     <customLabels>
         <label><!-- Can Not Edit Mapping --></label>
@@ -566,8 +642,20 @@
         <name>Cookies_Info_Text_First_Logon</name>
     </customLabels>
     <customLabels>
+        <label><!-- Create --></label>
+        <name>Create</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Created Date --></label>
         <name>Created_Date</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Creatinine --></label>
+        <name>Creatinine</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Creatinine Description --></label>
+        <name>Creatinine_Description</name>
     </customLabels>
     <customLabels>
         <label>ru Acceptance pending</label>
@@ -666,6 +754,10 @@
         <name>DLIT_L_Select_a_study_site_to_refer_to</name>
     </customLabels>
     <customLabels>
+        <label><!-- DLIT L Select new study to refer to --></label>
+        <name>DLIT_L_Select_new_study_to_refer_to</name>
+    </customLabels>
+    <customLabels>
         <label>Обновить статус принятого пациента</label>
         <name>DLIT_L_Update_status_of_an_accepted_patient</name>
     </customLabels>
@@ -726,8 +818,20 @@
         <name>Delegate</name>
     </customLabels>
     <customLabels>
+        <label><!-- Diastolic Blood Pr --></label>
+        <name>Diastolic_Blood_Pr</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Diastolic Blood Pr Description --></label>
+        <name>Diastolic_Blood_Pr_Description</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Disabled --></label>
         <name>Disabled</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Distolic Blood Pr --></label>
+        <name>Distolic_Blood_Pr</name>
     </customLabels>
     <customLabels>
         <label>О, нет, здесть ничего нет</label>
@@ -740,6 +844,10 @@
     <customLabels>
         <label>Посмотреть Мои Исследования</label>
         <name>Eamil_Action_View_My_Studies</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Edit Visit Legend --></label>
+        <name>Edit_Visit_Legend</name>
     </customLabels>
     <customLabels>
         <label><!-- Email --></label>
@@ -920,6 +1028,10 @@
         <name>Email_Body_Patient16</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Body Patient17 --></label>
+        <name>Email_Body_Patient17</name>
+    </customLabels>
+    <customLabels>
         <label>Недавно ##HCPName сделал от вашего имени направление в ##PIName для потенциального участия в клиническом исследовании: ##StudyName.
  
 С вами свяжется сайт главного исследователя ##StudySiteName, чтобы узнать о следующих шагах в процессе регистрации.
@@ -1048,6 +1160,14 @@
     <customLabels>
         <label><!-- Email Body Share Resource --></label>
         <name>Email_Body_Share_Resource</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Body Survey Final Reminder --></label>
+        <name>Email_Body_Survey_Final_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Body Survey Reminder --></label>
+        <name>Email_Body_Survey_Reminder</name>
     </customLabels>
     <customLabels>
         <label>Это быстрое письмо, напоминающее о вашем ##TaskName до ##CompleteByDate.</label>
@@ -1258,6 +1378,10 @@
         <name>Email_Signature_3</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Signature 4 --></label>
+        <name>Email_Signature_4</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email_Signature_Drop --></label>
         <name>Email_Signature_Drop</name>
     </customLabels>
@@ -1282,6 +1406,14 @@
     <customLabels>
         <label><!-- Email Signature Patient --></label>
         <name>Email_Signature_Patient</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature RH --></label>
+        <name>Email_Signature_RH</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Signature Resource --></label>
+        <name>Email_Signature_Resource</name>
     </customLabels>
     <customLabels>
         <label>Мы ценим Ваш отзыв!
@@ -1398,6 +1530,14 @@
         <name>Email_Subject_Status_Has_Changed</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email Subject Survey Final Reminder --></label>
+        <name>Email_Subject_Survey_Final_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email Subject Survey Reminder --></label>
+        <name>Email_Subject_Survey_Reminder</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Email Subject Task Reminder Type Not Selected --></label>
         <name>Email_Subject_Task_Reminder_Type_Not_Selected</name>
     </customLabels>
@@ -1442,12 +1582,28 @@
         <name>Email_User_Greeting</name>
     </customLabels>
     <customLabels>
+        <label><!-- Email User Greeting --></label>
+        <name>Email_User_Greeting_FirstName</name>
+    </customLabels>
+    <customLabels>
         <label>Это напоминание о том, что ##HCPName имеет одного или нескольких пациентов, ожидающих вашего ответа старше 5 дней.
 
 Пожалуйста, просмотрите пациентов и примите, отклоните или отложите каждого пауиента.
 
 Чтобы просмотреть пациентов, войдите в IQVIA™ Referral Hub и перейдите в “My Referrals.&quot;</label>
         <name>Email_body_PI4</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty Reminder --></label>
+        <name>Empty_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty TaskName --></label>
+        <name>Empty_TaskName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty Visits tab --></label>
+        <name>Empty_Visits_tab</name>
     </customLabels>
     <customLabels>
         <label><!-- Error Message Can Not Create Participant --></label>
@@ -1486,6 +1642,62 @@
         <name>Gender_Male</name>
     </customLabels>
     <customLabels>
+        <label><!-- Glucose --></label>
+        <name>Glucose</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Glucose Description --></label>
+        <name>Glucose_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Haematocrit --></label>
+        <name>Haematocrit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Haematocrit Description --></label>
+        <name>Haematocrit_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Haemoglobin --></label>
+        <name>Haemoglobin</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Haemoglobin Description --></label>
+        <name>Haemoglobin_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Height --></label>
+        <name>Height</name>
+    </customLabels>
+    <customLabels>
+        <label>саипсвапвап</label>
+        <name>Height_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Hematocrit --></label>
+        <name>Hematocrit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Hematocrit Description --></label>
+        <name>Hematocrit_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Hemoglobin --></label>
+        <name>Hemoglobin</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Hemoglobin Description --></label>
+        <name>Hemoglobin_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- High-density Lipoprotein --></label>
+        <name>High_density_Lipoprotein</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- High-density Lipoprotein Description --></label>
+        <name>High_density_Lipoprotein_Description</name>
+    </customLabels>
+    <customLabels>
         <label>Мои исследования</label>
         <name>Home_Page_Label</name>
     </customLabels>
@@ -1494,8 +1706,32 @@
         <name>Home_Page_StudyVisit_Btn</name>
     </customLabels>
     <customLabels>
+        <label><!-- Home Page StudyVisit Completed On --></label>
+        <name>Home_Page_StudyVisit_Completed_On</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Home Page StudyVisit No Reminder Date --></label>
+        <name>Home_Page_StudyVisit_No_Reminder_Date</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Home Page StudyVisit Reminder --></label>
+        <name>Home_Page_StudyVisit_Reminder</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Column header --></label>
         <name>Home_Page_StudyVisit_Schedule</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Home Page StudyVisit Status --></label>
+        <name>Home_Page_StudyVisit_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Home Page StudyVisit Tab Past Visits --></label>
+        <name>Home_Page_StudyVisit_Tab_Past_Visits</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Home Page StudyVisit Tab Study Visits --></label>
+        <name>Home_Page_StudyVisit_Tab_Study_Visits</name>
     </customLabels>
     <customLabels>
         <label><!-- StudyVisit_Title --></label>
@@ -1510,8 +1746,32 @@
         <name>Home_Page_StudyVisit_WhToEx</name>
     </customLabels>
     <customLabels>
+        <label><!-- Home Page StudyVisit What Took Place --></label>
+        <name>Home_Page_StudyVisit_What_Took_Place</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- IRB Padding Info --></label>
+        <name>IRB_Padding_Info</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Icons package not found --></label>
+        <name>Icons_package_not_found</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- In Progress --></label>
+        <name>In_Progress</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Incorrect data --></label>
+        <name>Incorrect_data</name>
+    </customLabels>
+    <customLabels>
         <label>Телефон исследователя</label>
         <name>Investigator_phone</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Invitation Expired --></label>
+        <name>Invitation_Expired</name>
     </customLabels>
     <customLabels>
         <label>На главную</label>
@@ -1532,6 +1792,14 @@
     <customLabels>
         <label><!-- Link Interactive Advertising Bureau --></label>
         <name>Link_Interactive_Advertising_Bureau</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Low-density Lipoprotein --></label>
+        <name>Low_density_Lipoprotein</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Low-density Lipoprotein Description --></label>
+        <name>Low_density_Lipoprotein_Description</name>
     </customLabels>
     <customLabels>
         <label><!-- MP Motivation Message 1 --></label>
@@ -1576,6 +1844,10 @@
     <customLabels>
         <label><!-- MRN Internal Id --></label>
         <name>MRN_Internal_Id</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Medical Record Review --></label>
+        <name>Medical_Record_Review</name>
     </customLabels>
     <customLabels>
         <label><!-- Associated Sites and Site Details --></label>
@@ -1636,6 +1908,10 @@
     <customLabels>
         <label>Мои учебные сайты</label>
         <name>Navigation_My_Study_Sites</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Navigation Past Studies --></label>
+        <name>Navigation_Past_Studies</name>
     </customLabels>
     <customLabels>
         <label>Отчеты</label>
@@ -1746,6 +2022,26 @@
         <name>OT_DRP_S7_T</name>
     </customLabels>
     <customLabels>
+        <label><!-- OT DRP S8 H --></label>
+        <name>OT_DRP_S8_H</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT DRP S8 T --></label>
+        <name>OT_DRP_S8_T</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT DRP S9 H --></label>
+        <name>OT_DRP_S9_H</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT DRP S9 T --></label>
+        <name>OT_DRP_S9_T</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT H Account Settings --></label>
+        <name>OT_H_Account_Settings</name>
+    </customLabels>
+    <customLabels>
         <label>Панель</label>
         <name>OT_H_Dashboard</name>
     </customLabels>
@@ -1754,12 +2050,20 @@
         <name>OT_H_Help</name>
     </customLabels>
     <customLabels>
+        <label><!-- OT H Home --></label>
+        <name>OT_H_Home</name>
+    </customLabels>
+    <customLabels>
         <label>Медицинская запись</label>
         <name>OT_H_MRR_Log</name>
     </customLabels>
     <customLabels>
         <label>Мои пациенты</label>
         <name>OT_H_My_Patients</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT H My Referring Clinics --></label>
+        <name>OT_H_My_Referring_Clinics</name>
     </customLabels>
     <customLabels>
         <label>Мои исследования</label>
@@ -1772,6 +2076,10 @@
     <customLabels>
         <label>Навигация</label>
         <name>OT_H_Navigation_Bar</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT H Profile --></label>
+        <name>OT_H_Profile</name>
     </customLabels>
     <customLabels>
         <label>Доклады</label>
@@ -1838,6 +2146,14 @@
         <name>OT_Participant_S3_T</name>
     </customLabels>
     <customLabels>
+        <label><!-- OT Participant S4 H --></label>
+        <name>OT_Participant_S4_H</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT Participant S70 Text --></label>
+        <name>OT_Participant_S70_Text</name>
+    </customLabels>
+    <customLabels>
         <label>Сменить роль</label>
         <name>OT_RP_S1_H</name>
     </customLabels>
@@ -1868,6 +2184,14 @@
     <customLabels>
         <label>Посмотреть статус пациентов. Направить пациентов прямо со страницы.</label>
         <name>OT_RP_S4_T</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT RP S5 H --></label>
+        <name>OT_RP_S5_H</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OT RP S5 T --></label>
+        <name>OT_RP_S5_T</name>
     </customLabels>
     <customLabels>
         <label><!-- One day before --></label>
@@ -1984,6 +2308,10 @@
     <customLabels>
         <label><!-- PE Site SiteZIPCode --></label>
         <name>PE_Site_SiteZIPCode</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PE Source --></label>
+        <name>PE_Source</name>
     </customLabels>
     <customLabels>
         <label>Штат</label>
@@ -2142,6 +2470,10 @@
         <name>PG_AL_Bottom_Signature_Link</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AP F Patient Status --></label>
+        <name>PG_AP_F_Patient_Status</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG AP F Phone Type --></label>
         <name>PG_AP_F_Phone_Type</name>
     </customLabels>
@@ -2170,12 +2502,20 @@
         <name>PG_AP_Success_Message</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AP T Additional Info --></label>
+        <name>PG_AP_T_Additional_Info</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG AP T Indicate Add Fields --></label>
         <name>PG_AP_T_Indicate_Add_Fields</name>
     </customLabels>
     <customLabels>
         <label><!-- PG AP T Indicate Req Fields --></label>
         <name>PG_AP_T_Indicate_Req_Fields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AP T Sub Info --></label>
+        <name>PG_AP_T_Sub_Info</name>
     </customLabels>
     <customLabels>
         <label>&quot;Ожидайте подтверждения не больше 5 ней&quot;</label>
@@ -2224,6 +2564,22 @@
     <customLabels>
         <label>Обновить Мой Пароль</label>
         <name>PG_AS_BTN_Update_My_Password</name>
+    </customLabels>
+    <customLabels>
+        <label>Второй альтернативный язык</label>
+        <name>PG_AS_F_2nd_Choice_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Этот язык будет использован в тех случаях, когда информация на основном языке будет недоступна.</label>
+        <name>PG_AS_F_2nd_Choice_Language_Help_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Третий альтернативный язык</label>
+        <name>PG_AS_F_3rd_Choice_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Этот язык будет использован тогда, когда информация на первых двух выбранных языках будет недоступна.</label>
+        <name>PG_AS_F_3rd_Choice_Language_Help_Text</name>
     </customLabels>
     <customLabels>
         <label><!-- PG AS F Date of Birth --></label>
@@ -2282,6 +2638,10 @@
         <name>PG_AS_F_Last_name</name>
     </customLabels>
     <customLabels>
+        <label>Локаль даты/времени</label>
+        <name>PG_AS_F_Locale_For_Date_Format</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG AS F Middle name --></label>
         <name>PG_AS_F_Middle_name</name>
     </customLabels>
@@ -2302,6 +2662,18 @@
         <name>PG_AS_F_Placeholder_Enter_text</name>
     </customLabels>
     <customLabels>
+        <label>Выберите предпочтительный язык</label>
+        <name>PG_AS_F_Preferred_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Этот язык будет основным языком для отображения информации по исследованиям всюду, где возможно.</label>
+        <name>PG_AS_F_Preferred_Language_Help_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Часовой пояс</label>
+        <name>PG_AS_F_Preferred_Timezone</name>
+    </customLabels>
+    <customLabels>
         <label>Повторите ввод нового пароля</label>
         <name>PG_AS_F_Re_enter_new_password</name>
     </customLabels>
@@ -2314,36 +2686,8 @@
         <name>PG_AS_F_Select_Preferred_Language</name>
     </customLabels>
     <customLabels>
-        <label>Выберите предпочтительный язык</label>
-        <name>PG_AS_F_Preferred_Language</name>
-    </customLabels>
-    <customLabels>
-        <label>Второй альтернативный язык</label>
-        <name>PG_AS_F_2nd_Choice_Language</name>
-    </customLabels>
-    <customLabels>
-        <label>Третий альтернативный язык</label>
-        <name>PG_AS_F_3rd_Choice_Language</name>
-    </customLabels>
-    <customLabels>
-        <label>Этот язык будет основным языком для отображения информации по исследованиям всюду, где возможно.</label>
-        <name>PG_AS_F_Preferred_Language_Help_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Этот язык будет использован в тех случаях, когда информация на основном языке будет недоступна.</label>
-        <name>PG_AS_F_2nd_Choice_Language_Help_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Этот язык будет использован тогда, когда информация на первых двух выбранных языках будет недоступна.</label>
-        <name>PG_AS_F_3rd_Choice_Language_Help_Text</name>
-    </customLabels>
-    <customLabels>
-        <label>Часовой пояс</label>
-        <name>PG_AS_F_Preferred_Timezone</name>
-    </customLabels>
-    <customLabels>
-        <label>Локаль даты/времени</label>
-        <name>PG_AS_F_Locale_For_Date_Format</name>
+        <label><!-- PG_AS_F_Select_Preferred_Timezone --></label>
+        <name>PG_AS_F_Select_Preferred_Timezone</name>
     </customLabels>
     <customLabels>
         <label>Имя пользователя</label>
@@ -2362,6 +2706,10 @@
         <name>PG_AS_H_Contact_Information</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AS H Display Vitals and Lab Data --></label>
+        <name>PG_AS_H_Display_Vitals_and_Lab_Data</name>
+    </customLabels>
+    <customLabels>
         <label>Электронная почта</label>
         <name>PG_AS_H_Email</name>
     </customLabels>
@@ -2372,6 +2720,10 @@
     <customLabels>
         <label>Конфиденциальность</label>
         <name>PG_AS_H_Privacy_Rights</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AS L Conditions of Interest --></label>
+        <name>PG_AS_L_Conditions_of_Interest</name>
     </customLabels>
     <customLabels>
         <label><!-- PG AS L Opt In HCP Patient Status Emails --></label>
@@ -2390,6 +2742,14 @@
         <name>PG_AS_L_Opt_In_Participant_Status_Emails</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG AS L Opt In Visit Results --></label>
+        <name>PG_AS_L_Opt_In_Visit_Results</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AS L Select conditions --></label>
+        <name>PG_AS_L_Select_Conditions</name>
+    </customLabels>
+    <customLabels>
         <label>Просмотрите свои контактные данные. Если какая-либо информация неверна, пожалуйста</label>
         <name>PG_AS_T1_Contact_Info</name>
     </customLabels>
@@ -2400,6 +2760,10 @@
     <customLabels>
         <label>для обновления вашей информации</label>
         <name>PG_AS_T3_Contact_Info</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG AS T Display Vitals and Lab Data --></label>
+        <name>PG_AS_T_Display_Vitals_and_Lab_Data</name>
     </customLabels>
     <customLabels>
         <label><!-- PG AS T Email Preferences --></label>
@@ -2428,6 +2792,14 @@
     <customLabels>
         <label><!-- PG BLS Header --></label>
         <name>PG_BLS_Header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG CP L No conditions selected --></label>
+        <name>PG_COI_L_No_conditions_selected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG CP L Select Conditions --></label>
+        <name>PG_COI_L_Select_Conditions</name>
     </customLabels>
     <customLabels>
         <label>Адрес</label>
@@ -2584,6 +2956,14 @@
     <customLabels>
         <label>прислан от</label>
         <name>PG_DRL_L_referred_from</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG_EPP_Header --></label>
+        <name>PG_EPP_Header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG_EP_Success_Message --></label>
+        <name>PG_EP_Success_Message</name>
     </customLabels>
     <customLabels>
         <label>Мы отправили ссылку для сброса пароля на вашу электронную почту</label>
@@ -2806,6 +3186,26 @@
         <name>PG_IM_L_Study_Site_Status_Details</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG L In Progress --></label>
+        <name>PG_L_In_Progress</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG L Name --></label>
+        <name>PG_L_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG L Open Task List --></label>
+        <name>PG_L_Open_Task_List</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG L Resources --></label>
+        <name>PG_L_Resources</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG L See All --></label>
+        <name>PG_L_See_All</name>
+    </customLabels>
+    <customLabels>
         <label>Сохранить И Продолжить</label>
         <name>PG_Login_BTN_Save_And_Continue</name>
     </customLabels>
@@ -2826,20 +3226,20 @@
         <name>PG_Login_H_Contact_Information</name>
     </customLabels>
     <customLabels>
-        <label>Выбор языка</label>
-        <name>PG_Login_H_Language_Options</name>
-    </customLabels>
-    <customLabels>
-        <label>Где возможно, информация на сайте будет отображаться на вашем предпочтительном языке. В случаях, когда она недоступна на вашем языке, будут использованы альтернативные языки.</label>
-        <name>PG_Login_H_Language_Description</name>
-    </customLabels>
-    <customLabels>
         <label>Формат даты</label>
         <name>PG_Login_H_Date_Format</name>
     </customLabels>
     <customLabels>
         <label>Формат дат и язык</label>
         <name>PG_Login_H_Date_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Где возможно, информация на сайте будет отображаться на вашем предпочтительном языке. В случаях, когда она недоступна на вашем языке, будут использованы альтернативные языки.</label>
+        <name>PG_Login_H_Language_Description</name>
+    </customLabels>
+    <customLabels>
+        <label>Выбор языка</label>
+        <name>PG_Login_H_Language_Options</name>
     </customLabels>
     <customLabels>
         <label>Информация о входе</label>
@@ -2862,8 +3262,16 @@
         <name>PG_Login_L_Not_a_member</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG Login L here link --></label>
+        <name>PG_Login_L_here_link</name>
+    </customLabels>
+    <customLabels>
         <label>Забыли свой пароль?</label>
         <name>PG_Login_Link_Forgot</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG Login Lockout Error Message --></label>
+        <name>PG_Login_Lockout_Error_Message</name>
     </customLabels>
     <customLabels>
         <label>Место для общения медицинских работников, пациентов и клинических исследователей.</label>
@@ -2892,6 +3300,10 @@
     <customLabels>
         <label>Логин</label>
         <name>PG_Login_Title</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG Login Wrong Password Error Message --></label>
+        <name>PG_Login_Wrong_Password_Error_Message</name>
     </customLabels>
     <customLabels>
         <label>Рекомендован</label>
@@ -3262,12 +3674,28 @@
         <name>PG_MS_L_Global_Search_for_Study</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG MS L Nearest site: --></label>
+        <name>PG_MS_L_Nearest_site</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG MS L Search for More Studies --></label>
         <name>PG_MS_L_Search_for_More_Studies</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG MS L Search for Studies --></label>
+        <name>PG_MS_L_Search_for_Studies</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG MS L Search for Study --></label>
         <name>PG_MS_L_Search_for_Study</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG MS L studies --></label>
+        <name>PG_MS_L_Studies_low</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG MS L studies --></label>
+        <name>PG_MS_L_Studies_up</name>
     </customLabels>
     <customLabels>
         <label>Сохранить изменения</label>
@@ -3726,6 +4154,18 @@
         <name>PG_Report_L_records</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG SCOI L Search for Condition --></label>
+        <name>PG_SCOI_L_Search_for_Condition</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SCOI L Select Your Conditions of Interest --></label>
+        <name>PG_SCOI_L_Select_Your_Conditions_of_Interest</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SCOI L You may only select --></label>
+        <name>PG_SCOI_L_You_may_only_select</name>
+    </customLabels>
+    <customLabels>
         <label>Для этого исследования требуется принять</label>
         <name>PG_SDAS_L1_TC_Required</name>
     </customLabels>
@@ -3889,6 +4329,14 @@
         <name>PG_SPE_T_Other</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG SP L My Referring Providers --></label>
+        <name>PG_SP_L_My_Referring_Providers</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG SRN L Select Your Referral Networks --></label>
+        <name>PG_SRN_L_Select_Your_Referral_Networks</name>
+    </customLabels>
+    <customLabels>
         <label>Клиники</label>
         <name>PG_SRP_L_Referring_Providers</name>
     </customLabels>
@@ -3919,6 +4367,10 @@
     <customLabels>
         <label>Исследовательский продукт</label>
         <name>PG_SW_F_Investigational_product</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG_SW_F_Official_Title --></label>
+        <name>PG_SW_F_Official_Title</name>
     </customLabels>
     <customLabels>
         <label>Фаза</label>
@@ -4049,6 +4501,10 @@
         <name>PG_Task_Tab_No_Tasks</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG Task Tab No Tasks Delegate --></label>
+        <name>PG_Task_Tab_No_Tasks_Delegate</name>
+    </customLabels>
+    <customLabels>
         <label>Статус принятия</label>
         <name>PG_VP_L_Acceptance_status</name>
     </customLabels>
@@ -4061,12 +4517,24 @@
         <name>PG_VP_L_No_Items</name>
     </customLabels>
     <customLabels>
+        <label><!-- PG VP L No Items display --></label>
+        <name>PG_VP_L_No_Items_display</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PG VP L Referral status --></label>
         <name>PG_VP_L_Referral_status</name>
     </customLabels>
     <customLabels>
         <label>Статусы</label>
         <name>PG_VP_L_Referring_statuses</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG VP L Studies --></label>
+        <name>PG_VP_L_Studies</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PG VP L Study site --></label>
+        <name>PG_VP_L_Study_site</name>
     </customLabels>
     <customLabels>
         <label>Стади сайты</label>
@@ -4085,6 +4553,22 @@
         <name>PP_HLP_T2_Feedback</name>
     </customLabels>
     <customLabels>
+        <label><!-- PP IRB Button Review --></label>
+        <name>PP_IRB_Button_Review</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PP IRB LangList --></label>
+        <name>PP_IRB_LangList</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PP IRB Popup Title --></label>
+        <name>PP_IRB_Popup_Title</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PP IRB SS Empty AppLAng --></label>
+        <name>PP_IRB_SS_Empty_AppLAng</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PP L Account Setting Preferred Lng --></label>
         <name>PP_L_Account_Setting_Preferred_Lng</name>
     </customLabels>
@@ -4093,8 +4577,24 @@
         <name>Patient</name>
     </customLabels>
     <customLabels>
+        <label><!-- Platelet Count --></label>
+        <name>Platelet_Count</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Platelet Count Description --></label>
+        <name>Platelet_Count_Description</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Poput_ICF --></label>
         <name>Poput_ICF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Potassium --></label>
+        <name>Potassium</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Potassium Description --></label>
+        <name>Potassium_Description</name>
     </customLabels>
     <customLabels>
         <label>Настройки Профиля</label>
@@ -4105,8 +4605,52 @@
         <name>Profile_Menu_Log_Out</name>
     </customLabels>
     <customLabels>
+        <label><!-- RBC Count --></label>
+        <name>RBC_Count</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RBC Count Description --></label>
+        <name>RBC_Count_Description</name>
+    </customLabels>
+    <customLabels>
         <label><!-- RH Window Title --></label>
         <name>RH_Window_Title</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP BTN Save Changes --></label>
+        <name>RP_BTN_Save_Changes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP Contact --></label>
+        <name>RP_Contact</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP DOB --></label>
+        <name>RP_DOB</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP Edit Patient Information --></label>
+        <name>RP_Edit_Patient_Information</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP Edit Referral Details --></label>
+        <name>RP_Edit_Referral_Details</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP MRN/Internal ID --></label>
+        <name>RP_MRN_Internal_ID</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP Missing Fields --></label>
+        <name>RP_Missing_Fields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP Personal Information --></label>
+        <name>RP_Personal_Information</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RP Screening Subject ID --></label>
+        <name>RP_Screening_Subject_ID</name>
     </customLabels>
     <customLabels>
         <label>Требуется принять правила пользования</label>
@@ -4153,12 +4697,88 @@
         <name>ReferralNetwork_SelectReferralNetwork</name>
     </customLabels>
     <customLabels>
+        <label><!-- Referring --></label>
+        <name>Referring</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reminder_3rd_Party_No_TA --></label>
+        <name>Reminder_3rd_Party_No_TA</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Reminder Date --></label>
         <name>Reminder_Date</name>
     </customLabels>
     <customLabels>
         <label><!-- Reminder Frequency --></label>
         <name>Reminder_Frequency</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reminder_PlatformTA_No_TA --></label>
+        <name>Reminder_PlatformTA_No_TA</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reminder_Study_Document_No_Study --></label>
+        <name>Reminder_Study_Document_No_Study</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reminder_Study_Document_Type_Document_No_File --></label>
+        <name>Reminder_Study_Document_Type_Document_No_File</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reminder Study Specific And PlatformTA No Image --></label>
+        <name>Reminder_Study_Specific_And_PlatformTA_No_Image</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reminder_Study_Specific_No_Study --></label>
+        <name>Reminder_Study_Specific_No_Study</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Dates --></label>
+        <name>Report_Dates</name>
+    </customLabels>
+    <customLabels>
+        <label>Шота там</label>
+        <name>Report_Document_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Enrollment Date --></label>
+        <name>Report_Enrollment_Date</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Expected Range --></label>
+        <name>Report_Expected_Range</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Fasting Lipid Profile header --></label>
+        <name>Report_Fasting_Lipid_Profile_header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Haematology header --></label>
+        <name>Report_Haematology_header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Hematology header --></label>
+        <name>Report_Hematology_header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Metabolic Panel header --></label>
+        <name>Report_Metabolic_Panel_header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report My Study Data --></label>
+        <name>Report_My_Study_Data</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Study Site --></label>
+        <name>Report_Study_Site</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Visits Result Text Footer --></label>
+        <name>Report_Visits_Result_Text_Footer</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Report Vitals header --></label>
+        <name>Report_Vitals_header</name>
     </customLabels>
     <customLabels>
         <label><!-- Share resource via email --></label>
@@ -4179,6 +4799,22 @@
     <customLabels>
         <label><!-- Resources_Article --></label>
         <name>Resources_Article</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Card Title Articles --></label>
+        <name>Resources_Card_Title_Articles</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Card Title Articles Favorites --></label>
+        <name>Resources_Card_Title_Articles_Favorites</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Card Title Videos --></label>
+        <name>Resources_Card_Title_Videos</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Card Title Videos Favorites --></label>
+        <name>Resources_Card_Title_Videos_Favorites</name>
     </customLabels>
     <customLabels>
         <label><!-- Resources Content Has Been Updated --></label>
@@ -4207,6 +4843,10 @@
     <customLabels>
         <label><!-- Resources Image Unavailable --></label>
         <name>Resources_Image_Unavailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Resources Incompatible Image Or Resource Type --></label>
+        <name>Resources_Incompatible_Image_Or_Resource_Type</name>
     </customLabels>
     <customLabels>
         <label><!-- Resources More Articles --></label>
@@ -4277,6 +4917,14 @@
         <name>Resources_social</name>
     </customLabels>
     <customLabels>
+        <label><!-- Respiratory Rate --></label>
+        <name>Respiratory_Rate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Respiratory Rate Description --></label>
+        <name>Respiratory_Rate_Description</name>
+    </customLabels>
+    <customLabels>
         <label>RU ACCEPTED AND ACTIVE</label>
         <name>SGT_Accepted_and_active</name>
     </customLabels>
@@ -4307,6 +4955,162 @@
     <customLabels>
         <label>В ожидании Вас</label>
         <name>SGT_Pending_Your_Action</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Add A Member --></label>
+        <name>SS_Add_A_Member</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Address --></label>
+        <name>SS_Address</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Address Found --></label>
+        <name>SS_Address_Found</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Address Is Checking --></label>
+        <name>SS_Address_Is_Checking</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Address Not Found --></label>
+        <name>SS_Address_Not_Found</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Btn Check Address --></label>
+        <name>SS_Btn_Check_Address</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Btn Edit --></label>
+        <name>SS_Btn_Edit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Btn Manage Referrals --></label>
+        <name>SS_Btn_Manage_Referrals</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Btn Manage Referring Providers --></label>
+        <name>SS_Btn_Manage_Referring_Providers</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Btn Save --></label>
+        <name>SS_Btn_Save</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Choose Country --></label>
+        <name>SS_Choose_Country</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS City --></label>
+        <name>SS_City</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Country --></label>
+        <name>SS_Country</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Driving Instructions --></label>
+        <name>SS_Driving_Instructions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Email --></label>
+        <name>SS_Email</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Fill Address --></label>
+        <name>SS_Fill_Address</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Fill City --></label>
+        <name>SS_Fill_City</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Fill Location Name --></label>
+        <name>SS_Fill_Location_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Location --></label>
+        <name>SS_Location</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Location Name --></label>
+        <name>SS_Location_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Manage Location Details --></label>
+        <name>SS_Manage_Location_Details</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS My Locations --></label>
+        <name>SS_My_Locations</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS New Location --></label>
+        <name>SS_New_Location</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS No Changes Message --></label>
+        <name>SS_No_Changes_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Parking Instructions --></label>
+        <name>SS_Parking_Instructions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Phone --></label>
+        <name>SS_Phone</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Postal Code --></label>
+        <name>SS_Postal_Code</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Press To Check --></label>
+        <name>SS_Press_To_Check</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Primary Contact --></label>
+        <name>SS_Primary_Contact</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Save Changes --></label>
+        <name>SS_Save_Changes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Save New Account --></label>
+        <name>SS_Save_New_Account</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Site --></label>
+        <name>SS_Site</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS State --></label>
+        <name>SS_State</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Street Address --></label>
+        <name>SS_Street_Address</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Study Site Name --></label>
+        <name>SS_Study_Site_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Success Save Message --></label>
+        <name>SS_Success_Save_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS Use This Address --></label>
+        <name>SS_Use_This_Address</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS View Sites --></label>
+        <name>SS_View_Sites</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SS invalidEmail --></label>
+        <name>SS_invalidEmail</name>
     </customLabels>
     <customLabels>
         <label>Заплолено анкет</label>
@@ -4361,8 +5165,24 @@
         <name>STP_Pre_Eligibility_Screenings_Completions</name>
     </customLabels>
     <customLabels>
+        <label><!-- Search For Sites --></label>
+        <name>Search_For_Sites</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Selected Icons --></label>
+        <name>Selected_Icons</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Set Reminder --></label>
         <name>Set_Reminder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sodium --></label>
+        <name>Sodium</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sodium Description --></label>
+        <name>Sodium_Description</name>
     </customLabels>
     <customLabels>
         <label><!-- Studies_FindSitesForStudy --></label>
@@ -4385,6 +5205,14 @@
         <name>Studies_SearchPlaceholder</name>
     </customLabels>
     <customLabels>
+        <label><!-- StudyVisit Ad hoc Visit --></label>
+        <name>StudyVisit_Ad_hoc_Visit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StudyVisit Information Not Available --></label>
+        <name>StudyVisit_Information_Not_Available</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Legend description --></label>
         <name>StudyVisit_Legend_Blood</name>
     </customLabels>
@@ -4394,11 +5222,23 @@
     </customLabels>
     <customLabels>
         <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_Chest_X_Rays</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
         <name>StudyVisit_Legend_ECG</name>
     </customLabels>
     <customLabels>
         <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_Fasting</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
         <name>StudyVisit_Legend_Follow_Up_Period</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_Hands_And_Feet_X_Rays</name>
     </customLabels>
     <customLabels>
         <label><!-- Legend description --></label>
@@ -4415,6 +5255,10 @@
     <customLabels>
         <label><!-- Legend description --></label>
         <name>StudyVisit_Legend_No_Food_Or_Drink</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_No_Study_Visit</name>
     </customLabels>
     <customLabels>
         <label><!-- Legend description --></label>
@@ -4438,7 +5282,19 @@
     </customLabels>
     <customLabels>
         <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_Study_Medication_Capsules</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_Study_Medication_Injection</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
         <name>StudyVisit_Legend_Treatment_Period</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Legend description --></label>
+        <name>StudyVisit_Legend_Urine_Tests</name>
     </customLabels>
     <customLabels>
         <label><!-- Legend description --></label>
@@ -4451,6 +5307,30 @@
     <customLabels>
         <label><!-- Popup text --></label>
         <name>StudyVisit_Popup_Text</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StudyVisit Unscheduled Visit --></label>
+        <name>StudyVisit_Unscheduled_Visit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StudyVisit Variable --></label>
+        <name>StudyVisit_Variable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success --></label>
+        <name>Success</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- The record has been created successfully. --></label>
+        <name>Success_Creation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Systolic Blood Pr --></label>
+        <name>Systolic_Blood_Pr</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Systolic Blood Pr Description --></label>
+        <name>Systolic_Blood_Pr_Description</name>
     </customLabels>
     <customLabels>
         <label>Уточните вопрос.</label>
@@ -4483,6 +5363,10 @@
     <customLabels>
         <label>Неверные адрес электронной почты!</label>
         <name>TST_Invalid_email_address</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TST Permissions should be the same for study! --></label>
+        <name>TST_Permissions_should_be_the_same_for_study</name>
     </customLabels>
     <customLabels>
         <label><!-- TST Request to invite a referring provider --></label>
@@ -4645,8 +5529,36 @@
         <name>Task_Tab_Table_Col_Priority</name>
     </customLabels>
     <customLabels>
+        <label><!-- Task Tab Table Status Expired --></label>
+        <name>Task_Tab_Table_Status_Expired</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Task Tab Table Status Ignored --></label>
+        <name>Task_Tab_Table_Status_Ignored</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Task Tab Table Status In Progress --></label>
+        <name>Task_Tab_Table_Status_In_Progress</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Task Type --></label>
         <name>Task_Type</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Task Type Medication --></label>
+        <name>Task_Type_Medication</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Task Type Not Selected --></label>
+        <name>Task_Type_Not_Selected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Task Type Visit --></label>
+        <name>Task_Type_Visit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Test Label --></label>
+        <name>Test_Label</name>
     </customLabels>
     <customLabels>
         <label>для вот этого: ##param1, испльзуйте вот это: ##zzz</label>
@@ -4655,6 +5567,50 @@
     <customLabels>
         <label><!-- Changes made successfully --></label>
         <name>Toast_Changes_Successfully</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Toast Contact Inf Not Updated --></label>
+        <name>Toast_Contact_Inf_Not_Updated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Toast ICF --></label>
+        <name>Toast_ICF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Total Cholesterol --></label>
+        <name>Total_Cholesterol</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Total Cholesterol Description --></label>
+        <name>Total_Cholesterol_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Total protein --></label>
+        <name>Total_protein</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Total protein Description --></label>
+        <name>Total_protein_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Travel Support Link --></label>
+        <name>Travel_Support_Link</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Triglycerides --></label>
+        <name>Triglycerides</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Triglycerides Description --></label>
+        <name>Triglycerides_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Triglycerides --></label>
+        <name>Trygilicerides</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Triglycerides Description --></label>
+        <name>Trygilicerides_Description</name>
     </customLabels>
     <customLabels>
         <label><!-- UOM Kilometers --></label>
@@ -4677,16 +5633,292 @@
         <name>Update_Participant</name>
     </customLabels>
     <customLabels>
+        <label><!-- Visit Icons --></label>
+        <name>Visit_Icons</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- visit configuration --></label>
+        <name>Visit_Number</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Order --></label>
+        <name>Visit_Order</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Patient Portal Name --></label>
+        <name>Visit_Patient_Portal_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Result Report No Data --></label>
+        <name>Visit_Result_Report_No_Data</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Dashboard My Results --></label>
+        <name>Visit_Results_Dashboard_My_Results</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab Disclaimer --></label>
+        <name>Visit_Results_Tab_Disclaimer</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab Expected Range --></label>
+        <name>Visit_Results_Tab_Expected_Range</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit_Results_Tab_If_Is_Empty_Body --></label>
+        <name>Visit_Results_Tab_If_Is_Empty_Body</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit_Results_Tab_If_Is_Not_Opt_In_1 --></label>
+        <name>Visit_Results_Tab_If_Is_Not_Opt_In</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit_Results_Tab_If_Is_Not_Opt_In_2 --></label>
+        <name>Visit_Results_Tab_If_Is_Not_Opt_In_2</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab Labs --></label>
+        <name>Visit_Results_Tab_Labs</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit_Results_Tab_Linked_Text --></label>
+        <name>Visit_Results_Tab_Linked_Text</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit_Results_Tab_Modal_Body --></label>
+        <name>Visit_Results_Tab_Modal_Body</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit_Results_Tab_Modal_Title --></label>
+        <name>Visit_Results_Tab_Modal_Title</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab No Results --></label>
+        <name>Visit_Results_Tab_No_Results</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab Panel Disclaimer --></label>
+        <name>Visit_Results_Tab_Panel_Disclaimer</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab Result Date --></label>
+        <name>Visit_Results_Tab_Result_Date</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Results Tab Vitals --></label>
+        <name>Visit_Results_Tab_Vitals</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit Schedule --></label>
+        <name>Visit_Schedule</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit b Add Visit --></label>
+        <name>Visit_b_Add_Visit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit b Close --></label>
+        <name>Visit_b_Close</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit b Create Visit Plan --></label>
+        <name>Visit_b_Create_Visit_Plan</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Visit b Save --></label>
+        <name>Visit_b_Save</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- WBC Count --></label>
+        <name>WBC_Count</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- WBC Count Description --></label>
+        <name>WBC_Count_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Weight --></label>
+        <name>Weight</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Weight Description --></label>
+        <name>Weight_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- empty visits --></label>
+        <name>empty_visits</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- successType --></label>
+        <name>successType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- deleted successfully. --></label>
+        <name>success_deleteon</name>
+    </customLabels>
+    <customLabels>
         <label><!-- update resource content --></label>
         <name>update_resource_content</name>
     </customLabels>
+    <customLabels>
+        <label><!-- configuation table --></label>
+        <name>visit_Name</name>
+    </customLabels>
+    <customTabs>
+        <label><!-- Admin Panel --></label>
+        <name>Admin_Panel</name>
+    </customTabs>
     <customTabs>
         <label><!-- Manual Tasks Creation --></label>
         <name>Manual_Tasks_Creation</name>
     </customTabs>
     <customTabs>
-        <label><!-- Study Export/Import --></label>
+        <label><!-- Translation Export/Import --></label>
         <name>Translation_Import_Export</name>
     </customTabs>
-
+    <flowDefinitions>
+        <flows>
+            <fullName>Survey_Response_Change_Handler-1</fullName>
+        </flows>
+        <fullName>Survey_Response_Change_Handler</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Patient_Welcome_to_the_Study_Email-1</fullName>
+        </flows>
+        <fullName>Patient_Welcome_to_the_Study_Email</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Email_to_PI_New_Patient_Referral-1</fullName>
+        </flows>
+        <fullName>Email_to_PI_New_Patient_Referral</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Email_to_PI_HCP_Site_Request-1</fullName>
+        </flows>
+        <fullName>Email_to_PI_HCP_Site_Request</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_Site_RRR_Status-1</fullName>
+        </flows>
+        <fullName>Update_Site_RRR_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Update_HCP_Status-1</fullName>
+        </flows>
+        <fullName>Update_HCP_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>PSE_Creation-1</fullName>
+        </flows>
+        <fullName>PSE_Creation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Fill_Unique_Id_for_Terms_And_Conditions-1</fullName>
+        </flows>
+        <fullName>Fill_Unique_Id_for_Terms_And_Conditions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <fullName>Email_to_PI_Participant_Accepted_Needs_Contact-1</fullName>
+        </flows>
+        <fullName>Email_to_PI_Participant_Accepted_Needs_Contact</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <label><!-- Follow Up --></label>
+        <name>Follow_Up</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote --></label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewTask --></label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
+    <reportTypes>
+        <description><!-- Resources with or without TA Assignments --></description>
+        <label><!-- Resources with or without TA Assignments --></label>
+        <name>Resources_with_or_without_TA_Assignments</name>
+        <sections>
+            <label><!-- Resources --></label>
+            <name>Resources</name>
+        </sections>
+        <sections>
+            <label><!-- Therapeutic Area Assignments --></label>
+            <name>Therapeutic Area Assignments</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Survey Responses Report --></description>
+        <label><!-- Survey Responses Report --></label>
+        <name>Survey_Responses_Report</name>
+        <sections>
+            <label><!-- Participant Enrollments --></label>
+            <name>Participant Enrollments</name>
+        </sections>
+        <sections>
+            <label><!-- Survey Invitations --></label>
+            <name>Survey Invitations</name>
+        </sections>
+        <sections>
+            <label><!-- Survey Question Responses --></label>
+            <name>Survey Question Responses</name>
+        </sections>
+        <sections>
+            <label><!-- Survey Responses --></label>
+            <name>Survey Responses</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- TA / COI w/o Child --></description>
+        <label><!-- TA / COI w/o Child --></label>
+        <name>TA_COI_w_o</name>
+        <sections>
+            <label><!-- TA / COI --></label>
+            <name>TA / COI</name>
+        </sections>
+    </reportTypes>
 </Translations>
