@@ -376,7 +376,7 @@
                                                             <div class="input-fields-labels">{!$Label.c.SS_Postal_Code}</div>
                                                             <div class="rr-form-element">
                                                                 <lightning:input aura:id="locationPostalCode"
-                                                                                 class = "postal-code-input"
+                                                                                 class="postal-code-input"
                                                                                  value="{!v.editedAccount.BillingPostalCode}"
                                                                                  onblur="{!c.trimChanges}"
                                                                                  onchange="{!c.recordWasUpdated}"/>
@@ -511,9 +511,8 @@
                                 <div id="ssInformation">
                                     <div id="contactInformation"
                                          class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details" data-index="{!siteWrappIndx}">
-                                            <!--<div class="input-fields-labels"
-                                                 style="display: inline-block">{!$Label.c.SS_Study_Site_Name}</div>-->
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
                                             <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="locationName"
                                                                  class="ss-lightning-input"
@@ -522,9 +521,6 @@
                                                                  required="true"
                                                                  onblur="{!c.trimChanges}"
                                                                  onchange="{!c.changeUpdatedStatus}"/>
-                                                <!--<lightning:input aura:id="emailInput"
-                                                                 value="{!siteWrapper.studySite.Name}"
-                                                                 onchange="{!c.changeUpdatedStatus}"/>-->
                                             </div>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type">
@@ -543,7 +539,8 @@
                                                             useSentenceFont="false"/>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels"
                                                  style="display: inline-block;">{!$Label.c.SS_Phone}</div>
                                             <div class="rr-form-element" data-index="{!siteWrappIndx}">
@@ -552,7 +549,8 @@
                                                                  onchange="{!c.changeUpdatedStatus}"/>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
                                             <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="emailInput"
@@ -735,13 +733,8 @@
                                         </div>
                                         <div class="site-address slds-m-top--xx-small">
                                             {!(if(!empty(siteWrapper.site.Site__r.BillingCity),siteWrapper.site.Site__r.BillingCity+',','') + if(!empty(siteWrapper.site.Site__r.BillingState),' ' + siteWrapper.site.Site__r.BillingState+',','') + if(!empty(siteWrapper.site.Site__r.BillingPostalCode),' ' + siteWrapper.site.Site__r.BillingPostalCode,''))}
-
-                                            <!--
-                                                                                        {!(if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingCity),siteWrapper.site.Principal_Investigator__r.Account.BillingCity+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingState),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,''))}
-                                            -->
                                         </div>
                                     </div>
-
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
                                         <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                                             <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
@@ -806,7 +799,6 @@
                 </div>
             </div>
         </aura:if>
-
     </div>
 
     <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>

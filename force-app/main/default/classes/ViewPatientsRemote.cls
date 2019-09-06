@@ -27,13 +27,13 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getInitData(Id trialId,Id siteId, String mode, String btnFilter, String userMode){
+    public static String getInitData(Id trialId,Id siteId, String mode, String btnFilter, String userMode, String delegateId){
         try{
             InitData initData = new InitData();
             //pagination:
             initData.paginationData = new PaginationData();
             //filters data:
-            initData.peFilterData = ParticipantEnrollmentService.getPEFilterData(trialId, mode, true);
+            initData.peFilterData = ParticipantEnrollmentService.getPEFilterData(trialId, mode, true, delegateId);
             initData.peFilterData.dateField = 'Referred_Date__c';
             initData.peFilterData.sortVariants.addAll(new List<LabelValueItem>{
                     new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
@@ -84,8 +84,9 @@ public without sharing class ViewPatientsRemote {
 
             //records for current filter and pagination
             initData.currentPageList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData),
-                    userMode
+                    ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData, delegateId),
+                    userMode,
+                    delegateId
             );
             return JSON.serialize(initData);
         }catch (Exception e){
@@ -101,7 +102,7 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged){
+    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged, String delegateId){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
         try {
@@ -139,11 +140,12 @@ public without sharing class ViewPatientsRemote {
             System.debug('additionalFilter' + filter.additionalFilter);
             SearchResult result = new SearchResult();
             result.peList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination),
-                    userMode
+                    ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination, delegateId),
+                    userMode,
+                    delegateId
             );
             result.paginationData = pagination;
-            result.peFilterData = ParticipantEnrollmentService.getPEFilterData(filter.study, userMode, true);
+            result.peFilterData = ParticipantEnrollmentService.getPEFilterData(filter.study, userMode, true, delegateId);
             result.peFilterData.sortVariants.addAll(new List<LabelValueItem>{
                     new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
                     new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
@@ -174,11 +176,11 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getInitDataForPatientProfile(Id participantId, String mode){
+    public static String getInitDataForPatientProfile(Id participantId, String mode, String delegateId){
         try{
             InitDataForPatientProfile initData = new InitDataForPatientProfile();
             //filters data:
-            ParticipantEnrollmentService.PEFilterData peFilterData = ParticipantEnrollmentService.getPEFilterData(null, mode, false);
+            ParticipantEnrollmentService.PEFilterData peFilterData = ParticipantEnrollmentService.getPEFilterData(null, mode, false, delegateId);
             //init filters:
             ParticipantEnrollmentService.PEFilter peFilter = new ParticipantEnrollmentService.PEFilter(peFilterData);
             List<String> excludedStatuses = new List<String>{
@@ -189,7 +191,7 @@ public without sharing class ViewPatientsRemote {
             peFilter.additionalFilter = ' Participant_Status__c NOT IN (\'' + String.join(excludedStatuses, '\', \'') + '\') ';
             peFilter.additionalFilter += ' AND Participant__c=\'' + participantId + '\'' ;
             //retrieve records:
-            initData.peList = ParticipantEnrollmentService.getParticipantEnrollments(peFilter, null);
+            initData.peList = ParticipantEnrollmentService.getParticipantEnrollments(peFilter, null, delegateId);
             if(initData.peList == null) return null;
             initData.participant = [
                     SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c
@@ -198,7 +200,7 @@ public without sharing class ViewPatientsRemote {
             ];
             String filter = ' AND Participant_Status__c =\'' +  PEStatusState.STATUS_STEPS_TABLE[5].states.get(PEStatusState.STATUS_STATE_SUCCESS) + '\' ';
             filter += ' AND Participant__c=\'' + participantId + '\'' ;
-            initData.alreadyEnrolled = ParticipantEnrollmentService.getPEnrolmentsCountCommon(mode, filter) > 0;
+            initData.alreadyEnrolled = ParticipantEnrollmentService.getPEnrolmentsCountCommon(mode, filter, delegateId) > 0;
             return JSON.serialize(initData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -206,19 +208,22 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getStatistics(String mode){
+    public static String getStatistics(String mode, String delegateId){
         try{
-            return JSON.serialize(MyPatientsStatistics.getStatistics(TrialService.getAvailableTrialIds(mode), mode));
+            return JSON.serialize(MyPatientsStatistics.getStatistics(TrialService.getAvailableTrialIds(mode, delegateId), mode));
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode){
+        return convertToPEWrapperList(participantEnrollments, userMode, null);
+    }
+    private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode, String delegateId){
         List<PEWrapper> resultList = new List<PEWrapper>();
         for(Participant_Enrollment__c pe : participantEnrollments){
             if(userMode == CommunityService.USER_MODE_HCP){
-                resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe).actions));
+                resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions));
             }else{
                 resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions));
             }

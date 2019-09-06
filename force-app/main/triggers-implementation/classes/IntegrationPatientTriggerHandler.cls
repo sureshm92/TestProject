@@ -42,7 +42,7 @@ public with sharing class IntegrationPatientTriggerHandler {
         for(Participant_Enrollment__c pe : ParticipantEnrollmentService.getEnrollmentsByExternalKey(externalKeys)){
             peByExternalKey.put(pe.External_Key__c, pe);
             for(Participant_Enrollment_Status_History__c statusHistory : pe.Participant_Enrollment_Status_History__r){
-                statusDateChanges.add(statusHistory.NewStatus__c + statusHistory.Date__c);
+                statusDateChanges.add(statusHistory.Status__c + statusHistory.Date__c);
             }
         }
 
@@ -56,7 +56,7 @@ public with sharing class IntegrationPatientTriggerHandler {
                     statusDateChanges.add(statusDate);
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = patient.Subject_Date__c,
-                            NewStatus__c = status,
+                            Status__c = status,
                             ParticipantEnrollment__c = peByExternalKey.get(patient.External_ID__c).Id
                     ));
 

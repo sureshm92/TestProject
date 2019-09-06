@@ -5,7 +5,9 @@
 
     doInit: function (component, event, helper) {
         if(communityService.isInitialized()){
-            helper.setAvailableModes(component);
+            component.set('v.allModes', communityService.getAllUserModes());
+            component.set('v.currentMode', communityService.getCurrentCommunityMode());
+            component.find('spinner').hide();
             component.set('v.isInitialized', true);
         }else{
             communityService.initialize(component);

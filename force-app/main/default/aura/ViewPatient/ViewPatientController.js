@@ -6,14 +6,15 @@
         if (!communityService.isInitialized()) return;
         var participantId = communityService.getUrlParameter("id");
         if(!participantId) communityService.navigateToPage('');
-        component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
+        component.set('v.multiMode', communityService.getAllUserModes().length > 1);
         var spinner = component.find('mainSpinner');
         spinner.show();
 
         var action = component.get('c.getInitDataForPatientProfile');
         action.setParams({
             participantId: participantId,
-            mode: communityService.getUserMode()
+            mode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         });
         action.setCallback(this, function (response) {
             if (response.getState() === "SUCCESS") {

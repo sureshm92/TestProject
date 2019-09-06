@@ -127,7 +127,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Date_of_Birth__c = ipr.BirthDate__c,
                 Birth_Year__c = ipr.birthYear__c,
                 Mailing_Country_Code__c = ipr.Address_Country__c,
-                Mailing_State_Code__c = ipr.Address_State__c,
+                Mailing_State__c = ipr.Address_State__c,
                 Mailing_City__c = ipr.Address_City__c,
                 Mailing_Zip_Postal_Code__c = ipr.Address_ZipCode__c,
                 Mailing_Street__c = ipr.Address_AddressLine1__c,

@@ -11,11 +11,11 @@
     "id" : "8a350e1e-ea72-4f5d-89c4-04e03fa08a18",
     "type" : "region",
     "components" : [ {
-      "componentName" : "c:Reports",
+      "componentName" : "c:ReportsContainer",
       "componentAttributes" : { },
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
-      "id" : "0642ee3e-cb5b-4932-8f34-2f49ef6e7821",
+      "id" : "04f96977-dfad-4cfb-98c5-20339091556b",
       "type" : "component",
       "renditions" : [ ]
     } ]

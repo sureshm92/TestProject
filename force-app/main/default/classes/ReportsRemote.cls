@@ -23,12 +23,12 @@ public class ReportsRemote {
     }
     
     @AuraEnabled
-    public static String getInitData(String trialId, String userMode){
+    public static String getInitData(String trialId, String userMode, String delegateId){
         try{
             Id userContactId = CommunityService.getUserContact().Id;
     
             ReportsFilterData reportsFilterData = new ReportsFilterData();
-            Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(userMode));
+            Map<Id, Clinical_Trial_Profile__c> trialsMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getAvailableTrials(userMode, delegateId));
             //init trials
             reportsFilterData.studies = new List<LabelValueItem>();
             reportsFilterData.studies.add(new LabelValueItem(Label.PG_MRRL_L_All_studies, null));
@@ -48,7 +48,7 @@ public class ReportsRemote {
             reportsFilterData.studySites = new List<LabelValueItem>();
             reportsFilterData.studySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, null));
             if(userMode == CommunityService.USER_MODE_HCP){
-                List<Study_Site__c> studySites = StudySiteService.getStudySitesForHCP(trialIds);
+                List<Study_Site__c> studySites = StudySiteService.getStudySitesForHCP(trialIds, delegateId);
                 for(Study_Site__c ss : studySites) reportsFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
             }
     
@@ -61,7 +61,7 @@ public class ReportsRemote {
     
             InitData initData = new InitData();
             initData.filterData = reportsFilterData;
-            initData.analitics = getAnaliticsData(trialId, null, null, null, userMode);
+            initData.analitics = getAnaliticsData(trialId, null, null, null, userMode,delegateId);
             return JSON.serialize(initData);
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -69,15 +69,15 @@ public class ReportsRemote {
     }
     
     @AuraEnabled
-    public static String getAnaliticsJSON(String studyId, String studySiteId, String referringClinicId, String dateRange, String userMode){
+    public static String getAnaliticsJSON(String studyId, String studySiteId, String referringClinicId, String dateRange, String userMode , String delegateId){
         try{
-            return JSON.serialize(getAnaliticsData(studyId, studySiteId, referringClinicId, dateRange, userMode));
+            return JSON.serialize(getAnaliticsData(studyId, studySiteId, referringClinicId, dateRange, userMode, delegateId));
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
     
-    public static Analitics getAnaliticsData(String studyId, String studySiteId, String referringClinicId, String dateRange, String userMode){
+    public static Analitics getAnaliticsData(String studyId, String studySiteId, String referringClinicId, String dateRange, String userMode, String delegateId){
         String filter = '';
         String filterHCPE = '';
         if(studyId != null) studyId = studyId.trim();
@@ -97,7 +97,7 @@ public class ReportsRemote {
             filter += ' AND CreatedDate ' + dateRange;
             filterHCPE += ' AND CreatedDate ' + dateRange;
         }
-        List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getPEnrolmentsCommon(userMode, filter);
+        List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getPEnrolmentsCommon(userMode, filter, delegateId);
         
     
         Integer mrrPassed = 0;
@@ -125,8 +125,8 @@ public class ReportsRemote {
                 new DonutItem(Label.PG_PrS_R_Failed, preScreeningFailed , DonutItem.Type.DECLINED)
         });
         analitics.studyOrientationAttVsNotAtt.addAll(new List<DonutItem>{
-                new DonutItem(Label.PG_Or_R_Attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, true, filterHCPE) , DonutItem.Type.SUCCSESS),
-                new DonutItem(Label.PG_Or_R_Not_attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, false, filterHCPE) , DonutItem.Type.DECLINED)
+                new DonutItem(Label.PG_Or_R_Attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, delegateId, true, filterHCPE) , DonutItem.Type.SUCCSESS),
+                new DonutItem(Label.PG_Or_R_Not_attended, HCPEnrollmentService.getAttendedRequiredCount(userMode, delegateId, false, filterHCPE) , DonutItem.Type.DECLINED)
         });
         
         return analitics;

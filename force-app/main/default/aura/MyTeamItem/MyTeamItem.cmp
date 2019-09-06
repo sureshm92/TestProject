@@ -8,8 +8,7 @@
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
     <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="saveInProgress" type="Boolean" default="false"/>
-    <aura:attribute name="refreshSDLITrigger" type="Boolean"/>
+    <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
 
 
     <!-- methods: -->
@@ -27,8 +26,8 @@
                     <div class="slds-col slds-size--1-of-4">
                     <c:StudyDelegateLevelItem studyLevel="{!v.delegate.trialLevel}" options="{!v.options}"
                                               changedLevels="{!v.changedLevels}"
-                                              refreshTrigger="{!v.refreshSDLITrigger}"
-                                              showStudyName="false"/>
+                                              showStudyName="false"
+                                              ignoreUpdates="{!v.ignoreUpdates}"/>
                     </div>
                 </aura:if>
             </div>
@@ -39,8 +38,7 @@
         <aura:if isTrue="{!v.userMode != 'HCP'}">
             <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
                 <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}"
-                                          changedLevels="{!v.changedLevels}"
-                                          refreshTrigger="{!v.refreshSDLITrigger}"/>
+                                          changedLevels="{!v.changedLevels}"/>
             </aura:iteration>
         </aura:if>
         <div class="mti-save-button-container">

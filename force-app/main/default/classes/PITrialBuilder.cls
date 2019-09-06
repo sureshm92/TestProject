@@ -1,7 +1,7 @@
 public class PITrialBuilder extends TrialBuilder {
     private List<Study_Site__c> studySites;
     public PITrialBuilder(String trialId) {
-        super(trialId);
+        setTrial(trialId);
         this.studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
         if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
         this.trialDetail.studySite = studySites[0];
