@@ -15,6 +15,7 @@
     <aura:attribute name="editAvailable" type="Boolean"/>
     <aura:attribute name="notReferral" type="Boolean"/>
     <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="jsonState" type="String"/>
 
     <!-- Reminder picklist value -->
     <aura:attribute name="reminderSetMode" type="String" default="Email"/>
