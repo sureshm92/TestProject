@@ -16,7 +16,7 @@ public with sharing class ResourceRemote {
         return null;
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
 
         try {
