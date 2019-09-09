@@ -23,7 +23,7 @@
         <div class="navigation rr-width-limiter side-padding">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                <c:RRNPathItem label="Past Studies"/>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Past_Studies}"/>
             </c:RRNavigationPath>
             <div class="rr-width-limiter">
                 <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
@@ -40,8 +40,8 @@
                 <c:RRTable>
                     <tr>
                         <th class="study-document-icon"></th>
-                        <th class="study-document-title">Study Name</th>
-                        <th class="study-document-summary">Document Name</th>
+                        <th class="study-document-title">{!$Label.c.Resource_Title_Document_Name}</th>
+                        <th class="study-document-summary">{!$Label.c.Resource_Title_Study_Name}</th>
                     </tr>
                     <aura:iteration items="{!v.reportDataList}" var="report" indexVar="ind">
                         <tr class="study-document-row-data">
