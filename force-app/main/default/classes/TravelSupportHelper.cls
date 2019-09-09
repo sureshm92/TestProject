@@ -38,9 +38,11 @@ public without sharing class TravelSupportHelper {
             TravelVendorPanelRemote.VendorItem vendorItem = new TravelVendorPanelRemote.VendorItem(studySite);
             if (studySite.TravelVendorSettings__r != null && !studySite.TravelVendorSettings__r.isEmpty()) {
                 vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
+                vendorItems.add(vendorItem);
+            } else if (isCountryCodes|| isStudySiteIds || isVendors ) {
+                vendorItems.add(vendorItem);
             }
 
-            vendorItems.add(vendorItem);
         }
         return vendorItems;
     }
