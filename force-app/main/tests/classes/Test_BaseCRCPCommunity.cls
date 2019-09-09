@@ -83,7 +83,8 @@ private class Test_BaseCRCPCommunity {
                 FirstName = 'PI',
                 LastName = 'PI',
                 Email = 'pi@emil.com',
-                AccountId = piAccount.Id
+                AccountId = piAccount.Id,
+                Language__c = 'en_US'
         );
         insert piContact;
 
@@ -102,7 +103,8 @@ private class Test_BaseCRCPCommunity {
                 Email = 'hcp@emil.com',
                 AccountId = hcpAccount.Id,
                 MailingLatitude = 40.766594,
-                MailingLongitude = -73.991509
+                MailingLongitude = -73.991509,
+                Language__c = 'en_US'
         );
         insert hcpContact;
 
@@ -206,12 +208,14 @@ private class Test_BaseCRCPCommunity {
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL'
+                Mailing_State_Code__c = 'AL',
+                Preferred_Language__c = 'en_US'
         );
         insert participant;
         participant = [SELECT Id, Name FROM Participant__c WHERE Id =: participant.Id];
         passedMrrPE = new Participant_Enrollment__c(
                 HCP__c = hcpEnrollment.Id,
+                HCP_Contact_HCPEnroll__c = hcpContact.Id,
                 Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
                 Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
                 PI_Contact__c = piContact.Id,
