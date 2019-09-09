@@ -23,6 +23,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_EditLocationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_InviteRPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -131,6 +135,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateScreeningIds</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CTCService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -216,6 +224,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CommunityFacadeRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityModeService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -308,6 +320,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DonutItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DuplicateContactController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -515,7 +531,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MyReferredZoneController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyStudySitesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -583,7 +607,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDuplicateService</apexClass>
+        <apexClass>ParticipantDeduplicationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDeduplicationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -672,6 +700,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>QualityCheckController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -951,6 +983,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TaskTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TasksRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1080,6 +1116,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EditLocationRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2663,6 +2703,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Middle_Initial__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6747,10 +6792,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

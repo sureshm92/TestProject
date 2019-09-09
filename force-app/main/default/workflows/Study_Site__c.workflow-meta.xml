@@ -108,7 +108,7 @@
             <name>PI_Does_Not_Reimburse</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Study_Site__c.Sponsor_Pays_for_Referral_Activity__c</field>
             <operation>equals</operation>
@@ -123,7 +123,7 @@
             <name>Study_Site_Recruitment_Status_Active_En</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Clinical_Trial_Profile__c.Override_Recruitment_Status__c</field>
             <operation>equals</operation>
@@ -147,7 +147,7 @@
             <name>Study_Site_Recruitment_Status_Enrollmen</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Study_Site__c.Recruitment_Status__c</field>
             <operation>equals</operation>
@@ -162,7 +162,7 @@
             <name>Study_Site_Recruitment_Status_No_Longer</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Clinical_Trial_Profile__c.Override_Recruitment_Status__c</field>
             <operation>equals</operation>
@@ -177,7 +177,7 @@
             <name>Study_Site_Recruitment_Status_On_Hold</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Study_Site__c.Recruitment_Status__c</field>
             <operation>equals</operation>
@@ -192,7 +192,7 @@
             <name>Study_Site_Recruitment_Status_PI_cannot</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Study_Site__c.Recruitment_Status__c</field>
             <operation>contains</operation>
@@ -207,7 +207,7 @@
             <name>Study_Site_Override_Status_Changed_By</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>tracks user profile that updated Override Status</description>
         <formula>ISCHANGED(Override_Study_Site_Recruitment_Status__c )</formula>
         <triggerType>onAllChanges</triggerType>

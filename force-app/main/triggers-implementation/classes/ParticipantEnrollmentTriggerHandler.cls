@@ -61,7 +61,29 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createInvitations((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
+    public class SetSourceTypeHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            setSourceTypeHandler(newList);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setSourceTypeHandler(newList);
+        }
+    }
+
+    public class SetParticipantStatusHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            setParticipantStatusHandler(newList);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setParticipantStatusHandler(newList);
+        }
+    }
+
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
@@ -411,6 +433,32 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
         if(!histories.isEmpty()) insert histories;
+    }
+
+    @TestVisible
+    private static void setSourceTypeHandler(List<Participant_Enrollment__c> enrollments) {
+        for (Participant_Enrollment__c pe : enrollments) {
+            if ('PI' == pe.Referral_Source__c) {
+                pe.Source_Type__c = 'Principal Investigator';
+            } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
+                pe.Source_Type__c = 'Referring Provider';
+            } else {
+                pe.Source_Type__c = 'Digital Recruitment';
+            }
+        }
+    }
+
+    @TestVisible
+    private static void setParticipantStatusHandler(List<Participant_Enrollment__c> enrollments) {
+        Set<String> statuses = new Set<String>();
+        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt]) {
+            statuses.add(pe.Auto_Accept_Status__c);
+        }
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (statuses.contains(pe.Referral_Source__c)) {
+                pe.Participant_Status__c = 'Referral Accepted';
+            }
+        }
     }
 
     // On study logic---------------------------------------------------------------------------------------------------
