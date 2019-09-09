@@ -3,21 +3,38 @@
  */
 public with sharing class TrialSearchContainerRemote {
 
+    public static final String ACTIVELY_ENROLLING = 'Actively Enrolling';
+
+    public static final List<String> ORS_STATUS_ENROLLING = new List<String>{
+            'Actively Enrolling',
+            'On Hold'
+    };
+
+    public static final List<String> CTMS_RECRUITMENT_ENROLLING = new List<String>{
+            'Enrolling',
+            'Open to Enrollment',
+            'Planning',
+            'In Development'
+    };
+
     @AuraEnabled
     public static TrialSearchContainer getSearchCTPs() {
         TrialSearchContainer trialSearchContainer = new TrialSearchContainer();
-        List<Clinical_Trial_Profile__c> ctps = [
-                SELECT
-                        Therapeutic_Area__c,
-                        Therapeutic_Area__r.Name,
-                        Study_Code_Name__c,
-                        Official_Title__c,
-                        Enrollment_Start_Date__c,
-                        Override_Recruitment_Status__c,
-                        Recruitment_Status__c
-                FROM Clinical_Trial_Profile__c
-                ORDER BY Study_Code_Name__c
-        ];
+        String query = 'SELECT ' +
+                'Therapeutic_Area__c, ' +
+                'Therapeutic_Area__r.Name, ' +
+                'Study_Code_Name__c, ' +
+                'Official_Title__c, ' +
+                'Enrollment_Start_Date__c, ' +
+                'Override_Recruitment_Status__c, ' +
+                'Recruitment_Status__c ' +
+                'FROM Clinical_Trial_Profile__c ' +
+                'WHERE Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
+                'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT_ENROLLING, '\',\'') + '\') ' +
+                'ORDER BY Enrollment_Start_Date__c';
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+
+        List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(query, true);
 
         Set<Id> taIds = new Set<Id>();
 
@@ -30,11 +47,6 @@ public with sharing class TrialSearchContainerRemote {
         Map<Id, Therapeutic_Area__c> therapeuticAreaByParent;
 
         if (!taIds.isEmpty()) {
-//            List<Therapeutic_Area__c> therapeuticAreas = [
-//                    SELECT Id, Therapeutic_Area__c, Name FROM Therapeutic_Area__c WHERE Therapeutic_Area__c IN :(taIds) AND RecordType.DeveloperName = :TherapeuticAreaService.COI_RT_NAME
-//            ];
-//            System.debug('therapeuticAreas ===> ' + therapeuticAreas);
-
             therapeuticAreaByParent = new Map<Id, Therapeutic_Area__c>([
                     SELECT Id,
                             Name, (SELECT Name, Therapeutic_Area__c FROM Therapeutic_Areas__r WHERE RecordType.DeveloperName = :TherapeuticAreaService.COI_RT_NAME)
@@ -44,8 +56,13 @@ public with sharing class TrialSearchContainerRemote {
         }
         List<TrialTDO> tdos = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
-            TrialTDO tdo =  new TrialTDO();
+            TrialTDO tdo = new TrialTDO();
             tdo.ctp = ctp;
+            if (String.isNotBlank(ctp.Override_Recruitment_Status__c)) {
+                tdo.isGreenLine = ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING;
+            } else if (String.isNotBlank(ctp.Recruitment_Status__c)) {
+                tdo.isGreenLine = ctp.Recruitment_Status__c == 'Enrolling' || ctp.Recruitment_Status__c == 'Open to Enrollment';
+            }
             List<Therapeutic_Area__c> tasTemp = therapeuticAreaByParent.get(ctp.Therapeutic_Area__c).Therapeutic_Areas__r;
             if (tasTemp != null && !tasTemp.isEmpty()) {
                 tdo.cois = tasTemp;
@@ -69,5 +86,7 @@ public with sharing class TrialSearchContainerRemote {
         public Clinical_Trial_Profile__c ctp;
         @AuraEnabled
         public List<Therapeutic_Area__c> cois;
+        @AuraEnabled
+        public Boolean isGreenLine;
     }
 }
