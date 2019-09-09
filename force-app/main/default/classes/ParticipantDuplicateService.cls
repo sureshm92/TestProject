@@ -57,7 +57,7 @@ public without sharing class ParticipantDuplicateService {
         }
         //Find participants
         List<Participant__c> existedParticipants = [
-                SELECT Id, First_Name__c, Email__c, Phone__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c
+                SELECT Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Birth_Year__c, Date_of_Birth__c, Secondary_Source__c
                 FROM Participant__c
                 WHERE Email__c IN: emails OR Phone__c IN: phones
         ];
@@ -144,7 +144,7 @@ public without sharing class ParticipantDuplicateService {
     
     private static Integer getYearOfBirthForParticipant(Participant__c participant){
         if(!String.isEmpty(participant.Birth_Year__c)) return Integer.valueOf(participant.Birth_Year__c);
-        if(!String.isEmpty(participant.Date_of_Birth__c)) return Integer.valueOf(participant.Date_of_Birth__c.substring(6));
+        if(!String.isEmpty(participant.Date_of_Birth__c)) return Integer.valueOf(participant.Date_of_Birth__c.mid(0, 4));
         return null;
     }
     
@@ -155,7 +155,7 @@ public without sharing class ParticipantDuplicateService {
         if(newParticipant.Mailing_Country_Code__c != null) sourceParticipant.Mailing_Country_Code__c = newParticipant.Mailing_Country_Code__c;
         if(newParticipant.Mailing_State_Code__c != null) sourceParticipant.Mailing_State_Code__c = newParticipant.Mailing_State_Code__c;
         if(newParticipant.Mailing_Zip_Postal_Code__c != null) sourceParticipant.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
-        if(newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
+        //if(newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
         if(newParticipant.Middle_Name__c != null) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
     }
 

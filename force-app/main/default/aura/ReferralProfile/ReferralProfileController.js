@@ -11,7 +11,7 @@
             communityService.navigateToPage('');
             return;
         }
-        component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
+        component.set('v.multiMode', communityService.getAllUserModes().length > 1);
         var peId = communityService.getUrlParameter('id');
         if(!peId) {
             communityService.navigateToPage('');
