@@ -77,7 +77,7 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
-                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.Preferred_Language__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
                         Study_Site__r.Name,
@@ -129,7 +129,7 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
-                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.Preferred_Language__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
                         Participant_Contact__r.FirstName,
@@ -421,7 +421,7 @@ public without sharing class ParametersDataProvider {
     
     private String getParticipantLanguage(Participant__c participant){
         String participantLanguage = participant.Contact__r.Language__c;
-        if(participant.Contact__c == null) participantLanguage = participant.Language_Preference_Code__c;
+        if(participant.Contact__c == null) participantLanguage = participant.Preferred_Language__c;
         return participantLanguage;
     }
     
