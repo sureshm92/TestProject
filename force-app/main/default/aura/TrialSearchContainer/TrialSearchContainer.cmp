@@ -27,7 +27,7 @@
         </lightning:layoutItem>
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
                               size="12">
-            <div class="filter-side" style="position: fixed">
+            <div class="filter-side">
                 <c:TrialSearchFilter/>
             </div>
 
