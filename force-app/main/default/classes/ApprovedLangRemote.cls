@@ -87,9 +87,7 @@ public without sharing class ApprovedLangRemote {
     @AuraEnabled
     public static InitData getNextData(String data, String countryCodes, String langCodes, String ssId) {
         try {
-            save(data);
-
-            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            InitData initData = save(data);
             initData.paginationData.reCalc();
             initPageItems(initData, countryCodes, langCodes, ssId);
             return initData;
