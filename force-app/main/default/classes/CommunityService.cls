@@ -185,6 +185,9 @@ public without sharing class CommunityService {
                 locale = hcpUser.LocaleSidKey;
                 language = hcpUser.LanguageLocaleKey;
             }
+            if(!cont.Participants__r.isEmpty() && cont.Participants__r[0].Preferred_Language__c != null){
+                cont.Language__c = cont.Participants__r[0].Preferred_Language__c;
+            }
             if(cont.Language__c != null) language = cont.Language__c;
             if(cont.Email != null && cont.Email != ''){
                 newPortalUsers.add(createUser(cont, locale, language, timeZone));
@@ -229,7 +232,7 @@ public without sharing class CommunityService {
 
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
-                SELECT Id, Email, FirstName, LastName, Name, Language__c
+                SELECT Id, Email, FirstName, LastName, Name, Language__c, (SELECT Id, Preferred_Language__c FROM Participants__r)
                 FROM Contact
                 WHERE Id = :contactIds
         ];
