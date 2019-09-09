@@ -64,13 +64,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createInvitations((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
-    public class SetParticipantLanguages extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            setLanguagesToParticipant((List<Participant_Enrollment__c>) newList);
-        }
-    }
     
     // Logic: ----------------------------------------------------------------------------------------------------------
 
@@ -358,43 +351,5 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
-    }
-
-    @TestVisible
-    private static void setLanguagesToParticipant(List<Participant_Enrollment__c> newList) {
-        List<Participant_Enrollment__c> enrollments = [
-                SELECT
-                        HCP_Contact_HCPEnroll__r.Language__c,
-                        Id,
-                        Participant__c,
-                        Participant__r.Preferred_Language__c,
-                        Participant__r.Contact__r.Language__c,
-                        PI_Contact__r.Language__c,
-                        Referral_Source__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN:newList
-        ];
-
-        List<Participant__c> updatedParticipants = new List<Participant__c>();
-        List<Contact> participantContacts = new List<Contact>();
-        for(Participant_Enrollment__c pe : enrollments) {
-            String lang = pe.Participant__r.Preferred_Language__c;
-            if(pe.Referral_Source__c == CommunityService.USER_MODE_PI) {
-                lang = pe.PI_Contact__r.Language__c;
-            } else {
-                lang = pe.HCP_Contact_HCPEnroll__r.Language__c;
-            }
-
-            Participant__c participant = pe.Participant__r;
-            participant.Preferred_Language__c = lang;
-            updatedParticipants.add(participant);
-
-            Contact partCont = pe.Participant__r.Contact__r;
-            partCont.Language__c = lang;
-            participantContacts.add(partCont);
-        }
-
-        update participantContacts;
-        update updatedParticipants;
     }
 }
