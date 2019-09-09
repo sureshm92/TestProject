@@ -20,15 +20,16 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div style="display: inline-grid; width: 100%">
-            <div class="hp-welcome-msg">{!v.participantState.welcomeMessage}
-                <aura:if isTrue="{!and(v.participantState.value == 'ALUMNI', !v.participantState.participant.Marketing_Flag__c)}">
-                <button class="{!'apollo-btn primary dark'}" style="float: right" onclick="{!c.navigateToTrialSearchPage}">
-                    <c:RRIcon iconName="icon-search"/>
-                    Find another study
-                </button>
-                </aura:if>
-            </div>
+        <div style="display: flex;">
+            <div class="hp-welcome-msg" style="width: 110%">{!v.participantState.welcomeMessage}</div>
+            <aura:if isTrue="{!and(v.participantState.value == 'ALUMNI', !v.participantState.participant.Marketing_Flag__c)}">
+                <div  style="width: 20%">
+                    <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
+                        <c:RRIcon iconName="icon-search"/>
+                        Find another study
+                    </button>
+                </div>
+            </aura:if>
         </div>
         <aura:if isTrue="{!v.initialized}">
             <div class="slds-grid slds-gutters slds-wrap">

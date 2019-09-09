@@ -4,6 +4,7 @@
 <aura:component description="TrialSearchContainer" implements="forceCommunity:availableForAllPageTypes"
                 controller="TrialSearchContainerRemote" extends="c:LightningService">
 
+    <aura:attribute name="TrialTDOs" type="List"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
@@ -20,12 +21,13 @@
                 </div>
             </div>
             <div class="trials-container">
-                <c:TrialsContainer/>
+                <c:TrialsContainer TrialTDOs="{!v.TrialTDOs}"/>
             </div>
+
         </lightning:layoutItem>
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
                               size="12">
-            <div class="filter-side">
+            <div class="filter-side" style="position: fixed">
                 <c:TrialSearchFilter/>
             </div>
 
