@@ -8,7 +8,7 @@
         <aura:iteration items="{!v.trialTDOs}" var="trial">
             <div class="card-ctp">
                 <div class="{!trial.isEnrollingCTP ? ' top-line' : ''}"></div>
-                <div class="tap-class">
+                <div class="tap-class ctp-padding">
                     Therapeutic area :
                     <aura:if isTrue="{!trial.cois}">
                         <aura:iteration items="{!trial.cois}" var="coi">
@@ -17,7 +17,7 @@
                     </aura:if>
                 </div>
                 <div style="height: 1px;background: #848484;"></div>
-                <div class="ctp-info-block">
+                <div class="ctp-info-block ctp-padding">
                     <div class="ctp-study-code-name">
                         {!trial.ctp.Study_Code_Name__c}
                     </div>
@@ -27,9 +27,11 @@
                         </div>
                     </aura:if>
                 </div>
-                <div class="cpt-official-title">{!trial.ctp.Official_Title__c}</div>
+                <div class="cpt-official-title ctp-padding">
+                    {!trial.ctp.Official_Title__c}
+                </div>
                 <button class="apollo-btn primary button-ctp">
-                    Button
+                    {!trial.isEnrollingCTP ? 'Contact the study' : 'Alert me when enrollment starts'}
                 </button>
             </div>
         </aura:iteration>
