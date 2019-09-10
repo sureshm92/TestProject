@@ -2,17 +2,17 @@
   - Created by Yehor Dobrovolskyi
  -->
 <aura:component description="TrialsContainer">
-    <aura:attribute name="TrialTDOs" type="List"/>
+    <aura:attribute name="trialTDOs" type="List"/>
 
-    <aura:if isTrue="{!v.TrialTDOs}">
-        <aura:iteration items="{!v.TrialTDOs}" var="trial">
+    <aura:if isTrue="{!v.trialTDOs}">
+        <aura:iteration items="{!v.trialTDOs}" var="trial">
             <div class="card-ctp">
                 <div class="{!trial.isGreenLine ? ' top-line' : ''}"></div>
                 <div style="padding: 5px 20px 5px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     Therapeutic area :
                     <aura:if isTrue="{!trial.cois}">
                         <aura:iteration items="{!trial.cois}" var="coi">
-                            {!coi.Name},
+                            {!coi.Name + ', '}
                         </aura:iteration>
                     </aura:if>
                 </div>
