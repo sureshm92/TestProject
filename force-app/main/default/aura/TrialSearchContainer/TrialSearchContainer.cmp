@@ -29,7 +29,7 @@
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
                               size="12">
             <div class="filter-side">
-                <c:TrialSearchFilter taps="{!v.taps}"/>
+                <c:ConditionsOfInterestView conditionOfInterestList="{!v.taps}"/>
             </div>
 
         </lightning:layoutItem>
