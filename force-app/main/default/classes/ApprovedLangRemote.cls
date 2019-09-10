@@ -74,9 +74,11 @@ public without sharing class ApprovedLangRemote {
             InitData initData = new InitData();
             initData.ctpId = ctpId;
             ctpStudySites = getStudySites(QUERY_MAIN_FILTER.replace('ctpId', ctpId));
-            loadInitData(initData);
-            initPageItems(initData, initData.countryCodes, null, null);
-            initData.paginationData.reCalc();
+            if(!ctpStudySites.isEmpty()) {
+                loadInitData(initData);
+                initPageItems(initData, initData.countryCodes, null, null);
+                initData.paginationData.reCalc();
+            }
 
             return initData;
         } catch (Exception e) {
