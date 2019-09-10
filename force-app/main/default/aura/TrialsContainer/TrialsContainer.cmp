@@ -32,8 +32,9 @@
                     Button
                 </button>
             </div>
-
         </aura:iteration>
-
+        <aura:set attribute="else">
+            <div class="not-ctp-message"> No trial matches available at this time.  Check back shortly.</div>
+        </aura:set>
     </aura:if>
 </aura:component>
