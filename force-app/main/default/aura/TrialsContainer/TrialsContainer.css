@@ -24,3 +24,12 @@
 .THIS .button-ctp {
     margin: 10px 0 10px 10px;
 }
+
+.THIS.not-ctp-message {
+    padding: 40px 0;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 23px;
+    line-height: 26px;
+    text-align: center;
+}
