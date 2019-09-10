@@ -42,9 +42,9 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
     
             //CTP Map
             List<Clinical_Trial_Profile__c> ctpList = [
-                    SELECT id, Override_Recruitment_Status__c, Protocol_ID__c
+                    SELECT Id, Override_Recruitment_Status__c, Protocol_ID__c
                     FROM Clinical_Trial_Profile__c
-                    WHERE Protocol_Id__c IN: protocolIds
+                    WHERE Protocol_ID__c IN: protocolIds
             ];
             for (Clinical_Trial_Profile__c ctp : ctpList) ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
         }
@@ -115,11 +115,11 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             insert peList;
         }
     }
-    
-    
+
     private static Participant__c convertToParticipant(Integration_Patient_Referral__c ipr) {
         return new Participant__c(
                 First_Name__c = ipr.firstName__c,
+                Middle_Name__c = ipr.Middle_Initial__c,
                 Last_Name__c = ipr.lastName__c,
                 Email__c = ipr.email__c,
                 Phone__c = ipr.phone__c,
@@ -154,6 +154,4 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
     private static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr){
         return ipr.protocolId__c + '_' + ipr.siteSelected__c;
     }
-
-
 }
