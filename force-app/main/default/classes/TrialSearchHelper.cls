@@ -18,18 +18,32 @@ public with sharing class TrialSearchHelper {
             ON_HOLD
     };
 
-    public static final List<String> CTMS_RECRUITMENT_ENROLLING = new List<String>{
+    public static final List<String> CTMS_RECRUITMENT = new List<String>{
             ENROLLING,
             OPEN_TO_ENROLLMENT,
             PLANNING,
             IN_DEVELOPMENT
     };
 
+    public static final List<String> CTMS_RECRUITMENT_ENROLLING = new List<String>{
+            ENROLLING,
+            OPEN_TO_ENROLLMENT
+    };
 
-    public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer() {
+    public static final List<String> CTMS_ON_HOLD = new List<String>{
+            PLANNING,
+            IN_DEVELOPMENT
+    };
+
+    public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
+        return this.getTrialSearchContainer(null, true, true);
+    }
+
+    public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = new TrialSearchContainerRemote.TrialSearchContainer();
-        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = this.getTherapeuticAreaPatients(proxy);
+
+        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = taps != null ? taps : this.getTherapeuticAreaPatients(proxy);
         Set<Id> taId = new Set<Id>();
         if (!therapeuticAreaPatients.isEmpty()) {
             for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
@@ -40,10 +54,10 @@ public with sharing class TrialSearchHelper {
             trialSearchContainer.taps = therapeuticAreaPatients;
         }
 
-        if (taId.isEmpty()) {
+        if (taId.isEmpty() || (!isEnrolling && !isNotYetEnrolling)) {
             return trialSearchContainer;
         }
-        List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy);
+        List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy, isEnrolling, isNotYetEnrolling);
         Set<Id> taIds = new Set<Id>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
             if (ctp.Therapeutic_Area__c != null) {
@@ -91,7 +105,19 @@ public with sharing class TrialSearchHelper {
         return therapeuticAreaByParent;
     }
 
-    private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy) {
+    private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+        String whereClause = 'WHERE Therapeutic_Area__c IN ' + '(\'' + String.join(new List<Id>(taId), '\',\'') + '\') ';
+        if (isEnrolling && isNotYetEnrolling) {
+            whereClause += ' AND (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
+                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT, '\',\'') + '\')) ';
+        } else if (isEnrolling) {
+            whereClause += ' AND (Override_Recruitment_Status__c = ' + '\'' + ACTIVELY_ENROLLING + '\' ' +
+                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT_ENROLLING, '\',\'') + '\')) ';
+        } else if (isNotYetEnrolling) {
+            whereClause += ' AND (Override_Recruitment_Status__c = ' + '\'' + ON_HOLD + '\' ' +
+                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_ON_HOLD, '\',\'') + '\')) ';
+        }
+        String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
                 'Therapeutic_Area__c, ' +
                 'Therapeutic_Area__r.Name, ' +
@@ -100,11 +126,10 @@ public with sharing class TrialSearchHelper {
                 'Enrollment_Start_Date__c, ' +
                 'Override_Recruitment_Status__c, ' +
                 'Recruitment_Status__c ' +
-                'FROM Clinical_Trial_Profile__c ' +
-                'WHERE (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
-                'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT_ENROLLING, '\',\'') + '\')) ' +
-                'AND Therapeutic_Area__c IN ' + '(\'' + String.join(new List<Id>(taId), '\',\'') + '\') ' +
-                'ORDER BY Enrollment_Start_Date__c';
+                'FROM Clinical_Trial_Profile__c ';
+
+        queryCTP += whereClause;
+        queryCTP += orderBy;
 
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;

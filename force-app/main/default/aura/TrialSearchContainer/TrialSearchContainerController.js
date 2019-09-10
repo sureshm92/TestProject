@@ -15,4 +15,25 @@
                 console.log('error:', err[0].message);
             });
     },
+
+    handleUpdateSearchEvent : function (component, event, helper) {
+        let taps = event.getParam('settings');
+        let isEnrolling = event.getParam('enrolling');
+        let isNotYetEnrolling = event.getParam('notYetEnrolling');
+        helper.enqueue(component, 'c.getFilterSearchCTPs', {
+            'taps' : taps,
+            'isEnrolling' : isEnrolling,
+            'isNotYetEnrolling' : isNotYetEnrolling
+        })
+            .then(function (data) {
+                console.log('data ', data);
+                component.set('v.trialTDOs', data.trialTDOs);
+                // component.set('v.taps', data.taps);
+            }, function (err) {
+                if (err && err[0].message) {
+                    component.set('v.errorMessage', err[0].message);
+                }
+                console.log('error:', err[0].message);
+            });
+    }
 });

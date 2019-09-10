@@ -8,7 +8,18 @@ public with sharing class TrialSearchContainerRemote {
     public static TrialSearchContainer getSearchCTPs() {
         try {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            TrialSearchContainer trialSearchContainer = helper.getTrialSearchContainer();
+            TrialSearchContainer trialSearchContainer = helper.getInitTrialSearchContainer();
+            return trialSearchContainer;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
+    public static TrialSearchContainer getFilterSearchCTPs(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+        try {
+            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+            TrialSearchContainer trialSearchContainer = helper.getTrialSearchContainer(taps, isEnrolling, isNotYetEnrolling);
             return trialSearchContainer;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
