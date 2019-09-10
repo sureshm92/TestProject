@@ -31,4 +31,16 @@ public without sharing class ContactService {
         update contacts;
     }
 
+    public static Participant_Enrollment__c getCurrentPE(Id contactId) {
+       Contact contact = [
+                SELECT Id,
+                        Current_Participant_Enrollment__r.Participant__r.Full_Name__c,
+                        Current_Participant_Enrollment__r.Participant__r.First_Name__c,
+                        Current_Participant_Enrollment__r.Participant__r.Last_Name__c,
+                        Current_Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                FROM Contact
+                WHERE Id = :contactId
+        ];
+        return contact.Current_Participant_Enrollment__r;
+    }
 }
