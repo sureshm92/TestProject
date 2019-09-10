@@ -7,8 +7,8 @@
     <aura:if isTrue="{!v.trialTDOs}">
         <aura:iteration items="{!v.trialTDOs}" var="trial">
             <div class="card-ctp">
-                <div class="{!trial.isGreenLine ? ' top-line' : ''}"></div>
-                <div style="padding: 5px 20px 5px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                <div class="{!trial.isEnrollingCTP ? ' top-line' : ''}"></div>
+                <div class="tap-class">
                     Therapeutic area :
                     <aura:if isTrue="{!trial.cois}">
                         <aura:iteration items="{!trial.cois}" var="coi">
@@ -17,24 +17,24 @@
                     </aura:if>
                 </div>
                 <div style="height: 1px;background: #848484;"></div>
-                <div style="padding: 5px 20px 5px 10px; display: flex;">
-                    <div style="font-weight: bold; font-size: 17px; width: 90%">
+                <div class="ctp-info-block">
+                    <div class="ctp-study-code-name">
                         {!trial.ctp.Study_Code_Name__c}
                     </div>
                     <aura:if isTrue="{!trial.ctp.Recruitment_Status__c}">
-                        <div style="font-size: 14px; width: 20%; text-align: right">
+                        <div class="ctp-recruitment-status">
                             {!trial.ctp.Recruitment_Status__c}
                         </div>
                     </aura:if>
                 </div>
-                <div style="font-size: 14px;padding: 5px 20px 5px 10px">{!trial.ctp.Official_Title__c}</div>
+                <div class="cpt-official-title">{!trial.ctp.Official_Title__c}</div>
                 <button class="apollo-btn primary button-ctp">
                     Button
                 </button>
             </div>
         </aura:iteration>
         <aura:set attribute="else">
-            <div class="not-ctp-message"> No trial matches available at this time.  Check back shortly.</div>
+            <div class="not-ctp-message"> No trial matches available at this time. Check back shortly.</div>
         </aura:set>
     </aura:if>
 </aura:component>

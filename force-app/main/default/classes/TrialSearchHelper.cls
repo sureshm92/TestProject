@@ -76,9 +76,9 @@ public with sharing class TrialSearchHelper {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             if (String.isNotBlank(ctp.Override_Recruitment_Status__c)) {
-                tdo.isGreenLine = ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING;
+                tdo.isEnrollingCTP = ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING;
             } else if (String.isNotBlank(ctp.Recruitment_Status__c)) {
-                tdo.isGreenLine = ctp.Recruitment_Status__c == ENROLLING || ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT;
+                tdo.isEnrollingCTP = ctp.Recruitment_Status__c == ENROLLING || ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT;
             }
             List<Therapeutic_Area__c> tasTemp = therapeuticAreaByParent.get(ctp.Therapeutic_Area__c).Therapeutic_Areas__r;
             if (tasTemp != null && !tasTemp.isEmpty()) {

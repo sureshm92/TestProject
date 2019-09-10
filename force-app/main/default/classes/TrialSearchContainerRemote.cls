@@ -40,6 +40,6 @@ public with sharing class TrialSearchContainerRemote {
         @AuraEnabled
         public List<Therapeutic_Area__c> cois;
         @AuraEnabled
-        public Boolean isGreenLine;
+        public Boolean isEnrollingCTP;
     }
 }
