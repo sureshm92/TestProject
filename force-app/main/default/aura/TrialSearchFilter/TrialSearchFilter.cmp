@@ -2,5 +2,12 @@
   - Created by Yehor Dobrovolskyi
  -->
 <aura:component description="TrialSearchFilter">
-    Filter Clause
+
+    <aura:attribute name="taps" type="List"/>
+
+    <aura:if isTrue="{!v.taps}">
+    <aura:iteration items="{!v.taps}" var="tap">
+    <div>{!tap.Therapeutic_Area__r.Name}</div>
+    </aura:iteration>
+    </aura:if>
 </aura:component>
