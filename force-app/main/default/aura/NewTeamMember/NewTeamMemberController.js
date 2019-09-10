@@ -21,12 +21,14 @@
         else{
             component.set('v.currentTab', 'all-same');
         }
-
-
+        var parentId = communityService.getUrlParameter('id');
+        if(parentId){
+            component.set('v.parentId',parentId);
+        }
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
             contactEmail: '',
-            parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
+            parentId: parentId?parentId:communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);
@@ -111,13 +113,18 @@
     },
 
     doSaveChanges: function (component, event, helper) {
+        debugger;
         var delegate = component.get('v.delegate');
         var allTrialLevel = component.get('v.allTrialLevel');
         var currentTab = component.get('v.currentTab');
-        if (currentTab === 'all-same') {
-            for (var i = 0; i < delegate.trialLevels.length; i++) {
-                delegate.trialLevels[i].delegateLevel = allTrialLevel.delegateLevel;
-                delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
+        if (currentTab === 'all-same' && component.get('v.userMode') === 'HCP') {
+            delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
+        }
+        else if(currentTab === 'all-same' && component.get('v.userMode') === 'PI'){
+            for (var i = 0; i < delegate.delegateTrials.length; i++) {
+                for (var j = 0; j < delegate.delegateTrials[i].siteLevels.length; j++)
+                delegate.delegateTrials[i].siteLevels[j].delegateLevel = allTrialLevel.delegateLevel;
+
             }
         }
 

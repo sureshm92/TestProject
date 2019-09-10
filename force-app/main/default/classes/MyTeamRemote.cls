@@ -11,11 +11,16 @@ public without sharing class MyTeamRemote {
         try {
             MyTeamRemote.MyTeamDetail detail = new MyTeamRemote.MyTeamDetail();
             detail.currentUserContactId = CommunityService.getUserContact().Id;
-            if(userMode == CommunityService.USER_MODE_PI && (parentId == null || parentId == '')){
+            if(userMode == CommunityService.USER_MODE_PI ){
                 detail.piDelegateParents = getDelegateParents();
-                if(detail.piDelegateParents.size()>0){
-                    detail.piSelectedParent = detail.piDelegateParents[0].value;
-                    parentId = detail.piDelegateParents[0].value;
+                if(detail.piDelegateParents.size()>0 ){
+                    if(parentId == null || parentId == ''){
+                        detail.piSelectedParent = detail.piDelegateParents[0].value;
+                        parentId = detail.piDelegateParents[0].value;
+                    }
+                    else{
+                        detail.piSelectedParent = parentId;
+                    }
                 }
             }
             detail.delegates = getDelegates(userMode, userMode != CommunityService.USER_MODE_HCP, null, parentId);
@@ -23,7 +28,7 @@ public without sharing class MyTeamRemote {
             if (userMode == CommunityService.USER_MODE_PI) {
                 detail.hasStudies = !StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>{
                         DelegateService.DELEGATE_LEVEL_1
-                }).isEmpty();
+                }, parentId).isEmpty();
             }
             if (userMode == CommunityService.USER_MODE_HCP) {
                 detail.hasStudies =  parentId == '' || DelegateService.getHCPDelegateLevelMap().get(parentId) == DelegateService.DELEGATE_LEVEL_1;
@@ -121,25 +126,39 @@ public without sharing class MyTeamRemote {
                         DelegateWrapper dw = new DelegateWrapper();
                         dw.delegateContact = delegateContact;
                         Boolean isDelegate = false;
-                        for (Study_Site__c study : studySites) {
-                            if(parentId!=null && parentId !='' && study.Principal_Investigator__c != parentId){
+                        Map<Id, TrialDelegateWrapper> delegateTrialsMap = new Map<Id, TrialDelegateWrapper>();
+                        for (Study_Site__c site : studySites) {
+                            if(parentId!=null && parentId !='' && site.Principal_Investigator__c != parentId){
                                 continue;
                             }
-                            TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
-                            trialLevel.trialName = study.Clinical_Trial_Profile__r.Study_Code_Name__c + '(' + study.Name + ')';
-                            trialLevel.enrollmentOrStudySiteId = study.Id;
-                            trialLevel.delegateLevel = '';
-                            trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(study.Id));
+                            TrialDelegateWrapper delegateTrial;
+                            if(!delegateTrialsMap.containsKey(site.Clinical_Trial_Profile__c)){
+                                delegateTrial = new TrialDelegateWrapper();
+                                delegateTrial.trialName = site.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                                delegateTrialsMap.put(site.Clinical_Trial_Profile__c, delegateTrial);
+                            }
+                            else {
+                                delegateTrial = delegateTrialsMap.get(site.Clinical_Trial_Profile__c);
+                            }
+                            DelegateLevelWrapper siteLevel = new DelegateLevelWrapper();
+                            siteLevel.entityName = site.Name;
+                            siteLevel.enrollmentOrStudySiteId = site.Id;
+                            siteLevel.delegateLevel = '';
+                            siteLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(site.Id));
                             Site_Staff__c delegateRecord =
                                     (staffTrialMap.get(delegateContact.Id) == null)
-                                            ? null : (staffTrialMap.get(delegateContact.Id).get(study.Id));
+                                            ? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
                             if (delegateRecord != null) {
                                 isDelegate = true;
-                                trialLevel.delegateLevel = delegateRecord.Delegate_Level__c;
+                                siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;
                             }
-                            dw.trialLevels.add(trialLevel);
+                            delegateTrial.siteLevels.add(siteLevel);
                         }
-                        dw.trialLevels.sort();
+                        for(TrialDelegateWrapper tdw : delegateTrialsMap.values()){
+                            tdw.siteLevels.sort();
+                            dw.delegateTrials.add(tdw);
+                        }
+                        dw.delegateTrials.sort();
                         if(useProvidedContacts || isDelegate){
                             delegates.add(dw);
                         }
@@ -148,17 +167,8 @@ public without sharing class MyTeamRemote {
             }
         }
         if (userMode == CommunityService.USER_MODE_HCP) {
-//            List<HCP_Enrollment__c> hcpEnrollments;
-//            if (!useProvidedContacts) {
-//                hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsWithDelegateLevelFiltered(ACTIVE_HCP_ENROLLMENTS_FILTER, new Set<String>(DelegateService.DELEGATE_LEVEL_1_AND_LOW));
-//            } else {
-//                hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsWithDelegateLevelFiltered(ACTIVE_HCP_ENROLLMENTS_FILTER, new Set<String>{
-//                        DelegateService.DELEGATE_LEVEL_1
-//                });
-//            }
             List<RP_Delegate_Relationship__c> delegatesQR = [SELECT Id, Referring_Provider__c, Delegate__c, Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Referring_Provider__c = :parentId];
 
-            //Map<Id, Map<Id, Referring_HCP_Staff__c>> staffTrialMap = DelegateService.getHCPTeamStaffTrialMap();
             List<Contact> delegateContacts;
             Map<Id, String> delegateLevels = new Map<Id, String>();
             Set<Id> delegateIds = new Set<Id>();
@@ -184,27 +194,10 @@ public without sharing class MyTeamRemote {
                 if (!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
-//                        for (HCP_Enrollment__c enrollment : hcpEnrollments) {
-//                            TrialDelegateLevelWrapper trialLevel = new TrialDelegateLevelWrapper();
-//                            trialLevel.trialName = enrollment.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c + '(' + enrollment.Study_Site__r.Name + ')';
-//                            trialLevel.enrollmentOrStudySiteId = enrollment.Id;
-//                            trialLevel.delegateLevel = '';
-//                            trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPEnrollmentAccessLevelMap().get(enrollment.Id)) ||
-//                                    delegateContact.Id == CommunityService.getUserContact().Id;
-//                            Referring_HCP_Staff__c delegateRecord =
-//                                    (staffTrialMap.get(delegateContact.Id) == null) ?
-//                                            null : (staffTrialMap.get(delegateContact.Id).get(enrollment.Id));
-//                            if (delegateRecord != null) {
-//                                trialLevel.delegateLevel = delegateRecord.Delegate_Level__c;
-//                            }
-//                            dw.trialLevels.add(trialLevel);
-//                        }
-//                        dw.trialLevels.sort();
-                    dw.trialLevel = new TrialDelegateLevelWrapper();
+                    dw.trialLevel = new DelegateLevelWrapper();
                     dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? delegateLevels.get(delegateContact.Id):'';
                     dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
                             || delegateContact.Id == CommunityService.getUserContact().Id;
-                    dw.trialLevels.add(dw.trialLevel);
                     delegates.add(dw);
                 }
             }
@@ -224,8 +217,8 @@ public without sharing class MyTeamRemote {
                 for (Participant_Enrollment__c partEnroll :
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant()
                 ) {
-                    TrialDelegateLevelWrapper trialWrap = new TrialDelegateLevelWrapper();
-                    trialWrap.trialName = partEnroll.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+                    DelegateLevelWrapper trialWrap = new DelegateLevelWrapper();
+                    trialWrap.entityName = partEnroll.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
                     trialWrap.enrollmentOrStudySiteId = partEnroll.Id;
                     trialWrap.delegateLevel = '';
                     dw.trialLevels.add(trialWrap);
@@ -261,11 +254,12 @@ public without sharing class MyTeamRemote {
     private static List<LabelValueItem> getDelegateParents(){
         Set<Id> piDelegateParentIds = DelegateService.getPIDelegateParents();
         List<LabelValueItem> parents = new List<LabelValueItem>();
-        if(StudySiteService.getStudySitesForPI().size()>0){
+        if(StudySiteService.getStudySitesForPI(true).size()>0){
             parents.add(new LabelValueItem(Label.PG_MT_L_My_Team, CommunityService.getUserContact().Id));
         }
         for(Contact parent : CommunityService.getContacts(piDelegateParentIds)){
-            parents.add(new LabelValueItem(Label.PG_MT_L_Team_for.replace('##PIName',parent.Full_Name__c), parent.Id));
+            String parentFullName = (parent.Salutation != null?parent.Salutation + ' ':'') + parent.Full_Name__c + (parent.Suffix != null?' ' + parent.Suffix:'');
+            parents.add(new LabelValueItem(Label.PG_MT_L_Team_for.replace('##PIName',parentFullName), parent.Id));
         }
         return parents;
     }
@@ -318,27 +312,30 @@ public without sharing class MyTeamRemote {
         List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
         List<Site_Staff__c> delegateRecordsToUpdate = new List<Site_Staff__c>();
         List<Site_Staff__c> delegateRecordsToDelete = new List<Site_Staff__c>();
-        for (TrialDelegateLevelWrapper delegateRecord : dw.trialLevels) {
-            if (delegateRecord.delegateLevel != '') {
-                hasDelegateLevels = true;
-            }
-            if (delegateSiteStaffMap == null ||
-                    delegateSiteStaffMap.get(delegateRecord.enrollmentOrStudySiteId) == null) {
+        for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {
+            for(DelegateLevelWrapper delegateRecord: delegateTrialRecord.siteLevels) {
+
                 if (delegateRecord.delegateLevel != '') {
-                    Site_Staff__c newDelegateRecord = new Site_Staff__c();
-                    newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
-                    newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
-                    newDelegateRecord.Site_Contact__c = dw.delegateContact.Id;
-                    delegateRecordsToInsert.add(newDelegateRecord);
+                    hasDelegateLevels = true;
                 }
-            } else {
-                Site_Staff__c curDelegateRecord =
-                        delegateSiteStaffMap.get(delegateRecord.enrollmentOrStudySiteId);
-                if (delegateRecord.delegateLevel == '') {
-                    delegateRecordsToDelete.add(curDelegateRecord);
-                } else if (delegateRecord.delegateLevel != curDelegateRecord.Delegate_Level__c) {
-                    curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
-                    delegateRecordsToUpdate.add(curDelegateRecord);
+                if (delegateSiteStaffMap == null ||
+                        delegateSiteStaffMap.get(delegateRecord.enrollmentOrStudySiteId) == null) {
+                    if (delegateRecord.delegateLevel != '') {
+                        Site_Staff__c newDelegateRecord = new Site_Staff__c();
+                        newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                        newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
+                        newDelegateRecord.Site_Contact__c = dw.delegateContact.Id;
+                        delegateRecordsToInsert.add(newDelegateRecord);
+                    }
+                } else {
+                    Site_Staff__c curDelegateRecord =
+                            delegateSiteStaffMap.get(delegateRecord.enrollmentOrStudySiteId);
+                    if (delegateRecord.delegateLevel == '') {
+                        delegateRecordsToDelete.add(curDelegateRecord);
+                    } else if (delegateRecord.delegateLevel != curDelegateRecord.Delegate_Level__c) {
+                        curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                        delegateRecordsToUpdate.add(curDelegateRecord);
+                    }
                 }
             }
         }
@@ -466,13 +463,15 @@ public without sharing class MyTeamRemote {
 
     private static void createPIDelegationRecord(DelegateWrapper delegate, Contact delegateContact) {
         List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
-        for (TrialDelegateLevelWrapper delegateRecord : delegate.trialLevels) {
-            if (delegateRecord.delegateLevel != '') {
-                Site_Staff__c newDelegateRecord = new Site_Staff__c();
-                newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
-                newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
-                newDelegateRecord.Site_Contact__c = delegateContact.Id;
-                delegateRecordsToInsert.add(newDelegateRecord);
+        for (TrialDelegateWrapper delegateTrialRecord : delegate.delegateTrials) {
+            for(DelegateLevelWrapper delegateRecord: delegateTrialRecord.siteLevels){
+                if (delegateRecord.delegateLevel != '') {
+                    Site_Staff__c newDelegateRecord = new Site_Staff__c();
+                    newDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                    newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
+                    newDelegateRecord.Site_Contact__c = delegateContact.Id;
+                    delegateRecordsToInsert.add(newDelegateRecord);
+                }
             }
         }
         if (!delegateRecordsToInsert.isEmpty()) {
@@ -502,10 +501,11 @@ public without sharing class MyTeamRemote {
     }
     public class DelegateWrapper implements Comparable {
         public Contact delegateContact;
-        public List<TrialDelegateLevelWrapper> trialLevels;
-        public TrialDelegateLevelWrapper trialLevel;
+        public List<TrialDelegateWrapper> delegateTrials;
+        public List<DelegateLevelWrapper> trialLevels;
+        public DelegateLevelWrapper trialLevel;
         public DelegateWrapper() {
-            trialLevels = new List<TrialDelegateLevelWrapper>();
+            delegateTrials = new List<TrialDelegateWrapper>();
         }
         public Integer compareTo(Object compareTo) {
             DelegateWrapper compareToDelegate = (DelegateWrapper) compareTo;
@@ -517,16 +517,32 @@ public without sharing class MyTeamRemote {
             return 0;
         }
     }
-    public class TrialDelegateLevelWrapper implements Comparable {
+    public class DelegateLevelWrapper implements Comparable {
         public String delegateLevel;
-        public String trialName;
+        public String entityName;
         public String enrollmentOrStudySiteId;
         public Boolean readOnly;
 
         public Integer compareTo(Object compareTo) {
-            if (trialName > ((TrialDelegateLevelWrapper) compareTo).trialName) {
+            if (entityName > ((DelegateLevelWrapper) compareTo).entityName) {
                 return 1;
-            } else if (trialName < ((TrialDelegateLevelWrapper) compareTo).trialName) {
+            } else if (entityName < ((DelegateLevelWrapper) compareTo).entityName) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
+    public class TrialDelegateWrapper implements Comparable {
+        public String trialName;
+        public List<DelegateLevelWrapper> siteLevels;
+        public TrialDelegateWrapper(){
+            siteLevels = new List<DelegateLevelWrapper>();
+        }
+        public Integer compareTo(Object compareTo) {
+            if (trialName > ((TrialDelegateWrapper) compareTo).trialName) {
+                return 1;
+            } else if (trialName < ((TrialDelegateWrapper) compareTo).trialName) {
                 return -1;
             }
             return 0;

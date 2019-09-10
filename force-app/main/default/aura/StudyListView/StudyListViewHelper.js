@@ -17,6 +17,7 @@
                     delegateId: communityService.getDelegateId()
                 }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
+                debugger;
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
                 component.set("v.sortData", initData.sortData);
@@ -37,6 +38,7 @@
                 component.set("v.filterData", initData.piStudiesFilter.filterData);
                 component.set("v.sortData", initData.piStudiesFilter.sortData);
                 component.set("v.currentPITrials", initData.currentPITrials);
+                component.set("v.piId",initData.piStudiesFilter.filterData.piId);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
                     component.set("v.showSpinner", false);
@@ -120,6 +122,10 @@
         let spinner = cmp.find('recordsSpinnerPI');
         spinner.show();
         let filter = cmp.get('v.filterData');
+        let piId = cmp.get('v.piId');
+        if(filter.piId !== piId){
+            filter.trialId = '';
+        }
         let searchText = filter.searchText;
         let paginationData = cmp.get('v.paginationData');
         let filterJSON = JSON.stringify(filter);
@@ -143,6 +149,7 @@
             filter.studyPickList = result.piStudiesFilter.filterData.studyPickList;
             cmp.set('v.filterData', filter);
             cmp.set("v.currentPITrials", result.currentPITrials);
+            cmp.set("v.piId",result.piStudiesFilter.filterData.piId);
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(cmp);
             }), 10);

@@ -120,8 +120,12 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         List<String> fields = new List<String>();
         fields.addAll(PI_STUDY_COMMON_FIELDS);
         String studySitesQuery = '( SELECT ' + String.join(PI_STUDY_SITES_COMMON_FIELDS,', ') + ' FROM Study_Site_Profiles__r WHERE ';
-        if(filterData.piId != null && filterData.piId != ''){
-            studySitesQuery += DatabaseService.fieldEqual('Principal_Investigator__c', filterData.piId);
+        if(filterData.piId != null && filterData.piId != '' && filterData.piId == CommunityService.getUserContact().Id) {
+            studySitesQuery += ' (' + DatabaseService.fieldEqual('Principal_Investigator__c', filterData.piId) + ' )';
+        }
+        else if(filterData.piId != null && filterData.piId != ''){
+            studySitesQuery += ' (' + DatabaseService.fieldEqual('Principal_Investigator__c', filterData.piId) +
+                    '   AND  ' + DatabaseService.fieldInValues('Id', DelegateService.getDelegatedStudySiteIds()) + ' )';
         }
         else{
             studySitesQuery += ' (' + DatabaseService.fieldEqual('Principal_Investigator__c', CommunityService.getUserContact().Id) +
@@ -134,8 +138,12 @@ public without sharing class PIStudiesFilter implements SearchFilter {
 
     public String getFilterString() {
         String filterString = DatabaseService.fieldEqual('Override_Recruitment_Status__c', filterData.statusFilter);
-        if(filterData.piId != null && filterData.piId != ''){
+        if(filterData.piId != null && filterData.piId != '' && filterData.piId == CommunityService.getUserContact().Id) {
             filterString += ' AND ( Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE ' + DatabaseService.fieldEqual('Principal_Investigator__c', filterData.piId) + ' ) )';
+        }
+        else if(filterData.piId != null && filterData.piId != ''){
+            filterString += ' AND ( Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE (' + DatabaseService.fieldEqual('Principal_Investigator__c', filterData.piId) +
+                    '   AND  ' + DatabaseService.fieldInValues('Id', DelegateService.getDelegatedStudySiteIds()) +' ) ) )';
         }
         else{
             filterString += ' AND ( Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE (' + DatabaseService.fieldEqual('Principal_Investigator__c', CommunityService.getUserContact().Id) +

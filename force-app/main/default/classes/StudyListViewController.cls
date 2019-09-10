@@ -170,7 +170,10 @@ public without sharing class StudyListViewController {
                 if(filters.size() == 2){
                     initData =  new PIInitData(filters[0],filters[1]);
                 }
-                else {
+                else if(filters.size() == 1){
+                    initData =  new PIInitData(filters[0],'');
+                }
+                else{
                     initData = new PIInitData();
                 }
             }

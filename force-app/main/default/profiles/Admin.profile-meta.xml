@@ -23,6 +23,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_EditLocationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_InviteRPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -128,6 +132,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -515,7 +523,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MyReferredZoneController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyStudySitesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -551,6 +567,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PIStudiesFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PITrialBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -580,10 +600,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDecoupler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantDuplicateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -951,6 +967,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TaskTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TasksRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1080,6 +1100,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EditLocationRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2138,6 +2162,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.PI_DelegateAccessLevel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.PI_My_Studies_Filters__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6747,10 +6776,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

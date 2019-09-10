@@ -22,6 +22,7 @@
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="changedLevelsAll" type="List" access="private" default="[]"/>
     <aura:attribute name="currentUserContactId" type="String" access="private" default=""/>
+    <aura:attribute name="parentId" type="String" access="private" default=""/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -40,7 +41,7 @@
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">
-                <c:RRLink page="{!'my-team'}">
+                <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                     <c:RRIcon iconName="icon-arrow-left"/>
                     {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
@@ -67,7 +68,7 @@
                             <div class="button-panel-mobile rr-medium-up-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'my-team'}">
+                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
@@ -132,8 +133,8 @@
 
                                     <div class="permissions-body rr-white-panel">
                                         <div class="{!'by-study-container sdli-container ' + if(v.currentTab == 'by-study','','hidden')}">
-                                            <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-                                                <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!trialLevel}"
+                                            <aura:iteration items="{!v.delegate.delegateTrials}" var="trial">
+                                                <c:DelegateTrialCard aura:id="study-level" studyLevels="{!trial}"
                                                                           options="{!v.delegateOptions}"
                                                                           changedLevels="{!v.changedLevels}"/>
                                             </aura:iteration>
@@ -149,7 +150,7 @@
                             <div class="button-panel rr-medium-down-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'my-team'}">
+                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
