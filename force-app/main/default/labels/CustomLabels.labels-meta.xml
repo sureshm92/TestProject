@@ -6409,6 +6409,20 @@ Please check your CAPS lock key.</value>
         <value>Add New Team Member</value>
     </labels>
     <labels>
+        <fullName>PG_MT_L_My_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L My Team</shortDescription>
+        <value>My Team</value>
+    </labels>
+    <labels>
+        <fullName>PG_MT_L_Team_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L Team for</shortDescription>
+        <value>Team for ##PIName</value>
+    </labels>
+    <labels>
         <fullName>PG_MT_T_Your_permissions_do_not_permit_this_action</fullName>
         <language>en_US</language>
         <protected>false</protected>
