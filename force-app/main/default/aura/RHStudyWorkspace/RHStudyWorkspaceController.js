@@ -9,7 +9,7 @@
         if(communityService.isInitialized()){
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.state', communityService.getParticipantState());
-            component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
+            component.set('v.multiMode', communityService.getAllUserModes().length > 1);
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
                 userMode: communityService.getUserMode(),

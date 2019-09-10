@@ -18,16 +18,13 @@
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
 
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
-    <c:RRActionApprove aura:id="popup"
-                       dialogTitle="{!$Label.c.Home_Page_StudyVisit_Btn}"
-                       message="{!$Label.c.StudyVisit_Popup_Text}"
-                       approveBtnName="{!$Label.c.BTN_OK}"
-                       cancelBtnName="{!$Label.c.BTN_Cancel}"/>
 
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
             {!$Label.c.Home_Page_StudyVisit_Title}
-            <button class="apollo-btn primary" onclick="{!c.onTravel}">{!$Label.c.Home_Page_StudyVisit_Btn}</button>
+            <div class="apollo-btn">
+                <c:TravelSupport/>
+            </div>
         </div>
 
         <ui:scrollerWrapper class="rr-white-panel">

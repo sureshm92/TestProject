@@ -632,6 +632,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void setupCurrentEnrollment(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<String> targetStatuses = new List<String>(PEStatusState.PE_STATUS_GROUP_ALUMNI);
         targetStatuses.add(PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI);
+        targetStatuses.add(PEStatusState.PE_STATUS_CONTACT_FAILED);
         List<Id> selectedParticipantIds = new List<Id>();
         List<Id> selectedContactIds = new List<Id>();
         for(Participant_Enrollment__c pe : newList){

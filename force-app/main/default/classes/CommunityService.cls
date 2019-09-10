@@ -247,6 +247,7 @@ public without sharing class CommunityService {
                         HCP_DelegateAccessLevel__c,
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
+                        Current_Participant_Enrollment__c,
                         Last_Session_Id__c,
                         MailingLatitude,
                         MailingLongitude,

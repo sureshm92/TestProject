@@ -202,7 +202,7 @@
             </div>
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
                 <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
-                    <c:StudySiteCardForRP siteWrapper="{!siteWrapper}"/>
+                    <c:StudySiteCardForRP siteWrapper="{!siteWrapper}" hasPatients="{!v.currentStudy.hasPatients}"/>
                 </aura:iteration>
                 <div class="slds-p-around--medium">
                     <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
