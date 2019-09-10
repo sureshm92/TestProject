@@ -239,7 +239,7 @@ RunTestINF3.2:
   except:
   - merge_requests
 
-  stage: RunTestINT3.2
+  stage: RunTestINF3.2
   script:
   - echo "$INFTreeTwo" > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF3.2 -d
