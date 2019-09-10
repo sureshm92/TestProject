@@ -44,6 +44,14 @@ public without sharing class StudySiteTriggerHandler {
         
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList);
+            overrideStatusChangedBy(newList, null);
+            updateRecruitmentStatus(newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            piDoesNotReimburse(newList);
+            overrideStatusChangedBy(newList, (Map<Id, Study_Site__c>)oldMap);
+            updateRecruitmentStatus(newList);
         }
     
     }
@@ -148,6 +156,68 @@ public without sharing class StudySiteTriggerHandler {
             //Primary_Key__c
             if(ctp != null && pi != null){
                 ss.Primary_Key__c = ss.Study_Site_Key__c + '_' + pi.Investigator_Key__c + '_' + ctp.Protocol_ID__c;
+            }
+        }
+    }
+
+    private static void piDoesNotReimburse(List<Study_Site__c> newList){
+        for(Study_Site__c site : newList){
+            if(site.Sponsor_Pays_for_Referral_Activity__c == 'No') site.PI_Pays_for_Referral_Activity__c = 'No';
+        }
+    }
+
+    private static void overrideStatusChangedBy(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap) {
+        Profile profile = [SELECT Name FROM Profile WHERE Id =: UserInfo.getProfileId()];
+        String profileName = profile.Name;
+        for(Study_Site__c site : newList){
+            if((oldMap == null && site.Override_Study_Site_Recruitment_Status__c  != null) ||
+            (oldMap != null && oldMap.get(site.Id).Override_Study_Site_Recruitment_Status__c != site.Override_Study_Site_Recruitment_Status__c)){
+                site.Override_Status_Updated_By__c = profileName;
+            }
+        }
+    }
+
+    private static void updateRecruitmentStatus(List<Study_Site__c> newList){
+        Set<Id> siteIds = new Set<Id>();
+        for(Study_Site__c site : newList){
+            siteIds.add(site.Id);
+        }
+        newList = [
+                SELECT
+                        Id,
+                        Clinical_Trial_Profile__r.Override_Recruitment_Status__c,
+                        Override_PI_Referral_Status__c,
+                        Override_Study_Site_Recruitment_Status__c,
+                        Recruitment_Status__c
+                FROM    Study_Site__c
+                WHERE   Id IN :siteIds
+        ];
+        for(Study_Site__c site : newList){
+            //TODO this if
+            if(site.Clinical_Trial_Profile__r.Override_Recruitment_Status__c == 'Actively Enrolling' &&
+                    site.Override_PI_Referral_Status__c == 'Accepted' &&
+                    site.Clinical_Trial_Profile__r.Override_Recruitment_Status__c == null){
+                site.Override_Study_Site_Recruitment_Status__c = 'Actively Enrolling';
+            } else if(site.Recruitment_Status__c == 'Enrollment Closed'){
+                site.Override_Study_Site_Recruitment_Status__c = 'Enrollment Closed';
+            } else if(site.Clinical_Trial_Profile__r.Override_Recruitment_Status__c == 'No Longer Enrolling'){
+                site.Override_Study_Site_Recruitment_Status__c = 'No Longer Enrolling';
+            } else if(site.Recruitment_Status__c == 'Enrollment On Hold'){
+                site.Override_Study_Site_Recruitment_Status__c = 'On Hold';
+            } else if(site.Recruitment_Status__c == 'Approved for SSV' ||
+                    site.Recruitment_Status__c == 'Backup' ||
+                    site.Recruitment_Status__c == 'Closed' ||
+                    site.Recruitment_Status__c == 'Conditional Selected' ||
+                    site.Recruitment_Status__c == 'Contacted (Feasibility)' ||
+                    site.Recruitment_Status__c == 'Contacted (Site ID)' ||
+                    site.Recruitment_Status__c == 'Dropped' ||
+                    site.Recruitment_Status__c == 'Essential Documents in place' ||
+                    site.Recruitment_Status__c == 'Interested (Feasibility)' ||
+                    site.Recruitment_Status__c == 'Interested (Site ID)' ||
+                    site.Recruitment_Status__c == 'Non-responder (Feasibility)' ||
+                    site.Recruitment_Status__c == 'Non-responder (Site ID)' ||
+                    site.Recruitment_Status__c == 'Not Interest'){
+                site.Override_Study_Site_Recruitment_Status__c = 'PI cannot accept referrals based on Site status';
             }
         }
     }
