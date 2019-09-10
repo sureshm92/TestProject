@@ -7,12 +7,14 @@
 .THIS .filter-side {
     padding-left: 4%;
     padding-top: 70px;
+    position: fixed;
 }
 
 .THIS.width-limiter {
     max-width: 1120px;
     margin: -30px 0 0 0;
     height: 100%;
+    min-height: 800px;
 
 }
 .THIS .trials-container{
@@ -35,6 +37,7 @@
     .THIS .filter-side{
         padding-left: 4%;
         margin: 5% 0 0 0 !important;
+        position: relative;
     }
     .THIS .trials-side{
         border-right: 0;
