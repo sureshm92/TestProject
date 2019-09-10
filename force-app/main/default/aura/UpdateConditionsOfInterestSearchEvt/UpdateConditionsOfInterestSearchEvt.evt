@@ -4,4 +4,6 @@
 
 <aura:event type="COMPONENT" description="UpdateConditionsOfInterestSearchEvt">
     <aura:attribute name="settings" type="List[]"/>
+    <aura:attribute name="enrolling" type="Boolean"/>
+    <aura:attribute name="notYetEnrolling" type="Boolean"/>
 </aura:event>

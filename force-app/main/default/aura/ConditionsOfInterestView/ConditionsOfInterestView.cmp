@@ -6,7 +6,8 @@
 
     <aura:attribute name="conditionOfInterestList" type="Object[]"/>
     <aura:attribute name="searchResults" type="Object[]"/>
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <aura:registerEvent name="updateSearchEvent" type="c:UpdateConditionsOfInterestSearchEvt"/>
 
