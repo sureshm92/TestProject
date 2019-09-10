@@ -16,7 +16,7 @@
             component.set('v.notReferral', wrapper.notReferral);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
 
-            if(wrapper.reminderEnabled) component.set('v.reminderDateEnabled', true);
+            if (wrapper.reminderEnabled) component.set('v.reminderDateEnabled', true);
 
             var task = wrapper.task;
 
@@ -27,10 +27,10 @@
             if (paramTaskId) {
                 component.set('v.editMode', true);
 
-                if(task.ActivityDate && wrapper.reminderDate) {
+                if (task.ActivityDate && wrapper.reminderDate) {
                     var due = moment(task.ActivityDate, 'YYYY-MM-DD');
                     var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
-                    if(!due.isSame(reminder)) {
+                    if (!due.isSame(reminder)) {
                         if (due.diff(reminder, 'days') === 1) component.set('v.frequencyMode', 'Day_Before');
                     }
                 }
@@ -50,6 +50,8 @@
             var visitId = communityService.getUrlParameter('visitId');
             if (visitId) component.set('v.task.Patient_Visit__c', visitId);
 
+            component.set('v.jsonState', JSON.stringify(wrapper));
+
             component.find('spinner').hide();
         });
     },
@@ -60,12 +62,6 @@
     },
 
     doSave: function (component, event, helper) {
-        var isValid = component.get('v.isValidFields');
-        if (!isValid) {
-            communityService.showErrorToast('', $A.get('$Label.c.Incorrect_data'));
-            return;
-        }
-
         var task = component.get('v.task');
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'));
@@ -81,10 +77,23 @@
             }
         }
 
+        if (!component.get('v.isValidFields')) {
+            var showToast = true;
+            if (component.get('v.editMode')) {
+                if (component.get('v.jsonState') === JSON.stringify(component.get('v.initData'))) {
+                    showToast = false;
+                }
+            }
+            if (showToast) {
+                communityService.showErrorToast('', $A.get('$Label.c.Incorrect_data'));
+                return;
+            }
+        }
+
         component.find('spinner').show();
         communityService.executeAction(component, 'upsertTask', {
             'paramTask': JSON.stringify(task),
-            'reminderDate' : reminderDate
+            'reminderDate': reminderDate
         }, function () {
             window.history.go(-1);
         }, null, function () {
@@ -152,7 +161,7 @@
     },
 
     setOneDayBefore: function (component, event, helper) {
-        if(!helper.isSameDay(component)) {
+        if (!helper.isSameDay(component)) {
             var dueDate = moment(component.get('v.task.ActivityDate'), 'YYYY-MM-DD');
             dueDate.subtract(1, 'days');
             component.set('v.initData.reminderDate', dueDate.format('YYYY-MM-DD'));
@@ -160,7 +169,7 @@
     },
 
     doCheckFields: function (component, event, helper) {
-        if(component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
+        if (component.get('v.initData') && component.get('v.initData.createdByAdmin')) return;
 
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
             return validSoFar && inputCmp.checkValidity();

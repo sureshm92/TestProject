@@ -28,7 +28,7 @@
    <!-- 1. Go to **State and Territory Picklists** and follow instruction for enable (temporary) -->
    1. Go to **Survey Settings** and enable 
    2. Go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
-
+   3. Go to **User Interface** in the *Name Settings* section, select "Enable Middle Names for Person Names" and "Enable Name Suffixes for Person Names".
 ##### 5) Push project to Scratch org:
 
    ```sh

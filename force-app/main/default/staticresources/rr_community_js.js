@@ -21,6 +21,8 @@ window.communityService = (function () {
     var language;
     var preventedCookies = [];
     var participantState;
+    var currentUserMode;
+    var allUserModes;
 
     //community service functions:
     var service = {
@@ -29,7 +31,6 @@ window.communityService = (function () {
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
                 var communityData = JSON.parse(returnValue);
-
                 preventedCookies = communityData.preventedCookies;
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
@@ -42,6 +43,8 @@ window.communityService = (function () {
                 language = communityData.language;
                 participantState = communityData.state;
                 isInitializedFlag = true;
+                allUserModes = communityData.allUserModes;
+                currentUserMode = communityData.currentUserMode;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('user mode: ' + communityMode);
@@ -107,6 +110,18 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
+        getCurrentCommunityMode: function(){
+            return currentUserMode;
+        },
+
+        setCurrentCommunityMode: function(mode){
+            currentUserMode = mode
+        },
+
+        getAllUserModes: function(){
+            return allUserModes
+        },
+
         getParticipantState: function(){
             return participantState;
         },
@@ -121,16 +136,10 @@ window.communityService = (function () {
             isTCAcceptedFlag = true;
         },
         getUserMode: function () {
-            return communityMode
-        },
-        setUserMode: function (userMode) {
-            communityMode = userMode;
+            return currentUserMode.userMode
         },
         getDelegateId: function () {
-            return communityDelegateId
-        },
-        setDelegateId: function (delegateId) {
-            communityDelegateId = delegateId;
+            return currentUserMode.currentHCPDelegate
         },
         isDelegate: function(){
             return isDelegate;

@@ -227,6 +227,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CommunityModeService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunityService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -316,6 +320,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DonutItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DuplicateContactController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -603,6 +611,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantDeduplicationController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDeduplicationService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantDuplicateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -688,6 +704,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>QualityCheckController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1356,6 +1376,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelSupportHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelVendorPanelRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2693,6 +2721,11 @@
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Middle_Initial__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4896,6 +4929,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>TravelVendorSettings__c.Is_Manual__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendorSettings__c.isEnable__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendor__c.Default_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Active_After_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5296,6 +5344,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Translation__c-Translation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TravelVendorSettings__c-TravelVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TravelVendor__c-TravelVendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Trial_Survey__c-Trial Survey Layout</layout>

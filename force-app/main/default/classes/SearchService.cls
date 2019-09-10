@@ -25,7 +25,7 @@ public without sharing class SearchService{
 
     private Integer countRecords(SearchFilter filter){
         if(filter.getQueryType() == QUERY_TYPE_SOQL){
-            return DatabaseService.countQuery(filter.getSObjectType(),filter.getFilterString());
+            return DatabaseService.countQuery(filter.getSObjectType(), filter.getFilterString());
         }
         else{
             return 0;
