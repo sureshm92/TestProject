@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sync_flag_must_be_checked_before_RPSS</fullName>
+    <active>true</active>
+    <errorConditionFormula>!Synch_with_TMDH__c &amp;&amp; Include_in_RP_trial_search__c</errorConditionFormula>
+    <errorDisplayField>Include_in_RP_trial_search__c</errorDisplayField>
+    <errorMessage>TMDH Sync flag must be checked before Referring Provider study search could be checked.</errorMessage>
+</ValidationRule>
