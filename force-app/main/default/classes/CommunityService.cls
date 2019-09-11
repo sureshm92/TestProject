@@ -232,7 +232,7 @@ public without sharing class CommunityService {
                 SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c, Salutation, Suffix
                 FROM Contact
                 WHERE Id = :contactIds
-                ORDER BY Full_Name__c
+                ORDER BY Name
         ];
     }
 
