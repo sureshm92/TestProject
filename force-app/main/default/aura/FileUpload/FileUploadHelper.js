@@ -24,7 +24,7 @@
             var state = response.getState();
             if (state === 'SUCCESS') {
                 var listOfLanguages = response.getReturnValue();
-                if(listOfLanguages != undefined && listOfLanguages.length != 0){
+                if(listOfLanguages !== undefined && listOfLanguages.length !== 0){
                     component.set('v.languagePickListValues', listOfLanguages);
                 }
             }
@@ -37,7 +37,7 @@
         var action = component.get('c.updateContentDocument');
         action.setParams( {
                 documentId: documentIdToUpdate,
-                codeValue: component.find('selectedOption').get("v.value")
+                codeValue: component.find('selectedOption').get('v.value')
             }
         );
         action.setCallback(this, function(response) {
