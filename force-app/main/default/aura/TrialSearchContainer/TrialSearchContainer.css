@@ -18,7 +18,7 @@
 
 }
 .THIS .trials-container{
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 .THIS .trials-side{
@@ -36,6 +36,7 @@
     }
     .THIS .filter-side{
         padding-left: 4%;
+        padding-top: 20px;
         margin: 5% 0 0 0 !important;
         position: relative;
     }

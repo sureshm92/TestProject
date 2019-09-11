@@ -31,6 +31,8 @@ public with sharing class TrialSearchContainerRemote {
         public List<TrialTDO> trialTDOs;
         @AuraEnabled
         public List<Therapeutic_Area_Patient__c> taps;
+        @AuraEnabled
+        public Participant__c participant;
 
     }
 

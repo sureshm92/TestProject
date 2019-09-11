@@ -36,7 +36,28 @@ public with sharing class TrialSearchHelper {
     };
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
-        return this.getTrialSearchContainer(null, true, true);
+        TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
+        trialSearchContainer.participant = [
+                SELECT
+                       Id,
+                        Gender__c,
+                        Mailing_State_Code__c,
+                        Phone_Type__c,
+                        Mailing_Country_Code__c,
+                        Last_Name__c,
+                        Date_of_Birth__c,
+                        Phone__c,
+                        Email__c,
+                        Mailing_Zip_Postal_Code__c
+                FROM Participant__c
+                WHERE Contact__c IN (
+                        SELECT ContactId
+                        FROM User
+                        WHERE Id = :UserInfo.getUserId()
+                )
+                LIMIT 1
+        ];
+        return trialSearchContainer;
     }
 
     public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
@@ -67,6 +88,31 @@ public with sharing class TrialSearchHelper {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(taIds, ctps, proxy);
         trialSearchContainer.trialTDOs = trialTDOS;
         return trialSearchContainer;
+    }
+
+    public List<Therapeutic_Area__c> getFilteredTherapeuticAreas(String searchText, List<Therapeutic_Area_Patient__c> selectedTaps) {
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+        String filter = '';
+        if (searchText != null && searchText != '') {
+            filter += 'AND Name LIKE \'%' + searchText + '%\' ';
+        }
+        if (selectedTaps != null && !selectedTaps.isEmpty()) {
+            filter += 'AND Id NOT IN (';
+            for (Therapeutic_Area_Patient__c tap : selectedTaps) {
+                filter += '\'' + tap.Therapeutic_Area__c + '\', ';
+            }
+            filter += ') ';
+        }
+        String query = 'SELECT ' +
+                'Id, ' +
+                'Name, ' +
+                'Therapeutic_Area__c ' +
+                'FROM Therapeutic_Area__c ' +
+                'WHERE RecordType.DeveloperName = \'Condition_of_Interests\' ' +
+                filter +
+                'LIMIT 5';
+        List<Therapeutic_Area__c> therapeuticArea = (List<Therapeutic_Area__c>) proxy.query(query, true);
+        return therapeuticArea;
     }
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {

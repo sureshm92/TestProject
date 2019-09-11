@@ -6,6 +6,7 @@
 
     <aura:attribute name="trialTDOs" type="List"/>
     <aura:attribute name="taps" type="List"/>
+    <aura:attribute name="participant" type="Participant__c" access="public"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="updateSearchEvent" event="c:UpdateConditionsOfInterestSearchEvt" action="{!c.handleUpdateSearchEvent}"/>
@@ -24,7 +25,7 @@
                 </div>
             </div>
             <div class="trials-container">
-                <c:TrialsContainer trialTDOs="{!v.trialTDOs}"/>
+                <c:TrialsContainer trialTDOs="{!v.trialTDOs}" participant="{!v.participant}"/>
             </div>
 
         </lightning:layoutItem>
