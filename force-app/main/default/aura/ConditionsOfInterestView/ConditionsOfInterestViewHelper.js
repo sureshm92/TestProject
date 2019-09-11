@@ -7,6 +7,15 @@
         component.set('v.conditionOfInterestList', conditions);
     },
 
+    doSearch : function(component) {
+        communityService.executeAction(component, 'searchForConditionOfInterest', {
+            searchText : component.find('search').value,
+            selectedCois : []
+        }, function (data) {
+            component.set('v.searchResults', data);
+        });
+    },
+
     getConditionFromSelectionById : function(component, id) {
         let searchResults = component.get("v.searchResults");
         let condition;

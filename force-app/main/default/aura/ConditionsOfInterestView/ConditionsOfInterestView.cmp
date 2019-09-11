@@ -2,12 +2,11 @@
  - Created by Vitalii Aheienko on 9/10/2019.
  -->
 
-<aura:component description="ConditionsOfInterestView">
+<aura:component description="ConditionsOfInterestView" controller="ConditionsOfInterestViewRemote">
 
     <aura:attribute name="conditionOfInterestList" type="Object[]"/>
     <aura:attribute name="searchResults" type="Object[]"/>
-
-<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <aura:attribute name="filterText" type="String" default=""/>
 
     <aura:registerEvent name="updateSearchEvent" type="c:UpdateConditionsOfInterestSearchEvt"/>
 
@@ -22,26 +21,32 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-combobox_container">
-                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                             aura:id="searchContainer"
+                             aria-expanded="false"
+                             aria-haspopup="listbox"
+                             role="combobox">
                             <!--Search field-->
                             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
                                 <input type="text" aura:id="search"
                                        class="slds-input slds-combobox__input"
                                        aria-controls="listbox-id-1" autoComplete="off"
                                        role="textbox" placeholder="Select an Option"
-                                       readonly="" onchange="{!c.doSearch}"  />
-                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right"></span>
+                                       oninput="{!c.doSearch}"
+                                       onfocusin="{!c.onFocusIn}"
+                                       onfocusout="{!c.onFocusOut}"
+                                       value="{!v.filterText}"/>
                             </div>
                             <!--Dropdown-->
-                            <div class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                            <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
                                 <ul class="slds-listbox slds-listbox_vertical" role="presentation">
                                     <aura:iteration items="{!v.searchResults}" var="searchItem">
                                         <li role="presentation" class="slds-listbox__item">
                                             <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option"
-                                                 id="{!searchItem.coi.Therapeutic_Area__c}" onclick="{!c.handleSelection}">
+                                                 id="{!searchItem.Id}" onclick="{!c.handleSelection}">
                                                 <span class="slds-media__figure slds-listbox__option-icon"></span>
                                                 <span class="slds-media__body">
-                                                <span class="slds-truncate" title="{!searchItem.coi.Therapeutic_Area__r.Name}">searchItem.coi.Therapeutic_Area__r.Name</span>
+                                                <span class="slds-truncate" title="{!searchItem.Name}">{!searchItem.Name}</span>
                                             </span>
                                             </div>
                                         </li>
@@ -60,7 +65,7 @@
             </div>
 
             <div>
-                <lightning:button variant="neutral" onclick="{!c.updateSearchResults}" value="Update Search Results"/>
+                <lightning:button variant="neutral" onclick="{!c.updateSearchResults}" value="Update Search Results" label="Update Search Results"/>
             </div>
         </div>
     </div>

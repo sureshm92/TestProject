@@ -69,6 +69,31 @@ public with sharing class TrialSearchHelper {
         return trialSearchContainer;
     }
 
+    public List<Therapeutic_Area__c> getFilteredTherapeuticAreas(String searchText, List<Therapeutic_Area_Patient__c> selectedTaps) {
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+        String filter = '';
+        if (searchText != null && searchText != '') {
+            filter += 'AND Name LIKE \'%' + searchText + '%\' ';
+        }
+        if (selectedTaps != null && !selectedTaps.isEmpty()) {
+            filter += 'AND Id NOT IN (';
+            for (Therapeutic_Area_Patient__c tap : selectedTaps) {
+                filter += '\'' + tap.Therapeutic_Area__c + '\', ';
+            }
+            filter += ') ';
+        }
+        String query = 'SELECT ' +
+                'Id, ' +
+                'Name, ' +
+                'Therapeutic_Area__c ' +
+                'FROM Therapeutic_Area__c ' +
+                'WHERE RecordType.DeveloperName = \'Condition_of_Interests\' ' +
+                filter +
+                'LIMIT 5';
+        List<Therapeutic_Area__c> therapeuticArea = (List<Therapeutic_Area__c>) proxy.query(query, true);
+        return therapeuticArea;
+    }
+
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
         Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = getTherapeuticAreaByParent(taIds, proxy);
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
