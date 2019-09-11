@@ -9,6 +9,7 @@
                 console.log('data ', data);
                 component.set('v.trialTDOs', data.trialTDOs);
                 component.set('v.taps', data.taps);
+                component.set('v.participant', data.participant);
                 component.find('mainSpinner').hide();
             }, function (err) {
                 if (err && err[0].message) {

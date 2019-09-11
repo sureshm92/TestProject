@@ -36,7 +36,28 @@ public with sharing class TrialSearchHelper {
     };
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
-        return this.getTrialSearchContainer(null, true, true);
+        TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
+        trialSearchContainer.participant = [
+                SELECT
+                       Id,
+                        Gender__c,
+                        Mailing_State_Code__c,
+                        Phone_Type__c,
+                        Mailing_Country_Code__c,
+                        Last_Name__c,
+                        Date_of_Birth__c,
+                        Phone__c,
+                        Email__c,
+                        Mailing_Zip_Postal_Code__c
+                FROM Participant__c
+                WHERE Contact__c IN (
+                        SELECT ContactId
+                        FROM User
+                        WHERE Id = :UserInfo.getUserId()
+                )
+                LIMIT 1
+        ];
+        return trialSearchContainer;
     }
 
     public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
