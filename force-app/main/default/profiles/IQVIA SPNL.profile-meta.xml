@@ -131,6 +131,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdatePESourceType</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -320,6 +324,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DonutItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DuplicateContactController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -527,15 +535,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MyReferredZoneController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MyStudySitesController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -604,6 +604,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDecoupler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDeduplicationController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -692,6 +696,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>QualityCheckController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1052,6 +1060,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePESourceType</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1849,6 +1861,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Participating_in_Rocket_Referral__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3675,6 +3692,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Site__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Source_Type__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

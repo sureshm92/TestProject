@@ -22,7 +22,7 @@ public class Test_Batch_MigratePicklistToCheckbox {
                 Participating_in_Digital_Recruitment__c,
                 Participating_in_Patient_Portal__c,
                 Participating_in_Rocket_Referral__c,
-                Include_in_patient_trial_search__c,
+                Patient_Portal_Enabled__c,
                 Include_in_RP_trial_search__c,
                 Synch_with_TMDH__c
         FROM Clinical_Trial_Profile__c
