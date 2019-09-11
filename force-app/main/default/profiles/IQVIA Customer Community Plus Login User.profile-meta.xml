@@ -1283,6 +1283,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TravelSupportRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TravelVendorPanelRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -4789,6 +4793,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>TravelVendorSettings__c.Is_Manual__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendorSettings__c.isEnable__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendor__c.Default_Country__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendor__c.Disclosure__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Trial_Survey__c.Active_After_Days__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5762,6 +5786,14 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Translation__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>TravelVendorSettings__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>TravelVendor__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

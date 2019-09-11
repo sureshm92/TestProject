@@ -10,7 +10,7 @@
             'ctpId' : component.get('v.recordId')
         }, function(data) {
             component.set('v.vendorItems', data.vendorItems);
-            component.set('v.vendors', data.vendors);
+            component.set('v.selectedVendors', data.vendors);
             component.set('v.countryCodes', data.countryCodes);
             component.set('v.selectedManuallySSIds', data.selectedSSIds);
             component.set('v.initialized', true);
@@ -21,7 +21,7 @@
     },
 
     getFilteredSS : function (component, event, helper) {
-        helper.getFilteredItems(component, helper);
+        helper.getFilteredItem(component, helper);
     },
 
     whenCountryFilterChanged : function (component, event, helper) {
@@ -72,6 +72,18 @@
         }, function() {
             component.find('spinner').hide();
         })
-    }
+    },
+
+    navToRecord : function (component, event, helper) {
+        let target = event.target;
+        let rowIndex = target.getAttribute("data-ssid");
+        let navEvt = $A.get("e.force:navigateToSObject");
+        navEvt.setParams({
+            "recordId": rowIndex,
+            "slideDevName": "Related",
+            "isredirect": 'true'
+        });
+        navEvt.fire();
+    },
 
 });
