@@ -2,7 +2,7 @@ public class QualityCheckController {
     
     //TODO !!! DEPRECATED MUST BE REMOVED!!!
     
-    public static void checkStagingRecord(Integration_Patient_Referral__c record) {
+  /*  public static void checkStagingRecord(Integration_Patient_Referral__c record) {
         System.debug('CheckRecord');
         String validationMessage = '';
         String requiredFieldMessages = checkRequiredFields(record);
@@ -88,6 +88,6 @@ public class QualityCheckController {
         }
         return '';
     }
-
+*/
 
 }
