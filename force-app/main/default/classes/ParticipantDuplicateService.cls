@@ -4,6 +4,8 @@
 
 public without sharing class ParticipantDuplicateService {
     
+    public class ParticipantDuplicateServiceException extends Exception{}
+    
     public Map<Integer, DuplicateContainer> duplicatesMap = new Map<Integer, DuplicateContainer>();
     
     private class DuplicateContainer{
@@ -95,11 +97,9 @@ public without sharing class ParticipantDuplicateService {
 
             if(duplicate != null){
                 Integer birthYear = getYearOfBirthForParticipant(participant);
-                System.debug('XXX BY: ' + birthYear);
                 if(birthYear != null){
                     Integer participantAge = System.today().year() - birthYear;
                     Integer birthYearInTheSystem = duplicate.getYearOfBirth();
-                    System.debug('XXX BY in system: ' + birthYearInTheSystem);
                     if(birthYearInTheSystem != null){
                         if(birthYear == birthYearInTheSystem && duplicate.getFirstName() == participant.First_Name__c){
                             setDuplicate(participant, duplicate);
@@ -148,6 +148,17 @@ public without sharing class ParticipantDuplicateService {
         return null;
     }
     
+    private static Integer getYearFromDateString(String dateStr){
+        try{
+            return Integer.valueOf(dateStr.mid(0, 4));
+        }catch (Exception e){}
+        try {
+            return Integer.valueOf(dateStr.substring(6, 10));
+        }catch (Exception e){
+            throw new ParticipantDuplicateServiceException('Can not extract year from filed value: ' + dateStr);
+        }
+    }
+    
     private static void mergeParticipants(Participant__c sourceParticipant, Participant__c newParticipant){
         if(sourceParticipant == null || newParticipant == null) return;
         //if(newParticipant.Phone__c != null) sourceParticipant.Phone__c = newParticipant.Phone__c;
@@ -157,7 +168,10 @@ public without sharing class ParticipantDuplicateService {
         if(newParticipant.Mailing_Zip_Postal_Code__c != null) sourceParticipant.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
         //if(newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
         if(newParticipant.Middle_Name__c != null) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
+        if(newParticipant.Date_of_Birth__c != null) sourceParticipant.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
+        if(newParticipant.Birth_Year__c != null) sourceParticipant.Birth_Year__c = newParticipant.Birth_Year__c;
     }
+    
 
 
 
