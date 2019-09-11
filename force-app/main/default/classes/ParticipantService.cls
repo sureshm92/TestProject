@@ -45,30 +45,6 @@ public without sharing class ParticipantService {
 
     public ParticipantService() {
         participantState = new ParticipantState();
-        List<Participant__c> participants = [
-                SELECT First_Name__c,
-                        Last_Name__c,
-                        Middle_Name__c,
-                        Full_Name__c,
-                        Date_of_Birth__c,
-                        Birth_Year__c,
-                        Gender__c,
-                        Email__c,
-                        Phone__c,
-                        Phone_Type__c,
-                        Mailing_State__c,
-                        Mailing_City__c,
-                        Mailing_State_Code__c,
-                        Mailing_Country__c,
-                        Mailing_Country_Code__c,
-                        Mailing_Zip_Postal_Code__c,
-                        Contact__c,
-                        Conditions__c,
-                        Contact__r.Visit_Results_Opt_In__c
-                FROM Participant__c
-                WHERE Contact__c =: CommunityService.getInstance().getCurrentContactId()
-        ];
-        if(participants.size() > 0) participantState.participant = participants[0];
         Id userContactId = CommunityService.getInstance().getCurrentContactId();
         ContactService.updateCurrentPEOnContacts(new List<Id>{userContactId});
         Contact userContact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: userContactId];
@@ -76,6 +52,31 @@ public without sharing class ParticipantService {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
             if(pe != null){
                 participantState.pe = pe;
+                List<Participant__c> participants = [
+                        SELECT First_Name__c,
+                                Last_Name__c,
+                                Middle_Name__c,
+                                Full_Name__c,
+                                Date_of_Birth__c,
+                                Birth_Year__c,
+                                Gender__c,
+                                Email__c,
+                                Phone__c,
+                                Phone_Type__c,
+                                Mailing_State__c,
+                                Mailing_City__c,
+                                Mailing_State_Code__c,
+                                Mailing_Country__c,
+                                Mailing_Country_Code__c,
+                                Mailing_Zip_Postal_Code__c,
+                                Contact__c,
+                                Conditions__c,
+                                Contact__r.Visit_Results_Opt_In__c
+                        FROM Participant__c
+                        WHERE Id =: pe.Participant__c
+                ];
+                if(!participants.isEmpty()) participantState.participant = participants.get(0);
+
                 participantState.isDelegate = pe.Participant__r.Contact__c != userContactId;
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
                 participantState.showTerms = showTerms();

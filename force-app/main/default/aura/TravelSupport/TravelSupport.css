@@ -1,4 +1,8 @@
 /**
+ * Created by dmytro.fedchyshyn on 02.09.2019.
+ */
+
+/**
  * Created by Igor Malyuta on 08.04.2019.
  */
 .THIS.sv-panel {
@@ -32,16 +36,6 @@
     position: relative;
 }
 
-.THIS .sv-footer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    flex-grow: 1;
-    background-color: rgba(216,216,216,0.25);
-}
 
-.THIS .svl-icon{
-    height: 32px;
-    width: 32px;
-}
+
+
