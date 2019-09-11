@@ -7,6 +7,7 @@
             var initData = JSON.parse(returnValue);
             debugger;
             component.set('v.languages', initData.languages);
+            component.set('v.optionalLanguages', initData.optionalLanguages);
             component.set('v.locales',   initData.locales);
             component.set('v.timezones', initData.timezones);
             console.log(initData.languages);

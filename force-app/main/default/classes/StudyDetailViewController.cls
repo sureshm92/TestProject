@@ -139,24 +139,7 @@ public without sharing class StudyDetailViewController {
                 if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
 
-                String langToTranslate = 'en_US';
-                if(pe.Study_Site__r.Approved_Lng__c != null) {
-                    List<String> approvedLangs = pe.Study_Site__r.Approved_Lng__c.split(';');
-                    langToTranslate = approvedLangs.get(0);
-
-                    String primaryContactLang = pe.Participant__r.Contact__r.Language__c;
-//                    String altContactLang = pe.Participant__r.Contact__r.SecondChoiceLanguage__c;
-//                    String secondAltContactLang = pe.Participant__r.Contact__r.ThirdChoiceLanguage__c;
-
-//                    if(approvedLangs.contains(primaryContactLang)) {
-//                        langToTranslate = primaryContactLang;
-//                    } else if(approvedLangs.contains(altContactLang)) {
-//                        langToTranslate = altContactLang;
-//                    } else if(approvedLangs.contains(secondAltContactLang)) {
-//                        langToTranslate = secondAltContactLang;
-//                    }
-                }
-                TranslateHelper.translate(trialDetail.trial, langToTranslate);
+                TranslateHelper.translate(trialDetail.trial, IRBParticipantService.getIRBLanguageMode(pe.Id).languageToTranslate);
 
                 trialDetail.pe = pe;
                 StudyActionsParticipant studyActions =

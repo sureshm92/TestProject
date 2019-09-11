@@ -14,8 +14,9 @@
     max-height: 500px;
 }
 
-.THIS .empty-approved-lang {
-    background-color: antiquewhite;
+.THIS .sorted-column {
+    display: flex;
+    justify-content: center;
 }
 
 .THIS .cell-wrap {

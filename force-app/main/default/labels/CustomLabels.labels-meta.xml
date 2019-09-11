@@ -3307,6 +3307,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>My Study Sites</value>
     </labels>
     <labels>
+        <fullName>Navigation_Past_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Past Studies</shortDescription>
+        <value>Past Studies</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Reports</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4590,7 +4597,7 @@ View study documents and other resources including articles and videos related t
         <shortDescription>PG AS F Middle name</shortDescription>
         <value>Middle Initial</value>
     </labels>
-    <labels>
+	<labels>
         <fullName>PG_AS_F_New_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7965,7 +7972,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB SS Empty AppLAng</shortDescription>
-        <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site as at least one IRB-Approved language to let Patients see Study Content.</value>
+        <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>
@@ -8365,6 +8372,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Resource Tab Study Video And Articles</shortDescription>
         <value>Video and Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title Document Name</shortDescription>
+        <value>Document Name</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title Study Name</shortDescription>
+        <value>Study Name</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>

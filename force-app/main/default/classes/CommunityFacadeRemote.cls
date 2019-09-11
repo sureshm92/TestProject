@@ -31,6 +31,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean isTCAccepted;
         String language;
         List<String> preventedCookies;
+        Boolean isNewSession;
     }
 
     @AuraEnabled

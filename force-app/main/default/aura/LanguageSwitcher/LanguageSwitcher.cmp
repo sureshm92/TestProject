@@ -9,6 +9,7 @@
     <aura:attribute name="secondLangKey" type="String"/>
     <aura:attribute name="thirdLangKey" type="String"/>
     <aura:attribute name="languages" type="LabelValueItem[]"/>
+    <aura:attribute name="optionalLanguages" type="LabelValueItem[]"/>
     <aura:attribute name="localeKey" type="String"/>
     <aura:attribute name="locales" type="LabelValueItem[]"/>
     <aura:attribute name="timezoneKey" type="String" />
@@ -39,7 +40,7 @@
                         <lightning:helptext content="{!$Label.c.PG_AS_F_2nd_Choice_Language_Help_Text}"/>
                     </span>
                 </div>
-                <c:rrSelect options="{!v.languages}" value="{!v.secondLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.secondLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_3rd_Choice_Language}
@@ -47,7 +48,7 @@
                         <lightning:helptext content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"/>
                     </span>
                 </div>
-                <c:rrSelect options="{!v.languages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
             </div>
         </div>
 
