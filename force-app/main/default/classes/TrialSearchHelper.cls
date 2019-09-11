@@ -90,18 +90,20 @@ public with sharing class TrialSearchHelper {
         return trialSearchContainer;
     }
 
-    public List<Therapeutic_Area__c> getFilteredTherapeuticAreas(String searchText, List<Therapeutic_Area_Patient__c> selectedTaps) {
+    public List<Therapeutic_Area__c> getFilteredTherapeuticAreas(String searchText, List<String> selectedCoisIds) {
         DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
         String filter = '';
         if (searchText != null && searchText != '') {
             filter += 'AND Name LIKE \'%' + searchText + '%\' ';
         }
-        if (selectedTaps != null && !selectedTaps.isEmpty()) {
+        if (selectedCoisIds != null && !selectedCoisIds.isEmpty()) {
             filter += 'AND Id NOT IN (';
-            for (Therapeutic_Area_Patient__c tap : selectedTaps) {
-                filter += '\'' + tap.Therapeutic_Area__c + '\', ';
+            for (String selectedCoisId : selectedCoisIds) {
+                filter += '\'' + selectedCoisId + '\', ';
             }
             filter += ') ';
+            filter = filter.replace(',)', ')');
+            System.debug(filter);
         }
         String query = 'SELECT ' +
                 'Id, ' +
@@ -111,8 +113,14 @@ public with sharing class TrialSearchHelper {
                 'WHERE RecordType.DeveloperName = \'Condition_of_Interests\' ' +
                 filter +
                 'LIMIT 5';
+        System.debug('here ' + query);
         List<Therapeutic_Area__c> therapeuticArea = (List<Therapeutic_Area__c>) proxy.query(query, true);
         return therapeuticArea;
+    }
+
+    public void upsertTaps(List<Therapeutic_Area_Patient__c> taps) {
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+        proxy.upsertRecords(taps, false);
     }
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {

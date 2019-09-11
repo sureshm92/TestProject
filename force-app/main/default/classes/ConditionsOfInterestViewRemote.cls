@@ -5,10 +5,20 @@
 public with sharing class ConditionsOfInterestViewRemote {
 
     @AuraEnabled
-    public static List<Therapeutic_Area__c> searchForConditionOfInterest(String searchText, List<Therapeutic_Area_Patient__c> selectedCois) {
+    public static List<Therapeutic_Area__c> searchForConditionOfInterest(String searchText, List<String> selectedCoisIds) {
         try {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            return helper.getFilteredTherapeuticAreas(searchText, selectedCois);
+            return helper.getFilteredTherapeuticAreas(searchText, selectedCoisIds);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
+    public static void upsertTaps(List<Therapeutic_Area_Patient__c> taps) {
+        try {
+            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+            helper.upsertTaps(taps);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

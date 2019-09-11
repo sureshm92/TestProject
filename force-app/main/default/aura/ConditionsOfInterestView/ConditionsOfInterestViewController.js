@@ -11,8 +11,10 @@
     },
 
     onFocusOut :function(component, event, helper) {
-        let searchContainer = component.find('searchContainer');
-        $A.util.removeClass(searchContainer, 'slds-is-open');
+        setTimeout(function () {
+            let searchContainer = component.find('searchContainer');
+            $A.util.removeClass(searchContainer, 'slds-is-open');
+        }, 100)
     },
 
     handleSelection : function(component, event, helper) {
@@ -20,7 +22,11 @@
     },
 
     updateSearchResults : function(component, event, helper) {
-        helper.updateSearchResults(component);
+        communityService.executeAction(component, 'upsertTaps', {
+            taps : component.get('v.taps')
+        }, function () {
+            helper.updateSearchResults(component);
+        });
     }
 
 });

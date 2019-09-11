@@ -32,7 +32,7 @@
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
                               size="12">
             <div class="filter-side">
-                <c:ConditionsOfInterestView conditionOfInterestList="{!v.taps}"/>
+                <c:ConditionsOfInterestView taps="{!v.taps}" participantId="{!v.participant.Id}"/>
             </div>
 
         </lightning:layoutItem>

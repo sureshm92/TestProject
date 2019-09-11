@@ -4,17 +4,18 @@
 
 <aura:component description="ConditionsOfInterestView" controller="ConditionsOfInterestViewRemote">
 
-    <aura:attribute name="conditionOfInterestList" type="Object[]"/>
+    <aura:attribute name="taps" type="Object[]"/>
     <aura:attribute name="searchResults" type="Object[]"/>
     <aura:attribute name="filterText" type="String" default=""/>
+    <aura:attribute name="participantId" type="String"/>
 
     <aura:registerEvent name="updateSearchEvent" type="c:UpdateConditionsOfInterestSearchEvt"/>
 
     <div class="slds-grid slds-wrap">
         <div style="width: 100%">
-            <aura:if isTrue="{!!empty(v.conditionOfInterestList)}">
-                <aura:iteration items="{!v.conditionOfInterestList}" var="coi" indexVar="arrayInd">
-                    <lightning:input type="checkbox" label="{!coi.coi.Therapeutic_Area__r.Name}"/>
+            <aura:if isTrue="{!!empty(v.taps)}">
+                <aura:iteration items="{!v.taps}" var="coi" indexVar="arrayInd">
+                    <lightning:input type="checkbox" label="{!coi.Therapeutic_Area__r.Name}"/>
                 </aura:iteration>
             </aura:if>
             <!--Search for another condition-->
@@ -60,8 +61,8 @@
 
             <!--Enrollment Status Area-->
             <div>
-                <lightning:input type="checkbox" label="Enrolling"/>
-                <lightning:input type="checkbox" label="Not yet enrolling"/>
+                <lightning:input type="checkbox" label="Enrolling" checked="true"/>
+                <lightning:input type="checkbox" label="Not yet enrolling" checked="true"/>
             </div>
 
             <div>
