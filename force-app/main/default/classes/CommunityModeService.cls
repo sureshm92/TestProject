@@ -28,9 +28,11 @@ public without sharing class CommunityModeService {
         List<CommunityMode> modes = new List<CommunityMode>();
         Contact userContact = CommunityService.getUserContact();
         String availableModes = userContact.userCommunytyType__c;
-        if (availableModes != null && availableModes.contains(CommunityService.USER_MODE_PI)) {
+        if ((availableModes != null && availableModes.contains(CommunityService.USER_MODE_PI))
+                || !DelegateService.getPIDelegateParents().isEmpty()) {
             modes.add(new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_PI_MODE, null));
         }
+
         if (availableModes != null && availableModes.contains(CommunityService.USER_MODE_HCP)) {
             modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, Label.CTL_L_HCP_MODE, null));
         }

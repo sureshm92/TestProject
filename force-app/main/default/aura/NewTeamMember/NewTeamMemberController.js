@@ -76,6 +76,7 @@
             debugger;
             var contactData = JSON.parse(returnValue);
             var userMode = component.get('v.userMode');
+            var parentId = component.get('v.parentId');
             component.set('v.delegate', contactData.delegates[0]);
             if (userMode !== 'HCP'){
                 component.set('v.currentTab', 'by-study');
@@ -86,6 +87,10 @@
             debugger;
             if (contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId) {
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_yourself_as_a_delegate'));
+            } else if(userMode === 'HCP' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
+                communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_referring_provider_as_a_delegate'));
+            } else if(userMode === 'PI' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
+                communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_primary_investigator_as_a_delegate'));
             } else if (contactData.delegates[0].delegateContact.Id === undefined) {
                 // component.set('v.currentTab','all-same');
                 console.log('delegateContact.Id===undefined');

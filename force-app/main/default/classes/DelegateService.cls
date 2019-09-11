@@ -57,7 +57,7 @@ public without sharing class DelegateService {
             if(siteStaff.Site_Contact__c == CommunityService.getUserContact().Id){
                 piDelegateParents.add(siteStaff.Study_Site__r.Principal_Investigator__c);
                 piStudySitesAccessLevelMap.put(siteStaff.Study_Site__c, siteStaff.Delegate_Level__c);
-                piStudiesAccessLevel.put(siteStaff.Study_Site__r.Clinical_Trial_Profile__c, siteStaff.Delegate_Level__c);
+                piStudiesAccessLevel.put(siteStaff.Study_Site__c, siteStaff.Delegate_Level__c);
                 studyPIContactsMap.put(siteStaff.Study_Site__r.Clinical_Trial_Profile__c, siteStaff.Study_Site__r.Principal_Investigator__c);
             }
             if(siteStaff.Study_Site__r.Principal_Investigator__c == CommunityService.getUserContact().Id
@@ -124,14 +124,14 @@ public without sharing class DelegateService {
         return getStudyAccessLevelImpl(studyId, userMode, null);
     }
 
-    public String getStudyAccessLevelImpl(Id studyId, String userMode, String delegateId){
+    public String getStudyAccessLevelImpl(Id studySiteId, String userMode, String delegateId){
         if(userMode == CommunityService.USER_MODE_HCP){
             if(delegateId!=null && delegateId != ''){
                 return getHCPDelegateLevelMapImpl().get(delegateId);
             }
         }
         else if(userMode == CommunityService.USER_MODE_PI){
-            String accessLevel = getStudiesAccessLevelMapImpl(userMode).get(studyId);
+            String accessLevel = getStudiesAccessLevelMapImpl(userMode).get(studySiteId);
             if(accessLevel != null) return accessLevel;
         }
 
@@ -148,6 +148,59 @@ public without sharing class DelegateService {
         return piDelegateParents;
     }
 
+    public void CheckAndDeactivateUsersForHCPImpl(List<RP_Delegate_Relationship__c> delegateRecords){
+        Set<Id> delegateIds = new Set<Id>();
+        for(RP_Delegate_Relationship__c delegateRecord : delegateRecords){
+            delegateIds.add(delegateRecord.Delegate__c);
+        }
+        CheckAndDeactivateUsersForContactIds(delegateIds);
+    }
+
+    public void CheckAndDeactivateUsersForPIImpl(List<Site_Staff__c> delegateRecords){
+        Set<Id> delegateIds = new Set<Id>();
+        for(Site_Staff__c delegateRecord : delegateRecords){
+            delegateIds.add(delegateRecord.Site_Contact__c);
+        }
+        CheckAndDeactivateUsersForContactIds(delegateIds);
+    }
+
+    public void CheckAndDeactivateUsersForContactIds(Set<Id> delegateIds){
+        Set<Id> delegateIdsWithDelRecords = new Set<Id>();
+        for(RP_Delegate_Relationship__c rpDel : [SELECT Id, Delegate__c FROM RP_Delegate_Relationship__c WHERE Delegate__c IN :delegateIds]){
+            delegateIdsWithDelRecords.add(rpDel.Delegate__c);
+        }
+        for(Site_Staff__c piDel : [SELECT Id, Site_Contact__c FROM Site_Staff__c WHERE Site_Contact__c IN :delegateIds]){
+            delegateIdsWithDelRecords.add(piDel.Site_Contact__c);
+        }
+        delegateIds.removeAll(delegateIdsWithDelRecords);
+        if(!delegateIds.isEmpty()){
+            List<User> delegateUsersToDeactivate = [SELECT Id, IsActive FROM User WHERE ContactId IN :delegateIds AND Contact.userCommunytyType__c = NULL];
+            if(!delegateUsersToDeactivate.isEmpty()){
+                Set<Id> userIds = new Set<Id>();
+                for(User u : delegateUsersToDeactivate){
+                    userIds.add(u.Id);
+                }
+                deactivateDelegateUsers(userIds);
+            }
+        }
+    }
+    @future
+    public static void deactivateDelegateUsers(Set<Id> userIds){
+        List<User> users = [SELECT Id, IsActive FROM User WHERE Id IN :userIds];
+        for(User u : users){
+            u.IsActive = false;
+        }
+        update users;
+    }
+
+    @future
+    public static void activateDelegateUsers(Set<Id> userIds){
+        List<User> users = [SELECT Id, IsActive FROM User WHERE Id IN :userIds];
+        for(User u : users){
+            u.IsActive = true;
+        }
+        update users;
+    }
     
     // Static facade: --------------------------------------------------------------------------------------------------
     
@@ -175,8 +228,8 @@ public without sharing class DelegateService {
         return getStudyAccessLevel(studyId, userMode, null);
     }
 
-    public static String getStudyAccessLevel(Id studyId, String userMode, String delegateId){
-        return getInstance().getStudyAccessLevelImpl(studyId, userMode, delegateId);
+    public static String getStudyAccessLevel(Id studySiteId, String userMode, String delegateId){
+        return getInstance().getStudyAccessLevelImpl(studySiteId, userMode, delegateId);
     }
 
     public static List<RP_Delegate_Relationship__c> getHCPDelegates(){
@@ -189,4 +242,13 @@ public without sharing class DelegateService {
     public static Set<Id> getPIDelegateParents(){
         return getInstance().getPIDelegateParentsImpl();
     }
+
+    public static void CheckAndDeactivateUsersForHCP(List<RP_Delegate_Relationship__c> delegateRecords){
+        getInstance().CheckAndDeactivateUsersForHCPImpl(delegateRecords);
+    }
+
+    public static void CheckAndDeactivateUsersForPI(List<Site_Staff__c> delegateRecords){
+        getInstance().CheckAndDeactivateUsersForPIImpl(delegateRecords);
+    }
+
 }

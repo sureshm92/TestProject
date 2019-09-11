@@ -182,7 +182,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
         public String statusFilter = 'Actively Enrolling';
         public String trialId;
         public String piId;
-        public String searchTextPlaceholder = 'Search for a study';
+        public String searchTextPlaceholder = Label.PG_MS_L_Search_for_Study_PI;
         public List<LabelValueItem> statusOptions = new List<LabelValueItem>();
         public List<LabelValueItem> PIPickList;
         public List<LabelValueItem> studyPickList;
@@ -197,7 +197,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             this.searchText = searchText;
             statusOptions = getInitStatusOptions();
             PIPickList = new List<LabelValueItem>{
-                    new LabelValueItem('All Investigators', null)
+                    new LabelValueItem(Label.PG_MS_L_All_Investigators, null)
             };
             studyPickList = new List<LabelValueItem>{
                     new LabelValueItem(Label.PG_MRRL_L_All_studies, null)
@@ -208,7 +208,7 @@ public without sharing class PIStudiesFilter implements SearchFilter {
             for (Study_Site__c site : studySites) {
                 if (!piIds.contains(site.Principal_Investigator__c)) {
                     if(site.Principal_Investigator__c == CommunityService.getUserContact().Id){
-                        PIPickList.add(new LabelValueItem('Self', site.Principal_Investigator__c));
+                        PIPickList.add(new LabelValueItem(Label.PG_MS_L_Self, site.Principal_Investigator__c));
                     }
                     else{
                         PIPickList.add(new LabelValueItem(site.Principal_Investigator__r.Full_Name__c, site.Principal_Investigator__c));

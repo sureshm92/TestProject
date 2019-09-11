@@ -278,7 +278,7 @@ public without sharing class StudySiteService {
         String filter = ' Clinical_Trial_Profile__c != NULL ' +
                 ' AND Override_PI_Referral_Status__c != NULL ';
         if (userMode == CommunityService.USER_MODE_PI) {
-            if(delegateId == null || delegateId == ''){
+            if(delegateId == null || delegateId == '' || delegateId == CommunityService.getUserContact().Id){
                 if (excludeDelegates) {
                     filter += ' AND  Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ';
                 } else {
@@ -354,7 +354,6 @@ public without sharing class StudySiteService {
     public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels, String parentId ) {
         List<Study_Site__c> ssList = new List<Study_Site__c>();
         Map<Id, String> delegateLevelMap = DelegateService.getPIStudySitesAccessLevelMap();
-
         for (Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false, parentId)) {
             if (!delegateLevelMap.containsKey(site.Id) || delegateLevels.contains(delegateLevelMap.get(site.Id))) {
                 ssList.add(site);

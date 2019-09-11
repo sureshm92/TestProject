@@ -158,17 +158,19 @@
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <aura:if isTrue="{!v.isStaff}">
                                             <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
-                                                    disabled="{!or(or(or(or(not(v.isCorrectEmail),
-                                                        and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
-                                                        and(v.currentTab=='by-study',empty(v.changedLevels))),
-                                                        and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
-                                                        v.delegate.delegateContact.Id == v.currentUserContactId)
-}"
-                                                    title="{!if(or(or(or(or(not(v.isCorrectEmail),
+                                                    disabled="{!or(or(or(or(or(not(v.isCorrectEmail),
                                                         and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
+                                                        and(not(empty(v.parentId)),v.delegate.delegateContact.Id == v.parentId))
+}"
+                                                    title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
+                                                        and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
+                                                        and(v.currentTab=='by-study',empty(v.changedLevels))),
+                                                        and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
+                                                        v.delegate.delegateContact.Id == v.currentUserContactId),
+                                                        and(not(empty(v.parentId)),v.delegate.delegateContact.Id == v.parentId)),
                                                         $Label.c.PG_NTM_T_Correct_Info,'')}">
                                                 {!$Label.c.PG_NTM_BTN_Save_Team_Member}
                                             </button>

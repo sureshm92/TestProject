@@ -31,7 +31,7 @@ public without sharing class MyTeamRemote {
                 }, parentId).isEmpty();
             }
             if (userMode == CommunityService.USER_MODE_HCP) {
-                detail.hasStudies =  parentId == '' || DelegateService.getHCPDelegateLevelMap().get(parentId) == DelegateService.DELEGATE_LEVEL_1;
+                detail.hasStudies = parentId == null || parentId == '' || DelegateService.getHCPDelegateLevelMap().get(parentId) == DelegateService.DELEGATE_LEVEL_1;
             }
             if (userMode == CommunityService.USER_MODE_PARTICIPANT)
                 detail.hasStudies = ParticipantEnrollmentService.getPEnrolmentsCountCommon(userMode, '') != 0;
@@ -286,6 +286,11 @@ public without sharing class MyTeamRemote {
                 //Contact delegateContact = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id =:dw.delegateContact.Id LIMIT 1];
                 if (hasDelegateLevels/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
                     sendEmailNotification(dw.delegateContact);
+                }
+                User delegateUser = [SELECT Id, IsActive FROM User WHERE ContactId = :dw.delegateContact.Id LIMIT 1];
+
+                if(!delegateUser.IsActive){
+                    DelegateService.activateDelegateUsers(new Set<Id>{ delegateUser.Id});
                 }
             }
         } catch (Exception e) {
