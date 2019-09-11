@@ -91,7 +91,7 @@
                         <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_current.Clinical_Trial_Profile__r.Include_in_patient_trial_search__c</leftValueReference>
+                <leftValueReference>myVariable_current.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -186,7 +186,7 @@
                         <stringValue>Boolean</stringValue>
                     </value>
                 </processMetadataValues>
-                <leftValueReference>myVariable_old.Clinical_Trial_Profile__r.Include_in_patient_trial_search__c</leftValueReference>
+                <leftValueReference>myVariable_old.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
