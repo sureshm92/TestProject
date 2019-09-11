@@ -1375,14 +1375,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>TravelSupportHelper</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TravelVendorPanelRemote</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TrialBuilder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2725,6 +2717,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient_Referral__c.Middle_Initial__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2736,6 +2733,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Phone_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Success__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4935,21 +4937,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>TravelVendorSettings__c.Is_Manual__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>TravelVendorSettings__c.isEnable__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>TravelVendor__c.Default_Country__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Trial_Survey__c.Active_After_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5350,12 +5337,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Translation__c-Translation Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TravelVendorSettings__c-TravelVendorSettings Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>TravelVendor__c-TravelVendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Trial_Survey__c-Trial Survey Layout</layout>
