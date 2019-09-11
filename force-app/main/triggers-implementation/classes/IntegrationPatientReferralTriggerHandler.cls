@@ -21,6 +21,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         private Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
         private Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
         private List<Integration_Patient_Referral__c> newList;
+        private Map<String, Integration_Patient_Referral__c> newMap = new Map<String, Integration_Patient_Referral__c>();
     
     
         private void setNewList(List<Integration_Patient_Referral__c> newList){
@@ -30,6 +31,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 protocolIds.add(ipr.protocolId__c);
                 ssNumbersList.add(getSitePrimaryKeyEPR(ipr));
+                newMap.put(ipr.referralID__c, ipr);
             }
             //SS Map
             List<Study_Site__c> ssList = [
@@ -112,7 +114,20 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 if(ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
             }
-            insert peList;
+            List<Database.SaveResult> saveResults = Database.insert(peList, false);
+            for (Integer i = 0; i < saveResults.size(); i++) {
+                Participant_Enrollment__c pe = peList[i];
+                Database.SaveResult sr = saveResults[i];
+                Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
+                if (ipr != null) {
+                    if (sr.isSuccess()) {
+                        ipr.Success__c = true;
+                    } else {
+                        ipr.Success__c = false;
+                        ipr.Error_Message__C = sr.getErrors()[0].getMessage();
+                    }
+                }
+            }
         }
     }
 
