@@ -76,6 +76,7 @@ public with sharing class TravelVendorPanelRemote {
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
             List<Id> vendorIdsList = new List<Id>(vendorIds);
+            vendorIdsList.sort();
             initData.vendors = supportHelper.getTravelVendorsByIds(vendorIdsList);
             supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
         } catch (Exception e) {

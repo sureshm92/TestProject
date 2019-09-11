@@ -71,6 +71,13 @@
             'settings' : allSettings
         }, function() {
             component.find('spinner').hide();
+            const toastEvent = $A.get("e.force:showToast");
+            toastEvent.setParams({
+                "title": "Success!",
+                "message": "saved successfully.",
+                "type": 'success'
+            });
+            toastEvent.fire();
         })
     },
 
