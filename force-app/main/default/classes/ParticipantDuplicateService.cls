@@ -143,19 +143,19 @@ public without sharing class ParticipantDuplicateService {
     }
     
     private static Integer getYearOfBirthForParticipant(Participant__c participant){
-        if(!String.isEmpty(participant.Birth_Year__c)) return Integer.valueOf(participant.Birth_Year__c);
-        if(!String.isEmpty(participant.Date_of_Birth__c)) return Integer.valueOf(participant.Date_of_Birth__c.mid(0, 4));
+        if(!String.isEmpty(participant.Birth_Year__c)) return getYearFromString(participant.Birth_Year__c);
+        if(!String.isEmpty(participant.Date_of_Birth__c)) return getYearFromString(participant.Date_of_Birth__c);
         return null;
     }
     
-    private static Integer getYearFromDateString(String dateStr){
+    private static Integer getYearFromString(String str){
         try{
-            return Integer.valueOf(dateStr.mid(0, 4));
+            return Integer.valueOf(str.mid(0, 4));
         }catch (Exception e){}
         try {
-            return Integer.valueOf(dateStr.substring(6, 10));
+            return Integer.valueOf(str.substring(6, 10));
         }catch (Exception e){
-            throw new ParticipantDuplicateServiceException('Can not extract year from filed value: ' + dateStr);
+            throw new ParticipantDuplicateServiceException('Can not extract year from field value: ' + str);
         }
     }
     
