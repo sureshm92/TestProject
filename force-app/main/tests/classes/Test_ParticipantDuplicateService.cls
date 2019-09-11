@@ -57,7 +57,7 @@ private class Test_ParticipantDuplicateService {
         Participant__c withBirthYearButNoBYInTheInTheSystemAgeMore18 = new Participant__c(
                 First_Name__c = 'Jane',
                 Last_Name__c = 'Goodwin',
-                Birth_Year__c = '1980',
+                Date_of_Birth__c = '1980.01.01',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY',
                 Phone__c = '123456789'
@@ -66,7 +66,7 @@ private class Test_ParticipantDuplicateService {
         Participant__c withBYButNoBYInTheInTheSystemAgeMore18NameNotMatch = new Participant__c(
                 First_Name__c = 'Janny',
                 Last_Name__c = 'Goodween',
-                Birth_Year__c = '1980',
+                Date_of_Birth__c = '01.01.1980',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY',
                 Phone__c = '123456789'

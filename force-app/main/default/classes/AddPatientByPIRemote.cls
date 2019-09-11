@@ -67,7 +67,7 @@ public class AddPatientByPIRemote {
                         Notes__c = pe.Last_Status_Changed_Notes__c,
                         Date__c = Datetime.now(),
                         ParticipantEnrollment__c = pe.Id,
-                        NewStatus__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                        Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
                 ));
                 if(step.name == currentState.name) break;
             }

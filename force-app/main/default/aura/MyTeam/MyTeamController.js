@@ -1,14 +1,18 @@
 ({
     doInit: function (component, event, helper) {
         component.set("v.showSpinner", true);
+        component.set("v.ignoreUpdates", true);
 
         communityService.executeAction(component, 'getInitData', {
-            userMode: component.get('v.userMode')
+            userMode: component.get('v.userMode'),
+            parentId: communityService.getDelegateId()
         }, function (returnValue) {
+            debugger;
             var initData = JSON.parse(returnValue);
             component.set("v.delegates", initData.delegates);
             component.set("v.delegateOptions", initData.delegateOptions);
             component.set("v.showSpinner", false);
+            component.set("v.ignoreUpdates", false);
             component.set("v.hasStudies", initData.hasStudies);
         })
     },

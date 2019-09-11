@@ -26,7 +26,7 @@ public without sharing class MedicalRecordReviewLogController {
             ' OR Medical_Record_Review_Status__c = \'' + ParticipantEnrollmentService.MRR_STATUS_FAIL + '\')';
 
     @AuraEnabled
-    public static String getParticipantDetail(String trialId, String userMode, Boolean applyPendingFilter) {
+    public static String getParticipantDetail(String trialId, String userMode, Boolean applyPendingFilter, String delegateId) {
 
         MedicalRecordReviewLogController.ParticipantDetail pDetail = new MedicalRecordReviewLogController.ParticipantDetail();
 
@@ -34,7 +34,7 @@ public without sharing class MedicalRecordReviewLogController {
             //pagination:
             pDetail.paginationData = new PaginationData();
             //filters data:
-            pDetail.peFilterData = setFilterData(trialId, userMode);
+            pDetail.peFilterData = setFilterData(trialId, userMode, delegateId);
             //filters:
             pDetail.peFilter = new ParticipantEnrollmentService.PEFilter(pDetail.peFilterData);
             pDetail.peFilter.study = trialId;
@@ -59,11 +59,12 @@ public without sharing class MedicalRecordReviewLogController {
             }
             //set SummrayContainers and FilterInfo
             if(String.isEmpty(trialId)){
-                setSummrayInfoAndFilterInfo(pDetail);
+                setSummrayInfoAndFilterInfo(pDetail, delegateId);
             }
             //records for current filter and pagination
             pDetail.currentPageList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(pDetail.peFilter, pDetail.paginationData)
+                    ParticipantEnrollmentService.getParticipantEnrollments(pDetail.peFilter, pDetail.paginationData, delegateId),
+                    delegateId
             );
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + e.getStackTraceString());
@@ -72,7 +73,7 @@ public without sharing class MedicalRecordReviewLogController {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, Boolean applyPendingFilter){
+    public static String getRecords(String filterJSON, String paginationJSON, Boolean applyPendingFilter, String delegateId){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         PaginationData pagination;
         if(paginationJSON != ''){
@@ -103,7 +104,8 @@ public without sharing class MedicalRecordReviewLogController {
                     ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW + '\'' +
                     ' OR Participant_Status__c = \'' + ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL + '\')';
             resultDetail.currentPageList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination)
+                    ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination, delegateId),
+                    delegateId
             );
             if(pagination!=null){
                 resultDetail.paginationData = pagination;
@@ -118,7 +120,7 @@ public without sharing class MedicalRecordReviewLogController {
         }
     }
 
-    private static void setSummrayInfoAndFilterInfo(MedicalRecordReviewLogController.ParticipantDetail pDetail){
+    private static void setSummrayInfoAndFilterInfo(MedicalRecordReviewLogController.ParticipantDetail pDetail, String delegateId){
         List<SummaryContainer> summrayContainers = new List<SummaryContainer>();
         Integer waitingToBeReferred = 0, totalRecordReviews = 0, totalReferrals = 0,
                 reviewsPassed = 0, reviewsFailed = 0, referralsPassed = 0, referralsFailed = 0;
@@ -127,7 +129,7 @@ public without sharing class MedicalRecordReviewLogController {
                 CommunityService.USER_MODE_HCP, 'AND Medical_Record_Review_Status__c IN (\'' + String.join(new List<String>{
                         ParticipantEnrollmentService.MRR_STATUS_PASS,
                         ParticipantEnrollmentService.MRR_STATUS_FAIL
-                }, '\',\'') + '\') AND HCP__c != NULL');
+                }, '\',\'') + '\') AND HCP__c != NULL', delegateId);
 
         for(Participant_Enrollment__c enroll : passOrFailEnrollments){
 
@@ -160,7 +162,7 @@ public without sharing class MedicalRecordReviewLogController {
         pDetail.filterInfo = new FilterPillInfo(waitingToBeReferred, Label.PG_MRRL_L_Patients_waiting_to_be_referred);
     }
 
-    private static ParticipantEnrollmentService.PEFilterData setFilterData(String trialId, String userMode){
+    private static ParticipantEnrollmentService.PEFilterData setFilterData(String trialId, String userMode, String delegateId){
         ParticipantEnrollmentService.PEFilterData peFilterData = new ParticipantEnrollmentService.PEFilterData();
 
         //set clinical trial profiels
@@ -170,7 +172,7 @@ public without sharing class MedicalRecordReviewLogController {
 
         //set trails id and trils(studies)
         Map<Id, String> trialsByName = new Map<Id, String>();
-        for (Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode)) {
+        for (Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, delegateId)) {
             trialsByName.put(trial.Id, trial.Study_Code_Name__c);
         }
 //        if(String.isNotEmpty(trialId)){
@@ -208,9 +210,12 @@ public without sharing class MedicalRecordReviewLogController {
     }
 
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments){
+        return convertToPEWrapperList(participantEnrollments, null);
+    }
+    private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String delegateId){
         List<PEWrapper> resultList = new List<PEWrapper>();
         for(Participant_Enrollment__c pe : participantEnrollments){
-            StudyActions studyActions = new StudyActionsHCP(pe);
+            StudyActions studyActions = new StudyActionsHCP(pe, delegateId);
             resultList.add(new PEWrapper(pe, studyActions.actions));
         }
         return resultList;

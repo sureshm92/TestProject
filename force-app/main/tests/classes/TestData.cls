@@ -39,6 +39,7 @@ public class TestData {
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
+                        Include_in_patient_trial_search__c,
                         Terms_and_Conditions__c
                 FROM Clinical_Trial_Profile__c
                 WHERE NCT_Number__c = 'NCT99999999'

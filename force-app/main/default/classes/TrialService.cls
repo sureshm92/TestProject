@@ -17,14 +17,16 @@ public without sharing class TrialService {
     public static void setMock(StubProvider stubProvider){
         instance = (TrialService) Test.createStub(TrialService.class, stubProvider);
     }
-    
     public List<Clinical_Trial_Profile__c> getAvailableTrialsImpl(String mode){
+        return getAvailableTrialsImpl(mode, null);
+    }
+    public List<Clinical_Trial_Profile__c> getAvailableTrialsImpl(String mode, String delegateId){
         Set<Clinical_Trial_Profile__c> trials= new Set<Clinical_Trial_Profile__c>();
         if(mode == CommunityService.USER_MODE_PI){
             List<Study_Site__c> studySites = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
             for(Study_Site__c ss : studySites) trials.add(ss.Clinical_Trial_Profile__r);
         }else if(mode == CommunityService.USER_MODE_HCP){
-            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, null, false);
+            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, delegateId, null, false);
             System.debug('hcpCommon' + hcpEnrollments);
             for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
                 if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
@@ -83,7 +85,10 @@ public without sharing class TrialService {
     }
     
     public List<Id> getAvailableTrialIdsImpl(String userMode){
-        return SObjectHelper.toIdsList(getAvailableTrials(userMode));
+        return getAvailableTrialIdsImpl(userMode, null);
+    }
+    public List<Id> getAvailableTrialIdsImpl(String userMode, String delegateId){
+        return SObjectHelper.toIdsList(getAvailableTrials(userMode, delegateId));
     }
     
     
@@ -91,6 +96,10 @@ public without sharing class TrialService {
     
     public static List<Clinical_Trial_Profile__c> getAvailableTrials(String userMode){
         return getInstance().getAvailableTrialsImpl(userMode);
+    }
+
+    public static List<Clinical_Trial_Profile__c> getAvailableTrials(String userMode, String delegateId){
+        return getInstance().getAvailableTrialsImpl(userMode, delegateId);
     }
     
     public static List<Clinical_Trial_Profile__c> getOwnTrials(String userMode){
@@ -100,6 +109,9 @@ public without sharing class TrialService {
     public static List<Id> getAvailableTrialIds(String userMode){
         return getInstance().getAvailableTrialIdsImpl(userMode);
     }
+    public static List<Id> getAvailableTrialIds(String userMode, String delegateId){
+        return getInstance().getAvailableTrialIdsImpl(userMode, delegateId);
+    }
     
     public static Clinical_Trial_Profile__c getTrial(Id trialId){
         return getInstance().getTrialImpl(trialId);
@@ -107,6 +119,10 @@ public without sharing class TrialService {
     
     public static Boolean isTrialAvailable(Id trialId, String userMode){
         return getAvailableTrialIds(userMode).contains(trialId);
+    }
+
+    public static Boolean isTrialAvailable(Id trialId, String userMode, String delegateId){
+        return getAvailableTrialIds(userMode, delegateId).contains(trialId);
     }
 
 }

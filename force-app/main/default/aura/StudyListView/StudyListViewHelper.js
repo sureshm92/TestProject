@@ -11,9 +11,11 @@
         window.addEventListener('resize', $A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }));
-
+        debugger;
         if (userMode === 'HCP') {
-            communityService.executeAction(component, 'getHCPInitData', null, function (returnValue) {
+            communityService.executeAction(component, 'getHCPInitData', {
+                    delegateId: communityService.getDelegateId()
+                }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
@@ -36,14 +38,8 @@
                 component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
                 helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
                 component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
-               // helper.prepareIconsForPI(initData);
-                component.set('v.countryPicklist', initData.countries);
-                component.set('v.statesByCountryMap',initData.statesByCountryMap);
-                component.set('v.countriesMap',initData.countriesMap);
-                component.set('v.countryCodesMap',initData.countryCodesMap);
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
-                //component.set("v.showSpinner", false);
                 setTimeout($A.getCallback(function () {
                     helper.doUpdateStudyTitle(component);
                     component.set("v.showSpinner", false);
@@ -58,6 +54,7 @@
     },
 
     searchForRecords: function (cmp, helper, fromFirstPage) {
+        debugger;
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
@@ -82,7 +79,8 @@
             filterData: filterJSON,
             sortData: sortJSON,
             paginationData: paginationJSON,
-            isSearchResume: isSearch
+            isSearchResume: isSearch,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             if (cmp.get('v.filterData').searchText !== searchText) return;
             let result = JSON.parse(returnValue);
@@ -158,15 +156,6 @@
                         this.clampLine(studyTitle, 3);
                     } else {
                         this.clampLine(studyTitle, 1);
-                    }
-                }
-            }
-            if (component.get('v.userMode') == 'PI') {
-                var instructions = document.getElementsByClassName("driving-instructions");
-                for (var i = 0; i < instructions.length; i++) {
-                    var instruction = instructions.item(i);
-                    if (instruction != null) {
-                        this.clampLine(instruction, 3);
                     }
                 }
             }

@@ -8,6 +8,10 @@
     },
 
     onLevelChange: function (component, event, helper) {
+        var ignoreUpdates = component.get('v.ignoreUpdates');
+        if(ignoreUpdates){
+            return;
+        }
         var changedLevels = new Set(component.get("v.changedLevels"));
         if (changedLevels) {
             var studyLevel = component.get("v.studyLevel");

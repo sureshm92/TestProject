@@ -41,7 +41,7 @@ public without sharing class SitesSearchRemote {
 
 
     @AuraEnabled
-    public static String getInitData(Id trialId){
+    public static String getInitData(Id trialId, String delegateId){
         try{
             InitData initData = new InitData();
 
@@ -53,7 +53,7 @@ public without sharing class SitesSearchRemote {
 
             initData.siteFilter = new StudySiteService.SiteFilter(initData.siteFilterData);
 
-            initData.currentPageList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(initData.siteFilter, initData.paginationData, false);
+            initData.currentPageList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(initData.siteFilter, initData.paginationData, false, delegateId);
             for(Integer i = 1; i<= initData.currentPageList.size(); i++){
                 initData.currentPageList[i-1].site.Name = String.valueOf(i) + '. ' + initData.currentPageList[i-1].site.Name;
             }
@@ -78,13 +78,13 @@ public without sharing class SitesSearchRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON){
+    public static String getRecords(String filterJSON, String paginationJSON, String delegateId){
         StudySiteService.SiteFilter filter = (StudySiteService.SiteFilter)JSON.deserialize(filterJSON, StudySiteService.SiteFilter.class);
         PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
         try {
 
             SearchResult result = new SearchResult();
-            result.siteList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(filter, pagination, false);
+            result.siteList = StudySiteService.getStudySitesWithDistanceForHCPByTrialId(filter, pagination, false, delegateId);
             for(Integer i = 1; i<= result.siteList.size(); i++){
                 result.siteList[i-1].site.Name = String.valueOf(pagination.offset + i) + '. ' + result.siteList[i-1].site.Name;
             }

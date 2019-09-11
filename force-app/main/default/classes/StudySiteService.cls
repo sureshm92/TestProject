@@ -72,8 +72,10 @@ public without sharing class StudySiteService {
     public static void setMock(StubProvider stubProvider) {
         instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
     }
-
     public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
+        return getStudySitesWithDistanceForHCPByTrialIdImpl(filter, paginationData, filterEmptyHCPE, null);
+    }
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE, String delegateId) {
         List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
@@ -85,7 +87,7 @@ public without sharing class StudySiteService {
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
-        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials), delegateId);
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
@@ -192,6 +194,7 @@ public without sharing class StudySiteService {
             'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
+            'Site__r.BillingCountryCode',
             'Site__r.BillingState',
             'Site__r.BillingStateCode',
             'Site__r.BillingPostalCode',
@@ -215,7 +218,7 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Orientation_Required__c',
-            'Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
+            'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
             'Principal_Investigator__r.Name',
             'Principal_Investigator__r.Title',
             'Principal_Investigator__r.MailingStreet',
@@ -304,8 +307,13 @@ public without sharing class StudySiteService {
     }
 
     public static List<Study_Site__c> getStudySitesForHCP(List<Id> trialIds) {
+        return getStudySitesForHCP(trialIds, null);
+    }
+
+    public static List<Study_Site__c> getStudySitesForHCP(List<Id> trialIds, String delegateId) {
         List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,
+                delegateId,
                 ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(trialIds, '\',\'') + '\')',
                 false
         );
@@ -401,6 +409,7 @@ public without sharing class StudySiteService {
         public Map<String, StudyActions.Action> actions;
         public String sortType;
         public Boolean hasActiveHCPE;
+        public Boolean hasPatients;
         public Datetime hcpCreatedDate;
 
         public StudySiteDistanceWrapper() {
@@ -476,9 +485,11 @@ public without sharing class StudySiteService {
             }
         }
     }
-
-    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
-        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+        return getStudySitesWithDistanceForHCPByTrialId(filter, paginationData, filterEmptyHCPE, null);
+    }
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE, String delegateId) {
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter, delegateId);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         Set<Id> siteIds = new Set<Id>();
@@ -488,7 +499,7 @@ public without sharing class StudySiteService {
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
-        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials), delegateId);
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
@@ -521,7 +532,11 @@ public without sharing class StudySiteService {
         return result;
     }
 
-    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
+        return getStudySitesByFilter(filter, null);
+    }
+
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter, String delegateId) {
         Contact userContact = CommunityService.getUserContact();
         String userCountry;
         if(userContact.MailingCountry != null && userContact.MailingCountry!=''){
@@ -536,7 +551,7 @@ public without sharing class StudySiteService {
         } else if (filter.trialIds != null && !filter.trialIds.isEmpty()) {
             filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         } else {
-            List<Id> studyIds = TrialService.getAvailableTrialIds(CommunityService.USER_MODE_HCP);
+            List<Id> studyIds = TrialService.getAvailableTrialIds(CommunityService.USER_MODE_HCP, delegateId);
             System.debug('studyIds SSN' + studyIds);
             filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(studyIds, '\',\'') + '\') ';
         }

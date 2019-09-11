@@ -21,7 +21,7 @@ private class Test_Batch_CopyEnrollmentHistory {
                 (SELECT
                         Id,
                         Date__c,
-                        NewStatus__c
+                        Status__c
                 FROM Participant_Enrollment_Status_History__r)
                 FROM Participant_Enrollment__c
         ];
@@ -36,7 +36,7 @@ private class Test_Batch_CopyEnrollmentHistory {
         for(Participant_Enrollment_Status_History__c history : enrollment.Participant_Enrollment_Status_History__r) {
             if(history.Date__c.date() == System.today()) {
                 System.assertEquals(pseHistoryBefore.Changed_Date__c.date(), history.Date__c.date());
-                System.assertEquals(pseHistoryBefore.Status__c, history.NewStatus__c);
+                System.assertEquals(pseHistoryBefore.Status__c, history.Status__c);
             }
         }
     }

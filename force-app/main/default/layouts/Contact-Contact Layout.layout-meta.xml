@@ -44,6 +44,10 @@
                 <behavior>Edit</behavior>
                 <field>Visit_Results_Opt_In__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Current_Participant_Enrollment__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

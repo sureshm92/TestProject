@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ALT</shortDescription>
-        <value>ALT</value>
+        <value>{4}ALT{1}</value>
     </labels>
     <labels>
         <fullName>ALT_Description</fullName>
@@ -121,7 +121,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AST</shortDescription>
-        <value>AST</value>
+        <value>{5}AST{1}</value>
     </labels>
     <labels>
         <fullName>AST_Description</fullName>
@@ -472,7 +472,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add patient</value>
+        <value>Add Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -1004,7 +1004,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUN</shortDescription>
-        <value>BUN</value>
+        <value>{3}BUN{1}</value>
     </labels>
     <labels>
         <fullName>BUN_Description</fullName>
@@ -1025,7 +1025,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index</shortDescription>
-        <value>Body mass index</value>
+        <value>Body mass index {2}</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Description</fullName>
@@ -1061,6 +1061,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
+    </labels>
+    <labels>
+        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
+        <value>View as ##RPName</value>
     </labels>
     <labels>
         <fullName>CTL_L_HCP_MODE</fullName>
@@ -1334,7 +1341,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Refer a patient</value>
+        <value>Add a patient</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -1716,7 +1723,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body PI2</shortDescription>
         <value>You have a new patient referral for ##StudyTitle.
 
-            Action is required to accept or decline this referral.  To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
+            Action may or may not be required to accept or decline this referral. To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to "My Referrals."</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI3</fullName>
@@ -2878,6 +2885,34 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
         <value>Glucose is a sugar, also called “blood sugar”. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>Haematocrit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>Haematocrit_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haematocrit Description</shortDescription>
+        <value>A hematocrit test measures the proportion of red blood cells in your blood. Your blood is made up of different components, such as red and white blood cells and blood platelets. The hematocrit value is the ratio of the volume of red blood cells compared to the total volume of all the components of the blood together. This value is expressed as a percentage. For example, if your hematocrit value is 50%, it means that there are 50 milliliters (mL) of red blood cells in 100 mL of blood. Hematocrit is measured to check your general health and to check for conditions that influence red blood cells.</value>
+    </labels>
+    <labels>
+        <fullName>Haemoglobin</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>Haemoglobin_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Haemoglobin Description</shortDescription>
+        <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
     </labels>
     <labels>
         <fullName>Height</fullName>
@@ -4331,6 +4366,13 @@ View study documents and other resources including articles and videos related t
         <value>You have successfully added a patient.</value>
     </labels>
     <labels>
+        <fullName>PG_AP_T_Additional_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP T Additional Info</shortDescription>
+        <value>Adding a patient will invite them to the Patient Portal. Please add only patients who have agreed to be contacted by IQVIA.</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_T_Indicate_Add_Fields</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4349,7 +4391,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP T Sub Info</shortDescription>
-        <value>Please advise Participants to view their Account Settings to update their personal information.</value>
+        <value>Participants may also update their personal information on the Account Setting page in the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>PG_ASSR_L_No_Orientation_Required</fullName>
@@ -8171,6 +8213,13 @@ Please check your CAPS lock key.</value>
         <value>Fasting Lipid Summary Table</value>
     </labels>
     <labels>
+        <fullName>Report_Haematology_header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Report Haematology header</shortDescription>
+        <value>Haematology Panel</value>
+    </labels>
+    <labels>
         <fullName>Report_Hematology_header</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8525,7 +8574,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Add A Member</shortDescription>
-        <value>Please, Add a Member  To Your Team</value>
+        <value>Add a Member To Your Team</value>
     </labels>
     <labels>
         <fullName>SS_Address</fullName>
@@ -8546,7 +8595,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Address Is Checking</shortDescription>
-        <value>Address is checking</value>
+        <value>Checking address</value>
     </labels>
     <labels>
         <fullName>SS_Address_Not_Found</fullName>
@@ -8735,7 +8784,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Save New Account</shortDescription>
-        <value>Save New Location</value>
+        <value>Save Location</value>
     </labels>
     <labels>
         <fullName>SS_Site</fullName>
@@ -9240,6 +9289,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>TST Invalid email address!</shortDescription>
         <value>Invalid email address!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Permissions should be the same for study!</shortDescription>
+        <value>A team member’s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
     </labels>
     <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
@@ -9783,7 +9839,7 @@ If you have questions or concerns, please contact the Principal Investigator at 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
-        <value>.You can opt-out at any time.Once data becomes available it will begin to display. If you
+        <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
 have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
