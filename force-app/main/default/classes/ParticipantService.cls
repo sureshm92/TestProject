@@ -79,7 +79,7 @@ public without sharing class ParticipantService {
                 participantState.isDelegate = pe.Participant__r.Contact__c != userContactId;
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
                 participantState.showTerms = showTerms();
-                participantState.isPremium = participantState.ctp.Include_in_patient_trial_search__c;
+                participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.REFERRAL;
                 } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
