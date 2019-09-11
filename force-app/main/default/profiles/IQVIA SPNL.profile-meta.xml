@@ -323,10 +323,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>DuplicateContactController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EmailActionBtnController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -531,15 +527,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MyReferredZoneController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MyStudySitesController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -608,10 +596,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDeduplicationController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParticipantDeduplicationService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1372,6 +1356,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TranslationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelSupportHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelVendorPanelRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -4912,6 +4904,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>TravelVendorSettings__c.Is_Manual__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendorSettings__c.isEnable__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendor__c.Default_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Active_After_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5312,6 +5319,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Translation__c-Translation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TravelVendorSettings__c-TravelVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TravelVendor__c-TravelVendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Trial_Survey__c-Trial Survey Layout</layout>

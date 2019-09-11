@@ -42,9 +42,15 @@ public without sharing class CommunityModeService {
             String itemLabel = Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName', rpFullName);
             modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, itemLabel, delegate.Referring_Provider__c));
         }
-        
+    
+        List<Id> availablePEIds = PatientDelegateService.getAvailablePEIdsListByContactIdMap(new List<String>{userContact.Id}).get(userContact.Id);
+        if(!availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
+            availableModes += ';' + CommunityService.USER_MODE_PARTICIPANT;
+            userContact.userCommunytyType__c =  availableModes;
+            update userContact;
+        }
+    
         if(availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
-            List<Id> availablePEIds = PatientDelegateService.getAvailablePEIdsListByContactIdMap(new List<String>{userContact.Id}).get(userContact.Id);
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
     
             if(availablePEIds != null && availablePEIds.size() > 0){

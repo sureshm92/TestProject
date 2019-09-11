@@ -3,7 +3,7 @@
     <fullName>Synch_with_TMDH__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Synch with TMDH</label>
+    <label>TMDH Sync</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
