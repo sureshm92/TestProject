@@ -95,6 +95,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_PEToPSE</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1583,6 +1587,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Digital_Recruitment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Eligibility_Criteria__c</field>
         <readable>true</readable>
@@ -1645,6 +1654,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Has_Data_Monitoring_Committee__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Include_in_RP_trial_search__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Include_in_patient_trial_search__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1755,6 +1774,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Participating_in_Rocket_Referral__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1899,6 +1928,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Synch_with_TMDH__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Terms_And_Conditions_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1938,6 +1972,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Accepts_Reimbursement_for_Referral__c</field>
         <readable>false</readable>
@@ -1965,6 +2004,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Contact_Method_Preference__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Current_Participant_Enrollment__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3550,6 +3594,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Source_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
