@@ -6,6 +6,7 @@
 
 public without sharing class  DuplicateContactController {
 
+    /*
     public static Boolean isPERCreated = false;
     public static void checkDuplicates(Integration_Patient_Referral__c record){
         primaryPhoneEmailCheck(record);
@@ -269,5 +270,6 @@ public without sharing class  DuplicateContactController {
         }
         return birthDate.substring(0,4);
     }
+    */
 
 }

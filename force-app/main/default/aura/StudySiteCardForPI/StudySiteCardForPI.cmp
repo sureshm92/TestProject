@@ -14,8 +14,13 @@
     <!-- component body: -->
     <div class="slds-p-horizontal_medium slds-p-bottom_small">
         <aura:if isTrue="{!v.siteWrapper.studySite}">
-            <div class="manage-location-details">
-                <span onclick="{!c.showManageLocationDetails}"> {!$Label.c.SS_Manage_Location_Details}</span>
+            <div class="card-header">
+                <div class="pi-name">
+                    {!v.siteWrapper.PIName}
+                </div>
+                <div class="manage-location-details">
+                    <span onclick="{!c.showManageLocationDetails}"> {!$Label.c.SS_Manage_Location_Details}</span>
+                </div>
             </div>
             <div style="box-sizing: border-box; border-right: 1px solid #F2F2F2;border-left: 1px solid #F2F2F2;border-bottom: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
                 <div id="ssInformation">

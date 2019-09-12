@@ -48,6 +48,14 @@
                 <behavior>Edit</behavior>
                 <field>Current_Participant_Enrollment__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>userCommunityDelegateId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PI_My_Studies_Filters__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
