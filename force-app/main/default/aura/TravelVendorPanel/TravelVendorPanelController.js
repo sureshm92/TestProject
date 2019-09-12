@@ -37,10 +37,10 @@
 
     onAddTravelVendor: function(component, event, helper) {
         let newVendor = component.find('addTravelVendor').get('v.record');
-        let vendors = component.get('v.vendors');
+        let vendors = component.get('v.selectedVendors');
         vendors.push(newVendor);
-        component.set('v.vendors', vendors);
-        helper.getFilteredItems(component, helper);
+        component.set('v.selectedVendors', vendors);
+        helper.getFilteredItem(component, helper);
         component.find('customModal').hide();
     },
 

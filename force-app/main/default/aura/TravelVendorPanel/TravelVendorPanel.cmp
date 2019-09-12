@@ -82,7 +82,7 @@
                         </aura:set>
                     </c:CustomModal>
                     <!--Save changes button-->
-                    <div class="slds-col slds-size--2-of-12 save-btn slds-p-horizontal_medium ">
+                    <div class="slds-col slds-size--2-of-12 save-btn slds-p-horizontal_medium slds-var-m-top_x-small">
                         <lightning:button  variant="brand"
                                           class="slds-m-around--medium" label="{!$Label.c.BTN_Save}"
                                           onclick="{!c.doSave}"/>
