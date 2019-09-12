@@ -8,17 +8,26 @@
     <aura:attribute name="searchResults" type="Object[]"/>
     <aura:attribute name="filterText" type="String" default=""/>
     <aura:attribute name="participantId" type="String"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
 
     <aura:registerEvent name="updateSearchEvent" type="c:UpdateConditionsOfInterestSearchEvt"/>
 
+    <aura:handler name="change" value="{!v.taps}" action="{!c.doInit}"/>
 
     <div class="slds-grid slds-wrap">
         <div style="width: 100%">
-            <aura:if isTrue="{!!empty(v.taps)}">
-                <aura:iteration items="{!v.taps}" var="coi" indexVar="arrayInd">
-                    <lightning:input type="checkbox" label="{!coi.Therapeutic_Area__r.Name}"/>
-                </aura:iteration>
-            </aura:if>
+            <div class="label-default">
+                <label>Conditions of interest</label>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+                <aura:if isTrue="{!!empty(v.taps)}">
+                    <aura:iteration items="{!v.taps}" var="tap" indexVar="arrayInd">
+                        <div class="checkbox-container">
+                            <lightning:input type="checkbox" label="{!tap.Therapeutic_Area__r.Name}" checked="{!tap.checked}"/>
+                        </div>
+                    </aura:iteration>
+                </aura:if>
+            </div>
             <!--Search for another condition-->
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -29,10 +38,13 @@
                              aria-haspopup="listbox"
                              role="combobox">
                             <!--Search field-->
-                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none"
-                                 onfocusin="{!c.onFocusIn}"
-                                 onfocusout="{!c.onFocusOut}">
-                                <lightning:input label="" type="text" aura:id="search" autocomplete="off" placeholder="Search for anoter condition" onchange="{!c.doSearch}"/>
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <lightning:input type="search" aura:id="search" autocomplete="off"
+                                                 disabled="{!v.taps.length >= 6}"
+                                                 placeholder="Search for anoter condition"
+                                                 onfocus="{!c.onFocus}"
+                                                 onblur="{!c.onBlur}"
+                                                 onchange="{!c.doSearch}"/>
                             </div>
                             <!--Dropdown-->
                             <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
@@ -56,12 +68,17 @@
             </div>
 
             <!--Enrollment Status Area-->
-            <div>
-                <lightning:input aura:id="enrolling" type="checkbox" label="Enrolling" checked="true"/>
-                <lightning:input aura:id="notYetEnrolling" type="checkbox" label="Not yet enrolling" checked="true"/>
+            <div class="label-default margin-top">
+                <label>Conditions of interest</label>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+                <aura:if isTrue="{!!empty(v.taps)}">
+                    <lightning:input aura:id="enrolling" type="checkbox" label="Enrolling" checked="true"/>
+                    <lightning:input aura:id="notYetEnrolling" type="checkbox" label="Not yet enrolling" checked="true"/>
+                </aura:if>
             </div>
 
-            <div>
+            <div class="margin-top">
                 <lightning:button variant="neutral" onclick="{!c.updateSearchResults}" value="Update Search Results" label="Update Search Results"/>
             </div>
         </div>
