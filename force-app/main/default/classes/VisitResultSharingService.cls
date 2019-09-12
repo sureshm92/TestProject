@@ -22,7 +22,7 @@ public without sharing class VisitResultSharingService {
         if (!onStudy) return false;
 
         return state.pe.Clinical_Trial_Profile__r.Visit_Data_Shareback__c &&
-                state.ctp.Include_in_patient_trial_search__c &&
+                state.ctp.Patient_Portal_Enabled__c &&
                 state.pe.Study_Site__r.Visit_Results_Sharing__c;
     }
 
@@ -199,7 +199,7 @@ public without sharing class VisitResultSharingService {
     public static Clinical_Trial_Profile__c getCTP(String ctpId) {
         return [
                 SELECT
-                        Include_in_patient_trial_search__c,
+                        Patient_Portal_Enabled__c,
                         Shareback_Availability_Status__c,
                         Shareback_Availability_Timing__c,
                         Shareback_Settings_On_Participant_Level__c,

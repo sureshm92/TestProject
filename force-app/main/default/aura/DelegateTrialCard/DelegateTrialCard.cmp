@@ -1,0 +1,23 @@
+<!--
+ - Created by Kryvolap on 04.09.2019.
+ -->
+
+<aura:component description="DelegateTrialCard">
+    <aura:attribute name="studyLevels" type="Object" required="true"/>
+    <aura:attribute name="options" type="List" required="true"/>
+    <aura:attribute name="changedLevels" type="List"/>
+
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+
+    <div>
+        <div class="dtc-container">
+            <div class="dtc-header">
+                {!v.studyLevels.trialName}
+            </div>
+            <aura:iteration items="{!v.studyLevels.siteLevels}" var="siteLevel">
+                <c:StudyDelegateLevelItem aura:id="site-level" studyLevel="{!siteLevel}" options="{!v.options}"
+                                          changedLevels="{!v.changedLevels}"/>
+            </aura:iteration>
+        </div>
+    </div>
+</aura:component>

@@ -131,6 +131,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdatePESourceType</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -575,6 +579,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PIStudiesFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PITrialBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -895,6 +903,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StubFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyActions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1060,6 +1072,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePESourceType</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1865,6 +1881,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Prescreen__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2186,6 +2207,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.PI_DelegateAccessLevel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.PI_My_Studies_Filters__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2715,6 +2741,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Error_Message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient_Referral__c.Middle_Initial__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2726,6 +2757,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Phone_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Success__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3681,6 +3717,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Source_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

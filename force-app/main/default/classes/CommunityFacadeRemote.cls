@@ -155,7 +155,7 @@ public without sharing class CommunityFacadeRemote {
         return defaultURL;
     
     }
-    
+
     public static Boolean urlExists(String url) {
         try{
             if (Test.isRunningTest()) return true;

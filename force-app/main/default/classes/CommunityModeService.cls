@@ -28,23 +28,30 @@ public without sharing class CommunityModeService {
         List<CommunityMode> modes = new List<CommunityMode>();
         Contact userContact = CommunityService.getUserContact();
         String availableModes = userContact.userCommunytyType__c;
-        
-        if (availableModes.contains(CommunityService.USER_MODE_PI)) {
+        if ((availableModes != null && availableModes.contains(CommunityService.USER_MODE_PI))
+                || !DelegateService.getPIDelegateParents().isEmpty()) {
             modes.add(new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_PI_MODE, null));
         }
-        if (availableModes.contains(CommunityService.USER_MODE_HCP)) {
+
+        if (availableModes != null && availableModes.contains(CommunityService.USER_MODE_HCP)) {
             modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, Label.CTL_L_HCP_MODE, null));
         }
         for (RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()) {
-            String rpFullName = delegate.Referring_Provider__r.Salutation + ' ' +
-                    delegate.Referring_Provider__r.Full_Name__c + ' ' +
-                    delegate.Referring_Provider__r.Suffix;
+            String rpFullName = (delegate.Referring_Provider__r.Salutation != null?delegate.Referring_Provider__r.Salutation + ' ':'') +
+                    delegate.Referring_Provider__r.Full_Name__c +
+                    (delegate.Referring_Provider__r.Suffix != null?' ' + delegate.Referring_Provider__r.Suffix:'');
             String itemLabel = Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName', rpFullName);
             modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, itemLabel, delegate.Referring_Provider__c));
         }
-        
-        if(availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
-            List<Id> availablePEIds = PatientDelegateService.getAvailablePEIdsListByContactIdMap(new List<String>{userContact.Id}).get(userContact.Id);
+
+        List<Id> availablePEIds = PatientDelegateService.getAvailablePEIdsListByContactIdMap(new List<String>{userContact.Id}).get(userContact.Id);
+        if(availableModes != null && !availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
+            availableModes += ';' + CommunityService.USER_MODE_PARTICIPANT;
+            userContact.userCommunytyType__c =  availableModes;
+            update userContact;
+        }
+
+        if(availableModes != null && availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
     
             if(availablePEIds != null && availablePEIds.size() > 0){

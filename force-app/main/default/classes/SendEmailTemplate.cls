@@ -202,7 +202,7 @@ public without sharing class SendEmailTemplate {
             if (result.success) {
                 System.debug('The email was sent successfully.');
             } else {
-                System.debug('The email failed to send: ' + result.errors[0].message);
+                System.debug('The email failed to send: ' + JSON.serializePretty(result.errors));
             }
         }
     }
