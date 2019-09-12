@@ -6,7 +6,9 @@
     doInit: function(component, event, helper){
     	var result = component.get('v.results');
     	if(!result.includes('http')){
-    	    component.set('v.decodeResults',  atob(result));
+    	    var data = atob(result);
+    	    data = data.replace('<h1>', '<h1 class="hide-survey-header">');
+    	    component.set('v.decodeResults',  data);
         }
     },
 });

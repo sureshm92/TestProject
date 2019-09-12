@@ -94,9 +94,6 @@
     },
 
     doCancel: function (component, event, helper) {
-        var formComponent = component.find('editForm');
-        formComponent.set('v.handleChangesEnabled', false);
-        component.get('v.rootComponent').refresh();
         component.find('dialog').cancel();
     },
 
