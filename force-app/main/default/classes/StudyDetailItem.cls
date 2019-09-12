@@ -79,6 +79,7 @@ public without sharing class StudyDetailItem implements Comparable {
        public Study_Site__c studySite;
        public List<StudyActions.Action> actions;
        public List<Account> accounts;
+        public String PIName = '';
 
         public studySiteWithActions(){}
 
@@ -86,6 +87,9 @@ public without sharing class StudyDetailItem implements Comparable {
             this.studySite = studySite;
             this.actions = actions;
             this.accounts = accounts;
+            if(studySite.Principal_Investigator__c != CommunityService.getUserContact().Id){
+                PIName = studySite.Principal_Investigator__r.Name;
+            }
         }
     }
 }
