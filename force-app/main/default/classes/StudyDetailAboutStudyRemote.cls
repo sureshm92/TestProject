@@ -121,4 +121,80 @@ public without sharing class StudyDetailAboutStudyRemote {
         }
     }
 
+    @AuraEnabled
+    public static List<DocumentWrapper> getDocuments(String role, String ctpId){
+        List<Res_study__c> resStudies = [
+                SELECT
+                        Id,
+                        Resource__c,
+                        Resource__r.Document_Type__c,
+                        Visible_To_PI__c,
+                        Visible_To_RP__c
+                FROM    Res_study__c
+                WHERE   Clinical_Trial_Profile__c = :ctpId
+        ];
+        System.debug(ctpId);
+        System.debug(resStudies);
+        Set<Id> resourceIds = new Set<Id>();
+        Map<String, Res_study__c> resMap = new Map<String, Res_study__c>();
+        for(Res_study__c res : resStudies){
+            if((role == 'PI' && res.Visible_To_PI__c) || (role == 'HCP' && res.Visible_To_RP__c)) {
+                resourceIds.add(res.Resource__c);
+                resMap.put(res.Resource__c, res);
+            }
+        }
+        System.debug(resourceIds);
+        if(resourceIds.isEmpty())
+            return null;
+        List<ContentDocumentLink> documents = [
+                SELECT  Id,
+                        ContentDocumentId,
+                        LinkedEntityId,
+                        ContentDocument.Title
+                FROM    ContentDocumentLink
+                WHERE   LinkedEntityId IN :resourceIds
+        ];
+        List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
+        System.debug(documents);
+        Set<String> uniqueDocumentNames = new Set<String>();
+        String userLanguage = '_' +  UserInfo.getLanguage();
+        documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, userLanguage));
+        System.debug(documentsToShow);
+        if(userLanguage.removeStart('_') != LanguagePreferenceService.DEFAULT_LANGUAGE_CODE){
+            documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, '_' + LanguagePreferenceService.DEFAULT_LANGUAGE_CODE));
+        }
+        System.debug(documentsToShow);
+        return documentsToShow;
+    }
+
+    private static List<DocumentWrapper> getDefaultLanguageDocuments(List<ContentDocumentLink> documents, Set<String> uniqueDocumentNames, Map<String, Res_study__c> resMap, String userLanguage){
+        List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
+        for(ContentDocumentLink document : documents){
+            if(!uniqueDocumentNames.contains(document.ContentDocument.Title.removeEnd(userLanguage))) {
+                if (document.ContentDocument.Title.endsWith(userLanguage)) {
+                    DocumentWrapper doc = new DocumentWrapper(
+                            document.ContentDocumentId,
+                            document.ContentDocument.Title.removeEnd(userLanguage),
+                            resMap.get(document.LinkedEntityId).Resource__r.Document_Type__c
+                    );
+                    uniqueDocumentNames.add(document.ContentDocument.Title.removeEnd(userLanguage));
+                    documentsToShow.add(doc);
+                }
+            }
+        }
+        return documentsToShow;
+    }
+
+    public class DocumentWrapper{
+        @AuraEnabled public Id documentId;
+        @AuraEnabled public String title;
+        @AuraEnabled public String type;
+
+        public DocumentWrapper(Id documentId, String title, String type){
+            this.documentId = documentId;
+            this.title = title;
+            this.type = type;
+        }
+    }
+
 }
