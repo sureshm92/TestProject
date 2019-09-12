@@ -160,8 +160,8 @@ public without sharing class StudyDetailAboutStudyRemote {
         String userLanguage = '_' +  UserInfo.getLanguage();
         documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, userLanguage));
         System.debug(documentsToShow);
-        if(userLanguage.removeStart('_') != LanguagePreferenceService.DEFAULT_LANGUAGE_CODE){
-            documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, '_' + LanguagePreferenceService.DEFAULT_LANGUAGE_CODE));
+        if(userLanguage.removeStart('_') != 'en_US'){
+            documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, '_' + 'en_US'));
         }
         System.debug(documentsToShow);
         return documentsToShow;
