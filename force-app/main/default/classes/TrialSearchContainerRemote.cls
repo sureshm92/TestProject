@@ -9,6 +9,7 @@ public with sharing class TrialSearchContainerRemote {
         try {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
             TrialSearchContainer trialSearchContainer = helper.getInitTrialSearchContainer();
+            trialSearchContainer.formData = new AddPatientByPIRemote.FormData();
             return trialSearchContainer;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -33,6 +34,8 @@ public with sharing class TrialSearchContainerRemote {
         public List<Therapeutic_Area_Patient__c> taps;
         @AuraEnabled
         public Participant__c participant;
+        @AuraEnabled
+        public AddPatientByPIRemote.FormData formData;
 
     }
 

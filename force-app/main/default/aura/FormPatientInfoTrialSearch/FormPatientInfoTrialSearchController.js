@@ -7,8 +7,8 @@
         component.set('v.todayDate', todayDate);
         console.log(component.get('v.participant'));
         var formData = component.get('v.formData');
-        // var states = formData.statesByCountryMap['US'];
-        // component.set('v.statesLVList', states);
+        var states = formData.statesByCountryMap['US'];
+        component.set('v.statesLVList', states);
     },
 
     doCheckFields: function (component, event, hepler) {

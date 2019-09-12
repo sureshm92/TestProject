@@ -4,10 +4,11 @@
 <aura:component description="TrialsContainer">
     <aura:attribute name="trialTDOs" type="List"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
+    <aura:attribute name="formData" type="Object" access="public"/>
 
     <aura:if isTrue="{!v.trialTDOs}">
         <aura:iteration items="{!v.trialTDOs}" var="trial">
-            <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}"/>
+            <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}" formData="{!v.formData}"/>
         </aura:iteration>
         <aura:set attribute="else">
             <div class="not-ctp-message"> No trial matches available at this time. Check back shortly.</div>
