@@ -132,6 +132,7 @@ public without sharing class AccountSettingsController {
         }
     }
 
+    @TestVisible
     private static Contact fillParticipantContact(Contact pContact) {
         List<Participant__c> pList = [
                 SELECT  First_Name__c,
@@ -241,6 +242,7 @@ public without sharing class AccountSettingsController {
         return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
     }*/
 
+    @TestVisible
     private static Account getInstituteById(Id accountId) {
         return [
                 SELECT Id
