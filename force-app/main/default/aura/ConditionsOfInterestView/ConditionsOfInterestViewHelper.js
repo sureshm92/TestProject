@@ -19,9 +19,9 @@
         for (let i = 0; i < selectedTaps.length; i++) {
             selectedCoisIds.push(selectedTaps[i].Therapeutic_Area__c);
         }
-        console.log(selectedCoisIds);
+        console.log(component.find('search').get('v.value'));
         communityService.executeAction(component, 'searchForConditionOfInterest', {
-            searchText : component.find('search').value,
+            searchText : component.find('search').get('v.value'),
             selectedCoisIds : selectedCoisIds
         }, function (data) {
             component.set('v.searchResults', data);
@@ -45,9 +45,10 @@
         let updateEvt = component.getEvent('updateSearchEvent');
         let settings = component.get('v.conditionOfInterestList');
         updateEvt.setParam('settings', settings);
-        communityService.executeAction(component, 'doSave', {
-            data: settings
-        });
+        updateEvt.setParam('enrolling', component.find('enrolling').get("v.checked"));
+        console.log(component.find('enrolling').get("v.checked"));
+        updateEvt.setParam('notYetEnrolling', component.find('notYetEnrolling').get("v.checked"));
+        updateEvt.fire();
     }
 
 });

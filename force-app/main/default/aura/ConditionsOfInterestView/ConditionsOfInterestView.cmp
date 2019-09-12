@@ -11,6 +11,7 @@
 
     <aura:registerEvent name="updateSearchEvent" type="c:UpdateConditionsOfInterestSearchEvt"/>
 
+
     <div class="slds-grid slds-wrap">
         <div style="width: 100%">
             <aura:if isTrue="{!!empty(v.taps)}">
@@ -28,15 +29,10 @@
                              aria-haspopup="listbox"
                              role="combobox">
                             <!--Search field-->
-                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
-                                <input type="text" aura:id="search"
-                                       class="slds-input slds-combobox__input"
-                                       aria-controls="listbox-id-1" autoComplete="off"
-                                       role="textbox" placeholder="Select an Option"
-                                       oninput="{!c.doSearch}"
-                                       onfocusin="{!c.onFocusIn}"
-                                       onfocusout="{!c.onFocusOut}"
-                                       value="{!v.filterText}"/>
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none"
+                                 onfocusin="{!c.onFocusIn}"
+                                 onfocusout="{!c.onFocusOut}">
+                                <lightning:input label="" type="text" aura:id="search" autocomplete="off" placeholder="Search for anoter condition" onchange="{!c.doSearch}"/>
                             </div>
                             <!--Dropdown-->
                             <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
@@ -61,8 +57,8 @@
 
             <!--Enrollment Status Area-->
             <div>
-                <lightning:input type="checkbox" label="Enrolling" checked="true"/>
-                <lightning:input type="checkbox" label="Not yet enrolling" checked="true"/>
+                <lightning:input aura:id="enrolling" type="checkbox" label="Enrolling" checked="true"/>
+                <lightning:input aura:id="notYetEnrolling" type="checkbox" label="Not yet enrolling" checked="true"/>
             </div>
 
             <div>
