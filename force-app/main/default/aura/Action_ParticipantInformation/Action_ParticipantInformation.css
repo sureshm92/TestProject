@@ -141,6 +141,10 @@
     margin-top: 30px;
 }
 
+.THIS .hide-survey-header{
+    display: none;
+}
+
 
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {

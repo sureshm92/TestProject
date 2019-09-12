@@ -41,11 +41,29 @@
             <!-- history list: -->
             <aura:if isTrue="{!!empty(v.step.history)}">
                 <div class="pe-history">
-                    <div class="title">{!$Label.c.	PE_Activity_History + ':'}</div>
+                    <div class="title">{!$Label.c.PE_Activity_History + ':'}</div>
                     <aura:iteration items="{!v.step.history}" var="historyItem" indexVar="hIndex">
                         <div class="history-item">
                             <div class="{!'info ' + historyItem.styleClass + if(hIndex == 0, ' first', '')}">{!historyItem.message}</div>
-                            <div class="date">on <ui:outputDateTime value="{!historyItem.changeDate}"/></div>
+                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '}
+                                <ui:outputDateTime value="{!historyItem.changeDate}"/><br/>
+                                <aura:if isTrue="{!v.step.name == 'Referred'}">
+                                    <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
+                                        <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
+                                                <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.PI_Contact__r.Name}</div>
+                                                <aura:set attribute="else">
+                                                    <div class="value">{!$Label.c.PG_IMI_L_by_user + ' ' + v.pe.Source_Type__c}</div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                    <aura:set attribute="else">
+                                        {!$Label.c.PG_IMI_L_by_user + ' ' + historyItem.modifiedBy}
+                                    </aura:set>
+                                </aura:if>
+                            </div>
                         </div>
                     </aura:iteration>
                 </div>
