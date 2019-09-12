@@ -17,6 +17,7 @@
                     delegateId: communityService.getDelegateId()
                 }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
+                debugger;
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
                 component.set("v.sortData", initData.sortData);
@@ -29,15 +30,26 @@
                     component.set("v.showSpinner", false);
                 }), 1);
             });
+        } else if (userMode === 'PI') {
+            communityService.executeAction(component, 'getPIInitData', null, function (returnValue) {
+                let initData = JSON.parse(returnValue);
+                helper.addCheckNoLongerAttributes(initData.currentPITrials);
+                component.set("v.paginationData", initData.paginationData);
+                component.set("v.filterData", initData.piStudiesFilter.filterData);
+                component.set("v.sortData", initData.piStudiesFilter.sortData);
+                component.set("v.currentPITrials", initData.currentPITrials);
+                component.set("v.piId",initData.piStudiesFilter.filterData.piId);
+                setTimeout($A.getCallback(function () {
+                    helper.doUpdateStudyTitle(component);
+                    component.set("v.showSpinner", false);
+                }), 1);
+                component.set('v.isInitialized', true);
+            });
         } else {
             communityService.executeAction(component, 'getStudyTrialList', {
                 userMode: userMode
             }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                helper.addCheckNoLongerAttributes(initData.currentlyRecruitingTrials);
-                component.set('v.currentlyRecruitingTrials', initData.currentlyRecruitingTrials);
-                helper.addCheckNoLongerAttributes(initData.trialsNoLongerRecruiting);
-                component.set('v.trialsNoLongerRecruiting', initData.trialsNoLongerRecruiting);
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
                 setTimeout($A.getCallback(function () {
@@ -94,6 +106,50 @@
             cmp.set('v.paginationData', pagination);
             filter.therapeuticAreas = result.therapeuticAreas;
             cmp.set('v.filterData', filter);
+            setTimeout($A.getCallback(function () {
+                helper.doUpdateStudyTitle(cmp);
+            }), 10);
+            cmp.set('v.skipUpdate', false);
+            cmp.set('v.searchResumeChanged', false);
+            spinner.hide();
+        })
+    },
+    updateRecordsPI: function (cmp, helper) {
+        debugger;
+        if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
+            return;
+        }
+        let spinner = cmp.find('recordsSpinnerPI');
+        spinner.show();
+        let filter = cmp.get('v.filterData');
+        let piId = cmp.get('v.piId');
+        if(filter.piId !== piId){
+            filter.trialId = '';
+        }
+        let searchText = filter.searchText;
+        let paginationData = cmp.get('v.paginationData');
+        let filterJSON = JSON.stringify(filter);
+        let paginationJSON = JSON.stringify(paginationData);
+        let sortJSON = JSON.stringify(cmp.get('v.sortData'));
+
+        communityService.executeAction(cmp, 'searchStudiesPI', {
+            filterDataJSON: filterJSON,
+            sortDataJSON: sortJSON,
+            paginationDataJSON: paginationJSON
+        }, function (returnValue) {
+            if (cmp.get('v.filterData').searchText !== searchText) return;
+            let result = JSON.parse(returnValue);
+            cmp.set('v.skipUpdate', true);
+            let pagination = cmp.get('v.paginationData');
+            pagination.allRecordsCount = result.paginationData.allRecordsCount;
+            pagination.currentPageCount = result.paginationData.currentPageCount;
+            pagination.currentPage = result.paginationData.currentPage;
+            cmp.set('v.paginationData', pagination);
+            filter.PIPickList = result.piStudiesFilter.filterData.PIPickList;
+            filter.studyPickList = result.piStudiesFilter.filterData.studyPickList;
+            cmp.set('v.filterData', filter);
+            cmp.set("v.currentPITrials", result.currentPITrials);
+            cmp.set("v.piId",result.piStudiesFilter.filterData.piId);
             setTimeout($A.getCallback(function () {
                 helper.doUpdateStudyTitle(cmp);
             }), 10);

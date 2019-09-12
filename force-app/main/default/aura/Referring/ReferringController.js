@@ -175,12 +175,13 @@
     doSaveParticipant: function (component) {
         debugger;
         var participant = component.get('v.participant');
+        console.log('participant', JSON.parse(JSON.stringify(participant)));
+
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
         spinner.show();
-
         communityService.executeAction(component, 'saveParticipant', {
             hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
