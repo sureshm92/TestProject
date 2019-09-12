@@ -311,6 +311,7 @@ public without sharing class ParticipantEnrollmentService {
             'Medical_Record_Review_Completedby_Name__c',
             'Motivational_Message_Id__c',
             'MRN_Id__c',
+            'MRR_Survey_Results_URL__c',
             'Name',
             'Non_Referral_Reason__c',
             'Patient_ID__c',

@@ -43,6 +43,10 @@
                 <behavior>Readonly</behavior>
                 <field>Days_After_Enrolled__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>MRR_Survey_Results_URL__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

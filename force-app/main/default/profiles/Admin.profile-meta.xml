@@ -23,6 +23,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_EditLocationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_InviteRPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -128,6 +132,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -587,10 +595,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ParticipantDuplicateService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ParticipantEnrollmentFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -604,6 +608,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantInformationRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -951,6 +959,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TaskTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TasksRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1080,6 +1092,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EditLocationRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2666,6 +2682,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.MRR_Survey_Results_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Pass_Fail__c</field>
         <readable>true</readable>
@@ -3393,6 +3414,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.MRN_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.MRR_Survey_Results_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

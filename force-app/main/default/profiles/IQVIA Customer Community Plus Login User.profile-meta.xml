@@ -23,6 +23,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_EditLocationRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_InviteRPRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -87,11 +91,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateParticipants</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_IntegrationVisitResultProcess</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -120,6 +132,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdateScreeningIds</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -220,6 +236,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -383,6 +403,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IntegrationPatientReferralTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IntegrationPatientTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -448,6 +472,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -567,6 +595,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantEnrollmentFactory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -576,6 +608,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantEnrollmentTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantInformationRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -616,6 +652,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -771,6 +811,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SdhIntegrationService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SearchConditionsOfInterestRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -824,6 +868,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StubBuilder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -911,6 +959,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TaskTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TasksRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -979,6 +1031,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_PSECreateInvitation</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1019,6 +1075,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ContactService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ContentDocumentLinkTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1035,11 +1095,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_EditLocationRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationPatientReferralHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1088,6 +1156,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PSEStatusHistoryRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantDuplicateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1641,6 +1713,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Include_in_RP_trial_search__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Include_in_patient_trial_search__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Interventions__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1890,6 +1972,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Synch_with_TMDH__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Terms_And_Conditions_ID__c</field>
         <readable>true</readable>
@@ -1931,6 +2018,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.Accepts_Reimbursement_for_Referral__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -1957,6 +2049,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Contact_Method_Preference__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Current_Participant_Enrollment__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2137,6 +2234,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.primaryContact__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.userCommunityDelegateId__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2577,6 +2679,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient_Referral__c.MRR_Survey_Results_URL__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3308,6 +3415,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.MRN_Id__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.MRR_Survey_Results_URL__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
