@@ -31,6 +31,13 @@ public without sharing class ContactTriggerHandler {
             setShowTourDefault(newList);
         }
     }
+
+    public class PopulateOverrideFields extends TriggerHandler{
+
+        public override void beforeInsert(List<SObject> newList) {
+            populateOverrideFields(newList);
+        }
+    }
     
     // Logic: ----------------------------------------------------------------------------------------------------------
     
@@ -108,5 +115,17 @@ public without sharing class ContactTriggerHandler {
                 CommunityService.USER_MODE_PARTICIPANT
         };
         for(Contact contact : newList) contact.userCommunity_ShowTour__c =String.join(defaultModes, ';');
+    }
+
+    private static void populateOverrideFields(List<Contact> newList){
+        for(Contact contact : newList){
+            if(contact.LastName != null && String.isBlank(contact.Override_Mailing_Address__c)){
+                //MailingStreet & BR() & MailingCity & ", " & MailingState & " " &MailingPostalCode
+                contact.Override_Mailing_Address__c = contact.MailingStreet + '\n' + contact.MailingCity + ', ' + contact.MailingState + ' ' + contact.MailingPostalCode;
+            }
+            if(contact.LastName != null && String.isBlank(contact.Override_Phone__c)){
+                contact.Override_Phone__c = contact.Phone;
+            }
+        }
     }
 }

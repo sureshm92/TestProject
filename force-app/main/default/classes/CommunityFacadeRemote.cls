@@ -32,6 +32,8 @@ public without sharing class CommunityFacadeRemote {
         Boolean isTCAccepted;
         String language;
         List<String> preventedCookies;
+        List<CommunityModeService.CommunityMode> allUserModes;
+        CommunityModeService.CommunityMode currentUserMode;
     }
     
     private class CommunityType{
@@ -50,41 +52,8 @@ public without sharing class CommunityFacadeRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             CommunityData cd = new CommunityData();
-            cd.communityTypes = new List<CommunityFacadeRemote.CommunityType>();
-            Set<String> availableModes = new Set<String>();
-            if(HCPEnrollmentService.getHCPEnrollmentsForHCP(true).size() > 0) {
-                availableModes.add(CommunityService.USER_MODE_HCP);
-                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_MODE,''));
-            }
-            for(RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()){
-                availableModes.add(CommunityService.USER_MODE_HCP + ';' + delegate.Referring_Provider__c);
-                String RPFullName = delegate.Referring_Provider__r.Salutation + ' ' + delegate.Referring_Provider__r.Full_Name__c; //+ ' ' + delegate.Referring_Provider__r.Suffix;
-                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName',RPFullName),delegate.Referring_Provider__c));
-            }
-            if(StudySiteService.getStudySitesForPI().size() > 0){
-                availableModes.add(CommunityService.USER_MODE_PI);
-                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PI,Label.CTL_L_PI_MODE,''));
-            }
-            if(userContact.userCommunytyType__c.contains(CommunityService.USER_MODE_PARTICIPANT)) {
-                availableModes.add(CommunityService.USER_MODE_PARTICIPANT);
-                cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_PARTICIPANT, Label.CTL_L_Patricipant_MODE, ''));
-            }
-            if (availableModes.size() == 0) {
-                if (userContact.userCommunytyType__c == CommunityService.USER_MODE_HCP) {
-                    availableModes.add(CommunityService.USER_MODE_HCP);
-                    cd.communityTypes.add( new CommunityType(CommunityService.USER_MODE_HCP,Label.CTL_L_HCP_MODE,''));
-                }
-            }
-            if (!availableModes.contains(userContact.userCommunityMode__c + (userContact.userCommunityDelegateId__c==null
-                    || userContact.userCommunityDelegateId__c ==''?'':';'+userContact.userCommunityDelegateId__c))) {
-                userContact.userCommunityMode__c = null;
-                userContact.userCommunityDelegateId__c = null;
-                if (cd.communityTypes.size() > 0) {
-                    userContact.userCommunityMode__c = cd.communityTypes[0].value;
-                    userContact.userCommunityDelegateId__c = cd.communityTypes[0].delegateId;
-                }
-                upsert userContact;
-            }
+            cd.allUserModes = CommunityModeService.getUserCommunityModes();
+            cd.currentUserMode = CommunityModeService.getCurrentCommunityMode(cd.allUserModes);
             cd.isTCAccepted = isTCAccepted();
             cd.communityMode = userContact.userCommunityMode__c;
             cd.communityDelegateId = userContact.userCommunityDelegateId__c!=null?userContact.userCommunityDelegateId__c:'';
@@ -149,15 +118,16 @@ public without sharing class CommunityFacadeRemote {
     
     
     @AuraEnabled
-    public static void changeMode(String mode, String delegateId) {
+    public static Contact changeMode(String mode, Id delegateId, Id peId) {
         try {
-            User user = [SELECT Id, Contact.userCommunityMode__c, Contact.userCommunityDelegateId__c , Contact.userCommunytyType__c, Contact.Id FROM User WHERE Id = :UserInfo.getUserId()];
-            Contact cont = user.Contact;
-            cont.userCommunityMode__c = mode;
-            cont.userCommunityDelegateId__c = delegateId;
-            update cont;
+            Contact userContact = CommunityService.getUserContact();
+            userContact.userCommunityMode__c = mode;
+            if(mode == CommunityService.USER_MODE_HCP) userContact.userCommunityDelegateId__c = delegateId;
+            if(mode == CommunityService.USER_MODE_PARTICIPANT) userContact.Current_Participant_Enrollment__c = peId;
+            update userContact;
+            return userContact;
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (Contact)AuraHelper.throwException(e);
         }
     }
     
@@ -185,6 +155,7 @@ public without sharing class CommunityFacadeRemote {
         return defaultURL;
     
     }
+
     public static Boolean urlExists(String url) {
         try{
             if (Test.isRunningTest()) return true;

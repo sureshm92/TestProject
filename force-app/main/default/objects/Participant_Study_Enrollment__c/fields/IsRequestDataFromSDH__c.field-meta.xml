@@ -8,7 +8,7 @@ AND (
 NOT (ISPICKVAL(Status__c, &quot;Trial Complete&quot;)),
 NOT (ISPICKVAL(Status__c,&quot;Drop out&quot;))
 ),
-Clinical_Trial_Profile__r.Include_in_patient_trial_search__c
+Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>IsRequestDataFromSDH</label>

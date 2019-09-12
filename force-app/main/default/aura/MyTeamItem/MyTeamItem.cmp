@@ -35,9 +35,15 @@
         <div class="{!'mti-email ' + if(v.userMode!='HCP','mti-hcp','')}">
             {!v.delegate.delegateContact.Email}
         </div>
-        <aura:if isTrue="{!v.userMode != 'HCP'}">
+        <aura:if isTrue="{!v.userMode == 'Participant'}">
             <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
                 <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}"
+                                          changedLevels="{!v.changedLevels}"/>
+            </aura:iteration>
+        </aura:if>
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <aura:iteration items="{!v.delegate.delegateTrials}" var="trial">
+                <c:DelegateTrialCard studyLevels="{!trial}" options="{!v.options}"
                                           changedLevels="{!v.changedLevels}"/>
             </aura:iteration>
         </aura:if>

@@ -7,11 +7,8 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     private Participant_Enrollment__c pe;
 
     public ParticipantTrialBuilder(String trialId) {
-        super(trialId);
-        List<Participant_Enrollment__c> participantEnrollments =
-                ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-        if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
-        this.pe = participantEnrollments.get(0);
+        this.pe = ParticipantService.getInstance().getState().pe;
+        setTrial(this.pe.Study_Site__r.Clinical_Trial_Profile__c);
         this.studyAction = this.getStudyActions();
         this.trialDetail.tabs = this.getStudyTabs();
     }

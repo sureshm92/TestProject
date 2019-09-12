@@ -61,7 +61,29 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createInvitations((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
+    public class SetSourceTypeHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            setSourceTypeHandler(newList);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setSourceTypeHandler(newList);
+        }
+    }
+
+    public class SetParticipantStatusHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            setParticipantStatusHandler(newList);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            setParticipantStatusHandler(newList);
+        }
+    }
+
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
@@ -137,7 +159,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
                         Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
-                        Clinical_Trial_Profile__r.Include_in_patient_trial_search__c,
+                        Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                         Clinical_Trial_Profile__r.NCT_Number__c
                 FROM Study_Site__c
                 WHERE Id IN:ssIds
@@ -353,7 +375,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
-                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
 
@@ -413,6 +435,32 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if(!histories.isEmpty()) insert histories;
     }
 
+    @TestVisible
+    private static void setSourceTypeHandler(List<Participant_Enrollment__c> enrollments) {
+        for (Participant_Enrollment__c pe : enrollments) {
+            if ('PI' == pe.Referral_Source__c) {
+                pe.Source_Type__c = 'Principal Investigator';
+            } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
+                pe.Source_Type__c = 'Referring Provider';
+            } else {
+                pe.Source_Type__c = 'Digital Recruitment';
+            }
+        }
+    }
+
+    @TestVisible
+    private static void setParticipantStatusHandler(List<Participant_Enrollment__c> enrollments) {
+        Set<String> statuses = new Set<String>();
+        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt]) {
+            statuses.add(pe.Auto_Accept_Status__c);
+        }
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (statuses.contains(pe.Referral_Source__c)) {
+                pe.Participant_Status__c = 'Referral Accepted';
+            }
+        }
+    }
+
     // On study logic---------------------------------------------------------------------------------------------------
     @TestVisible
     public static void deactivateDeceasedUsers(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
@@ -464,7 +512,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
+                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
                 AND Id IN:peEnrollSuccessIds
         ];
 
@@ -514,7 +562,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 SELECT Id, Participant_Contact__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN:peEnrollSuccessIds
-                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
         ];
 
         List<Alert__c> alerts = new List<Alert__c>();
@@ -584,6 +632,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void setupCurrentEnrollment(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<String> targetStatuses = new List<String>(PEStatusState.PE_STATUS_GROUP_ALUMNI);
         targetStatuses.add(PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI);
+        targetStatuses.add(PEStatusState.PE_STATUS_CONTACT_FAILED);
         List<Id> selectedParticipantIds = new List<Id>();
         List<Id> selectedContactIds = new List<Id>();
         for(Participant_Enrollment__c pe : newList){

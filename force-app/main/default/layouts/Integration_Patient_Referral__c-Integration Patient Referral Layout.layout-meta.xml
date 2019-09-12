@@ -136,7 +136,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MRR_Survey_Results_URL__c</field>
+                <field>Middle_Initial__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Success__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Error_Message__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
