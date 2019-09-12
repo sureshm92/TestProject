@@ -47,7 +47,8 @@ private class Test_IntegrationPatientReferralHandler {
                 Participating_in_Patient_Portal__c = 'Yes',
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
-                Visit_Data_Shareback__c = true
+                Visit_Data_Shareback__c = true,
+                Synch_with_TMDH__c = true
         );
         insert study;
     
