@@ -1,0 +1,32 @@
+<aura:component controller="PastStudiesController" description="Past Studies" implements="forceCommunity:availableForAllPageTypes">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="multiMode" type="Boolean"/>
+    <aura:attribute name="pastStudiesList" type="Object[]"/>
+
+    <aura:attribute name="errorMessage" type="String" default=""/>
+
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+
+    <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+        <div class="navigation rr-width-limiter side-padding">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
+                <c:RRNPathItem label="Past Studies"/>
+            </c:RRNavigationPath>
+            <div class="rr-width-limiter">
+                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+            </div>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.pastStudiesList.length != 0}">
+        <aura:iteration items="{!v.pastStudiesList}" var="partStudy">
+            <c:PastStudyCard pastStudyObject="{!partStudy}"/>
+        </aura:iteration>
+    </aura:if>
+    <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
+
+</aura:component>
