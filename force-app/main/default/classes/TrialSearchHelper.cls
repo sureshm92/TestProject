@@ -102,7 +102,7 @@ public with sharing class TrialSearchHelper {
                 filter += '\'' + selectedCoisId + '\', ';
             }
             filter += ') ';
-            filter = filter.replace(', )', ')');
+            filter = filter.replace(',)', ')');
             System.debug(filter);
         }
         String query = 'SELECT ' +
