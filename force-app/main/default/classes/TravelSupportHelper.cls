@@ -54,7 +54,7 @@ public without sharing class TravelSupportHelper {
                 'Link_Vendor__c ' +
                 'FROM TravelVendor__c ';
         String clause = 'WHERE Id IN ' + '(\'' + String.join(travelVendorIds, '\',\'') + '\')';
-        String order = ' ORDER BY Name';
+        String order = ' ORDER BY Id';
         query += clause;
         query += order;
         List<TravelVendor__c> travelVendors = databaseProxy.query(query);

@@ -1,16 +1,30 @@
 ({
 
-    getFilteredItems : function (component, helper) {
+    getFilteredItem : function (component, helper) {
         component.find('spinner').show();
-        communityService.executeAction(component, 'getFilteredItems', {
-            'ctpId' : component.get('v.recordId'),
-            'ssIds' : component.get('v.selectedManuallySSIds'),
-            'countryCodes' : component.get('v.countryCodes'),
-            'vendorIds' : helper.getVendorIds(component.get('v.vendors'))
-        }, function(data) {
-            component.set('v.vendorItems', data);
-            component.find('spinner').hide();
-        })
+        let vendors = component.get('v.selectedVendors');
+        if (vendors.length > 0) {
+            communityService.executeAction(component, 'getFilteredItems', {
+                'ctpId': component.get('v.recordId'),
+                'ssIds': component.get('v.selectedManuallySSIds'),
+                'countryCodes': component.get('v.countryCodes'),
+                'vendorIds': helper.getVendorIds(component.get('v.selectedVendors'))
+            }, function (data) {
+                component.set('v.vendorItems', data);
+                component.find('spinner').hide();
+            })
+        } else {
+            component.set('v.selectedByCountrySSIds', '');
+            component.set('v.countryCodes', '');
+            component.set('v.selectedManuallySSIds', '');
+            component.set('v.selectedCountryCodes', '');
+            component.set('v.vendorItems', []);
+            communityService.executeAction(component, 'getFilteredItems', {
+            }, function () {
+                component.set('v.selectedVendors', []);
+                component.find('spinner').hide();
+            })
+        }
     },
 
     getVendorIds : function (vendors) {

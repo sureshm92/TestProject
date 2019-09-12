@@ -9459,6 +9459,69 @@ Please check your CAPS lock key.</value>
         <value>put On Hold</value>
     </labels>
     <labels>
+        <fullName>TS_Add_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Add Vendor</shortDescription>
+        <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Country</shortDescription>
+        <value>Select another country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Study Site</shortDescription>
+        <value>Select another Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country</shortDescription>
+        <value>Select country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country_Or_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country Or Study Site</shortDescription>
+        <value>Select Country or Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Study Site</shortDescription>
+        <value>Select Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Travel_Vendor_First</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Travel Vendor First</shortDescription>
+        <value>Select Travel Vendor First</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_or_add_vendor_first</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select or add vendor first</shortDescription>
+        <value>Select or add vendor first</value>
+    </labels>
+    <labels>
+        <fullName>TS_Study_Site_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Study Site Number</shortDescription>
+        <value>Study Site Number</value>
+    </labels>
+    <labels>
         <fullName>TTL_Create_Task</fullName>
         <language>en_US</language>
         <protected>false</protected>

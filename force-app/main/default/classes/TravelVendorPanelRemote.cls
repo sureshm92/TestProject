@@ -76,6 +76,7 @@ public with sharing class TravelVendorPanelRemote {
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
             List<Id> vendorIdsList = new List<Id>(vendorIds);
+            vendorIdsList.sort();
             initData.vendors = supportHelper.getTravelVendorsByIds(vendorIdsList);
             supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
         } catch (Exception e) {
@@ -122,12 +123,12 @@ public with sharing class TravelVendorPanelRemote {
         try {
             if (settings != null && !settings.isEmpty()) {
                 for (TravelVendorSettings__c vendorSetting : settings) {
-                    if (vendorSetting.isEnable__c) {
+//                    if (vendorSetting.isEnable__c) {
                         travelVendorSettings.add(vendorSetting);
                         if (vendorSetting.Id != null) {
                             travelVendorSettingsIds.add(vendorSetting.Id);
                         }
-                    }
+//                    }
                 }
             }
             supportHelper.deleteTravelSettings(ctpId, travelVendorSettingsIds);
