@@ -76,7 +76,7 @@ private class Test_Batch_CopyEnrollmentHistory {
                 Suppress_Participant_Emails__c = false,
                 Synch_with_TMDH__c = true,
                 Include_in_RP_trial_search__c = true,
-                Include_in_patient_trial_search__c = true,
+                Patient_Portal_Enabled__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true
