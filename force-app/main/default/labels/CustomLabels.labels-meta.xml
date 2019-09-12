@@ -7654,6 +7654,13 @@ Please check your CAPS lock key.</value>
         <value>Sponsor</value>
     </labels>
     <labels>
+        <fullName>PG_SW_F_Study_Documents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG SW F Study Documents</shortDescription>
+        <value>STUDY DOCUMENTS</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_F_Study_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
