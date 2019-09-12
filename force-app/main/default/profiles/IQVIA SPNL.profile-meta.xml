@@ -535,7 +535,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MyReferredZoneController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MyReferringClinicsController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyStudySitesController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -604,6 +612,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDeduplicationController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDeduplicationService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1371,6 +1383,18 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TravelSupportHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelSupportRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TravelVendorPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialBuilder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1668,6 +1692,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Digital_Recruitment__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Eligibility_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1855,6 +1884,11 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2714,6 +2748,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Middle_Initial__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4927,6 +4966,26 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendorSettings__c.Is_Manual__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendorSettings__c.isEnable__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendor__c.Default_Country__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendor__c.Disclosure__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Trial_Survey__c.Active_After_Days__c</field>
         <readable>true</readable>
@@ -5328,6 +5387,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Translation__c-Translation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TravelVendorSettings__c-TravelVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TravelVendor__c-TravelVendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Trial_Survey__c-Trial Survey Layout</layout>
@@ -5811,6 +5876,10 @@
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
         <visibility>DefaultOff</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Integration_Patient_Referral__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Manual_Tasks_Creation</tab>

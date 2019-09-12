@@ -6,7 +6,7 @@
 private class Test_IntegrationPatientReferralHandler {
     
     @IsTest
-    static void testBehavior() {
+    static void testAll() {
     
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
