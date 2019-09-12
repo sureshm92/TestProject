@@ -8,7 +8,7 @@
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
-    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="public"/>
+    <aura:attribute name="formData" type="Object" access="public"/>
     <aura:attribute name="updateMode" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
@@ -73,7 +73,7 @@
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">Gender</div>
                     <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
+                                 required="true" useSentenceFont="false"/>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                 <div class="label">{!$Label.c.PG_AP_F_Phone_Type}</div>
                 <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
-                            placeholder="{!$Label.c.PG_AC_Select}" required="true"/>
+                             required="true"/>
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                 <div class="label">{!$Label.c.PG_AS_F_Email_address}
@@ -102,7 +102,7 @@
                 </div>
                 <c:rrSelect options="{!v.formData.countriesLVList}"
                             value="{!v.participant.Mailing_Country_Code__c}"
-                            placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
+                             required="true" useSentenceFont="false"/>
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                 <div class="label">
@@ -112,7 +112,7 @@
                 </div>
                 <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                             value="{!v.participant.Mailing_State_Code__c}"
-                            placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
+                            required="true" useSentenceFont="false"/>
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                 <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}

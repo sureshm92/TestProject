@@ -6,6 +6,7 @@
     <aura:attribute name="trialTDO" type="Object"/>
     <aura:attribute name="isClicked" type="Boolean"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
+    <aura:attribute name="formData" type="Object" access="public"/>
 
 
 
@@ -47,7 +48,7 @@
 
         <aura:if isTrue="{!and(v.isClicked, v.trialTDO.isEnrollingCTP)}">
             <c:Popup title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" showModal="true" size="large" showFooter="{!false}">
-                <c:FormPatientInfoTrialSearch participant="{!v.participant}"/>
+                <c:FormPatientInfoTrialSearch participant="{!v.participant}" formData="{!v.formData}"/>
             </c:Popup>
         </aura:if>
 
