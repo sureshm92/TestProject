@@ -103,7 +103,7 @@ public without sharing class StudySiteService {
         }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, delegateId);
                 result.add(siteWrapper);
             }
         }
@@ -181,6 +181,10 @@ public without sharing class StudySiteService {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
     }
 
+    public static List<Study_Site__c> getStudySitesForPI(Boolean excludeDelegates) {
+        return getStudySitesCommon(CommunityService.USER_MODE_PI, null, excludeDelegates);
+    }
+
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
             'Name',
@@ -240,6 +244,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingLongitude',
             'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
             'Principal_Investigator__r.Account.BillingAddress',
+            'Principal_Investigator__r.Full_Name__c',
             'Site_Staff__r.Site_Contact__c'
     };
 
@@ -254,22 +259,39 @@ public without sharing class StudySiteService {
         return ssList;
     }
 
+    public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates, String delegateId) {
+        String userModeFilter = getUserModeFilter(userMode, excludeDelegates, delegateId);
+        if (filter != null) userModeFilter += ' ' + filter;
+        return getStudySitesCommon(userModeFilter);
+    }
+
     public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates) {
         String userModeFilter = getUserModeFilter(userMode, excludeDelegates);
         if (filter != null) userModeFilter += ' ' + filter;
         return getStudySitesCommon(userModeFilter);
     }
 
-    public static String getUserModeFilter(String userMode, Boolean excludeDelegates) {
+    public static String getUserModeFilter(String userMode, Boolean excludeDelegates){
+        return getUserModeFilter(userMode, excludeDelegates, null);
+    }
+    public static String getUserModeFilter(String userMode, Boolean excludeDelegates, String delegateId) {
         String filter = ' Clinical_Trial_Profile__c != NULL ' +
                 ' AND Override_PI_Referral_Status__c != NULL ';
         if (userMode == CommunityService.USER_MODE_PI) {
-            if (excludeDelegates) {
-                filter += ' AND  Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ';
-            } else {
+            if(delegateId == null || delegateId == '' || delegateId == CommunityService.getUserContact().Id){
+                if (excludeDelegates) {
+                    filter += ' AND  Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ';
+                } else {
+                    filter += ' AND ( ' +
+                            '       Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                            '       OR Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
+                            '   ) ';
+                }
+            }
+            else{
                 filter += ' AND ( ' +
-                        '       Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
-                        '       OR Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
+                        '       Principal_Investigator__c = \'' + delegateId + '\' ' +
+                        '       AND Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
                         '   ) ';
             }
 
@@ -329,17 +351,18 @@ public without sharing class StudySiteService {
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
         return Database.query(query);
     }
-    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels) {
-
+    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels, String parentId ) {
         List<Study_Site__c> ssList = new List<Study_Site__c>();
         Map<Id, String> delegateLevelMap = DelegateService.getPIStudySitesAccessLevelMap();
-
-        for (Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false)) {
+        for (Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false, parentId)) {
             if (!delegateLevelMap.containsKey(site.Id) || delegateLevels.contains(delegateLevelMap.get(site.Id))) {
                 ssList.add(site);
             }
         }
         return ssList;
+    }
+    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels) {
+        return getStudySitesWithDelegateLevelFiltered(filter, delegateLevels, null);
     }
     //contains selected filter values
     public class SiteFilter {
@@ -416,6 +439,10 @@ public without sharing class StudySiteService {
         }
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
+            this(site, hcpe, sortType, null);
+        }
+
+        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, String delegateId) {
             this.site = site;
             this.siteType = site.Study_Site_Type__c;
             this.siteTypeLabel = TranslateHelper.getPickListLabel(Study_Site__c.Study_Site_Type__c,site.Study_Site_Type__c);
@@ -441,10 +468,10 @@ public without sharing class StudySiteService {
 
             this.hcpe = hcpe;
             if (hcpe != null) {
-                this.actions = new StudyActionsHCP(hcpe).actions;
+                this.actions = new StudyActionsHCP(hcpe, delegateId).actions;
                 this.hcpCreatedDate = hcpe.CreatedDate;
             } else {
-                this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
+                this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null, delegateId).actions;
             }
             this.hasActiveHCPE = hcpe != null && hcpe.Status__c != HCPEnrollmentService.HCP_S_INVITATION_SENT;
         }
@@ -505,7 +532,7 @@ public without sharing class StudySiteService {
         }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, delegateId);
                 result.add(siteWrapper);
             }
         }

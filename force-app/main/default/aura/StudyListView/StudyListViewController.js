@@ -4,11 +4,21 @@
     },
 
     doUpdateRecords: function (cmp, event, helper) {
-        helper.searchForRecords(cmp, helper, false);
+        if(communityService.getUserMode()==='HCP'){
+            helper.searchForRecords(cmp, helper, false);
+        }
+        else if(communityService.getUserMode()==='PI'){
+            helper.updateRecordsPI(cmp, helper);
+        }
     },
 
     doUpdateRecordsWithFirstPage: function (cmp, event, helper) {
-        helper.searchForRecords(cmp, helper, true);
+        if(communityService.getUserMode()==='HCP'){
+            helper.searchForRecords(cmp, helper, true);
+        }
+        else if(communityService.getUserMode()==='PI'){
+            helper.updateRecordsPI(cmp, helper);
+        }
     },
 
     showNoThanksDialog: function (component, event, helper) {

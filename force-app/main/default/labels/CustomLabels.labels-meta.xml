@@ -1531,7 +1531,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>EmailPreferencesIsOff</shortDescription>
-        <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;settings?tab=account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
+        <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
     </labels>
     <labels>
         <fullName>Email_Action_Complete_Baseline_Survey</fullName>
@@ -2070,7 +2070,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Delegate HCP Levels Title</shortDescription>
-        <value>These are your current permissions at your referring clinics:</value>
+        <value>These are your current permissions when supporting referring providers:</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_PI_Levels_Title</fullName>
@@ -6332,6 +6332,13 @@ Please check your CAPS lock key.</value>
         <value>Study sites overall</value>
     </labels>
     <labels>
+        <fullName>PG_MS_L_All_Investigators</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L All Investigators</shortDescription>
+        <value>All Investigators</value>
+    </labels>
+    <labels>
         <fullName>PG_MS_L_Dont_see_a_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6374,6 +6381,20 @@ Please check your CAPS lock key.</value>
         <value>Search for Study</value>
     </labels>
     <labels>
+        <fullName>PG_MS_L_Search_for_Study_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L Search for Study PI</shortDescription>
+        <value>Search for a study</value>
+    </labels>
+    <labels>
+        <fullName>PG_MS_L_Self</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MS L Self</shortDescription>
+        <value>Self</value>
+    </labels>
+    <labels>
         <fullName>PG_MS_L_Studies_low</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6407,6 +6428,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG MT BTN Add New Team Member</shortDescription>
         <value>Add New Team Member</value>
+    </labels>
+    <labels>
+        <fullName>PG_MT_L_My_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L My Team</shortDescription>
+        <value>My Team</value>
+    </labels>
+    <labels>
+        <fullName>PG_MT_L_Team_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L Team for</shortDescription>
+        <value>Team for ##PIName</value>
     </labels>
     <labels>
         <fullName>PG_MT_T_Your_permissions_do_not_permit_this_action</fullName>
@@ -9366,6 +9401,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>TST Wrong email format.</shortDescription>
         <value>Wrong email format.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_primary_investigator_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add primary investigator as a delegate.</shortDescription>
+        <value>You cannot add primary investigator as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_referring_provider_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add referring provider as a delegate.</shortDescription>
+        <value>You cannot add referring provider as a delegate.</value>
     </labels>
     <labels>
         <fullName>TST_You_cannot_add_yourself_as_a_delegate</fullName>

@@ -571,6 +571,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PIStudiesFilter</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PITrialBuilder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2179,6 +2183,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.PI_DelegateAccessLevel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.PI_My_Studies_Filters__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
