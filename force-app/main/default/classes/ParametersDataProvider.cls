@@ -331,7 +331,9 @@ public without sharing class ParametersDataProvider {
                 SELECT toLabel(Delegate_Level__c),
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c
+                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                        Study_Site__r.Principal_Investigator__r.Full_Name__c,
+                        Study_Site__r.Name
                 FROM Site_Staff__c
                 WHERE Site_Contact__c = :cnt.Id
         ];
@@ -339,25 +341,24 @@ public without sharing class ParametersDataProvider {
         for (Site_Staff__c PIDelegate : siteStaffs) {
             DelegateLevelWrapper dlw = new DelegateLevelWrapper();
             dlw.level = PIDelegate.Delegate_Level__c;
-            dlw.studyName = PIDelegate.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+            dlw.studyName = PIDelegate.Study_Site__r.Principal_Investigator__r.Full_Name__c +
+                    ' ' + PIDelegate.Study_Site__r.Name;
             delegateLevelsPI.add(dlw);
         }
         delegateLevelsPI.sort();
         
         //delegated by HCP
-        List<Referring_HCP_Staff__c> hcpStaffs = [
-                SELECT toLabel(Delegate_Level__c),
-                        HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                        HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c
-                FROM Referring_HCP_Staff__c
-                WHERE Contact__c = :cnt.Id
+        List<RP_Delegate_Relationship__c> rpDelegates = [
+                SELECT toLabel(Delegate_Access_Level__c),
+                        Referring_Provider__r.Full_Name__c
+                FROM RP_Delegate_Relationship__c
+                WHERE Delegate__c = :cnt.Id
         ];
-        TranslateHelper.translate(hcpStaffs, cnt.Language__c);
-        for (Referring_HCP_Staff__c HCPDelegate : hcpStaffs) {
+        TranslateHelper.translate(rpDelegates, cnt.Language__c);
+        for (RP_Delegate_Relationship__c delegate : rpDelegates) {
             DelegateLevelWrapper dlw = new DelegateLevelWrapper();
-            dlw.level = HCPDelegate.Delegate_Level__c;
-            dlw.studyName = HCPDelegate.HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+            dlw.level = delegate.Delegate_Access_Level__c;
+            dlw.studyName = delegate.Referring_Provider__r.Full_Name__c;
             delegateLevelsHCP.add(dlw);
         }
         delegateLevelsHCP.sort();

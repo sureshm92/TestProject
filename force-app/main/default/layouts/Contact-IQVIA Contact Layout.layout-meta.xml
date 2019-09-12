@@ -80,6 +80,14 @@
                 <behavior>Edit</behavior>
                 <field>Current_Participant_Enrollment__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>userCommunityDelegateId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PI_My_Studies_Filters__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -306,6 +314,11 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Alert__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Referring_Provider__c</fields>
+        <fields>Delegate_Access_Level__c</fields>
+        <relatedList>RP_Delegate_Relationship__c.Delegate__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

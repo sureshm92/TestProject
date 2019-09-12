@@ -3,16 +3,14 @@
  */
 ({
     doSaveSelectedStatus: function (component, event, helper) {
-        var rootComponent = component.get('v.parent');
+        var parent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
-        if(step.selectedStatus === 'Enrollment Success'){
-            rootComponent.find('updatePatientInfoAction').execute(pe, true, function (pe) {
-                rootComponent.set('v.pe', pe);
-                helper.saveSelectedStatus(component);
-            }, function () {
-                helper.cancel(component);
-            });
+        if(step.selectedStatus === 'Enrollment Success' && !pe.Screening_ID__c){
+            parent.set('v.isFinalUpdate', true);
+            parent.set('v.saveAndChangeStep', true);
+            document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            parent.find('editForm').checkFields();
         } else {
             helper.saveSelectedStatus(component);
         }
