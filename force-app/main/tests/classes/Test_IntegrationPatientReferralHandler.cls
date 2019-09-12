@@ -95,7 +95,7 @@ private class Test_IntegrationPatientReferralHandler {
         List<Integration_Patient_Referral__c> iprList = new List<Integration_Patient_Referral__c>();
         Integration_Patient_Referral__c ipr = new Integration_Patient_Referral__c(
                 Address_Country__c = 'US',
-                Address_State__c = 'NY',
+                Address_State__c = 'New York',
                 Address_ZipCode__c = '2152',
                 birthYear__c = '2000',
                 Data_Source__c = 'Autorecruitment',
@@ -113,11 +113,12 @@ private class Test_IntegrationPatientReferralHandler {
         );
         Integration_Patient_Referral__c ipr2 = new Integration_Patient_Referral__c(
                 Address_Country__c = 'US',
-                Address_State__c = 'NY',
+                Address_State__c = 'New York',
                 Address_ZipCode__c = '34234',
                 birthYear__c = '1985',
                 Data_Source__c = 'Autorecruitment',
                 email__c = 'MaxJames@mail.com',
+                Middle_Initial__c = 'S',
                 firstName__c = 'Max',
                 lastName__c = 'Weg',
                 Language_Preference__c = 'en_US',
@@ -131,7 +132,7 @@ private class Test_IntegrationPatientReferralHandler {
         );
         Integration_Patient_Referral__c ipr3 = new Integration_Patient_Referral__c(
                 Address_Country__c = 'US',
-                Address_State__c = 'NY',
+                Address_State__c = 'New York',
                 Address_ZipCode__c = '12312',
                 birthYear__c = '1985',
                 Data_Source__c = 'Autorecruitment',
@@ -151,11 +152,39 @@ private class Test_IntegrationPatientReferralHandler {
         iprList.add(ipr2);
         iprList.add(ipr3);
         insert iprList;
+        
+        insert new Integration_Patient_Referral__c(
+                Address_Country__c = 'US',
+                Address_State__c = 'New York',
+                Address_ZipCode__c = '12312',
+                birthYear__c = '1985',
+                Data_Source__c = '23AndMe',
+                email__c = 'leo@mail.com',
+                firstName__c = 'Leo',
+                lastName__c = 'Wide',
+                Language_Preference__c = 'en_US',
+                phone__c = '321234243',
+                protocolId__c = 'CTP1',
+                siteSelected__c = 'US_SS1',
+                Referred_Date__c  = '2019-10-02T10:00:00-05:00',
+                referralID__c = '444323423',
+                Referral_Sent_to_PI__c = 'Referral Sent to PI',
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
+        );
+        
         test.stopTest();
+        System.debug([SELECT Id, Success__c, Error_Message__c FROM Integration_Patient_Referral__c]);
+        System.debug(JSON.serializePretty([SELECT Id, Name, Email__c, Phone__c, Middle_Name__c FROM Participant__c]));
     
-        System.assert([SELECT Id, Phone__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Phone__c == '13245215333');
+        System.assert([SELECT Id, Middle_Name__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Middle_Name__c == 'S');
         System.assert([SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'some@dssd.cre'].Secondary_Source__c == 'Autorecruitment');
         System.assert([SELECT Id, Contact__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Contact__c == exitedContact.Id);
+        
+        String refSource = [SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Secondary_Source__c;
+        System.assert(refSource.contains('Autorecruitment'));
+        System.assert(refSource.contains('23AndMe'));
+        
+        
 
     }
     
