@@ -23,5 +23,12 @@
             var recId = communityService.getUrlParameter('id');
             communityService.navigateToPage("resources?resourceType=" + resourceType + "&id=" + recId + '&resId=' + resourceId + '&ret=' + communityService.createRetString());
         },
+
+        newModeSelected : function(component, event, helper){
+            var modeChanged = component.get('v.modeChanged');
+
+            component.set('v.modeChanged', !modeChanged);
+            console.log('isModeChanged ', component.get('v.modeChanged'));
+        }
     }
 )

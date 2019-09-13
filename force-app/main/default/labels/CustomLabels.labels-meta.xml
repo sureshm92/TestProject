@@ -8619,6 +8619,13 @@ Please check your CAPS lock key.</value>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
     <labels>
+        <fullName>SD_Icon_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SD_Icon_View</shortDescription>
+        <value>Icon View</value>
+    </labels>
+    <labels>
         <fullName>SGT_Accepted_and_active</fullName>
         <language>en_US</language>
         <protected>false</protected>
