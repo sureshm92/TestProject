@@ -389,6 +389,7 @@ public without sharing class StudyTrialService {
             studyDetailItem.hasPatients = trialsWithPatients.contains(trial.Id);
             List<StudyActions.Action> availableActions = new List<StudyActions.Action>();
             for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studyDetailItem.sites) {
+                siteWrapper.hasPatients = studyDetailItem.hasPatients;
                 StudyActionsHCP currSA = new StudyActionsHCP(siteWrapper.hcpe, delegateId);
                 studyDetailItem.actionsMap = currSA.actions;
                 List<StudyActions.Action> currActions = currSA.studyListViewItemActions;

@@ -8,6 +8,7 @@
     },
 
     onLevelChange: function (component, event, helper) {
+        debugger;
         var ignoreUpdates = component.get('v.ignoreUpdates');
         if(ignoreUpdates){
             return;

@@ -57,5 +57,7 @@
    1. Open Study Site for edit and change Override Status to "Accepted" 
    2. Open HCP Enrollment for edit and change Stats to "Activated" 
    3. Login to community under PI User, HCP user or Participant user on your choice 
+   
+   
 
 

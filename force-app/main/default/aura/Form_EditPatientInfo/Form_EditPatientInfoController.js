@@ -79,6 +79,7 @@
 
     doCountryCodeChanged: function (component, event, helper) {
         if(!component.get('v.handleChangesEnabled')) return;
+        console.log('doCountryCodeChanged');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var participant = component.get('v.participant');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];

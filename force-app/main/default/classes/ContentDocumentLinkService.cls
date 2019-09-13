@@ -29,6 +29,20 @@ public with sharing class ContentDocumentLinkService {
                         'ORDER BY ContentDocument.CreatedDate DESC';
         return (List<ContentDocumentLink>) databaseProxy.query(documentLinksQuery);
     }
+    
+    public ContentDocumentLink getCDLForResource(Id resourceId, String languageCode){
+        List<ContentDocumentLink> cdlList = [
+                SELECT ContentDocument.LatestPublishedVersion.Title,
+                        ContentDocument.LatestPublishedVersion.VersionData
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :resourceId
+        ];
+        for(ContentDocumentLink cdl : cdlList){
+            if(cdl.ContentDocument.LatestPublishedVersion.Title == languageCode) return cdl;
+        }
+        if(cdlList.size() > 0) return cdlList[0];
+        return null;
+    }
 
     public void extendSharingToAllUsers(List<ContentDocumentLink> links) {
 

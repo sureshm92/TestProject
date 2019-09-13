@@ -1,0 +1,26 @@
+<!--
+ - Created by Kryvolap on 03.09.2019.
+ -->
+
+<aura:component description="Page_AccountSettings" implements="forceCommunity:availableForAllPageTypes">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
+
+    <!-- handlers: -->
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+
+    <!-- components boddy: -->
+
+    <aura:if isTrue="{!v.isInitialized}">
+        <div class="ps-container">
+            <div class="ps-body">
+                <c:AccountSettings userMode="{!v.userMode}"/>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

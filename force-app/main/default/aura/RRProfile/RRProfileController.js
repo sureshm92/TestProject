@@ -23,17 +23,17 @@
         component.set("v.showMenu", false);
     },
     navigateToMyTeam: function (component, event, helper) {
-        communityService.navigateToPage('settings?tab=my-team');
+        communityService.navigateToPage('my-team');
         component.set("v.showMenu", false);
     },
 
     navigateToDelegates : function(component, event, helper) {
-        communityService.navigateToPage('settings?tab=delegates');
+        communityService.navigateToPage('my-team');
         component.set('v.showMenu', false);
     },
 
     navigateToAccountSettings: function (component, event, helper) {
-        communityService.navigateToPage('settings?tab=account-settings');
+        communityService.navigateToPage('account-settings');
         component.set("v.showMenu", false);
     },
     doLogout: function (component, event, helper) {

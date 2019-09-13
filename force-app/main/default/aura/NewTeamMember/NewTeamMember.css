@@ -45,7 +45,7 @@
     margin-bottom: 10px;
 }
 .THIS .sdli-container{
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
 }
 .THIS .sdli-container.hidden{
     display: none;
