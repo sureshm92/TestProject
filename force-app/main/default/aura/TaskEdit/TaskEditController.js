@@ -1,5 +1,6 @@
 /**
  * Created by mkotenev on 3/4/2019.
+ * Refactored by Igor Malyuta
  */
 ({
     doInit: function (component, event, helper) {
@@ -20,18 +21,21 @@
 
             var task = wrapper.task;
 
-            if (wrapper.reminderEnabled && task.ActivityDate) component.set('v.frequencyEnabled', true);
+            if (wrapper.reminderEnabled && wrapper.activityDate) component.set('v.frequencyEnabled', true);
 
             component.set('v.taskTypeList', wrapper.taskTypeList);
 
             if (paramTaskId) {
                 component.set('v.editMode', true);
 
-                if (task.ActivityDate && wrapper.reminderDate) {
-                    var due = moment(task.ActivityDate, 'YYYY-MM-DD');
+                if (wrapper.activityDate && wrapper.reminderDate) {
+                    var due = moment(wrapper.activityDate, 'YYYY-MM-DD');
                     var reminder = moment(wrapper.reminderDate, 'YYYY-MM-DD');
                     if (!due.isSame(reminder)) {
-                        if (due.diff(reminder, 'days') === 1) component.set('v.frequencyMode', 'Day_Before');
+                        if (due.diff(reminder, 'days') === 1) {
+                            component.set('v.frequencyMode', 'Day_Before');
+                            component.set('v.reminderDateEnabled', false);
+                        }
                     }
                 }
 
@@ -50,7 +54,7 @@
             var visitId = communityService.getUrlParameter('visitId');
             if (visitId) component.set('v.task.Patient_Visit__c', visitId);
 
-            component.set('v.jsonState', JSON.stringify(wrapper));
+            component.set('v.jsonState', JSON.stringify(wrapper) + '' + JSON.stringify(task));
 
             component.find('spinner').hide();
         });
@@ -80,7 +84,8 @@
         if (!component.get('v.isValidFields')) {
             var showToast = true;
             if (component.get('v.editMode')) {
-                if (component.get('v.jsonState') === JSON.stringify(component.get('v.initData'))) {
+                if (component.get('v.jsonState') ===
+                    (JSON.stringify(component.get('v.initData'))) + '' + JSON.stringify(task)) {
                     showToast = false;
                 }
             }
@@ -92,8 +97,8 @@
 
         component.find('spinner').show();
         communityService.executeAction(component, 'upsertTask', {
-            'paramTask': JSON.stringify(task),
-            'reminderDate': reminderDate
+            'wrapper' : JSON.stringify(component.get('v.initData')),
+            'paramTask': JSON.stringify(task)
         }, function () {
             window.history.go(-1);
         }, null, function () {
@@ -112,7 +117,7 @@
     onChangeFreq: function (component, event, helper) {
         var freq = component.get('v.frequencyMode');
         if (freq === 'By_Date') {
-            component.set('v.initData.reminderDate', component.get('v.task.ActivityDate'));
+            component.set('v.initData.reminderDate', component.get('v.initData.activityDate'));
             component.set('v.reminderDateEnabled', true);
         } else if (freq === 'Day_Before') {
             $A.enqueueAction(component.get('c.setOneDayBefore'));
@@ -129,7 +134,7 @@
             component.set('v.reminderDateEnabled', false);
             component.set('v.initData.reminderDate', null);
         } else if (reminderSetMode === 'Email') {
-            var dueDate = component.get('v.task.ActivityDate');
+            var dueDate = component.get('v.initData.activityDate');
             if (dueDate && component.get('v.isValidFields')) component.set('v.frequencyEnabled', true);
 
             component.set('v.reminderDateEnabled', true);
@@ -137,7 +142,7 @@
     },
 
     onChangeDueDate: function (component, event, helper) {
-        var dueDate = component.get('v.task.ActivityDate');
+        var dueDate = component.get('v.initData.activityDate');
         var frequencyMode = component.get('v.frequencyMode');
         var reminderSetMode = component.get('v.reminderSetMode');
 
@@ -162,7 +167,7 @@
 
     setOneDayBefore: function (component, event, helper) {
         if (!helper.isSameDay(component)) {
-            var dueDate = moment(component.get('v.task.ActivityDate'), 'YYYY-MM-DD');
+            var dueDate = moment(component.get('v.initData.activityDate'), 'YYYY-MM-DD');
             dueDate.subtract(1, 'days');
             component.set('v.initData.reminderDate', dueDate.format('YYYY-MM-DD'));
         }
