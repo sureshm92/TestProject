@@ -258,13 +258,14 @@ public without sharing class PatientDelegateService {
         return resultMap;
     }
     
-    public static Map<Id, List<Id>> getAvailablePEIdsListByContactIdMap(List<Id> contactIds) {
-        List<Participant_Enrollment__c> ownPEList = [
-                SELECT Id, Participant__c, Participant__r.Contact__c
-                FROM Participant_Enrollment__c
-                WHERE Participant__r.Contact__c IN: contactIds
-                AND Participant_Status__c NOT IN: PEStatusState.PE_STATUS_GROUP_ALUMNI
-        ];
+    public static Map<Id, List<Id>> getPEIdsListByContactIdMap(List<Id> contactIds, String filter) {
+        List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
+                new List<String>{
+                'Participant__c',
+                'Participant__r.Contact__c'
+                },
+                Participant_Enrollment__c.getSObjectType(),
+                'Participant__r.Contact__c IN ' + DatabaseService.listToString(contactIds) + filter);
         Map<Id, List<Id>> resultMap = new Map<Id, List<Id>>();
         for(Participant_Enrollment__c pe : ownPEList){
             List<Id> ownPEIdsForContact = resultMap.get(pe.Participant__r.Contact__c);
@@ -305,5 +306,28 @@ public without sharing class PatientDelegateService {
         return resultMap;
     }
     
+    public static Map<Id, List<Id>> getAvailablePEIdsListByContactIdMap(List<Id> contactIds){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' AND Participant_Status__c NOT IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
+    }
+    
+    public static List<Id> getAvailablePEIdsForContact(Id contactId){
+        return getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+    }
+    
+    public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' AND Participant_Status__c IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
+    }
+    
+    public static List<Id> getPastPEIdsForContact(Id contactId){
+        return getPastPEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+    }
+
+
 }
 

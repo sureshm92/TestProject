@@ -5,7 +5,7 @@
 //TODO !!! DEPRECATED MUST BE REMOVED!!!
 
 public without sharing class ParticipantDeduplicationController {
-    public static Boolean changeLastName = true;
+  /*  public static Boolean changeLastName = true;
     public static Boolean checkLastName(){
         return changeLastName;
     }
@@ -164,5 +164,5 @@ public without sharing class ParticipantDeduplicationController {
         insert newPer;
         return newPer;
     }
-
+*/
 }

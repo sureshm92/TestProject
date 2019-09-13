@@ -48,7 +48,7 @@
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
             "Visit_Plan__c": "@vsp",
-            "Include_in_patient_trial_search__c": true,
+            "Patient_Portal_Enabled__c": true,
             "Include_in_RP_trial_search__c": true,
             "Synch_with_TMDH__c": true
         },
@@ -99,7 +99,8 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
-            "Visit_Plan__c": "@vsp"
+            "Visit_Plan__c": "@vsp",
+            "Synch_with_TMDH__c": true
         },
         {
             "attributes": {
@@ -148,7 +149,8 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
-            "Visit_Plan__c": "@vsp"
+            "Visit_Plan__c": "@vsp",
+            "Synch_with_TMDH__c": true
         },
         {
             "attributes": {
@@ -197,7 +199,8 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
-            "Visit_Plan__c": "@vsp"
+            "Visit_Plan__c": "@vsp",
+            "Synch_with_TMDH__c": true
         },
         {
             "attributes": {
@@ -246,7 +249,8 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
-            "Visit_Plan__c": "@vsp"
+            "Visit_Plan__c": "@vsp",
+            "Synch_with_TMDH__c": true
         },
         {
             "attributes": {
@@ -295,7 +299,8 @@
             "Suppress_Participant_Emails__c": false,
             "US_FDA_Regulated_Product__c": false,
             "Therapeutic_Area__c": "@Therapeutic_Area__cRef92",
-            "Visit_Plan__c": "@vsp"
+            "Visit_Plan__c": "@vsp",
+            "Synch_with_TMDH__c": true
         }
     ]
 }

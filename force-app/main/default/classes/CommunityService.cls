@@ -229,9 +229,10 @@ public without sharing class CommunityService {
 
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
-                SELECT Id, Email, FirstName, LastName, Name, Language__c
+                SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c, Salutation, Suffix
                 FROM Contact
                 WHERE Id = :contactIds
+                //ORDER BY Name
         ];
     }
 
@@ -252,7 +253,8 @@ public without sharing class CommunityService {
                         MailingLatitude,
                         MailingLongitude,
                         MailingCountry,
-                        Account.BillingCountry
+                        Account.BillingCountry,
+                        PI_My_Studies_Filters__c
                 FROM Contact
                 WHERE Id = :contactId
         ];

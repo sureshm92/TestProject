@@ -85,12 +85,17 @@ public class DatabaseService {
     public static Database.SaveResult insertSObj(SObject sObj, Boolean allOrNothing){
         return getInstance().insertSObjImpl(sObj, allOrNothing);
     }
+    
     public static String listToString(List<SObject> sObjects){
         Map<Id, SObject> sObjectMap = new Map<Id, SObject>(sObjects);
         List<Id> idsList = new List<Id>(sObjectMap.keySet());
         return '(\'' + String.join(idsList, '\',\'') + '\')';
     }
-
+    
+    public static String listToString(List<String> values){
+        return '(\'' + String.join(values, '\',\'') + '\')';
+    }
+    
     public static String fieldEqual(String field, String value){
         return ' ' + field + ' = \'' + value + '\' ' ;
     }

@@ -4,6 +4,8 @@
 
 public without sharing class ParticipantDuplicateService {
     
+    public class ParticipantDuplicateServiceException extends Exception{}
+    
     public Map<Integer, DuplicateContainer> duplicatesMap = new Map<Integer, DuplicateContainer>();
     
     private class DuplicateContainer{
@@ -95,11 +97,9 @@ public without sharing class ParticipantDuplicateService {
 
             if(duplicate != null){
                 Integer birthYear = getYearOfBirthForParticipant(participant);
-                System.debug('XXX BY: ' + birthYear);
                 if(birthYear != null){
                     Integer participantAge = System.today().year() - birthYear;
                     Integer birthYearInTheSystem = duplicate.getYearOfBirth();
-                    System.debug('XXX BY in system: ' + birthYearInTheSystem);
                     if(birthYearInTheSystem != null){
                         if(birthYear == birthYearInTheSystem && duplicate.getFirstName() == participant.First_Name__c){
                             setDuplicate(participant, duplicate);
@@ -143,9 +143,20 @@ public without sharing class ParticipantDuplicateService {
     }
     
     private static Integer getYearOfBirthForParticipant(Participant__c participant){
-        if(!String.isEmpty(participant.Birth_Year__c)) return Integer.valueOf(participant.Birth_Year__c);
-        if(!String.isEmpty(participant.Date_of_Birth__c)) return Integer.valueOf(participant.Date_of_Birth__c.mid(0, 4));
+        if(!String.isEmpty(participant.Birth_Year__c)) return getYearFromString(participant.Birth_Year__c);
+        if(!String.isEmpty(participant.Date_of_Birth__c)) return getYearFromString(participant.Date_of_Birth__c);
         return null;
+    }
+    
+    private static Integer getYearFromString(String str){
+        try{
+            return Integer.valueOf(str.mid(0, 4));
+        }catch (Exception e){}
+        try {
+            return Integer.valueOf(str.substring(6, 10));
+        }catch (Exception e){
+            throw new ParticipantDuplicateServiceException('Can not extract year from field value: ' + str);
+        }
     }
     
     private static void mergeParticipants(Participant__c sourceParticipant, Participant__c newParticipant){
@@ -157,7 +168,10 @@ public without sharing class ParticipantDuplicateService {
         if(newParticipant.Mailing_Zip_Postal_Code__c != null) sourceParticipant.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
         //if(newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
         if(newParticipant.Middle_Name__c != null) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
+        if(newParticipant.Date_of_Birth__c != null) sourceParticipant.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
+        if(newParticipant.Birth_Year__c != null) sourceParticipant.Birth_Year__c = newParticipant.Birth_Year__c;
     }
+    
 
 
 
