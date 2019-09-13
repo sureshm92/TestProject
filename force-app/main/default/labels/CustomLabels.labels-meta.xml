@@ -6430,6 +6430,20 @@ Please check your CAPS lock key.</value>
         <value>Add New Team Member</value>
     </labels>
     <labels>
+        <fullName>PG_MT_L_Add_New_Team_Member_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L Add New Team Member for</shortDescription>
+        <value>Add New Team Member for</value>
+    </labels>
+    <labels>
+        <fullName>PG_MT_L_My_Permissions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L My Permissions</shortDescription>
+        <value>My Permissions</value>
+    </labels>
+    <labels>
         <fullName>PG_MT_L_My_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6519,6 +6533,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG NTM L Set By Study</shortDescription>
         <value>Set By Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_NTM_L_Set_By_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG NTM L Set By Study Site</shortDescription>
+        <value>Set By Study Site</value>
     </labels>
     <labels>
         <fullName>PG_NTM_L_Set_Same_For_All_Studies</fullName>

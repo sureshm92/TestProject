@@ -35,9 +35,8 @@
                 <apex:outputText value="{!bodyValue}" escape="false"/>
 
                 <!-- for delegates: -->
-                <c:EmailTemplateDelegate rendered="{!isDelegate && userType != 'Participant'}"
-                        userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"
-                                         showAllPermissions="{!showAllPermissions}"/>
+                <c:EmailTemplateDelegate rendered="{!(isDelegate && userType != 'Participant')||hasPIRPDelegationRecords}"
+                        userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
                 <div style="margin-top: 20px; margin-bottom: 30px;">
                     <apex:componentBody />
