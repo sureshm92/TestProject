@@ -1330,6 +1330,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Manage_study_site_details </fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Manage study site details</shortDescription>
+        <value>Manage study site details</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Manage_team_member</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1918,6 +1925,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Plain Summary</shortDescription>
+        <value>Your Plain Language Summary for ##StudyName clinical research study is available on the IQVIA Patient Portal.
+
+Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_RP1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2248,6 +2264,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>You have left your clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Plain Summary</shortDescription>
+        <value>A summary of your study is available to view</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_RP10</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2491,6 +2514,17 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary</shortDescription>
+        <value>Please feel free to contact us if you have any questions.
+
+Sincerely,
+
+            The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_RH</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2650,6 +2684,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out</shortDescription>
         <value>We are sorry to see you leave your clinical trial</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Plain Summary</shortDescription>
+        <value>Your Study Plain Language summary is available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>
@@ -2850,6 +2891,34 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
         <value>This patient has already been referred to this study.</value>
+    </labels>
+    <labels>
+        <fullName>FU_Add_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FU Add File</shortDescription>
+        <value>Add File</value>
+    </labels>
+    <labels>
+        <fullName>File_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File Type</shortDescription>
+        <value>File Type</value>
+    </labels>
+    <labels>
+        <fullName>File_Upload_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File Upload Name</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Files</shortDescription>
+        <value>Files</value>
     </labels>
     <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
@@ -6465,6 +6534,20 @@ Please check your CAPS lock key.</value>
         <value>Add New Team Member</value>
     </labels>
     <labels>
+        <fullName>PG_MT_L_Add_New_Team_Member_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L Add New Team Member for</shortDescription>
+        <value>Add New Team Member for</value>
+    </labels>
+    <labels>
+        <fullName>PG_MT_L_My_Permissions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L My Permissions</shortDescription>
+        <value>My Permissions</value>
+    </labels>
+    <labels>
         <fullName>PG_MT_L_My_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6554,6 +6637,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG NTM L Set By Study</shortDescription>
         <value>Set By Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_NTM_L_Set_By_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG NTM L Set By Study Site</shortDescription>
+        <value>Set By Study Site</value>
     </labels>
     <labels>
         <fullName>PG_NTM_L_Set_Same_For_All_Studies</fullName>
@@ -8589,6 +8679,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
+    </labels>
+    <labels>
+        <fullName>SD_Icon_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SD_Icon_View</shortDescription>
+        <value>Icon View</value>
     </labels>
     <labels>
         <fullName>SGT_Accepted_and_active</fullName>

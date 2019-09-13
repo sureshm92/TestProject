@@ -1,0 +1,94 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="FileUploadController">
+    
+    <aura:attribute name="containsAnyFiles" type="Boolean" default="false"/>
+    <aura:attribute name="isPopupOpen" type="Boolean" default="false"/>
+    <aura:attribute name="fileType" type="List" default="['.pdf', '.txt']"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="uploadedFileId" type="String"/>
+    <aura:attribute name="listOfUploadedFiles"    type="Object[]"/>
+    <aura:attribute name="languagePickListValues" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+
+    <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop">
+        <div class="related_list_themed_border_top"></div>
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-file" title="file">
+                        <lightning:icon iconName="standard:file" size="small" alternativeText="File image" />
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a class="slds-card__header-link slds-truncate" title="Files">
+                            <span> 
+                                {!$Label.c.Files} ({!v.listOfUploadedFiles.length})
+                            </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <aura:if isTrue="{!v.containsAnyFiles}">
+            <div class="slds-card__body slds-card__body_inner">
+                <table class="slds-table slds-table--bordered">
+                    <thead>
+                    <tr>
+                        <th>{!$Label.c.File_Upload_Name}</th>
+                        <th>{!$Label.c.File_Type}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!v.listOfUploadedFiles}" var="file">
+                        <tr>
+                            <td><a href="" id="{!file.ContentDocument.Id}" onclick="{!c.previewFile}">{!file.ContentDocument.Title}</a></td>
+                            <td>{!file.ContentDocument.FileType}</td>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+
+        </aura:if>
+        <footer class="slds-card__footer">
+            <lightning:fileUpload label="" multiple="false"
+                                  accept="{!v.fileType}" recordId="{!v.recordId}"
+                                  onuploadfinished="{!c.handleUpload}" />
+        </footer>
+        <aura:if isTrue="{!v.isPopupOpen}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.openPopup}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.FU_Add_File}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" aura:id="selectedOption" required="true">
+                            <aura:iteration items="{!v.languagePickListValues}" var="languageValue">
+                                <option value="{!languageValue}">{!languageValue}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="{!$Label.c.BTN_Cancel}"
+                                          title="{!$Label.c.BTN_Cancel}"	
+                                          onclick="{!c.deleteFile}"/>
+                        <lightning:button variant="brand" 
+                                          label="{!$Label.c.SS_Btn_Save}"
+                                          title="{!$Label.c.SS_Btn_Save}"
+                                          onclick="{!c.save}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>         
+    </article>
+</aura:component>

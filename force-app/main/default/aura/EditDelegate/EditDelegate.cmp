@@ -96,8 +96,8 @@
                                             {!$Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
                                     </div>
-                                    <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
-                                        <button class="apollo-btn primary ntm-button"
+                                    <div class="slds-col slds-text-align_right slds-size_3-of-5 slds-medium-size_2-of-3">
+                                        <button class="apollo-btn primary"
                                                 onclick="{!c.doSaveChanges}"
                                                 disabled="{!or(not(v.isCorrectEmail), empty(and(v.delegate.FirstName, v.delegate.LastName)))}">
                                             {!$Label.c.PG_PST_L_Delegates_Save}
