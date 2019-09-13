@@ -9,7 +9,9 @@
     <aura:attribute name="languagePickListValues" type="List"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+
     <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop">
         <div class="related_list_themed_border_top"></div>
         <div class="slds-card__header slds-grid">
@@ -49,12 +51,13 @@
                     </tbody>
                 </table>
             </div>
-            <footer class="slds-card__footer">
-                <lightning:fileUpload label="" multiple="false"
-                                      accept="{!v.fileType}" recordId="{!v.recordId}"
-                                      onuploadfinished="{!c.handleUpload}" />
-            </footer>
+
         </aura:if>
+        <footer class="slds-card__footer">
+            <lightning:fileUpload label="" multiple="false"
+                                  accept="{!v.fileType}" recordId="{!v.recordId}"
+                                  onuploadfinished="{!c.handleUpload}" />
+        </footer>
         <aura:if isTrue="{!v.isPopupOpen}">
             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
                 <div class="slds-modal__container">

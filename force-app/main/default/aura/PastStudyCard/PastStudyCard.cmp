@@ -4,7 +4,7 @@
     <aura:attribute name="isPopupOpen" type="Boolean" default="false"/>
     <aura:attribute name="chosenFile" type="String" default=""/>
 
-    <div class="rr-white-panel padding">
+    <div class="rr-white-panel padding slds-m-top_medium">
         <div class="db-header"></div>
         <div class="slds-grid slds-wrap db-section" style="margin-bottom: 20px">
             <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
@@ -21,7 +21,11 @@
                         <li class="slds-item slds-m-top_x-large slds-m-left_xx-large slds-text-color--default">
                             <div class="slds-text-heading_small">
                                 <lightning:icon size="large" iconName="doctype:unknown" alternativeText="PDF FIle" />
-                                <lightning:button variant="base" label="{!document.title}" value="{!document.documentId}" title="{!document.title}" onclick="{!c.openSingleFile}"/>
+                                <a data-type="{!document.resource.RecordType.DeveloperName}"
+                                   data-id="{!document.resource.Id}"
+                                   onclick="{!c.navigateToPage}">
+                                    {!document.resource.Title__c}
+                                </a>
                             </div><br/>
                         </li>
                     </aura:iteration>
@@ -53,20 +57,5 @@
         </div>
     </div>
 
-    <aura:if isTrue="{!v.isPopupOpen}">
-        <section onclick="{!c.closePopUp}"
-                 role="dialog"
-                 aria-modal="true"
-                 class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <div class="slds-modal__content slds-p-around_medium slds-text-align_center">
-                    <div style="width: 50%; margin: 0 auto; text-align: left">
-                        <lightning:fileCard fileId="{!v.chosenFile}"/>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
-    </aura:if>
 
 </aura:component>
