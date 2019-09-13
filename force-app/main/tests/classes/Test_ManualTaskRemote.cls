@@ -94,7 +94,8 @@ private class Test_ManualTaskRemote {
         Clinical_Trial_Profile__c trial = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'Prot-333',
                 NCT_Number__c = 'NCT02804789',
-                Therapeutic_Area__c = ta.Id
+                Therapeutic_Area__c = ta.Id,
+                Synch_with_TMDH__c = true
         );
         insert trial;
 

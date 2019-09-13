@@ -150,7 +150,8 @@ public class TestData {
                 Patient_Portal_Enabled__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
-                Visit_Data_Shareback__c = true
+                Visit_Data_Shareback__c = true,
+                Synch_with_TMDH__c = true
         );
         insert study;
     

@@ -36,6 +36,7 @@ private class  Test_TaskEditRemote {
                 Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
                 ctp.NCT_Number__c = 'NCT0000000' + i;
                 ctp.Protocol_ID__c = 'tt12345677' + i;
+                ctp.Synch_with_TMDH__c = true;
                 i++;
                 insert ctp;
                 state.ctp = ctp;
