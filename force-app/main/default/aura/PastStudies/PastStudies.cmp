@@ -16,9 +16,6 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
                 <c:RRNPathItem label="Past Studies"/>
             </c:RRNavigationPath>
-            <div class="rr-width-limiter">
-                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
-            </div>
         </div>
     </div>
 
@@ -26,6 +23,11 @@
         <aura:iteration items="{!v.pastStudiesList}" var="partStudy">
             <c:PastStudyCard pastStudyObject="{!partStudy}"/>
         </aura:iteration>
+        <aura:set attribute="else">
+            <div class="rr-width-limiter">
+                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+            </div>
+        </aura:set>
     </aura:if>
     <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
 
