@@ -1,0 +1,26 @@
+<!--
+ - Created by Igor Malyuta on 13.09.2019.
+ -->
+
+<aura:component description="ResourceLanguageSelector">
+
+    <aura:attribute name="resourceWrapper" type="Object"/>
+
+    <aura:if isTrue="{!not(empty(v.resourceWrapper.translations))}">
+        <a style="position: absolute">
+            <ui:menu>
+                <ui:menuTriggerLink aura:id="trigger" label="{!v.resourceWrapper.resource.Title__c}"/>
+                <ui:menuList aura:id="actionMenu">
+                    <aura:iteration items="{!v.resourceWrapper.translations}" var="translation">
+                        <ui:actionMenuItem label="{!translation.languageLabel}" click="{!c.doShowLanguageMenu}"/>
+                    </aura:iteration>
+                </ui:menuList>
+            </ui:menu>
+        </a>
+    </aura:if>
+
+    <aura:if isTrue="{!empty(v.resourceWrapper.translations)}">
+        <a onclick="{!c.doNavigate}">{!v.resourceWrapper.resource.Title__c}</a>
+    </aura:if>
+
+</aura:component>
