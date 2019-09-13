@@ -42,8 +42,8 @@ public with sharing class TrialSearchContainerRemote {
     public class TrialTDO {
         @AuraEnabled
         public Clinical_Trial_Profile__c ctp;
-        @AuraEnabled
-        public List<Therapeutic_Area__c> cois;
+//        @AuraEnabled
+//        public List<Therapeutic_Area__c> cois;
         @AuraEnabled
         public Boolean isEnrollingCTP;
     }

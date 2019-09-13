@@ -11,7 +11,7 @@
             <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}" formData="{!v.formData}"/>
         </aura:iteration>
         <aura:set attribute="else">
-            <div class="not-ctp-message"> No trial matches available at this time. Check back shortly.</div>
+            <div class="not-ctp-message"> {!$Label.c.TrialSearch_No_trial_matches_available}</div>
         </aura:set>
     </aura:if>
 </aura:component>

@@ -13,36 +13,29 @@
     <div class="card-ctp">
         <div class="{!v.trialTDO.isEnrollingCTP ? ' top-line' : ''}"></div>
         <div class="tap-class ctp-padding">
-            Therapeutic area :
-            <aura:if isTrue="{!v.trialTDO.cois}">
-                <aura:iteration items="{!v.trialTDO.cois}" var="coi">
-                    {!coi.Name + ', '}
-                </aura:iteration>
-            </aura:if>
+            {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialTDO.ctp.Therapeutic_Area__r.Name}
         </div>
         <div style="height: 1px;background: #848484;"></div>
         <div class="ctp-info-block ctp-padding">
             <div class="ctp-study-code-name">
                 {!v.trialTDO.ctp.Study_Code_Name__c}
             </div>
-            <aura:if isTrue="{!v.trialTDO.ctp.Recruitment_Status__c}">
-                <div class="ctp-recruitment-status">
-                    {!v.trialTDO.ctp.Recruitment_Status__c}
-                </div>
-            </aura:if>
+            <div class="ctp-recruitment-status">
+                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
+            </div>
         </div>
         <div class="cpt-official-title ctp-padding">
             {!v.trialTDO.ctp.Official_Title__c}
         </div>
         <aura:if isTrue="{!!v.isClicked}">
             <button class="apollo-btn primary button-ctp" onclick="{!c.onClick}">
-                {!v.trialTDO.isEnrollingCTP ? 'Contact the study' : 'Alert me when enrollment starts'}
+                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Contact_the_study : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
             </button>
         </aura:if>
         <aura:if isTrue="{!v.isClicked}">
             <button class="apollo-btn tertiary button-ctp" onclick="{!c.onClick}" disabled="disabled">
                 <c:RRIcon iconName="icon-check"/>
-                {!v.trialTDO.isEnrollingCTP ? 'Study contacted' : 'Alert me when enrollment starts'}
+                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Study_contacted : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
             </button>
         </aura:if>
 

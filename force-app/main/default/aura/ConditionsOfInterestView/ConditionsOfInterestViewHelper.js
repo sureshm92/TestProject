@@ -1,5 +1,13 @@
 ({
 
+    fillInitTaps : function(component) {
+        let taps = component.get('v.taps');
+        for (let i = 0; i < taps.length; i++) {
+            taps[i].checked = true;
+        }
+        component.set('v.taps', taps);
+    },
+
     handleSelection : function(component, event, helper) {
         let selectedCoi = helper.getConditionFromSelectionById(component, event.currentTarget.id);
         let taps = component.get('v.taps');
@@ -60,6 +68,17 @@
         updateEvt.setParam('enrolling', component.find('enrolling').get("v.checked"));
         updateEvt.setParam('notYetEnrolling', component.find('notYetEnrolling').get("v.checked"));
         updateEvt.fire();
+    },
+
+    removeUncheckedTaps : function(component) {
+        let tapsToLeft = [];
+        let taps = component.get('v.taps');
+        for (let i = 0; i < taps.length; i++) {
+            if (taps[i].checked || taps[i].Id) {
+                tapsToLeft.push(taps[i]);
+            }
+        }
+        component.set('v.taps', tapsToLeft);
     }
 
 });
