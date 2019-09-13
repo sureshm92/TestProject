@@ -64,15 +64,17 @@ public without sharing class ContactService {
         }
         List<Res_study__c> resStudyList = [
                 SELECT Id,
-                        Active_After_Days__c,
-                        Active_On_Status__c,
-                        Clinical_Trial_Profile__c,
-                        Expires_After_Days__c,
                         Name,
+                        Active_On_Status__c,
+                        Expires_On_Status__c,
+                        Active_After_Days__c,
+                        Expires_After_Days__c,
                         Notify_On_Availability__c,
                         Resource__c,
                         Resource__r.Title__c,
                         Visible_In_Alumni__c,
+                        Visible_To_Delegates__c,
+                        Clinical_Trial_Profile__c,
                         Visible_To_Participant__c,
                         Visible_To_PI__c,
                         Visible_To_RP__c
@@ -92,7 +94,7 @@ public without sharing class ContactService {
             List<Res_study__c> resStudyForCtpList = resStudyByCtpIdMap.get(pe.Study_Site__r.Clinical_Trial_Profile__c);
             if(resStudyForCtpList != null){
                 for(Res_study__c resStudy : resStudyForCtpList){
-                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe)){
+                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, pe.Participant__r.Contact__c == CommunityService.getUserContact().Id)){
                         resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r));
                     }
                 }

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Active_On_Status__c</fullName>
+    <fullName>Approved_Lng__c</fullName>
     <externalId>false</externalId>
-    <label>Active On Status</label>
+    <label>Approved Languages</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
+    <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetName>Participant_Statuses</valueSetName>
+        <valueSetName>Languages</valueSetName>
     </valueSet>
+    <visibleLines>4</visibleLines>
 </CustomField>
