@@ -27,6 +27,8 @@ public without sharing class SendEmailToParticipant {
             TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE
     };
 
+    public static final String PATIENT_PLAIN_SUMMARY = 'Patient_Plain_Summary';
+
     @InvocableMethod(Label='Send Email To Participant with Delegates')
     public static void sendEmailNotificationWithDelegates(List<Task> tasks) {
         for (Task task : tasks) {
@@ -140,6 +142,20 @@ public without sharing class SendEmailToParticipant {
         }
 
         return emailMessages;
+    }
+
+    public static void sendPlainSummaryNotifications(List<Contact> contacts) {
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        for(Contact con : contacts) {
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    con,
+                    PATIENT_PLAIN_SUMMARY,
+                    null
+            );
+        }
+
+        SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {

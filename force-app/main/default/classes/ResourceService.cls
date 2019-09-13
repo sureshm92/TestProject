@@ -140,10 +140,8 @@ public inherited sharing class ResourceService {
 
     public class ResourceWrapperContainer {
 
-        @AuraEnabled
-        public List<ResourceWrapper> wrappers;
-        @AuraEnabled
-        public String errorMessage;
+        @AuraEnabled public List<ResourceWrapper> wrappers;
+        @AuraEnabled public String errorMessage;
 
         public ResourceWrapperContainer(String errorMessage) {
             this.errorMessage = errorMessage;
@@ -156,12 +154,9 @@ public inherited sharing class ResourceService {
 
     public virtual class ResourceWrapper {
 
-        @AuraEnabled
-        public Resource__c resource;
-        @AuraEnabled
-        public Boolean isFavorite = false;
-        @AuraEnabled
-        public Boolean isVoted = false;
+        @AuraEnabled public Resource__c resource;
+        @AuraEnabled public Boolean isFavorite = false;
+        @AuraEnabled public Boolean isVoted = false;
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
@@ -173,14 +168,10 @@ public inherited sharing class ResourceService {
     }
 
     public class ResourceDetailWrapper extends ResourceWrapper {
-        @AuraEnabled
-        public List<ResourceFieldWrapper> headerFieldWrappers = new List<ResourceFieldWrapper>();
-        @AuraEnabled
-        public List<ResourceFieldWrapper> bodyFieldWrappers = new List<ResourceFieldWrapper>();
-        @AuraEnabled
-        public String shareMessage;
-        @AuraEnabled
-        public Boolean isShareable;
+        @AuraEnabled public List<ResourceFieldWrapper> headerFieldWrappers = new List<ResourceFieldWrapper>();
+        @AuraEnabled public List<ResourceFieldWrapper> bodyFieldWrappers = new List<ResourceFieldWrapper>();
+        @AuraEnabled public String shareMessage;
+        @AuraEnabled public Boolean isShareable;
 
         private Boolean cutList = false;
 
@@ -241,12 +232,9 @@ public inherited sharing class ResourceService {
     }
 
     public class ResourceFieldWrapper {
-        @AuraEnabled
-        public String apyName;
-        @AuraEnabled
-        public Object valueField;
-        @AuraEnabled
-        public String cssClassName;
+        @AuraEnabled public String apyName;
+        @AuraEnabled public Object valueField;
+        @AuraEnabled public String cssClassName;
 
         public ResourceFieldWrapper(String apyName, Object valueField, String cssClassName) {
             this.apyName = apyName;
