@@ -12,7 +12,8 @@ public abstract with sharing class TrialBuilder {
         TrialDetail trialDetail = new TrialDetail();
         trialDetail.trial = TrialService.getTrial(trialId);
         trialDetail.accountEnrollmentsList = new List<TrialDetail.ClinicWrapper>();
-        trialDetail.isTCAccepted = TermsAndConditions.isTCAccepted(trialDetail.trial.Terms_And_Conditions_ID__c);
+        trialDetail.isTCAccepted = trialDetail.trial.Terms_And_Conditions_ID__c == null ||
+                TermsAndConditions.isTCAccepted(trialDetail.trial.Terms_And_Conditions_ID__c);
         this.trialDetail = trialDetail;
 
     }

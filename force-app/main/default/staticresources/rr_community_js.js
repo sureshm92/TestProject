@@ -8,7 +8,6 @@ window.communityService = (function () {
     var isTCAcceptedFlag;
     var communityMode;
     var communityDelegateId;
-    var communityTypes;
     var communityURLPathPrefix;
     var isDelegate;
     var stickyBarEnabled = true;
@@ -34,7 +33,6 @@ window.communityService = (function () {
                 preventedCookies = communityData.preventedCookies;
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
-                communityTypes = communityData.communityTypes;
                 communityMode = communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
@@ -47,9 +45,6 @@ window.communityService = (function () {
                 currentUserMode = communityData.currentUserMode;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
-                console.log('user mode: ' + communityMode);
-                console.log('user delegate Id: ' + communityDelegateId);
-                console.log('community types: ' + JSON.stringify(communityTypes));
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 if (!service.isTCAccepted()) {
@@ -146,9 +141,6 @@ window.communityService = (function () {
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
-        },
-        getCommunityTypes: function () {
-            return communityTypes
         },
 
         isInitialized: function () {
@@ -315,7 +307,7 @@ window.communityService = (function () {
             setTimeout(
                 function () {
                     var mainBarHeight = 50;
-                    if (communityTypes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
+                    if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
                     document.getElementById('stickyBar').classList.remove('sticky');
                     var stickyBar = document.getElementById('stickyPositionTarget');
                     stickyBarTop = stickyBar.offsetTop - mainBarHeight;
