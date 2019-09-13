@@ -1736,16 +1736,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Include_in_RP_trial_search__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Include_in_patient_trial_search__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Interventions__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1900,6 +1890,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Referral_Network_Service__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Referral__c</field>
         <readable>true</readable>
@@ -2005,11 +2000,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Synch_with_TMDH__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Synch_with_TMDH__c</field>
         <readable>true</readable>
@@ -2053,11 +2043,6 @@
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Visit_Plan__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3700,7 +3685,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Source_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
