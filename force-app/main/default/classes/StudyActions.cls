@@ -180,7 +180,7 @@ public abstract class StudyActions {
         this.hcpEnrollment = hcpEnrollment;
 
         isStudyTCAccepted = isTCAccepted(study.Id);
-        studyAccessLevel = DelegateService.getStudyAccessLevel(studySite.Id, userMode, delegateId);
+        studyAccessLevel = DelegateService.getStudyAccessLevel(studySite != null ? studySite.Id : null, userMode, delegateId);
 
         isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && isStudyTCAccepted!= null && !isStudyTCAccepted;
 

@@ -34,6 +34,12 @@ private class Test_BaselineSurveyRemote {
         System.runAs(testDataInstance.participantUser){
             BaselineSurveyRemote.getBaselineSurveyURL(CommunityService.USER_MODE_PARTICIPANT,
                     SurveyService.getInstance().getSurveyInvitationId('000', '111'));
+    
+            try {
+                BaselineSurveyRemote.getBaselineSurveyURL(null, null);
+            } catch (Exception e) {
+                // expected Exception
+            }
         }
         Test.stopTest();
     }

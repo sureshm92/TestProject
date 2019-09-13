@@ -1,0 +1,28 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+public without sharing class StudyResourceVisibilityService {
+    
+    public static Boolean isResourceVisibleForPE(Res_study__c resStudy, Participant_Enrollment__c pe){
+        Boolean isVisible = resStudy.Visible_To_Participant__c;
+        if(resStudy.Active_On_Status__c != null){
+            Integer resStudyStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Active_On_Status__c);
+            Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
+            isVisible = isVisible && (peStatusOrder >= resStudyStatusOrder);
+        }
+        if(resStudy.Active_After_Days__c != null){
+            isVisible = isVisible &&
+                    pe.Days_After_Enrolled__c != null &&
+                    pe.Days_After_Enrolled__c >= resStudy.Active_After_Days__c;
+        }
+        if(resStudy.Expires_After_Days__c != null){
+            isVisible = isVisible && pe.Days_After_Enrolled__c < resStudy.Expires_After_Days__c;
+        }
+        if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
+            isVisible = isVisible && resStudy.Visible_In_Alumni__c;
+        }
+        return isVisible;
+    }
+
+}

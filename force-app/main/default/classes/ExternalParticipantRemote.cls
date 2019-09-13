@@ -1,5 +1,5 @@
 /**
- * Created by user on 23-Apr-19.
+ * Created by Slav on 23-Apr-19.
  */
 
 public with sharing class ExternalParticipantRemote {
