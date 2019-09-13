@@ -21,7 +21,6 @@
                         <li class="slds-item slds-m-top_x-large slds-m-left_xx-large slds-text-color--default">
                             <div class="slds-text-heading_small">
                                 <lightning:icon size="large" iconName="doctype:unknown" alternativeText="PDF FIle" />
-                                <lightning:button variant="base" label="{!document.resource.Title__c}" value="{!document.documentId}" title="{!document.title}" onclick="{!c.openSingleFile}"/>
                                 <a data-type="{!document.resource.RecordType.DeveloperName}"
                                    data-id="{!document.resource.Id}"
                                    onclick="{!c.navigateToPage}">
