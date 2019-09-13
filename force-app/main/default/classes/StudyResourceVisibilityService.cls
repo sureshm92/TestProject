@@ -4,12 +4,20 @@
 
 public without sharing class StudyResourceVisibilityService {
     
-    public static Boolean isResourceVisibleForPE(Res_study__c resStudy, Participant_Enrollment__c pe){
+    public static Boolean isResourceVisibleForPE(Res_study__c resStudy, Participant_Enrollment__c pe, Boolean isDelegate){
         Boolean isVisible = resStudy.Visible_To_Participant__c;
         if(resStudy.Active_On_Status__c != null){
             Integer resStudyStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Active_On_Status__c);
             Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
             isVisible = isVisible && (peStatusOrder >= resStudyStatusOrder);
+        }
+        if(resStudy.Expires_On_Status__c != null){
+            Integer expireStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Active_On_Status__c);
+            Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
+            isVisible = isVisible && peStatusOrder < expireStatusOrder;
+        }
+        if(isDelegate != null && isDelegate){
+            isVisible = isVisible && resStudy.Visible_To_Delegates__c;
         }
         if(resStudy.Active_After_Days__c != null){
             isVisible = isVisible &&
