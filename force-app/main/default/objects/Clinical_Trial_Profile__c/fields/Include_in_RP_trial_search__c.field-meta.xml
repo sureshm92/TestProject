@@ -3,7 +3,7 @@
     <fullName>Include_in_RP_trial_search__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Include in RP Trial Search</label>
+    <label>Referring Provider study search</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

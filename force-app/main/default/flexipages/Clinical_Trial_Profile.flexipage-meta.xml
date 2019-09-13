@@ -73,6 +73,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>TravelVendorPanel</componentName>
+        </componentInstances>
+        <name>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -113,6 +120,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Trial Survey</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Travel Vendor Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

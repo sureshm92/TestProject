@@ -80,7 +80,7 @@ private class Test_IntegrationReferralTrigger {
                 Therapeutic_Area__c = area.Id,
                 Synch_with_TMDH__c = true,
                 Include_in_RP_trial_search__c = true,
-                Include_in_patient_trial_search__c = true
+                Patient_Portal_Enabled__c = true
         );
         insert study;
     
