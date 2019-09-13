@@ -81,6 +81,10 @@ public without sharing class ContactService {
                 FROM Res_study__c
                 WHERE Clinical_Trial_Profile__c IN :ctpIds
         ];
+        List<Id> resourceIds = new List<Id>();
+        for(Res_study__c resStudy : resStudyList) resourceIds.add(resStudy.Resource__c);
+        Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
+                ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
         Map<Id, List<Res_study__c>> resStudyByCtpIdMap = new Map<Id, List<Res_study__c>>();
         for(Res_study__c resStudy : resStudyList){
             List<Res_study__c> ctpResStudyList = resStudyByCtpIdMap.get(resStudy.Clinical_Trial_Profile__c);
@@ -95,7 +99,7 @@ public without sharing class ContactService {
             if(resStudyForCtpList != null){
                 for(Res_study__c resStudy : resStudyForCtpList){
                     if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, pe.Participant__r.Contact__c == CommunityService.getUserContact().Id)){
-                        resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r));
+                        resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
             }
