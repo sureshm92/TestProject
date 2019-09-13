@@ -21,7 +21,7 @@
                 <div class="navigation rr-width-limiter side-padding">
                     <c:RRNavigationPath>
                         <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                        <c:RRNPathItem label="Studies you may be interested in"/>
+                        <c:RRNPathItem label="{!$Label.c.TrialSearch_Studies_you_may_be_interested_in}"/>
                     </c:RRNavigationPath>
                 </div>
             </div>

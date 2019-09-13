@@ -1723,7 +1723,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body PI2</shortDescription>
         <value>You have a new patient referral for ##StudyTitle.
 
-            Action may or may not be required to accept or decline this referral. To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to "My Referrals."</value>
+            Action may or may not be required to accept or decline this referral. To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI3</fullName>
@@ -9695,6 +9695,90 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Travel Support Link</shortDescription>
         <value>https://www.primarius.cloud/</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Alert_me_when_enrollment_starts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Alert me when enrollment starts</shortDescription>
+        <value>Alert me when enrollment starts</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Conditions_of_interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Conditions of interest</shortDescription>
+        <value>Conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Contact_the_study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Contact the study</shortDescription>
+        <value>Contact the study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrolling</shortDescription>
+        <value>Enrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrollment_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrollment Status</shortDescription>
+        <value>Enrollment Status</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_No_trial_matches_available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_No trial matches available</shortDescription>
+        <value>No trial matches available at this time. Check back shortly.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Not_Yet_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Not Yet Enrolling</shortDescription>
+        <value>Not yet ynrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Search_for_another_condition</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Search for another condition</shortDescription>
+        <value>Search for anoter condition</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Studies you may be interested in</shortDescription>
+        <value>Studies you may be interested in</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Study_contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Study contacted</shortDescription>
+        <value>Study contacted</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Therapeutic_area</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Therapeutic area</shortDescription>
+        <value>Therapeutic area</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Update_Search_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Update Search Results</shortDescription>
+        <value>Update Search Results</value>
     </labels>
     <labels>
         <fullName>Triglycerides</fullName>

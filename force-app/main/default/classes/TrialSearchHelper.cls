@@ -39,7 +39,7 @@ public with sharing class TrialSearchHelper {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
         trialSearchContainer.participant = [
                 SELECT
-                       Id,
+                        Id,
                         Gender__c,
                         Mailing_State_Code__c,
                         Phone_Type__c,
@@ -124,23 +124,27 @@ public with sharing class TrialSearchHelper {
     }
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
-        Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = getTherapeuticAreaByParent(taIds, proxy);
+//        Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = getTherapeuticAreaByParent(taIds, proxy);
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
-            if (String.isNotBlank(ctp.Override_Recruitment_Status__c)) {
-                tdo.isEnrollingCTP = ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING;
-            } else if (String.isNotBlank(ctp.Recruitment_Status__c)) {
-                tdo.isEnrollingCTP = ctp.Recruitment_Status__c == ENROLLING || ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT;
-            }
-            List<Therapeutic_Area__c> tasTemp = therapeuticAreaByParent.get(ctp.Therapeutic_Area__c).Therapeutic_Areas__r;
-            if (tasTemp != null && !tasTemp.isEmpty()) {
-                tdo.cois = tasTemp;
-            }
+            tdo.isEnrollingCTP = isCtpEnrolling(ctp);
+//            List<Therapeutic_Area__c> tasTemp = therapeuticAreaByParent.get(ctp.Therapeutic_Area__c).Therapeutic_Areas__r;
+//            if (tasTemp != null && !tasTemp.isEmpty()) {
+//                tdo.cois = tasTemp;
+//            }
             trialTDOS.add(tdo);
         }
         return trialTDOS;
+    }
+
+    private Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
+        return ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING ||
+                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
+                        (ctp.Recruitment_Status__c == ENROLLING ||
+                                ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT)
+                );
     }
 
     private Map<Id, Therapeutic_Area__c> getTherapeuticAreaByParent(Set<Id> taIds, DatabaseProxy proxy) {
