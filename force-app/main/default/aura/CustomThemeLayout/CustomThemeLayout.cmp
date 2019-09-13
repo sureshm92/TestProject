@@ -52,7 +52,7 @@
         <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
         <div class="rr-body-content rr-min-body-height">
             <c:CommunityNavigationMobile showSideMenu="{!v.showSideMenu}" mode="{!v.currentMode.userMode}" class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
-            {!v.body} 
+            {!v.body}
         </div>
         <aura:if isTrue="{!v.isInitialized}">
             <div class="footer">
