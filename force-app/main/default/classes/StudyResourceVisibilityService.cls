@@ -23,9 +23,9 @@ public without sharing class StudyResourceVisibilityService {
             isVisible = isVisible &&
                     pe.Days_After_Enrolled__c != null &&
                     pe.Days_After_Enrolled__c >= resStudy.Active_After_Days__c;
-        }
-        if(resStudy.Expires_After_Days__c != null){
-            isVisible = isVisible && pe.Days_After_Enrolled__c < resStudy.Expires_After_Days__c;
+            if(resStudy.Expires_After_Days__c != null){
+                isVisible = isVisible && pe.Days_After_Enrolled__c < (resStudy.Active_After_Days__c + resStudy.Expires_After_Days__c);
+            }
         }
         if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
             isVisible = isVisible && resStudy.Visible_In_Alumni__c;
