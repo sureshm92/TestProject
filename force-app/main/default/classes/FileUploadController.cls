@@ -51,7 +51,7 @@ public class FileUploadController {
         if(getSelectValues().get(codeValue) == null){
             codeValue = FU_DEFAULT_LANGUAGE;
         }
-        contentDoc.Title = contentDoc.Title + '_' + getSelectValues().get(codeValue);
+        contentDoc.Title = getSelectValues().get(codeValue);
         update contentDoc;
     }
 }
