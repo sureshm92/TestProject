@@ -36,8 +36,8 @@
         </navigationMenuItem>
     </navigationLinkSet>
     <networkMemberGroups>
+        <profile>admin</profile>
         <profile>iqvia customer community plus login user</profile>
-        <profile>Admin</profile>
     </networkMemberGroups>
     <networkPageOverrides>
         <changePasswordPageOverrideSetting>Standard</changePasswordPageOverrideSetting>

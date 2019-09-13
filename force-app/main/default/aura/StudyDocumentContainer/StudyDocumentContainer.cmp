@@ -1,64 +1,136 @@
-<aura:component controller="ResourceRemote" description="StudyDocumentContainer">
+<aura:component controller="ResourceRemote" description="StudyDocumentContainer" access="global">
 
     <!--ATTRIBUTES-->
 
-    <aura:attribute name="resourceMode" type="String" default="Documents" access="private"
-                    description="constant variable"/>
-    <aura:attribute name="studyDocumentVideoType" type="String" default="Video" access="private"
-                    description="constant variable"/>
+    <aura:attribute name="resourceMode" type="String" default="Documents" access="private" description="constant variable"/>
+    <aura:attribute name="studyDocumentVideoType" type="String" default="Video" access="private" description="constant variable"/>
     <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
+    <aura:attribute name="viewMode" type="String" description="View mode can be either list-view or icons-view" default="list-view"/>
+    <aura:attribute name="pageListResourceWrappers" description="List of all wrappers organized by page" type="Object"/>
+    <aura:attribute name="currentPageResourceWrappers" description="Current page: list of wrappers to be displayed on current page" type="Object"/>
+    <aura:attribute name="pageSizeForIconsView" type="Integer" description="Number of icons per page when View mode is icons-view" default="9"/>
+    <aura:attribute name="rowsPerPageListView" type="Integer" description="Number of rows per page when View mode is list-view" default="11"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
 
-    <!--HANDLERS-->
+    <!--================ pagination attributes for icons-view mode only ======================-->
+    <aura:attribute name="currentPage" type="Integer"/>
+    <aura:attribute name="totalPages" type="Integer"/>
+    <!--======================================================================================-->
 
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.pdf_js, $Resource.pdf_worker_js, $Resource.jquery_min_js)}" afterScriptsLoaded="{!c.doInit}" />
+
+    <!--HANDLERS-->
 
     <!--COMPONENT BODY-->
 
     <div class="rr-white-panel" style="margin-top: 32px">
         <div class="resource-table">
             <div class="resource-title">
-                {!$Label.c.Resource_Tab_Study_Documents}
+                <span>
+                    {!$Label.c.Resource_Tab_Study_Documents}
+                </span>
+                <span class="view-switch" style="margin-top:-27px;" >
+                    <lightning:select aura:id="select-view" onchange="{!c.onViewChange}">
+                        <option value="list-view">List view</option>
+                        <option value="icons-view">Icons view</option>
+                    </lightning:select>
+                </span>
             </div>
-            <c:RRTable>
-                <tr>
-                    <th class="study-document-icon"></th>
-                    <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
-                    <th class="study-document-summary">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
-                    <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
-                </tr>
-                <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
-                    <tr class="study-document-row-data">
-                        <td class="study-document-icon">
-                            <div class="resource-pointer"
-                                 data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
-                                 data-id="{!resourceWrapper.resource.Id}" onclick="{!c.navigateToPage}">
-                                <c:RRIcon
-                                        iconName="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
-                                        class="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
-                            </div>
-                        </td>
-                        <td class="study-document-column-data study-document-title-data">
-                            <a data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
-                               data-id="{!resourceWrapper.resource.Id}"
-                               onclick="{!c.navigateToPage}">
-                                {!resourceWrapper.resource.Title__c}
-                            </a>
-                        </td>
-                        <td class="study-document-summary study-document-column-data">
-                            {!resourceWrapper.resource.Description__c}
-                        </td>
-                        <td class="study-document-version-date study-document-column-data">
-                            <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}" format="DD-MMM-YYYY"/>
-                        </td>
+
+            <!--LIST VIEW-->
+
+            <aura:if isTrue="{!v.viewMode == 'list-view'}">
+                <c:RRTable>
+                    <tr>
+                        <th class="study-document-icon"></th>
+                        <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
+                        <th class="study-document-summary">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
+                        <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
                     </tr>
-                </aura:iteration>
-            </c:RRTable>
-            <footer class="resource-footer" style="{!lessthan(v.resourceWrappers.length, 11) ? 'display: none;' : ''}">
-                <c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}"
-                                entriesOnPage="11"/>
-            </footer>
+                    <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
+                        <tr class="study-document-row-data">
+                            <td class="study-document-icon">
+                                <div class="resource-pointer"
+                                     data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
+                                     data-id="{!resourceWrapper.resource.Id}" onclick="{!c.navigateToPage}">
+                                    <c:RRIcon
+                                            iconName="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
+                                            class="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
+                                </div>
+                            </td>
+                            <td class="study-document-column-data study-document-title-data">
+                                <a data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
+                                   data-id="{!resourceWrapper.resource.Id}"
+                                   onclick="{!c.navigateToPage}">
+                                    {!resourceWrapper.resource.Title__c}
+                                </a>
+                            </td>
+                            <td class="study-document-summary study-document-column-data">
+                                {!resourceWrapper.resource.Description__c}
+                            </td>
+                            <td class="study-document-version-date study-document-column-data">
+                                <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}" format="DD-MMM-YYYY"/>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </c:RRTable>
+            </aura:if>
+
+            <!--ICONS VIEW-->
+
+            <!--======================================================================                -->
+            <aura:if isTrue="{!v.viewMode == 'icons-view'}">
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <aura:iteration items="{!v.currentPageResourceWrappers}" var="wrapper">
+                        <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
+                            <div aura:id="container" class="study-document-preview" style="overflow:hidden;">
+<!--                                <canvas aura:id="canvas"/>-->
+                                <iframe class="iframe" frameborder="0" src="{!'/apex/RRPDFViewer?resourceId=' + wrapper.resource.Id}"/>
+                            </div>
+
+                            <div class="resource-pointer" data-type="{!wrapper.resource.RecordType.DeveloperName}" data-id="{!wrapper.resource.Id}" onclick="{!c.navigateToPage}"
+                                 style="padding-bottom: 10px;">
+                                <c:RRIcon iconName="{!wrapper.resource.document_type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
+                                        class="{!wrapper.resource.document_type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
+                                &nbsp;&nbsp;
+                                <a data-type="{!wrapper.resource.RecordType.DeveloperName}" data-id="{!wrapper.resource.Id}" onclick="{!c.navigateToPage}">
+                                    {!wrapper.resource.Title__c}
+                                </a>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+
+            <!--PAGINATION FOR LIST VIEW-->
+            <aura:if isTrue="{!v.viewMode == 'list-view'}">
+                <footer class="resource-footer" style="{!lessthan(v.resourceWrappers.length, v.rowsPerPageListView) ? 'display: none;' : ''}">
+                    <c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}" entriesOnPage="{!v.rowsPerPageListView}"/>
+                </footer>
+            </aura:if>
+
+            <!--PAGINATION FOR ICONS VIEW-->
+            <aura:if isTrue="{!v.viewMode == 'icons-view' &amp;&amp; v.pageListResourceWrappers != null}">
+                <footer class="resource-footer">
+                    <lightning:layout horizontalAlign="center">
+                        <div class="buttons" style="transform: scale(.75, .75);">
+                            <button class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }" onclick="{!c.prevPage}">
+                                <c:RRIcon iconName="icon-chevron-left" color="#333333"/>
+                            </button>
+                            <button class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }" onclick="{!c.nextPage}">
+                                <c:RRIcon iconName="icon-chevron-right" color="#333333"/>
+                            </button>
+                        </div>
+                    </lightning:layout>
+                    <lightning:layout horizontalAlign="center">
+                        <div class="info">
+                            {!v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' + if(v.totalPages == 0, '1', v.totalPages)}
+                        </div>
+                    </lightning:layout>
+                </footer>
+            </aura:if>
+
             <aura:if isTrue="{!v.errorMessage}">
                 <div class="resource-error-message">{!v.errorMessage}</div>
             </aura:if>

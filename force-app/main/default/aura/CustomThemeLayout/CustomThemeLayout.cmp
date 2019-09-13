@@ -17,7 +17,7 @@
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
-    <aura:attribute name="showModeSwitcher" type="Boolean" default="true"/>
+    <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
 
     <!-- events: -->
     <!--aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/-->
@@ -41,7 +41,9 @@
                         <c:CommunityNavigation mode="{!v.currentMode.userMode}" />
                     </div>
                     <div class="right-block">
-                        <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"/>
+                        <aura:if isTrue="{!v.showModeSwitcher}">
+                            <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"/>
+                        </aura:if>
                         <c:ProfileMenu userMode="{!v.currentMode.userMode}"/>
                     </div>
                 </div>

@@ -122,9 +122,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 if (ipr != null) {
                     if (sr.isSuccess()) {
                         ipr.Success__c = true;
+                        ipr.Participant_Enrollment__c = sr.getId();
                     } else {
                         ipr.Success__c = false;
-                        ipr.Error_Message__C = sr.getErrors()[0].getMessage();
+                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
                     }
                 }
             }
