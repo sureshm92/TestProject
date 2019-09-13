@@ -6,11 +6,17 @@
         var parent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
-        if(step.selectedStatus === 'Enrollment Success' && !pe.Screening_ID__c){
+        if(step.selectedStatus === 'Enrollment Success'){
+            var formComponent = parent.find('editForm');
             parent.set('v.isFinalUpdate', true);
-            parent.set('v.saveAndChangeStep', true);
-            document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-            parent.find('editForm').checkFields();
+            formComponent.checkFields();
+            if(!component.get('v.isValid')){
+                parent.set('v.saveAndChangeStep', true);
+                document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            }
+            else{
+                helper.saveSelectedStatus(component);
+            }
         } else {
             helper.saveSelectedStatus(component);
         }

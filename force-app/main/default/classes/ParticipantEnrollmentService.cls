@@ -348,6 +348,7 @@ public without sharing class ParticipantEnrollmentService {
             'Pre_screening_Status__c',
             'Pre_Eligibility_Date__c',
             'Referred_Date__c',
+            'Referred_By__c',
             'Referral_ID__c',
             'Referral_Source__c',
             'Referral_Completedby_Name__c',
