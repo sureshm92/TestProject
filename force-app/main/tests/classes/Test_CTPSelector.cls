@@ -7,7 +7,7 @@ public with sharing class Test_CTPSelector {
         insert visitPlan;
 
         Clinical_Trial_Profile__c ctpList = (new Clinical_Trial_Profile__c(Protocol_ID__c = '11111111111', Study_Title__c = 'test',
-                Visit_Plan__c = visitPlan.Id));
+                Visit_Plan__c = visitPlan.Id, Synch_with_TMDH__c = true));
         insert ctpList;
 
         List<Visit__c> visits = new List<Visit__c>();

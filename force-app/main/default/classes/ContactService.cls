@@ -21,7 +21,7 @@ public without sharing class ContactService {
                 WHERE Id IN: contactIds
         ];
         Map<Id, List<Id>> availablePEIdsByContactIdMap = PatientDelegateService.getAvailablePEIdsListByContactIdMap(contactIds);
-        System.debug('>>> Available PE Map: ' + JSON.serializePretty(availablePEIdsByContactIdMap));
+        //System.debug('>>> Available PE Map: ' + JSON.serializePretty(availablePEIdsByContactIdMap));
         for(Contact contact : contacts){
             List<Id> peIds = availablePEIdsByContactIdMap.get(contact.Id);
             if(peIds == null) peIds = new List<Id>();
