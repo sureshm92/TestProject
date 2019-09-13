@@ -2,6 +2,7 @@
 	doInit : function(component, event, helper) {
         var recordId = component.get('v.recordId');
         helper.getResourceFiles(component, recordId);
+
 	},
     
     openPopup : function(component, event, helper){
@@ -20,6 +21,8 @@
         var isPopupOpen = component.get('v.isPopupOpen');
         component.set('v.isPopupOpen', !isPopupOpen);
         helper.saveFileWithLanguage(component);
+        $A.get('e.force:refreshView').fire();
+
     },
     
     handleUpload : function(component, event, helper){
