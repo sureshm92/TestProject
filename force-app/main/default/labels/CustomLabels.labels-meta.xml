@@ -1723,7 +1723,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body PI2</shortDescription>
         <value>You have a new patient referral for ##StudyTitle.
 
-            Action may or may not be required to accept or decline this referral. To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to "My Referrals."</value>
+            Action may or may not be required to accept or decline this referral. To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI3</fullName>
@@ -1888,6 +1888,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Plain Summary</shortDescription>
+        <value>Your Plain Language Summary for ##StudyName clinical research study is available on the IQVIA Patient Portal.
+
+Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -2220,6 +2229,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>You have left your clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Plain Summary</shortDescription>
+        <value>A summary of your study is available to view</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_RP10</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2463,6 +2479,17 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary</shortDescription>
+        <value>Please feel free to contact us if you have any questions.
+
+Sincerely,
+
+            The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_RH</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2622,6 +2649,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>Email Subject Patient Dropped Out</shortDescription>
         <value>We are sorry to see you leave your clinical trial</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Plain Summary</shortDescription>
+        <value>Your Study Plain Language summary is available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>

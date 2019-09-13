@@ -107,6 +107,7 @@ public without sharing class PatientDelegateService {
                         'Contact__r.Name',
                         'Contact__r.FirstName',
                         'Contact__r.LastName',
+                        'Contact__r.Language__c',
                         'Contact__r.Email',
                         'Contact__r.Participant_Opt_In_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
