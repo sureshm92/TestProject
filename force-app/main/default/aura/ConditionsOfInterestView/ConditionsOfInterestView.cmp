@@ -41,7 +41,7 @@
                             <!--Search field-->
                             <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
                                 <lightning:input type="search" aura:id="search" autocomplete="off"
-                                                 disabled="{!v.taps.length >= 6}"
+                                                 disabled="{!v.taps.length >= 7}"
                                                  placeholder="{!$Label.c.TrialSearch_Search_for_another_condition}"
                                                  onfocus="{!c.onFocus}"
                                                  onblur="{!c.onBlur}"
