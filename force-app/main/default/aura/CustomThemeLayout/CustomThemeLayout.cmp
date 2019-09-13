@@ -25,7 +25,7 @@
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
-    <c:RRSpinner aura:id="spinner" fixed="true" showSpinner="true" size="medium"/>
+    <!--c:RRSpinner aura:id="spinner" fixed="true" showSpinner="true" size="medium"/-->
     <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
         <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode', '')}">
             <aura:if isTrue="{!v.isInitialized}">

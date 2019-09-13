@@ -128,11 +128,15 @@ public inherited sharing class ResourceService {
 
     @TestVisible
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
+        List<Id> resourceIds = new List<Id>();
+        for(Resource__c resource : resources) resourceIds.add(resource.Id);
+        Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
+                ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
         List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
         Set<Resource__c> resourcesSet = new Set<Resource__c>();
         for (Resource__c singleResource : resources) {
             if (resourcesSet.add(singleResource)) {
-                wrappers.add(new ResourceService.ResourceWrapper(singleResource));
+                wrappers.add(new ResourceService.ResourceWrapper(singleResource, translatedItemsMap.get(singleResource.Id)));
             }
         }
         return wrappers;
@@ -157,6 +161,7 @@ public inherited sharing class ResourceService {
         @AuraEnabled public Resource__c resource;
         @AuraEnabled public Boolean isFavorite = false;
         @AuraEnabled public Boolean isVoted = false;
+        @AuraEnabled public List<ContentDocumentLinkService.TranslatedContentItem> translations;
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
@@ -164,6 +169,11 @@ public inherited sharing class ResourceService {
                 this.isVoted = ResourceDecoupler.getResourceActions(resource)[0].IsVoted__c;
             }
             this.resource = resource;
+        }
+    
+        public ResourceWrapper(Resource__c resource, List<ContentDocumentLinkService.TranslatedContentItem> translations){
+            this(resource);
+            this.translations = translations;
         }
     }
 
