@@ -640,13 +640,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     (oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
                             targetStatuses.contains(pe.Participant_Status__c))){
                 selectedParticipantIds.add(pe.Participant__c);
-                selectedContactIds.add(pe.Participant_Contact__c);
+                if(pe.Participant_Contact__c!=null)
+                    selectedContactIds.add(pe.Participant_Contact__c);
             }
         }
         if(selectedParticipantIds.size() == 0) return;
         Map<Id, List<Id>> delegatedContactIdsByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(selectedParticipantIds);
         for(List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
-        ContactService.updateCurrentPEOnContacts(selectedContactIds);
+        if(!selectedContactIds.isEmpty())
+            ContactService.updateCurrentPEOnContacts(selectedContactIds);
     }
     
 }

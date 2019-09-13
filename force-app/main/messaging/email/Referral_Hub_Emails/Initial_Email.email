@@ -1,11 +1,11 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Initial}"
                          recipientType="User"
-                         relatedToType="Community"
                          language="{!recipient.LanguageLocaleKey}">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!recipient.Id}">
+<!--                         showDelegateTable="true">-->
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplate>

@@ -32,7 +32,7 @@ public without sharing class MedicalRecordReviewRemote {
                 initData.hcpEnrollment = hcpEnrollment;
                 initData.actions = sActions.actions;
             }
-            else if(DelegateService.DELEGATE_LEVEL_1_AND_LOW.contains(DelegateService.getStudyAccessLevel(trialId, CommunityService.USER_MODE_HCP, delegateId))){
+            else if(DelegateService.DELEGATE_LEVEL_1_AND_LOW.contains(DelegateService.getStudyAccessLevel(null, CommunityService.USER_MODE_HCP, delegateId))){
                 List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrial(trialId, delegateId);
                 if(hcpEnrollments.isEmpty()) throw new CommunityServiceException('Data not found');
                 initData.hcpContact = hcpEnrollments[0].HCP_Contact__r;
