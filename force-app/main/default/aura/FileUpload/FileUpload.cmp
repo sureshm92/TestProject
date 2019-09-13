@@ -9,7 +9,9 @@
     <aura:attribute name="languagePickListValues" type="List"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+
     <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop">
         <div class="related_list_themed_border_top"></div>
         <div class="slds-card__header slds-grid">
