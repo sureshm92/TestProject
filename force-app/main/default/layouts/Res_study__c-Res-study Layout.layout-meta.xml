@@ -18,10 +18,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Active_On_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Visible_To_Delegates__c</field>
             </layoutItems>
             <layoutItems>

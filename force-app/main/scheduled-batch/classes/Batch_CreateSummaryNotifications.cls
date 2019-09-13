@@ -11,6 +11,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Active_On_Status__c,
                         Clinical_Trial_Profile__c,
                         Expires_After_Days__c,
+                        Expires_On_Status__c,
                         Id,
                         Notify_On_Availability__c,
                         Resource__c,
@@ -55,7 +56,13 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         for(Participant_Enrollment__c pe : enrollment) {
             Boolean notify = false;
 
-            List<String> resourceNotificationIds = pe.Participant_Contact__r.Resource_Notifications__c.split(';');
+            List<String> resourceNotificationIds;
+            if(pe.Participant_Contact__r.Resource_Notifications__c != null) {
+                resourceNotificationIds = pe.Participant_Contact__r.Resource_Notifications__c.split(';');
+            } else {
+                resourceNotificationIds = new List<String>();
+            }
+
             for(Res_study__c res : resStudyByCtp.get(pe.Clinical_Trial_Profile__c)) {
                 if(resourceNotificationIds.contains(res.Resource__c)) break;
 
