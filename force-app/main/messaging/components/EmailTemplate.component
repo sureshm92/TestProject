@@ -36,7 +36,7 @@
                 <apex:outputText value="{!bodyValue}" escape="false"/>
 
                 <!-- for delegates: -->
-                <c:EmailTemplateDelegate rendered="{!showDelegateTableValue && ((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
+                <c:EmailTemplateDelegate rendered="{!((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
                         userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
                 <div style="margin-top: 20px; margin-bottom: 30px;">
