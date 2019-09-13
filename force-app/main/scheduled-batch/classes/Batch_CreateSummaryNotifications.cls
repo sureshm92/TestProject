@@ -44,6 +44,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
                         Participant_Contact__r.Language__c,
+                        Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                         Participant_Contact__r.Resource_Notifications__c,
                         Participant_Status__c
                 FROM Participant_Enrollment__c
@@ -51,65 +52,45 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                 AND Study_Site__r.Approved_Lng__c IN: resLangs
         ];
 
-        Map<Id, Boolean> contactToNotify = new Map<Id, Boolean>();
-        List<Contact> contactToUpdate = new List<Contact>();
+        List<Contact> contactToNotify = new List<Contact>();
         for(Participant_Enrollment__c pe : enrollment) {
-            Boolean notify = false;
-
-            List<String> resourceNotificationIds;
-            if(pe.Participant_Contact__r.Resource_Notifications__c != null) {
-                resourceNotificationIds = pe.Participant_Contact__r.Resource_Notifications__c.split(';');
-            } else {
-                resourceNotificationIds = new List<String>();
-            }
+            List<Contact> peContacts = new List<Contact>();
+            peContacts.add(pe.Participant_Contact__r);
+            peContacts.addAll(PatientDelegateService.getDelegateContacts(pe.Participant_Contact__c));
 
             for(Res_study__c res : resStudyByCtp.get(pe.Clinical_Trial_Profile__c)) {
-                if(resourceNotificationIds.contains(res.Resource__c)) break;
-
-                if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) && !res.Visible_In_Alumni__c) {
-                    break;
-                }
-
-                if(pe.Participant_Contact__r.Language__c != res.Resource__r.Language__c) { //Add IRB logic here
-                    break;
-                }
-
-
-                if(res.Active_After_Days__c != null) { //Days based
-                    if(pe.Days_After_Enrolled__c >= res.Active_After_Days__c) {
-                        if(res.Expires_After_Days__c == null ||
-                                ( (res.Active_After_Days__c + res.Expires_After_Days__c) > pe.Days_After_Enrolled__c)) {
-                            notify = true;
-                        }
-                    }
-                } else if(res.Active_On_Status__c != null) { //Status based
-                    if(PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c) >=
-                            PEStatusState.PE_ORDERED_STATUSES.get(res.Active_On_Status__c)) {
-                        if(pe.Participant_Status__c != res.Expires_On_Status__c) {
-                            notify = true;
-                        }
+                for(Contact contact : peContacts) {
+                    Boolean isDelegate = pe.Participant_Contact__c == contact.Id;
+                    if(StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, isDelegate)) {
+                        if(needNotify(contact, res.Resource__c)) contactToNotify.add(contact);
                     }
                 }
-
-                if(notify) {
-                    contactToNotify.put(pe.Participant_Contact__c, res.Visible_To_Delegates__c);
-                    pe.Participant_Contact__r.Resource_Notifications__c += ';' + res.Resource__c;
-                }
-            }
-
-            if(notify) {
-                contactToUpdate.add(pe.Participant_Contact__r);
-                notify = false;
             }
         }
 
-        if(!contactToUpdate.isEmpty()) {
+        if(!contactToNotify.isEmpty()) {
             SendEmailToParticipant.sendPlainSummaryNotifications(contactToNotify);
-            update contactToUpdate;
+            update contactToNotify;
         }
     }
 
     public override Type getType() {
         return Batch_CreateSummaryNotifications.class;
+    }
+
+    private Boolean needNotify(Contact contact, Id resourceId) {
+        Boolean notify = false;
+        if(contact.Resource_Notifications__c == null) {
+            contact.Resource_Notifications__c = resourceId;
+            notify = true;
+        } else {
+            List<String> resourceIds = contact.Resource_Notifications__c.split(';');
+            if(!resourceIds.contains(resourceId)) {
+                contact.Resource_Notifications__c += ';' + resourceId;
+                notify = true;
+            }
+        }
+
+        return notify;
     }
 }

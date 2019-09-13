@@ -30,6 +30,9 @@ public without sharing class StudyResourceVisibilityService {
         if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
             isVisible = isVisible && resStudy.Visible_In_Alumni__c;
         }
+
+        //Add IRB logic here
+
         return isVisible;
     }
 
