@@ -32,62 +32,21 @@ public without sharing class PastStudiesController {
         ];
 
         PastStudyWrapper wrappedPEObject;
+        List<ContactService.PastStudyWrapper>  pastStudyWrapper = ContactService.getPastStudyWrappers(userContact.Id);
+        List<ResourceService.ResourceWrapper> listOfDocuments = new List<ResourceService.ResourceWrapper>();
         for(Participant_Enrollment__c partEnroll : particEnrollmentList){
-            clinicalTrialIds.add(partEnroll.Clinical_Trial_Profile__r.Id);
-        }
-        List<DocumentWrapper> docWrapperList = getContentDocumentForStudy(clinicalTrialIds, String.isBlank(contactList[0].Language__c)
-                ? ResourceService.DEFAULT_LANGUAGE : contactList[0].Language__c);
-        for(Participant_Enrollment__c partEnroll : particEnrollmentList){
-            wrappedPEObject = new PastStudyWrapper(partEnroll, docWrapperList);
+            for(ContactService.PastStudyWrapper pastStudy : pastStudyWrapper){
+                if(pastStudy.pe.Id == partEnroll.Id){
+                    listOfDocuments.addAll(pastStudy.resourceWrappers);
+                    break;
+                }
+            }
+            wrappedPEObject = new PastStudyWrapper(partEnroll, listOfDocuments);
             listOfWrappedValues.add(wrappedPEObject);
         }
 
         return listOfWrappedValues;
     }
-
-    public static  List<DocumentWrapper> getContentDocumentForStudy(Set<String> clinicalTrial, String language){
-        List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
-        DocumentWrapper docWrapperObj;
-        Set<Id> resourceIds = new Set<Id>();
-        List<Res_study__c> resourceStudyList = [
-                SELECT Resource__r.Id
-                FROM Res_study__c
-                WHERE Clinical_Trial_Profile__c IN: clinicalTrial AND Resource__r.Content_Type__c =: ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
-                      AND Resource__r.Language__c =: language
-        ];
-
-        for(Res_study__c resStudy : resourceStudyList){
-            resourceIds.add(resStudy.Resource__r.Id);
-        }
-        List<Resource__c> contentDocLinkList = [
-                SELECT  Id,
-                        Title__c,
-                        (SELECT  ContentDocumentId, LinkedEntityId, ContentDocument.Title FROM ContentDocumentLinks)
-                FROM    Resource__c
-                WHERE   Id IN: resourceIds
-        ];
-
-        for(Resource__c contentDoc : contentDocLinkList){
-            for(ContentDocumentLink contDocLink : contentDoc.ContentDocumentLinks){
-                //if(contDocLink.ContentDocument.Title.removeStart('_') == language){
-                    docWrapperObj = new DocumentWrapper (contDocLink.ContentDocumentId, contentDoc.Title__c);
-                    documentsToShow.add(docWrapperObj);
-                //}
-            }
-        }
-        return documentsToShow;
-    }
-
-    public class DocumentWrapper{
-        @AuraEnabled public Id documentId;
-        @AuraEnabled public String title;
-
-        public DocumentWrapper(Id documentId, String title){
-            this.documentId = documentId;
-            this.title = title;
-        }
-    }
-
 
     public class PastStudyWrapper{
         @AuraEnabled  public String studyNickname {get;set;}
@@ -97,11 +56,11 @@ public without sharing class PastStudiesController {
         @AuraEnabled  public Date enrollmentDate {get;set;}
         @AuraEnabled  public String siteLocation {get;set;}
         @AuraEnabled  public String logoURL {get;set;}
-        @AuraEnabled  public List<DocumentWrapper> listOfDocuments {get;set;}
+        @AuraEnabled  public  List<ResourceService.ResourceWrapper> listOfDocuments {get;set;}
 
         public PastStudyWrapper(
                 Participant_Enrollment__c participantEnrollObject,
-                List<DocumentWrapper> listOfDocuments
+                List<ResourceService.ResourceWrapper> listOfDocuments
         ){
             this.studyNickname = participantEnrollObject.Clinical_Trial_Profile__r.Study_Title__c != null ? participantEnrollObject.Clinical_Trial_Profile__r.Study_Title__c : '';
             this.therapeuticArea = participantEnrollObject.Clinical_Trial_Profile__r.Therapeutic_Area__r.Name != null
