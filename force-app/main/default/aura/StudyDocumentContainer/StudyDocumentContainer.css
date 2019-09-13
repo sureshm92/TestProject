@@ -80,6 +80,19 @@
     border-bottom: 1px solid #F8F9FB;
 }
 
+.THIS .study-document-preview {
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    margin-bottom: 5px;
+/*    padding: 20px;    */
+}
+
+.THIS .previous-btn.disabled,
+.THIS .next-btn.disabled{
+    opacity: 0.3;
+    pointer-events: none;
+}
+
 .THIS .resource-pointer {
     cursor: pointer;
 }
