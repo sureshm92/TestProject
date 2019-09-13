@@ -11,14 +11,19 @@ public without sharing class ContactService {
                 WHERE Id IN: contactIds
         ];
         Map<Id, List<Id>> availablePEIdsByContactIdMap = PatientDelegateService.getAvailablePEIdsListByContactIdMap(contactIds);
+        System.debug('>>> Available PE Map: ' + JSON.serializePretty(availablePEIdsByContactIdMap));
         for(Contact contact : contacts){
             List<Id> peIds = availablePEIdsByContactIdMap.get(contact.Id);
             if(peIds == null) peIds = new List<Id>();
             if(peIds.size() > 0){
+                System.debug('1>>> ' + (contact.Current_Participant_Enrollment__c == null));
+                System.debug('2>>> ' + (contact.Current_Participant_Enrollment__c != null &&
+                        !peIds.contains(contact.Current_Participant_Enrollment__c)));
                 if(contact.Current_Participant_Enrollment__c == null ||
                         (contact.Current_Participant_Enrollment__c != null &&
                                 !peIds.contains(contact.Current_Participant_Enrollment__c))) {
                     contact.Current_Participant_Enrollment__c = peIds[0];
+                    System.debug('>>> peId: ' + peIds[0]);
                 }
             }else{
                 contact.Current_Participant_Enrollment__c = null;

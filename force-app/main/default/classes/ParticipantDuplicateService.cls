@@ -97,10 +97,13 @@ public without sharing class ParticipantDuplicateService {
 
             if(duplicate != null){
                 Integer birthYear = getYearOfBirthForParticipant(participant);
+                System.debug('>>> BY: ' + birthYear);
                 if(birthYear != null){
                     Integer participantAge = System.today().year() - birthYear;
+                    System.debug('>>> Participant age: ' + participantAge);
                     Integer birthYearInTheSystem = duplicate.getYearOfBirth();
                     if(birthYearInTheSystem != null){
+                        System.debug('>>> BY in the system: ' + birthYearInTheSystem);
                         if(birthYear == birthYearInTheSystem && duplicate.getFirstName() == participant.First_Name__c){
                             setDuplicate(participant, duplicate);
                             continue;
