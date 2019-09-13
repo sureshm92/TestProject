@@ -1330,6 +1330,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Manage_study_site_details </fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Manage study site details</shortDescription>
+        <value>Manage study site details</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Manage_team_member</fullName>
         <language>en_US</language>
         <protected>false</protected>
