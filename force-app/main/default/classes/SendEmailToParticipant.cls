@@ -27,6 +27,8 @@ public without sharing class SendEmailToParticipant {
             TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE
     };
 
+    public static final String PATIENT_PLAIN_SUMMARY = 'Patient_Plain_Summary';
+
     @InvocableMethod(Label='Send Email To Participant with Delegates')
     public static void sendEmailNotificationWithDelegates(List<Task> tasks) {
         for (Task task : tasks) {
@@ -140,6 +142,33 @@ public without sharing class SendEmailToParticipant {
         }
 
         return emailMessages;
+    }
+
+    public static void sendPlainSummaryNotifications(Map<Id, Boolean> partContactIncludeDelegates) {
+        Map<Id, Contact> partContactById = new Map<Id, Contact>([
+                SELECT Id, Participant_Opt_In_Status_Emails__c FROM Contact WHERE Id IN: partContactIncludeDelegates.keySet()
+        ]);
+
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        for(Id partContId : partContactIncludeDelegates.keySet()) {
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    partContactById.get(partContId),
+                    PATIENT_PLAIN_SUMMARY,
+                    null
+            );
+
+            if(partContactIncludeDelegates.get(partContId)) {
+                addMessagesForDelegates(
+                        emailMessages,
+                        PatientDelegateService.getDelegatedContactIds(partContId),
+                        PATIENT_PLAIN_SUMMARY,
+                        null
+                );
+            }
+        }
+
+        SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {
