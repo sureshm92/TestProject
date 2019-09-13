@@ -8,7 +8,12 @@
 		component.set('v.chosenFile', fileValue);
 	},
 
-	closePopUp: function(component, event, helper){
-		component.set('v.isPopupOpen', false);
+	navigateToPage : function (component, event, helper) {
+		var resourceType = 'Study_Document';
+		var resourceId = event.currentTarget.dataset.id;
+		var recId = communityService.getUrlParameter('id');
+		communityService.navigateToPage("resources?resourceType=" + resourceType + '&resId=' + resourceId + '&ret=' + communityService.createRetString());
 	}
+
+
 })
