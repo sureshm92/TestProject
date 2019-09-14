@@ -119,6 +119,7 @@ public inherited sharing class ResourceService {
                         'FROM Resource__c ' +
                         whereClause +
                         (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
+        System.debug('>>> Resources Query: ' + resourcesQuery);
         return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resourcesQuery, true);
     }
 
@@ -162,6 +163,7 @@ public inherited sharing class ResourceService {
         @AuraEnabled public Boolean isFavorite = false;
         @AuraEnabled public Boolean isVoted = false;
         @AuraEnabled public List<ContentDocumentLinkService.TranslatedContentItem> translations;
+        @AuraEnabled public Id thumbnailDocId;
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
@@ -174,6 +176,9 @@ public inherited sharing class ResourceService {
         public ResourceWrapper(Resource__c resource, List<ContentDocumentLinkService.TranslatedContentItem> translations){
             this(resource);
             this.translations = translations;
+            if(translations != null && translations.size() > 0){
+                thumbnailDocId = translations[0].contentId;
+            }
         }
     }
 

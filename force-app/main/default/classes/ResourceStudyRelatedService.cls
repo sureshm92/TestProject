@@ -19,8 +19,8 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
                 'WHERE Clinical_Trial_Profile__c = \'' + pState.ctp.Id + '\' ' +
                 'AND Resource__r.RecordType.DeveloperName = \'' + this.resourceType + '\' ' +
                 (this.contentClass == null ? '' : ('AND Resource__r.Content_Class__c = \'' + this.contentClass + '\' ')) +
-                (this.resourceId == null ? '' : ('AND Resource__c = \'' + this.resourceId + '\' ')) +
-                'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage() + '\' ';
+                (this.resourceId == null ? '' : ('AND Resource__c = \'' + this.resourceId + '\' '));
+        System.debug('>>> Res-study query: ' + resStudyQuery);
         List<Res_study__c> resStudies = (List<Res_study__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resStudyQuery, true);
         for (Res_study__c junction : resStudies) {
             if(StudyResourceVisibilityService.isResourceVisibleForPE(junction, pState.pe, pState.isDelegate)) this.resourcesIds.add(junction.Resource__c);

@@ -1,7 +1,6 @@
 /**
- * Created by Igor Malyuta on 13.09.2019.
+ * Created by Leonid Bartenev
  */
-
 ({
     doMenuItemSelected: function (component, event, helper) {
         const menuItemCmp = event.getSource();
@@ -13,4 +12,5 @@
         const resourceWrapper = component.get('v.resourceWrapper');
         helper.viewResource(resourceWrapper.resource, resourceWrapper.translations[0].languageCode);
     }
+
 })

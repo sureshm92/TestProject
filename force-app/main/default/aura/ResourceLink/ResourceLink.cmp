@@ -1,8 +1,8 @@
 <!--
- - Created by Igor Malyuta on 13.09.2019.
+ - Created by Leonid Bartenev
  -->
 
-<aura:component description="ResourceLanguageSelector">
+<aura:component description="ResourceLink">
 
     <!-- attributes: -->
     <aura:attribute name="resourceWrapper" type="Object"/>

@@ -1,7 +1,6 @@
 /**
- * Created by Igor Malyuta on 13.09.2019.
+ * Created by Leonid Bartenev
  */
-
 ({
     viewResource: function (resource, languageCode) {
         var url = 'resources?resourceType=' + resource.RecordType.DeveloperName + '&resId=' + resource.Id;
