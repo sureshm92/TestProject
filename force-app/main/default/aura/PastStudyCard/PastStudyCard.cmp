@@ -1,4 +1,4 @@
-<aura:component description="Past Study Card" implements="forceCommunity:availableForAllPageTypes">
+<aura:component description="PastStudyCard" implements="forceCommunity:availableForAllPageTypes">
 
     <aura:attribute name="pastStudyObject" type="Object"/>
     <aura:attribute name="isPopupOpen" type="Boolean" default="false"/>
