@@ -33,7 +33,7 @@ public without sharing class StudyResourceVisibilityService {
 
         //Add IRB logic here
 
-        return true; 
+        return isVisible;
     }
 
 }
