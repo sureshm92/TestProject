@@ -3,7 +3,6 @@
     padding-bottom: 40px;
 }
 
-
 .THIS .resource-footer {
     padding-top: 20px;
     padding-bottom: 30px;
@@ -12,7 +11,6 @@
 .THIS .resource-error-message {
     padding: 40px 0;
     color: #999999;
-    font-family: "Proxima Nova";
     font-size: 17px;
     line-height: 26px;
     text-align: center;
@@ -44,7 +42,7 @@
 
 .THIS .study-document-title {
     text-align: left;
-    width: 23%;
+    max-width: 300px;
 }
 
 .THIS .study-document-summary {
@@ -53,7 +51,7 @@
 
 .THIS .study-document-version-date {
     text-align: center;
-    width: 12%;
+    width: 120px;
 }
 
 .THIS .study-document-column-data {
@@ -62,13 +60,13 @@
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
-    max-width: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .THIS .study-document-title-data {
     color: #297dfd;
+    width: 30%;
 }
 
 .THIS .study-document-row-data {
@@ -76,23 +74,6 @@
 }
 
 
-.THIS .thumbnail-container{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background: #e8e8e8;
-    border: 1px solid lightgrey;
-    padding: 5px;
-    border-radius: 5px;
-    height: 210px;
-    margin-bottom: 10px;
-}
-
-.THIS .thumbnail-img{
-    max-height: 200px;
-    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.3);
-    border-radius: 2px;
-}
 
 .THIS .resource-item-container{
     margin-bottom: 20px;

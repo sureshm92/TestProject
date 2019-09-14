@@ -19,8 +19,8 @@
                 <div class="resources-header">
                     <div class="resource-title">{!$Label.c.Resource_Tab_Study_Documents}</div>
                     <lightning:select value="{!v.viewMode}">
-                        <option value="list">List view</option>
-                        <option value="thumbnail">Thumbnail view</option>
+                        <option value="list">{!$Label.c.SDC_List_view}</option>
+                        <option value="thumbnail">{!$Label.c.SDC_Thumbnail_view}</option>
                     </lightning:select>
                 </div>
 
@@ -29,7 +29,7 @@
                     <c:RRTable>
                         <tr>
                             <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
-                            <th class="study-document-summary">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
+                            <th class="study-document-summary rr-medium-down-hide">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
                             <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
                         </tr>
                         <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
@@ -37,9 +37,9 @@
                                 <td class="study-document-column-data study-document-title-data">
                                     <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
                                 </td>
-                                <td class="study-document-summary study-document-column-data">
-                                {!resourceWrapper.resource.Description__c}
-                            </td>
+                                <td class="rr-medium-down-hide study-document-summary study-document-column-data">
+                                    {!resourceWrapper.resource.Description__c}
+                                </td>
                                 <td class="study-document-version-date study-document-column-data">
                                     <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}"
                                                    format="DD-MMM-YYYY"/>
@@ -54,10 +54,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
                             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 resource-item-container">
-                                <div class="thumbnail-container">
-                                    <img class="thumbnail-img"
-                                         src="{!'/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&amp;versionId=' + resourceWrapper.thumbnailDocId}"/>
-                                </div>
+                                <c:ResourceThumbnail resourceWrapper="{!resourceWrapper}"/>
                                 <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
                             </div>
                         </aura:iteration>
