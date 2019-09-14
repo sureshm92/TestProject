@@ -451,11 +451,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void setParticipantStatusHandler(List<Participant_Enrollment__c> enrollments) {
         Set<String> statuses = new Set<String>();
-        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt]) {
-            statuses.add(pe.Auto_Accept_Status__c);
+        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt WHERE Auto_Accept_Status__c != NULL]) {
+            statuses.add(pe.Auto_Accept_Status__c.toLowerCase());
         }
         for (Participant_Enrollment__c pe : enrollments) {
-            if (statuses.contains(pe.Referral_Source__c)) {
+            if (!String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
                 pe.Participant_Status__c = 'Referral Accepted';
             }
         }
