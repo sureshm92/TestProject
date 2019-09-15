@@ -126,7 +126,7 @@ public without sharing class CommunityService {
 
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
-                SELECT Id, Name, FirstName, LastName, ContactId, Email
+                SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive
                 FROM User
                 WHERE
                         //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
