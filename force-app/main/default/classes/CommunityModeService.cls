@@ -56,12 +56,12 @@ public without sharing class CommunityModeService {
     
             if(availablePEIds != null && availablePEIds.size() > 0){
                 peList.addAll([
-                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Study_Title__c
+                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Study_Code_Name__c
                         FROM Participant_Enrollment__c
                         WHERE Id IN :availablePEIds AND Participant_Contact__c = :userContact.Id
                 ]);
                 peList.addAll([
-                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Study_Title__c
+                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Study_Code_Name__c
                         FROM Participant_Enrollment__c
                         WHERE Id IN :availablePEIds AND Participant_Contact__c != :userContact.Id
                 ]);
@@ -69,7 +69,7 @@ public without sharing class CommunityModeService {
     
             if(peList.size() > 0){
                 for(Participant_Enrollment__c pe : peList){
-                    String label = Label.CTL_L_Patricipant_MODE + ' (' + pe.Clinical_Trial_Profile__r.Study_Title__c + ')';
+                    String label = Label.BTN_View + ' ' + pe.Clinical_Trial_Profile__r.Study_Code_Name__c + '';
                     modes.add(new CommunityMode(CommunityService.USER_MODE_PARTICIPANT, label, pe.Id ));
                 }
             }else{

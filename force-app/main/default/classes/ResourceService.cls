@@ -145,7 +145,7 @@ public inherited sharing class ResourceService {
 
     public class ResourceWrapperContainer {
 
-        @AuraEnabled public List<ResourceWrapper> wrappers;
+        @AuraEnabled public List<ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
         @AuraEnabled public String errorMessage;
 
         public ResourceWrapperContainer(String errorMessage) {
@@ -178,6 +178,12 @@ public inherited sharing class ResourceService {
             this.translations = translations;
             if(translations != null && translations.size() > 0){
                 thumbnailDocId = translations[0].contentId;
+            }
+            for(ContentDocumentLinkService.TranslatedContentItem tci : translations){
+                if(UserInfo.getLanguage() == tci.languageCode){
+                    thumbnailDocId = tci.contentId;
+                    break;
+                }
             }
         }
     }
