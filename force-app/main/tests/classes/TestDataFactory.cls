@@ -9,7 +9,8 @@ public class TestDataFactory {
                     'Protocol_ID__c' => 'test protocol Id',
                     'Study_Title__c' => 'Test Study Title',
                     'Study_Code_Name__c' => 'Test Study Code Name',
-                    'NCT_Number__c' => 'NCT00000000'
+                    'NCT_Number__c' => 'NCT00000000',
+                    'Synch_with_TMDH__c' => 'true'
             },
 
             Contact.getSObjectType() => new Map<String, Object>{

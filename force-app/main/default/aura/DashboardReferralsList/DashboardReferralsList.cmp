@@ -25,7 +25,7 @@
             <aura:if isTrue="{!!empty(item.data.HCP__c)}">
                 {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.HCP__r.HCP_Contact__r.Salutation + ' ' + item.data.HCP__r.HCP_Contact__r.Name}<br/>
                 <aura:set attribute="else">
-                    {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.Referral_Source__c}<br/>
+                    {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.Source_Type__c}<br/>
                 </aura:set>
             </aura:if>
             for <c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
