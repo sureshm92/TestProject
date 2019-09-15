@@ -1,0 +1,36 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="ResourceLink">
+
+    <!-- attributes: -->
+    <aura:attribute name="resourceWrapper" type="Object"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!v.resourceWrapper.translations.length > 1}">
+        <ui:menu>
+            <ui:menuTriggerLink>
+                <div class="resource-link-container">
+                    <c:RRIcon iconName="{!v.resourceWrapper.resource.document_type__c != 'Video' ? 'icon-pdf' : 'icon-video-study-document'}"
+                              class="resource-icon"/>
+                    <div class="resource-name">{!v.resourceWrapper.resource.Title__c}</div>
+                </div>
+            </ui:menuTriggerLink>
+            <ui:menuList aura:id="actionMenu" class="menu-popup">
+                <aura:iteration items="{!v.resourceWrapper.translations}" var="translation">
+                    <c:uiMenuItem label="{!translation.languageLabel}" onclick="{!c.doMenuItemSelected}" itemValue="{!translation}"/>
+                </aura:iteration>
+            </ui:menuList>
+        </ui:menu>
+    </aura:if>
+
+    <aura:if isTrue="{!or(empty(v.resourceWrapper.translations), v.resourceWrapper.translations.length == 1)}">
+        <div class="resource-link-container">
+            <c:RRIcon iconName="{!v.resourceWrapper.resource.document_type__c != 'Video' ? 'icon-pdf' : 'icon-video-study-document'}"
+                      class="resource-icon"/>
+            <a class="resource-name" onclick="{!c.doNavigateDefault}">{!v.resourceWrapper.resource.Title__c}</a>
+        </div>
+    </aura:if>
+
+</aura:component>

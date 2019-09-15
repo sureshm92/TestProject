@@ -261,6 +261,7 @@ public without sharing class PatientDelegateService {
     }
     
     public static Map<Id, List<Id>> getPEIdsListByContactIdMap(List<Id> contactIds, String filter) {
+        if(filter == null) filter = '';
         List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
                 new List<String>{
                 'Participant__c',

@@ -6,6 +6,7 @@
         let resourceType = communityService.getUrlParameter('resourceType');
         let resId = communityService.getUrlParameter('resId');
         let retString = communityService.getUrlParameter('ret');
+        component.set('v.lang', communityService.getUrlParameter('lang'));
 
         communityService.executeAction(component, 'getResourcesById', {
             resourceId: resId,
