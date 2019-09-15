@@ -103,7 +103,8 @@ public without sharing class ContactService {
             List<Res_study__c> resStudyForCtpList = resStudyByCtpIdMap.get(pe.Study_Site__r.Clinical_Trial_Profile__c);
             if(resStudyForCtpList != null){
                 for(Res_study__c resStudy : resStudyForCtpList){
-                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, pe.Participant__r.Contact__c == CommunityService.getUserContact().Id)){
+                    Boolean isDelegate = pe.Participant__r.Contact__c != CommunityService.getUserContact().Id;
+                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, isDelegate)){
                         resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
