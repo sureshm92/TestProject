@@ -6,7 +6,7 @@
     <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="itemsPerPage" type="Integer" default="5"/>
-    <aura:attribute name="viewMode" type="String" default="list"/>
+    <aura:attribute name="viewMode" type="String" default="thumbnail"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
 
     <!-- component body -->
