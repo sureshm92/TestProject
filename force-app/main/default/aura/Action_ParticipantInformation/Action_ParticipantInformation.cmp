@@ -1,0 +1,92 @@
+<!--
+ - Created by Nikita Abrazhevitch on 05-Sep-19.
+ -->
+
+<aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="participant" type="Participant__c" access="private"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="peStatusesPathList" type="List"/>
+    <aura:attribute name="peStatusStateMap" type="Map"/>
+    <aura:attribute name="isFinalUpdate" type="Boolean"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
+    <aura:attribute name="popUpTitle" type="String"/>
+    <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="statusSteps" type="List" access="public"/>
+    <aura:attribute name="anchor" type="String"/>
+    <aura:attribute name="modifiedSteps" type="List"/>
+    <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
+
+    <!-- methods -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+        <aura:attribute name="pathItems" type="List"/>
+        <aura:attribute name="anchorScroll" type="String"/>
+        <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+        <aura:attribute name="peStatusesPathList" type="List"/>
+        <aura:attribute name="peStatusStateMap" type="Map"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
+
+    <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
+
+    <!-- component body: -->
+    <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true">
+        <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
+        <aura:if isTrue="{!v.initialized}">
+            <div class="form-content">
+                <!--Personal Information-->
+                <div class="personal-info-container" id="personalInfoAnchor">
+                    <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
+                                            formData="{!v.formData}"
+                                            updateMode="true"
+                                            isFinalUpdate="{!v.isFinalUpdate}"
+                                            isValid="{!v.isValid}"/>
+                    <div class="slds-clearfix">
+                        <div class="slds-float_right">
+                            <button class="apollo-btn tertiary" disabled="{!!v.isValid}"
+                                    onclick="{!c.doUpdate}">{!$Label.c.RP_BTN_Save_Changes}</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Status Detail Path-->
+                <div id="statusDetailsAnchor" class="header">{!$Label.c.BTN_Status_Details}</div>
+                <div class="path-panel">
+                    <div class="path-section">
+                        <c:RRPath2 pathItems="{!v.pathItems}"/>
+                    </div>
+                </div>
+
+                <!--Status Detail Path Controll-->
+                <div class="slds-grid slds-grid_vertical rp-status-detail">
+                    <aura:if isTrue="{!!v.refreshSteps}">
+                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">
+                            <c:ReferralProfileStepControls aura:id="stepControls" parent="{!this}"
+                                                           rootComponent="{!v.rootComponent}" step="{!step}"
+                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}"/>
+                        </aura:iteration>
+                    </aura:if>
+                </div>
+
+                <!--MRR Survey Results-->
+                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c}">
+                    <div id="screenerResponsesAnchor" class="header">{!$Label.c.BTN_Screener_Responses}</div>
+                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                </aura:if>
+            </div>
+        </aura:if>
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn secondary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+        </aura:set>
+    </c:Popup>
+</aura:component>

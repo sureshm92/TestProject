@@ -32,7 +32,7 @@ public without sharing class MedicalRecordReviewRemote {
                 initData.hcpEnrollment = hcpEnrollment;
                 initData.actions = sActions.actions;
             }
-            else if(DelegateService.DELEGATE_LEVEL_1_AND_LOW.contains(DelegateService.getStudyAccessLevel(trialId, CommunityService.USER_MODE_HCP, delegateId))){
+            else if(DelegateService.DELEGATE_LEVEL_1_AND_LOW.contains(DelegateService.getStudyAccessLevel(null, CommunityService.USER_MODE_HCP, delegateId))){
                 List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrial(trialId, delegateId);
                 if(hcpEnrollments.isEmpty()) throw new CommunityServiceException('Data not found');
                 initData.hcpContact = hcpEnrollments[0].HCP_Contact__r;
@@ -92,11 +92,12 @@ public without sharing class MedicalRecordReviewRemote {
     }
     
     @AuraEnabled
-    public static String setMRRStatus(String peJSON, String status){
+    public static String setMRRStatus(String peJSON, String status, String surveyGizmoData){
         Savepoint sp = Database.setSavepoint();
         try{
             Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participantEnrollment.Medical_Record_Review_Status__c = status;
+            participantEnrollment.MRR_Survey_Results_URL__c = surveyGizmoData;
             participantEnrollment.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
             if(status == ParticipantEnrollmentService.MRR_STATUS_PASS){
                 participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
@@ -112,6 +113,10 @@ public without sharing class MedicalRecordReviewRemote {
         }
     }
 
+    @AuraEnabled
+    public static void updatePESurveyGizmoInfo(){
+
+    }
 
 
 }

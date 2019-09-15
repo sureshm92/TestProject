@@ -2,8 +2,19 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
 
     protected override Boolean initResourcesIds() {
 
-        String resStudyQuery = 'SELECT Id, ' +
-                'Resource__c ' +
+        String resStudyQuery =
+                'SELECT Id, ' +
+                        'Active_On_Status__c,' +
+                        'Expires_On_Status__c, ' +
+                        'Active_After_Days__c,' +
+                        'Expires_After_Days__c,' +
+                        'Notify_On_Availability__c,' +
+                        'Visible_In_Alumni__c,' +
+                        'Visible_To_Delegates__c,' +
+                        'Visible_To_Participant__c,' +
+                        'Visible_To_PI__c,' +
+                        'Visible_To_RP__c,' +
+                        'Resource__c ' +
                 'FROM Res_study__c ' +
                 'WHERE Clinical_Trial_Profile__c = \'' + pState.ctp.Id + '\' ' +
                 'AND Resource__r.RecordType.DeveloperName = \'' + this.resourceType + '\' ' +
@@ -12,7 +23,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
                 'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage() + '\' ';
         List<Res_study__c> resStudies = (List<Res_study__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resStudyQuery, true);
         for (Res_study__c junction : resStudies) {
-            this.resourcesIds.add(junction.Resource__c);
+            if(StudyResourceVisibilityService.isResourceVisibleForPE(junction, pState.pe, pState.isDelegate)) this.resourcesIds.add(junction.Resource__c);
         }
         return !(this.resourcesIds == null || this.resourcesIds.isEmpty());
     }

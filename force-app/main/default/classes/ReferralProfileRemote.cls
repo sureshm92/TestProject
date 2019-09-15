@@ -28,10 +28,12 @@ public without sharing class ReferralProfileRemote {
         String styleClass;
         Datetime changeDate;
         String message;
-        HistoryItem (String styleClass, Datetime changeDate, String message){
+        String modifiedBy;
+        HistoryItem (String styleClass, Datetime changeDate, String message, String modifiedBy){
             this.styleClass = styleClass;
             this.changeDate = changeDate;
             this.message = message;
+            this.modifiedBy = modifiedBy;
         }
     }
 
@@ -238,7 +240,7 @@ public without sharing class ReferralProfileRemote {
             i++;
         }
         List<Participant_Enrollment_Status_History__c> historyList = [
-                SELECT Id, Notes__c, Status__c, Reason__c, Date__c
+                SELECT Id, Notes__c, Status__c, Reason__c, Date__c, LastModifiedBy.Profile.Name, LastModifiedBy.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c =: pe.Id ORDER BY CreatedDate DESC
         ];
@@ -250,7 +252,8 @@ public without sharing class ReferralProfileRemote {
                         hi.Date__c,
                         TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, hi.Status__c) +
                                 (hi.Reason__c != null ? ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, hi.Reason__c) : '') +
-                                (hi.Notes__c != null && userMode == CommunityService.USER_MODE_PI  ? ':  ' + hi.Notes__c : '')
+                                (hi.Notes__c != null && userMode == CommunityService.USER_MODE_PI  ? ':  ' + hi.Notes__c : ''),
+                                (hi.LastModifiedBy.Profile.Name == 'System Administrator' || hi.LastModifiedBy.Profile.Name == 'IQVIA SPNL') ? System.Label.Admin_Label : hi.LastModifiedBy.Name
                 ));
             }
         }

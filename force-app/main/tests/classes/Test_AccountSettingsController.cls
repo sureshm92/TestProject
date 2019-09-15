@@ -52,10 +52,46 @@ private class Test_AccountSettingsController {
         System.runAs(portalUser) {
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
             AccountSettingsController.updateParticipant(JSON.serialize(participant));
+            try {
+                AccountSettingsController.updateParticipant(null);
+            } catch (Exception e) {
+                // expected Exception
+            }
+            AccountSettingsController.updateContact(JSON.serialize(con));
+            try {
+                AccountSettingsController.updateContact(JSON.serialize(con.clone()));
+            } catch (Exception e) {
+                // expected Exception
+            }
+            AccountSettingsController.changeEmail('aaa@bbb.com');
+            try {
+                AccountSettingsController.changeEmail('11111111');
+            } catch (Exception e) {
+                // expected Exception: Invalid email
+            }
             AccountSettingsController.changePassword('123', '123', '321');
+            AccountSettingsController.changeOptInVisitResults(con.Id, true);
+            try {
+                AccountSettingsController.changeOptInVisitResults(con.clone().Id, true);
+            } catch (Exception e) {
+                // expected Exception: Missing argument
+            }
             AccountSettingsController.changeOptInEmail(true, true, true, true);
+            try {
+                AccountSettingsController.changeOptInEmail(null, null, null, null);
+            } catch (Exception e) {
+                // expected Exception
+            }
             AccountSettingsController.changeOptInCookies(false, false);
+            try {
+                AccountSettingsController.changeOptInCookies(null, null);
+            } catch (Exception e) {
+                // expected Exception
+            }
+    
+            AccountSettingsController.fillParticipantContact(con);
             AccountSettingsController.createCase('description', 'type');
+            AccountSettingsController.getInstituteById(acc1.Id);
             AccountSettingsController.getCookieSettings();
         }
     }

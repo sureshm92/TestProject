@@ -10,7 +10,6 @@
         var status = component.get('v.status');
         var reason = component.get('v.reason');
         var notes = component.get('v.notes');
-
         communityService.executeAction(component, 'updatePE', {
             peId: peId,
             status: status,
