@@ -5,10 +5,12 @@
 public without sharing class ContactService {
     
     public class PastStudyWrapper{
+        @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public List<ResourceService.ResourceWrapper> resourceWrappers;
         
-        public PastStudyWrapper(Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers){
+        public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers){
+            this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
         }
@@ -54,6 +56,7 @@ public without sharing class ContactService {
     
     public static List<PastStudyWrapper> getPastStudyWrappers(Id contactId){
         List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(contactId);
+        if(peIds == null) return new List<PastStudyWrapper>();
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getPEnrolmentsCommon(
                 CommunityService.USER_MODE_PARTICIPANT,
                 ' AND Id IN ' + DatabaseService.listToString(peIds)
@@ -62,6 +65,7 @@ public without sharing class ContactService {
         for(Participant_Enrollment__c pe : peList){
             ctpIds.add(pe.Study_Site__r.Clinical_Trial_Profile__c);
         }
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getTrials(new List<Id>(ctpIds)));
         List<Res_study__c> resStudyList = [
                 SELECT Id,
                         Name,
@@ -72,6 +76,7 @@ public without sharing class ContactService {
                         Notify_On_Availability__c,
                         Resource__c,
                         Resource__r.Title__c,
+                        Resource__r.RecordType.DeveloperName,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Clinical_Trial_Profile__c,
@@ -103,7 +108,7 @@ public without sharing class ContactService {
                     }
                 }
             }
-            pastWrappersList.add(new PastStudyWrapper(pe, resources));
+            pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources));
             
         }
         return pastWrappersList;

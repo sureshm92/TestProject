@@ -1,61 +1,51 @@
-<aura:component description="PastStudyCard" implements="forceCommunity:availableForAllPageTypes">
+<aura:component description="PastStudyCard">
 
-    <aura:attribute name="pastStudyObject" type="Object"/>
-    <aura:attribute name="isPopupOpen" type="Boolean" default="false"/>
-    <aura:attribute name="chosenFile" type="String" default=""/>
+    <!-- attributes: -->
+    <aura:attribute name="ctp" type="Clinical_Trial_Profile__c"/>
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="resources" type="ResourceService.ResourceWrapper[]"/>
 
-    <div class="rr-white-panel padding slds-m-top_medium">
-        <div class="db-header"></div>
-        <div class="slds-grid slds-wrap db-section" style="margin-bottom: 20px">
+    <!-- component body: -->
+    <div class="rr-white-panel padding">
+        <div class="slds-grid slds-wrap slds-gutters">
             <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
-                <div class="rr-large-down-hide">
-                    <img src="{!v.pastStudyObject.logoURL}"/>
-                    <div class="slds-text-heading_small">{!v.pastStudyObject.studyNickname} ({!v.pastStudyObject.therapeuticArea})</div>
-                    <div>{!v.pastStudyObject.studyDescription}</div>
-                </div>
-            </div>
-            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 db-charts" style="margin-bottom: 20px">
-                <div>
-                    <ul class="slds-has-block-links">
-                    <aura:iteration items="{!v.pastStudyObject.listOfDocuments}" var="document">
-                        <li class="slds-item slds-m-top_x-large slds-m-left_xx-large slds-text-color--default">
-                            <div class="slds-text-heading_small">
-                                <lightning:icon size="large" iconName="doctype:unknown" alternativeText="PDF FIle" />
-                                <a data-type="{!document.resource.RecordType.DeveloperName}"
-                                   data-id="{!document.resource.Id}"
-                                   onclick="{!c.navigateToPage}">
-                                    {!document.resource.Title__c}
-                                </a>
-                            </div><br/>
-                        </li>
-                    </aura:iteration>
-                    </ul>
-                </div>
-            </div>
-            <div class="slds-col slds-size--1-of-1 rr-large-up-hide">
-            </div>
-        </div>
-        <div class="rr-fields-cutter">
-            <div class="rr-fields-container">
-                <div class="rr-output-field">
-                    <div class="label slds-text-title_caps">INVESTIGATOR NAME</div>
-                    <div class="value">{!v.pastStudyObject.investigatorName}</div>
-                </div>
-                <div class="rr-output-field">
-                    <div class="label slds-text-title_caps">ENROLLMENT DATE</div>
-                    <div class="value ">
-                        <div class="rp-max-length">
-                            <ui:outputDate format="MM-dd-yyyy" value="{!v.pastStudyObject.enrollmentDate}" />
+                <aura:if isTrue="{!!empty(v.ctp.Profile_Picture__c)}">
+                    <img src="{!v.ctp.Profile_Picture__c}"/>
+                </aura:if>
+                <div class="study-title">{!v.ctp.Study_Title__c} ({!v.ctp.Therapeutic_Area__r.Name})</div>
+                <div class="study-description">{!v.ctp.Detailed_Description__c}</div>
+
+                <div class="rr-fields-cutter">
+                    <div class="rr-fields-container">
+                        <div class="rr-output-field">
+                            <div class="label slds-text-title_caps">INVESTIGATOR NAME</div>
+                            <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+                        </div>
+                        <div class="rr-output-field">
+                            <div class="label slds-text-title_caps">ENROLLMENT DATE</div>
+                            <div class="value">
+                                <div class="rp-max-length">
+                                    <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_Date__c}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rr-output-field">
+                            <div class="label slds-text-title_caps">SITE LOCATION</div>
+                            <div class="value ">
+                                <div class="rp-max-length">{!v.pe.Study_Site__r.Site__r.Name}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="rr-output-field">
-                    <div class="label slds-text-title_caps">SITE LOCATION</div>
-                    <div class="value "> <div class="rp-max-length">{!v.pastStudyObject.siteLocation}</div></div>
-                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2 db-charts">
+                <aura:iteration items="{!v.resources}" var="resourceWrapper">
+                    <div class="resource-item">
+                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                    </div>
+                </aura:iteration>
             </div>
         </div>
     </div>
-
 
 </aura:component>

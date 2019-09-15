@@ -9,7 +9,7 @@
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
-    <div class="navigation rr-width-limiter side-padding">
+    <div class="navigation rr-width-limiter" style="margin-bottom: 30px">
         <c:RRNavigationPath>
             <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
             <c:RRNPathItem label="Past Studies"/>
@@ -17,8 +17,8 @@
     </div>
 
     <aura:if isTrue="{!v.initialized}">
-        <aura:iteration items="{!v.pastStudiesList}" var="partStudy">
-            <c:PastStudyCard pastStudyObject="{!partStudy}"/>
+        <aura:iteration items="{!v.pastStudiesList}" var="pastStudy">
+            <c:PastStudyCard ctp="{!pastStudy.ctp}" pe="{!pastStudy.pe}" resources="{!pastStudy.resourceWrappers}"/>
         </aura:iteration>
     </aura:if>
 
