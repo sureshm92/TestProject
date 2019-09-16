@@ -90,7 +90,8 @@ private class Test_ManualTaskLookupRemote {
         Clinical_Trial_Profile__c searchingTrial = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'Prot-333',
                 NCT_Number__c = 'NCT02804789',
-                Therapeutic_Area__c = ta.Id
+                Therapeutic_Area__c = ta.Id,
+                Synch_with_TMDH__c = true
         );
         insert searchingTrial;
         List<String> searchingTrialIds = new List<String>();
@@ -102,7 +103,8 @@ private class Test_ManualTaskLookupRemote {
         Clinical_Trial_Profile__c selectedTrial = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'Prot-222',
                 NCT_Number__c = 'NCT01111111',
-                Therapeutic_Area__c = ta2.Id
+                Therapeutic_Area__c = ta2.Id,
+                Synch_with_TMDH__c = true
         );
         insert selectedTrial;
         List<String> selectedTrialIds = new List<String>();
@@ -138,7 +140,8 @@ private class Test_ManualTaskLookupRemote {
         Clinical_Trial_Profile__c trial = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'Prot-333',
                 NCT_Number__c = 'NCT02804789',
-                Therapeutic_Area__c = ta.Id
+                Therapeutic_Area__c = ta.Id,
+                Synch_with_TMDH__c = true
         );
         insert trial;
 
@@ -173,7 +176,8 @@ private class Test_ManualTaskLookupRemote {
         Clinical_Trial_Profile__c trial2 = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'Prot-222',
                 NCT_Number__c = 'NCT01111111',
-                Therapeutic_Area__c = ta2.Id
+                Therapeutic_Area__c = ta2.Id,
+                Synch_with_TMDH__c = true
         );
         insert trial2;
 

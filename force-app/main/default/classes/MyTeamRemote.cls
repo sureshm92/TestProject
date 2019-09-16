@@ -20,10 +20,12 @@ public without sharing class MyTeamRemote {
                     }
                     else{
                         detail.piSelectedParent = parentId;
+                        Contact parentContact = [SELECT Id, Full_Name__c, Suffix, Salutation FROM Contact WHERE Id = :parentId LIMIT 1];
+                        detail.parentFullName = (parentContact.Salutation == null? '' : parentContact.Salutation + ' ') + parentContact.Full_Name__c + (parentContact.Suffix == null ? '':' ' + parentContact.Suffix);
                     }
                 }
             }
-            detail.delegates = getDelegates(userMode, userMode != CommunityService.USER_MODE_HCP, null, parentId);
+            detail.delegates = getDelegates(userMode, userMode != CommunityService.USER_MODE_HCP && userMode != CommunityService.USER_MODE_PI, null, parentId);
             detail.delegateOptions = getDelegateOptions(userMode);
             if (userMode == CommunityService.USER_MODE_PI) {
                 detail.hasStudies = !StudySiteService.getStudySitesWithDelegateLevelFiltered(ACTIVE_STUDY_SITES_FILTER, new Set<String>{
@@ -82,6 +84,10 @@ public without sharing class MyTeamRemote {
             detail.delegates = getDelegates(userMode, false, contactsToProcess, parentId);
             detail.delegateOptions = getDelegateOptions(userMode);
             detail.hasStudies = true;
+            if(userMode == CommunityService.USER_MODE_PI && parentId != null && parentId != ''){
+                Contact parentContact = [SELECT Id, Full_Name__c, Suffix, Salutation FROM Contact WHERE Id = :parentId LIMIT 1];
+                detail.parentFullName = (parentContact.Salutation == null? '' : parentContact.Salutation + ' ') + parentContact.Full_Name__c + (parentContact.Suffix == null ? '':' ' + parentContact.Suffix);
+            }
             return JSON.serialize(detail);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -144,7 +150,8 @@ public without sharing class MyTeamRemote {
                             siteLevel.entityName = site.Name;
                             siteLevel.enrollmentOrStudySiteId = site.Id;
                             siteLevel.delegateLevel = '';
-                            siteLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(site.Id));
+                            siteLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(site.Id))
+                                    || delegateContact.Id == CommunityService.getUserContact().Id;
                             Site_Staff__c delegateRecord =
                                     (staffTrialMap.get(delegateContact.Id) == null)
                                             ? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
@@ -287,10 +294,10 @@ public without sharing class MyTeamRemote {
                 if (hasDelegateLevels/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
                     sendEmailNotification(dw.delegateContact);
                 }
-                User delegateUser = [SELECT Id, IsActive FROM User WHERE ContactId = :dw.delegateContact.Id LIMIT 1];
+                List<User> delegateUsers = CommunityService.getCommunityUsersByContactIds(new Set<Id>{dw.delegateContact.Id});
 
-                if(!delegateUser.IsActive){
-                    DelegateService.activateDelegateUsers(new Set<Id>{ delegateUser.Id});
+                if(!delegateUsers.isEmpty() && !delegateUsers[0].IsActive){
+                    DelegateService.activateDelegateUsers(new Set<Id>{ delegateUsers[0].Id});
                 }
             }
         } catch (Exception e) {
@@ -500,6 +507,7 @@ public without sharing class MyTeamRemote {
         public List<DelegateWrapper> delegates;
         public Id currentUserContactId;
         public Boolean hasStudies;
+        public String parentFullName;
         public MyTeamDetail() {
             delegates = new List<DelegateWrapper>();
         }
@@ -514,6 +522,10 @@ public without sharing class MyTeamRemote {
         }
         public Integer compareTo(Object compareTo) {
             DelegateWrapper compareToDelegate = (DelegateWrapper) compareTo;
+            if(delegateContact.Id == CommunityService.getUserContact().Id)
+                return -1;
+            if(compareToDelegate.delegateContact.Id == CommunityService.getUserContact().Id)
+                return 1;
             if ((delegateContact.FirstName + ' ' + delegateContact.LastName) > (compareToDelegate.delegateContact.FirstName + ' ' + compareToDelegate.delegateContact.LastName)) {
                 return 1;
             } else if ((delegateContact.FirstName + ' ' + delegateContact.LastName) < (compareToDelegate.delegateContact.FirstName + ' ' + compareToDelegate.delegateContact.LastName)) {
