@@ -573,6 +573,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Exclude from referring</value>
     </labels>
     <labels>
+        <fullName>BTN_Exit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Exit</shortDescription>
+        <value>Exit</value>
+    </labels>
+    <labels>
         <fullName>BTN_Export</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4597,7 +4604,7 @@ View study documents and other resources including articles and videos related t
         <shortDescription>PG AS F Middle name</shortDescription>
         <value>Middle Initial</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_AS_F_New_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7959,6 +7966,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
         <value>##StudyCodeName is only available in the following language(s): ##LangList.</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_Popup_NotAva_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB Popup NotAva Text</shortDescription>
+        <value>Study information is not yet available.  Please check back soon.</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_Title</fullName>
