@@ -104,7 +104,7 @@
         items.forEach(function (item) {
             let settings = item.vendorSettings;
             settings.forEach(function (setting) {
-                if (setting.TravelVendor__r.Name === target) {
+                if (setting.TravelVendor__r.Id === target) {
                     setting.isEnable__c = checked;
                 }
             });
