@@ -17,6 +17,7 @@
             component.set("v.delegateOptions", initData.delegateOptions);
             component.set("v.showSpinner", false);
             component.set("v.hasStudies", initData.hasStudies);
+            component.set("v.currentUserContactId", initData.currentUserContactId);
             selectedParent = component.get("v.piSelectedParent");
             if(selectedParent === undefined || selectedParent === ''){
                 component.set("v.piDelegateParents", initData.piDelegateParents);

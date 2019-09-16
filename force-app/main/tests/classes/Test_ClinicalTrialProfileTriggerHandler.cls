@@ -32,7 +32,8 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                         'Protocol_ID__c' => 'CTP 1',
                         'Study_Code_Name__c' => 'CTP 1',
                         'NCT_Number__c' => 'NCT00000001',
-                        'Therapeutic_Area__c' => tA.Id
+                        'Therapeutic_Area__c' => tA.Id,
+                        'Synch_with_TMDH__c' => 'true'
                 }));
         clinicalTrialProfiles.add((Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
                 new Map<String, Object>{
@@ -40,7 +41,8 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                         'Protocol_ID__c' => 'CTP 2',
                         'Study_Code_Name__c' => 'CTP 2',
                         'NCT_Number__c' => 'NCT00000002',
-                        'Therapeutic_Area__c' => tA.Id
+                        'Therapeutic_Area__c' => tA.Id,
+                        'Synch_with_TMDH__c' => 'true'
                 }));
         insert clinicalTrialProfiles;
 

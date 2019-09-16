@@ -75,7 +75,7 @@ public virtual inherited sharing class ResourceBasicService {
     }
 
     protected virtual String getWhereClause() {
-        return 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(this.resourcesIds)) + ') AND Language__c = \'' + rService.getParticipantLanguage() + '\' ';
+        return 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(this.resourcesIds)) + ')';
     }
 
     protected virtual String getOrderByClause() {

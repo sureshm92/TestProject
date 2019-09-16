@@ -13,6 +13,7 @@
     <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
     <aura:attribute name="piDelegateParents" type="List" default="[]"/>
     <aura:attribute name="piSelectedParent" type="String" default=""/>
+    <aura:attribute name="currentUserContactId" type="String" access="private" default=""/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -65,7 +66,8 @@
                                               userMode="{!v.userMode}"
                                               parentComponent="{!this}"
                                               options="{!v.delegateOptions}"
-                                              ignoreUpdates="{!v.ignoreUpdates}"/>
+                                              ignoreUpdates="{!v.ignoreUpdates}"
+                                              isCurrentUser="{!v.currentUserContactId == delegate.delegateContact.Id}"/>
                                 <aura:set attribute="else">
                                     <c:PatientDelegateItem contact="{!delegate.delegateContact}" parentComponent="{!this}"/>
                                 </aura:set>
