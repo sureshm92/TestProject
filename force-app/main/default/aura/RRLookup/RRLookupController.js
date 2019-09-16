@@ -32,4 +32,10 @@
         let changeAction = component.get('v.onchange');
         if (changeAction) $A.enqueueAction(changeAction);
     },
+
+    onClearSelection : function (component, event, helper) {
+        component.set('v.selectedRecords', []);
+        let changeAction = component.get('v.onchange');
+        if (changeAction) $A.enqueueAction(changeAction);
+    }
 });

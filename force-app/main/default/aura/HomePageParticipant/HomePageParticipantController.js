@@ -15,5 +15,9 @@
                 }
                 component.set('v.initialized', true);
             });
+    },
+
+    navigateToTrialSearchPage : function (component, event, helper) {
+        communityService.navigateToPage('trial-search');
     }
 })

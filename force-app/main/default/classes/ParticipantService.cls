@@ -71,7 +71,9 @@ public without sharing class ParticipantService {
                                 Mailing_Zip_Postal_Code__c,
                                 Contact__c,
                                 Conditions__c,
-                                Contact__r.Visit_Results_Opt_In__c
+                                Contact__r.Visit_Results_Opt_In__c,
+                                Marketing_Flag__c
+
                         FROM Participant__c
                         WHERE Id =: pe.Participant__c
                 ];

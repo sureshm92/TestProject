@@ -1330,7 +1330,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
-        <fullName>DLIT_L_Manage_study_site_details </fullName>
+        <fullName>DLIT_L_Manage_study_site_details</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Manage study site details</shortDescription>
@@ -8065,6 +8065,20 @@ Please check your CAPS lock key.</value>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
+        <fullName>PS_Enrollment_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PS_Enrollment_Date</shortDescription>
+        <value>Enrollment Date</value>
+    </labels>
+    <labels>
+        <fullName>PS_Site_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PS_Site_Location</shortDescription>
+        <value>Site Location</value>
+    </labels>
+    <labels>
         <fullName>Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9661,6 +9675,69 @@ Please check your CAPS lock key.</value>
         <value>put On Hold</value>
     </labels>
     <labels>
+        <fullName>TS_Add_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Add Vendor</shortDescription>
+        <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Country</shortDescription>
+        <value>Select another country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Study Site</shortDescription>
+        <value>Select another Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country</shortDescription>
+        <value>Select country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country_Or_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country Or Study Site</shortDescription>
+        <value>Select Country or Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Study Site</shortDescription>
+        <value>Select Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Travel_Vendor_First</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Travel Vendor First</shortDescription>
+        <value>Select Travel Vendor First</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_or_add_vendor_first</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select or add vendor first</shortDescription>
+        <value>Select or add vendor first</value>
+    </labels>
+    <labels>
+        <fullName>TS_Study_Site_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Study Site Number</shortDescription>
+        <value>Study Site Number</value>
+    </labels>
+    <labels>
         <fullName>TTL_Create_Task</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9897,6 +9974,90 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Travel Support Link</shortDescription>
         <value>https://www.primarius.cloud/</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Alert_me_when_enrollment_starts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Alert me when enrollment starts</shortDescription>
+        <value>Alert me when enrollment starts</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Conditions_of_interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Conditions of interest</shortDescription>
+        <value>Conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Contact_the_study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Contact the study</shortDescription>
+        <value>Contact the study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrolling</shortDescription>
+        <value>Enrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrollment_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrollment Status</shortDescription>
+        <value>Enrollment Status</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_No_trial_matches_available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_No trial matches available</shortDescription>
+        <value>No trial matches available at this time. Check back shortly.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Not_Yet_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Not Yet Enrolling</shortDescription>
+        <value>Not yet ynrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Search_for_another_condition</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Search for another condition</shortDescription>
+        <value>Search for anoter condition</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Studies you may be interested in</shortDescription>
+        <value>Studies you may be interested in</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Study_contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Study contacted</shortDescription>
+        <value>Study contacted</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Therapeutic_area</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Therapeutic area</shortDescription>
+        <value>Therapeutic area</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Update_Search_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Update Search Results</shortDescription>
+        <value>Update Search Results</value>
     </labels>
     <labels>
         <fullName>Triglycerides</fullName>
