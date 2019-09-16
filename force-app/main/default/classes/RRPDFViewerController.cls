@@ -16,7 +16,7 @@ public with sharing class RRPDFViewerController {
         ContentDocumentLinkService contentDocumentLinkService = (ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class);
         ContentDocumentLink cdl = contentDocumentLinkService.getCDLForResource(resourceId, language);
         if (cdl != null) {
-            this.fileName = [SELECT Id, Title__c FROM Resource__c].Title__c;
+            this.fileName = [SELECT Id, Title__c FROM Resource__c WHERE Id =  :resourceId].Title__c;
             this.pdfBlobDataInBase64StringFormat = EncodingUtil.base64Encode(cdl.ContentDocument.LatestPublishedVersion.VersionData);
             this.executeJS = true;
         }

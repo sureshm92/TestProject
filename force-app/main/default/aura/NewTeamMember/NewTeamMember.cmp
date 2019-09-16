@@ -23,6 +23,7 @@
     <aura:attribute name="changedLevelsAll" type="List" access="private" default="[]"/>
     <aura:attribute name="currentUserContactId" type="String" access="private" default=""/>
     <aura:attribute name="parentId" type="String" access="private" default=""/>
+    <aura:attribute name="parentFullName" type="String" access="private" default=""/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
@@ -48,7 +49,7 @@
             </div>
             <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                 <div class="title rr-width-limiter side-padding">
-                    {!v.isStaff ? $Label.c.PG_MT_BTN_Add_New_Team_Member : $Label.c.PG_PST_L_Delegates_Add}</div>
+                    {!v.isStaff ? (empty(v.parentId) ? $Label.c.PG_MT_BTN_Add_New_Team_Member:$Label.c.PG_MT_L_Add_New_Team_Member_for + ' ' + v.parentFullName) : $Label.c.PG_PST_L_Delegates_Add}</div>
             </div>
             <div>
                 <div class="height-stub" style="height: 56px"></div>
@@ -124,7 +125,7 @@
                                     <aura:if isTrue="{!v.userMode != 'HCP'}">
                                         <c:rrButtonTubSet>
 
-                                            <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study}" tabId="by-study"
+                                            <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study_Site}" tabId="by-study"
                                                                   currentTab="{!v.currentTab}" variant="underlined"/>
                                             <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_Same_For_All_Studies}" tabId="all-same"
                                                                   currentTab="{!v.currentTab}" variant="underlined"/>

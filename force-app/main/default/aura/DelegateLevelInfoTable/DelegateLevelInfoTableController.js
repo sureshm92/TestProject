@@ -40,6 +40,10 @@
                         levels : [true,true,true]
                     },
                     {
+                        text : $A.get("$Label.c.DLIT_L_Manage_study_site_details"),
+                        levels : [true,true,true]
+                    },
+                    {
                         text : $A.get("$Label.c.DLIT_L_View_Export_Reports"),
                         levels : [true,true,true]
                     },
