@@ -27,7 +27,7 @@
     <aura:attribute name="isValidFields" type="Boolean" default="true"/>
 
     <!-- handlers: -->
-    <aura:handler name="change" value="{!v.task.ActivityDate}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doCheckFields}"/>
 
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
@@ -117,7 +117,7 @@
                     <!-- Due Date -->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <lightning:input aura:id="field" type="date" min="{!v.todayDate}"
-                                         label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
+                                         label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                          disabled="{!not(v.editAvailable)}" onchange="{!c.onChangeDueDate}"/>
                     </div>
                     <!-- Task Type -->
@@ -144,7 +144,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-2">
                             <lightning:input type="date" label="{!$Label.c.Reminder_Date}"
-                                             value="{!if(empty(v.task.Reminder_Date__c),$Label.c.None, v.task.Reminder_Date__c)}"
+                                             value="{!if(empty(v.initData.reminderDate),$Label.c.None, v.initData.reminderDate)}"
                                              disabled="true"/>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                                              onchange="{!c.onChangeReminderDate}"
                                              disabled="{!or(v.task.Is_Reminder_Sent__c, !v.reminderDateEnabled)}"
                                              min="{!v.todayDate}"
-                                             max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                                             max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"/>
                         </div>
                     </div>
                 </aura:if>

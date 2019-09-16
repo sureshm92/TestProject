@@ -7,8 +7,9 @@
         if(communityService.isInitialized()){
             component.set('v.allModes', communityService.getAllUserModes());
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
-            component.find('spinner').hide();
+            //component.find('spinner').hide();
             component.set('v.isInitialized', true);
+            component.set('v.showModeSwitcher', communityService.getAllUserModes().length > 1);
         }else{
             communityService.initialize(component);
         }

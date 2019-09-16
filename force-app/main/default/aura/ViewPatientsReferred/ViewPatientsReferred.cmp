@@ -127,6 +127,10 @@
             <!-- change PE status action by PI: -->
             <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
 
+            <!-- change PE Information -->
+            <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
+
+
         </aura:if>
     </div>
 </aura:component>

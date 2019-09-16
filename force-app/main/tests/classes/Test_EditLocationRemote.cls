@@ -46,8 +46,8 @@ private class Test_EditLocationRemote {
                 Study_Title__c = 'Some Title',
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES'
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true
         );
         insert study;
         Account studySiteAccount = new Account(Name = 'studySiteAccount', BillingCountryCode = 'US', BillingCity = 'New York', BillingStreet = '170 William St', BillingStateCode = 'NY');
