@@ -14,7 +14,12 @@
             debugger;
             component.set('v.currentMode', selectedMode);
             communityService.setCurrentCommunityMode(selectedMode);
-            communityService.navigateToPage('');
+            if(communityService.getUserMode() == 'Participant'){
+                communityService.navigateToPage(communityService.getFullPageName());
+            }else{
+                communityService.navigateToPage('');
+            }
+
             if(communityService.showTourOnLogin() && !communityService.isTourAlreadyShowed()  && communityService.isNewSession()) {
                 communityService.showTour();
             }
