@@ -119,6 +119,7 @@ public inherited sharing class ResourceService {
                         'FROM Resource__c ' +
                         whereClause +
                         (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
+        System.debug('>>> Resources Query: ' + resourcesQuery);
         return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resourcesQuery, true);
     }
 
@@ -128,11 +129,15 @@ public inherited sharing class ResourceService {
 
     @TestVisible
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
+        List<Id> resourceIds = new List<Id>();
+        for(Resource__c resource : resources) resourceIds.add(resource.Id);
+        Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
+                ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
         List<ResourceService.ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
         Set<Resource__c> resourcesSet = new Set<Resource__c>();
         for (Resource__c singleResource : resources) {
             if (resourcesSet.add(singleResource)) {
-                wrappers.add(new ResourceService.ResourceWrapper(singleResource));
+                wrappers.add(new ResourceService.ResourceWrapper(singleResource, translatedItemsMap.get(singleResource.Id)));
             }
         }
         return wrappers;
@@ -140,10 +145,8 @@ public inherited sharing class ResourceService {
 
     public class ResourceWrapperContainer {
 
-        @AuraEnabled
-        public List<ResourceWrapper> wrappers;
-        @AuraEnabled
-        public String errorMessage;
+        @AuraEnabled public List<ResourceWrapper> wrappers = new List<ResourceService.ResourceWrapper>();
+        @AuraEnabled public String errorMessage;
 
         public ResourceWrapperContainer(String errorMessage) {
             this.errorMessage = errorMessage;
@@ -156,12 +159,11 @@ public inherited sharing class ResourceService {
 
     public virtual class ResourceWrapper {
 
-        @AuraEnabled
-        public Resource__c resource;
-        @AuraEnabled
-        public Boolean isFavorite = false;
-        @AuraEnabled
-        public Boolean isVoted = false;
+        @AuraEnabled public Resource__c resource;
+        @AuraEnabled public Boolean isFavorite = false;
+        @AuraEnabled public Boolean isVoted = false;
+        @AuraEnabled public List<ContentDocumentLinkService.TranslatedContentItem> translations;
+        @AuraEnabled public Id thumbnailDocId;
 
         public ResourceWrapper(Resource__c resource) {
             if (!ResourceDecoupler.getResourceActions(resource).isEmpty()) {
@@ -170,17 +172,27 @@ public inherited sharing class ResourceService {
             }
             this.resource = resource;
         }
+    
+        public ResourceWrapper(Resource__c resource, List<ContentDocumentLinkService.TranslatedContentItem> translations){
+            this(resource);
+            this.translations = translations;
+            if(translations != null && translations.size() > 0){
+                thumbnailDocId = translations[0].contentId;
+            }
+            for(ContentDocumentLinkService.TranslatedContentItem tci : translations){
+                if(UserInfo.getLanguage() == tci.languageCode){
+                    thumbnailDocId = tci.contentId;
+                    break;
+                }
+            }
+        }
     }
 
     public class ResourceDetailWrapper extends ResourceWrapper {
-        @AuraEnabled
-        public List<ResourceFieldWrapper> headerFieldWrappers = new List<ResourceFieldWrapper>();
-        @AuraEnabled
-        public List<ResourceFieldWrapper> bodyFieldWrappers = new List<ResourceFieldWrapper>();
-        @AuraEnabled
-        public String shareMessage;
-        @AuraEnabled
-        public Boolean isShareable;
+        @AuraEnabled public List<ResourceFieldWrapper> headerFieldWrappers = new List<ResourceFieldWrapper>();
+        @AuraEnabled public List<ResourceFieldWrapper> bodyFieldWrappers = new List<ResourceFieldWrapper>();
+        @AuraEnabled public String shareMessage;
+        @AuraEnabled public Boolean isShareable;
 
         private Boolean cutList = false;
 
@@ -241,12 +253,9 @@ public inherited sharing class ResourceService {
     }
 
     public class ResourceFieldWrapper {
-        @AuraEnabled
-        public String apyName;
-        @AuraEnabled
-        public Object valueField;
-        @AuraEnabled
-        public String cssClassName;
+        @AuraEnabled public String apyName;
+        @AuraEnabled public Object valueField;
+        @AuraEnabled public String cssClassName;
 
         public ResourceFieldWrapper(String apyName, Object valueField, String cssClassName) {
             this.apyName = apyName;

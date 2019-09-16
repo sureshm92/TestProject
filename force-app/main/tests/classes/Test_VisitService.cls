@@ -116,7 +116,8 @@ private class Test_VisitService {
         Clinical_Trial_Profile__c trial = new Clinical_Trial_Profile__c(
                 Protocol_ID__c = 'Prot-333',
                 NCT_Number__c = 'NCT02804789',
-                Visit_Plan__c = vp.Id
+                Visit_Plan__c = vp.Id,
+                Synch_with_TMDH__c = true
         );
         insert trial;
 

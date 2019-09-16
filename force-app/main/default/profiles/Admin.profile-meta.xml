@@ -95,6 +95,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateSummaryNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -295,6 +299,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DateTimeConverterUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DelegateAddressesBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -360,6 +368,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>FieldDescribeUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FileUploadController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -676,6 +688,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantVisitsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PastStudiesController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4296,6 +4312,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Res_study__c.Expires_On_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Notify_On_Availability__c</field>
         <readable>true</readable>
@@ -4303,6 +4324,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Visible_In_Alumni__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Res_study__c.Visible_To_Delegates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4633,6 +4659,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Agrees_to_Referral_Reimbursement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Approved_Lng__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

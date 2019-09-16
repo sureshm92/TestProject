@@ -1,0 +1,19 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .study-title{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.THIS .study-description{
+    padding: 20px 0;
+}
+
+.THIS .rr-fields-cutter{
+    margin-bottom: 20px;
+}
+
+.THIS .resource-item{
+    padding: 5px;
+}
