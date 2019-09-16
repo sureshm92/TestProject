@@ -1330,7 +1330,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
-        <fullName>DLIT_L_Manage_study_site_details </fullName>
+        <fullName>DLIT_L_Manage_study_site_details</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Manage study site details</shortDescription>
@@ -8063,6 +8063,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP L Account Setting Preferred Lng</shortDescription>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>PS_Enrollment_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PS_Enrollment_Date</shortDescription>
+        <value>Enrollment Date</value>
+    </labels>
+    <labels>
+        <fullName>PS_Site_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PS_Site_Location</shortDescription>
+        <value>Site Location</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>

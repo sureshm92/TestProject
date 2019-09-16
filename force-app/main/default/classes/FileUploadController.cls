@@ -1,4 +1,4 @@
-public class FileUploadController {
+public without sharing class FileUploadController {
     public static final String FU_DEFAULT_LANGUAGE = 'English';
 
     public static Map<String, String> getSelectValues(){
@@ -23,6 +23,10 @@ public class FileUploadController {
                 FROM ContentDocumentLink 
                 WHERE LinkedEntityId =: resourceId
             ];
+        }
+
+        for(ContentDocumentLink contentLink : listOfFiles){
+            contentLink.ContentDocument.Title = TranslateHelper.getPickListLabel(Contact.Language__c, contentLink.ContentDocument.Title);
         }
         return listOfFiles;
     }
