@@ -16,10 +16,6 @@
                 <behavior>Required</behavior>
                 <field>Clinical_Trial_Profile__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Visible_To_Delegates__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -54,6 +50,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Visible_In_Alumni__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Visible_To_Delegates__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -125,7 +125,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000000Kz4J</masterLabel>
+        <masterLabel>00h1j000000awZt</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
