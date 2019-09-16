@@ -68,7 +68,19 @@ public class TestData {
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
     }
-    
+
+    /**
+     * Fill Enrolled_Date__c on PE
+     * @param status some of PEStatusState
+     */
+    public void updatePEStatusThroughHistory(String status) {
+        Participant_Enrollment_Status_History__c history = new Participant_Enrollment_Status_History__c(
+                Date__c = Datetime.now(),
+                Status__c = status,
+                ParticipantEnrollment__c = pe.Id
+        );
+        insert history;
+    }
     
     public static void loadTestData(){
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
