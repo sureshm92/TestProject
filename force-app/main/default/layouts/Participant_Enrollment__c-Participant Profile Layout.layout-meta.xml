@@ -43,6 +43,10 @@
                 <behavior>Readonly</behavior>
                 <field>Days_After_Enrolled__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>MRR_Survey_Results_URL__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -421,9 +425,7 @@
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>NewStatus__c</fields>
-        <fields>Reason__c</fields>
-        <fields>Notes__c</fields>
+        <fields>Status__c</fields>
         <fields>Date__c</fields>
         <relatedList>Participant_Enrollment_Status_History__c.ParticipantEnrollment__c</relatedList>
     </relatedLists>
@@ -440,7 +442,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1h000000YyBP</masterLabel>
+        <masterLabel>00h1j000000awZe</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

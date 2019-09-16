@@ -47,6 +47,32 @@ public without sharing class TravelSupportHelper {
         return vendorItems;
     }
 
+    public List<TravelVendorPanelRemote.VendorItem> getInitData(Id ctpId) {
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String clauseChild = '';
+        String query = 'SELECT Id, ' +
+                'Name, ' +
+                'Clinical_Trial_Profile__c, ' +
+                'Site__r.BillingCountry, ' +
+                'Site__r.BillingCountryCode, ' +
+                'Study_Site_Number__c, ' +
+                '(SELECT Id, isEnable__c, Is_Manual__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c, Study_Site__c FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
+                'FROM Study_Site__c ';
+        String clause = ' WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
+        String order = ' ORDER BY Name';
+        query += clause;
+        query += order;
+        System.debug(query);
+        List<Study_Site__c> studySites = databaseProxy.query(query);
+        List<TravelVendorPanelRemote.VendorItem> vendorItems = new List<TravelVendorPanelRemote.VendorItem>();
+        for (Study_Site__c studySite : studySites) {
+            TravelVendorPanelRemote.VendorItem vendorItem = new TravelVendorPanelRemote.VendorItem(studySite);
+                vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
+                vendorItems.add(vendorItem);
+        }
+        return vendorItems;
+    }
+
     public List<TravelVendor__c> getTravelVendorsByIds(List<Id> travelVendorIds) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String query = 'SELECT Id, ' +

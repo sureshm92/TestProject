@@ -3,7 +3,25 @@
  */
 
 public class TasksRemote {
-    
+
+    public class ParticipantTasks{
+        @AuraEnabled public List<OpenTask> openTasksWrapper;
+        @AuraEnabled public List<CompletedTask> completedTasks;
+        @AuraEnabled public String emptyText;
+    }
+
+    public class OpenTask{
+        @AuraEnabled public Task openTask;
+        @AuraEnabled public String originator;
+        @AuraEnabled public Date activityDate;
+        @AuraEnabled public Date reminder;
+    }
+
+    public class CompletedTask {
+        @AuraEnabled public Task task;
+        @AuraEnabled public Date completedDate;
+    }
+
     @AuraEnabled
     public static List<Task> getPreviewTasks(){
         try {
@@ -13,71 +31,59 @@ public class TasksRemote {
         }
         return null;
     }
-
-    //TODO: replace wrapper
-    public class ParticipantTasks{
-        @AuraEnabled public List<OpenTask> openTasksWrapper;
-        @AuraEnabled public List<Task> completedTasks;
-        @AuraEnabled public String emptyText;
-    }
-
-    public class OpenTask{
-        @AuraEnabled public Task openTask;
-        @AuraEnabled public String originator;
-    }
     
     @AuraEnabled
     public static ParticipantTasks getParticipantTasks(){
+        ParticipantTasks participantTasks = new ParticipantTasks();
         try{
-            ParticipantTasks participantTasks = new ParticipantTasks();
-            List<Task> openTasks = new List<Task>();
-            openTasks = TaskService.getInstance().getOpenTasks();
             participantTasks.openTasksWrapper = new List<OpenTask>();
+            TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+
+            List<Task> openTasks = TaskService.getInstance().getOpenTasks();
             for(Task task : openTasks){
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
+
+                if(task.ActivityDate != null) {
+                    Datetime activDT = Datetime.newInstance(
+                            task.ActivityDate, Time.newInstance(12, 0, 0, 0));
+                    taskWrapper.activityDate =
+                            DateTimeConverterUtil.getUserDatetime(timezone, activDT).date();
+                }
+                if(task.Reminder_Date__c != null) {
+                    taskWrapper.reminder =
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.Reminder_Date__c).date();
+                }
+
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
-
-            participantTasks.completedTasks = TaskService.getInstance().getCompletedTasks();
             createOriginatorsList(participantTasks.openTasksWrapper);
+
+            participantTasks.completedTasks = new List<TasksRemote.CompletedTask>();
+            List<Task> completedTasks = TaskService.getInstance().getCompletedTasks();
+            for(Task compTask : completedTasks) {
+                CompletedTask completedTask = new CompletedTask();
+                completedTask.task = compTask;
+                if(compTask.Completed_Date__c != null) {
+                    completedTask.completedDate =
+                            DateTimeConverterUtil.getUserDatetime(timezone, compTask.Completed_Date__c).date();
+                }
+
+                participantTasks.completedTasks.add(completedTask);
+            }
 
             ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
             if(participantState.isDelegate) {
-                participantTasks.emptyText =
-                        Label.PG_Task_Tab_No_Tasks_Delegate.replace('##ParticipantFirstName', participantState.participant.First_Name__c);
+                participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks_Delegate.replace(
+                                '##ParticipantFirstName', participantState.participant.First_Name__c);
             }
             else {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
             }
-
-            return participantTasks;
         }catch (Exception e){
-            System.debug(e.getMessage());
             return (ParticipantTasks) AuraHelper.throwException(e);
         }
-    }
-    
-    @AuraEnabled
-    public static ParticipantTasks ignoreTask(Id taskId){
-        try{
-            TaskService.getInstance().ignoreTask(taskId);
-            return getParticipantTasks();
-        }catch (Exception e){
-            AuraHelper.throwException(e);
-        }
-        return null;
-    }
-    
-    @AuraEnabled
-    public static ParticipantTasks completeTask(Id taskId){
-        try{
-            TaskService.getInstance().completeTask(taskId);
-            return getParticipantTasks();
-        }catch (Exception e){
-            AuraHelper.throwException(e);
-        }
-        return null;
+        return participantTasks;
     }
     
     private static void createOriginatorsList(List<OpenTask> tasks) {
@@ -98,7 +104,4 @@ public class TasksRemote {
             }
         }
     }
-    
-
-
 }

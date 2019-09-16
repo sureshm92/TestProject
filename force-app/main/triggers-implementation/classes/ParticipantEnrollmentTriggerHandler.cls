@@ -266,7 +266,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             System.debug('UPDATE CRITERIA: ' + updateCriteria);
             if (!updateCriteria) continue;
             Boolean filterCriteria =
-                    newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI &&
+                    (newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI ||
+                            newPE.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_ACCEPTED) &&
                             newPE.Participant__c != null &&
                             !newPE.Is_Virtual_Study_Site__c &&
                             ss != null &&
@@ -451,12 +452,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void setParticipantStatusHandler(List<Participant_Enrollment__c> enrollments) {
         Set<String> statuses = new Set<String>();
-        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt]) {
-            statuses.add(pe.Auto_Accept_Status__c);
+        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt WHERE Auto_Accept_Status__c != NULL]) {
+            statuses.add(pe.Auto_Accept_Status__c.toLowerCase());
         }
         for (Participant_Enrollment__c pe : enrollments) {
-            if (statuses.contains(pe.Referral_Source__c)) {
-                pe.Participant_Status__c = 'Referral Accepted';
+            if (!String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
+                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_ACCEPTED;
+                pe.IsAutoaccepted__c = true;
             }
         }
     }
@@ -640,13 +642,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     (oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
                             targetStatuses.contains(pe.Participant_Status__c))){
                 selectedParticipantIds.add(pe.Participant__c);
-                selectedContactIds.add(pe.Participant_Contact__c);
+                if(pe.Participant_Contact__c!=null)
+                    selectedContactIds.add(pe.Participant_Contact__c);
             }
         }
         if(selectedParticipantIds.size() == 0) return;
         Map<Id, List<Id>> delegatedContactIdsByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(selectedParticipantIds);
         for(List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
-        ContactService.updateCurrentPEOnContacts(selectedContactIds);
+        if(!selectedContactIds.isEmpty())
+            ContactService.updateCurrentPEOnContacts(selectedContactIds);
     }
     
 }

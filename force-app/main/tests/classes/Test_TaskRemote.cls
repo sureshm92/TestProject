@@ -57,7 +57,5 @@ private class Test_TaskRemote {
         insert task;
         TasksRemote.getPreviewTasks();
         TasksRemote.getParticipantTasks();
-        TasksRemote.ignoreTask(task.Id);
-        TasksRemote.completeTask(task.Id);
     }
 }

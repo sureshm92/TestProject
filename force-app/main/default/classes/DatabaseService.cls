@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class DatabaseService {
+public without sharing class DatabaseService {
 
     private static DatabaseService instance;
 

@@ -26,6 +26,12 @@
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
+                if(!trialDetail.isTCAccepted) {
+                    communityService.navigateToPage('trial-terms-and-conditions?id='
+                        + trialDetail.trial.Id
+                        + '&ret=' + communityService.createRetString());
+                    return;
+                }
                 component.set('v.studyDetail', trialDetail);
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
