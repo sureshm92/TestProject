@@ -2,8 +2,6 @@
 
     getFilteredItem : function (component, helper) {
         component.find('spinner').show();
-        let vendors = component.get('v.selectedVendors');
-        if (vendors.length > 0) {
             communityService.executeAction(component, 'getFilteredItems', {
                 'ctpId': component.get('v.recordId'),
                 'ssIds': component.get('v.selectedManuallySSIds'),
@@ -13,18 +11,6 @@
                 component.set('v.vendorItems', data);
                 component.find('spinner').hide();
             })
-        } else {
-            component.set('v.selectedByCountrySSIds', '');
-            component.set('v.countryCodes', '');
-            component.set('v.selectedManuallySSIds', '');
-            component.set('v.selectedCountryCodes', '');
-            component.set('v.vendorItems', []);
-            communityService.executeAction(component, 'getFilteredItems', {
-            }, function () {
-                component.set('v.selectedVendors', []);
-                component.find('spinner').hide();
-            })
-        }
     },
 
     getVendorIds : function (vendors) {
@@ -42,6 +28,25 @@
                 settings[i].Is_Manual__c = true;
             }
         }
-    }
+    },
+
+    addVendor : function (component, helper) {
+        component.find('spinner').show();
+        let item =  component.get('v.vendorItems');
+        let ssIds = [];
+        item.forEach(function (i) {
+            ssIds.push(i.studySite.Id);
+        });
+        let vendors = helper.getVendorIds(component.get('v.selectedVendors'));
+            communityService.executeAction(component, 'getFilteredItems', {
+                'ctpId': component.get('v.recordId'),
+                'ssIds': ssIds.join(';'),
+                'countryCodes': component.get('v.countryCodes'),
+                'vendorIds': vendors !== null ? vendors : null
+            }, function (data) {
+                component.set('v.vendorItems', data);
+                component.find('spinner').hide();
+            })
+    },
 
 });

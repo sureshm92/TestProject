@@ -3,30 +3,34 @@
  */
 
 ({
-    doInit : function (component, event, helper) {
+    doInit: function (component, event, helper) {
         component.find('spinner').show();
 
-        communityService.executeAction(component, 'getInitData', {
-            'ctpId' : component.get('v.recordId')
-        }, function(data) {
+        communityService.executeAction(component, 'getAllData', {
+            'ctpId': component.get('v.recordId')
+        }, function (data) {
+            console.log(JSON.stringify(data));
             component.set('v.vendorItems', data.vendorItems);
             component.set('v.selectedVendors', data.vendors);
-            component.set('v.countryCodes', data.countryCodes);
-            component.set('v.selectedManuallySSIds', data.selectedSSIds);
+            // component.set('v.countryCodes', data.countryCodes);
+            // component.set('v.selectedManuallySSIds', data.selectedSSIds);
             component.set('v.initialized', true);
 
             component.find('spinner').hide();
         })
-
     },
 
-    getFilteredSS : function (component, event, helper) {
+    addVendor: function (component, event, helper) {
+        helper.addVendor(component, helper);
+    },
+
+    getFilteredSS: function (component, event, helper) {
         helper.getFilteredItem(component, helper);
     },
 
-    whenCountryFilterChanged : function (component, event, helper) {
+    whenCountryFilterChanged: function (component, event, helper) {
         let filterType = component.get('v.countryFilterType');
-        if(filterType === 'filter'){
+        if (filterType === 'filter') {
             setTimeout(
                 $A.getCallback(function () {
                     component.find('countryLookup').focus();
@@ -35,16 +39,16 @@
         }
     },
 
-    onAddTravelVendor: function(component, event, helper) {
+    onAddTravelVendor: function (component, event, helper) {
         let newVendor = component.find('addTravelVendor').get('v.record');
         let vendors = component.get('v.selectedVendors');
         vendors.push(newVendor);
         component.set('v.selectedVendors', vendors);
-        helper.getFilteredItem(component, helper);
+        helper.addVendor(component, helper);
         component.find('customModal').hide();
     },
 
-    showModal : function(component, event, helper) {
+    showModal: function (component, event, helper) {
         component.find('customModal').show();
     },
 
@@ -56,7 +60,7 @@
         component.find('addTravelVendor').submitForm();
     },
 
-    doSave : function(component, event, helper) {
+    doSave: function (component, event, helper) {
         component.find('spinner').show();
 
         let vendorItems = component.get('v.vendorItems');
@@ -67,9 +71,9 @@
 
         helper.markSettingsIsManual(allSettings, component.get('v.selectedManuallySSIds'));
         communityService.executeAction(component, 'saveData', {
-            'ctpId' : component.get('v.recordId'),
-            'settings' : allSettings
-        }, function() {
+            'ctpId': component.get('v.recordId'),
+            'settings': allSettings
+        }, function () {
             component.find('spinner').hide();
             const toastEvent = $A.get("e.force:showToast");
             toastEvent.setParams({
@@ -81,7 +85,7 @@
         })
     },
 
-    navToRecord : function (component, event, helper) {
+    navToRecord: function (component, event, helper) {
         let target = event.target;
         let rowIndex = target.getAttribute("data-ssid");
         let navEvt = $A.get("e.force:navigateToSObject");
@@ -93,4 +97,18 @@
         navEvt.fire();
     },
 
-});
+    columnCheckboxStateChange: function (component, event, helper) {
+        let target = event.getSource().get('v.label');
+        let checked = event.getSource().get('v.value');
+        let items = component.get('v.vendorItems');
+        items.forEach(function (item) {
+            let settings = item.vendorSettings;
+            settings.forEach(function (setting) {
+                if (setting.TravelVendor__r.Name === target) {
+                    setting.isEnable__c = checked;
+                }
+            });
+        });
+        component.set('v.vendorItems', items);
+    }
+})
