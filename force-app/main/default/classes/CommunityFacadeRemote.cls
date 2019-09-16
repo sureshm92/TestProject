@@ -32,6 +32,7 @@ public without sharing class CommunityFacadeRemote {
         String language;
         List<String> preventedCookies;
         Boolean isNewSession;
+        String baseUrl;
     }
 
     @AuraEnabled
@@ -66,6 +67,7 @@ public without sharing class CommunityFacadeRemote {
             cd.language = UserInfo.getLanguage();
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
+            cd.baseUrl = Site.getBaseUrl();
 
             return JSON.serialize(cd);
         } catch (Exception e) {
