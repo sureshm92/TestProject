@@ -228,7 +228,7 @@ public without sharing class MyTeamRemote {
                     trialWrap.entityName = partEnroll.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
                     trialWrap.enrollmentOrStudySiteId = partEnroll.Id;
                     trialWrap.delegateLevel = '';
-                    dw.trialLevels.add(trialWrap);
+                    //dw.trialLevels.add(trialWrap);
                 }
 
                 delegates.add(dw);
