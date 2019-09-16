@@ -3,38 +3,6 @@
  */
 public with sharing class TrialSearchHelper {
 
-    //ORS status
-    public static final String ACTIVELY_ENROLLING = 'Actively Enrolling';
-    public static final String ON_HOLD = 'On Hold';
-
-    //CTMS status
-    private static final String ENROLLING = 'Enrolling';
-    private static final String OPEN_TO_ENROLLMENT = 'Open to Enrollment';
-    private static final String PLANNING = 'Planning';
-    private static final String IN_DEVELOPMENT = 'In Development';
-
-    public static final List<String> ORS_STATUS_ENROLLING = new List<String>{
-            ACTIVELY_ENROLLING,
-            ON_HOLD
-    };
-
-    public static final List<String> CTMS_RECRUITMENT = new List<String>{
-            ENROLLING,
-            OPEN_TO_ENROLLMENT,
-            PLANNING,
-            IN_DEVELOPMENT
-    };
-
-    public static final List<String> CTMS_RECRUITMENT_ENROLLING = new List<String>{
-            ENROLLING,
-            OPEN_TO_ENROLLMENT
-    };
-
-    public static final List<String> CTMS_ON_HOLD = new List<String>{
-            PLANNING,
-            IN_DEVELOPMENT
-    };
-
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
         trialSearchContainer.participant = [
@@ -85,7 +53,7 @@ public with sharing class TrialSearchHelper {
                 taIds.add(ctp.Therapeutic_Area__c);
             }
         }
-        List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(taIds, ctps, proxy);
+        List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(ctps);
         trialSearchContainer.trialTDOs = trialTDOS;
         return trialSearchContainer;
     }
@@ -123,58 +91,20 @@ public with sharing class TrialSearchHelper {
         proxy.upsertRecords(taps, false);
     }
 
-    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
-//        Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = getTherapeuticAreaByParent(taIds, proxy);
+    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
-//            List<Therapeutic_Area__c> tasTemp = therapeuticAreaByParent.get(ctp.Therapeutic_Area__c).Therapeutic_Areas__r;
-//            if (tasTemp != null && !tasTemp.isEmpty()) {
-//                tdo.cois = tasTemp;
-//            }
             trialTDOS.add(tdo);
         }
         return trialTDOS;
     }
 
-    private Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
-        return ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING ||
-                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
-                        (ctp.Recruitment_Status__c == ENROLLING ||
-                                ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT)
-                );
-    }
-
-    private Map<Id, Therapeutic_Area__c> getTherapeuticAreaByParent(Set<Id> taIds, DatabaseProxy proxy) {
-        Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = new Map<Id, Therapeutic_Area__c>();
-        if (!taIds.isEmpty()) {
-            String queryTA = 'SELECT ' +
-                    'Name, ' +
-                    '(SELECT Name, Therapeutic_Area__c FROM Therapeutic_Areas__r WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\') ' +
-                    'FROM Therapeutic_Area__c ' +
-                    'WHERE Id IN ' + '(\'' + String.join(new List<Id>(taIds), '\',\'') + '\')';
-            List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) proxy.query(queryTA, true);
-            if (!therapeuticAreas.isEmpty()) {
-                therapeuticAreaByParent = new Map<Id, Therapeutic_Area__c>(therapeuticAreas);
-            }
-        }
-        return therapeuticAreaByParent;
-    }
-
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
-        String whereClause = 'WHERE Therapeutic_Area__c IN ' + '(\'' + String.join(new List<Id>(taId), '\',\'') + '\') ';
-        if (isEnrolling && isNotYetEnrolling) {
-            whereClause += ' AND (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
-                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT, '\',\'') + '\')) ';
-        } else if (isEnrolling) {
-            whereClause += ' AND (Override_Recruitment_Status__c = ' + '\'' + ACTIVELY_ENROLLING + '\' ' +
-                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT_ENROLLING, '\',\'') + '\')) ';
-        } else if (isNotYetEnrolling) {
-            whereClause += ' AND (Override_Recruitment_Status__c = ' + '\'' + ON_HOLD + '\' ' +
-                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_ON_HOLD, '\',\'') + '\')) ';
-        }
+        Boolean isQCare = this.isQCare(proxy);
+        String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, isQCare).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
                 'Therapeutic_Area__c, ' +
@@ -210,4 +140,27 @@ public with sharing class TrialSearchHelper {
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = (List<Therapeutic_Area_Patient__c>) proxy.query(queryTAP, true);
         return therapeuticAreaPatients;
     }
+
+    private Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
+        return ctp.Override_Recruitment_Status__c == TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING ||
+                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
+                        (ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.ENROLLING ||
+                                ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT)
+                );
+    }
+
+    private Boolean isQCare(DatabaseProxy proxy) {
+        String query = 'SELECT Id, ' +
+                'Current_Participant_Enrollment__r.Study_Site__r.Site__r.Type ' +
+                'FROM Contact ' +
+                'WHERE Id IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId()  + '\')' +
+                'AND Current_Participant_Enrollment__r.Study_Site__r.Site__c != NULL';
+        List<Contact> contacts = (List<Contact>) proxy.query(query, true);
+        if (contacts.isEmpty()) {
+            return false;
+        }
+        return contacts[0].Current_Participant_Enrollment__r.Study_Site__r.Site__r.Type == TrialSearchWhereClauseFactory.QCARE_TYPE;
+
+    }
+
 }
