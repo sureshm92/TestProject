@@ -458,6 +458,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (Participant_Enrollment__c pe : enrollments) {
             if (!String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
                 pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_ACCEPTED;
+                pe.IsAutoaccepted__c = true;
             }
         }
     }
