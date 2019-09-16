@@ -52,7 +52,7 @@ window.communityService = (function () {
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
-                    $A.get("e.c:EventCommunityInitialized").fire();
+                    $A.get('e.c:EventCommunityInitialized').fire();
                 }
             })
         },
