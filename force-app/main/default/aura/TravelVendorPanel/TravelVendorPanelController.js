@@ -6,17 +6,27 @@
     doInit: function (component, event, helper) {
         component.find('spinner').show();
 
-        communityService.executeAction(component, 'getAllData', {
+        communityService.executeAction(component, 'getInitData', {
             'ctpId': component.get('v.recordId')
         }, function (data) {
-            console.log(JSON.stringify(data));
-            component.set('v.vendorItems', data.vendorItems);
-            component.set('v.selectedVendors', data.vendors);
-            // component.set('v.countryCodes', data.countryCodes);
-            // component.set('v.selectedManuallySSIds', data.selectedSSIds);
-            component.set('v.initialized', true);
+            if (data.vendorItems.length > 0) {
+                component.set('v.vendorItems', data.vendorItems);
+                component.set('v.selectedVendors', data.vendors);
+                component.set('v.countryCodes', data.countryCodes);
+                component.set('v.selectedManuallySSIds', data.selectedSSIds);
+                component.set('v.initialized', true);
+            } else {
+                communityService.executeAction(component, 'getAllData', {
+                    'ctpId': component.get('v.recordId')
+                }, function (data) {
+                    component.set('v.vendorItems', data.vendorItems);
+                    component.set('v.selectedVendors', data.vendors);
 
-            component.find('spinner').hide();
+                    component.set('v.initialized', true);
+                });
+
+                component.find('spinner').hide();
+            }
         })
     },
 
