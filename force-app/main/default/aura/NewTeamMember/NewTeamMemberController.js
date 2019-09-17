@@ -1,12 +1,12 @@
 ({
     doInit: function (component, event, helper) {
-        var spinner = component.find('mainSpinner');
-        spinner.show();
+        // var spinner = component.find('mainSpinner');
+        // spinner.show();
         component.set('v.showSpinner', true);
 
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
-        if(userMode === 'Participant' && communityService.isDelegate) communityService.navigateToHome();
+        if(userMode === 'Participant' && communityService.isDelegate()) communityService.navigateToHome();
 
         component.set('v.userMode', userMode);
 
@@ -21,18 +21,21 @@
         else{
             component.set('v.currentTab', 'all-same');
         }
-
-
+        var parentId = communityService.getUrlParameter('id');
+        if(parentId){
+            component.set('v.parentId',parentId);
+        }
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
             contactEmail: '',
-            parentId: communityService.getDelegateId()
+            parentId: parentId?parentId:communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);
             component.set('v.delegate', contactData.delegates[0]);
             component.set('v.delegateOptions', contactData.delegateOptions);
             component.set('v.currentUserContactId', contactData.currentUserContactId);
+            component.set('v.parentFullName', contactData.parentFullName);
             var allTrialLevel = {
                 delegateLevel: '',
                 trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies')
@@ -69,11 +72,12 @@
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
             contactEmail: delegate.delegateContact.Email.toLowerCase(),
-            parentId: communityService.getDelegateId()
+            parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var contactData = JSON.parse(returnValue);
             var userMode = component.get('v.userMode');
+            var parentId = component.get('v.parentId');
             component.set('v.delegate', contactData.delegates[0]);
             if (userMode !== 'HCP'){
                 component.set('v.currentTab', 'by-study');
@@ -84,6 +88,10 @@
             debugger;
             if (contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId) {
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_yourself_as_a_delegate'));
+            } else if(userMode === 'HCP' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
+                communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_referring_provider_as_a_delegate'));
+            } else if(userMode === 'PI' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
+                communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_primary_investigator_as_a_delegate'));
             } else if (contactData.delegates[0].delegateContact.Id === undefined) {
                 // component.set('v.currentTab','all-same');
                 console.log('delegateContact.Id===undefined');
@@ -111,13 +119,18 @@
     },
 
     doSaveChanges: function (component, event, helper) {
+        debugger;
         var delegate = component.get('v.delegate');
         var allTrialLevel = component.get('v.allTrialLevel');
         var currentTab = component.get('v.currentTab');
-        if (currentTab === 'all-same') {
-            for (var i = 0; i < delegate.trialLevels.length; i++) {
-                delegate.trialLevels[i].delegateLevel = allTrialLevel.delegateLevel;
-                delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
+        if (currentTab === 'all-same' && component.get('v.userMode') === 'HCP') {
+            delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
+        }
+        else if(currentTab === 'all-same' && component.get('v.userMode') === 'PI'){
+            for (var i = 0; i < delegate.delegateTrials.length; i++) {
+                for (var j = 0; j < delegate.delegateTrials[i].siteLevels.length; j++)
+                delegate.delegateTrials[i].siteLevels[j].delegateLevel = allTrialLevel.delegateLevel;
+
             }
         }
 

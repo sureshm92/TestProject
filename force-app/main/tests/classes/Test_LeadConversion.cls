@@ -49,7 +49,8 @@ private class Test_LeadConversion {
                 Link_to_Pre_screening__c = 'some link',
                 Terms_And_Conditions_ID__c = studyTC.Id,
                 Study_Title__c = 'Some Title',
-                Study_Code_Name__c = 'Some Code Name'
+                Study_Code_Name__c = 'Some Code Name',
+                Synch_with_TMDH__c = true
 
         );
         insert study;

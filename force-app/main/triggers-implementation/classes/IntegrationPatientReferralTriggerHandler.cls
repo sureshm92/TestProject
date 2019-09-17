@@ -21,6 +21,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         private Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
         private Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
         private List<Integration_Patient_Referral__c> newList;
+        private Map<String, Integration_Patient_Referral__c> newMap = new Map<String, Integration_Patient_Referral__c>();
     
     
         private void setNewList(List<Integration_Patient_Referral__c> newList){
@@ -30,6 +31,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 protocolIds.add(ipr.protocolId__c);
                 ssNumbersList.add(getSitePrimaryKeyEPR(ipr));
+                newMap.put(ipr.referralID__c, ipr);
             }
             //SS Map
             List<Study_Site__c> ssList = [
@@ -112,7 +114,21 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 if(ss != null) peList.add(createPE(ipr, participant.Id, ss.Id));
             }
-            insert peList;
+            List<Database.SaveResult> saveResults = Database.insert(peList, false);
+            for (Integer i = 0; i < saveResults.size(); i++) {
+                Participant_Enrollment__c pe = peList[i];
+                Database.SaveResult sr = saveResults[i];
+                Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
+                if (ipr != null) {
+                    if (sr.isSuccess()) {
+                        ipr.Success__c = true;
+                        ipr.Participant_Enrollment__c = sr.getId();
+                    } else {
+                        ipr.Success__c = false;
+                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
+                    }
+                }
+            }
         }
     }
 
@@ -144,6 +160,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Referral_Source__c = ipr.Data_Source__c,
                 Participant_ID_randomized_ID__c = ipr.ePRPatient_ID_Number__c,
                 Referral_ID__c = ipr.referralID__c,
+                MRR_Survey_Results_URL__c = ipr.MRR_Survey_Results_URL__c,
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null ? Date.valueOf(ipr.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c = ipr.Referred_Date__c != null ? Date.valueOf(ipr.Referred_Date__c) : null,

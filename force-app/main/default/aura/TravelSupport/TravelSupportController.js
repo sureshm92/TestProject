@@ -9,8 +9,8 @@
     },
 
     show: function (component, event, helper) {
-        component.find('popup').show();
         helper.checkOnDisclaimer(component, event);
+        component.find('popup').show();
     },
 
     hide: function (component, event, helper) {

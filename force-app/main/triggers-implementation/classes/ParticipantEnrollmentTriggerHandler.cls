@@ -84,6 +84,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class UpdatePEHistoryOnAutoAcceptedHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
@@ -159,7 +170,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
                         Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
-                        Clinical_Trial_Profile__r.Include_in_patient_trial_search__c,
+                        Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                         Clinical_Trial_Profile__r.NCT_Number__c
                 FROM Study_Site__c
                 WHERE Id IN:ssIds
@@ -266,7 +277,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             System.debug('UPDATE CRITERIA: ' + updateCriteria);
             if (!updateCriteria) continue;
             Boolean filterCriteria =
-                    newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI &&
+                    (newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI ||
+                            newPE.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_ACCEPTED) &&
                             newPE.Participant__c != null &&
                             !newPE.Is_Virtual_Study_Site__c &&
                             ss != null &&
@@ -375,7 +387,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
-                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
 
@@ -451,13 +463,40 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void setParticipantStatusHandler(List<Participant_Enrollment__c> enrollments) {
         Set<String> statuses = new Set<String>();
-        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt]) {
-            statuses.add(pe.Auto_Accept_Status__c);
+        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt WHERE Auto_Accept_Status__c != NULL]) {
+            statuses.add(pe.Auto_Accept_Status__c.toLowerCase());
         }
         for (Participant_Enrollment__c pe : enrollments) {
-            if (statuses.contains(pe.Referral_Source__c)) {
-                pe.Participant_Status__c = 'Referral Accepted';
+            if (!String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
+                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_ACCEPTED;
+                pe.IsAutoaccepted__c = true;
             }
+        }
+    }
+
+    @TestVisible
+    public static void updatePEHistoryOnAutoAccepted(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
+
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (pe.IsAutoaccepted__c && (oldMap == null || pe.IsAutoaccepted__c != oldMap.get(pe.Id).IsAutoaccepted__c)) {
+                PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
+
+                for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
+                    if (step.name == PEStatusState.PE_ST_REFERRED) continue;
+                    statusHistories.add(new Participant_Enrollment_Status_History__c(
+                            Notes__c = pe.Last_Status_Changed_Notes__c,
+                            Date__c = Datetime.now(),
+                            ParticipantEnrollment__c = pe.Id,
+                            Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                    ));
+                    if (step.name == currentState.name) break;
+                }
+            }
+        }
+
+        if (!statusHistories.isEmpty()) {
+            insert statusHistories;
         }
     }
 
@@ -512,7 +551,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
+                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
                 AND Id IN:peEnrollSuccessIds
         ];
 
@@ -562,7 +601,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 SELECT Id, Participant_Contact__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN:peEnrollSuccessIds
-                AND Clinical_Trial_Profile__r.Include_in_patient_trial_search__c = true
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
         ];
 
         List<Alert__c> alerts = new List<Alert__c>();
@@ -640,13 +679,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     (oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
                             targetStatuses.contains(pe.Participant_Status__c))){
                 selectedParticipantIds.add(pe.Participant__c);
-                selectedContactIds.add(pe.Participant_Contact__c);
+                if(pe.Participant_Contact__c!=null)
+                    selectedContactIds.add(pe.Participant_Contact__c);
             }
         }
         if(selectedParticipantIds.size() == 0) return;
         Map<Id, List<Id>> delegatedContactIdsByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(selectedParticipantIds);
         for(List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
-        ContactService.updateCurrentPEOnContacts(selectedContactIds);
+        if(!selectedContactIds.isEmpty())
+            ContactService.updateCurrentPEOnContacts(selectedContactIds);
     }
     
 }

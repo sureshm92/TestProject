@@ -17,7 +17,7 @@
                 objectApiName="TravelVendor__c">
             <lightning:inputField fieldName="Name"/>
             <lightning:inputField fieldName="Link_Vendor__c"/>
-            <lightning:inputField fieldName="Default_Country__c"/>
+            <lightning:inputField fieldName="Disclosure__c"/>
         </lightning:recordEditForm>
     </div>
 

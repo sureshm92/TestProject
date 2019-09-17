@@ -42,6 +42,12 @@ global without sharing class EmailTemplateController {
     global String emailParametersProvider {get; set;}
     global Id sourceRecordId {get; set;}
     global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
+    global Boolean showDelegateTableValue {get; set;}
+    global Boolean hasPIRPDelegationRecords {
+        get{
+            return !getDataProvider().delegateLevelsPI.isEmpty() || !getDataProvider().delegateLevelsHCP.isEmpty();
+        }
+    }
 
     private String bodyParamValue;
     global String bodyValue {

@@ -39,7 +39,7 @@ public class TestData {
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
-                        Include_in_patient_trial_search__c,
+                        Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c
                 FROM Clinical_Trial_Profile__c
                 WHERE NCT_Number__c = 'NCT99999999'
@@ -68,7 +68,19 @@ public class TestData {
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
     }
-    
+
+    /**
+     * Fill Enrolled_Date__c on PE
+     * @param status some of PEStatusState
+     */
+    public void updatePEStatusThroughHistory(String status) {
+        Participant_Enrollment_Status_History__c history = new Participant_Enrollment_Status_History__c(
+                Date__c = Datetime.now(),
+                Status__c = status,
+                ParticipantEnrollment__c = pe.Id
+        );
+        insert history;
+    }
     
     public static void loadTestData(){
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
@@ -147,7 +159,7 @@ public class TestData {
                 Therapeutic_Area__c = area.Id,
                 Synch_with_TMDH__c = true,
                 Include_in_RP_trial_search__c = true,
-                Include_in_patient_trial_search__c = true,
+                Patient_Portal_Enabled__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true
