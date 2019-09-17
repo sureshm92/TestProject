@@ -91,6 +91,17 @@ public with sharing class TrialSearchHelper {
         proxy.upsertRecords(taps, false);
     }
 
+    public void createTrialNotification(Id ctpId) {
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+        Contact currentContact = CommunityService.getUserContact();
+        Trial_Notification__c notification = new Trial_Notification__c(
+                Contact__c = currentContact.Id
+                , Clinical_Trial_Profile__c = ctpId
+        );
+        System.debug(notification);
+        proxy.upsertRecord(notification, true);
+    }
+
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
@@ -141,7 +152,7 @@ public with sharing class TrialSearchHelper {
         return therapeuticAreaPatients;
     }
 
-    private Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
+    public Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
         return ctp.Override_Recruitment_Status__c == TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING ||
                 (String.isBlank(ctp.Override_Recruitment_Status__c) &&
                         (ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.ENROLLING ||

@@ -1,7 +1,7 @@
 <!--
   - Created by Yehor Dobrovolskyi
  -->
-<aura:component description="TrialItem">
+<aura:component description="TrialItem" controller="TrialSearchContainerRemote">
 
     <aura:attribute name="trialTDO" type="Object"/>
     <aura:attribute name="isClicked" type="Boolean"/>

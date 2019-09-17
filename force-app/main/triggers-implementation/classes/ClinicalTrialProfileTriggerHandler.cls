@@ -18,6 +18,9 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
+            CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
+            ctpService.markNotificationsToSendEmails(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
+            ctpService.removeSentNotifications(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
     }
 

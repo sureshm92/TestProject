@@ -27,6 +27,16 @@ public with sharing class TrialSearchContainerRemote {
         }
     }
 
+    @AuraEnabled
+    public static void createTrialNotification(Id ctpId){
+        try {
+            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+            helper.createTrialNotification(ctpId);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
     public class TrialSearchContainer {
         @AuraEnabled
         public List<TrialTDO> trialTDOs;
