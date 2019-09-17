@@ -84,6 +84,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class UpdatePEHistoryOnAutoAcceptedHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
@@ -460,6 +471,32 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_ACCEPTED;
                 pe.IsAutoaccepted__c = true;
             }
+        }
+    }
+
+    @TestVisible
+    public static void updatePEHistoryOnAutoAccepted(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
+
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (pe.IsAutoaccepted__c && (oldMap == null || pe.IsAutoaccepted__c != oldMap.get(pe.Id).IsAutoaccepted__c)) {
+                PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
+
+                for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
+                    if (step.name == PEStatusState.PE_ST_REFERRED) continue;
+                    statusHistories.add(new Participant_Enrollment_Status_History__c(
+                            Notes__c = pe.Last_Status_Changed_Notes__c,
+                            Date__c = Datetime.now(),
+                            ParticipantEnrollment__c = pe.Id,
+                            Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                    ));
+                    if (step.name == currentState.name) break;
+                }
+            }
+        }
+
+        if (!statusHistories.isEmpty()) {
+            insert statusHistories;
         }
     }
 
