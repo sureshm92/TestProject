@@ -90,9 +90,11 @@ public without sharing class TrialService {
     
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId){
         List<Clinical_Trial_Profile__c> trials  = getTrialsImpl(new List<Id>{trialId});
-        if(trials.size() == 0) throw new CommunityServiceException('Data not found');
-        TranslateHelper.translate(trials[0]);
-        return trials[0];
+        if(trials.size() > 0){
+            TranslateHelper.translate(trials[0]);
+            return trials[0];
+        }
+        return null;
     }
     
     public List<Id> getAvailableTrialIdsImpl(String userMode){

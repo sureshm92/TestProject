@@ -2,7 +2,7 @@
  * Created by AlexKetch on 3/21/2019.
  */
 
-public with sharing class ConditionOfInterestRemote {
+public without sharing class ConditionOfInterestRemote {
 
     @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
