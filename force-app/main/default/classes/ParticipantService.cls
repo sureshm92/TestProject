@@ -45,9 +45,8 @@ public without sharing class ParticipantService {
 
     public ParticipantService() {
         participantState = new ParticipantState();
-        Id userContactId = CommunityService.getInstance().getCurrentContactId();
-        ContactService.updateCurrentPEOnContacts(new List<Id>{userContactId});
-        Contact userContact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: userContactId];
+        Contact userContact = CommunityService.getUserContact();
+        //ContactService.updateCurrentPEOnContacts(new List<Id>{userContact.Id});
         if(userContact.Current_Participant_Enrollment__c != null){
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
             if(pe != null){
@@ -71,13 +70,15 @@ public without sharing class ParticipantService {
                                 Mailing_Zip_Postal_Code__c,
                                 Contact__c,
                                 Conditions__c,
-                                Contact__r.Visit_Results_Opt_In__c
+                                Contact__r.Visit_Results_Opt_In__c,
+                                Marketing_Flag__c
+
                         FROM Participant__c
                         WHERE Id =: pe.Participant__c
                 ];
                 if(!participants.isEmpty()) participantState.participant = participants.get(0);
 
-                participantState.isDelegate = pe.Participant__r.Contact__c != userContactId;
+                participantState.isDelegate = pe.Participant__r.Contact__c != userContact.Id;
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;

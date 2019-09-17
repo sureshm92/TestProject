@@ -5,10 +5,12 @@
 public without sharing class ContactService {
     
     public class PastStudyWrapper{
+        @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public List<ResourceService.ResourceWrapper> resourceWrappers;
         
-        public PastStudyWrapper(Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers){
+        public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers){
+            this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
         }
@@ -21,19 +23,13 @@ public without sharing class ContactService {
                 WHERE Id IN: contactIds
         ];
         Map<Id, List<Id>> availablePEIdsByContactIdMap = PatientDelegateService.getAvailablePEIdsListByContactIdMap(contactIds);
-        //System.debug('>>> Available PE Map: ' + JSON.serializePretty(availablePEIdsByContactIdMap));
         for(Contact contact : contacts){
             List<Id> peIds = availablePEIdsByContactIdMap.get(contact.Id);
             if(peIds == null) peIds = new List<Id>();
-            if(peIds.size() > 0){
-                if(contact.Current_Participant_Enrollment__c == null ||
-                        (contact.Current_Participant_Enrollment__c != null &&
-                                !peIds.contains(contact.Current_Participant_Enrollment__c))) {
-                    contact.Current_Participant_Enrollment__c = peIds[0];
-                    System.debug('>>> peId: ' + peIds[0]);
-                }
-            }else{
+            if(peIds.size() == 0){
                 contact.Current_Participant_Enrollment__c = null;
+            } else if(!peIds.contains(contact.Current_Participant_Enrollment__c)){
+                contact.Current_Participant_Enrollment__c = peIds[0];
             }
         }
         update contacts;
@@ -54,6 +50,7 @@ public without sharing class ContactService {
     
     public static List<PastStudyWrapper> getPastStudyWrappers(Id contactId){
         List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(contactId);
+        if(peIds == null) return new List<PastStudyWrapper>();
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getPEnrolmentsCommon(
                 CommunityService.USER_MODE_PARTICIPANT,
                 ' AND Id IN ' + DatabaseService.listToString(peIds)
@@ -62,6 +59,7 @@ public without sharing class ContactService {
         for(Participant_Enrollment__c pe : peList){
             ctpIds.add(pe.Study_Site__r.Clinical_Trial_Profile__c);
         }
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getTrials(new List<Id>(ctpIds)));
         List<Res_study__c> resStudyList = [
                 SELECT Id,
                         Name,
@@ -72,6 +70,7 @@ public without sharing class ContactService {
                         Notify_On_Availability__c,
                         Resource__c,
                         Resource__r.Title__c,
+                        Resource__r.RecordType.DeveloperName,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Clinical_Trial_Profile__c,
@@ -98,12 +97,13 @@ public without sharing class ContactService {
             List<Res_study__c> resStudyForCtpList = resStudyByCtpIdMap.get(pe.Study_Site__r.Clinical_Trial_Profile__c);
             if(resStudyForCtpList != null){
                 for(Res_study__c resStudy : resStudyForCtpList){
-                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, pe.Participant__r.Contact__c == CommunityService.getUserContact().Id)){
+                    Boolean isDelegate = pe.Participant__r.Contact__c != CommunityService.getUserContact().Id;
+                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, isDelegate)){
                         resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
             }
-            pastWrappersList.add(new PastStudyWrapper(pe, resources));
+            pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources));
             
         }
         return pastWrappersList;

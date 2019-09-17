@@ -22,6 +22,7 @@ window.communityService = (function () {
     var participantState;
     var currentUserMode;
     var allUserModes;
+    var showPastStudies
 
     //community service functions:
     var service = {
@@ -43,6 +44,7 @@ window.communityService = (function () {
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
                 currentUserMode = communityData.currentUserMode;
+                showPastStudies = communityData.showPastStudies;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
@@ -50,7 +52,7 @@ window.communityService = (function () {
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
-                    $A.get("e.c:EventCommunityInitialized").fire();
+                    $A.get('e.c:EventCommunityInitialized').fire();
                 }
             })
         },
@@ -105,6 +107,10 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
+        isShowPastStudies: function(){
+            return showPastStudies;
+        },
+
         getCurrentCommunityMode: function(){
             return currentUserMode;
         },

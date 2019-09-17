@@ -228,7 +228,7 @@ public without sharing class MyTeamRemote {
                     trialWrap.entityName = partEnroll.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
                     trialWrap.enrollmentOrStudySiteId = partEnroll.Id;
                     trialWrap.delegateLevel = '';
-                    dw.trialLevels.add(trialWrap);
+                    //dw.trialLevels.add(trialWrap);
                 }
 
                 delegates.add(dw);
@@ -294,10 +294,10 @@ public without sharing class MyTeamRemote {
                 if (hasDelegateLevels/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
                     sendEmailNotification(dw.delegateContact);
                 }
-                User delegateUser = [SELECT Id, IsActive FROM User WHERE ContactId = :dw.delegateContact.Id LIMIT 1];
+                List<User> delegateUsers = CommunityService.getCommunityUsersByContactIds(new Set<Id>{dw.delegateContact.Id});
 
-                if(!delegateUser.IsActive){
-                    DelegateService.activateDelegateUsers(new Set<Id>{ delegateUser.Id});
+                if(!delegateUsers.isEmpty() && !delegateUsers[0].IsActive){
+                    DelegateService.activateDelegateUsers(new Set<Id>{ delegateUsers[0].Id});
                 }
             }
         } catch (Exception e) {
