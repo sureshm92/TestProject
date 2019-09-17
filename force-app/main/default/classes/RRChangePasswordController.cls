@@ -113,10 +113,10 @@ public without sharing class RRChangePasswordController {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact.Is_First_Logon__c = false;
             update contact;
-            if(translation.Language__c != null) {
-                userVal.LanguageLocaleKey = translation.Language__c;
-                update userVal;
-            }
+//            if(translation.Language__c != null) {
+//                userVal.LanguageLocaleKey = translation.Language__c;
+//                update userVal;
+//            }
 
             if (tcId!=null) {           
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
@@ -206,7 +206,7 @@ public without sharing class RRChangePasswordController {
     
     public void updateLanguageAction(){
         try {
-            userVal.LanguageLocaleKey = contact.Language__c;
+            userVal.LanguageLocaleKey = userVal.Contact.Language__c;
             update userVal;
         } catch (Exception e) {
             ApexPages.addMessages(e);
