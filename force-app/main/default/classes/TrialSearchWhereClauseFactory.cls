@@ -1,5 +1,5 @@
 /**
- * Created by Admin on 9/13/2019.
+ * Created by Vitalii Aheienko on 9/13/2019.
  */
 
 public with sharing class TrialSearchWhereClauseFactory {
@@ -100,7 +100,7 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + 'Id IN (SELECT Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Study_Site__r.Site__r.Type = \''+ QCARE_TYPE +'\'';
+            return clause.getWhereClause() + 'AND Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Site__r.Type = \''+ QCARE_TYPE +'\')';
         }
     }
 
