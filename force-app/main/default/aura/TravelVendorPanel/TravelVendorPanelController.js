@@ -15,6 +15,8 @@
                 component.set('v.countryCodes', data.countryCodes);
                 component.set('v.selectedManuallySSIds', data.selectedSSIds);
                 component.set('v.initialized', true);
+
+                component.find('spinner').hide();
             } else {
                 communityService.executeAction(component, 'getAllData', {
                     'ctpId': component.get('v.recordId')
@@ -110,14 +112,12 @@
     columnCheckboxStateChange: function (component, event, helper) {
         let target = event.getSource().get('v.label');
         let checked = event.getSource().get('v.value');
-        console.log(target)
         let items = component.get('v.vendorItems');
         items.forEach(function (item) {
             let settings = item.vendorSettings;
             settings.forEach(function (setting) {
                 if (setting.TravelVendor__c === target) {
                     setting.isEnable__c = checked;
-                    console.log(JSON.stringify(setting));
                 }
             });
         });

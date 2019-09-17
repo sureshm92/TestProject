@@ -89,13 +89,13 @@
                         <th class="" scope="col">
                             <div class="slds-truncate slds-text-align--center">{!$Label.c.Report_Study_Site}</div>
                         </th>
-                        <th class="cell-wrap" scope="col">
+                        <th class="cell-wrap slds-text-align--center" scope="col">
                             <div>{!$Label.c.TS_Study_Site_Number}</div>
                         </th>
                         <aura:iteration items="{!v.selectedVendors}" var="vendor">
                             <th class="cell-wrap" scope="col">
                                 <div class="slds-medium-show--inline-block">
-                                    <ui:inputCheckbox aura:id="columnLang" class="slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label" label="{!vendor.Id}"  labelClass="slds-hide"
+                                    <ui:inputCheckbox aura:id="columnVendor" class="slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label" label="{!vendor.Id}"  labelClass="slds-hide"
                                                       change="{!c.columnCheckboxStateChange}"/>
                                     <label>{!vendor.Name}</label>
 <!--                                    <label class="slds-medium-show&#45;&#45;inline-block"> {!vendor.Name}</label>-->
