@@ -27,16 +27,18 @@
         <div class="cpt-official-title ctp-padding">
             {!v.trialTDO.ctp.Official_Title__c}
         </div>
-        <aura:if isTrue="{!!v.isClicked}">
-            <button class="apollo-btn primary button-ctp" onclick="{!c.onClick}">
-                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Contact_the_study : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
+
+        <aura:if isTrue="{!v.trialTDO.isEnrollingCTP}">
+            <button class="{!'apollo-btn ' + (v.isClicked ? 'tertiary' : 'primary' ) +' button-ctp'}"
+                    onclick="{!c.onClick}" disabled="{!v.isClicked}">
+                {!v.isClicked ? $Label.c.TrialSearch_Study_contacted : $Label.c.TrialSearch_Contact_the_study}
             </button>
-        </aura:if>
-        <aura:if isTrue="{!v.isClicked}">
-            <button class="apollo-btn tertiary button-ctp" onclick="{!c.onClick}" disabled="disabled">
-                <c:RRIcon iconName="icon-check"/>
-                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Study_contacted : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
-            </button>
+            <aura:set attribute="else">
+                <button class="{!'apollo-btn ' + (or(v.isClicked, v.trialTDO.relatedNotificationExists) ? 'tertiary' : 'primary') +' button-ctp'}"
+                        onclick="{!c.onClick}" disabled="{!or(v.isClicked, v.trialTDO.relatedNotificationExists)}">
+                    {!or(v.isClicked, v.trialTDO.relatedNotificationExists) ? $Label.c.TrialSearch_We_will_alert_you : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
+                </button>
+            </aura:set>
         </aura:if>
 
         <aura:if isTrue="{!and(v.isClicked, v.trialTDO.isEnrollingCTP)}">

@@ -108,6 +108,7 @@ public with sharing class TrialSearchHelper {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
+            tdo.relatedNotificationExists = !ctp.Trial_Notifications__r.isEmpty();
             trialTDOS.add(tdo);
         }
         return trialTDOS;
@@ -124,12 +125,12 @@ public with sharing class TrialSearchHelper {
                 'Official_Title__c, ' +
                 'Enrollment_Start_Date__c, ' +
                 'Override_Recruitment_Status__c, ' +
-                'Recruitment_Status__c ' +
+                'Recruitment_Status__c, ' +
+                '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\') ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
         queryCTP += orderBy;
-
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }
