@@ -21,11 +21,7 @@
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
-            if(!recId){
-                component.set('v.isInitialized', true);
-                spinner.hide();
-                return;
-            }
+            
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
                 userMode: communityService.getUserMode()
