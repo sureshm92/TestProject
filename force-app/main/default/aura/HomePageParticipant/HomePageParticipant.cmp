@@ -25,7 +25,7 @@
             <aura:if isTrue="{!and(v.participantState.value == 'ALUMNI', !v.participantState.participant.Marketing_Flag__c)}">
                 <div  style="width: 20%">
                     <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
-                        <c:RRIcon iconName="icon-search"/>
+                        <c:RRIcon iconName="search-results"/>
                         Find another study
                     </button>
                 </div>
