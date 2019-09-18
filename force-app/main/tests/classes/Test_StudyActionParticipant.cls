@@ -11,8 +11,7 @@ private class Test_StudyActionParticipant {
         Test.startTest();
         TestData testDataInstance = new TestData();
         System.runAs(testDataInstance.participantUser){
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testDataInstance.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
-            StudyActions studyActions = new StudyActionsParticipant(pe);
+            new StudyActionsParticipant();
         }
         Test.stopTest();
     }
