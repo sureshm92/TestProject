@@ -46,7 +46,7 @@ public without sharing class FileUploadController {
     public static FilesWrapper updateContentDocument(String documentId, String codeValue, String resourceId){
         try{
             ContentDocument contentDoc = [
-                    SELECT Id, Title, FileType
+                    SELECT Id
                     FROM ContentDocument
                     WHERE Id =: documentId
             ];
