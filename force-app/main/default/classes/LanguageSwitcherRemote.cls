@@ -50,7 +50,7 @@ public without sharing class LanguageSwitcherRemote {
             initData.timezoneKey   = String.ValueOf(UserInfo.getTimeZone());
             return JSON.serialize(initData);
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
     
@@ -72,7 +72,7 @@ public without sharing class LanguageSwitcherRemote {
                     Third_Choice_Language__c = thirdLangKey
             );
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '<br/>' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
     }
 }

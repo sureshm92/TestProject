@@ -9,10 +9,11 @@
         }, function (response) {
             //show popup or toast
             component.set('v.displayText', response.message);
+            component.set('v.studyCodeName', response.studyCodeName);
             component.set('v.isNewSession', response.isNewSession);
             var mode = response.mode;
             switch (mode) {
-                case 'empty': communityService.navigateToPage('no-data-to-display');
+                case 'empty': component.find('emptyPopup').show();
                     break;
                 case 'alternative': helper.showToast(component);
                     break;
@@ -25,5 +26,9 @@
 
     navigateToSettings : function (component, event, helper) {
         communityService.navigateToPage('settings?tab=account-settings');
+    },
+
+    doLogOut: function (component, event, helper) {
+        communityService.logOut();
     }
 });
