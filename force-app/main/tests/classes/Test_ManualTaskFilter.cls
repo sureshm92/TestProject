@@ -5,7 +5,7 @@
 @IsTest
 public class Test_ManualTaskFilter {
 
-    private static final String FIELD_JOIN_EXPECTED = 'Account IN (\'' +
+    private static final String FIELD_JOIN_EXPECTED = ' Account IN (\'' +
             '0011F00000PfTigQAF' + ManualTaskFilter.SEPARATOR +
             '0011F00000PfTihQAF' + ManualTaskFilter.SEPARATOR +
             '0011F00000PfTiiQAF' + ManualTaskFilter.SEPARATOR +
