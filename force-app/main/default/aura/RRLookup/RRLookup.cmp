@@ -34,7 +34,7 @@
                 <ul class="slds-listbox slds-listbox_inline slds-slide-from-top-to-bottom slds-large-size--1-of-1" role="group" aria-label="Selected Options:">
                     <aura:iteration items="{!v.selectedRecords}" var="item">
                         <li role="presentation" class="slds-listbox__item slds-m-bottom--xxx-small">
-                            <lightning:pill label="{!item.Name}" class="slds-m-around--none" onremove="{!c.onRemoveSelectedItem}" name="{!item.Id}" onclick="{!c.navigateToRecord}">
+                            <lightning:pill label="{!item.Name}" class="slds-m-around--none slds-box_link" onremove="{!c.onRemoveSelectedItem}" name="{!item.Id}" onclick="{!c.navigateToRecord}">
                                 <aura:set attribute="media">
                                     <lightning:icon iconName="custom:custom31" />
                                 </aura:set>

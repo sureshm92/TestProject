@@ -98,7 +98,6 @@
                                     <ui:inputCheckbox aura:id="columnVendor" class="slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label" label="{!vendor.Id}"  labelClass="slds-hide"
                                                       change="{!c.columnCheckboxStateChange}"/>
                                     <label>{!vendor.Name}</label>
-<!--                                    <label class="slds-medium-show&#45;&#45;inline-block"> {!vendor.Name}</label>-->
                                 </div>
                             </th>
                         </aura:iteration>
