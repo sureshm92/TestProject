@@ -10,6 +10,7 @@ public without sharing class IRBParticipantService {
         @AuraEnabled public String mode;
         @AuraEnabled public String languageToTranslate;
         @AuraEnabled public String message;
+        @AuraEnabled public String studyCodeName;
         @AuraEnabled public Boolean isNewSession;
     }
 
@@ -57,9 +58,10 @@ public without sharing class IRBParticipantService {
         }
 
         langs = langs.removeEnd(', ');
+        wrapper.studyCodeName = pe.get(0).Clinical_Trial_Profile__r.Study_Code_Name__c;
         String message = Label.PP_IRB_LangList.replace(
                 '##StudyCodeName',
-                pe.get(0).Clinical_Trial_Profile__r.Study_Code_Name__c
+                wrapper.studyCodeName
         );
         message = message.replace('##LangList', langs);
         wrapper.message = message;
