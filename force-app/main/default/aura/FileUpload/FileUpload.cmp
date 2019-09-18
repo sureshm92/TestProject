@@ -2,7 +2,6 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes -->
-    <aura:attribute name="containsAnyFiles" type="Boolean" default="false"/>
     <aura:attribute name="fileType" type="List" default="['.pdf', '.txt']"/>
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="fileWrapper" type="Object"/>
@@ -31,7 +30,7 @@
                 </div>
             </header>
         </div>
-        <aura:if isTrue="{!v.containsAnyFiles}">
+        <aura:if isTrue="{!v.fileWrapper.listOfFiles.length > 0}">
             <div class="slds-card__body slds-card__body_inner">
                 <table class="slds-table slds-table--bordered">
                     <thead>
@@ -44,9 +43,9 @@
                     <tbody>
                     <aura:iteration items="{!v.fileWrapper.listOfFiles}" var="file">
                         <tr>
-                            <td><a href="" id="{!file.ContentDocument.Id}" onclick="{!c.previewFile}">{!file.ContentDocument.Title}</a></td>
-                            <td>{!file.ContentDocument.FileType}</td>
-                            <td  class="slds-text-align--right" id="{!file.ContentDocument.Id}">
+                            <td><a href="" id="{!file.content.Id}" onclick="{!c.previewFile}">{!file.fileName}</a></td>
+                            <td>{!file.content.FileType}</td>
+                            <td  class="slds-text-align--right" id="{!file.content.Id}">
                                 <lightning:buttonIcon iconName="utility:close" alternativeText="Delete" onclick="{!c.deleteSelectedFile}"/>
                             </td>
                         </tr>
@@ -57,9 +56,9 @@
         </aura:if>
         <aura:if isTrue="{!v.fileWrapper.listOfLanguages.length > 0}">
             <footer class="slds-card__footer">
-                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" aura:id="selectedOption" required="true">
-                    <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageValue">
-                        <option value="{!languageValue}">{!languageValue}</option>
+                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">
+                    <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageItem">
+                        <option value="{!languageItem.value}">{!languageItem.label}</option>
                     </aura:iteration>
                 </lightning:select>
                 <lightning:fileUpload label="" multiple="false"
