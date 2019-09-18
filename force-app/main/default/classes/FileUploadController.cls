@@ -26,7 +26,7 @@ public without sharing class FileUploadController {
     @AuraEnabled
     public static FilesWrapper getResourceFiles(Id resourceId){
         try{
-            return createFileWrapper(resourceId);
+            return createFilesWrapper(resourceId);
         }catch (Exception e){
             return (FilesWrapper) AuraHelper.throwException(e);
         }
@@ -36,7 +36,7 @@ public without sharing class FileUploadController {
     public static FilesWrapper deleteContentDocument(String documentId, String resourceId){
         try {
             delete [SELECT Id FROM ContentDocument WHERE Id =: documentId ];
-            return createFileWrapper(resourceId);
+            return createFilesWrapper(resourceId);
         }catch (Exception e){
             return (FilesWrapper) AuraHelper.throwException(e);
         }
@@ -52,13 +52,13 @@ public without sharing class FileUploadController {
             ];
             contentDoc.Title = codeValue;
             update contentDoc;
-            return createFileWrapper(resourceId);
+            return createFilesWrapper(resourceId);
         }catch (Exception e){
             return (FilesWrapper) AuraHelper.throwException(e);
         }
     }
     
-    private static FilesWrapper createFileWrapper(Id resourceId){
+    private static FilesWrapper createFilesWrapper(Id resourceId){
         List<LabelValueItem> allLanguagesLVList = SObjectHelper.getPicklistLabelValueList(Contact.Language__c);
         List<FileWrapper> listOfFileWrappers = new List<FileWrapper>();
         List<ContentDocumentLink> listOfFiles = new List<ContentDocumentLink>();
