@@ -2,14 +2,8 @@
 
     getFilteredItem : function (component, helper) {
         component.find('spinner').show();
-        let vendorCheckBox = component.find('columnVendor');
-        if (vendorCheckBox.length > 0) {
-            vendorCheckBox.forEach(function (item) {
-                item.set('v.value', false)
-            });
-        } else {
-            vendorCheckBox.set('v.value', false).set('v.value', false);
-        }
+
+        this.unCheckAllVendorCheckBoxes(component);
 
             communityService.executeAction(component, 'getFilteredItems', {
                 'ctpId': component.get('v.recordId'),
@@ -53,6 +47,9 @@
 
     addVendor : function (component, helper) {
         component.find('spinner').show();
+
+        this.unCheckAllVendorCheckBoxes(component);
+
         let item =  component.get('v.vendorItems');
         let ssIds = [];
         item.forEach(function (i) {
@@ -70,4 +67,16 @@
             })
     },
 
+    unCheckAllVendorCheckBoxes : function(component, event){
+        let vendorCheckBox = component.find('columnVendor');
+        if (vendorCheckBox) {
+            if (vendorCheckBox.length > 0) {
+                vendorCheckBox.forEach(function (item) {
+                    item.set('v.value', false)
+                });
+            } else {
+                vendorCheckBox.set('v.value', false);
+            }
+        }
+    }
 });
