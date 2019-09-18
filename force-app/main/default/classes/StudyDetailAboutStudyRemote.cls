@@ -127,7 +127,7 @@ public without sharing class StudyDetailAboutStudyRemote {
                 SELECT
                         Id,
                         Resource__c,
-                        Resource__r.Document_Type__c,
+                        Resource__r.Title__c,
                         Visible_To_PI__c,
                         Visible_To_RP__c
                 FROM    Res_study__c
@@ -149,19 +149,19 @@ public without sharing class StudyDetailAboutStudyRemote {
         List<ContentDocumentLink> documents = [
                 SELECT  Id,
                         ContentDocumentId,
-                        LinkedEntityId,
-                        ContentDocument.Title
+                        ContentDocument.Title,
+                        LinkedEntityId
                 FROM    ContentDocumentLink
                 WHERE   LinkedEntityId IN :resourceIds
         ];
         List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
         System.debug(documents);
         Set<String> uniqueDocumentNames = new Set<String>();
-        String userLanguage = '_' +  UserInfo.getLanguage();
+        String userLanguage = UserInfo.getLanguage();
         documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, userLanguage));
         System.debug(documentsToShow);
-        if(userLanguage.removeStart('_') != 'en_US'){
-            documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, '_' + 'en_US'));
+        if(userLanguage != 'en_US'){
+            documentsToShow.addAll(getDefaultLanguageDocuments(documents, uniqueDocumentNames, resMap, 'en_US'));
         }
         System.debug(documentsToShow);
         return documentsToShow;
@@ -170,14 +170,13 @@ public without sharing class StudyDetailAboutStudyRemote {
     private static List<DocumentWrapper> getDefaultLanguageDocuments(List<ContentDocumentLink> documents, Set<String> uniqueDocumentNames, Map<String, Res_study__c> resMap, String userLanguage){
         List<DocumentWrapper> documentsToShow = new List<DocumentWrapper>();
         for(ContentDocumentLink document : documents){
-            if(!uniqueDocumentNames.contains(document.ContentDocument.Title.removeEnd(userLanguage))) {
-                if (document.ContentDocument.Title.endsWith(userLanguage)) {
+            if(!uniqueDocumentNames.contains(resMap.get(document.LinkedEntityId).Resource__r.Title__c)) {
+                if (document.ContentDocument.Title == userLanguage) {
                     DocumentWrapper doc = new DocumentWrapper(
                             document.ContentDocumentId,
-                            document.ContentDocument.Title.removeEnd(userLanguage),
-                            resMap.get(document.LinkedEntityId).Resource__r.Document_Type__c
+                            resMap.get(document.LinkedEntityId).Resource__r.Title__c
                     );
-                    uniqueDocumentNames.add(document.ContentDocument.Title.removeEnd(userLanguage));
+                    uniqueDocumentNames.add(resMap.get(document.LinkedEntityId).Resource__r.Title__c);
                     documentsToShow.add(doc);
                 }
             }
@@ -188,12 +187,10 @@ public without sharing class StudyDetailAboutStudyRemote {
     public class DocumentWrapper{
         @AuraEnabled public Id documentId;
         @AuraEnabled public String title;
-        @AuraEnabled public String type;
 
-        public DocumentWrapper(Id documentId, String title, String type){
+        public DocumentWrapper(Id documentId, String title){
             this.documentId = documentId;
             this.title = title;
-            this.type = type;
         }
     }
 
