@@ -2,12 +2,9 @@
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes -->
-    <aura:attribute name="fileType" type="List" default="['.pdf', '.txt']"/>
+    <aura:attribute name="fileType" type="List" default="['.pdf']"/>
     <aura:attribute name="recordId" type="String"/>
     <aura:attribute name="fileWrapper" type="Object"/>
-
-    <!-- handlers: -->
-    <aura:handler event="force:refreshView" action="{!c.doInit}" />
 
     <!-- component body: -->
     <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop">

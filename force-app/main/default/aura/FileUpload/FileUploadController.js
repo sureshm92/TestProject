@@ -4,7 +4,8 @@
         communityService.executeAction(component, 'getResourceFiles', {
             'resourceId': component.get('v.recordId')
         }, function (fileWrapper) {
-            helper.handleInit(component, fileWrapper);
+            component.set('v.fileWrapper', fileWrapper);
+            component.find('spinner').hide();
         });
     },
 
@@ -23,7 +24,8 @@
             'codeValue' : component.get('v.fileWrapper.currentLanguageCode'),
             'resourceId' : component.get('v.recordId')
         }, function (fileWrapper) {
-            helper.handleInit(component, fileWrapper);
+            component.set('v.fileWrapper', fileWrapper);
+            component.find('spinner').hide();
         });
     },
 
@@ -33,7 +35,8 @@
             'documentId' : event.target.id,
             'resourceId' : component.get('v.recordId')
         }, function (fileWrapper) {
-            helper.handleInit(component, fileWrapper);
+            component.set('v.fileWrapper', fileWrapper);
+            component.find('spinner').hide();
         });
     }
     
