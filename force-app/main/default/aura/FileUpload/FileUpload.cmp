@@ -1,5 +1,8 @@
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="FileUploadController">
-    
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+    <!-- attributes -->
     <aura:attribute name="containsAnyFiles" type="Boolean" default="false"/>
     <aura:attribute name="isPopupOpen" type="Boolean" default="false"/>
     <aura:attribute name="fileType" type="List" default="['.pdf', '.txt']"/>
@@ -7,11 +10,11 @@
     <aura:attribute name="uploadedFileId" type="String"/>
     <aura:attribute name="listOfUploadedFiles"    type="Object[]"/>
     <aura:attribute name="languagePickListValues" type="List"/>
-    
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- handlers: -->
     <aura:handler event="force:refreshView" action="{!c.doInit}" />
 
-
+    <!-- component body: -->
     <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop">
         <div class="related_list_themed_border_top"></div>
         <div class="slds-card__header slds-grid">
@@ -39,6 +42,7 @@
                     <tr>
                         <th>{!$Label.c.File_Upload_Name}</th>
                         <th>{!$Label.c.File_Type}</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -46,6 +50,9 @@
                         <tr>
                             <td><a href="" id="{!file.ContentDocument.Id}" onclick="{!c.previewFile}">{!file.ContentDocument.Title}</a></td>
                             <td>{!file.ContentDocument.FileType}</td>
+                            <td  class="slds-text-align--right" id="{!file.ContentDocument.Id}">
+                                <lightning:buttonIcon iconName="utility:close" alternativeText="Delete" onclick="{!c.deleteSelectedFile}"/>
+                            </td>
                         </tr>
                     </aura:iteration>
                     </tbody>
@@ -63,7 +70,7 @@
                 <div class="slds-modal__container">
                     <header class="slds-modal__header">
                         <lightning:buttonIcon iconName="utility:close"
-                                              onclick="{!c.openPopup}"
+                                              onclick="{!c.deleteFile}"
                                               alternativeText="close"
                                               variant="bare-inverse"
                                               class="slds-modal__close"/>

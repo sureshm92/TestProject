@@ -16,10 +16,12 @@
         </c:RRNavigationPath>
     </div>
 
-    <aura:if isTrue="{!v.initialized}">
-        <aura:iteration items="{!v.pastStudiesList}" var="pastStudy">
-            <c:PastStudyCard ctp="{!pastStudy.ctp}" pe="{!pastStudy.pe}" resources="{!pastStudy.resourceWrappers}"/>
-        </aura:iteration>
-    </aura:if>
+    <div style="padding-bottom: 30px">
+        <aura:if isTrue="{!v.initialized}">
+            <aura:iteration items="{!v.pastStudiesList}" var="pastStudy">
+                <c:PastStudyCard ctp="{!pastStudy.ctp}" pe="{!pastStudy.pe}" resources="{!pastStudy.resourceWrappers}"/>
+            </aura:iteration>
+        </aura:if>
+    </div>
 
 </aura:component>

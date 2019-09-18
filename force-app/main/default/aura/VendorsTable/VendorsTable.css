@@ -1,0 +1,10 @@
+/**
+ * Created by dmytro.fedchyshyn on 10.09.2019.
+ */
+
+.THIS .overflow{
+    overflow-x: hidden;
+     white-space: nowrap;
+    text-overflow: ellipsis;
+
+}

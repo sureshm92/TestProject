@@ -35,6 +35,32 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
+    public static InitData getAllData(Id ctpId) {
+        TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
+        InitData initData = new InitData();
+        try {
+            initData.vendorItems = supportHelper.getInitData(ctpId);
+            Set<Id> vendorIds= new Set<Id>();
+            for (VendorItem item : initData.vendorItems) {
+                if (!item.studySite.TravelVendorSettings__r.isEmpty()) {
+                    for (TravelVendorSettings__c travelVendorSettings : item.studySite.TravelVendorSettings__r) {
+                        vendorIds.add(travelVendorSettings.TravelVendor__c);
+                    }
+                }
+                if (vendorIds != null) {
+                    List<Id> vendorIdsList = new List<Id>(vendorIds);
+                    vendorIdsList.sort();
+                    initData.vendors = supportHelper.getTravelVendorsByIds(vendorIdsList);
+                    supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
+                }
+            }
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
+        return initData;
+    }
+
+    @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         InitData initData = new InitData();
@@ -76,6 +102,7 @@ public with sharing class TravelVendorPanelRemote {
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
             List<Id> vendorIdsList = new List<Id>(vendorIds);
+            vendorIdsList.sort();
             initData.vendors = supportHelper.getTravelVendorsByIds(vendorIdsList);
             supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
         } catch (Exception e) {
@@ -105,9 +132,7 @@ public with sharing class TravelVendorPanelRemote {
                 studyIds = ssIds.split(';');
             }
             result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendorIds);
-            if (isVendors) {
                 supportHelper.fillVendorSettingsWithStub(vendorIds, result);
-            }
         } catch (Exception e) {
             return (List<VendorItem>) AuraHelper.throwException(e);
         }
@@ -122,12 +147,12 @@ public with sharing class TravelVendorPanelRemote {
         try {
             if (settings != null && !settings.isEmpty()) {
                 for (TravelVendorSettings__c vendorSetting : settings) {
-                    if (vendorSetting.isEnable__c) {
-                        travelVendorSettings.add(vendorSetting);
-                        if (vendorSetting.Id != null) {
-                            travelVendorSettingsIds.add(vendorSetting.Id);
-                        }
+//                    if (vendorSetting.isEnable__c) {
+                    travelVendorSettings.add(vendorSetting);
+                    if (vendorSetting.Id != null) {
+                        travelVendorSettingsIds.add(vendorSetting.Id);
                     }
+//                    }
                 }
             }
             supportHelper.deleteTravelSettings(ctpId, travelVendorSettingsIds);
