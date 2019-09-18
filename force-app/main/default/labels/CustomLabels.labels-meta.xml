@@ -9893,6 +9893,13 @@ Please check your CAPS lock key.</value>
         <value>Update Search Results</value>
     </labels>
     <labels>
+        <fullName>TrialSearch_We_will_alert_you</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch We will alert you</shortDescription>
+        <value>We will alert you when enrollment starts</value>
+    </labels>
+    <labels>
         <fullName>Triglycerides</fullName>
         <language>en_US</language>
         <protected>false</protected>
