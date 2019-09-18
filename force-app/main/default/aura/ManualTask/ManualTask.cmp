@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 01.03.2019.
  -->
 
-<aura:component description="Manual_Task">
+<aura:component description="Manual_Task"  implements="forceCommunity:availableForAllPageTypes,force:appHostable">
 
     <!--attributes: -->
     <aura:attribute name="parent" type="Aura.Component"/>
