@@ -404,6 +404,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Site</value>
     </labels>
     <labels>
+        <fullName>AdHoc_CheckBox_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AdHoc CheckBox Help Text</shortDescription>
+        <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
