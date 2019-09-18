@@ -37,27 +37,26 @@ public with sharing class TrialSearchHelper {
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
-        trialSearchContainer.participant = [
-                SELECT
-                        Id,
-                        Gender__c,
-                        Mailing_State_Code__c,
-                        Phone_Type__c,
-                        Mailing_Country_Code__c,
-                        Last_Name__c,
-                        Date_of_Birth__c,
-                        Phone__c,
-                        Email__c,
-                        Mailing_Zip_Postal_Code__c
-                FROM Participant__c
-                WHERE Contact__c IN (
-                        SELECT ContactId
-                        FROM User
-                        WHERE Id = :UserInfo.getUserId()
-                )
-                LIMIT 1
-        ];
+        trialSearchContainer.participant = this.getParticipant();
         return trialSearchContainer;
+    }
+
+    private Participant__c getParticipant() {
+        DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String query = 'SELECT ' +
+                'Gender__c, ' +
+                'Mailing_State_Code__c, ' +
+                'Phone_Type__c, ' +
+                'Mailing_Country_Code__c, ' +
+                'First_Name__c, ' +
+                'Last_Name__c, ' +
+                'Date_of_Birth__c, ' +
+                'Phone__c, ' +
+                'Email__c, ' +
+                'Mailing_Zip_Postal_Code__c ' +
+                'FROM Participant__c ' +
+                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\')';
+        return (Participant__c) proxy.query(query)[0];
     }
 
     public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
@@ -73,6 +72,8 @@ public with sharing class TrialSearchHelper {
                 }
             }
             trialSearchContainer.taps = therapeuticAreaPatients;
+        } else {
+            trialSearchContainer.taps = new List<Therapeutic_Area_Patient__c>();
         }
 
         if (taId.isEmpty() || (!isEnrolling && !isNotYetEnrolling)) {
@@ -124,16 +125,11 @@ public with sharing class TrialSearchHelper {
     }
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
-//        Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = getTherapeuticAreaByParent(taIds, proxy);
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
-//            List<Therapeutic_Area__c> tasTemp = therapeuticAreaByParent.get(ctp.Therapeutic_Area__c).Therapeutic_Areas__r;
-//            if (tasTemp != null && !tasTemp.isEmpty()) {
-//                tdo.cois = tasTemp;
-//            }
             trialTDOS.add(tdo);
         }
         return trialTDOS;
@@ -145,22 +141,6 @@ public with sharing class TrialSearchHelper {
                         (ctp.Recruitment_Status__c == ENROLLING ||
                                 ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT)
                 );
-    }
-
-    private Map<Id, Therapeutic_Area__c> getTherapeuticAreaByParent(Set<Id> taIds, DatabaseProxy proxy) {
-        Map<Id, Therapeutic_Area__c> therapeuticAreaByParent = new Map<Id, Therapeutic_Area__c>();
-        if (!taIds.isEmpty()) {
-            String queryTA = 'SELECT ' +
-                    'Name, ' +
-                    '(SELECT Name, Therapeutic_Area__c FROM Therapeutic_Areas__r WHERE RecordType.DeveloperName = \'' + TherapeuticAreaService.COI_RT_NAME + '\') ' +
-                    'FROM Therapeutic_Area__c ' +
-                    'WHERE Id IN ' + '(\'' + String.join(new List<Id>(taIds), '\',\'') + '\')';
-            List<Therapeutic_Area__c> therapeuticAreas = (List<Therapeutic_Area__c>) proxy.query(queryTA, true);
-            if (!therapeuticAreas.isEmpty()) {
-                therapeuticAreaByParent = new Map<Id, Therapeutic_Area__c>(therapeuticAreas);
-            }
-        }
-        return therapeuticAreaByParent;
     }
 
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
