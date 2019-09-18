@@ -503,11 +503,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
+        <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MailForTests</apexClass>
+        <apexClass>ManualCreationPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1100,6 +1100,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6328,7 +6332,7 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Manual_Tasks_Creation</tab>
+        <tab>Manual_Creation_Panel</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
