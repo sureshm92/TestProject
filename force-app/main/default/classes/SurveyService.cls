@@ -6,12 +6,18 @@ public without sharing class SurveyService {
 
     public class SurveyException extends Exception {}
 
+    public static final String SURVEY_RESPONSE_PATIENT_ONLY = 'Patient only';
+    public static final String SURVEY_RESPONSE_EACH_DELEGATE = 'Each Delegate';
+    public static final String SURVEY_RESPONSE_PATIENT_ANY_DELEGATE = 'Patient or any Delegate';
+    public static final String SURVEY_RESPONSE_ANY_DELEGATE = 'Any Delegate';
+    public static final String SURVEY_RESPONSE_PATIENT_EACH_DELEGATE = 'Patient and each Delegate';
+
     public static final Map<String, String> SURVEY_VISIBLE = new Map<String, String>{
-            'Patient only' => TaskService.TASK_VISIBILITY_OWNER,
-            'Each Delegate' => TaskService.TASK_VISIBILITY_OWNER,
-            'Patient or any Delegate' => TaskService.TASK_VISIBILITY_ALL,
-            'Any Delegate' => TaskService.TASK_VISIBILITY_DELEGATES,
-            'Patient and each Delegate' => TaskService.TASK_VISIBILITY_OWNER
+            SURVEY_RESPONSE_PATIENT_ONLY => TaskService.TASK_VISIBILITY_OWNER,
+            SURVEY_RESPONSE_EACH_DELEGATE => TaskService.TASK_VISIBILITY_OWNER,
+            SURVEY_RESPONSE_PATIENT_ANY_DELEGATE => TaskService.TASK_VISIBILITY_ALL,
+            SURVEY_RESPONSE_ANY_DELEGATE => TaskService.TASK_VISIBILITY_DELEGATES,
+            SURVEY_RESPONSE_PATIENT_EACH_DELEGATE => TaskService.TASK_VISIBILITY_OWNER
     };
 
     public class SurveyWrapper {
@@ -94,10 +100,11 @@ public without sharing class SurveyService {
                 Is_Midpoint__c = isMidpoint,
                 Name = survey.Name + ':PE:' + peId,
                 Participant_Enrollment__c = peId,
-                Reminder_Schedule__c = schedule.Id,
                 SurveyId = survey.Id,
                 Survey__c = survey.Id
         );
+
+        if(schedule != null) invitation.Reminder_Schedule__c = schedule.Id;
 
         if (expiresAfterDays != null) {
             Date today = System.today().addDays(expiresAfterDays);

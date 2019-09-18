@@ -14,8 +14,14 @@ public without sharing class FileUploadController {
     }
 
     @AuraEnabled
-    public static List<ContentDocumentLink> getResourceFiles(String resourceId){
+    public static FileWrapper getResourceFiles(String resourceId){
+        List<String> languagePicklistValues = new List<String>();
+        List<String> validLanguages = new List<String>();
         List<ContentDocumentLink> listOfFiles = new List<ContentDocumentLink>();
+        for(String fieldValue : getSelectValues().keySet()){
+            languagePicklistValues.add(fieldValue);
+        }
+
         if(resourceId != '' && resourceId != null){
             listOfFiles = [
                 SELECT  ContentDocument.Title,
@@ -24,29 +30,30 @@ public without sharing class FileUploadController {
                 WHERE LinkedEntityId =: resourceId
             ];
         }
-
         for(ContentDocumentLink contentLink : listOfFiles){
             contentLink.ContentDocument.Title = TranslateHelper.getPickListLabel(Contact.Language__c, contentLink.ContentDocument.Title);
+            for(Integer i=0; i<languagePicklistValues.size(); i++){
+                if(languagePicklistValues[i] == contentLink.ContentDocument.Title){
+                    languagePicklistValues.remove(i);
+                    break;
+                }
+            }
         }
-        return listOfFiles;
+        FileWrapper fileWrapperObject = new FileWrapper(listOfFiles, languagePicklistValues);
+        return fileWrapperObject;
     }
 
     @AuraEnabled
-    public static List<String> prepareListOfLanguages(){
-        List<String> languagePicklistValues = new List<String>();
-        for(String fieldValue : getSelectValues().keySet()){
-            languagePicklistValues.add(fieldValue);
-        }
-        return languagePicklistValues;
-    }
-
-    @AuraEnabled
-    public static void deleteContentDocument(String documentId){
+    public static FileWrapper deleteContentDocument(String documentId, String resourceId){
+        FileWrapper fileWrapperObj;
         delete [SELECT Id,Title,FileType FROM ContentDocument WHERE id=: documentId ];
+        fileWrapperObj = getResourceFiles(resourceId);
+        return fileWrapperObj;
     }
 
     @AuraEnabled
-    public static void updateContentDocument(String documentId, String codeValue){
+    public static FileWrapper updateContentDocument(String documentId, String codeValue, String resourceId){
+        FileWrapper fileWrapperObj;
         ContentDocument contentDoc = [
                 SELECT Id,Title,FileType
                 FROM ContentDocument
@@ -57,5 +64,17 @@ public without sharing class FileUploadController {
         }
         contentDoc.Title = getSelectValues().get(codeValue);
         update contentDoc;
+        fileWrapperObj = getResourceFiles(resourceId);
+        return fileWrapperObj;
+    }
+
+    public class FileWrapper{
+        @AuraEnabled public List<ContentDocumentLink> listOfFiles;
+        @AuraEnabled public List<String> listOfLanguages;
+
+        public FileWrapper(List<ContentDocumentLink> listOfFiles, List<String> listOfLanguages){
+            this.listOfFiles = listOfFiles;
+            this.listOfLanguages = listOfLanguages;
+        }
     }
 }
