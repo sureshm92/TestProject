@@ -10,6 +10,7 @@
     <aura:attribute name="step" type="Object" access="public" description="step object"/>
     <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
     <aura:attribute name="modifiedSteps" type="List"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
    <!-- <aura:attribute name="isPopUpMode" type="Boolean" default="false"/>-->
 
     <!-- private attributes: -->

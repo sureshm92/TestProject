@@ -21,8 +21,6 @@
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
             component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
-            component.set('v.peStatusesPathList', params.peStatusesPathList);
-            component.set('v.peStatusStateMap', params.peStatusStateMap);
             if (params.callback) component.set('v.callback', params.callback);
             communityService.executeAction(component, 'getSteps', {
                 peId: pe.Id,
@@ -36,6 +34,7 @@
                 formComponent.set('v.handleChangesEnabled', false);
                 formComponent.createDataStamp();
                 formComponent.set('v.handleChangesEnabled', true);
+                formComponent.checkFields();
                 component.find('spinner').hide();
                 component.set('v.anchor', params.anchorScroll);
                 setTimeout($A.getCallback(function () {
@@ -91,10 +90,6 @@
         }, null, function () {
             component.find('spinner').hide();
         });
-    },
-
-    doCancel: function (component, event, helper) {
-        component.find('dialog').cancel();
     },
 
     doCallback: function (component, event, helper) {
