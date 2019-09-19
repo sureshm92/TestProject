@@ -16,7 +16,11 @@
                 }
                 console.log('error:', err[0].message);
                 helper.spinnerHide(component);
-            });
+            }).catch(function (err) {
+            console.log('error:', err);
+            helper.spinnerHide(component);
+
+        });
     },
 
     onGenerateReport: function (component, event, helper) {
