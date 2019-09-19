@@ -126,18 +126,8 @@ public with sharing class TrialSearchHelper {
 
     public void createCaseAndSendNotification(Participant__c participant) {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String query = 'SELECT ' +
-                'Id, ' +
-                'Name ' +
-                'FROM Group ' +
-                'WHERE Type = \'' + 'Queue' + '\' ' +
-                'AND Name = \'' + 'PEH Case Queue' + '\' ' +
-                'LIMIT 1';
-        Group queueGroup = (Group) proxy.query(query, true)[0];
-        System.debug(' queueId ===> ' + queueGroup.Id);
         System.debug('participant ===> ' + participant);
         Case caseContact = new Case(
-                OwnerId = queueGroup.Id,
                 Country__c = participant.Mailing_Country_Code__c,
                 Email_address__c = participant.Email__c,
                 First_Name__c = participant.First_Name__c,
@@ -147,14 +137,24 @@ public with sharing class TrialSearchHelper {
                 Phone_Type__c = participant.Phone_Type__c,
                 Phone__c = participant.Phone__c,
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
-                State__c = participant.Mailing_State__c
+                State__c = participant.Mailing_State_Code__c,
+                Origin = 'Email'
         );
-
+        AssignmentRule ar = new AssignmentRule();
+        String queryAssignmentRule = 'SELECT ' +
+                'Id ' +
+                'FROM AssignmentRule ' +
+                'WHERE SobjectType = \'' + 'Case' + '\' ' +
+                'AND Name = \'' + 'CaseRule' + '\' ' +
+                'AND Active = TRUE ' +
+                'LIMIT 1';
+        ar = (AssignmentRule) proxy.query(queryAssignmentRule, true)[0];
+        System.debug(ar);
         Database.DMLOptions dlo = new Database.DMLOptions();
-        dlo.emailHeader.triggerAutoResponseEmail = true;
+        dlo.assignmentRuleHeader.assignmentRuleId= ar.Id;
         caseContact.setOptions(dlo);
+        insert caseContact;
         System.debug(' ===> insert Case' + caseContact);
-        Database.insert(caseContact);
     }
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
