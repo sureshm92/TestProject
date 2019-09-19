@@ -7,7 +7,7 @@ public with sharing class CTPSendNotificationService {
     private List<Trial_Notification__c> relatedNotifications;
 
 
-    public void markNotificationsToSendEmails(List<Clinical_Trial_Profile__c> profiles, Map<Id, Clinical_Trial_Profile__c> oldRecords) {
+    public void runWorkflow(List<Clinical_Trial_Profile__c> profiles, Map<Id, Clinical_Trial_Profile__c> oldRecords) {
         for (Trial_Notification__c notification : this.getNotificationsByCtps(profiles, oldRecords)) {
             notification.Need_To_Send_Alert__c = true;
         }
