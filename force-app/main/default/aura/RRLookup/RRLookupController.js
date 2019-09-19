@@ -33,6 +33,17 @@
         if (changeAction) $A.enqueueAction(changeAction);
     },
 
+    navigateToRecord : function(component, event, helper) {
+        let recordId = event.getSource().get('v.name');
+        let navEvt = $A.get("e.force:navigateToSObject");
+        navEvt.setParams({
+            "recordId": recordId,
+            "slideDevName": "Related",
+            "isredirect": 'true'
+        });
+        navEvt.fire();
+    },
+
     onClearSelection : function (component, event, helper) {
         component.set('v.selectedRecords', []);
         let changeAction = component.get('v.onchange');

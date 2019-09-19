@@ -140,7 +140,7 @@ public without sharing class TaskService {
         task.Completed_Date__c = Datetime.now();
     }
 
-    public void createSurveyTasks(Map<Id, String> invitationsVisible) {
+    public Integer createSurveyTasks(Map<Id, String> invitationsVisible) {
         List<SurveyInvitation> surveyInvitation = [
                 SELECT
                         Id,
@@ -227,7 +227,7 @@ public without sharing class TaskService {
         for (TaskConfig taskConfig : taskConfigs) tasks.add(createTask(taskConfig));
 
         insert tasks;
-        System.debug('Task inserted: ' + tasks.size());
+        return tasks.size();
     }
 
     public Task createTask(TaskConfig taskConfig) {

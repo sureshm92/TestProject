@@ -4,6 +4,7 @@
 
 ({
     doInit: function(component, event, helper){
+    	component.set('v.decodeResults', null);
     	var result = component.get('v.results');
     	if(!result.includes('http')){
     	    var data = atob(result);

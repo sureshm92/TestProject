@@ -359,13 +359,13 @@ public without sharing class StudyListViewController {
     }
 
     private static Map<Id, Map<Id, Account>> getPiAccounts(List<Study_Site__c> studies) {
-        Set<Id> piIds = new Set<Id>();
-        for (Integer i = 0; i < studies.size(); i++) {
-            piIds.add(studies[i].Principal_Investigator__c);
-        }
         try {
+            Map<Id, Id> piIdsWithAccounts = new Map<Id,Id>();
+            for (Integer i = 0; i < studies.size(); i++) {
+                piIdsWithAccounts.put(studies[i].Principal_Investigator__c,studies[i].Principal_Investigator__r.AccountId);
+            }
             Map<Id, Map<Id, Account>> accountMap = new Map<Id, Map<Id, Account>>();
-            if (!piIds.isEmpty()) {
+            if (!piIdsWithAccounts.isEmpty()) {
                 for (AccountContactRelation piAccounts : [
                         SELECT Id,
                                 Contact.Id,
@@ -385,15 +385,25 @@ public without sharing class StudyListViewController {
                                 Account.Driving_Directions__c,
                                 Account.Parking_Instructions__c,
                                 Account.BillingLatitude,
-                                Account.BillingLongitude
+                                Account.BillingLongitude,
+                                Account.OwnerId
                         FROM AccountContactRelation
-                        WHERE ContactId IN :piIds
+                        WHERE ContactId IN :piIdsWithAccounts.keySet()
                 ]) {
                     if (accountMap.containsKey(piAccounts.Contact.Id)) {
                         accountMap.get(piAccounts.Contact.Id).put(piAccounts.Account.Id,piAccounts.Account);
                     } else {
                         accountMap.put(piAccounts.Contact.Id, new Map<Id, Account>{piAccounts.Account.Id => piAccounts.Account});
                     }
+                }
+                for(Id piId : piIdsWithAccounts.keySet()){
+                    Map<Id, Account> piAccs = accountMap.get(piId);
+                    for(Account acc : piAccs.values()){
+                        if(acc.ParentId == piIdsWithAccounts.get(piId)){
+                            piAccs.remove(piIdsWithAccounts.get(piId));
+                        }
+                    }
+                    accountMap.put(piId,piAccs);
                 }
 
                 for (Integer i = 0; i < studies.size(); i++) {
