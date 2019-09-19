@@ -11,7 +11,7 @@
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
     <aura:attribute name="handleChangesEnabled" type="Boolean" default="false" access="public"/>
-    <aura:attribute name="ctp" type="String"/>
+    <aura:attribute name="ctp" type="Object"/>
 
     <!-- private attributes: -->
     <aura:attribute name="todayDate" type="Date" access="private"/>
@@ -129,9 +129,6 @@
                 to put here
             </div>
         </div>
-<!--        <button class="apollo-btn primary btn-send" onclick="{!c.onClick}" disabled="{!!v.isDisclaimer}">-->
-<!--            Send to study-->
-<!--        </button>-->
     </div>
 
 
