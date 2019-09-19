@@ -13,6 +13,10 @@ public with sharing class TrialSearchHelper {
     private static final String PLANNING = 'Planning';
     private static final String IN_DEVELOPMENT = 'In Development';
 
+    //AssignmentRule
+    private static final String ASSIGMENT_RULE_TYPE_CASE = 'Case';
+    private static final String ASSIGMENT_RULE_NAME = 'CaseRule';
+
     public static final List<String> ORS_STATUS_ENROLLING = new List<String>{
             ACTIVELY_ENROLLING,
             ON_HOLD
@@ -39,24 +43,6 @@ public with sharing class TrialSearchHelper {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
         trialSearchContainer.participant = this.getParticipant();
         return trialSearchContainer;
-    }
-
-    private Participant__c getParticipant() {
-        DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String query = 'SELECT ' +
-                'Gender__c, ' +
-                'Mailing_State_Code__c, ' +
-                'Phone_Type__c, ' +
-                'Mailing_Country_Code__c, ' +
-                'First_Name__c, ' +
-                'Last_Name__c, ' +
-                'Date_of_Birth__c, ' +
-                'Phone__c, ' +
-                'Email__c, ' +
-                'Mailing_Zip_Postal_Code__c ' +
-                'FROM Participant__c ' +
-                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\')';
-        return (Participant__c) proxy.query(query)[0];
     }
 
     public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
@@ -126,36 +112,25 @@ public with sharing class TrialSearchHelper {
 
     public void createCaseAndSendNotification(Participant__c participant) {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        System.debug('participant ===> ' + participant);
         Case caseContact = new Case(
+                Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
                 Country__c = participant.Mailing_Country_Code__c,
-                Email_address__c = participant.Email__c,
-                First_Name__c = participant.First_Name__c,
                 Date_of_Birth__c = participant.Date_of_Birth__c,
+                State__c = participant.Mailing_State_Code__c,
+                First_Name__c = participant.First_Name__c,
+                Phone_Type__c = participant.Phone_Type__c,
+                Email_address__c = participant.Email__c,
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
-                Phone_Type__c = participant.Phone_Type__c,
-                Phone__c = participant.Phone__c,
-                Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
-                State__c = participant.Mailing_State_Code__c,
-                Origin = 'Email'
+                Phone__c = participant.Phone__c
         );
-        AssignmentRule ar = new AssignmentRule();
-        String queryAssignmentRule = 'SELECT ' +
-                'Id ' +
-                'FROM AssignmentRule ' +
-                'WHERE SobjectType = \'' + 'Case' + '\' ' +
-                'AND Name = \'' + 'CaseRule' + '\' ' +
-                'AND Active = TRUE ' +
-                'LIMIT 1';
-        ar = (AssignmentRule) proxy.query(queryAssignmentRule, true)[0];
-        System.debug(ar);
+        AssignmentRule ar = this.getAssignmentRule(proxy);
         Database.DMLOptions dlo = new Database.DMLOptions();
         dlo.assignmentRuleHeader.assignmentRuleId= ar.Id;
         caseContact.setOptions(dlo);
         insert caseContact;
-        System.debug(' ===> insert Case' + caseContact);
     }
+
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
@@ -221,5 +196,34 @@ public with sharing class TrialSearchHelper {
                 'ORDER BY Condition_Of_Interest_Order__c';
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = (List<Therapeutic_Area_Patient__c>) proxy.query(queryTAP, true);
         return therapeuticAreaPatients;
+    }
+
+    private Participant__c getParticipant() {
+        DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String query = 'SELECT ' +
+                'Gender__c, ' +
+                'Mailing_State_Code__c, ' +
+                'Phone_Type__c, ' +
+                'Mailing_Country_Code__c, ' +
+                'First_Name__c, ' +
+                'Last_Name__c, ' +
+                'Date_of_Birth__c, ' +
+                'Phone__c, ' +
+                'Email__c, ' +
+                'Mailing_Zip_Postal_Code__c ' +
+                'FROM Participant__c ' +
+                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\')';
+        return (Participant__c) proxy.query(query)[0];
+    }
+
+    public AssignmentRule getAssignmentRule(DatabaseProxy proxy) {
+        String queryAssignmentRule = 'SELECT ' +
+                'Id ' +
+                'FROM AssignmentRule ' +
+                'WHERE SobjectType = \'' + ASSIGMENT_RULE_TYPE_CASE + '\' ' +
+                'AND Name = \'' + ASSIGMENT_RULE_NAME + '\' ' +
+                'AND Active = TRUE ' +
+                'LIMIT 1';
+        return (AssignmentRule) proxy.query(queryAssignmentRule, true)[0];
     }
 }
