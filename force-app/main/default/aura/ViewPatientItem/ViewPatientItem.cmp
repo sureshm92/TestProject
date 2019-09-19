@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <aura:if isTrue="{!not(v.userMode == 'Participant')}">
+                <aura:if isTrue="{!v.userMode == 'PI'}">
                     <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
                         <div class="{!v.pe.MRR_Survey_Results_URL__c ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}">
                             <button class="{!'apollo-btn tertiary'}"

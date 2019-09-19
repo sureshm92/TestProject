@@ -27,7 +27,7 @@ public without sharing class CommunityModeService {
     public static List<CommunityMode> getUserCommunityModes() {
         List<CommunityMode> modes = new List<CommunityMode>();
         Contact userContact = CommunityService.getUserContact();
-        String availableModes = userContact.userCommunytyType__c;
+        String availableModes = userContact.userCommunytyType__c == null ? '' : userContact.userCommunytyType__c;
         if ((availableModes != null && availableModes.contains(CommunityService.USER_MODE_PI))
                 || !DelegateService.getPIDelegateParents().isEmpty()) {
             modes.add(new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_PI_MODE, null));
@@ -45,12 +45,6 @@ public without sharing class CommunityModeService {
         }
 
         List<Id> availablePEIds = PatientDelegateService.getAvailablePEIdsListByContactIdMap(new List<String>{userContact.Id}).get(userContact.Id);
-        if(availableModes != null && !availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
-            availableModes += ';' + CommunityService.USER_MODE_PARTICIPANT;
-            userContact.userCommunytyType__c =  availableModes;
-            update userContact;
-        }
-
         if(availableModes != null && availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
     
@@ -86,6 +80,9 @@ public without sharing class CommunityModeService {
             if(getModeKey(communityMode) == currentModeKey){
                 return communityMode;
             }
+        }
+        if(!allModes.isEmpty()){
+            return allModes[0];
         }
         return null;
     }

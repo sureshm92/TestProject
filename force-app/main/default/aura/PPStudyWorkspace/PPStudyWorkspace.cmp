@@ -87,8 +87,7 @@
                                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                                             <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
                                                 <c:RRTabSetItem tabId="{!tab.id}" currentTab="{!v.currentTab}"
-                                                                iconName="{!tab.iconName}" title="{!tab.title}"
-                                                                studyId="{!v.studyDetail.trial.Id}"/>
+                                                                iconName="{!tab.iconName}" title="{!tab.title}"/>
                                             </aura:iteration>
                                         </aura:if>
                                     </aura:set>
@@ -185,16 +184,16 @@
 
             <div id="sd-selected-tab-container" style="position: relative">
                 <div class="rr-width-limiter side-padding rr-min-body-height">
-                    <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
-                        <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
-                                                 parent="{!this}"/>
-                    </div>
-                    <!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
-                    <!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
-                    <!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
-                    <!--                        </div>-->
-                    <!--                    </aura:if>-->
-                    <aura:if isTrue="{!v.currentTab == 'tab-reports'}">
+                    <aura:if isTrue="{!notequals(v.state, 'ALUMNI')}">
+                        <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
+                            <aura:if isTrue="{!!empty(v.studyDetail)}">
+                                <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
+                                                         parent="{!this}"/>
+                            </aura:if>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!and(v.currentTab == 'tab-reports', !empty(v.studyDetail.trial))}">
                         <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
                     </aura:if>
 

@@ -11,15 +11,15 @@
     <c:RRTable>
         <div class="slds-scrollable">
             <table class="slds-table ">
-                <tbody>
+                <tbody class="slds-p-around_none">
                 <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
                     <tr class="slds-hint-parent ">
                         <td onclick="{!c.redirectToLinka}" data-ind="{!vendor.TravelVendor__r.Link_Vendor__c}" >
-                            <div class="slds-medium-show--inline-block  slds-m-left--xx-large">
+                            <div class="slds-medium-show--inline-block overflow slds-m-left--xx-large">
                                 <lightning:input aura:id="checkBoxBtn" type="checkbox" label="" onchange="{!c.makeUnique}" value="{!vendor}"/>
                             </div>
-                            <div class="slds-medium-show--inline-block">
-                                <p class="slds-text-align--center">{!vendor.TravelVendor__r.Name}</p>
+                            <div class="slds-medium-show--inline-block slds-size--8-of-12">
+                                <p class="slds-text-align--left overflow" >{!vendor.TravelVendor__r.Name}</p>
                             </div>
                         </td>
                     </tr>

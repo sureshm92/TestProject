@@ -1,0 +1,49 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component description="TrialItem">
+
+    <aura:attribute name="trialTDO" type="Object"/>
+    <aura:attribute name="isClicked" type="Boolean"/>
+    <aura:attribute name="participant" type="Participant__c" access="public"/>
+    <aura:attribute name="formData" type="Object" access="public"/>
+
+
+
+    <div class="card-ctp">
+        <div class="{!v.trialTDO.isEnrollingCTP ? ' top-line' : ''}"></div>
+        <div class="tap-class ctp-padding">
+            {!$Label.c.TrialSearch_Therapeutic_area} : {!v.trialTDO.ctp.Therapeutic_Area__r.Name}
+        </div>
+        <div style="height: 1px;background: #848484;"></div>
+        <div class="ctp-info-block ctp-padding">
+            <div class="ctp-study-code-name">
+                {!v.trialTDO.ctp.Study_Code_Name__c}
+            </div>
+            <div class="ctp-recruitment-status">
+                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Enrolling : $Label.c.TrialSearch_Not_Yet_Enrolling}
+            </div>
+        </div>
+        <div class="cpt-official-title ctp-padding">
+            {!v.trialTDO.ctp.Official_Title__c}
+        </div>
+        <aura:if isTrue="{!!v.isClicked}">
+            <button class="apollo-btn primary button-ctp" onclick="{!c.onClick}">
+                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Contact_the_study : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
+            </button>
+        </aura:if>
+        <aura:if isTrue="{!v.isClicked}">
+            <button class="apollo-btn tertiary button-ctp" onclick="{!c.onClick}" disabled="disabled">
+                <c:RRIcon iconName="icon-check"/>
+                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Study_contacted : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
+            </button>
+        </aura:if>
+
+        <aura:if isTrue="{!and(v.isClicked, v.trialTDO.isEnrollingCTP)}">
+            <c:Popup title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" showModal="true" size="large" showFooter="{!false}">
+                <c:FormPatientInfoTrialSearch participant="{!v.participant}" formData="{!v.formData}"/>
+            </c:Popup>
+        </aura:if>
+
+    </div>
+</aura:component>

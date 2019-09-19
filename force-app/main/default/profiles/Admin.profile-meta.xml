@@ -251,6 +251,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConditionsOfInterestViewRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ContactService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -503,11 +507,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
+        <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MailForTests</apexClass>
+        <apexClass>ManualCreationPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1103,6 +1107,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1500,6 +1508,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrialFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialSearchContainerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialSearchHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3582,6 +3598,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.IsAutoaccepted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.IsRequestDataFromSDH__c</field>
         <readable>true</readable>
@@ -3799,6 +3820,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Referral_Source_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5163,6 +5189,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>TravelVendorSettings__c.Is_Manual__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendorSettings__c.isEnable__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendor__c.Default_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendor__c.Disclosure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Survey__c.Active_After_Days__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5326,6 +5372,13 @@
         <field>Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Business_Account</recordType>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
@@ -6328,7 +6381,7 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Manual_Tasks_Creation</tab>
+        <tab>Manual_Creation_Panel</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -6401,6 +6454,14 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Translation__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>TravelVendorSettings__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>TravelVendor__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

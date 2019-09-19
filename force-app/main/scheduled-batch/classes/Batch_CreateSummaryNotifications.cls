@@ -60,7 +60,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
             for(Res_study__c res : resStudyByCtp.get(pe.Clinical_Trial_Profile__c)) {
                 for(Contact contact : peContacts) {
-                    Boolean isDelegate = pe.Participant_Contact__c == contact.Id;
+                    Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
                     if(StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, isDelegate)) {
                         if(needNotify(contact, res.Resource__c)) contactToNotify.add(contact);
                     }

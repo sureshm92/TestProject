@@ -1,13 +1,12 @@
 ({
-	doInit : function(component, event, helper) {
-        var recordId = component.get('v.recordId');
-        helper.getResourceFiles(component, recordId);
-
-	},
-    
-    openPopup : function(component, event, helper){
-        var isPopupOpen = component.get('v.isPopupOpen');
-        component.set('v.isPopupOpen', !isPopupOpen);
+    doInit: function (component, event, helper) {
+        component.find('spinner').show();
+        communityService.executeAction(component, 'getResourceFiles', {
+            'resourceId': component.get('v.recordId')
+        }, function (fileWrapper) {
+            component.set('v.fileWrapper', fileWrapper);
+            component.find('spinner').hide();
+        });
     },
 
     previewFile :function(component,event,helper){
@@ -17,27 +16,28 @@
         });
     },
     
-    save : function(component, event, helper){
-        var isPopupOpen = component.get('v.isPopupOpen');
-        component.set('v.isPopupOpen', !isPopupOpen);
-        helper.saveFileWithLanguage(component);
-        $A.get('e.force:refreshView').fire();
-
-    },
-    
-    handleUpload : function(component, event, helper){
-        var isPopupOpen = component.get('v.isPopupOpen');
-        var recordId = component.get('v.recordId');
+    saveFile : function(component, event, helper){
+        component.find('spinner').show();
         var uploadedFiles = event.getParam('files');
-        component.set('v.uploadedFileId', uploadedFiles[0].documentId);
-        component.set('v.isPopupOpen', !isPopupOpen);
-        helper.getLanguages(component);
+        communityService.executeAction(component, 'updateContentDocument', {
+            'documentId' : uploadedFiles[0]['documentId'],
+            'codeValue' : component.get('v.fileWrapper.currentLanguageCode'),
+            'resourceId' : component.get('v.recordId')
+        }, function (fileWrapper) {
+            component.set('v.fileWrapper', fileWrapper);
+            component.find('spinner').hide();
+        });
     },
 
-    deleteFile : function(component, event, helper){
-        var isPopupOpen = component.get('v.isPopupOpen');
-        component.set('v.isPopupOpen', !isPopupOpen);
-        helper.deleteFile(component);
+    deleteSelectedFile : function(component, event, helper){
+        component.find('spinner').show();
+        communityService.executeAction(component, 'deleteContentDocument', {
+            'documentId' : event.target.id,
+            'resourceId' : component.get('v.recordId')
+        }, function (fileWrapper) {
+            component.set('v.fileWrapper', fileWrapper);
+            component.find('spinner').hide();
+        });
     }
     
 })
