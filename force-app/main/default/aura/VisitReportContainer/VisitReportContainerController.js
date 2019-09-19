@@ -18,6 +18,8 @@
                 helper.spinnerHide(component);
             }).catch(function (err) {
             console.log('error:', err);
+            helper.spinnerHide(component);
+
         });
     },
 
