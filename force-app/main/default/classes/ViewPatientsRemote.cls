@@ -43,11 +43,14 @@ public without sharing class ViewPatientsRemote {
             initData.peFilter = new ParticipantEnrollmentService.PEFilter(initData.peFilterData);
             initData.peFilter.studySite = siteId;
             initData.peFilter.study = trialId;
+            initData.peFilter.activePE = 'Active';
             //set up search fields
             initData.peFilter.searchFields = new List<String>{
                     'Participant__r.First_Name__c',
                     'Participant__r.Last_Name__c',
-                    'Referral_ID__c',
+                    'Screening_ID__c',
+                    'Referral_ID__c'
+                    /*'Referral_ID__c',
                     'Patient_ID__c',
                     'Participant_Name__c',
                     'Participant_Surname__c',
@@ -55,7 +58,7 @@ public without sharing class ViewPatientsRemote {
                     'Participant_Status__c',
                     'Pre_screening_Status__c',
                     'Non_Referral_Reason__c',
-                    'CreatedDate'
+                    'CreatedDate'*/
             };
             //add additional filtration:
             List<String> excludedStatuses = new List<String>{
@@ -83,8 +86,24 @@ public without sharing class ViewPatientsRemote {
             }
 
             //records for current filter and pagination
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData, delegateId);
+            List<LabelValueItem> peSource = new List<LabelValueItem>{new LabelValueItem('All', null)};
+            Map<String,String> sourceMap = new Map<String,String>();
+            for (Integer i = 0, j=peList.size(); i < j; i++) {
+                if(peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP){
+                    sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c,peList[i].HCP_Contact_HCPEnroll__r.Name);
+                } else if(peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI){
+                    sourceMap.put(peList[i].PI_Contact__c,peList[i].PI_Contact__r.Name);
+                } else{
+                    sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT,ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
+                }
+            }
+            for(String key : sourceMap.keySet()){
+                peSource.add(new LabelValueItem(sourceMap.get(key), key));
+            }
+            initData.peFilterData.source = peSource;
             initData.currentPageList = convertToPEWrapperList(
-                    ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData, delegateId),
+                    peList,
                     userMode,
                     delegateId
             );
@@ -104,6 +123,15 @@ public without sharing class ViewPatientsRemote {
     @AuraEnabled
     public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged, String delegateId){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
+        /*if(!String.isEmpty(filter.searchText)){
+            Map<String,Object> filterMap = (Map<String,Object>) JSON.deserializeUntyped(filterJSON);
+            for(String key : filterMap.keySet()){
+                if(key != 'searchText' && key != 'searchFields' && key != 'sortType' && key != 'trialIds' && key != 'mode') {
+                    filterMap.put(key,null);
+                }
+            }
+            filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(JSON.serialize(filterMap), ParticipantEnrollmentService.PEFilter.class);
+        }*/
         PaginationData pagination = (PaginationData)JSON.deserialize(paginationJSON, PaginationData.class);
         try {
             if(studyChanged){

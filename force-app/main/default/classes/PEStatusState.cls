@@ -63,7 +63,10 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
     public static final String PE_STATUS_DROP_OUT = 'Drop Out';
     public static final String PE_STATUS_DECEASED = 'Deceased';
-    
+
+    public static final String PE_STATUSES_ACTIVE = 'Active';
+    public static final String PE_STATUSES_INACTIVE = 'Inactive';
+
     //status groups:
     public static final List<String> PE_STATUS_GROUP_FAILED = new List<String>{
             PE_STATUS_REFERRAL_DECLINED,
@@ -132,6 +135,32 @@ public without sharing class PEStatusState {
             PE_STATUS_TRIAL_COMPLETE,
             PE_STATUS_DROP_OUT,
             PE_STATUS_DECEASED
+    };
+
+    public static final List<String> PE_STATUS_GROUP_ACTIVE = new List<String>{
+            PE_STATUS_REFERRAL_SENT_TO_PI,
+            PE_STATUS_REFERRAL_ACCEPTED,
+            PE_STATUS_REFERRAL_ON_HOLD,
+            PE_STATUS_CONTACT_SUCCESSFUL,
+            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PE_STATUS_ELIGIBILITY_PASSED,
+            PE_STATUS_SCREENING_COMPLETE,
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_ENROLLMENT_SUCCESS,
+            PE_STATUS_TREATMENT_PERIOD_STARTED,
+            PE_STATUS_FOLLOW_UP_PERIOD_STARTED,
+            PE_STATUS_PARTICIPATION_COMPLETE
+    };
+
+     public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
+             PE_STATUS_REFERRAL_DECLINED,
+             PE_STATUS_CONTACT_FAILED,
+             PE_STATUS_ELIGIBILITY_FAILED,
+             PE_STATUS_SCREENING_FAILED,
+             PE_STATUS_ENROLLMENT_FAILED,
+             PE_STATUS_TRIAL_COMPLETE,
+             PE_STATUS_DROP_OUT,
+             PE_STATUS_DECEASED
     };
 
     public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;

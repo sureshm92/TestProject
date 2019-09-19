@@ -8,9 +8,10 @@
         var step = component.get('v.step');
         if(step.selectedStatus === 'Enrollment Success'){
             var formComponent = parent.find('editForm');
-            parent.set('v.isFinalUpdate', true);
-            formComponent.checkFields();
-            if(!component.get('v.isValid')){
+            formComponent.set('v.isFinalUpdate', true);
+            var isValid = formComponent.checkFields();
+            if(!isValid){
+                communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields', 1000));
                 parent.set('v.saveAndChangeStep', true);
                 document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
             }

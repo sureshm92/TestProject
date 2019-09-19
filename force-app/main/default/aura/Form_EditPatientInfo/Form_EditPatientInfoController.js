@@ -79,6 +79,7 @@
                 pe.Referred_By__c;
         }
         component.set('v.isValid', isValid);
+        return isValid;
     },
 
     doCountryCodeChanged: function (component, event, helper) {

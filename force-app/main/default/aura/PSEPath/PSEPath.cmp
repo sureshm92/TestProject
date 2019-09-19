@@ -26,7 +26,7 @@
             <div class="path-section">
                 <c:RRPath2 pathItems="{!v.pathItems}"/>
             </div>
-            <aura:if isTrue="{!v.userMode == 'Participant'}">
+            <aura:if isTrue="{!v.userMode != 'PI'}">
                 <div class="{!'collapse-section ' + if(v.isCollapsed, '', ' opened')}">
                     <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.isCollapsed}">
                         <c:PSEStatusHistory aura:id="statusHistory" peId="{!v.pe.Id}"/>
@@ -34,7 +34,7 @@
                 </div>
             </aura:if>
         </div>
-        <aura:if isTrue="{!v.userMode != 'Participant'}">
+        <aura:if isTrue="{!v.userMode == 'PI'}">
             <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
                 <div class="{!v.pe.MRR_Survey_Results_URL__c ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}">
                     <button class="{!'apollo-btn tertiary'}"

@@ -254,6 +254,7 @@ public without sharing class CommunityService {
                         MailingLongitude,
                         MailingCountry,
                         Account.BillingCountry,
+                        Account.OwnerId,
                         PI_My_Studies_Filters__c
                 FROM Contact
                 WHERE Id = :contactId

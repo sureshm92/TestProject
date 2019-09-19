@@ -479,7 +479,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add Patient</value>
+        <value>Add Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -1330,7 +1330,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
-        <fullName>DLIT_L_Manage_study_site_details </fullName>
+        <fullName>DLIT_L_Manage_study_site_details</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Manage study site details</shortDescription>
@@ -5036,7 +5036,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals Waiting For Acceptance</shortDescription>
-        <value>Participant Waiting For Acceptance</value>
+        <value>Referrals Waiting For Acceptance</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
@@ -7996,6 +7996,13 @@ Please check your CAPS lock key.</value>
         <value>There are no items to display</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Participant Status</shortDescription>
+        <value>Participant status</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_Referral_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8008,6 +8015,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG VP L Referring statuses</shortDescription>
         <value>Referring statuses</value>
+    </labels>
+    <labels>
+        <fullName>PG_VP_L_Source</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Source</shortDescription>
+        <value>Source</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Studies</fullName>

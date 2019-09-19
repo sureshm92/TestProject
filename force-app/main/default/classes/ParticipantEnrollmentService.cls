@@ -30,8 +30,9 @@ public without sharing class ParticipantEnrollmentService {
     //Referral Source
     public static final String PE_REFERRAL_SOURCE_PATIENT = 'Patient';
     public static final String PE_REFERRAL_SOURCE_HCP = 'HCP';
-    public static final String PE_REFERRAL_SOURCE_HCP_PRESCREEN = 'HCP Prescreen Log';
     public static final String PE_REFERRAL_SOURCE_PI = 'PI';
+    public static final String PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT = 'Digital Recruitment';
+    public static final String PE_REFERRAL_SOURCE_HCP_PRESCREEN = 'HCP Prescreen Log';
     public static final String PE_REFERRAL_SOURCE_EPR = 'ePR';
     public static final String PE_REFERRAL_SOURCE_ACOE = 'ACOE';
     public static final String PE_REFERRAL_SOURCE_3RD_PARTY = '3rd_Party';
@@ -350,6 +351,8 @@ public without sharing class ParticipantEnrollmentService {
             'Pre_Eligibility_Date__c',
             'Referred_Date__c',
             'Referred_By__c',
+            'HCP_Contact_HCPEnroll__c',
+            'HCP_Contact_HCPEnroll__r.Name',
             'Referral_ID__c',
             'Referral_Source__c',
             'Referral_Completedby_Name__c',
@@ -463,6 +466,9 @@ public without sharing class ParticipantEnrollmentService {
         public String reviewResult;
         public String showExcludedFromReferring;
         public String dateRange;
+        public String source;
+        public String activePE;
+        public String participantStatus;
         public Date startDate;
         public Date endDate;
         public String searchText;
@@ -488,6 +494,10 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> studySites;
         public List<LabelValueItem> referringStatuses = PEStatusState.getReferringStatusesLVList();
         public List<LabelValueItem> reviewResults;
+        public List<LabelValueItem> source;
+        public List<LabelValueItem>  activePE;
+        public List<LabelValueItem>  activeParticipantStatus;
+        public List<LabelValueItem>  inactiveParticipantStatus;
         public List<LabelValueItem> excludedFromReferring;
         public List<LabelValueItem> referringClinics;
         public List<LabelValueItem> dateRanges = DateRangeFilterData.getRanges();
@@ -557,6 +567,15 @@ public without sharing class ParticipantEnrollmentService {
         for(Account clinic : HCPEnrollmentService.getReferringClinics(peFilterData.trialIds)){
             peFilterData.referringClinics.add(new LabelValueItem(clinic.Name, clinic.Id));
         }
+        peFilterData.activePE = new List<LabelValueItem>{new LabelValueItem(PEStatusState.PE_STATUSES_ACTIVE,PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(PEStatusState.PE_STATUSES_INACTIVE,PEStatusState.PE_STATUSES_INACTIVE)};
+        peFilterData.activeParticipantStatus = new List<LabelValueItem>();
+        for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_ACTIVE.size(); i < j; i++) {
+            peFilterData.activeParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_ACTIVE[i],PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
+        }
+        peFilterData.inactiveParticipantStatus = new List<LabelValueItem>();
+        for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_INACTIVE.size(); i < j; i++) {
+            peFilterData.inactiveParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_INACTIVE[i],PEStatusState.PE_STATUS_GROUP_INACTIVE[i]));
+        }
         return peFilterData;
     }
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData){
@@ -576,6 +595,15 @@ public without sharing class ParticipantEnrollmentService {
             if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
             if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
             if(!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
+            if(!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
+            if(!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
+            if(!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
+                if(filter.activePE == PEStatusState.PE_STATUSES_ACTIVE){
+                filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
+                } else{
+                    filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
+                }
+            }
             if(filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate){
                 //TODO
             }

@@ -52,7 +52,12 @@ public without sharing class Action_EditLocationRemote {
                     SELECT Id,
                             BillingGeocodeAccuracy,
                             BillingLongitude,
-                            BillingLatitude
+                            BillingLatitude,
+                            BillingCity,
+                            BillingCountryCode,
+                            BillingStateCode,
+                            BillingState,
+                            BillingStreet
                     FROM Account
                     WHERE Id = :tmpAccountId
             ];
@@ -74,24 +79,29 @@ public without sharing class Action_EditLocationRemote {
             ];
             Account account = (Account) JSON.deserialize(accountJSON, Account.class);
             //create new account
+            Contact currentContact = CommunityService.getUserContact();
             if (account.Id == null) {
+                account.OwnerId = currentContact.Account.OwnerId;
                 insert account;
                 ss.Site__c = account.Id;
+                ss.Account_Was_Changed__c = true;
                 update ss;
                 insert new AccountContactRelation(AccountId = account.Id, ContactId = ss.Principal_Investigator__c);
             } else if (account.ParentId == null) { //create new sub Account and remove AccountContactRelation for main Account
                 Account subAccount = account.clone();
                 subAccount.ParentId = account.Id;
+                subAccount.OwnerId = currentContact.Account.OwnerId;
                 insert subAccount;
-                delete [
+                insert new AccountContactRelation(AccountId = subAccount.Id, ContactId = ss.Principal_Investigator__c);
+               /* delete [
                         SELECT Id,
                                 IsDirect
                         FROM AccountContactRelation
                         WHERE AccountId = :account.Id AND ContactId = :ss.Principal_Investigator__c
                         LIMIT 1
-                ];
-                insert new AccountContactRelation(AccountId = subAccount.Id, ContactId = ss.Principal_Investigator__c);
+                ];*/
                 ss.Site__c = subAccount.Id;
+                ss.Account_Was_Changed__c = true;
                 update ss;
                 return subAccount;
             } else {
