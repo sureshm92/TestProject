@@ -32,7 +32,7 @@ public without sharing class SurveyResponseTriggerHandler {
     }
 
     @TestVisible
-    private static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
+    public static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
                         InviteExpiryDateTime,
