@@ -68,7 +68,7 @@
                            currentPageCount="{!v.paginationData.currentPageCount}">
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.activePE}" options="{!v.peFilterData.activePE}"
-                                placeholder="source" useSentenceFont="false"
+                                placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
                                 disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
                 </aura:if>
                 <aura:if isTrue="{!v.studyFilterEnabled}">

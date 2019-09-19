@@ -7982,6 +7982,13 @@ Please check your CAPS lock key.</value>
         <value>Acceptance Status</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Active</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>

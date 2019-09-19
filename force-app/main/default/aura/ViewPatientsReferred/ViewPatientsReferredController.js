@@ -37,11 +37,14 @@
         });
     },
 
-    doUpdateRecords: function (component) {
+    doUpdateRecords: function (component, event) {
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordsSpinner');
         spinner.show();
         var filter = component.get('v.peFilter');
+        if(event.getParam('index') && event.getParam('index')=='activePE'){
+            filter.participantStatus = null;
+        }
         var searchText = filter.searchText;
         var filterJSON = JSON.stringify(filter);
         debugger;
