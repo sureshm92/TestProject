@@ -13,8 +13,6 @@
     <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="peStatusesPathList" type="List"/>
-    <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="isFinalUpdate" type="Boolean"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
@@ -31,8 +29,6 @@
         <aura:attribute name="pathItems" type="List"/>
         <aura:attribute name="anchorScroll" type="String"/>
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
-        <aura:attribute name="peStatusesPathList" type="List"/>
-        <aura:attribute name="peStatusStateMap" type="Map"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
@@ -73,7 +69,7 @@
                         <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">
                             <c:ReferralProfileStepControls aura:id="stepControls" parent="{!this}"
                                                            rootComponent="{!v.rootComponent}" step="{!step}"
-                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}"/>
+                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}" isValid="{!v.isValid}"/>
                         </aura:iteration>
                     </aura:if>
                 </div>
@@ -86,7 +82,7 @@
             </div>
         </aura:if>
         <aura:set attribute="footerButtons">
-            <button class="apollo-btn secondary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <button class="apollo-btn secondary" style="display:none" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
         </aura:set>
     </c:Popup>
 </aura:component>
