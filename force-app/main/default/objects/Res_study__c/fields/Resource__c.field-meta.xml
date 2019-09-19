@@ -21,7 +21,6 @@
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Resource__c</referenceTo>
-    <relationshipLabel>Study</relationshipLabel>
     <relationshipName>Study</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

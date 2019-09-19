@@ -6,8 +6,8 @@
     checkOnDisclaimer: function (component, event) {
         let isShowMore = component.get("v.isShowDisclaimer");
         if (isShowMore) {
-            component.set("v.isShowDisclaimer", false);
             component.set("v.selectedVendor", null);
+            component.set("v.isShowDisclaimer", false);
             let message = component.get('v.message');
             let htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
             component.set('v.htmlMessage', htmlMessage);

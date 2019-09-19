@@ -12,9 +12,9 @@ public without sharing class StudyResourceVisibilityService {
             isVisible = isVisible && (peStatusOrder >= resStudyStatusOrder);
         }
         if(resStudy.Expires_On_Status__c != null){
-            Integer expireStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Active_On_Status__c);
+            Integer expireStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Expires_On_Status__c);
             Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
-            isVisible = isVisible && peStatusOrder < expireStatusOrder;
+            isVisible = isVisible && (peStatusOrder < expireStatusOrder);
         }
         if(isDelegate != null && isDelegate){
             isVisible = isVisible && resStudy.Visible_To_Delegates__c;

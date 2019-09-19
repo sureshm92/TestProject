@@ -163,6 +163,8 @@ public abstract class StudyActions {
 
     private static Map<Id, Boolean> tcAcceptanceMap;
 
+    public StudyActions(){}
+
     public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode){
         this(
                 study,
