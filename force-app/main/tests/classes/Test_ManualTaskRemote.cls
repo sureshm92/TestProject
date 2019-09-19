@@ -2,13 +2,8 @@
  * Created by Igor Malyuta on 19.04.2019.
  */
 
-@IsTest(IsParallel=false)
+@IsTest
 private class Test_ManualTaskRemote {
-
-    @IsTest
-    static void getInitDataTest() {
-        ManualTaskRemote.getInitData();
-    }
 
     @IsTest
     static void createTasksEnrolledTest() {
@@ -25,7 +20,7 @@ private class Test_ManualTaskRemote {
         );
 
         Test.startTest();
-        Integer countOfTaskCreated = ManualTaskRemote.createTasks(JSON.serialize(testTask), JSON.serialize(manualTaskFilter));
+        Integer countOfTaskCreated = ManualTaskRemote.createTasks(testTask, manualTaskFilter);
         Test.stopTest();
 
         List<Task> tasks2 = [
@@ -43,12 +38,9 @@ private class Test_ManualTaskRemote {
         List<User> users = [
                 SELECT Id
                 FROM User
-                WHERE Id IN: manualTaskFilter.getUsers()
+                WHERE Id IN: manualTaskFilter.getContactsWithPE().keySet()
                 ORDER BY Id
         ];
-
-        System.debug('Task2 size: ' + tasks2.size());
-        System.debug('Users size: ' + users.size());
 
         for(Integer i = 0; i < tasks2.size(); i++) {
             System.assertEquals(users.get(i).Id, tasks2.get(i).OwnerId);
@@ -59,7 +51,7 @@ private class Test_ManualTaskRemote {
             System.assertEquals('Owner;Delegates', tasks2.get(i).Visible_For__c);
         }
 
-        System.assertEquals(manualTaskFilter.getUsers().size(), countOfTaskCreated);
+        System.assertEquals(manualTaskFilter.getContactsWithPE().size(), countOfTaskCreated);
     }
 
     @IsTest
@@ -77,12 +69,17 @@ private class Test_ManualTaskRemote {
         );
 
         Test.startTest();
-        Integer countOfTaskCreated = ManualTaskRemote.createTasks(JSON.serialize(testTask), JSON.serialize(manualTaskFilter));
+        Integer countOfTaskCreated = ManualTaskRemote.createTasks(testTask, manualTaskFilter);
         Test.stopTest();
 
-        System.assertEquals(manualTaskFilter.getUsers().size(), countOfTaskCreated);
+        System.assertEquals(manualTaskFilter.getContactsWithPE().size(), countOfTaskCreated);
 
-        List<Task> tasks = [SELECT Id FROM Task WHERE Subject = 'TestTask' AND OwnerId IN: manualTaskFilter.getUsers()];
+        List<Task> tasks = [
+                SELECT Id
+                FROM Task
+                WHERE Subject = 'TestTask'
+                AND OwnerId IN: manualTaskFilter.getContactsWithPE().keySet()
+        ];
         System.assertEquals(countOfTaskCreated, tasks.size());
     }
 

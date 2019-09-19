@@ -7,7 +7,6 @@ public without sharing class CommunityService {
     public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
     public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
     public static final Id SPNL_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name =: SPNL_USER_PROFILE_NAME].Id;
-    public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id SPNL_ROLE = [SELECT Id FROM UserRole WHERE Name='SPNL'].Id;
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
@@ -254,6 +253,7 @@ public without sharing class CommunityService {
                         MailingLongitude,
                         MailingCountry,
                         Account.BillingCountry,
+                        Account.OwnerId,
                         PI_My_Studies_Filters__c
                 FROM Contact
                 WHERE Id = :contactId
@@ -289,7 +289,7 @@ public without sharing class CommunityService {
         return ![SELECT Id
                     FROM User
                     WHERE ContactId =: contactId
-                        AND Profile.Name =: COMMUNITY_PROFILE_NAME
+                        AND Profile.Name =: COMMUNITY_USER_PROFILE_NAME
         ].isEmpty();
     }
 

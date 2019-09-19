@@ -8,7 +8,7 @@ public with sharing class TrialFactory {
     }
     public static TrialDetail getTrial(String userMode, String trialId, String delegateId) {
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            return new ParticipantTrialBuilder(trialId).createTrial();
+            return new ParticipantTrialBuilder().createTrial();
         } else if (userMode == CommunityService.USER_MODE_PI) {
             return new PITrialBuilder(trialId).createTrial();
         } else if (userMode == CommunityService.USER_MODE_HCP) {
