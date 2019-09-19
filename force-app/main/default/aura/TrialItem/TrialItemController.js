@@ -10,10 +10,8 @@
         if (!trial.isEnrollingCTP) {
             communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
         } else {
-            // component.set("v.showModal", true);
             let form = component.find('contactModal');
             form.show();
-            // form.doInit();
         }
     },
 
@@ -33,14 +31,12 @@
                     console.log(JSON.stringify(component.get('v.participantInfo')));
                     let ctp = component.get('v.trialTDO').ctp;
                     communityService.showToast('success', 'success', 'Thank you for your interest in ' + ctp.Study_Code_Name__c + '.  Someone from the study team will contact you shortly. ');
-                    // component.set("v.showModal", false);
                     component.find('contactModal').hide();
                 }, function (err) {
                     console.error(err);
                     communityService.showToast('error', 'error', 'OPSsssss');
                 }).catch(function (err) {
                 console.error(err);
-                // component.find('mainSpinner').hide();
             });
         }
     }
