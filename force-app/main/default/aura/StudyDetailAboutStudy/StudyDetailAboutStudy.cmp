@@ -208,7 +208,14 @@
 
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
-                        
+
+                        <aura:if isTrue="{!v.userMode != 'Participant'}">
+                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>
+                            <aura:iteration items="{!v.documents}" var="document">
+                                <div class="text"><a href="{!'/RRPDFViewer?documentId=' + document.documentId}" target="_blank">{!document.title}</a></div>
+                            </aura:iteration>
+                        </aura:if>
+
                         <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>
                         <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
 
