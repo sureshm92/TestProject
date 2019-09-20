@@ -21,23 +21,6 @@ public with sharing class Test_TravelSupportHelper {
     }
 
     @IsTest
-    static void getTravelVendorsByIds_test() {
-        TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-
-        createDataForTravelSupportTesting();
-
-        List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c WHERE Name = 'Uber'];
-        List<Id> vendorIds = new List<Id>();
-        vendorIds.add(travelVendors[0].Id);
-
-        Test.startTest();
-        List<TravelVendor__c> vendors = helper.getTravelVendorsByIds(vendorIds);
-        Test.stopTest();
-
-        System.assertEquals('Uber', vendors[0].Name);
-    }
-
-    @IsTest
     static void deleteTravelSettings_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
