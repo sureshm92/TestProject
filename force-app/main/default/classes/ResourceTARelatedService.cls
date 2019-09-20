@@ -4,6 +4,14 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
         return (ResourceTARelatedService) ClassFactory.newInstance(ResourceTARelatedService.class);
     }
     
+    protected String therapeuticAreaId;
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass, String therapeuticAreaId) {
+        init(resourceType, resourceId, contentClass);
+        this.therapeuticAreaId = therapeuticAreaId;
+        return this;
+    }
+    
     protected override List<Id> getResourcesIds() {
         String therapeuticAreaAssignmentsQuery =
                 'SELECT Id, ' +

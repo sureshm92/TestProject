@@ -3,6 +3,7 @@
  */
 
 public with sharing class TrialDetail {
+    
     public Clinical_Trial_Profile__c trial;
     public List<ClinicWrapper> accountEnrollmentsList;
     public Boolean isTCAccepted;
@@ -13,6 +14,7 @@ public with sharing class TrialDetail {
     public List<StudyActions.Action> studyBottomBarActions;
     public Map<String, StudyActions.Action> actions;
     public List<StudyTab> tabs;
+    public List<ResourceService.ResourceWrapper> resources;
     public List<StudyActions.Action> shareActions = new List<StudyActions.Action>{
             new StudyActions.Action(
                     StudyActions.ACT_SHARE_EMAIL,
@@ -39,6 +41,7 @@ public with sharing class TrialDetail {
                     false
             )
     };
+    
     public class ClinicWrapper implements Comparable {
         public Account clinic;  //If there is no completed BillingAddress, the clinic is not displayed on RRGoogleMap
         public String name;

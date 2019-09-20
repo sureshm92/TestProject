@@ -24,7 +24,6 @@ public virtual inherited sharing class ResourceService {
     protected Participant__c participant;
     protected String resourceType;
     protected String contentClass;
-    protected String therapeuticAreaId;
     protected String resourceId;
     
     
@@ -40,22 +39,17 @@ public virtual inherited sharing class ResourceService {
     
     
     public ResourceService init(String resourceType) {
-        return this.init(resourceType, null, null, null);
+        return init(resourceType, null, null);
     }
     
     public ResourceService init(String resourceType, String resourceId) {
-        return this.init(resourceType, resourceId, null, null);
+        return init(resourceType, resourceId, null);
     }
     
     public ResourceService init(String resourceType, String resourceId, String contentClass) {
-        return this.init(resourceType, resourceId, contentClass, null);
-    }
-    
-    public ResourceService init(String resourceType, String resourceId, String contentClass, String therapeuticAreaId) {
         this.resourceType = resourceType;
         this.resourceId = resourceId;
         this.contentClass = contentClass;
-        this.therapeuticAreaId = therapeuticAreaId;
         return this;
     }
     
@@ -84,7 +78,7 @@ public virtual inherited sharing class ResourceService {
         }
         if(resourcesIds.size() > 0) {
             String whereClause = 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) + ')';
-            resources = getResources(participant, whereClause, getOrderByClause());
+            resources = getResources(whereClause, getOrderByClause());
         }
         return resources;
     }
@@ -150,8 +144,9 @@ public virtual inherited sharing class ResourceService {
         return new ResourceWrapperContainer('Unhandled Error.');
     }
 
-    public List<Resource__c> getResources(Participant__c participant, String whereClause, String orderByClause) {
-
+    public List<Resource__c> getResources(String whereClause, String orderByClause) {
+        Id participantId;
+        if(participant != null) participantId = participant.Id;
         String resourcesQuery =
                 'SELECT Id, ' +
                         'Title__c, ' +
@@ -175,8 +170,8 @@ public virtual inherited sharing class ResourceService {
                         'X3rd_Party_Source__c, ' +
                         'Image_Title__c, ' +
                         'Source__c, ' +
-                        'Version_Date__c, ' +
-                        '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
+                        (participantId != null ? '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participantId + '\'), ' : '') +
+                        'Version_Date__c ' +
                         'FROM Resource__c ' +
                         whereClause +
                         (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
