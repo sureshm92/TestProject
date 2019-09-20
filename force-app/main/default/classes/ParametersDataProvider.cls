@@ -317,10 +317,16 @@ public without sharing class ParametersDataProvider {
             parameters.put('ParticipantLanguage', cnt.Language__c);
 
             if(isDelegate) {
-                parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
-                parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c);
+                Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(cnt.Id);
+                parameters.put('ParticipantName', participant.Full_Name__c);
+                parameters.put('ParticipantFirstName', participant.First_Name__c);
                 parameters.put('Username', getCommunityUserName(contactId));
-                parameters.put('StudyName', ParticipantService.getParticipantState().ctp.Study_Code_Name__c);
+                
+                List<Participant_Enrollment__c> enrollment = [
+                        SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c
+                        FROM Participant_Enrollment__c WHERE Participant__c = :participant.Id
+                ];
+                parameters.put('StudyName', enrollment.get(0).Clinical_Trial_Profile__r.Study_Code_Name__c);
             }else{
                 initParamsFromPE(contactId);
             }
