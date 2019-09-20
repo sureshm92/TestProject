@@ -8,7 +8,6 @@
                          sourceId="{!relatedTo.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Case}"
-                         header="{!$Label.Email_Header_Case}"
                          greeting=""
                          title="{!$Label.Email_Title}"
                          body="{!$Label.Email_Body_Case}"
