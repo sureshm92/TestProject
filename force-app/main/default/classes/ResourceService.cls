@@ -60,8 +60,7 @@ public virtual inherited sharing class ResourceService {
     }
     
     public ResourceService.ResourceWrapperContainer getResourceWrapperContainer() {
-        Boolean isFilterDataMissing = isObjectsToFilterMissing();
-        System.debug('>>> Is object to filter missing: ' + isFilterDataMissing);
+        Boolean isFilterDataMissing = isObjectsToFilterMissing() && resourceId != null;
         if(isFilterDataMissing){
             return getErrorNoObjectsToFilter();
         }else{
@@ -76,8 +75,13 @@ public virtual inherited sharing class ResourceService {
     
     public virtual List<Resource__c> getResources() {
         List<Resource__c> resources = new List<Resource__c>();
-        if(isObjectsToFilterMissing()) return resources;
-        List<Id> resourcesIds = getResourcesIds();
+        if(resourceId != null && isObjectsToFilterMissing()) return resources;
+        List<Id> resourcesIds;
+        if(resourceId != null){
+            resourcesIds = new List<Id>{resourceId};
+        }else{
+            resourcesIds = getResourcesIds();
+        }
         if(resourcesIds.size() > 0) {
             String whereClause = 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) + ')';
             resources = getResources(participant, whereClause, getOrderByClause());

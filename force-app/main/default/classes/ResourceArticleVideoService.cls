@@ -7,21 +7,16 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
     public override virtual List<Resource__c> getResources() {
         List<Resource__c> sortedResources = new List<Resource__c>();
         if (pState.value == ParticipantService.ParticipantStates.REFERRAL || pState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
-            sortedResources.addAll(ResourceStudyRelatedService.getInstance()
-                    .init(resourceType, resourceId, ResourceService.RESOURCE_SOURCE_STUDY)
-                    .getResources());
+            sortedResources.addAll(
+                    ResourceStudyRelatedService.getInstance().init(resourceType, resourceId, ResourceService.RESOURCE_SOURCE_STUDY).getResources()
+            );
         }
         String contentClass = ResourceService.RESOURCE_SOURCE_PLATFORM;
         if( pState.value == ParticipantService.ParticipantStates.ALUMNI) contentClass = ResourceService.RESOURCE_SOURCE_THIRD_PARTY;
-        for (Therapeutic_Area_Patient__c singleTAP : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
-            sortedResources.addAll(ResourceTARelatedService.getInstance()
-                    .init(
-                            resourceType,
-                            resourceId,
-                            contentClass,
-                            singleTAP.Therapeutic_Area__c
-                    )
-                    .getResources());
+        for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
+            sortedResources.addAll(
+                    ResourceTARelatedService.getInstance().init(resourceType, resourceId, contentClass, tap.Therapeutic_Area__c).getResources()
+            );
         }
         return sortedResources;
     }
@@ -31,6 +26,6 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
     }
 
     protected override virtual Boolean isObjectsToFilterMissing() {
-        return ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty() && this.pState.ctp == null;
+        return ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty() && pState.ctp == null;
     }
 }
