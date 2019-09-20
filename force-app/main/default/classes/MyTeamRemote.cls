@@ -396,7 +396,6 @@ public without sharing class MyTeamRemote {
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
                 insert contactDelegate;
                 insert CommunityService.createUser(contactDelegate, null, null, null);
-                sendEmailNotificationWelcome(contactDelegate);
             } else {
                 if (CommunityService.isUserInCommunity(contactDelegate.Id)) {
                     throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign);
