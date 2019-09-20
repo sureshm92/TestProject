@@ -11,6 +11,7 @@
                 component.set('v.taps', data.taps);
                 component.set('v.participant', data.participant);
                 component.set('v.formData', data.formData);
+                component.set('v.isInit', true);
                 component.find('mainSpinner').hide();
             }, function (err) {
                 if (err && err[0].message) {
@@ -18,7 +19,10 @@
                 }
                 console.log('error:', err[0].message);
                 component.find('mainSpinner').hide();
-            });
+            }).catch(function (err) {
+            console.error(err);
+            component.find('mainSpinner').hide();
+        });
     },
 
     handleUpdateSearchEvent : function (component, event, helper) {
@@ -42,6 +46,9 @@
                 }
                 console.log('error:', err[0].message);
                 component.find('mainSpinner').hide();
-            });
+            }).catch(function (err) {
+            console.error(err);
+            component.find('mainSpinner').hide();
+        });
     }
 });
