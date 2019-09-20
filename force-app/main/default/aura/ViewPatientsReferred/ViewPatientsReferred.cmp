@@ -69,12 +69,12 @@
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.activePE}" options="{!v.peFilterData.activePE}"
                                 placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
                 </aura:if>
                 <aura:if isTrue="{!v.studyFilterEnabled}">
                     <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}"
                                 placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container" setValueAsSelected="true"/>
                 </aura:if>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}"
@@ -90,13 +90,13 @@
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}"
                                 placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
                     <c:rrSelect value="{!v.peFilter.source}" options="{!v.peFilterData.source}"
                                 placeholder="{!$Label.c.PG_VP_L_Source}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
-                    <c:rrSelect value="{!v.peFilter.participantStatus}" options="{!v.peFilter.activePE == 'Active' ? v.peFilterData.activeParticipantStatus : v.peFilterData.inactiveParticipantStatus}"
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                    <c:rrSelect value="{!v.peFilter.participantStatus}" options="{!v.peFilterData.statuses}"
                                 placeholder="{!$Label.c.PG_VP_L_Participant_Status}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
                     <!--<c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}"
                                 placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"
                                 disabled="{!not(empty(v.peFilter.searchText))}"/>
