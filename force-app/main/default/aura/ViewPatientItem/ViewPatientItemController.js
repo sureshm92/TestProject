@@ -51,10 +51,8 @@
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         var pathItems = component.get('v.pathItems');
-        var peStatusesPathList = component.get('v.peStatusesPathList');
-        var peStatusStateMap = component.get('v.peStatusStateMap');
         var anchor = event.currentTarget.value;
-        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, rootComponent, peStatusesPathList, peStatusStateMap, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, rootComponent, function (enrollment) {
             component.set('v.pe', enrollment);
             rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
         });

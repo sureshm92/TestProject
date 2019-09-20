@@ -2,46 +2,45 @@
  * Created by Dmytro Pokutnii
  */
 public inherited sharing class ResourceDelegate {
+    
+    public static ResourceDelegate getInstance(){
+        return (ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class);
+    }
 
     public ResourceService.ResourceWrapperContainer getResources(String resourceType) {
-
-        ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        ResourceService service = ResourceService.getInstance();
         service.setResourceType(resourceType);
-        return ((ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class))
+        return ResourceArticleVideoService.getInstance()
                 .init(service)
                 .getResourceWrapperContainer();
     }
 
     public ResourceService.ResourceWrapperContainer getFavoriteResources(String resourceType) {
-
-        ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        ResourceService service = ResourceService.getInstance();
         service.setResourceType(resourceType);
-        return ((ResourceFavoriteService) ClassFactory.newInstance(ResourceFavoriteService.class))
+        return ResourceFavoriteService.getInstance()
                 .init(service)
                 .getResourceWrapperContainer();
     }
 
     public ResourceService.ResourceWrapperContainer getStudyDocuments() {
-
-        ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        ResourceService service = ResourceService.getInstance();
         service.setResourceType(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT);
-        return ((ResourceStudyDocumentService) ClassFactory.newInstance(ResourceStudyDocumentService.class))
+        return ResourceStudyDocumentService.getInstance()
                 .init(service)
                 .getResourceWrapperContainer();
     }
 
     public ResourceService.ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
-
-        ResourceService service = (ResourceService) ClassFactory.newInstance(ResourceService.class);
+        ResourceService service = ResourceService.getInstance();
         service.setResourceType(resourceType);
         List<Resource__c> resources = new List<Resource__c>();
-
         if (ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType)) {
-            resources.addAll(((ResourceStudyDocumentService) ClassFactory.newInstance(ResourceStudyDocumentService.class))
+            resources.addAll(ResourceStudyDocumentService.getInstance()
                     .init(service, resourceId)
                     .getResources());
         } else {
-            resources.addAll(((ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class))
+            resources.addAll(ResourceArticleVideoService.getInstance()
                     .init(service, resourceId)
                     .getResources());
         }
@@ -53,7 +52,6 @@ public inherited sharing class ResourceDelegate {
     }
 
     public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> trialProfiles) {
-
         Set<Id> resourcesForDelete = new Set<Id>();
         List<Res_study__c> relatedResStudies = [
                 SELECT Resource__r.Name,

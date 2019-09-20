@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral_Source_ID__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL(Referral_Source__c, &#39;HCP&#39;),  CASESAFEID(HCP_Contact_HCPEnroll__c),  IF(ISPICKVAL(Referral_Source__c, &#39;PI&#39;),  CASESAFEID(PI_Contact__c) , &#39;Digital Recruitment&#39;) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Referral Source ID</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
