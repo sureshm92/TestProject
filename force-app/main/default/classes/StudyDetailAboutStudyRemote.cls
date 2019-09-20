@@ -128,6 +128,7 @@ public without sharing class StudyDetailAboutStudyRemote {
                         Id,
                         Resource__c,
                         Resource__r.Title__c,
+                        Resource__r.Language__c,
                         Visible_To_PI__c,
                         Visible_To_RP__c
                 FROM    Res_study__c
@@ -173,8 +174,9 @@ public without sharing class StudyDetailAboutStudyRemote {
             if(!uniqueDocumentNames.contains(resMap.get(document.LinkedEntityId).Resource__r.Title__c)) {
                 if (document.ContentDocument.Title == userLanguage) {
                     DocumentWrapper doc = new DocumentWrapper(
-                            document.ContentDocumentId,
-                            resMap.get(document.LinkedEntityId).Resource__r.Title__c
+                            document.LinkedEntityId,
+                            resMap.get(document.LinkedEntityId).Resource__r.Title__c,
+                            resMap.get(document.LinkedEntityId).Resource__r.Language__c
                     );
                     uniqueDocumentNames.add(resMap.get(document.LinkedEntityId).Resource__r.Title__c);
                     documentsToShow.add(doc);
@@ -185,12 +187,14 @@ public without sharing class StudyDetailAboutStudyRemote {
     }
 
     public class DocumentWrapper{
-        @AuraEnabled public Id documentId;
+        @AuraEnabled public Id resourceId;
         @AuraEnabled public String title;
+        @AuraEnabled public String language;
 
-        public DocumentWrapper(Id documentId, String title){
-            this.documentId = documentId;
+        public DocumentWrapper(Id resourceId, String title, String language){
+            this.resourceId = resourceId;
             this.title = title;
+            this.language = language;
         }
     }
 

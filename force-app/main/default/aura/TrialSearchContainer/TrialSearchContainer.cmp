@@ -8,11 +8,12 @@
     <aura:attribute name="taps" type="List"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
+    <aura:attribute name="isInit" type="Boolean"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="updateSearchEvent" event="c:UpdateConditionsOfInterestSearchEvt" action="{!c.handleUpdateSearchEvent}"/>
 
-    <c:RRSpinner aura:id="mainSpinner" showSpinner="true"/>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium"/>
 
     <lightning:layout horizontalAlign="center" class="width-limiter">
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" flexibility="auto"
@@ -26,7 +27,7 @@
                 </div>
             </div>
             <div class="trials-container">
-                <c:TrialsContainer trialTDOs="{!v.trialTDOs}" participant="{!v.participant}" formData="{!v.formData}"/>
+                <c:TrialsContainer trialTDOs="{!v.trialTDOs}" participant="{!v.participant}" formData="{!v.formData}" isInit="{!v.isInit}"/>
             </div>
 
         </lightning:layoutItem>
