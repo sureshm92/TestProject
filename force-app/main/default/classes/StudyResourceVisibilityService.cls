@@ -37,7 +37,7 @@ public without sharing class StudyResourceVisibilityService {
         }else if(userMode.contains(CommunityService.USER_MODE_PI)){
             isVisible = resStudy.Visible_To_PI__c;
         }else{
-            isVisible = resStudy.Visible_To_RP__c
+            isVisible = resStudy.Visible_To_RP__c;
         }
 
         return isVisible;
