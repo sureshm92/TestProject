@@ -6,7 +6,8 @@ public without sharing class StudyResourceVisibilityService {
     
     public static Boolean isResourceVisibleForPE(Res_study__c resStudy, Participant_Enrollment__c pe, Boolean isDelegate){
         Boolean isVisible = true;
-        String userMode = CommunityService.getUserContact().userCommunytyType__c;
+        String userMode = CommunityService.getUserContact().userCommunityMode__c;
+        System.debug(JSON.serializePretty(CommunityService.getUserContact()));
         if(userMode.contains(CommunityService.USER_MODE_PARTICIPANT)){
             isVisible = resStudy.Visible_To_Participant__c;
             if(resStudy.Active_On_Status__c != null){

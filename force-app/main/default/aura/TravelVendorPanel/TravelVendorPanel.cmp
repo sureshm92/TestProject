@@ -6,13 +6,11 @@
                 implements="force:hasRecordId, flexipage:availableForAllPageTypes">
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="countryCodes" type="String"/>
-    <aura:attribute name="countryFilterType" type="String" default="All"/>
-    <aura:attribute name="selectedCountryCodes" type="String"/>
-    <aura:attribute name="selectedByCountrySSIds" type="Object[]"/>
-    <aura:attribute name="selectedManuallySSIds" type="String"/>
     <aura:attribute name="vendorItems" type="Object[]"/>
+    <aura:attribute name="currentVendorItems" type="Object[]"/>
     <aura:attribute name="selectedVendors" type="Object[]"/>
+    <aura:attribute name="selectedByCountry" type="String"/>
+    <aura:attribute name="selectedByStudySite" type="String"/>
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -29,7 +27,7 @@
                         <c:VisitResultSharingCountryLookup
                                 aura:id="countryLookup"
                                 isMultiEntry="true"
-                                value="{!v.countryCodes}"
+                                value="{!v.selectedByCountry}"
                                 onchange="{!c.getFilteredSS}"
                                 placeholder="{!$Label.c.TS_Select_Country}"
                                 placeholderSelected="{!$Label.c.TS_Select_Another_Country}"
@@ -40,7 +38,7 @@
                         <c:VisitResultSharingSSLookup
                                 ctpId="{!v.recordId}"
                                 isMultiEntry="true"
-                                value="{!v.selectedManuallySSIds}"
+                                value="{!v.selectedByStudySite}"
                                 onchange="{!c.getFilteredSS}"
                                 placeholder="{!$Label.c.TS_Select_Study_Site}"
                                 placeholderSelected="{!$Label.c.TS_Select_Another_Study_Site}"
@@ -95,7 +93,9 @@
                         <aura:iteration items="{!v.selectedVendors}" var="vendor">
                             <th class="cell-wrap" scope="col">
                                 <div class="slds-medium-show--inline-block">
-                                    <ui:inputCheckbox aura:id="columnVendor" class="slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label" label="{!vendor.Id}"  labelClass="slds-hide"
+                                    <ui:inputCheckbox aura:id="columnVendor"
+                                                      class="slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label"
+                                                      label="{!vendor.Id}" labelClass="slds-hide"
                                                       change="{!c.columnCheckboxStateChange}"/>
                                     <label>{!vendor.Name}</label>
                                 </div>
@@ -104,7 +104,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <aura:iteration items="{!v.vendorItems}" var="item">
+                    <aura:iteration items="{!v.currentVendorItems}" var="item">
                         <tr>
                             <th data-label="Country" scope="row">
                                 <div class="slds-truncate slds-text-align--center"
@@ -121,13 +121,18 @@
                             </td>
                             <aura:iteration items="{!item.vendorSettings}" var="selectedVendorIdSetting">
                                 <td>
-                                    <ui:inputCheckbox value="{!selectedVendorIdSetting.isEnable__c}" label="{!selectedVendorIdSetting.Vendor__r.Name}"/>
+                                    <ui:inputCheckbox value="{!selectedVendorIdSetting.isEnable__c}"
+                                                      label="{!selectedVendorIdSetting.Vendor__r.Name}"/>
                                 </td>
                             </aura:iteration>
                         </tr>
                     </aura:iteration>
                     </tbody>
                 </table>
+                <div class="slds-align--absolute-center slds-m-around--medium">
+                    <c:rrPagination allObjects="{!v.vendorItems}" entriesOnPage="10"
+                                    currentObjects="{!v.currentVendorItems}"/>
+                </div>
             </div>
         </aura:if>
     </div>

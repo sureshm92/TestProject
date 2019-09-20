@@ -56,10 +56,9 @@
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
                 pe.Participant_Status__c &&
-                pe.Referred_By__c &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
+                (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =

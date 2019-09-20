@@ -486,7 +486,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add Participant</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -4542,7 +4542,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP H Patient Details</shortDescription>
-        <value>Patient Details</value>
+        <value>Participant Details</value>
     </labels>
     <labels>
         <fullName>PG_AP_H_Referral_Information</fullName>
@@ -5006,7 +5006,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Add Patient Header</shortDescription>
-        <value>Add Patient</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>PG_BLS_Header</fullName>
@@ -5125,7 +5125,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals Waiting For Acceptance</shortDescription>
-        <value>Referrals Waiting For Acceptance</value>
+        <value>Participants Waiting For Acceptance</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
@@ -6362,6 +6362,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG MRR BTN Refer Patient to This Study</shortDescription>
         <value>Refer Patient to This Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRR_L_All_Statuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRR L All  Statuses</shortDescription>
+        <value>All Statuses</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRR_L_All_sources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRR L All sources</shortDescription>
+        <value>All Sources</value>
     </labels>
     <labels>
         <fullName>PG_MRR_L_Back_to_Study_Workspace</fullName>

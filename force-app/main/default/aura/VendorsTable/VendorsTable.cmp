@@ -14,7 +14,7 @@
                 <tbody class="slds-p-around_none">
                 <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
                     <tr class="slds-hint-parent ">
-                        <td onclick="{!c.redirectToLinka}" data-ind="{!vendor.TravelVendor__r.Link_Vendor__c}" >
+                        <td data-ind="{!vendor.TravelVendor__r.Link_Vendor__c}" >
                             <div class="slds-medium-show--inline-block overflow slds-m-left--xx-large">
                                 <lightning:input aura:id="checkBoxBtn" type="checkbox" label="" onchange="{!c.makeUnique}" value="{!vendor}"/>
                             </div>
