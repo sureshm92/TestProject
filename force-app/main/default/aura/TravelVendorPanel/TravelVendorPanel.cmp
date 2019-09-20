@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="TravelVendorPanel" controller="TravelVendorPanelRemote"
-                implements="force:hasRecordId, flexipage:availableForAllPageTypes">
+                implements="force:hasRecordId, flexipage:availableForAllPageTypes" extends="c:LightningService">
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="vendorItems" type="Object[]"/>

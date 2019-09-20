@@ -5,27 +5,25 @@
 
         this.unCheckAllVendorCheckBoxes(component);
 
-            communityService.executeAction(component, 'getFilteredItems', {
-                'ctpId': component.get('v.recordId'),
-                'ssIds': component.get('v.selectedByStudySite'),
-                'countryCodes': component.get('v.selectedByCountry'),
-                'vendorIds': helper.getVendorIds(component.get('v.selectedVendors'))
-            }, function (data) {
-                if (data.length > 0) {
-                    component.set('v.vendorItems', data);
-                    component.find('spinner').hide();
-                } else {
-                    communityService.executeAction(component, 'getAllData', {
-                        'ctpId': component.get('v.recordId')
-                    }, function (data) {
-                        component.set('v.vendorItems', data.vendorItems);
-                        component.set('v.selectedVendors', data.vendors);
-                        component.set('v.initialized', true);
-
-                        component.find('spinner').hide();
-                    });
-                }
-            });
+        helper.enqueue(component, 'c.getFilteredItems', {
+            'ctpId': component.get('v.recordId'),
+            'ssIds': component.get('v.selectedByStudySite'),
+            'countryCodes': component.get('v.selectedByCountry'),
+            'vendorIds': helper.getVendorIds(component.get('v.selectedVendors'))
+        }).then(function (data) {
+                component.set('v.vendorItems', data);
+                component.find('spinner').hide();
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+            component.find('spinner').hide();
+            console.log('error:', err[0].message);
+        });
     },
 
     getVendorIds : function (vendors) {
@@ -47,15 +45,26 @@
             ssIds.push(i.studySite.Id);
         });
         let vendors = helper.getVendorIds(component.get('v.selectedVendors'));
-            communityService.executeAction(component, 'getFilteredItems', {
-                'ctpId': component.get('v.recordId'),
-                'ssIds': ssIds.join(';'),
-                'countryCodes': component.get('v.selectedByCountry'),
-                'vendorIds': vendors !== null ? vendors : null
-            }, function (data) {
-                component.set('v.vendorItems', data);
-                component.find('spinner').hide();
-            })
+
+        helper.enqueue(component, 'c.getFilteredItems', {
+            'ctpId': component.get('v.recordId'),
+            'ssIds': ssIds.join(';'),
+            'countryCodes': component.get('v.selectedByCountry'),
+            'vendorIds': vendors !== null ? vendors : null
+        }).then(function (data) {
+            component.set('v.vendorItems', data);
+            component.find('spinner').hide();
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+            component.find('spinner').hide();
+            console.log('error:', err[0].message);
+        });
     },
 
     unCheckAllVendorCheckBoxes : function(component, event){
@@ -72,7 +81,7 @@
     },
 
     checkOnIsManualStudySites: function (studySites, vendorItem) {
-        if (studySites != null && studySites != undefined) {
+        if (!$A.util.isUndefinedOrNull(studySites)) {
             let haveStudySiteId = studySites.includes(vendorItem.studySite.Id);
             if (haveStudySiteId) {
                 vendorItem.vendorSettings.forEach(function (item) {
@@ -83,7 +92,7 @@
     },
 
     checkOnIsSelectedByCountry: function (countries, vendorItem) {
-        if (countries != null && countries !== undefined) {
+        if (!$A.util.isUndefinedOrNull(countries)) {
             let haveBillingCountryCode = countries.includes(vendorItem.studySite.Site__r.BillingCountryCode);
             if (haveBillingCountryCode) {
                 vendorItem.vendorSettings.forEach(function (item) {
@@ -102,16 +111,6 @@
             allSettings = allSettings.concat(vendorItem.vendorSettings);
         });
         return allSettings;
-    },
-
-    showAlert: function (title, message, type) {
-        const toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams({
-            "title": title,
-            "message": message,
-            "type": type
-        });
-        toastEvent.fire();
     },
 
     columnCheckboxStateChange: function (component, event) {

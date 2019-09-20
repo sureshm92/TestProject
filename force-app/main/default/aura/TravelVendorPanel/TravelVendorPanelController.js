@@ -6,9 +6,9 @@
     doInit: function (component, event, helper) {
         component.find('spinner').show();
 
-        communityService.executeAction(component, 'getInitData', {
-            'ctpId': component.get('v.recordId')
-        }, function (data) {
+        helper.enqueue(component, 'c.getInitData', {
+            ctpId: component.get('v.recordId')
+        }).then(function (data) {
             if (data.vendorItems.length > 0) {
                 component.set('v.vendorItems', data.vendorItems);
                 component.set('v.selectedVendors', data.vendors);
@@ -29,7 +29,17 @@
 
                 component.find('spinner').hide();
             }
-        })
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+            component.find('mainSpinner').hide();
+            console.log('error:', err[0].message);
+        });
     },
 
     addVendor: function (component, event, helper) {
@@ -86,7 +96,11 @@
             'settings': allSettings
         }, function () {
             component.find('spinner').hide();
-            helper.showAlert("Success!", 'Successfully saved.', 'success')
+            helper.notify({
+                title: 'Success!',
+                message: 'Successfully saved.',
+                type: 'success',
+            });
         })
     },
 
@@ -103,6 +117,6 @@
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
-        helper.columnCheckboxStateChange(component,event);
+        helper.columnCheckboxStateChange(component, event);
     }
 })

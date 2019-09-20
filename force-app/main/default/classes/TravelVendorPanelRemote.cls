@@ -125,9 +125,6 @@ public with sharing class TravelVendorPanelRemote {
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         Boolean isCountryCodes = countryCodes != null && String.isNotBlank(countryCodes);
         Boolean isStudySiteIds = ssIds != null && String.isNotBlank(ssIds);
-        if (!isCountryCodes && !isStudySiteIds) {
-            return result;
-        }
         try {
             List<String> countryCodeList;
             if (isCountryCodes) {
