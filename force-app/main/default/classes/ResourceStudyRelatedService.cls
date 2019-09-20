@@ -1,4 +1,4 @@
-public virtual inherited sharing class ResourceStudyRelatedService extends ResourceBasicService {
+public virtual inherited sharing class ResourceStudyRelatedService extends ResourceService {
     
     private static final List<String> RES_STUDY_FIELDS = new List<String>{
             'Id',
@@ -21,7 +21,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
     
     protected virtual override List<Id> getResourcesIds() {
         //Create filter for query:
-        String filter = DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', rService.getResourceType());
+        String filter = DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', resourceType);
         if(contentClass != null) filter += ' AND ' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass);
         if(resourceId != null) {
             filter += ' AND ' + DatabaseService.fieldEqual('Resource__c', resourceId);

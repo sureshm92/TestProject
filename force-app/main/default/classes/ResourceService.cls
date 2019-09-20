@@ -1,7 +1,7 @@
 /**
  * created by Dmytro Pokutnii
  */
-public inherited sharing class ResourceService {
+public virtual inherited sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
@@ -20,42 +20,99 @@ public inherited sharing class ResourceService {
     private static final String BYLINE_API_NAME = 'Byline__c';
     private static final String AUTHOR_S_NAME_API_NAME = 'Author_s_Name__c';
 
-    private ParticipantService.ParticipantState pState;
-    private Participant__c participant;
-    private String resourceType;
-
+    protected ParticipantService.ParticipantState pState;
+    protected Participant__c participant;
+    protected String resourceType;
+    protected String contentClass;
+    protected String therapeuticAreaId;
+    protected String resourceId;
+    
+    
     public static ResourceService getInstance(){
         return (ResourceService) ClassFactory.newInstance(ResourceService.class);
     }
     
     public ResourceService() {
-        this.resourceType = ResourceService.RESOURCE_TYPE_ARTICLE;
-        this.pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        resourceType = ResourceService.RESOURCE_TYPE_ARTICLE;
+        pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+        participant = pState.participant;
     }
-
-    public Participant__c getParticipant() {
-        return (this.participant == null ? this.getParticipant(this.resourceType) : this.participant);
+    
+    
+    public ResourceService init(String resourceType) {
+        return this.init(resourceType, null, null, null);
     }
-
-    public void setResourceType(String resourceType) {
+    
+    public ResourceService init(String resourceType, String resourceId) {
+        return this.init(resourceType, resourceId, null, null);
+    }
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass) {
+        return this.init(resourceType, resourceId, contentClass, null);
+    }
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass, String therapeuticAreaId) {
         this.resourceType = resourceType;
+        this.resourceId = resourceId;
+        this.contentClass = contentClass;
+        this.therapeuticAreaId = therapeuticAreaId;
+        return this;
     }
-
-    public String getResourceType() {
-        return (this.resourceType == null ? ResourceService.RESOURCE_TYPE_ARTICLE : this.resourceType);
+    
+    public ResourceService.ResourceWrapperContainer getResourceWrapperContainer() {
+        Boolean isFilterDataMissing = isObjectsToFilterMissing();
+        System.debug('>>> Is object to filter missing: ' + isFilterDataMissing);
+        if(isFilterDataMissing){
+            return getErrorNoObjectsToFilter();
+        }else{
+            List<Resource__c> resources = getResources();
+            if(resources.size() > 0){
+                return getResourceWrapperContainer(getResources());
+            }else{
+                return getErrorNoResources();
+            }
+        }
     }
-
-    public ParticipantService.ParticipantState getParticipantState() {
-        return this.pState;
+    
+    public virtual List<Resource__c> getResources() {
+        List<Resource__c> resources = new List<Resource__c>();
+        if(isObjectsToFilterMissing()) return resources;
+        List<Id> resourcesIds = getResourcesIds();
+        if(resourcesIds.size() > 0) {
+            String whereClause = 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) + ')';
+            resources = getResources(participant, whereClause, getOrderByClause());
+        }
+        return resources;
     }
-
+    
+    protected virtual List<Id> getResourcesIds() {
+        return new List<Id>();
+    }
+    
+    protected virtual String getOrderByClause() {
+        return 'ORDER BY Posting_Date__c DESC NULLS LAST';
+    }
+    
+    protected virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
+        return new ResourceService.ResourceWrapperContainer('Unhandled Error.');
+    }
+    
+    protected virtual ResourceService.ResourceWrapperContainer getErrorNoObjectsToFilter() {
+        return this.getErrorNoResources();
+    }
+    
+    protected virtual Boolean isObjectsToFilterMissing() {
+        return true;
+    }
+    
+    
     public String getParticipantLanguage() {
-        String language = this.getParticipant().Contact__r.Language__c;
+        String language = pState.participant.Contact__r.Language__c;
         return (String.isBlank(language) ? ResourceService.DEFAULT_LANGUAGE : language);
     }
 
     public Participant__c getParticipant(String resourceType) {
-        String participantId = this.getParticipantId();
+        String participantId = pState.participant.Id;
         String participantQuery =
                 'SELECT Id, ' +
                         'Contact__r.Language__c, ' +
@@ -68,9 +125,6 @@ public inherited sharing class ResourceService {
         return this.participant;
     }
 
-    public String getParticipantId() {
-        return this.pState.participant.Id;
-    }
 
     public static ResourceWrapperContainer getErrorMissingStudy() {
         return new ResourceWrapperContainer(CommunityService.ERROR_MISSING_STUDY);

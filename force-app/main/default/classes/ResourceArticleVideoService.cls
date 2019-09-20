@@ -1,4 +1,4 @@
-public virtual inherited sharing class ResourceArticleVideoService extends ResourceBasicService {
+public virtual inherited sharing class ResourceArticleVideoService extends ResourceService {
 
     public static ResourceArticleVideoService getInstance(){
         return (ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class);
@@ -8,15 +8,15 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         List<Resource__c> sortedResources = new List<Resource__c>();
         if (pState.value == ParticipantService.ParticipantStates.REFERRAL || pState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
             sortedResources.addAll(ResourceStudyRelatedService.getInstance()
-                    .init(rService, resourceId, ResourceService.RESOURCE_SOURCE_STUDY)
+                    .init(resourceType, resourceId, ResourceService.RESOURCE_SOURCE_STUDY)
                     .getResources());
         }
         String contentClass = ResourceService.RESOURCE_SOURCE_PLATFORM;
         if( pState.value == ParticipantService.ParticipantStates.ALUMNI) contentClass = ResourceService.RESOURCE_SOURCE_THIRD_PARTY;
-        for (Therapeutic_Area_Patient__c singleTAP : ParticipantDecoupler.getTherapeuticAreaPatients(rService.getParticipant())) {
+        for (Therapeutic_Area_Patient__c singleTAP : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
             sortedResources.addAll(ResourceTARelatedService.getInstance()
                     .init(
-                            rService,
+                            resourceType,
                             resourceId,
                             contentClass,
                             singleTAP.Therapeutic_Area__c
@@ -27,11 +27,10 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
     }
     
     protected override virtual ResourceService.ResourceWrapperContainer getErrorNoResources() {
-        return rService.getResourceType() == ResourceService.RESOURCE_TYPE_ARTICLE ?
-                ResourceService.getErrorNoArticles(false) : ResourceService.getErrorNoVideos(false);
+        return resourceType == ResourceService.RESOURCE_TYPE_ARTICLE ? ResourceService.getErrorNoArticles(false) : ResourceService.getErrorNoVideos(false);
     }
 
     protected override virtual Boolean isObjectsToFilterMissing() {
-        return ParticipantDecoupler.getTherapeuticAreaPatients(rService.getParticipant()).isEmpty() && this.pState.ctp == null;
+        return ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty() && this.pState.ctp == null;
     }
 }
