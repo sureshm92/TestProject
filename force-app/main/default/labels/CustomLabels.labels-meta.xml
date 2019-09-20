@@ -1639,6 +1639,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Body Request notification</shortDescription>
+        <value>A Participant has submitted a request for additional information on ##StudyCode.
+
+            Please login to IQVIA Patient Portal for additional information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1799,6 +1808,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             The provider cannot refer study participants to your site until you accept their request.
 
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Participant_Answer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Thanks for request</shortDescription>
+        <value>Thank you for submitting a request for additional information about ##StudyCode.  Someone from the study team will be in touch with you.
+
+            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient1</fullName>
@@ -2192,6 +2210,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Guest</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>A request for additional information has been submitted</shortDescription>
+        <value>A request for additional information has been submitted</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2437,6 +2462,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Thank you for your interest in using the</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Thank you for submitting a request</shortDescription>
+        <value>Thank you for submitting a request</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2619,6 +2651,13 @@ Sincerely,
         <value>Best Regards,
 
             IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>A request for additional information has been submitted</shortDescription>
+        <value>A request for additional information has been submitted</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Complete_Baseline_Survey</fullName>
@@ -2878,6 +2917,13 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
         <value>You have been enrolled to a clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Your_request_for_additonal_information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Your request for additonal information</shortDescription>
+        <value>Your request for additonal information has been received</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>

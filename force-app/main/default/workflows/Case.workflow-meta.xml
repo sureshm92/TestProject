@@ -20,7 +20,7 @@
             <type>contactLookup</type>
         </recipients>
         <senderType>DefaultWorkflowUser</senderType>
-        <template>unfiled$public/CommunityLockoutEmailTemplate</template>
+        <template>Referral_Hub_Emails/New_Case_created</template>
     </alerts>
     <rules>
         <fullName>New Case notification</fullName>
