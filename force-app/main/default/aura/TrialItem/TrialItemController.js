@@ -20,8 +20,10 @@
         form.checkFields();
         if (form.get('v.isValid')) {
             let participantInfo = component.get('v.participantInfo');
+            let ctp = component.get('v.trialTDO').ctp;
             helper.enqueue(component, 'c.createCaseToStudy', {
-                'participant': participantInfo,
+                participant: participantInfo,
+                ctp: ctp,
                 isDelegate : communityService.isDelegate()
             })
                 .then(function (data) {
@@ -29,7 +31,6 @@
                         component.set('v.participant', participantInfo);
                     }
                     console.log(JSON.stringify(component.get('v.participantInfo')));
-                    let ctp = component.get('v.trialTDO').ctp;
                     communityService.showToast('success', 'success', 'Thank you for your interest in ' + ctp.Study_Code_Name__c + '.  Someone from the study team will contact you shortly. ');
                     component.find('contactModal').hide();
                 }, function (err) {

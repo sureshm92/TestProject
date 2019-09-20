@@ -110,7 +110,7 @@ public with sharing class TrialSearchHelper {
         proxy.upsertRecords(taps, false);
     }
 
-    public void createCaseAndSendNotification(Participant__c participant) {
+    public void createCaseAndSendNotification(Participant__c participant, Clinical_Trial_Profile__c ctp) {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         Case caseContact = new Case(
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
@@ -122,7 +122,8 @@ public with sharing class TrialSearchHelper {
                 Email_address__c = participant.Email__c,
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
-                Phone__c = participant.Phone__c
+                Phone__c = participant.Phone__c,
+                Study_Code__c = ctp.NCT_Number__c
         );
         AssignmentRule ar = this.getAssignmentRule(proxy);
         Database.DMLOptions dlo = new Database.DMLOptions();
@@ -170,7 +171,8 @@ public with sharing class TrialSearchHelper {
                 'Official_Title__c, ' +
                 'Enrollment_Start_Date__c, ' +
                 'Override_Recruitment_Status__c, ' +
-                'Recruitment_Status__c ' +
+                'Recruitment_Status__c, ' +
+                'NCT_Number__c ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
