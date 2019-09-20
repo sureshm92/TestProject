@@ -81,6 +81,9 @@ public without sharing class CommunityModeService {
                 return communityMode;
             }
         }
+        if(!allModes.isEmpty()){
+            return allModes[0];
+        }
         return null;
     }
     

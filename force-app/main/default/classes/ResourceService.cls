@@ -24,6 +24,10 @@ public inherited sharing class ResourceService {
     private Participant__c participant;
     private String resourceType;
 
+    public static ResourceService getInstance(){
+        return (ResourceService) ClassFactory.newInstance(ResourceService.class);
+    }
+    
     public ResourceService() {
         this.resourceType = ResourceService.RESOURCE_TYPE_ARTICLE;
         this.pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
@@ -51,7 +55,6 @@ public inherited sharing class ResourceService {
     }
 
     public Participant__c getParticipant(String resourceType) {
-
         String participantId = this.getParticipantId();
         String participantQuery =
                 'SELECT Id, ' +
