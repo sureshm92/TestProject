@@ -8,6 +8,7 @@
     <aura:attribute name="lastName" type="String" default="" access="private"/>
     <aura:attribute name="clinicName" type="String" default="" access="private"/>
     <aura:attribute name="phone" type="String" default="" access="private"/>
+    <aura:attribute name="email" type="String" default="" access="private"/>
     <aura:attribute name="studySiteId" type="String" default="" access="private"/>
     <aura:attribute name="reqFieldsFilled" type="Boolean" default="true" access="private"/>
     <aura:attribute name="studySitesForInvitation" type="List" access="private"/>
@@ -45,6 +46,10 @@
                 <div class="rr-form-element slds-col">
                     <div class="label">{!$Label.c.PG_MRC_RF_Phone}</div>
                     <c:rrInput valueString="{!v.phone}"/>
+                </div>
+                <div class="rr-form-element slds-col">
+                    <div class="label">{!$Label.c.PG_MRC_RF_Email}</div>
+                    <c:rrInput valueString="{!v.email}" type="email"/>
                 </div>
                 <div class="rr-form-element slds-col">
                     <aura:if isTrue="{!!empty(v.studySitesForInvitation)}">

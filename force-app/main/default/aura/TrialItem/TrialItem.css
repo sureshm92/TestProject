@@ -74,3 +74,11 @@
 .THIS .modal-pop {
     min-width: 800px;
 }
+
+.THIS .btn-send {
+    display: block;
+}
+
+.THIS .p-footer {
+    text-align: left !important;
+}

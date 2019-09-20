@@ -1407,6 +1407,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TravelSupportHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -3807,6 +3811,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Referral_Source_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_Source__c</field>
         <readable>true</readable>
@@ -5147,6 +5156,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendorSettings__c.By_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>TravelVendorSettings__c.Is_Manual__c</field>
         <readable>false</readable>
@@ -5351,6 +5365,13 @@
         <field>Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Business_Account</recordType>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>

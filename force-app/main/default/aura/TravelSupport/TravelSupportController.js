@@ -20,6 +20,7 @@
     redirectToUrl: function (component, event, helper) {
         helper.redirectToUrl(component,event)
     },
+
     showDisclaimer: function (component, event, helper) {
         let vendor = component.get("v.selectedVendor");
         if (vendor.TravelVendor__r.Disclosure__c){
