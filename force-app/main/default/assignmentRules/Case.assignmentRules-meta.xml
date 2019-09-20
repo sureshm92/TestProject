@@ -6,7 +6,7 @@
         <ruleEntry>
             <assignedTo>PEH_Case_Queue</assignedTo>
             <assignedToType>Queue</assignedToType>
-            <template>unfiled$public/CommunityWelcomeEmailTemplate</template>
+            <template>Referral_Hub_Emails/New_interested</template>
         </ruleEntry>
     </assignmentRule>
 </AssignmentRules>
