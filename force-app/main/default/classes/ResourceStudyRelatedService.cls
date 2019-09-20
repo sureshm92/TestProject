@@ -15,9 +15,18 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             'Resource__c'
     };
     
+    private Id ctpId;
+    
     public static ResourceStudyRelatedService getInstance(){
         return (ResourceStudyRelatedService) ClassFactory.newInstance(ResourceStudyRelatedService.class);
     }
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass, Id ctpId) {
+        this.init(resourceType, resourceId, contentClass);
+        this.ctpId = ctpId;
+        return this;
+    }
+    
     
     protected virtual override List<Id> getResourcesIds() {
         //Create filter for query:
@@ -26,7 +35,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         if(resourceId != null) {
             filter += ' AND ' + DatabaseService.fieldEqual('Resource__c', resourceId);
         }else{
-            filter += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__c', pState.ctp.Id);
+            filter += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__c', getCTPId());
         }
         //Get Res Study records and filters result resource Ids
         List<Id> resourcesIds = new List<Id>();
@@ -43,5 +52,10 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
     
     protected override Boolean isObjectsToFilterMissing() {
         return (resourceId == null && pState.value == ParticipantService.ParticipantStates.ALUMNI);
+    }
+    
+    protected Id getCTPId(){
+        if(ctpId == null && pState.ctp != null)ctpId = pState.ctp.Id;
+        return ctpId;
     }
 }
