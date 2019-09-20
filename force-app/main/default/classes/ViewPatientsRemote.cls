@@ -92,10 +92,22 @@ public without sharing class ViewPatientsRemote {
             List<LabelValueItem> trialFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRRL_L_All_studies, null)};
             List<LabelValueItem> ssFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_Report_L_All_study_sites, null)};
             List<LabelValueItem> statusFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRR_L_All_Statuses, null)};
+            Set<Id> trialIds = new Set<Id>();
+            Set<Id> ssIds = new Set<Id>();
+            Set<String> statuses = new Set<String>();
             for (Integer i = 0, j=peList.size(); i < j; i++) {
-                trialFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id));
-                ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
-                statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
+                if(!trialIds.contains(peList[i].Study_Site__r.Clinical_Trial_Profile__c)){
+                    trialFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id));
+                    trialIds.add(peList[i].Study_Site__r.Clinical_Trial_Profile__c);
+                }
+                if(!ssIds.contains(peList[i].Study_Site__c)){
+                    ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
+                    ssIds.add(peList[i].Study_Site__c);
+                }
+                if(!statuses.contains(peList[i].Participant_Status__c)){
+                    statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
+                    statuses.add(peList[i].Participant_Status__c);
+                }
                 if(peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP){
                     sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c,peList[i].HCP_Contact_HCPEnroll__r.Name);
                 } else if(peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI){
@@ -195,11 +207,21 @@ public without sharing class ViewPatientsRemote {
             List<LabelValueItem> trialFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRRL_L_All_studies, null)};
             List<LabelValueItem> ssFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_Report_L_All_study_sites, null)};
             List<LabelValueItem> statusFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRR_L_All_Statuses, null)};
+            Set<Id> trialIds = new Set<Id>();
+            Set<Id> ssIds = new Set<Id>();
+            Set<String> statuses = new Set<String>();
             for (Integer i = 0, j = peList.size(); i < j; i++) {
-                trialFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id));
+                if(!trialIds.contains(peList[i].Study_Site__r.Clinical_Trial_Profile__c)){
+                    trialFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id));
+                    trialIds.add(peList[i].Study_Site__r.Clinical_Trial_Profile__c);
+                }
+
                 if (!String.isEmpty(filter.study)) {
                     if (peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id == filter.study) {
-                        ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
+                        if(!ssIds.contains(peList[i].Study_Site__c)){
+                            ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
+                            ssIds.add(peList[i].Study_Site__c);
+                        }
                         if (!String.isEmpty(filter.studySite)) {
                             if (peList[i].Study_Site__r.Id == filter.studySite) {
                                 if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
@@ -219,10 +241,17 @@ public without sharing class ViewPatientsRemote {
                                 sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT, ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
                             }
                         }
-                        statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
+                        if(!statuses.contains(peList[i].Participant_Status__c)){
+                            statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
+                            statuses.add(peList[i].Participant_Status__c);
+                        }
+
                     }
                 } else {
-                    ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
+                    if(!ssIds.contains(peList[i].Study_Site__c)){
+                        ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
+                        ssIds.add(peList[i].Study_Site__c);
+                    }
                     statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
                     if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
                         sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c, peList[i].HCP_Contact_HCPEnroll__r.Name);
