@@ -13,8 +13,6 @@
 
     doExecute: function (component, event, helper) {
         try {
-            debugger;
-            //component.set('v.refreshForm', true);
             component.find('spinner').show();
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
@@ -29,15 +27,19 @@
                 userMode: communityService.getUserMode(),
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
-                //component.set('v.refreshForm', false);
                 var formComponent = component.find('editForm');
                 formComponent.set('v.handleChangesEnabled', false);
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.isFinalUpdate', false);
+                console.log('returnValue.isEnreolled',returnValue.isEnrolled);
+                if(returnValue.isEnrolled){
+                    formComponent.set('v.screeningRequired',true);
+                    formComponent.set('v.isFinalUpdate', true);
+                }
                 formComponent.createDataStamp();
-                formComponent.checkFields();
                 formComponent.set('v.handleChangesEnabled', true);
+                formComponent.checkFields();
                 component.find('spinner').hide();
                 component.set('v.anchor', params.anchorScroll);
                 setTimeout($A.getCallback(function () {
@@ -53,7 +55,6 @@
             dialog.set('v.closeCallback', $A.getCallback(function () {
                 var formComponent = component.find('editForm');
                 formComponent.set('v.handleChangesEnabled', false);
-                //component.get('v.rootComponent').refresh();
             }));
         } catch (e) {
             console.error(e);

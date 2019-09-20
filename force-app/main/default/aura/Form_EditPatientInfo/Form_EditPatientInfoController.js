@@ -14,15 +14,8 @@
         if(!component.get('v.handleChangesEnabled')) return;
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
-        console.log('pe>>>', JSON.parse(JSON.stringify(pe)));
-        console.log('participant>>>', JSON.parse(JSON.stringify(participant)));
         var updateMode = component.get('v.updateMode');
         var isFinalUpdate = component.get('v.isFinalUpdate');
-        var isEnrollmentSuccess = false;
-        if (pe && pe.Participant_Status__c) {
-            isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
-        }
-        component.set('v.screeningRequired', isEnrollmentSuccess || isFinalUpdate);
         var stateRequired = component.get('v.statesLVList')[0];
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
