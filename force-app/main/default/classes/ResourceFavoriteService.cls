@@ -17,10 +17,7 @@ public inherited sharing class ResourceFavoriteService extends ResourceArticleVi
     }
 
     protected override ResourceService.ResourceWrapperContainer getErrorNoResources() {
-        return rService.getResourceType() == ResourceService.RESOURCE_TYPE_ARTICLE ? ResourceService.getErrorNoArticles(true) : ResourceService.getErrorNoVideos(true);
+        return resourceType == ResourceService.RESOURCE_TYPE_ARTICLE ? ResourceService.getErrorNoArticles(true) : ResourceService.getErrorNoVideos(true);
     }
 
-    protected override Boolean isObjectsToFilterMissing() {
-        return ParticipantDecoupler.getResourceActions(rService.getParticipant()).isEmpty();
-    }
 }

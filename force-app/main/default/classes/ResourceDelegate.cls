@@ -8,41 +8,23 @@ public inherited sharing class ResourceDelegate {
     }
 
     public ResourceService.ResourceWrapperContainer getResources(String resourceType) {
-        ResourceService service = ResourceService.getInstance();
-        service.setResourceType(resourceType);
-        return ResourceArticleVideoService.getInstance()
-                .init(service)
-                .getResourceWrapperContainer();
+        return ResourceArticleVideoService.getInstance().init(resourceType).getResourceWrapperContainer();
     }
 
     public ResourceService.ResourceWrapperContainer getFavoriteResources(String resourceType) {
-        ResourceService service = ResourceService.getInstance();
-        service.setResourceType(resourceType);
-        return ResourceFavoriteService.getInstance()
-                .init(service)
-                .getResourceWrapperContainer();
+        return ResourceFavoriteService.getInstance().init(resourceType).getResourceWrapperContainer();
     }
 
     public ResourceService.ResourceWrapperContainer getStudyDocuments() {
-        ResourceService service = ResourceService.getInstance();
-        service.setResourceType(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT);
-        return ResourceStudyDocumentService.getInstance()
-                .init(service)
-                .getResourceWrapperContainer();
+        return ResourceStudyDocumentService.getInstance().init(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT).getResourceWrapperContainer();
     }
 
     public ResourceService.ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {
-        ResourceService service = ResourceService.getInstance();
-        service.setResourceType(resourceType);
         List<Resource__c> resources = new List<Resource__c>();
         if (ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT.containsIgnoreCase(resourceType)) {
-            resources.addAll(ResourceStudyDocumentService.getInstance()
-                    .init(service, resourceId)
-                    .getResources());
+            resources.addAll(ResourceStudyDocumentService.getInstance().init(resourceType, resourceId).getResources());
         } else {
-            resources.addAll(ResourceArticleVideoService.getInstance()
-                    .init(service, resourceId)
-                    .getResources());
+            resources.addAll(ResourceArticleVideoService.getInstance().init(resourceType, resourceId).getResources());
         }
         return resources.isEmpty()
                 ? new ResourceService.ResourceWrapperContainer(Label.Resources_Not_Access_In_Resource)
