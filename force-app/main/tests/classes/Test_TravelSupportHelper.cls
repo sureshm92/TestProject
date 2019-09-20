@@ -9,7 +9,7 @@ public with sharing class Test_TravelSupportHelper {
     static void getVendors_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
-        createTravelSetting();
+        createDataForTravelSupportTesting();
 
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c];
 
@@ -24,22 +24,24 @@ public with sharing class Test_TravelSupportHelper {
     static void getTravelVendorsByIds_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
-        createTravelSetting();
+        createDataForTravelSupportTesting();
 
         List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c WHERE Name = 'Uber'];
         List<Id> vendorIds = new List<Id>();
         vendorIds.add(travelVendors[0].Id);
 
         Test.startTest();
-        helper.getTravelVendorsByIds(vendorIds);
+        List<TravelVendor__c> vendors = helper.getTravelVendorsByIds(vendorIds);
         Test.stopTest();
+
+        System.assertEquals('Uber', vendors[0].Name);
     }
 
     @IsTest
     static void deleteTravelSettings_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
-        createTravelSetting();
+        createDataForTravelSupportTesting();
 
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
         List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
@@ -49,9 +51,28 @@ public with sharing class Test_TravelSupportHelper {
         Test.startTest();
         helper.deleteTravelSettings(clinicalTrialProfile.Id, vendors);
         Test.stopTest();
+
+        List<TravelVendor__c> expectedTravelVendors = [SELECT Id FROM TravelVendor__c];
+        System.assertEquals(4, expectedTravelVendors.size());
     }
 
-    private static void createTravelSetting() {
+    @IsTest
+    static void getInitData_test() {
+        TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
+
+        createDataForTravelSupportTesting();
+
+        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
+
+
+        Test.startTest();
+        List<TravelVendorPanelRemote.VendorItem> vendorItems =  helper.getInitData(clinicalTrialProfile.Id);
+        Test.stopTest();
+
+        System.assertEquals(vendorItems[0].vendorSettings.size(), 4);
+    }
+
+    private static void createDataForTravelSupportTesting() {
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
 
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
