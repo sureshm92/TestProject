@@ -38,8 +38,13 @@
         var pe = component.get('v.pe');
         var statusesMap = component.get('v.peStatusStateMap');
         console.log('statusesMap', JSON.parse(JSON.stringify(statusesMap)));
-        var currentPEState = statusesMap[pe.Participant_Status__c];
-        console.log('currentPEState', JSON.parse(JSON.stringify(currentPEState)));
+        if(!statusesMap.hasOwnProperty(pe.Participant_Status__c)){
+            currentPEState = statusesMap['Enrollment Success'];
+        } else{
+            var currentPEState = statusesMap[pe.Participant_Status__c];
+        }
+
+        //console.log('currentPEState', JSON.parse(JSON.stringify(currentPEState)));
         /*component.set('v.showPath', currentPEState !== undefined && !(communityService.getUserMode() === 'PI' && pe.Participant_Status__c === 'Referral Sent to PI'));
         component.set('v.userMode', communityService.getUserMode());
         var additionalName = [];
