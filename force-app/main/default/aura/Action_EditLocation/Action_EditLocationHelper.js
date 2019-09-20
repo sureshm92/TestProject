@@ -41,7 +41,11 @@
                         initAcc.BillingCity = tmpAccount.BillingCity;
                         initAcc.BillingCountryCode = tmpAccount.BillingCountryCode;
                         initAcc.BillingStateCode = tmpAccount.BillingStateCode;
-                        initAcc.BillingState = tmpAccount.BillingState;
+                        if(tmpAccount.BillingState) {
+                            initAcc.BillingState = tmpAccount.BillingState;
+                        } else{
+                            initAcc.BillingState = '';
+                        }
                         initAcc.BillingStreet = tmpAccount.BillingStreet;
                     }
                     component.set('v.accountInitial', initAcc);
