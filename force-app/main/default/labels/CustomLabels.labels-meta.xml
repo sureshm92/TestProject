@@ -6126,6 +6126,13 @@ Please check your CAPS lock key.</value>
         <value>Practice/Clinic Name</value>
     </labels>
     <labels>
+        <fullName>PG_MRC_RF_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Email</shortDescription>
+        <value>Email (optional)</value>
+    </labels>
+    <labels>
         <fullName>PG_MRC_RF_First_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
