@@ -22,6 +22,7 @@
         var lastName = component.get('v.lastName');
         var clinicName = component.get('v.clinicName');
         var phone = component.get('v.phone');
+        var email = component.get('v.email');
         var studySiteId = component.get('v.studySiteId');
         var protocolId = component.get('v.protocolId');
         component.find('modalSpinner').show();
@@ -30,6 +31,7 @@
             lastName: lastName,
             clinicName: clinicName,
             phone: phone,
+            email: email,
             studySiteId: studySiteId,
             protocolId: protocolId,
         }, function (returnValue) {

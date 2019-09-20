@@ -1,29 +1,17 @@
 public virtual inherited sharing class ResourceBasicService {
 
     protected ResourceService rService;
-    protected String resourceType;
     protected String contentClass;
-    protected Set<String> resourcesIds;
-    protected Participant__c participant;
     protected ParticipantService.ParticipantState pState;
-    protected List<Resource__c> resources;
-    protected ResourceService.ResourceWrapperContainer wrapperContainer;
     protected String therapeuticAreaId;
     protected String resourceId;
-
-    {
-        this.resourcesIds = new Set<String>();
-        this.resources = new List<Resource__c>();
-    }
-
-    public ResourceBasicService() {
-    }
 
     public ResourceBasicService init(ResourceService rService) {
         return this.init(rService, null, null, null);
     }
 
     public ResourceBasicService init(ResourceService rService, String resourceId) {
+        System.debug('>>> 3');
         return this.init(rService, resourceId, null, null);
     }
 
@@ -32,50 +20,40 @@ public virtual inherited sharing class ResourceBasicService {
     }
 
     public ResourceBasicService init(ResourceService rService, String resourceId, String contentClass, String therapeuticAreaId) {
-        this.rService = (rService == null ? (ResourceService) ClassFactory.newInstance(ResourceService.class) : rService);
+        this.rService = (rService == null ? ResourceService.getInstance() : rService);
         this.resourceId = resourceId;
         this.contentClass = contentClass;
         this.therapeuticAreaId = therapeuticAreaId;
-        this.resourceType = rService.getResourceType();
-        this.participant = rService.getParticipant();
         this.pState = rService.getParticipantState();
-        this.initResourceWrapperContainer();
         return this;
     }
 
     public ResourceService.ResourceWrapperContainer getResourceWrapperContainer() {
-        return this.wrapperContainer;
+        if(isObjectsToFilterMissing()){
+            return getErrorNoObjectsToFilter();
+        }else{
+            List<Resource__c> resources = getResources();
+            if(resources.size() > 0){
+                return rService.getResourceWrapperContainer(getResources());
+            }else{
+                return getErrorNoResources();
+            }
+        }
     }
 
-    public List<Resource__c> getResources() {
+    public virtual List<Resource__c> getResources() {
+        List<Resource__c> resources = new List<Resource__c>();
+        if(isObjectsToFilterMissing()) return resources;
+        List<Id> resourcesIds = getResourcesIds();
+        if(resourcesIds.size() > 0) {
+            String whereClause = 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(resourcesIds)) + ')';
+            resources = rService.getResources(rService.getParticipant(), whereClause, getOrderByClause());
+        }
         return resources;
     }
 
-    protected virtual List<Resource__c> getListOfResources() {
-        String whereClause = this.getWhereClause();
-        String orderByClause = this.getOrderByClause();
-        return rService.getResources(this.participant, whereClause, orderByClause);
-    }
-
-    protected virtual void initResourceWrapperContainer() {
-        this.wrapperContainer = isObjectsToFilterMissing()
-                ? this.getErrorNoObjectsToFilter()
-                :(this.initResourcesIds() && this.initResources())
-                        ? rService.getResourceWrapperContainer(this.resources)
-                        : this.getErrorNoResources();
-    }
-
-    protected virtual Boolean initResources() {
-        this.resources = this.getListOfResources();
-        return !(this.resources == null || this.resources.isEmpty());
-    }
-
-    protected virtual Boolean initResourcesIds() {
-        return false;
-    }
-
-    protected virtual String getWhereClause() {
-        return 'WHERE Id IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(this.resourcesIds)) + ')';
+    protected virtual List<Id> getResourcesIds() {
+        return new List<Id>();
     }
 
     protected virtual String getOrderByClause() {

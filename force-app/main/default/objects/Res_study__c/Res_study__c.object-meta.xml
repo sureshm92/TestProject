@@ -159,7 +159,7 @@
         <label>Res-study Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Res-study</pluralLabel>
+    <pluralLabel>Study Resources</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
