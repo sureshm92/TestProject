@@ -4,32 +4,28 @@ public with sharing class ResourceRemote {
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
 
         try {
-            ResourceDelegate rDelegate = (ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class);
+            ResourceDelegate rDelegate = ResourceDelegate.getInstance();
             if ('Favorite'.equalsIgnoreCase(resourceMode)) {
                 return rDelegate.getFavoriteResources(resourceType);
             } else {
                 return rDelegate.getResources(resourceType);
             }
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
-
         try {
-            return ((ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class)).getStudyDocuments();
+            return ResourceDelegate.getInstance().getStudyDocuments();
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
-
         try {
             String participantId = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantId();
             String resourceActionQuery =
@@ -51,7 +47,6 @@ public with sharing class ResourceRemote {
 
     @AuraEnabled
     public static String getTrialId() {
-
         try {
             String trialId;
             ParticipantService.ParticipantState state = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantState();
@@ -59,18 +54,15 @@ public with sharing class ResourceRemote {
                 trialId = state.ctp.Id;
             } else {
                 return null;
-                //throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
             }
             return trialId;
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
     public static String getNoTAMessage() {
-
         try {
             ParticipantService.ParticipantState state = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantState();
             if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (state.participant.Conditions__c == 0)) {

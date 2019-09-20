@@ -37,6 +37,13 @@
                     initAcc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                     initAcc.BillingLongitude = tmpAccount.BillingLongitude;
                     initAcc.BillingLatitude = tmpAccount.BillingLatitude;
+                    if(!initAcc.Id) {
+                        initAcc.BillingCity = tmpAccount.BillingCity;
+                        initAcc.BillingCountryCode = tmpAccount.BillingCountryCode;
+                        initAcc.BillingStateCode = tmpAccount.BillingStateCode;
+                        initAcc.BillingState = tmpAccount.BillingState;
+                        initAcc.BillingStreet = tmpAccount.BillingStreet;
+                    }
                     component.set('v.accountInitial', initAcc);
                 }
                 component.set('v.account', acc);

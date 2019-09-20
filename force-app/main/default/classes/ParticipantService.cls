@@ -46,11 +46,10 @@ public without sharing class ParticipantService {
     public ParticipantService() {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
-        participantState.participant = getParticipant();
-        //ContactService.updateCurrentPEOnContacts(new List<Id>{userContact.Id});
         if(userContact.Current_Participant_Enrollment__c != null){
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
             if(pe != null){
+                participantState.participant = getParticipant(pe.Participant__c);
                 participantState.pe = pe;
                 participantState.isDelegate = pe.Participant__r.Contact__c != userContact.Id;
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
@@ -65,11 +64,19 @@ public without sharing class ParticipantService {
                     participantState.value = ParticipantStates.REFERRAL;
                 }
             }
+        }else{
+            participantState.participant = getParticipant(CommunityService.getUserContact().Id);
+            //Get participant for delegate
+            if(participantState.participant == null){
+                participantState.isDelegate = true;
+                Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(CommunityService.getUserContact().Id);
+                if(participant != null) participantState.participant = getParticipant(participant.Id);
+            }
         }
         participantState.welcomeMessage = getWelcomeMessage();
     }
     
-    private Participant__c getParticipant(){
+    private Participant__c getParticipant(Id sourceId){
         List<Participant__c> participants = [
                 SELECT First_Name__c,
                         Last_Name__c,
@@ -91,7 +98,7 @@ public without sharing class ParticipantService {
                         Conditions__c,
                         Contact__r.Visit_Results_Opt_In__c
                 FROM Participant__c
-                WHERE Contact__c = :CommunityService.getUserContact().Id
+                WHERE Contact__c = :sourceId OR Id = :sourceId
         ];
         if(participants.size() > 0) return participants[0];
         return null;
