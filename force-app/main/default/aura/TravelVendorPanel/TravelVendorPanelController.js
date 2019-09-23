@@ -86,12 +86,24 @@
     doSave: function (component, event, helper) {
         component.find('spinner').show();
 
+
         let vendorItems = component.get('v.vendorItems');
         let allSettings = [];
         let studySites = component.get('v.selectedByStudySite');
         let countries = component.get('v.selectedByCountry');
+        let vendors = component.get('v.selectedVendors');
 
-        let isAnyLookUpSelected = studySites || countries;
+        if ((studySites || countries)  && vendors.length === 0 ){
+            helper.notify({
+                title: 'Warning!',
+                message: 'Select travel vendor first.',
+                type: 'warning',
+            });
+            component.find('spinner').hide();
+            return;
+        }
+
+            let isAnyLookUpSelected = studySites || countries;
 
         if (isAnyLookUpSelected) {
             vendorItems.forEach(function (vendorItem) {

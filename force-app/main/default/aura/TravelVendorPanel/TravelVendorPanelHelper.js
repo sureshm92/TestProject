@@ -107,6 +107,7 @@
         let target = event.getSource().get('v.label');
         let checked = event.getSource().get('v.value');
         let items = component.get('v.vendorItems');
+        let page = component.get('v.currentPage');
         items.forEach(function (item) {
             let settings = item.vendorSettings;
             settings.forEach(function (setting) {
@@ -116,5 +117,6 @@
             });
         });
         component.set('v.vendorItems', items);
+        component.set('v.currentPage', page);
     }
 });
