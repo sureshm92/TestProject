@@ -320,8 +320,8 @@ public without sharing class ParametersDataProvider {
                 Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(cnt.Id);
                 parameters.put('ParticipantName', participant.Full_Name__c);
                 parameters.put('ParticipantFirstName', participant.First_Name__c);
-                parameters.put('Username', getCommunityUserName(contactId));
-                
+                parameters.put('UserName', getCommunityUserName(contactId));
+
                 List<Participant_Enrollment__c> enrollment = [
                         SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c
                         FROM Participant_Enrollment__c WHERE Participant__c = :participant.Id
