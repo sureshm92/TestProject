@@ -14,8 +14,8 @@ public with sharing class TrialSearchHelper {
     private static final String IN_DEVELOPMENT = 'In Development';
 
     //AssignmentRule
-    private static final String ASSIGMENT_RULE_TYPE_CASE = 'Case';
-    private static final String ASSIGMENT_RULE_NAME = 'CaseRule';
+    private static final String QUEUE = 'Queue';
+    private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
     public static final List<String> ORS_STATUS_ENROLLING = new List<String>{
             ACTIVELY_ENROLLING,
@@ -112,7 +112,10 @@ public with sharing class TrialSearchHelper {
 
     public void createCaseAndSendNotification(Participant__c participant, Clinical_Trial_Profile__c ctp) {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        Group queueGroup = this.getQueueGroup(proxy);
+        System.debug(' queueId ===> ' + queueGroup.Id);
         Case caseContact = new Case(
+                OwnerId = queueGroup.Id,
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
                 Country__c = participant.Mailing_Country_Code__c,
                 Date_of_Birth__c = participant.Date_of_Birth__c,
@@ -125,10 +128,6 @@ public with sharing class TrialSearchHelper {
                 Phone__c = participant.Phone__c,
                 Study_Code__c = ctp.NCT_Number__c
         );
-        AssignmentRule ar = this.getAssignmentRule(proxy);
-        Database.DMLOptions dlo = new Database.DMLOptions();
-        dlo.assignmentRuleHeader.assignmentRuleId= ar.Id;
-        caseContact.setOptions(dlo);
         insert caseContact;
     }
 
@@ -218,14 +217,15 @@ public with sharing class TrialSearchHelper {
         return (Participant__c) proxy.query(query)[0];
     }
 
-    public AssignmentRule getAssignmentRule(DatabaseProxy proxy) {
-        String queryAssignmentRule = 'SELECT ' +
-                'Id ' +
-                'FROM AssignmentRule ' +
-                'WHERE SobjectType = \'' + ASSIGMENT_RULE_TYPE_CASE + '\' ' +
-                'AND Name = \'' + ASSIGMENT_RULE_NAME + '\' ' +
-                'AND Active = TRUE ' +
+    private Group getQueueGroup(DatabaseProxy proxy) {
+        String query = 'SELECT ' +
+                'Id, ' +
+                'Name ' +
+                'FROM Group ' +
+                'WHERE Type = \'' + QUEUE + '\' ' +
+                'AND Name = \'' + PEH_CASE_QUEUE_NAME + '\' ' +
                 'LIMIT 1';
-        return (AssignmentRule) proxy.query(queryAssignmentRule, true)[0];
+        Group queueGroup = (Group) proxy.query(query, true)[0];
+        return queueGroup;
     }
 }
