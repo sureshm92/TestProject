@@ -9,9 +9,11 @@
             'ctpId': component.get('v.recordId'),
             'ssIds': component.get('v.selectedByStudySite'),
             'countryCodes': component.get('v.selectedByCountry'),
-            'vendorIds': helper.getVendorIds(component.get('v.selectedVendors'))
+            'vendorIds': helper.getVendorIds(component.get('v.selectedVendors')),
+            'isFirstLoad': false
         }).then(function (data) {
                 component.set('v.vendorItems', data);
+
                 component.find('spinner').hide();
         }, function (err) {
             if (err && err[0].message) {
@@ -80,26 +82,14 @@
         }
     },
 
-    checkOnIsManualStudySites: function (studySites, vendorItem) {
-        if (!$A.util.isUndefinedOrNull(studySites)) {
-            let haveStudySiteId = studySites.includes(vendorItem.studySite.Id);
-            if (haveStudySiteId) {
+    checkOnIsManualStudySites: function (studySites, countries, vendorItem) {
+            let haveStudySiteId = !$A.util.isUndefinedOrNull(studySites) && studySites.includes(vendorItem.studySite.Id);
+            let haveBillingCountryCode = !$A.util.isUndefinedOrNull(countries) && countries.includes(vendorItem.studySite.Site__r.BillingCountryCode);
+            console.log('haveBillingCountryCode ' + haveBillingCountryCode);
                 vendorItem.vendorSettings.forEach(function (item) {
-                    item.Is_Manual__c = true
+                    item.Is_Manual__c = haveStudySiteId;
+                    item.By_Country__c = haveBillingCountryCode;
                 });
-            }
-        }
-    },
-
-    checkOnIsSelectedByCountry: function (countries, vendorItem) {
-        if (!$A.util.isUndefinedOrNull(countries)) {
-            let haveBillingCountryCode = countries.includes(vendorItem.studySite.Site__r.BillingCountryCode);
-            if (haveBillingCountryCode) {
-                vendorItem.vendorSettings.forEach(function (item) {
-                    item.By_Country__c = true;
-                });
-            }
-        }
     },
 
     uncheckAllCheckBoxForVendorSettings: function (vendorItems, allSettings) {

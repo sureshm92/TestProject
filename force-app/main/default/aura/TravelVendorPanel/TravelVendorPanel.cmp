@@ -9,8 +9,8 @@
     <aura:attribute name="vendorItems" type="Object[]"/>
     <aura:attribute name="currentVendorItems" type="Object[]"/>
     <aura:attribute name="selectedVendors" type="Object[]"/>
-    <aura:attribute name="selectedByCountry" type="String"/>
-    <aura:attribute name="selectedByStudySite" type="String"/>
+    <aura:attribute name="selectedByCountry" type="String" default=""/>
+    <aura:attribute name="selectedByStudySite" type="String" default=""/>
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
