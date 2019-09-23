@@ -55,6 +55,9 @@
         rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, rootComponent, function (enrollment) {
             component.set('v.pe', enrollment);
             rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
+            if(enrollment.Participant_Status__c == 'Enrollment Success'){
+                rootComponent.refresh();
+            }
         });
     },
 

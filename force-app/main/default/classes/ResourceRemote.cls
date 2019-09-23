@@ -2,36 +2,31 @@ public with sharing class ResourceRemote {
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getResources(String resourceType, String resourceMode) {
-
         try {
-            ResourceDelegate rDelegate = (ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class);
-            if ('Favorite'.equalsIgnoreCase(resourceMode)) {
+            ResourceDelegate rDelegate = ResourceDelegate.getInstance();
+            if (resourceMode.equalsIgnoreCase('Favorite')) {
                 return rDelegate.getFavoriteResources(resourceType);
             } else {
                 return rDelegate.getResources(resourceType);
             }
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
-
         try {
-            return ((ResourceDelegate) ClassFactory.newInstance(ResourceDelegate.class)).getStudyDocuments();
+            return ResourceDelegate.getInstance().getStudyDocuments();
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
     public static void setResourceAction(String resourceId, Boolean isFavorite, Boolean isVoted) {
-
         try {
-            String participantId = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantId();
+            String participantId = ParticipantService.getInstance().getState().participant.Id;
             String resourceActionQuery =
                     'SELECT Id, ' +
                             'IsFavorite__c, ' +
@@ -51,28 +46,24 @@ public with sharing class ResourceRemote {
 
     @AuraEnabled
     public static String getTrialId() {
-
         try {
             String trialId;
-            ParticipantService.ParticipantState state = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantState();
+            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
             if (state.ctp != null) {
                 trialId = state.ctp.Id;
             } else {
                 return null;
-                //throw new CommunityServiceException(CommunityService.ERROR_MISSING_STUDY);
             }
             return trialId;
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
     public static String getNoTAMessage() {
-
         try {
-            ParticipantService.ParticipantState state = ((ResourceService) ClassFactory.newInstance(ResourceService.class)).getParticipantState();
+            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
             if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (state.participant.Conditions__c == 0)) {
                 String noTAMessage;
                 String message = Label.Resources_No_Therapeutic_Area;

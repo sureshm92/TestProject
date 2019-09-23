@@ -38,12 +38,19 @@
     },
 
     doUpdateRecords: function (component, event) {
+        console.log('event>>>',event);
+        console.log('event>>>',event.getParam('index'));
+        console.log('event>>>',JSON.parse(JSON.stringify(event.getParams())));
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordsSpinner');
         spinner.show();
         var filter = component.get('v.peFilter');
-        if(event.getParam('index') && event.getParam('index')=='activePE'){
-            filter.participantStatus = null;
+        var listOfFilters = ['activePE','study','studySite','source','participantStatus'];
+        if(event.getParam('index')){
+            var startIndex = listOfFilters.indexOf(event.getParam('index'));
+            for (let i = startIndex+1; i < listOfFilters.length; i++) {
+                filter[listOfFilters[i]] = null;
+            }
         }
         var searchText = filter.searchText;
         var filterJSON = JSON.stringify(filter);
@@ -66,12 +73,11 @@
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);
-            debugger;
             component.set('v.skipUpdate', true);
             component.set('v.pageList', result.peList);
+            component.set('v.peFilter', result.peFilter);
+            component.set('v.peFilterData', result.peFilterData);
             if(trialId != filter.study){
-                component.set('v.peFilterData.studySites', result.peFilterData.studySites);
-                component.set('v.peFilter', result.peFilter);
                 component.set('v.trialId', filter.study)
             }
             component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
@@ -79,6 +85,7 @@
             component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
             component.set('v.skipUpdate', false);
             spinner.hide();
+
         })
     },
 

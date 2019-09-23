@@ -7,8 +7,8 @@
 
             communityService.executeAction(component, 'getFilteredItems', {
                 'ctpId': component.get('v.recordId'),
-                'ssIds': component.get('v.selectedManuallySSIds'),
-                'countryCodes': component.get('v.countryCodes'),
+                'ssIds': component.get('v.selectedByStudySite'),
+                'countryCodes': component.get('v.selectedByCountry'),
                 'vendorIds': helper.getVendorIds(component.get('v.selectedVendors'))
             }, function (data) {
                 if (data.length > 0) {
@@ -36,15 +36,6 @@
         return vendorIds;
     },
 
-    markSettingsIsManual : function (settings, manualSSIds) {
-        if (manualSSIds !== null && manualSSIds !== undefined)
-        for (let i = 0; i < settings.length; i++) {
-            if (manualSSIds.includes(settings[i].Study_Site__c)) {
-                settings[i].Is_Manual__c = true;
-            }
-        }
-    },
-
     addVendor : function (component, helper) {
         component.find('spinner').show();
 
@@ -59,7 +50,7 @@
             communityService.executeAction(component, 'getFilteredItems', {
                 'ctpId': component.get('v.recordId'),
                 'ssIds': ssIds.join(';'),
-                'countryCodes': component.get('v.countryCodes'),
+                'countryCodes': component.get('v.selectedByCountry'),
                 'vendorIds': vendors !== null ? vendors : null
             }, function (data) {
                 component.set('v.vendorItems', data);
@@ -78,5 +69,63 @@
                 vendorCheckBox.set('v.value', false);
             }
         }
+    },
+
+    checkOnIsManualStudySites: function (studySites, vendorItem) {
+        if (studySites != null && studySites != undefined) {
+            let haveStudySiteId = studySites.includes(vendorItem.studySite.Id);
+            if (haveStudySiteId) {
+                vendorItem.vendorSettings.forEach(function (item) {
+                    item.Is_Manual__c = true
+                });
+            }
+        }
+    },
+
+    checkOnIsSelectedByCountry: function (countries, vendorItem) {
+        if (countries != null && countries !== undefined) {
+            let haveBillingCountryCode = countries.includes(vendorItem.studySite.Site__r.BillingCountryCode);
+            if (haveBillingCountryCode) {
+                vendorItem.vendorSettings.forEach(function (item) {
+                    item.By_Country__c = true;
+                });
+            }
+        }
+    },
+
+    uncheckAllCheckBoxForVendorSettings: function (vendorItems, allSettings) {
+        vendorItems.forEach(function (vendorItem) {
+            vendorItem.vendorSettings.forEach(function (item) {
+                item.Is_Manual__c = false;
+                item.By_Country__c = false;
+            });
+            allSettings = allSettings.concat(vendorItem.vendorSettings);
+        });
+        return allSettings;
+    },
+
+    showAlert: function (title, message, type) {
+        const toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            "title": title,
+            "message": message,
+            "type": type
+        });
+        toastEvent.fire();
+    },
+
+    columnCheckboxStateChange: function (component, event) {
+        let target = event.getSource().get('v.label');
+        let checked = event.getSource().get('v.value');
+        let items = component.get('v.vendorItems');
+        items.forEach(function (item) {
+            let settings = item.vendorSettings;
+            settings.forEach(function (setting) {
+                if (setting.TravelVendor__c === target) {
+                    setting.isEnable__c = checked;
+                }
+            });
+        });
+        component.set('v.vendorItems', items);
     }
 });
