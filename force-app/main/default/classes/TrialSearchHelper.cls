@@ -5,26 +5,24 @@ public with sharing class TrialSearchHelper {
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
-        trialSearchContainer.participant = [
-                SELECT
-                        Id,
-                        Gender__c,
-                        Mailing_State_Code__c,
-                        Phone_Type__c,
-                        Mailing_Country_Code__c,
-                        Last_Name__c,
-                        Date_of_Birth__c,
-                        Phone__c,
-                        Email__c,
-                        Mailing_Zip_Postal_Code__c
-                FROM Participant__c
-                WHERE Contact__c IN (
-                        SELECT ContactId
-                        FROM User
-                        WHERE Id = :UserInfo.getUserId()
-                )
-                LIMIT 1
-        ];
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+        String query = 'SELECT Id, ' +
+                'Gender__c,' +
+                'Mailing_State_Code__c,' +
+                'Phone_Type__c,' +
+                'Mailing_Country_Code__c,' +
+                'Last_Name__c,' +
+                'Date_of_Birth__c,' +
+                'Phone__c,' +
+                'Email__c,' +
+                'Mailing_Zip_Postal_Code__c' +
+                'FROM Participant__c ' +
+                'WHERE Contact__c IN (' +
+                'SELECT ContactId ' +
+                'FROM User ' +
+                'WHERE Id = \'' + UserInfo.getUserId() + '\')' +
+                'LIMIT 1';
+        trialSearchContainer.participant = (Participant__c) proxy.query(query, true)[0];
         return trialSearchContainer;
     }
 
@@ -102,6 +100,7 @@ public with sharing class TrialSearchHelper {
         proxy.upsertRecord(notification, true);
     }
 
+    @TestVisible
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
@@ -114,6 +113,7 @@ public with sharing class TrialSearchHelper {
         return trialTDOS;
     }
 
+    @TestVisible
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         Boolean isQCare = this.isQCare(proxy);
         String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, isQCare).getWhereClause();
@@ -135,6 +135,7 @@ public with sharing class TrialSearchHelper {
         return ctps;
     }
 
+    @TestVisible
     private List<Therapeutic_Area_Patient__c> getTherapeuticAreaPatients(DatabaseProxy proxy) {
         CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
         String participantId = cService.getParticipantId();
@@ -153,6 +154,7 @@ public with sharing class TrialSearchHelper {
         return therapeuticAreaPatients;
     }
 
+    @TestVisible
     public Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
         return ctp.Override_Recruitment_Status__c == TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING ||
                 (String.isBlank(ctp.Override_Recruitment_Status__c) &&
@@ -161,6 +163,7 @@ public with sharing class TrialSearchHelper {
                 );
     }
 
+    @TestVisible
     private Boolean isQCare(DatabaseProxy proxy) {
         String query = 'SELECT Id, ' +
                 'Current_Participant_Enrollment__r.Study_Site__r.Site__r.Type ' +
