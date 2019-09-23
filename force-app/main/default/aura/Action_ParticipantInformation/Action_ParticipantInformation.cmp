@@ -23,7 +23,8 @@
     <aura:attribute name="modifiedSteps" type="List"/>
     <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
 
-    <!-- methods -->
+    <!-- methods -->    <aura:attribute name="refreshForm" type="Boolean" default="false"/>
+
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
         <aura:attribute name="pathItems" type="List"/>
@@ -43,11 +44,13 @@
             <div class="form-content">
                 <!--Personal Information-->
                 <div class="personal-info-container" id="personalInfoAnchor">
-                    <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
-                                            formData="{!v.formData}"
-                                            updateMode="true"
-                                            isFinalUpdate="{!v.isFinalUpdate}"
-                                            isValid="{!v.isValid}"/>
+                    <aura:if isTrue="{!!v.refreshForm}">
+                        <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
+                                                formData="{!v.formData}"
+                                                updateMode="true"
+                                                isFinalUpdate="{!v.isFinalUpdate}"
+                                                isValid="{!v.isValid}"/>
+                    </aura:if>
                     <div class="slds-clearfix">
                         <div class="slds-float_right">
                             <button class="apollo-btn tertiary" disabled="{!!v.isValid}"
@@ -55,6 +58,11 @@
                         </div>
                     </div>
                 </div>
+                <!--<aura:if isTrue="{!v.pe}">
+                    <div>
+                        <c.ReferHealthcareProvider pe="{!v.pe}"/>
+                    </div>
+                </aura:if>-->
                 <!--Status Detail Path-->
                 <div id="statusDetailsAnchor" class="header">{!$Label.c.BTN_Status_Details}</div>
                 <div class="path-panel">

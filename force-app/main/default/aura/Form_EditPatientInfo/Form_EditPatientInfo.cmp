@@ -14,11 +14,11 @@
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
     <aura:attribute name="handleChangesEnabled" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="public"/>
 
     <!-- private attributes: -->
     <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
-    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
     <aura:attribute name="dataStamp" type="String"/>
 
     <!-- handlers: -->
@@ -138,8 +138,12 @@
                     </div>
                 </aura:if>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label"><abbr title="required"
-                                             class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Referred_By}</div>
+                    <div class="label">
+                        <aura:if isTrue="{!!v.updateMode}">
+                            <abbr title="required"
+                                  class="slds-required">*</abbr>
+                        </aura:if>
+                        {!$Label.c.PG_AP_F_Referred_By}</div>
                     <c:rrSelect options="{!v.formData.referredByLVList}" value="{!v.pe.Referred_By__c}"
                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"/>
                 </div>

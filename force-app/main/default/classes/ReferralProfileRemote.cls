@@ -7,6 +7,7 @@ public without sharing class ReferralProfileRemote {
     class InitData{
         List<StatusStep> steps = new List<StatusStep>();
         Participant_Enrollment__c enrollment;
+        Boolean isEnrolled;
     }
 
     class StatusStep{
@@ -82,6 +83,7 @@ public without sharing class ReferralProfileRemote {
             if(pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
             initData.steps = loadSteps(pe, userMode, delegateId);
+            initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');
             return JSON.serialize(initData);
         }catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -178,6 +180,9 @@ public without sharing class ReferralProfileRemote {
         }
         Integer i = 1;
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
+        if(!PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c)){
+            currentState = PEStatusState.STATUSES_MAP.get(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+        }
         List<StatusStep> steps = new List<StatusStep>();
         for (String stepName : PEStatusState.STATUS_STEPS_LIST) {
             PEStatusState.StatusStep step = PEStatusState.STATUS_STEPS_MAP.get(stepName);

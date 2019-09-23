@@ -11,9 +11,12 @@
             formComponent.set('v.isFinalUpdate', true);
             var isValid = formComponent.checkFields();
             if(!isValid){
-                communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields', 1000));
                 parent.set('v.saveAndChangeStep', true);
+                debugger;
                 document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                setTimeout(function(){
+                    communityService.showSuccessToast('', $A.get('$Label.c.RP_Missing_Fields', 1000));
+                }, 1000);
             }
             else{
                 helper.saveSelectedStatus(component);

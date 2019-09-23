@@ -86,7 +86,7 @@
             }
         }
         var states = statesByCountryMap[account.BillingCountryCode];
-        component.set('v.account.BillingStateCode', null);
+        account.BillingStateCode = null;
         component.set('v.account', account);
         helper.checkAccountModified(component);
         component.set('v.statesLVList', states);
