@@ -496,6 +496,7 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> reviewResults;
         public List<LabelValueItem> source;
         public List<LabelValueItem>  activePE;
+        public List<LabelValueItem>  statuses;
         public List<LabelValueItem>  activeParticipantStatus;
         public List<LabelValueItem>  inactiveParticipantStatus;
         public List<LabelValueItem> excludedFromReferring;

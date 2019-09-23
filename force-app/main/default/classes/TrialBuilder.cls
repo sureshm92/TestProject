@@ -3,6 +3,7 @@
  */
 
 public abstract with sharing class TrialBuilder {
+    
     protected TrialDetail trialDetail = new TrialDetail();
     protected String trialId;
     protected StudyActions studyAction;

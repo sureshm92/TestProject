@@ -211,9 +211,13 @@
 
                         <aura:if isTrue="{!v.userMode != 'Participant'}">
                             <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>
-                            <aura:iteration items="{!v.documents}" var="document">
-                                <div class="text"><a href="{!'/RRPDFViewer?resourceId=' + document.resourceId + '&amp;language=' + document.language}" target="_blank">{!document.title}</a></div>
-                            </aura:iteration>
+                            <div class="docs-conteiner">
+                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">
+                                    <div class="doc-item">
+                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                    </div>
+                                </aura:iteration>
+                            </div>
                         </aura:if>
 
                         <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>

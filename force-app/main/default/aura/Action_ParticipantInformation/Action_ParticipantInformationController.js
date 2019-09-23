@@ -27,11 +27,16 @@
                 userMode: communityService.getUserMode(),
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
+                var formComponent = component.find('editForm');
+                formComponent.set('v.handleChangesEnabled', false);
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.isFinalUpdate', false);
-                var formComponent = component.find('editForm');
-                formComponent.set('v.handleChangesEnabled', false);
+                console.log('returnValue.isEnreolled',returnValue.isEnrolled);
+                if(returnValue.isEnrolled){
+                    formComponent.set('v.screeningRequired',true);
+                    formComponent.set('v.isFinalUpdate', true);
+                }
                 formComponent.createDataStamp();
                 formComponent.set('v.handleChangesEnabled', true);
                 formComponent.checkFields();
@@ -50,7 +55,6 @@
             dialog.set('v.closeCallback', $A.getCallback(function () {
                 var formComponent = component.find('editForm');
                 formComponent.set('v.handleChangesEnabled', false);
-                component.get('v.rootComponent').refresh();
             }));
         } catch (e) {
             console.error(e);

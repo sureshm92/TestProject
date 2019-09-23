@@ -14,15 +14,8 @@
         if(!component.get('v.handleChangesEnabled')) return;
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
-        console.log('pe>>>', JSON.parse(JSON.stringify(pe)));
-        console.log('participant>>>', JSON.parse(JSON.stringify(participant)));
         var updateMode = component.get('v.updateMode');
         var isFinalUpdate = component.get('v.isFinalUpdate');
-        var isEnrollmentSuccess = false;
-        if (pe && pe.Participant_Status__c) {
-            isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
-        }
-        component.set('v.screeningRequired', isEnrollmentSuccess || isFinalUpdate);
         var stateRequired = component.get('v.statesLVList')[0];
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
@@ -56,10 +49,9 @@
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
                 pe.Participant_Status__c &&
-                pe.Referred_By__c &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
+                (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =

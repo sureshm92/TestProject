@@ -1,7 +1,15 @@
-public inherited sharing class ResourceTARelatedService extends ResourceBasicService {
+public inherited sharing class ResourceTARelatedService extends ResourceService {
 
     public static ResourceTARelatedService getInstance(){
         return (ResourceTARelatedService) ClassFactory.newInstance(ResourceTARelatedService.class);
+    }
+    
+    protected String therapeuticAreaId;
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass, String therapeuticAreaId) {
+        init(resourceType, resourceId, contentClass);
+        this.therapeuticAreaId = therapeuticAreaId;
+        return this;
     }
     
     protected override List<Id> getResourcesIds() {
@@ -12,8 +20,8 @@ public inherited sharing class ResourceTARelatedService extends ResourceBasicSer
                         'WHERE Therapeutic_Area__c = \'' + therapeuticAreaId + '\' ' +
                         (contentClass == null ? '' : ('AND Resource__r.Content_Class__c = \'' + contentClass + '\' ')) +
                         (resourceId == null ? '' : ('AND Resource__c = \'' + resourceId + '\' ')) +
-                        'AND Resource__r.RecordType.DeveloperName = \'' + rService.getResourceType() + '\' ' +
-                        'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage() + '\' ';
+                        'AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\' ' +
+                        'AND Resource__r.Language__c = \'' + getParticipantLanguage() + '\' ';
         List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                 .query(therapeuticAreaAssignmentsQuery, true);
         List<Id> resourcesIds = new List<Id>();
