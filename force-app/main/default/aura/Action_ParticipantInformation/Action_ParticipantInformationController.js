@@ -33,10 +33,7 @@
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 console.log('returnValue.isEnreolled',returnValue.isEnrolled);
-                if(returnValue.isEnrolled){
-                    formComponent.set('v.screeningRequired',true);
-                    formComponent.set('v.isFinalUpdate', true);
-                }
+                if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
                 formComponent.set('v.handleChangesEnabled', true);
                 formComponent.checkFields();

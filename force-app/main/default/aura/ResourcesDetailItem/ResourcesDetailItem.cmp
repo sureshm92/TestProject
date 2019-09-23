@@ -40,7 +40,7 @@
             </aura:if>
             <div class="resource-expiration-date">
                 {!(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? $Label.c.Resources_Version_Date + ': ' : $Label.c.Resources_Expires + ': ')}
-                <aura:if isTrue="{!!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}">
+                <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}">
                     <ui:outputDate value="{!v.resourceWrapper.resource.Version_Date__c}" format="dd-MMM-y"/>
                     <aura:set attribute="else">
                         <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">

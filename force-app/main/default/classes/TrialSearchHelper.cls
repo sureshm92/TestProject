@@ -14,8 +14,8 @@ public with sharing class TrialSearchHelper {
     private static final String IN_DEVELOPMENT = 'In Development';
 
     //AssignmentRule
-    private static final String ASSIGMENT_RULE_TYPE_CASE = 'Case';
-    private static final String ASSIGMENT_RULE_NAME = 'CaseRule';
+    private static final String QUEUE = 'Queue';
+    private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
     public static final List<String> ORS_STATUS_ENROLLING = new List<String>{
             ACTIVELY_ENROLLING,
@@ -66,13 +66,17 @@ public with sharing class TrialSearchHelper {
             return trialSearchContainer;
         }
         List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy, isEnrolling, isNotYetEnrolling);
+        List<Clinical_Trial_Profile__c> ctpsLanguageApprove = this.getCtpsLanguageApprove(ctps);
+        if (ctpsLanguageApprove.isEmpty()) {
+            return trialSearchContainer;
+        }
         Set<Id> taIds = new Set<Id>();
-        for (Clinical_Trial_Profile__c ctp : ctps) {
+        for (Clinical_Trial_Profile__c ctp : ctpsLanguageApprove) {
             if (ctp.Therapeutic_Area__c != null) {
                 taIds.add(ctp.Therapeutic_Area__c);
             }
         }
-        List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(taIds, ctps, proxy);
+        List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(ctpsLanguageApprove);
         trialSearchContainer.trialTDOs = trialTDOS;
         return trialSearchContainer;
     }
@@ -110,9 +114,12 @@ public with sharing class TrialSearchHelper {
         proxy.upsertRecords(taps, false);
     }
 
-    public void createCaseAndSendNotification(Participant__c participant) {
+    public void createCaseAndSendNotification(Participant__c participant, Clinical_Trial_Profile__c ctp) {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        Group queueGroup = this.getQueueGroup(proxy);
+        System.debug(' queueId ===> ' + queueGroup.Id);
         Case caseContact = new Case(
+                OwnerId = queueGroup.Id,
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
                 Country__c = participant.Mailing_Country_Code__c,
                 Date_of_Birth__c = participant.Date_of_Birth__c,
@@ -122,16 +129,39 @@ public with sharing class TrialSearchHelper {
                 Email_address__c = participant.Email__c,
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
-                Phone__c = participant.Phone__c
+                Phone__c = participant.Phone__c,
+                Study_Code__c = ctp.NCT_Number__c
         );
-        AssignmentRule ar = this.getAssignmentRule(proxy);
-        Database.DMLOptions dlo = new Database.DMLOptions();
-        dlo.assignmentRuleHeader.assignmentRuleId= ar.Id;
-        caseContact.setOptions(dlo);
         insert caseContact;
     }
 
-    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(Set<Id> taIds, List<Clinical_Trial_Profile__c> ctps, DatabaseProxy proxy) {
+    private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
+        Contact Contact = CommunityService.getUserContact();
+        List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
+        for (Clinical_Trial_Profile__c ctp : ctps) {
+            Set<String> languageCods = new Set<String>();
+            if (!ctp.Study_Site_Profiles__r.isEmpty()) {
+                for (Study_Site__c studySite : ctp.Study_Site_Profiles__r) {
+                    if (String.isNotBlank(studySite.Approved_Lng__c)) {
+                        List<String> cods = studySite.Approved_Lng__c.split(';');
+                        languageCods.addAll(cods);
+                    }
+                }
+            }
+            if (!languageCods.isEmpty()) {
+                if (languageCods.contains(Contact.Language__c)) {
+                    ctpsLanguageApprove.add(ctp);
+                } else if (languageCods.contains(Contact.Second_Choice_Language__c)) {
+                    ctpsLanguageApprove.add(ctp);
+                } else if (languageCods.contains(Contact.Third_Choice_Language__c)) {
+                    ctpsLanguageApprove.add(ctp);
+                }
+            }
+        }
+        return ctpsLanguageApprove;
+    }
+
+    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
@@ -170,7 +200,9 @@ public with sharing class TrialSearchHelper {
                 'Official_Title__c, ' +
                 'Enrollment_Start_Date__c, ' +
                 'Override_Recruitment_Status__c, ' +
-                'Recruitment_Status__c ' +
+                'Recruitment_Status__c, ' +
+                'NCT_Number__c, ' +
+                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r) ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
@@ -216,14 +248,15 @@ public with sharing class TrialSearchHelper {
         return (Participant__c) proxy.query(query)[0];
     }
 
-    public AssignmentRule getAssignmentRule(DatabaseProxy proxy) {
-        String queryAssignmentRule = 'SELECT ' +
-                'Id ' +
-                'FROM AssignmentRule ' +
-                'WHERE SobjectType = \'' + ASSIGMENT_RULE_TYPE_CASE + '\' ' +
-                'AND Name = \'' + ASSIGMENT_RULE_NAME + '\' ' +
-                'AND Active = TRUE ' +
+    private Group getQueueGroup(DatabaseProxy proxy) {
+        String query = 'SELECT ' +
+                'Id, ' +
+                'Name ' +
+                'FROM Group ' +
+                'WHERE Type = \'' + QUEUE + '\' ' +
+                'AND Name = \'' + PEH_CASE_QUEUE_NAME + '\' ' +
                 'LIMIT 1';
-        return (AssignmentRule) proxy.query(queryAssignmentRule, true)[0];
+        Group queueGroup = (Group) proxy.query(query, true)[0];
+        return queueGroup;
     }
 }

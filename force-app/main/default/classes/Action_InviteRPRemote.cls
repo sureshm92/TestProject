@@ -105,6 +105,9 @@ public without sharing class Action_InviteRPRemote {
                         Study_Site__c = studySiteId
                 );
                 insert hcpe;
+
+                hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                update hcpe;
             }
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
