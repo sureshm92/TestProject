@@ -2732,6 +2732,31 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.HCP_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Icon_Details__c.Custom_Icon__c</field>
         <readable>false</readable>
@@ -5394,6 +5419,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>HCP_Enrollment__c-HCP Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Healthcare_Provider__c-Healthcare Provider Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icon_Details__c-icons detail Layout</layout>
