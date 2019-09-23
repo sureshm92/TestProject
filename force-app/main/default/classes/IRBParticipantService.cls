@@ -18,10 +18,7 @@ public without sharing class IRBParticipantService {
         List<Participant_Enrollment__c> pe = [
                 SELECT
                         Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site__r.Approved_Lng__c,
-                        Participant_Contact__r.Language__c,
-                        Participant_Contact__r.Second_Choice_Language__c,
-                        Participant_Contact__r.Third_Choice_Language__c
+                        Study_Site__r.Approved_Lng__c
                 FROM Participant_Enrollment__c
                 WHERE Id = :peId
         ];
@@ -34,18 +31,19 @@ public without sharing class IRBParticipantService {
         wrapper.isNewSession = CommunityService.isNewSession();
         wrapper.mode = 'no-approved';
 
+        Contact userContact = CommunityService.getUserContact();
         if (siteApprovedLng.isEmpty()) {
             wrapper.mode = 'empty';
         } else {
-            if (siteApprovedLng.contains(pe.get(0).Participant_Contact__r.Language__c)) {
+            if (siteApprovedLng.contains(userContact.Language__c)) {
                 wrapper.mode = 'preferred';
-                wrapper.languageToTranslate = pe.get(0).Participant_Contact__r.Language__c;
-            } else if (siteApprovedLng.contains(pe.get(0).Participant_Contact__r.Second_Choice_Language__c))  {
+                wrapper.languageToTranslate = userContact.Language__c;
+            } else if (siteApprovedLng.contains(userContact.Second_Choice_Language__c))  {
                 wrapper.mode = 'alternative';
-                wrapper.languageToTranslate = pe.get(0).Participant_Contact__r.Second_Choice_Language__c;
-            } else if(siteApprovedLng.contains(pe.get(0).Participant_Contact__r.Third_Choice_Language__c)) {
+                wrapper.languageToTranslate = userContact.Second_Choice_Language__c;
+            } else if(siteApprovedLng.contains(userContact.Third_Choice_Language__c)) {
                 wrapper.mode = 'alternative';
-                wrapper.languageToTranslate = pe.get(0).Participant_Contact__r.Third_Choice_Language__c;
+                wrapper.languageToTranslate = userContact.Third_Choice_Language__c;
             }
 
             if(wrapper.languageToTranslate == null) wrapper.languageToTranslate = siteApprovedLng.get(0);
