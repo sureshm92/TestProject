@@ -1,0 +1,18 @@
+<!--
+ - Created by Nikita Abrazhevitch on 11-Sep-19.
+ -->
+
+<aura:component description="SurveyGismoResultsView">
+    <aura:attribute name="results" type="String"/>
+    <aura:attribute name="decodeResults" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.results}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.decodeResults}">
+        <aura:unescapedHtml value="{!v.decodeResults}"/>
+        <aura:set attribute="else">
+                <iframe src="{!v.results}" height="500px" width="100%" allowfullscreen="true"></iframe>
+        </aura:set>
+    </aura:if>
+</aura:component>

@@ -33,15 +33,6 @@ private class Test_TrialSearchContainerRemote {
         System.assertEquals(1, TrialSearchContainerRemote.getFilterSearchCTPs(null, null, null).trialTDOs.size());
     }
 
-    @IsTest
-    static void createTrialNotification_Test() {
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TrialSearchHelper.class, StubBuilder.newInstance(TrialSearchHelper.class)
-                .build()
-        );
-        TrialSearchContainerRemote.createTrialNotification(TestDataFactory.getFakeId(Clinical_Trial_Profile__c.getSObjectType()));
-    }
-
 
     private static TrialSearchContainerRemote.TrialSearchContainer makeTsContainer() {
         TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();

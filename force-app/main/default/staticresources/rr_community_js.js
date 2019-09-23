@@ -8,7 +8,6 @@ window.communityService = (function () {
     var isTCAcceptedFlag;
     var communityMode;
     var communityDelegateId;
-    var communityTypes;
     var communityURLPathPrefix;
     var isDelegate;
     var stickyBarEnabled = true;
@@ -23,6 +22,7 @@ window.communityService = (function () {
     var participantState;
     var currentUserMode;
     var allUserModes;
+    var showPastStudies
 
     //community service functions:
     var service = {
@@ -34,7 +34,6 @@ window.communityService = (function () {
                 preventedCookies = communityData.preventedCookies;
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
-                communityTypes = communityData.communityTypes;
                 communityMode = communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
@@ -45,17 +44,15 @@ window.communityService = (function () {
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
                 currentUserMode = communityData.currentUserMode;
+                showPastStudies = communityData.showPastStudies;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
-                console.log('user mode: ' + communityMode);
-                console.log('user delegate Id: ' + communityDelegateId);
-                console.log('community types: ' + JSON.stringify(communityTypes));
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
-                    $A.get("e.c:EventCommunityInitialized").fire();
+                    $A.get('e.c:EventCommunityInitialized').fire();
                 }
             })
         },
@@ -110,6 +107,10 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
+        isShowPastStudies: function(){
+            return showPastStudies;
+        },
+
         getCurrentCommunityMode: function(){
             return currentUserMode;
         },
@@ -146,9 +147,6 @@ window.communityService = (function () {
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
-        },
-        getCommunityTypes: function () {
-            return communityTypes
         },
 
         isInitialized: function () {
@@ -315,7 +313,7 @@ window.communityService = (function () {
             setTimeout(
                 function () {
                     var mainBarHeight = 50;
-                    if (communityTypes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
+                    if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
                     document.getElementById('stickyBar').classList.remove('sticky');
                     var stickyBar = document.getElementById('stickyPositionTarget');
                     stickyBarTop = stickyBar.offsetTop - mainBarHeight;

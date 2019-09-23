@@ -19,7 +19,7 @@ public without sharing class TravelSupportHelper {
                 'Site__r.BillingCountry, ' +
                 'Site__r.BillingCountryCode, ' +
                 'Study_Site_Number__c, ' +
-                '(SELECT Id, isEnable__c, Is_Manual__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c, Study_Site__c FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
+                '(SELECT Id, isEnable__c, By_Country__c, Is_Manual__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c, Study_Site__c, Study_Site__r.Site__r.BillingCountryCode FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
                 'FROM Study_Site__c ';
         String clause = ' WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
         if (isCountryCodes) {
@@ -47,18 +47,30 @@ public without sharing class TravelSupportHelper {
         return vendorItems;
     }
 
-    public List<TravelVendor__c> getTravelVendorsByIds(List<Id> travelVendorIds) {
+    public List<TravelVendorPanelRemote.VendorItem> getInitData(Id ctpId) {
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        String clauseChild = '';
         String query = 'SELECT Id, ' +
                 'Name, ' +
-                'Link_Vendor__c ' +
-                'FROM TravelVendor__c ';
-        String clause = 'WHERE Id IN ' + '(\'' + String.join(travelVendorIds, '\',\'') + '\')';
-        String order = ' ORDER BY Id';
+                'Clinical_Trial_Profile__c, ' +
+                'Site__r.BillingCountry, ' +
+                'Site__r.BillingCountryCode, ' +
+                'Study_Site_Number__c, ' +
+                '(SELECT Id, isEnable__c, By_Country__c, Is_Manual__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c, Study_Site__c, Study_Site__r.Site__r.BillingCountryCode FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
+                'FROM Study_Site__c ';
+        String clause = ' WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
+        String order = ' ORDER BY Name';
         query += clause;
         query += order;
-        List<TravelVendor__c> travelVendors = databaseProxy.query(query);
-        return travelVendors;
+        System.debug(query);
+        List<Study_Site__c> studySites = databaseProxy.query(query);
+        List<TravelVendorPanelRemote.VendorItem> vendorItems = new List<TravelVendorPanelRemote.VendorItem>();
+        for (Study_Site__c studySite : studySites) {
+            TravelVendorPanelRemote.VendorItem vendorItem = new TravelVendorPanelRemote.VendorItem(studySite);
+                vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
+                vendorItems.add(vendorItem);
+        }
+        return vendorItems;
     }
 
     public void fillVendorSettingsWithStub(List<Id> travelVendorIds, List<TravelVendorPanelRemote.VendorItem> vendorItemsResult) {
@@ -78,7 +90,8 @@ public without sharing class TravelSupportHelper {
                             new TravelVendorSettings__c (
                                     isEnable__c = false,
                                     TravelVendor__c = vendorId,
-                                    Study_Site__c = vendorItem.studySite.Id
+                                    Study_Site__c = vendorItem.studySite.Id,
+                                    Study_Site__r = vendorItem.studySite
                             )
                     );
                 }
@@ -104,7 +117,8 @@ public without sharing class TravelSupportHelper {
                     'TravelVendor__c, ' +
                     'TravelVendor__r.Name, ' +
                     'TravelVendor__r.Link_Vendor__c, ' +
-                    'TravelVendor__r.Disclosure__c ' +
+                    'TravelVendor__r.Disclosure__c, ' +
+                    'tudy_Site__r.Site__r.BillingCountryCode' +
                     'FROM TravelVendorSettings__c '+
                     'WHERE Study_Site__c =  \'' + studySiteId + '\' ' +
                     'AND isEnable__c = ' + true;

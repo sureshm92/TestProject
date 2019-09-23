@@ -404,11 +404,25 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Site</value>
     </labels>
     <labels>
+        <fullName>AdHoc_CheckBox_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AdHoc CheckBox Help Text</shortDescription>
+        <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Admin</shortDescription>
         <value>IQVIA Admin</value>
+    </labels>
+    <labels>
+        <fullName>Admin_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Admin Label</shortDescription>
+        <value>Admin</value>
     </labels>
     <labels>
         <fullName>Albumin</fullName>
@@ -472,7 +486,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add Patient</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -769,6 +783,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Pre-eligibility Screening</value>
     </labels>
     <labels>
+        <fullName>BTN_Participant_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Participant Information</shortDescription>
+        <value>Participant Information</value>
+    </labels>
+    <labels>
         <fullName>BTN_Patient_no_longer_interested</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -867,6 +888,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Save and Exit</value>
     </labels>
     <labels>
+        <fullName>BTN_Screener_Responses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Screener Responses</shortDescription>
+        <value>Screener Responses</value>
+    </labels>
+    <labels>
         <fullName>BTN_Select_as_Preferred_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -921,6 +949,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN Stat Over</shortDescription>
         <value>Start Over</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Status_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Status Details</shortDescription>
+        <value>Status Details</value>
     </labels>
     <labels>
         <fullName>BTN_Undo_exclude</fullName>
@@ -1302,6 +1337,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Update Referring Provider status</value>
     </labels>
     <labels>
+        <fullName>DLIT_L_Manage_study_site_details</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L Manage study site details</shortDescription>
+        <value>Manage study site details</value>
+    </labels>
+    <labels>
         <fullName>DLIT_L_Manage_team_member</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1604,11 +1646,31 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Body Request notification</shortDescription>
+        <value>A Participant has submitted a request for additional information on ##StudyCode.
+
+            Please login to IQVIA Patient Portal for additional information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Complete Baseline Survey</shortDescription>
         <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Delegate</shortDescription>
+        <value>Congratulations, ##UserName has successfully completed ##StudyName clinical research study.
+
+            As you continue to your engagement with us, there are multiple opportunities for you to stay informed.
+
+            Please log in to the IQVIA Patient Portal for the latest clinical research information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1755,6 +1817,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Participant_Answer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Thanks for request</shortDescription>
+        <value>Thank you for submitting a request for additional information about ##StudyCode.  Someone from the study team will be in touch with you.
+
+            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1828,6 +1899,17 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient18</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient18</shortDescription>
+        <value>Congratulations, you have successfully completed ##StudyName clinical research study.
+
+            As you continue your engagement with us, there are multiple opportunities for you to stay informed.
+
+            Please log in to the IQVIA Patient Portal for the latest clinical research information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1888,6 +1970,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Plain Summary</shortDescription>
+        <value>Your Plain Language Summary for ##StudyName clinical research study is available on the IQVIA Patient Portal.
+
+Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -2045,6 +2136,24 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             Please login to update the status of this task.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Trial_Alert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Trial Alert</shortDescription>
+        <value>An alert on a clinical research study you may be interested in has been scheduled.  We will notify you when ##StudyName enrollment begins.
+
+            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Trial_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Trial Message</shortDescription>
+        <value>A clinical research study you may be interested in has started enrolling.
+
+            Please login to the IQVIA Patient Portal to check your clinical research trial matches for additional details.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2106,6 +2215,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Email Guest User Name</shortDescription>
         <value>Guest</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>A request for additional information has been submitted</shortDescription>
+        <value>A request for additional information has been submitted</value>
     </labels>
     <labels>
         <fullName>Email_Header_Complete_Baseline_Survey</fullName>
@@ -2213,11 +2329,25 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Thank you for your interest in participating in a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Patient5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Patient5</shortDescription>
+        <value>Thank you for completing your clinical research study</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Patient_Dropped_Out</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out</shortDescription>
         <value>You have left your clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Plain Summary</shortDescription>
+        <value>A summary of your study is available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP10</fullName>
@@ -2337,6 +2467,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Email Header Thank You For Your Interest</shortDescription>
         <value>Thank you for your interest in using the</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Thank you for submitting a request</shortDescription>
+        <value>Thank you for submitting a request</value>
     </labels>
     <labels>
         <fullName>Email_Header_Visit_Task_Reminder</fullName>
@@ -2463,6 +2600,17 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary</shortDescription>
+        <value>Please feel free to contact us if you have any questions.
+
+Sincerely,
+
+            The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_RH</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2510,6 +2658,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Best Regards,
 
             IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>A request for additional information has been submitted</shortDescription>
+        <value>A request for additional information has been submitted</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Complete_Baseline_Survey</fullName>
@@ -2624,6 +2779,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>We are sorry to see you leave your clinical trial</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Plain_Summary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Plain Summary</shortDescription>
+        <value>Your Study Plain Language summary is available</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_RP11</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2670,7 +2832,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Share Resource</shortDescription>
-        <value>A clinical research study that may interest you</value>
+        <value>Content that may interest you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
@@ -2708,6 +2870,41 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Your Patient has a task reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Trial_Complete_for_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial_Complete_for_Delegate</shortDescription>
+        <value>Congratulations you the study has been completed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Trial_Complete_for_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial_Complete_for_Participant</shortDescription>
+        <value>Congratulations you have completed your study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Trial_Complete_for_Participant2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial_Complete_for_Participant</shortDescription>
+        <value>Congratulations you the study has been completed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Trial_Search_Match_Alert_Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Match Alert Received</shortDescription>
+        <value>An alert for a clinical research study you may be interested in has been set</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Trial_Search_Match_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Match Email</shortDescription>
+        <value>A clinical research study that may interest you</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2727,6 +2924,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
         <value>You have been enrolled to a clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Your_request_for_additonal_information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Your request for additonal information</shortDescription>
+        <value>Your request for additonal information has been received</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>
@@ -2822,6 +3026,34 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
         <value>This patient has already been referred to this study.</value>
+    </labels>
+    <labels>
+        <fullName>FU_Add_File</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FU Add File</shortDescription>
+        <value>Add File</value>
+    </labels>
+    <labels>
+        <fullName>File_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File Type</shortDescription>
+        <value>File Type</value>
+    </labels>
+    <labels>
+        <fullName>File_Upload_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File Upload Name</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>Files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Files</shortDescription>
+        <value>Files</value>
     </labels>
     <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
@@ -3304,7 +3536,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Navigation My Referrals</shortDescription>
-        <value>My Referrals</value>
+        <value>My Participants</value>
     </labels>
     <labels>
         <fullName>Navigation_My_Referring_Clinics</fullName>
@@ -3897,6 +4129,13 @@ View study documents and other resources including articles and videos related t
         <value>Details</value>
     </labels>
     <labels>
+        <fullName>PE_Info_PopUp_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Info PopUp Title</shortDescription>
+        <value>profile for</value>
+    </labels>
+    <labels>
         <fullName>PE_Investigator_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4349,7 +4588,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG AP H Patient Details</shortDescription>
-        <value>Patient Details</value>
+        <value>Participant Details</value>
     </labels>
     <labels>
         <fullName>PG_AP_H_Referral_Information</fullName>
@@ -4813,7 +5052,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Add Patient Header</shortDescription>
-        <value>Add Patient</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>PG_BLS_Header</fullName>
@@ -4932,7 +5171,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals Waiting For Acceptance</shortDescription>
-        <value>Referrals Waiting For Acceptance</value>
+        <value>Participants Waiting For Acceptance</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
@@ -4981,7 +5220,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI Referrals</shortDescription>
-        <value>Referrals</value>
+        <value>Participants</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_at</fullName>
@@ -5933,6 +6172,13 @@ Please check your CAPS lock key.</value>
         <value>Practice/Clinic Name</value>
     </labels>
     <labels>
+        <fullName>PG_MRC_RF_Email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Email</shortDescription>
+        <value>Email (optional)</value>
+    </labels>
+    <labels>
         <fullName>PG_MRC_RF_First_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6162,6 +6408,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG MRR BTN Refer Patient to This Study</shortDescription>
         <value>Refer Patient to This Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRR_L_All_Statuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRR L All  Statuses</shortDescription>
+        <value>All Statuses</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRR_L_All_sources</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRR L All sources</shortDescription>
+        <value>All Sources</value>
     </labels>
     <labels>
         <fullName>PG_MRR_L_Back_to_Study_Workspace</fullName>
@@ -6430,6 +6690,20 @@ Please check your CAPS lock key.</value>
         <value>Add New Team Member</value>
     </labels>
     <labels>
+        <fullName>PG_MT_L_Add_New_Team_Member_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L Add New Team Member for</shortDescription>
+        <value>Add New Team Member for</value>
+    </labels>
+    <labels>
+        <fullName>PG_MT_L_My_Permissions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MT L My Permissions</shortDescription>
+        <value>My Permissions</value>
+    </labels>
+    <labels>
         <fullName>PG_MT_L_My_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6519,6 +6793,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG NTM L Set By Study</shortDescription>
         <value>Set By Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_NTM_L_Set_By_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG NTM L Set By Study Site</shortDescription>
+        <value>Set By Study Site</value>
     </labels>
     <labels>
         <fullName>PG_NTM_L_Set_Same_For_All_Studies</fullName>
@@ -6885,7 +7166,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG RP L My Referrals</shortDescription>
-        <value>My Referrals</value>
+        <value>My Participants</value>
     </labels>
     <labels>
         <fullName>PG_RP_L_Not_selected</fullName>
@@ -7619,6 +7900,13 @@ Please check your CAPS lock key.</value>
         <value>Sponsor</value>
     </labels>
     <labels>
+        <fullName>PG_SW_F_Study_Documents</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG SW F Study Documents</shortDescription>
+        <value>STUDY DOCUMENTS</value>
+    </labels>
+    <labels>
         <fullName>PG_SW_F_Study_Name</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7843,6 +8131,13 @@ Please check your CAPS lock key.</value>
         <value>Acceptance Status</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Active</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Active</shortDescription>
+        <value>Active</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7864,6 +8159,13 @@ Please check your CAPS lock key.</value>
         <value>There are no items to display</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Participant Status</shortDescription>
+        <value>Participant status</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_Referral_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7876,6 +8178,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG VP L Referring statuses</shortDescription>
         <value>Referring statuses</value>
+    </labels>
+    <labels>
+        <fullName>PG_VP_L_Source</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Source</shortDescription>
+        <value>Source</value>
     </labels>
     <labels>
         <fullName>PG_VP_L_Studies</fullName>
@@ -7931,6 +8240,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP L Account Setting Preferred Lng</shortDescription>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>PS_Enrollment_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PS_Enrollment_Date</shortDescription>
+        <value>Enrollment Date</value>
+    </labels>
+    <labels>
+        <fullName>PS_Site_Location</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PS_Site_Location</shortDescription>
+        <value>Site Location</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
@@ -8549,6 +8872,27 @@ Please check your CAPS lock key.</value>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
     <labels>
+        <fullName>SDC_List_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SDC List View</shortDescription>
+        <value>List view</value>
+    </labels>
+    <labels>
+        <fullName>SDC_Thumbnail_view</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SDC Thumbnail view</shortDescription>
+        <value>Thumbnail view</value>
+    </labels>
+    <labels>
+        <fullName>SD_Icon_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SD_Icon_View</shortDescription>
+        <value>Icon View</value>
+    </labels>
+    <labels>
         <fullName>SGT_Accepted_and_active</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8658,7 +9002,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Btn Manage Referrals</shortDescription>
-        <value>Manage Referrals</value>
+        <value>Manage Participants</value>
     </labels>
     <labels>
         <fullName>SS_Btn_Manage_Referring_Providers</fullName>
@@ -9891,6 +10235,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TrialSearch_Update Search Results</shortDescription>
         <value>Update Search Results</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Search_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Header</shortDescription>
+        <value>An alert on a clinical research study you may be interested in has been set</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Search_Message_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Message Header</shortDescription>
+        <value>A clinical research study you may be interested in has started enrolling</value>
     </labels>
     <labels>
         <fullName>TrialSearch_We_will_alert_you</fullName>

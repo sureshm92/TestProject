@@ -16,11 +16,6 @@
         var pe = component.get('v.pe');
         var updateMode = component.get('v.updateMode');
         var isFinalUpdate = component.get('v.isFinalUpdate');
-        var isEnrollmentSuccess = false;
-        if (pe && pe.Participant_Status__c) {
-            isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
-        }
-        component.set('v.screeningRequired', isEnrollmentSuccess || isFinalUpdate);
         var stateRequired = component.get('v.statesLVList')[0];
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
@@ -39,6 +34,7 @@
                 (oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
                 (oldPE.Participant__r.Mailing_Zip_Postal_Code__c && !participant.Mailing_Zip_Postal_Code__c) ||
                 (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
+                (oldPE.Screening_ID__c && !pe.Referred_By__c) ||
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             isValid = !isRemovedValue;
         } else if (updateMode && isFinalUpdate) {
@@ -55,7 +51,7 @@
                 pe.Participant_Status__c &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c));
+                (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =
@@ -75,10 +71,12 @@
                 pe.Referred_By__c;
         }
         component.set('v.isValid', isValid);
+        return isValid;
     },
 
     doCountryCodeChanged: function (component, event, helper) {
         if(!component.get('v.handleChangesEnabled')) return;
+        console.log('doCountryCodeChanged');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var participant = component.get('v.participant');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];

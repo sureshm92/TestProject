@@ -35,6 +35,36 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
+    public static InitData getAllData(Id ctpId) {
+        TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
+        InitData initData = new InitData();
+        try {
+            initData.vendorItems = supportHelper.getInitData(ctpId);
+            Set<TravelVendor__c> vendorIds = new Set<TravelVendor__c>();
+            for (VendorItem item : initData.vendorItems) {
+                if (!item.studySite.TravelVendorSettings__r.isEmpty()) {
+                    for (TravelVendorSettings__c travelVendorSettings : item.studySite.TravelVendorSettings__r) {
+                        vendorIds.add(travelVendorSettings.TravelVendor__r);
+                    }
+                }
+            }
+            if (vendorIds != null) {
+                List<TravelVendor__c> vendorsList = new List<TravelVendor__c>(vendorIds);
+                vendorsList.sort();
+                initData.vendors = vendorsList;
+                List<Id> vendorIdsList = new List<Id>();
+                for (TravelVendor__c travelVendor : vendorsList) {
+                    vendorIdsList.add(travelVendor.Id);
+                }
+                supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
+            }
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
+        return initData;
+    }
+
+    @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         InitData initData = new InitData();
@@ -45,27 +75,26 @@ public with sharing class TravelVendorPanelRemote {
                 return new InitData();
             }
             Set<String> uniqueCC = new Set<String>();
-            Set<Id> vendorIds = new Set<Id>();
+            Set<TravelVendor__c> vendorIds = new Set<TravelVendor__c>();
             Set<Id> manualSsIds = new Set<Id>();
             for (VendorItem item : initData.vendorItems) {
                 if (!item.studySite.TravelVendorSettings__r.isEmpty()) {
                     Boolean isManual = false;
                     for (TravelVendorSettings__c travelVendorSettings : item.studySite.TravelVendorSettings__r) {
-                        vendorIds.add(travelVendorSettings.TravelVendor__c);
+                        vendorIds.add(travelVendorSettings.TravelVendor__r);
                         if (travelVendorSettings.Is_Manual__c) {
                             manualSsIds.add(travelVendorSettings.Study_Site__c);
                             isManual = true;
                         }
-                    }
-                    if (!isManual) {
-                        String countryName = item.studySite.Site__r.BillingCountry;
-                        String countryCode = item.studySite.Site__r.BillingCountryCode;
-                        if ((countryCode != null && countryName != null) && !uniqueCC.contains(countryCode)) {
-                            uniqueCC.add(countryCode);
-                            initData.countryCodes += countryCode + ';';
+                        if (travelVendorSettings.By_Country__c) {
+                            String countryName = item.studySite.Site__r.BillingCountry;
+                            String countryCode = item.studySite.Site__r.BillingCountryCode;
+                            if ((countryCode != null && countryName != null) && !uniqueCC.contains(countryCode)) {
+                                uniqueCC.add(countryCode);
+                                initData.countryCodes += countryCode + ';';
+                            }
                         }
                     }
-
                 }
             }
             if (vendorIds.isEmpty()) {
@@ -75,9 +104,13 @@ public with sharing class TravelVendorPanelRemote {
                 initData.selectedSSIds = String.join(new List<Id>(manualSsIds), ';');
             }
             initData.countryCodes = initData.countryCodes.removeEnd(';');
-            List<Id> vendorIdsList = new List<Id>(vendorIds);
-            vendorIdsList.sort();
-            initData.vendors = supportHelper.getTravelVendorsByIds(vendorIdsList);
+            List<TravelVendor__c> vendorsList = new List<TravelVendor__c>(vendorIds);
+            vendorsList.sort();
+            initData.vendors = vendorsList;
+            List<Id> vendorIdsList = new List<Id>();
+            for (TravelVendor__c travelVendor : vendorsList) {
+                vendorIdsList.add(travelVendor.Id);
+            }
             supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -92,7 +125,6 @@ public with sharing class TravelVendorPanelRemote {
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         Boolean isCountryCodes = countryCodes != null && String.isNotBlank(countryCodes);
         Boolean isStudySiteIds = ssIds != null && String.isNotBlank(ssIds);
-        Boolean isVendors = vendorIds != null && !vendorIds.isEmpty();
         if (!isCountryCodes && !isStudySiteIds) {
             return result;
         }
@@ -106,9 +138,7 @@ public with sharing class TravelVendorPanelRemote {
                 studyIds = ssIds.split(';');
             }
             result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendorIds);
-            if (isVendors) {
-                supportHelper.fillVendorSettingsWithStub(vendorIds, result);
-            }
+            supportHelper.fillVendorSettingsWithStub(vendorIds, result);
         } catch (Exception e) {
             return (List<VendorItem>) AuraHelper.throwException(e);
         }
@@ -123,12 +153,10 @@ public with sharing class TravelVendorPanelRemote {
         try {
             if (settings != null && !settings.isEmpty()) {
                 for (TravelVendorSettings__c vendorSetting : settings) {
-//                    if (vendorSetting.isEnable__c) {
-                        travelVendorSettings.add(vendorSetting);
-                        if (vendorSetting.Id != null) {
-                            travelVendorSettingsIds.add(vendorSetting.Id);
-                        }
-//                    }
+                    travelVendorSettings.add(vendorSetting);
+                    if (vendorSetting.Id != null) {
+                        travelVendorSettingsIds.add(vendorSetting.Id);
+                    }
                 }
             }
             supportHelper.deleteTravelSettings(ctpId, travelVendorSettingsIds);

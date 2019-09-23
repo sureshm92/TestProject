@@ -1,12 +1,27 @@
 <!--
   - Created by Yehor Dobrovolskyi
  -->
-<aura:component description="TrialItem" controller="TrialSearchContainerRemote">
+<aura:component description="TrialItem" controller="TrialItemRemote" extends="c:LightningService">
 
     <aura:attribute name="trialTDO" type="Object"/>
     <aura:attribute name="isClicked" type="Boolean"/>
+    <aura:attribute name="isInit" type="Boolean"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
+    <aura:attribute name="isDisclaimer" type="Boolean"/>
+    <aura:attribute name="participantInfo" type="Participant__c" default="{'sobjectType':'Participant__c',
+    'First_Name__c':'',
+    'Last_Name__c':'',
+    'Date_of_Birth__c':'',
+    'Gender__c':'',
+    'Phone__c':'',
+    'Phone_Type__c':'',
+    'Email__c':'',
+    'Mailing_Country_Code__c':'',
+    'Mailing_State_Code__c':'',
+    'Mailing_Zip_Postal_Code__c':'',
+    }"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
 
 
 
@@ -41,9 +56,21 @@
             </aura:set>
         </aura:if>
 
-        <aura:if isTrue="{!and(v.isClicked, v.trialTDO.isEnrollingCTP)}">
-            <c:Popup title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" showModal="true" size="large" showFooter="{!false}">
-                <c:FormPatientInfoTrialSearch participant="{!v.participant}" formData="{!v.formData}"/>
+        <aura:if isTrue="{!and(v.isInit)}">
+            <c:Popup aura:id="contactModal" title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" size="large">
+                <c:FormPatientInfoTrialSearch aura:id="contactForm"
+                        participant="{!v.participant}"
+                        participantInfo="{!v.participantInfo}"
+                        formData="{!v.formData}"
+                        ctp="{!v.trialTDO.ctp}"
+                        isDisclaimer="{!v.isDisclaimer}"
+                        isValid="{!v.isValid}"
+                />
+                <aura:set attribute="footerButtons">
+                    <button class="apollo-btn primary btn-send" onclick="{!c.onClickSend}" disabled="{!!and(v.isDisclaimer, v.isValid)}">
+                        Send to study
+                    </button>
+                </aura:set>
             </c:Popup>
         </aura:if>
 

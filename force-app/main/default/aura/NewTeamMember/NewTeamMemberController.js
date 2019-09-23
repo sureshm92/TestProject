@@ -6,7 +6,7 @@
 
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
-        if(userMode === 'Participant' && communityService.isDelegate) communityService.navigateToHome();
+        if(userMode === 'Participant' && communityService.isDelegate()) communityService.navigateToHome();
 
         component.set('v.userMode', userMode);
 
@@ -35,6 +35,7 @@
             component.set('v.delegate', contactData.delegates[0]);
             component.set('v.delegateOptions', contactData.delegateOptions);
             component.set('v.currentUserContactId', contactData.currentUserContactId);
+            component.set('v.parentFullName', contactData.parentFullName);
             var allTrialLevel = {
                 delegateLevel: '',
                 trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies')

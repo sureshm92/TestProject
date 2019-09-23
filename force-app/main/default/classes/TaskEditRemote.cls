@@ -20,6 +20,7 @@ public without sharing class TaskEditRemote {
         };
 
         @AuraEnabled public Task task;
+        @AuraEnabled public Date activityDate;
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Boolean notReferral;
         @AuraEnabled public String errorMessage;
@@ -45,7 +46,19 @@ public without sharing class TaskEditRemote {
             if (taskId != null) {
                 Task task = TaskService.getInstance().getTask(taskId);
                 wrapper.task = task;
-                wrapper.reminderDate = task.Reminder_Date__c != null ? task.Reminder_Date__c.date() : null;
+
+                TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+                if(task.ActivityDate != null) {
+                    Datetime activDT = Datetime.newInstance(
+                            task.ActivityDate, Time.newInstance(12, 0, 0, 0));
+                    wrapper.activityDate =
+                            DateTimeConverterUtil.getUserDatetime(timezone, activDT).date();
+                }
+                if(task.Reminder_Date__c != null) {
+                    wrapper.reminderDate =
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.Reminder_Date__c).date();
+                }
+
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
             return wrapper;
@@ -55,28 +68,31 @@ public without sharing class TaskEditRemote {
     }
 
     @AuraEnabled
-    public static void upsertTask(String paramTask, Date reminderDate) {
+    public static void upsertTask(String wrapper, String paramTask) {
         try {
+            TaskEditDataWrapper taskWrapper = (TaskEditDataWrapper) JSON.deserialize(wrapper, TaskEditDataWrapper.class);
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
+
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            PatientDelegateService service = PatientDelegateService.getInstance();
-            taskToUpsert.OwnerId = service.getParticipantUserId();
+            taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
 
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
+
             if(taskToUpsert.Task_Type__c == 'Medication' || taskToUpsert.Task_Type__c == 'Visit'){
                 taskToUpsert.WhatId = state.pe.Id;
             }
-            if(reminderDate != null) {
-                Set<Id> contactIds = new Set<Id>{CommunityService.getInstance().getCurrentContactId()};
-                Map<Id, TimeZone> timeZonesByIds = TaskService.getUserTimezoneMap(contactIds);
-                taskToUpsert.Reminder_Date__c = TaskService.getUserDatetime(timeZonesByIds.get(taskToUpsert.OwnerId),
-                        Datetime.newInstance(
-                                reminderDate.year(),
-                                reminderDate.month(),
-                                reminderDate.day()
-                        )
-                ).addHours(12);
+
+            TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+            if(taskWrapper.activityDate != null) {
+                taskToUpsert.ActivityDate =
+                        DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.activityDate).date();
+            }
+            if(taskWrapper.reminderDate != null) {
+                taskToUpsert.Reminder_Date__c =
+                        DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.reminderDate).addHours(12);
+                taskToUpsert.ReminderDateTime =
+                        DateTimeConverterUtil.convertUserDatetimeToGMT(taskToUpsert.Reminder_Date__c, timezone);
             }
 
             upsert taskToUpsert;

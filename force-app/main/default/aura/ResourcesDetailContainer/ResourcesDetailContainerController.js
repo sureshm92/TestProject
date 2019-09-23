@@ -1,32 +1,28 @@
 ({
     doInit: function (component, event, helper) {
-        let spinner = component.find('spinner');
-        if(spinner){ spinner.show(); }
-
         let resourceType = communityService.getUrlParameter('resourceType');
         let resId = communityService.getUrlParameter('resId');
         let retString = communityService.getUrlParameter('ret');
-
+        component.set('v.lang', communityService.getUrlParameter('lang'));
         communityService.executeAction(component, 'getResourcesById', {
             resourceId: resId,
             resourceType: resourceType
         }, function (returnValue) {
             if (!returnValue.errorMessage) {
-                component.set("v.resourceWrapper", returnValue.wrappers[0]);
-                component.set("v.errorMessage", "");
+                component.set('v.resourceWrapper', returnValue.wrappers[0]);
+                component.set('v.errorMessage', '');
             } else {
-                component.set("v.errorMessage", returnValue.errorMessage);
+                component.set('v.errorMessage', returnValue.errorMessage);
             }
-            let spinner = component.find('spinner');
-            if(spinner){ spinner.hide(); }
+            component.find('spinner').hide();
         });
 
         if (resourceType === 'Article') {
-            component.set("v.bigTitle", $A.get("{!$Label.c.Resources_Article}"));
+            component.set('v.bigTitle', $A.get("{!$Label.c.Resources_Article}"));
         } else if(resourceType === 'Video') {
-            component.set("v.bigTitle", $A.get("{!$Label.c.Resources_Video}"));
+            component.set('v.bigTitle', $A.get("{!$Label.c.Resources_Video}"));
         } else if(resourceType === 'Study_Document') {
-            component.set("v.bigTitle", $A.get("{!$Label.c.Resources_Study_Document}"));
+            component.set('v.bigTitle', $A.get("{!$Label.c.Resources_Study_Document}"));
         }
         if(retString){
             let retPage = communityService.getRetPage(retString);

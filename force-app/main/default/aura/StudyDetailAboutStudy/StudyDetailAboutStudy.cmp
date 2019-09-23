@@ -8,13 +8,13 @@
     <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail" required="true"/>
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" required="true"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="documents" type="Object[]"/>
 
     <!-- actions: -->
-
-    <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}"
-                                   parent="{!v.parent}"/>
-    <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"
-                    userMode="{!v.userMode}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
+    <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
+    <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
 
     <!-- component body: -->
     <!-- TC alert: -->
@@ -29,8 +29,7 @@
     <div class="sdas-main-container">
         <div class="sdas-about">
             <div class="slds-grid slds-wrap">
-                <div id="info-left"
-                     class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
+                <div id="info-left" class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
                     <!-- about title -->
                     <c:RRAnchor aura:id="aboutAnchor" offset="-160"/>
                     <!--                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>-->
@@ -117,18 +116,37 @@
                                 </div>
                                 <div class="sdas-map-footer">
                                     <c:RRSpinner aura:id="accountListSpinner"/>
-                                    <aura:iteration items="{!v.studyDetail.accountEnrollmentsList}"
-                                                    var="accountWithEnrollments" indexVar="index">
+                                    <aura:iteration items="{!v.studyDetail.accountEnrollmentsList}" var="accountWithEnrollments" indexVar="index">
                                         <div class="sdas-footer-info">
                                             <div class="name">
+                                                <aura:if isTrue="{!v.userMode == 'HCP'}">
+                                                    <div style="float: right"><c:HCPStatusIco status="{!accountWithEnrollments.hcpStatus}" overrideStatusLabel="{!accountWithEnrollments.hcpStatusLabel}"/></div>
+                                                </aura:if>
                                                 {!index + 1}. {!accountWithEnrollments.name}
                                             </div>
                                             <div class="address">
                                                 <div class="address-1">{!accountWithEnrollments.addrStreet}</div>
                                                 <div class="address-3">{!accountWithEnrollments.addrCity}</div>
+                                                <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
+                                                    <div style="margin-top: 10px">
+                                                        <button class="apollo-btn tertiary"
+                                                                id="{!accountWithEnrollments.studySiteId}"
+                                                                onclick="{!c.doChangeStudySite}"
+                                                                disabled="{!v.studyDetail.actions.sendSiteRequest.disabled}">
+                                                            {!v.studyDetail.actions.sendSiteRequest.label}
+                                                        </button>
+                                                    </div>
+                                                </aura:if>
                                             </div>
                                         </div>
                                     </aura:iteration>
+                                    <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">
+                                        <div class="study-sites-footer">
+                                            <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
+                                            &nbsp;
+                                            {!$Label.c.PG_SDAS_L_not_acceptable}
+                                        </div>
+                                    </aura:if>
                                 </div>
                             </aura:if>
                         </div>
@@ -139,8 +157,7 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-12 slds-order_3 slds-medium-order_2"></div>
 
                 <!-- right info section -->
-                <div id="info-right"
-                     class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
+                <div id="info-right" class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_3">
 
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
                         <div class="slds-grid slds-wrap socialnetworks-section">
@@ -191,6 +208,18 @@
 
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
+
+                        <aura:if isTrue="{!v.userMode != 'Participant'}">
+                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>
+                            <div class="docs-conteiner">
+                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">
+                                    <div class="doc-item">
+                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+
                         <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>
                         <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
 
@@ -202,8 +231,7 @@
 
                         <aura:if isTrue="{!!empty(v.studyDetail.trial.Interventions__c)}">
                             <div class="title">{!$Label.c.PG_SW_F_Investigational_product}</div>
-                            <div class="text"
-                                 style="white-space: pre-line">{!v.studyDetail.trial.Interventions__c}</div>
+                            <div class="text" style="white-space: pre-line">{!v.studyDetail.trial.Interventions__c}</div>
                         </aura:if>
 
                         <div class="title">{!$Label.c.PG_SW_F_Phase}</div>
@@ -227,16 +255,12 @@
 
                         <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrollment_Start_Date__c)}">
                             <div class="title">{!$Label.c.PG_SW_F_Enrollment_Start_Date}</div>
-                            <div class="text">
-                                <ui:outputDate value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"/>
-                            </div>
+                            <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"/></div>
                         </aura:if>
 
                         <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrolled_End_Date__c)}">
                             <div class="title">{!$Label.c.PG_SW_F_Enrollment_End_Date}</div>
-                            <div class="text">
-                                <ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/>
-                            </div>
+                            <div class="text"><ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/></div>
                         </aura:if>
                     </div>
                 </div>

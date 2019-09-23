@@ -1,22 +1,34 @@
-public inherited sharing class ResourceTARelatedService extends ResourceBasicService {
+public inherited sharing class ResourceTARelatedService extends ResourceService {
 
-    protected override Boolean initResourcesIds() {
-
+    public static ResourceTARelatedService getInstance(){
+        return (ResourceTARelatedService) ClassFactory.newInstance(ResourceTARelatedService.class);
+    }
+    
+    protected String therapeuticAreaId;
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass, String therapeuticAreaId) {
+        init(resourceType, resourceId, contentClass);
+        this.therapeuticAreaId = therapeuticAreaId;
+        return this;
+    }
+    
+    protected override List<Id> getResourcesIds() {
         String therapeuticAreaAssignmentsQuery =
                 'SELECT Id, ' +
                         'Resource__c ' +
                         'FROM Therapeutic_Area_Assignment__c ' +
                         'WHERE Therapeutic_Area__c = \'' + therapeuticAreaId + '\' ' +
-                        (this.contentClass == null ? '' : ('AND Resource__r.Content_Class__c = \'' + this.contentClass + '\' ')) +
-                        (this.resourceId == null ? '' : ('AND Resource__c = \'' + this.resourceId + '\' ')) +
-                        'AND Resource__r.RecordType.DeveloperName = \'' + this.resourceType + '\' ' +
-                        'AND Resource__r.Language__c = \'' + rService.getParticipantLanguage() + '\' ';
+                        (contentClass == null ? '' : ('AND Resource__r.Content_Class__c = \'' + contentClass + '\' ')) +
+                        (resourceId == null ? '' : ('AND Resource__c = \'' + resourceId + '\' ')) +
+                        'AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\' ' +
+                        'AND Resource__r.Language__c = \'' + getParticipantLanguage() + '\' ';
         List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                 .query(therapeuticAreaAssignmentsQuery, true);
+        List<Id> resourcesIds = new List<Id>();
         for (Therapeutic_Area_Assignment__c assignment : assignments) {
-            this.resourcesIds.add(assignment.Resource__c);
+            resourcesIds.add(assignment.Resource__c);
         }
-        return !(this.resourcesIds == null || this.resourcesIds.isEmpty());
+        return resourcesIds;
     }
 
     protected override ResourceService.ResourceWrapperContainer getErrorNoObjectsToFilter() {

@@ -122,9 +122,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 if (ipr != null) {
                     if (sr.isSuccess()) {
                         ipr.Success__c = true;
+                        ipr.Participant_Enrollment__c = sr.getId();
                     } else {
                         ipr.Success__c = false;
-                        ipr.Error_Message__C = sr.getErrors()[0].getMessage();
+                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
                     }
                 }
             }
@@ -159,6 +160,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Referral_Source__c = ipr.Data_Source__c,
                 Participant_ID_randomized_ID__c = ipr.ePRPatient_ID_Number__c,
                 Referral_ID__c = ipr.referralID__c,
+                MRR_Survey_Results_URL__c = ipr.MRR_Survey_Results_URL__c,
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null ? Date.valueOf(ipr.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c = ipr.Referred_Date__c != null ? Date.valueOf(ipr.Referred_Date__c) : null,

@@ -3,16 +3,24 @@
  */
 ({
     doSaveSelectedStatus: function (component, event, helper) {
-        var rootComponent = component.get('v.parent');
+        var parent = component.get('v.parent');
         var pe = component.get('v.pe');
         var step = component.get('v.step');
         if(step.selectedStatus === 'Enrollment Success'){
-            rootComponent.find('updatePatientInfoAction').execute(pe, true, function (pe) {
-                rootComponent.set('v.pe', pe);
+            var formComponent = parent.find('editForm');
+            formComponent.set('v.isFinalUpdate', true);
+            var isValid = formComponent.checkFields();
+            if(!isValid){
+                parent.set('v.saveAndChangeStep', true);
+                debugger;
+                document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                setTimeout(function(){
+                    communityService.showSuccessToast('', $A.get('$Label.c.RP_Missing_Fields', 1000));
+                }, 1000);
+            }
+            else{
                 helper.saveSelectedStatus(component);
-            }, function () {
-                helper.cancel(component);
-            });
+            }
         } else {
             helper.saveSelectedStatus(component);
         }

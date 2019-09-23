@@ -3,18 +3,17 @@
  */
 
 public abstract with sharing class TrialBuilder {
-    protected TrialDetail trialDetail;
+    
+    protected TrialDetail trialDetail = new TrialDetail();
     protected String trialId;
     protected StudyActions studyAction;
     
     public void setTrial(String trialId) {
         this.trialId = trialId;
-        TrialDetail trialDetail = new TrialDetail();
         trialDetail.trial = TrialService.getTrial(trialId);
         trialDetail.accountEnrollmentsList = new List<TrialDetail.ClinicWrapper>();
-        trialDetail.isTCAccepted = TermsAndConditions.isTCAccepted(trialDetail.trial.Terms_And_Conditions_ID__c);
-        this.trialDetail = trialDetail;
-
+        trialDetail.isTCAccepted = trialDetail.trial.Terms_And_Conditions_ID__c == null ||
+                TermsAndConditions.isTCAccepted(trialDetail.trial.Terms_And_Conditions_ID__c);
     }
 
     public abstract TrialDetail createTrial();
