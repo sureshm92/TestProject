@@ -7,7 +7,7 @@ public with sharing class ManualTaskRemote {
     public static Integer createTasks(Task newTask, ManualTaskFilter filter) {
         try {
             List<User> users = [
-                    SELECT Id, Name
+                    SELECT Id, ContactId, Name
                     FROM User
                     WHERE ContactId IN :filter.getContactsWithPE().keySet()
                     AND IsActive = TRUE
@@ -23,8 +23,9 @@ public with sharing class ManualTaskRemote {
                         Start_Date__c = newTask.Start_Date__c,
                         ActivityDate = newTask.ActivityDate,
                         Reminder_Date__c = newTask.Reminder_Date__c,
-                        Visible_For__c = newTask.Visible_For__c)
-                );
+                        Visible_For__c = newTask.Visible_For__c,
+                        WhatId = filter.getContactsWithPE().get(user.ContactId).Id
+                ));
             }
             insert tasks;
 

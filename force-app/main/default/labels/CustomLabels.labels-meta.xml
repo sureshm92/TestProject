@@ -1972,6 +1972,20 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient_CreatedDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient CreatedDate</shortDescription>
+        <value>We miss you, please log in and check your profile!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_Log_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Log In</shortDescription>
+        <value>We miss you!</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2238,6 +2252,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Please provide feedback</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Created_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Created Date</shortDescription>
+        <value>We miss you!</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2348,6 +2369,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out</shortDescription>
         <value>You have left your clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Log_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Log In</shortDescription>
+        <value>You do not log in, please do this!</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -8261,6 +8289,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>PS_Site_Location</shortDescription>
         <value>Site Location</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Created_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Created Date</shortDescription>
+        <value>We Miss you, please login and check profile</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Not_Logged_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Not Logged In</shortDescription>
+        <value>You not logged in to IQVIA for some time, we miss you</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
