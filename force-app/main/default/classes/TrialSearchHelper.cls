@@ -19,12 +19,9 @@ public with sharing class TrialSearchHelper {
                 'Date_of_Birth__c,' +
                 'Phone__c,' +
                 'Email__c,' +
-                'Mailing_Zip_Postal_Code__c' +
+                'Mailing_Zip_Postal_Code__c ' +
                 'FROM Participant__c ' +
-                'WHERE Contact__c IN (' +
-                'SELECT ContactId ' +
-                'FROM User ' +
-                'WHERE Id = \'' + UserInfo.getUserId() + '\')' +
+                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
                 'LIMIT 1';
         trialSearchContainer.participant = (Participant__c) proxy.query(query, true)[0];
         return trialSearchContainer;
@@ -152,8 +149,7 @@ public with sharing class TrialSearchHelper {
                 'Enrollment_Start_Date__c, ' +
                 'Override_Recruitment_Status__c, ' +
                 'Recruitment_Status__c, ' +
-                'NCT_Number__c ' +
-                'Recruitment_Status__c, ' +
+                'NCT_Number__c, ' +
                 '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\') ' +
                 'FROM Clinical_Trial_Profile__c ';
 

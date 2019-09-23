@@ -3,12 +3,17 @@
  */
 ({
     onClick: function (component, event, helper) {
-        if (!component.get('v.isClicked')) {
-            component.set('v.isClicked', !component.get('v.isClicked'));
+        let isClicked = component.get('v.isClicked');
+        if (!isClicked) {
+            component.set('v.isClicked', !isClicked);
         }
         let trial = component.get('v.trialTDO');
         if (!trial.isEnrollingCTP) {
-            communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
+            communityService.executeAction(component, 'createTrialNotification', {
+                ctpId: trial.ctp.Id
+            }, function () {
+                communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
+            });
         } else {
             let form = component.find('contactModal');
             form.show();
@@ -38,11 +43,6 @@
                     communityService.showToast('error', 'error', 'OPSsssss');
                 }).catch(function (err) {
                 console.error(err);
-            });
-            communityService.executeAction(component, 'createTrialNotification', {
-                ctpId: trial.ctp.Id
-            }, function () {
-                communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
             });
         }
     }
