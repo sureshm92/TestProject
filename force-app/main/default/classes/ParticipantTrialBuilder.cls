@@ -6,14 +6,16 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
 
     private Participant_Enrollment__c pe;
 
-    public ParticipantTrialBuilder(String trialId) {
+    public ParticipantTrialBuilder() {
         this.pe = ParticipantService.getInstance().getState().pe;
-        setTrial(this.pe.Study_Site__r.Clinical_Trial_Profile__c);
+        if(this.pe != null) setTrial(this.pe.Study_Site__r.Clinical_Trial_Profile__c);
+
         this.studyAction = this.getStudyActions();
         this.trialDetail.tabs = this.getStudyTabs();
     }
 
     public override TrialDetail createTrial() {
+        if(pe == null) return this.trialDetail;
 
         Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
         idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
@@ -28,14 +30,11 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     }
 
     protected override StudyActions getStudyActions() {
-        StudyActions s = new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
-        return s;
+        return new StudyActionsParticipant();
     }
 
     protected override List<TrialDetail.StudyTab> getStudyTabs() {
-
         List<TrialDetail.StudyTab> tabs = new List<TrialDetail.StudyTab>();
-        System.debug('getStudyTabs>>>' + this.studyAction);
         List<StudyActions.Action> defaultActions = this.studyAction.studyDetailActions;
         List<StudyActions.Action> backHomeAction = new List<StudyActions.Action>();
         backHomeAction.add(new StudyActions.Action(

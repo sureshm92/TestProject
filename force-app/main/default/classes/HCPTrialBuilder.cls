@@ -25,10 +25,18 @@ public with sharing class HCPTrialBuilder extends TrialBuilder {
             this.trialDetail.studyBottomBarActions = this.studyAction.studyDetailBottomBarActions;
             this.trialDetail.actions = this.studyAction.actions;
             this.trialDetail.tabs = this.getStudyTabs();
+            
         } else {
             this.trialDetail.tabs = new List<TrialDetail.StudyTab>();
         }
-
+        trialDetail.resources = ResourceStudyDocumentService.getInstance().init(
+                ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT,
+                null,
+                null,
+                trialDetail.trial.Id)
+                .getResourceWrapperContainer().wrappers;
+    
+    
         //init study site accounts:
         Set<Id> accIds = new Set<Id>();
         List<Study_Site__c> hcpStudySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);

@@ -371,6 +371,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>FileUploadController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>FillTAOnParticipantsBatchHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -680,6 +684,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantVisitsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PastStudiesController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1091,6 +1099,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1392,6 +1404,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TherapeuticAreaService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TravelSupportHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1775,16 +1791,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Digital_Recruitment__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Digital_Recruitment__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Digital_Recruitment__c</field>
         <readable>false</readable>
@@ -1978,11 +1984,6 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3810,6 +3811,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Referral_Source_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_Source__c</field>
         <readable>true</readable>
@@ -5150,6 +5156,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>TravelVendorSettings__c.By_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>TravelVendorSettings__c.Is_Manual__c</field>
         <readable>false</readable>
@@ -5162,11 +5173,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>TravelVendor__c.Default_Country__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>TravelVendor__c.Disclosure__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5359,6 +5365,13 @@
         <field>Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Business_Account</recordType>
+    </layoutAssignments>
     <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
@@ -6091,7 +6104,7 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Manual_Tasks_Creation</tab>
+        <tab>Manual_Creation_Panel</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

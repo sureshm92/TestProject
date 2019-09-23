@@ -5,33 +5,41 @@
 public without sharing class StudyResourceVisibilityService {
     
     public static Boolean isResourceVisibleForPE(Res_study__c resStudy, Participant_Enrollment__c pe, Boolean isDelegate){
-        Boolean isVisible = resStudy.Visible_To_Participant__c;
-        if(resStudy.Active_On_Status__c != null){
-            Integer resStudyStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Active_On_Status__c);
-            Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
-            isVisible = isVisible && (peStatusOrder >= resStudyStatusOrder);
-        }
-        if(resStudy.Expires_On_Status__c != null){
-            Integer expireStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Expires_On_Status__c);
-            Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
-            isVisible = isVisible && (peStatusOrder < expireStatusOrder);
-        }
-        if(isDelegate != null && isDelegate){
-            isVisible = isVisible && resStudy.Visible_To_Delegates__c;
-        }
-        if(resStudy.Active_After_Days__c != null){
-            isVisible = isVisible &&
-                    pe.Days_After_Enrolled__c != null &&
-                    pe.Days_After_Enrolled__c >= resStudy.Active_After_Days__c;
-            if(resStudy.Expires_After_Days__c != null){
-                isVisible = isVisible && pe.Days_After_Enrolled__c < (resStudy.Active_After_Days__c + resStudy.Expires_After_Days__c);
+        Boolean isVisible = true;
+        String userMode = CommunityService.getUserContact().userCommunityMode__c;
+        System.debug(JSON.serializePretty(CommunityService.getUserContact()));
+        if(userMode.contains(CommunityService.USER_MODE_PARTICIPANT)){
+            isVisible = resStudy.Visible_To_Participant__c;
+            if(resStudy.Active_On_Status__c != null){
+                Integer resStudyStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Active_On_Status__c);
+                Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
+                isVisible = isVisible && (peStatusOrder >= resStudyStatusOrder);
             }
+            if(resStudy.Expires_On_Status__c != null){
+                Integer expireStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(resStudy.Expires_On_Status__c);
+                Integer peStatusOrder = PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c);
+                isVisible = isVisible && (peStatusOrder < expireStatusOrder);
+            }
+            if(isDelegate != null && isDelegate){
+                isVisible = isVisible && resStudy.Visible_To_Delegates__c;
+            }
+            if(resStudy.Active_After_Days__c != null){
+                isVisible = isVisible &&
+                        pe.Days_After_Enrolled__c != null &&
+                        pe.Days_After_Enrolled__c >= resStudy.Active_After_Days__c;
+                if(resStudy.Expires_After_Days__c != null){
+                    isVisible = isVisible && pe.Days_After_Enrolled__c < (resStudy.Active_After_Days__c + resStudy.Expires_After_Days__c);
+                }
+            }
+            if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
+                isVisible = isVisible && resStudy.Visible_In_Alumni__c;
+            }
+            //Add IRB logic here
+        }else if(userMode.contains(CommunityService.USER_MODE_PI)){
+            isVisible = resStudy.Visible_To_PI__c;
+        }else{
+            isVisible = resStudy.Visible_To_RP__c;
         }
-        if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
-            isVisible = isVisible && resStudy.Visible_In_Alumni__c;
-        }
-
-        //Add IRB logic here
 
         return isVisible;
     }

@@ -6,7 +6,11 @@ public without sharing class StudyDetailViewController {
 
     @AuraEnabled
     public static String getTrialDetail(String trialId, String userMode){
-        return getTrialDetail(trialId, userMode, null);
+        try {
+            return getTrialDetail(trialId, userMode, null);
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
     }
 
     @AuraEnabled
@@ -17,7 +21,7 @@ public without sharing class StudyDetailViewController {
             return JSON.serialize(td);
 
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
 
     }

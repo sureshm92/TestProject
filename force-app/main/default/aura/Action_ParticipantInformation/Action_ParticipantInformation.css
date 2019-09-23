@@ -145,6 +145,12 @@
     display: none;
 }
 
+.THIS .survei-gizmo-iframe-container {
+    overflow: hidden;
+    padding-top: 56.25%;
+    position: relative;
+}
+
 
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {

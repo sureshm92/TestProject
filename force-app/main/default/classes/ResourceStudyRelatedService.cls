@@ -1,4 +1,4 @@
-public virtual inherited sharing class ResourceStudyRelatedService extends ResourceBasicService {
+public virtual inherited sharing class ResourceStudyRelatedService extends ResourceService {
     
     private static final List<String> RES_STUDY_FIELDS = new List<String>{
             'Id',
@@ -15,21 +15,35 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             'Resource__c'
     };
     
-    protected override Boolean initResourcesIds() {
+    private Id ctpId;
+    
+    public static ResourceStudyRelatedService getInstance(){
+        return (ResourceStudyRelatedService) ClassFactory.newInstance(ResourceStudyRelatedService.class);
+    }
+    
+    public ResourceService init(String resourceType, String resourceId, String contentClass, Id ctpId) {
+        this.init(resourceType, resourceId, contentClass);
+        this.ctpId = ctpId;
+        return this;
+    }
+    
+    
+    protected virtual override List<Id> getResourcesIds() {
         //Create filter for query:
         String filter = DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', resourceType);
         if(contentClass != null) filter += ' AND ' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass);
         if(resourceId != null) {
             filter += ' AND ' + DatabaseService.fieldEqual('Resource__c', resourceId);
         }else{
-            filter += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__c', pState.ctp.Id);
+            filter += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__c', getCTPId());
         }
         //Get Res Study records and filters result resource Ids
+        List<Id> resourcesIds = new List<Id>();
         List<Res_study__c> resStudies = (List<Res_study__c>) DatabaseService.query(RES_STUDY_FIELDS, Res_study__c.getSObjectType(), filter);
         for (Res_study__c resStudy : resStudies) {
-            if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pState.pe, pState.isDelegate)) this.resourcesIds.add(resStudy.Resource__c);
+            if(resourceId != null || StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pState.pe, pState.isDelegate)) resourcesIds.add(resStudy.Resource__c);
         }
-        return !(this.resourcesIds == null || this.resourcesIds.isEmpty());
+        return resourcesIds;
     }
     
     protected override ResourceService.ResourceWrapperContainer getErrorNoObjectsToFilter() {
@@ -37,6 +51,11 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
     }
     
     protected override Boolean isObjectsToFilterMissing() {
-        return (this.pState.ctp == null || this.pState.value == ParticipantService.ParticipantStates.ALUMNI);
+        return (resourceId == null && pState.value == ParticipantService.ParticipantStates.ALUMNI);
+    }
+    
+    protected Id getCTPId(){
+        if(ctpId == null && pState.ctp != null)ctpId = pState.ctp.Id;
+        return ctpId;
     }
 }

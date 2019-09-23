@@ -22,6 +22,10 @@ public with sharing class ContentDocumentLinkService {
             this.languageLabel = TranslateHelper.getPickListLabel(Contact.Language__c, languageCode);
         }
     }
+    
+    public static ContentDocumentLinkService getInstance(){
+        return (ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class);
+    }
 
     public List<ContentDocumentLink> getContentDocumentLinksByResourcesIds(Set<String> resourcesIdsSet) {
 

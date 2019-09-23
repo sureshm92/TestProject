@@ -13,8 +13,6 @@
     <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="peStatusesPathList" type="List"/>
-    <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="isFinalUpdate" type="Boolean"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
@@ -25,14 +23,13 @@
     <aura:attribute name="modifiedSteps" type="List"/>
     <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
 
-    <!-- methods -->
+    <!-- methods -->    <aura:attribute name="refreshForm" type="Boolean" default="false"/>
+
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
         <aura:attribute name="pathItems" type="List"/>
         <aura:attribute name="anchorScroll" type="String"/>
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
-        <aura:attribute name="peStatusesPathList" type="List"/>
-        <aura:attribute name="peStatusStateMap" type="Map"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
@@ -47,11 +44,13 @@
             <div class="form-content">
                 <!--Personal Information-->
                 <div class="personal-info-container" id="personalInfoAnchor">
-                    <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
-                                            formData="{!v.formData}"
-                                            updateMode="true"
-                                            isFinalUpdate="{!v.isFinalUpdate}"
-                                            isValid="{!v.isValid}"/>
+                    <aura:if isTrue="{!!v.refreshForm}">
+                        <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
+                                                formData="{!v.formData}"
+                                                updateMode="true"
+                                                isFinalUpdate="{!v.isFinalUpdate}"
+                                                isValid="{!v.isValid}"/>
+                    </aura:if>
                     <div class="slds-clearfix">
                         <div class="slds-float_right">
                             <button class="apollo-btn tertiary" disabled="{!!v.isValid}"
@@ -59,6 +58,11 @@
                         </div>
                     </div>
                 </div>
+                <!--<aura:if isTrue="{!v.pe}">
+                    <div>
+                        <c.ReferHealthcareProvider pe="{!v.pe}"/>
+                    </div>
+                </aura:if>-->
                 <!--Status Detail Path-->
                 <div id="statusDetailsAnchor" class="header">{!$Label.c.BTN_Status_Details}</div>
                 <div class="path-panel">
@@ -73,7 +77,7 @@
                         <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">
                             <c:ReferralProfileStepControls aura:id="stepControls" parent="{!this}"
                                                            rootComponent="{!v.rootComponent}" step="{!step}"
-                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}"/>
+                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}" isValid="{!v.isValid}"/>
                         </aura:iteration>
                     </aura:if>
                 </div>
@@ -86,7 +90,7 @@
             </div>
         </aura:if>
         <aura:set attribute="footerButtons">
-            <button class="apollo-btn secondary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <button class="apollo-btn secondary" style="display:none" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
         </aura:set>
     </c:Popup>
 </aura:component>

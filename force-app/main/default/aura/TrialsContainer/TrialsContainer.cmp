@@ -5,10 +5,11 @@
     <aura:attribute name="trialTDOs" type="List"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
+    <aura:attribute name="isInit" type="Boolean"/>
 
     <aura:if isTrue="{!v.trialTDOs}">
         <aura:iteration items="{!v.trialTDOs}" var="trial">
-            <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}" formData="{!v.formData}"/>
+            <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}" formData="{!v.formData}" isInit="{!v.isInit}"/>
         </aura:iteration>
         <aura:set attribute="else">
             <div class="not-ctp-message"> {!$Label.c.TrialSearch_No_trial_matches_available}</div>
