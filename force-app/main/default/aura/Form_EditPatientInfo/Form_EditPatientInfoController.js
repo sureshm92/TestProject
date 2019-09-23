@@ -19,6 +19,14 @@
         var stateRequired = component.get('v.statesLVList')[0];
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
+        const screeningIdRequiredStatuses = 'Enrollment Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
+        let screeningIdRequired = false;
+        var isEnrollmentSuccess = false;
+        if (pe && pe.Participant_Status__c) {
+            isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
+            screeningIdRequired = screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
+        }
+        component.set('v.screeningRequired', screeningIdRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
