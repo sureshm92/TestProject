@@ -58,11 +58,11 @@
                         </div>
                     </div>
                 </div>
-                <!--<aura:if isTrue="{!v.pe}">
+                <aura:if isTrue="{!v.pe}">
                     <div>
                         <c.ReferHealthcareProvider pe="{!v.pe}"/>
                     </div>
-                </aura:if>-->
+                </aura:if>
                 <!--Status Detail Path-->
                 <div id="statusDetailsAnchor" class="header">{!$Label.c.BTN_Status_Details}</div>
                 <div class="path-panel">

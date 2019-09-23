@@ -9,6 +9,7 @@
         if(step.selectedStatus === 'Enrollment Success'){
             var formComponent = parent.find('editForm');
             formComponent.set('v.isFinalUpdate', true);
+            formComponent.set('v.screeningRequired', true);
             var isValid = formComponent.checkFields();
             if(!isValid){
                 parent.set('v.saveAndChangeStep', true);

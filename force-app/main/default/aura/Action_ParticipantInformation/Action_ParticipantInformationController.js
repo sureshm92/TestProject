@@ -29,10 +29,11 @@
             }, function (returnValue) {
                 var formComponent = component.find('editForm');
                 formComponent.set('v.handleChangesEnabled', false);
+                formComponent.set('v.screeningRequired',false);
+                component.set('v.isFinalUpdate', false);
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
-                component.set('v.isFinalUpdate', false);
-                console.log('returnValue.isEnreolled',returnValue.isEnrolled);
+                console.log('returnValue.isEnrolled',returnValue.isEnrolled);
                 if(returnValue.isEnrolled){
                     formComponent.set('v.screeningRequired',true);
                     formComponent.set('v.isFinalUpdate', true);

@@ -3,64 +3,27 @@
  */
 
 ({
-    doInit: function(component, event, helper){
-    	var pe = component.get('v.pe');
-    	if(pe && !pe.healthCareProviders){
-    	    var healthcare = [{Email:'test@email.test', First_Name:'Test', LastName:'Name'}];
-    	    pe.healthCareProviders = healthcare;
-    	    component.set('v.pe',pe);
-        }
-        for (let i = 0, j = pe.healthCareProviders.length; i < j; i++) {
-            $A.createComponent(
-                'c:ReferHealthcareProviderForm',
-                {
-                    'healthCareProvider': component.getReference('v.pe.healthCareProviders['+i+']')
-                },
-                function(cmp,status,errorMessage){
-                    if(status=='SUCCESS'){
-                        var body = component.get('v.body');
-                        body.push(cmp);
-                        component.set('v.body',body);
-                    }
-                    else if (status === "INCOMPLETE") {
-                        console.log("No response from server or client is offline.")
-                        // Show offline error
-                    }
-                    else if (status === "ERROR") {
-                        console.log("Error: " + errorMessage);
-                        // Show error message
-                    }
-                }
-            )
-        }
+    doInit: function (component, event, helper) {
+        var pe = component.get('v.pe');
+       /* communityService.executeAction(component, 'getInitData', {id: pe.Id}, function (returnValue) {
+            component.set('v.healthCareProviders', returnValue);
+        })*/
+       var a = component.get('v.healthCareProviders');
+       a.push({Id:'123123', sObjectType: 'Healthcare_Provider__c'});
+       component.set('v.healthCareProviders',a);
     },
 
-    doAddProvider: function(component, event, helper){
+    doAddProvider: function (component, event, helper) {
         var pe = component.get('v.pe');
-        var healthcare = {Email:null, First_Name:null, LastName:null};
-        pe.healthCareProviders.push(healthcare);
-        var i = pe.healthCareProviders.length-1;
-        component.set('v.pe',pe);
-        $A.createComponent(
-            'c:ReferHealthcareProviderForm',
-            {
-                'healthCareProvider': component.getReference('v.pe.healthCareProviders['+i+']')
-            },
-            function(cmp,status,errorMessage){
-                if(status=='SUCCESS'){
-                    var body = component.get('v.body');
-                    body.push(cmp);
-                    component.set('v.body',body);
-                }
-                else if (status === "INCOMPLETE") {
-                    console.log("No response from server or client is offline.")
-                    // Show offline error
-                }
-                else if (status === "ERROR") {
-                    console.log("Error: " + errorMessage);
-                    // Show error message
-                }
-            }
-        )
+        var hcProvider = component.get('v.healthCareProviders');
+        hcProvider.push({sObjectType: 'Healthcare_Provider__c'});
+        component.set('v.healthCareProviders', hcProvider);
     },
-});
+
+    doDisconnetc: function(component, event, helper){
+    	var hcProviders = component.get('v.healthCareProviders');
+    	var params = event.getParam('arguments');
+    	hcProviders.splice(params.index,1);
+    	component.set('v.healthCareProviders', hcProviders);
+    },
+})
