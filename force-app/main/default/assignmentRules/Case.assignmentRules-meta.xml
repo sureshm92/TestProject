@@ -3,10 +3,5 @@
     <assignmentRule>
         <fullName>CaseRule</fullName>
         <active>true</active>
-        <ruleEntry>
-            <assignedTo>PEH_Case_Queue</assignedTo>
-            <assignedToType>Queue</assignedToType>
-            <template>unfiled$public/CommunityWelcomeEmailTemplate</template>
-        </ruleEntry>
     </assignmentRule>
 </AssignmentRules>
