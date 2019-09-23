@@ -14,9 +14,9 @@
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
     <aura:attribute name="handleChangesEnabled" type="Boolean" default="false" access="public"/>
-    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="public"/>
 
     <!-- private attributes: -->
+    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
     <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="dataStamp" type="String"/>
