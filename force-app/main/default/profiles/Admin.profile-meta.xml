@@ -2826,6 +2826,31 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Healthcare_Provider__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.HCP_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Healthcare_Provider__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Icon_Details__c.Custom_Icon__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5505,6 +5530,9 @@
         <layout>HCP_Enrollment__c-HCP Enrollment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Healthcare_Provider__c-Healthcare Provider Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Icon_Details__c-icons detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5826,6 +5854,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>HCP_Enrollment__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Healthcare_Provider__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
