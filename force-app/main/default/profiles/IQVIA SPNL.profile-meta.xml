@@ -515,6 +515,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ManualCreationPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ManualTaskFilter</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -740,10 +744,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>QualityCheckController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>RPDelegateRelationshipTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1423,6 +1423,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TrialSearchContainerRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TrialSearchHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1528,6 +1536,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrialSearchHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialSearchWhereClauseFactory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2063,11 +2075,6 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4870,6 +4877,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Partner_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Prescreen__c</field>
         <readable>true</readable>
@@ -5258,6 +5270,11 @@
         <editable>true</editable>
         <field>TravelVendorSettings__c.Is_Manual__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TravelVendorSettings__c.TravelVendor__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>

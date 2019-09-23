@@ -18,3 +18,5 @@ force-app/main/default/profiles/Custom%3A Marketing Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
 force-app/main/default/settings/Address.settings-meta.xml
+force-app/main/default/profileSessionSettings/IQVIA_Customer_Community_Plus_Login_User_profileSessionSetting1569239017406.profileSessionSetting-meta.xml
+force-app/main/default/profilePasswordPolicies/IQVIA_Customer_Community_Plus_Login_User_profilePasswordPolicy1569239017290.profilePasswordPolicy-meta.xml
