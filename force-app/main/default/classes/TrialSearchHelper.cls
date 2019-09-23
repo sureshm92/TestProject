@@ -220,7 +220,7 @@ public with sharing class TrialSearchHelper {
     @TestVisible
     private Boolean isQCare(DatabaseProxy proxy) {
         String query = 'SELECT Id, ' +
-                'Current_Participant_Enrollment__r.Study_Site__r.Site__r.Type ' +
+                'Current_Participant_Enrollment__r.Study_Site__r.Partner_Type__c ' +
                 'FROM Contact ' +
                 'WHERE Id IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId()  + '\')' +
                 'AND Current_Participant_Enrollment__r.Study_Site__r.Site__c != NULL';
@@ -228,7 +228,7 @@ public with sharing class TrialSearchHelper {
         if (contacts.isEmpty()) {
             return false;
         }
-        return contacts[0].Current_Participant_Enrollment__r.Study_Site__r.Site__r.Type == TrialSearchWhereClauseFactory.QCARE_TYPE;
+        return contacts[0].Current_Participant_Enrollment__r.Study_Site__r.Partner_Type__c == TrialSearchWhereClauseFactory.QCARE_TYPE;
 
     }
 

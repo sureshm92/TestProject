@@ -5,7 +5,7 @@
 public with sharing class TrialSearchWhereClauseFactory {
 
     //Site Type
-    public static final String QCARE_TYPE = 'QCare';
+    public static final String QCARE_TYPE = '00';
 
     //ORS status
     public static final String ACTIVELY_ENROLLING = 'Actively Enrolling';
@@ -100,7 +100,7 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + 'AND Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Site__r.Type = \''+ QCARE_TYPE +'\')';
+            return clause.getWhereClause() + 'AND Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Partner_Type__c = \''+ QCARE_TYPE +'\')';
         }
     }
 
