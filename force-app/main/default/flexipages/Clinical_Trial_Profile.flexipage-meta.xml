@@ -145,40 +145,6 @@
             </componentInstanceProperties>
             <componentName>flexipage:tabset</componentName>
         </componentInstances>
-        <name>Facet-78183bc2-38c5-4d50-a05d-98b2640f8288</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>body</name>
-                <value>Facet-78183bc2-38c5-4d50-a05d-98b2640f8288</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>label</name>
-                <value>Settings</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>name</name>
-                <value>accordionSection1</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:accordionSection</componentName>
-        </componentInstances>
-        <name>Facet-cc72935f-51b6-4ee8-82fd-182ffed86ce9</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>accordionSections</name>
-                <value>Facet-cc72935f-51b6-4ee8-82fd-182ffed86ce9</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>defaultSectionName</name>
-                <value>accordionSection1</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:accordion</componentName>
-        </componentInstances>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
