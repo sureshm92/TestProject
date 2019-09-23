@@ -48,7 +48,19 @@
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
             component.set('v.participantInfo', copyParticipant);
         } else {
-            component.set('v.participantInfo', {});
+            let participant = {sobjectType:'Participant__c',
+                First_Name__c:'',
+                Last_Name__c:'',
+                Date_of_Birth__c:'',
+                Gender__c:'',
+                Phone__c:'',
+                Phone_Type__c:'',
+                Email__c:'',
+                Mailing_Country_Code__c:'',
+                Mailing_State_Code__c:'',
+                Mailing_Zip_Postal_Code__c:'',
+            };
+            component.set('v.participantInfo', participant);
         }
     }
 })
