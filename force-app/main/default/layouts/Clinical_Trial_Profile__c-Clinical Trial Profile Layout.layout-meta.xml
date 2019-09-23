@@ -27,6 +27,10 @@
                 <behavior>Edit</behavior>
                 <field>Shareback_Settings_on_StudySites__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Logged_Out_Days_Notification__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
