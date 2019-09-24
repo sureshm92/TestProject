@@ -11,7 +11,6 @@
     },
 
     doCheckFields: function (component, event, hepler) {
-        if(!component.get('v.handleChangesEnabled')) return;
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var updateMode = component.get('v.updateMode');
@@ -24,7 +23,7 @@
         var isEnrollmentSuccess = false;
         if (pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
-            screeningIdRequired = screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
+            screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
         }
         component.set('v.screeningRequired', screeningIdRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
@@ -42,7 +41,7 @@
                 (oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
                 (oldPE.Participant__r.Mailing_Zip_Postal_Code__c && !participant.Mailing_Zip_Postal_Code__c) ||
                 (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
-                (oldPE.Screening_ID__c && !pe.Referred_By__c) ||
+                (oldPE.Referred_By__c && !pe.Referred_By__c) ||
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             isValid = !isRemovedValue;
         } else if (updateMode && isFinalUpdate) {
@@ -83,7 +82,6 @@
     },
 
     doCountryCodeChanged: function (component, event, helper) {
-        if(!component.get('v.handleChangesEnabled')) return;
         console.log('doCountryCodeChanged');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var participant = component.get('v.participant');

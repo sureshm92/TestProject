@@ -22,9 +22,9 @@
     <aura:attribute name="anchor" type="String"/>
     <aura:attribute name="modifiedSteps" type="List"/>
     <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
+    <aura:attribute name="refreshForm" type="Boolean" default="false"/>
 
-    <!-- methods -->    <aura:attribute name="refreshForm" type="Boolean" default="false"/>
-
+    <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
         <aura:attribute name="pathItems" type="List"/>
@@ -32,14 +32,13 @@
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
-
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
 
     <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true">
-        <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
+        <c:RRSpinner aura:id="spinner" size="medium"/>
         <aura:if isTrue="{!v.initialized}">
             <div class="form-content">
                 <!--Personal Information-->
