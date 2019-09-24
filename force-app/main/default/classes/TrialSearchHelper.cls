@@ -3,16 +3,40 @@
  */
 public with sharing class TrialSearchHelper {
 
+    //Site Type
+    public static final String QCARE_TYPE = '00';
+
     //AssignmentRule
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
     //Participant Enrollment
-    private static final String PARTICIPANT_STATUS_REFERRED = 'Referral accepted';
-    private static final String PARTICIPANT_STATUS_ENROLLED = 'Enrollment success';
-    private static final List<String> PARTICIPANT_STATUSES = new List<String>{
-            PARTICIPANT_STATUS_ENROLLED,
-            PARTICIPANT_STATUS_REFERRED
+    private static final String PS_SENT_TO_PI = 'Referral sent to PI';
+    private static final String PS_REFERRAL_ACCEPTED = 'Referral accepted';
+    private static final String PS_ATTEMPT_IN_PROGRESS = 'Contact Attempt in Progress';
+    private static final String PS_CONTACT_SUCCESSFUL = 'Contact Successful';
+    private static final String PS_ELIGIBILITY_PASSED = 'Eligibility Passed';
+    private static final String PS_SCREENING_IN_PROGRESS = 'Screening in Progress';
+    private static final String PS_SCREENING_IN_COMPLETE = 'Screening Complete';
+    private static final String PS_ENROLLMENT_SUCCESS = 'Enrollment success';
+    private static final String PS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
+    private static final String PS_FOLLOW_UP_PEIOD_STARTED = 'Follow-Up Period Started';
+    private static final String PS_PARTICIPATION_COMPLETE = 'Participation Complete';
+    private static final String PS_TRIAL_COMPLETE = 'Trial Complete';
+    private static final List<String> PS_ES = new List<String>{
+            PS_SENT_TO_PI,
+            PS_REFERRAL_ACCEPTED,
+            PS_ENROLLMENT_SUCCESS,
+            PS_ATTEMPT_IN_PROGRESS,
+            PS_CONTACT_SUCCESSFUL,
+            PS_ELIGIBILITY_PASSED,
+            PS_SCREENING_IN_COMPLETE,
+            PS_SCREENING_IN_PROGRESS,
+            PS_TREATMENT_PERIOD_STARTED,
+            PS_FOLLOW_UP_PEIOD_STARTED,
+            PS_PARTICIPATION_COMPLETE,
+            PS_TRIAL_COMPLETE
+
     };
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
@@ -66,7 +90,6 @@ public with sharing class TrialSearchHelper {
             }
             filter += ') ';
             filter = filter.replace(', )', ')');
-            System.debug(filter);
         }
         String query = 'SELECT ' +
                 'Id, ' +
@@ -76,7 +99,6 @@ public with sharing class TrialSearchHelper {
                 'WHERE RecordType.DeveloperName = \'Condition_of_Interests\' ' +
                 filter +
                 'LIMIT 5';
-        System.debug('here ' + query);
         List<Therapeutic_Area__c> therapeuticArea = (List<Therapeutic_Area__c>) proxy.query(query, true);
         return therapeuticArea;
     }
@@ -89,7 +111,6 @@ public with sharing class TrialSearchHelper {
     public void createCaseAndSendNotification(Participant__c participant, Clinical_Trial_Profile__c ctp) {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         Group queueGroup = this.getQueueGroup(proxy);
-        System.debug(' queueId ===> ' + queueGroup.Id);
         Case caseContact = new Case(
                 OwnerId = queueGroup.Id,
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
@@ -114,7 +135,6 @@ public with sharing class TrialSearchHelper {
                 Contact__c = currentContact.Id
                 , Clinical_Trial_Profile__c = ctpId
         );
-        System.debug(notification);
         proxy.upsertRecord(notification, true);
     }
 
@@ -132,8 +152,8 @@ public with sharing class TrialSearchHelper {
 
     @TestVisible
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
-        Boolean isQCare = this.isQCare(proxy);
-        String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, isQCare).getWhereClause();
+        Set<Id> ssIds = getUsersQCareSiteIds(proxy);
+        String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, ssIds).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
                 'Therapeutic_Area__c, ' +
@@ -149,6 +169,7 @@ public with sharing class TrialSearchHelper {
 
         queryCTP += whereClause;
         queryCTP += orderBy;
+        System.debug('queryCTP => ' + JSON.serializePretty(queryCTP));
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }
@@ -214,15 +235,19 @@ public with sharing class TrialSearchHelper {
     }
 
     @TestVisible
-    private Boolean isQCare(DatabaseProxy proxy) {
-        String query = 'SELECT Id ' +
+    private Set<Id> getUsersQCareSiteIds(DatabaseProxy proxy) {
+        String query = 'SELECT Id, ' +
+                'Study_Site__c ' +
                 'FROM Participant_Enrollment__c ' +
-                'WHERE Study_Site__r.Partner_Type__c = \'' + TrialSearchWhereClauseFactory.QCARE_TYPE + '\' ' +
+                'WHERE Study_Site__r.Partner_Type__c = \'' + QCARE_TYPE + '\' ' +
                 'AND Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
-                'AND Participant_Status__c IN (\'' + String.join(PARTICIPANT_STATUSES, '\',\'') + '\')';
-        System.debug(query);
+                'AND Participant_Status__c IN (\'' + String.join(PS_ES, '\',\'') + '\')';
         List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) proxy.query(query, true);
-        return !participantEnrollments.isEmpty();
+        Set<Id> ssIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : participantEnrollments) {
+            ssIds.add(pe.Study_Site__c);
+        }
+        return ssIds;
     }
 
 }
