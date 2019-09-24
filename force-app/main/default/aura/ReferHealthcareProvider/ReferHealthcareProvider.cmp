@@ -2,11 +2,13 @@
  - Created by Nikita Abrazhevitch on 19-Sep-19.
  -->
 
-<aura:component description="ReferHealthcareProvider">
+<aura:component description="ReferHealthcareProvider" controller="ReferHealthcareProviderRemote">
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="healthCareProviders" type="List"/>
+    <aura:attribute name="action" type="Object"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 
     <aura:method name="disconnectHCP" action="{!c.doDisconnetc}">
         <aura:attribute name="index" type="Integer"/>
@@ -17,9 +19,7 @@
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <div class="slds-col slds-size--3-of-4">
                 <div class="header">{!$Label.c.HealthCare_Provider}</div>
-                <div class="healthcare-info">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the
-                    industry's standard dummy
+                <div class="healthcare-info">{!$Label.c.HealCare_Provider_Message}
                 </div>
             </div>
             <div class="slds-col slds-size--1-of-4 referring-provider-header">
@@ -31,9 +31,11 @@
         </div>
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
-                <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"/>
+                <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}" pe="{!v.pe}" action="{!v.action}"/>
             </aura:iteration>
         </div>
-        <button class="apollo-btn secondary" onclick="{!c.doAddProvider}">{!$Label.c.Add_Another_Provider}</button>
+        <aura:if isTrue="{!!v.action.disabled}">
+            <button class="apollo-btn secondary" onclick="{!c.doAddProvider}">{!$Label.c.Add_Another_Provider}</button>
+        </aura:if>
     </div>
 </aura:component>

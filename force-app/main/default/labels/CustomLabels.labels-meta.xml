@@ -411,6 +411,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
     <labels>
+        <fullName>Add_Another_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Another Provider</shortDescription>
+        <value>Add Another Provider</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -613,6 +620,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN Find study sites</shortDescription>
         <value>Find study sites</value>
+    </labels>
+    <labels>
+        <fullName>BTN_HealthCare_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN HealthCare Providers</shortDescription>
+        <value>Healthcare Providers</value>
     </labels>
     <labels>
         <fullName>BTN_I_Accept</fullName>
@@ -1320,21 +1334,28 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Accept a patient</shortDescription>
-        <value>Accept a patient</value>
+        <value>Accept a participant</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_referring_HCP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Accept a referring HCP</shortDescription>
-        <value>Accept a Referring Provider</value>
+        <value>Accept a referring provider</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Add_a_participants_provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DLIT L Add a participants provider</shortDescription>
+        <value>Add a participant&#39;s provider</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Decline_or_place_on_hold_a_referring_HCP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Decline or place on hold a referring HCP</shortDescription>
-        <value>Update Referring Provider status</value>
+        <value>Update referring provider status</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Manage_study_site_details</fullName>
@@ -1383,7 +1404,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Add a patient</value>
+        <value>Add a participant</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Remove_a_participants_provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DLIT L Remove a participants provider</shortDescription>
+        <value>Remove a participant&#39;s provider</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -1404,7 +1432,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Update status of an accepted patient</shortDescription>
-        <value>Update patient status</value>
+        <value>Update participant status</value>
     </labels>
     <labels>
         <fullName>DLIT_L_View_Dashboard</fullName>
@@ -1419,6 +1447,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>DLIT L View / Export Reports</shortDescription>
         <value>View/export report</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_View_screener_responses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DLIT L View screener responses</shortDescription>
+        <value>View screener responses</value>
     </labels>
     <labels>
         <fullName>DRF_L_All_date_ranges</fullName>
@@ -1517,6 +1552,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Diastolic Blood Pr Description</shortDescription>
         <value>Diastolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when your heart is resting in between beats.</value>
+    </labels>
+    <labels>
+        <fullName>Different_HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Different HealthCare Provider</shortDescription>
+        <value>Did you expect a different provider? Let us know.</value>
     </labels>
     <labels>
         <fullName>Disabled</fullName>
@@ -3173,6 +3215,69 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Haemoglobin Description</shortDescription>
         <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
+    </labels>
+    <labels>
+        <fullName>HealCare_Provider_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealCare Provider Message</shortDescription>
+        <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider</shortDescription>
+        <value>Healthcare Provider</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_Connect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider Connect</shortDescription>
+        <value>Connect to patient</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider Found</shortDescription>
+        <value>Provider Found!</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider RP</shortDescription>
+        <value>REFERRING PROVIDER</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_Stop_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider Stop Sharing</shortDescription>
+        <value>Stop Sharing</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Providers_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Providers Email</shortDescription>
+        <value>Provider&#39;s email address</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Providers_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Providers First Name</shortDescription>
+        <value>Provider&#39;s first name</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Providers_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Providers Last Name</shortDescription>
+        <value>Provider&#39;s last name</value>
     </labels>
     <labels>
         <fullName>Height</fullName>
