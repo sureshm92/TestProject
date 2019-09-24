@@ -4,7 +4,14 @@
 public without sharing class TravelSupportHelper {
 
     public List<TravelVendorPanelRemote.VendorItem> getVendorItems(List<String> countryCodes, Id ctpId,
-            List<String> studySiteIds, List<Id> vendorIds) {
+            List<String> studySiteIds, List<Id> vendorIds, Boolean isFirstLoad) {
+        System.debug('countryCodes ' + countryCodes);
+        System.debug('studySiteIds ' + studySiteIds);
+        System.debug('vendorIds ' + vendorIds);
+        Boolean hasAnyAttributes = this.hasAnyAttributes( countryCodes,  studySiteIds,  vendorIds, isFirstLoad);
+        if (hasAnyAttributes) {
+            return getAllStudySites(ctpId);
+        }
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String clauseChild = '';
         Boolean isVendors = vendorIds != null && !vendorIds.isEmpty();
@@ -39,10 +46,9 @@ public without sharing class TravelSupportHelper {
             if (studySite.TravelVendorSettings__r != null && !studySite.TravelVendorSettings__r.isEmpty()) {
                 vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
                 vendorItems.add(vendorItem);
-            } else if (isCountryCodes|| isStudySiteIds || isVendors ) {
+            } else if (isCountryCodes || isStudySiteIds || isVendors) {
                 vendorItems.add(vendorItem);
             }
-
         }
         return vendorItems;
     }
@@ -67,8 +73,8 @@ public without sharing class TravelSupportHelper {
         List<TravelVendorPanelRemote.VendorItem> vendorItems = new List<TravelVendorPanelRemote.VendorItem>();
         for (Study_Site__c studySite : studySites) {
             TravelVendorPanelRemote.VendorItem vendorItem = new TravelVendorPanelRemote.VendorItem(studySite);
-                vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
-                vendorItems.add(vendorItem);
+            vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
+            vendorItems.add(vendorItem);
         }
         return vendorItems;
     }
@@ -112,17 +118,41 @@ public without sharing class TravelSupportHelper {
     }
 
     public List<TravelVendorSettings__c> getVendors(Id studySiteId) {
-            String vendorsQuery = 'SELECT ' +
-                    'Id, ' +
-                    'TravelVendor__c, ' +
-                    'TravelVendor__r.Name, ' +
-                    'TravelVendor__r.Link_Vendor__c, ' +
-                    'TravelVendor__r.Disclosure__c, ' +
-                    'tudy_Site__r.Site__r.BillingCountryCode' +
-                    'FROM TravelVendorSettings__c '+
-                    'WHERE Study_Site__c =  \'' + studySiteId + '\' ' +
-                    'AND isEnable__c = ' + true;
-            return (List<TravelVendorSettings__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(vendorsQuery, false);
+        String vendorsQuery = 'SELECT ' +
+                'Id, ' +
+                'TravelVendor__c, ' +
+                'TravelVendor__r.Name, ' +
+                'TravelVendor__r.Link_Vendor__c, ' +
+                'TravelVendor__r.Disclosure__c, ' +
+                'Study_Site__r.Site__r.BillingCountryCode ' +
+                'FROM TravelVendorSettings__c ' +
+                'WHERE Study_Site__c =  \'' + studySiteId + '\' ' +
+                'AND isEnable__c = ' + true;
+        return (List<TravelVendorSettings__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(vendorsQuery, false);
+    }
+
+    private List<TravelVendorPanelRemote.VendorItem> getAllStudySites(Id ctpId){
+        String retrieveAllStudySites = 'SELECT Id, ' +
+                'Name, ' +
+                'Clinical_Trial_Profile__c, ' +
+                'Site__r.BillingCountry, ' +
+                'Site__r.BillingCountryCode, ' +
+                'Study_Site_Number__c ' +
+                'FROM Study_Site__c ' +
+                'WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
+        DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+        List<Study_Site__c> studySites = databaseProxy.query(retrieveAllStudySites);
+        List<TravelVendorPanelRemote.VendorItem> vendorItems = new List<TravelVendorPanelRemote.VendorItem>();
+        for (Study_Site__c studySite : studySites) {
+            TravelVendorPanelRemote.VendorItem vendorItem = new TravelVendorPanelRemote.VendorItem(studySite);
+            vendorItem.vendorSettings = studySite.TravelVendorSettings__r;
+            vendorItems.add(vendorItem);
+        }
+        return vendorItems;
+    }
+
+    private Boolean hasAnyAttributes(List<String> countryCodes, List<String> studySiteIds, List<Id> vendorIds, Boolean isFirstLoad){
+        return countryCodes == null && studySiteIds == null && (vendorIds == null || vendorIds.size() == 0) && !isFirstLoad;
     }
 
 }
