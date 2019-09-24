@@ -121,8 +121,6 @@ public with sharing class TravelVendorPanelRemote {
 
     @AuraEnabled
     public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<Id> vendorIds, Boolean isFirstLoad) {
-        System.debug('isFirstLoad ' + isFirstLoad);
-        System.debug('vendorIds' + JSON.serializePretty(vendorIds));
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         Boolean isCountryCodes = String.isNotBlank(countryCodes);
