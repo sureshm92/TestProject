@@ -38,6 +38,7 @@
             .then(function (data) {
                 console.log('data ', data);
                 component.set('v.trialTDOs', data.trialTDOs);
+                component.set('v.isInit', true);
                 // component.set('v.taps', data.taps);
                 component.find('mainSpinner').hide();
             }, function (err) {

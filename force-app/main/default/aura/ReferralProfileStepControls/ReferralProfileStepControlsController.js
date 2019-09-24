@@ -9,13 +9,15 @@
         if(step.selectedStatus === 'Enrollment Success'){
             var formComponent = parent.find('editForm');
             formComponent.set('v.isFinalUpdate', true);
-            var isValid = formComponent.checkFields();
-            if(!isValid){
-                communityService.showSuccessToast('',  $A.get('$Label.c.RP_Missing_Fields', 1000));
+            formComponent.checkFields();
+            if(!formComponent.get('v.isValid')){
                 parent.set('v.saveAndChangeStep', true);
+                debugger;
                 document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-            }
-            else{
+                setTimeout(function(){
+                    communityService.showSuccessToast('', $A.get('$Label.c.RP_Missing_Fields', 1000));
+                }, 1000);
+            } else{
                 helper.saveSelectedStatus(component);
             }
         } else {
