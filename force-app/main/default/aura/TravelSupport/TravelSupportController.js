@@ -10,11 +10,13 @@
 
     show: function (component, event, helper) {
         helper.checkOnDisclaimer(component, event);
+        component.set('v.showPopup', true);
         component.find('popup').show();
     },
 
     hide: function (component, event, helper) {
         component.find('popup').cancel();
+        component.set('v.showPopup', false);
     },
 
     redirectToUrl: function (component, event, helper) {
