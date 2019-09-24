@@ -199,14 +199,14 @@ public with sharing class TrialSearchHelper {
     private Participant__c getParticipant() {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String query = 'SELECT Id, ' +
-                'Gender__c,' +
-                'Mailing_State_Code__c,' +
-                'Phone_Type__c,' +
-                'Mailing_Country_Code__c,' +
-                'Last_Name__c,' +
-                'Date_of_Birth__c,' +
-                'Phone__c,' +
-                'Email__c,' +
+                'Gender__c, ' +
+                'Mailing_State_Code__c, ' +
+                'Phone_Type__c, ' +
+                'Mailing_Country_Code__c, ' +
+                'Last_Name__c, ' +
+                'Date_of_Birth__c, ' +
+                'Phone__c, ' +
+                'Email__c, ' +
                 'Mailing_Zip_Postal_Code__c ' +
                 'FROM Participant__c ' +
                 'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
