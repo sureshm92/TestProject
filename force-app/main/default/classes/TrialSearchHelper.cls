@@ -111,7 +111,6 @@ public with sharing class TrialSearchHelper {
                 Contact__c = currentContact.Id
                 , Clinical_Trial_Profile__c = ctpId
         );
-        System.debug(notification);
         proxy.upsertRecord(notification, true);
     }
 
@@ -137,8 +136,25 @@ public with sharing class TrialSearchHelper {
         return trialTDOS;
     }
 
+    private Set<String> getContactLanguage(DatabaseProxy proxy) {
+        User user = this.getUser(proxy);
+        Set<String> contactLanguage = new Set<String>();
+        contactLanguage.add(UserInfo.getLanguage());
+        if (String.isNotBlank(user.Contact.Language__c)) {
+            contactLanguage.add(user.Contact.Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Second_Choice_Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Third_Choice_Language__c);
+        }
+        return contactLanguage;
+    }
+
     @TestVisible
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+        Set<String> contactLanguage = this.getContactLanguage(proxy);
         Boolean isQCare = this.isQCare(proxy);
         String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, isQCare).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
@@ -196,6 +212,18 @@ public with sharing class TrialSearchHelper {
                 'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
                 'LIMIT 1';
         return (Participant__c) proxy.query(query)[0];
+    }
+
+    private User getUser(DatabaseProxy proxy) {
+        String queryUser = 'SELECT ' +
+                'ContactId, ' +
+                'Contact.Language__c, ' +
+                'Contact.Second_Choice_Language__c, ' +
+                'Contact.Third_Choice_Language__c ' +
+                'FROM User ' +
+                'WHERE Id = \'' + UserInfo.getUserId() + '\'';
+        User user = (User) proxy.query(queryUser)[0];
+        return user;
     }
 
     private Group getQueueGroup(DatabaseProxy proxy) {
