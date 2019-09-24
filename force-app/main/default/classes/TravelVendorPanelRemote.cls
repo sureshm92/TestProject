@@ -66,7 +66,6 @@ public with sharing class TravelVendorPanelRemote {
 
     @AuraEnabled
     public static InitData getInitData(Id ctpId, Boolean isFirstLoad) {
-        System.debug('isFirstLoad ' + isFirstLoad);
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         InitData initData = new InitData();
         try {
