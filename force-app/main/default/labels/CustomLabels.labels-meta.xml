@@ -1648,7 +1648,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
 
             To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-            Your username is ##Username. Please click the Enroll Now button to create your password.
+            Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
