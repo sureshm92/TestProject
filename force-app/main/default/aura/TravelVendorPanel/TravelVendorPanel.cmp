@@ -25,7 +25,7 @@
                 <div class="slds-grid slds-wrap">
                     <!--Country Filter-->
                     <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium ">
-                        <c:VisitResultSharingCountryLookup
+                        <c:CountryLookup
                                 aura:id="countryLookup"
                                 isMultiEntry="true"
                                 value="{!v.selectedByCountry}"
@@ -36,7 +36,7 @@
                                 isInclude="true"/>
                     </div>
                     <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
-                        <c:VisitResultSharingSSLookup
+                        <c:StudySiteLookup
                                 ctpId="{!v.recordId}"
                                 isMultiEntry="true"
                                 value="{!v.selectedByStudySite}"
