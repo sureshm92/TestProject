@@ -6189,6 +6189,13 @@ Please check your CAPS lock key.</value>
         <value>Not all required fields are entered</value>
     </labels>
     <labels>
+        <fullName>PG_MRC_RF_Not_Email_or_Phone_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
+        <value>Email or Phone field should be entered</value>
+    </labels>
+    <labels>
         <fullName>PG_MRC_RF_Phone</fullName>
         <language>en_US</language>
         <protected>false</protected>

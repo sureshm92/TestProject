@@ -85,7 +85,7 @@
                 <button class="apollo-btn primary" onclick="{!c.doInviteRP}"
                         disabled="{!v.reqFieldsFilled}"
                         title="{!(empty(v.lastName)||empty(v.firstName)||
-                                empty(v.clinicName)||(empty(v.phone)&amp;&amp;empty(v.emailS)))?$Label.c.PG_MRC_RF_Not_all_Req_Fields:''}">
+                                empty(v.clinicName)) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ((empty(v.phone)&amp;&amp;empty(v.emailS)) ? $Label.c.PG_MRC_RF_Not_Email_or_Phone_Fields : '')}">
                     {!$Label.c.BTN_Invite}
                 </button>
             </aura:set>
