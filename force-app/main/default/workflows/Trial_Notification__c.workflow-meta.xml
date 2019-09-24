@@ -13,12 +13,9 @@
     </alerts>
     <alerts>
         <fullName>Trial_Alert_received_by_IQVIA</fullName>
+        <ccEmails>verdanis.aa@gmail.com</ccEmails>
         <description>Trial Alert received by IQVIA</description>
         <protected>false</protected>
-        <recipients>
-            <field>Contact__c</field>
-            <type>contactLookup</type>
-        </recipients>
         <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Trial_Alert_Received</template>
     </alerts>
