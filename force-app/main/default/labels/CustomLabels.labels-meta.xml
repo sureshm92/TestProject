@@ -6158,7 +6158,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRC RP Email</shortDescription>
-        <value>Email (optional)</value>
+        <value>Email</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_First_Name</fullName>
