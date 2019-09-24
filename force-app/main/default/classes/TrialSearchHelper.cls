@@ -7,23 +7,17 @@ public with sharing class TrialSearchHelper {
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
+    //Participant Enrollment
+    private static final String PARTICIPANT_STATUS_REFERRED = 'Referral accepted';
+    private static final String PARTICIPANT_STATUS_ENROLLED = 'Enrollment success';
+    private static final List<String> PARTICIPANT_STATUSES = new List<String>{
+            PARTICIPANT_STATUS_ENROLLED,
+            PARTICIPANT_STATUS_REFERRED
+    };
+
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
-        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
-        String query = 'SELECT Id, ' +
-                'Gender__c,' +
-                'Mailing_State_Code__c,' +
-                'Phone_Type__c,' +
-                'Mailing_Country_Code__c,' +
-                'Last_Name__c,' +
-                'Date_of_Birth__c,' +
-                'Phone__c,' +
-                'Email__c,' +
-                'Mailing_Zip_Postal_Code__c ' +
-                'FROM Participant__c ' +
-                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
-                'LIMIT 1';
-        trialSearchContainer.participant = (Participant__c) proxy.query(query, true)[0];
+        trialSearchContainer.participant = getParticipant();
         return trialSearchContainer;
     }
 
@@ -181,6 +175,7 @@ public with sharing class TrialSearchHelper {
     private Participant__c getParticipant() {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         String query = 'SELECT ' +
+                'Id, ' +
                 'Gender__c, ' +
                 'Mailing_State_Code__c, ' +
                 'Phone_Type__c, ' +
@@ -192,7 +187,8 @@ public with sharing class TrialSearchHelper {
                 'Email__c, ' +
                 'Mailing_Zip_Postal_Code__c ' +
                 'FROM Participant__c ' +
-                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\')';
+                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
+                'LIMIT 1';
         return (Participant__c) proxy.query(query)[0];
     }
 
@@ -219,17 +215,14 @@ public with sharing class TrialSearchHelper {
 
     @TestVisible
     private Boolean isQCare(DatabaseProxy proxy) {
-        String query = 'SELECT Id, ' +
-                'Current_Participant_Enrollment__r.Study_Site__r.Partner_Type__c ' +
-                'FROM Contact ' +
-                'WHERE Id IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId()  + '\')' +
-                'AND Current_Participant_Enrollment__r.Study_Site__r.Site__c != NULL';
-        List<Contact> contacts = (List<Contact>) proxy.query(query, true);
-        if (contacts.isEmpty()) {
-            return false;
-        }
-        return contacts[0].Current_Participant_Enrollment__r.Study_Site__r.Partner_Type__c == TrialSearchWhereClauseFactory.QCARE_TYPE;
-
+        String query = 'SELECT Id ' +
+                'FROM Participant_Enrollment__c ' +
+                'WHERE Study_Site__r.Partner_Type__c = \'' + TrialSearchWhereClauseFactory.QCARE_TYPE + '\' ' +
+                'AND Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
+                'AND Participant_Status__c IN (\'' + String.join(PARTICIPANT_STATUSES, '\',\'') + '\')';
+        System.debug(query);
+        List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) proxy.query(query, true);
+        return !participantEnrollments.isEmpty();
     }
 
 }
