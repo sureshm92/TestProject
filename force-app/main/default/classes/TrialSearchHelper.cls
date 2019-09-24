@@ -3,27 +3,13 @@
  */
 public with sharing class TrialSearchHelper {
 
-    //AssignmentRule
+    //Queue
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
-        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
-        String query = 'SELECT Id, ' +
-                'Gender__c,' +
-                'Mailing_State_Code__c,' +
-                'Phone_Type__c,' +
-                'Mailing_Country_Code__c,' +
-                'Last_Name__c,' +
-                'Date_of_Birth__c,' +
-                'Phone__c,' +
-                'Email__c,' +
-                'Mailing_Zip_Postal_Code__c ' +
-                'FROM Participant__c ' +
-                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
-                'LIMIT 1';
-        trialSearchContainer.participant = (Participant__c) proxy.query(query, true)[0];
+        trialSearchContainer.participant = this.getParticipant();
         return trialSearchContainer;
     }
 
@@ -48,13 +34,17 @@ public with sharing class TrialSearchHelper {
             return trialSearchContainer;
         }
         List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy, isEnrolling, isNotYetEnrolling);
+        List<Clinical_Trial_Profile__c> ctpsLanguageApprove = this.getCtpsLanguageApprove(ctps);
+        if (ctpsLanguageApprove.isEmpty()) {
+            return trialSearchContainer;
+        }
         Set<Id> taIds = new Set<Id>();
-        for (Clinical_Trial_Profile__c ctp : ctps) {
+        for (Clinical_Trial_Profile__c ctp : ctpsLanguageApprove) {
             if (ctp.Therapeutic_Area__c != null) {
                 taIds.add(ctp.Therapeutic_Area__c);
             }
         }
-        List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(ctps);
+        List<TrialSearchContainerRemote.TrialTDO> trialTDOS = this.getTrialTDOs(ctpsLanguageApprove);
         trialSearchContainer.trialTDOs = trialTDOS;
         return trialSearchContainer;
     }
@@ -108,7 +98,8 @@ public with sharing class TrialSearchHelper {
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
                 Phone__c = participant.Phone__c,
-                Study_Code__c = ctp.NCT_Number__c
+                Study_Code__c = ctp.NCT_Number__c,
+                Study__c = ctp.Id
         );
         insert caseContact;
     }
@@ -120,8 +111,17 @@ public with sharing class TrialSearchHelper {
                 Contact__c = currentContact.Id
                 , Clinical_Trial_Profile__c = ctpId
         );
-        System.debug(notification);
         proxy.upsertRecord(notification, true);
+    }
+
+    private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
+        List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
+        for (Clinical_Trial_Profile__c ctp : ctps) {
+            if (!ctp.Study_Site_Profiles__r.isEmpty()) {
+                ctpsLanguageApprove.add(ctp);
+            }
+        }
+        return ctpsLanguageApprove;
     }
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
@@ -136,8 +136,25 @@ public with sharing class TrialSearchHelper {
         return trialTDOS;
     }
 
+    private Set<String> getContactLanguage(DatabaseProxy proxy) {
+        User user = this.getUser(proxy);
+        Set<String> contactLanguage = new Set<String>();
+        contactLanguage.add(UserInfo.getLanguage());
+        if (String.isNotBlank(user.Contact.Language__c)) {
+            contactLanguage.add(user.Contact.Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Second_Choice_Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Third_Choice_Language__c);
+        }
+        return contactLanguage;
+    }
+
     @TestVisible
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+        Set<String> contactLanguage = this.getContactLanguage(proxy);
         Boolean isQCare = this.isQCare(proxy);
         String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, isQCare).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
@@ -150,7 +167,8 @@ public with sharing class TrialSearchHelper {
                 'Override_Recruitment_Status__c, ' +
                 'Recruitment_Status__c, ' +
                 'NCT_Number__c, ' +
-                '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\') ' +
+                '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\'), ' +
+                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r WHERE Approved_Lng__c INCLUDES ' + '(\'' + String.join(new List<String>(contactLanguage), '\',\'') + '\')) ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
@@ -180,7 +198,7 @@ public with sharing class TrialSearchHelper {
 
     private Participant__c getParticipant() {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String query = 'SELECT ' +
+        String query = 'SELECT Id, ' +
                 'Gender__c, ' +
                 'Mailing_State_Code__c, ' +
                 'Phone_Type__c, ' +
@@ -192,8 +210,21 @@ public with sharing class TrialSearchHelper {
                 'Email__c, ' +
                 'Mailing_Zip_Postal_Code__c ' +
                 'FROM Participant__c ' +
-                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\')';
+                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
+                'LIMIT 1';
         return (Participant__c) proxy.query(query)[0];
+    }
+
+    private User getUser(DatabaseProxy proxy) {
+        String queryUser = 'SELECT ' +
+                'ContactId, ' +
+                'Contact.Language__c, ' +
+                'Contact.Second_Choice_Language__c, ' +
+                'Contact.Third_Choice_Language__c ' +
+                'FROM User ' +
+                'WHERE Id = \'' + UserInfo.getUserId() + '\'';
+        User user = (User) proxy.query(queryUser)[0];
+        return user;
     }
 
     private Group getQueueGroup(DatabaseProxy proxy) {

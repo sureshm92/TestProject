@@ -1,12 +1,12 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Your_request_for_additonal_information}"
-                         recipientType="User"
-                         relatedToType="Participant_Enrollment__c"
-                         language="{!relatedTo.Participant__r.Contact__r.Language__c}">
+                         recipientType="Contact"
+                         relatedToType="Case"
+>
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
+        <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
+                         parametersProvider="Email_Template_Parameters_From_Case"
                          header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
@@ -17,9 +17,9 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
+        <c:EmailTemplateText recipientId="{!recipient.id}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
+                             parametersProvider="Email_Template_Parameters_From_Case"
                              header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
