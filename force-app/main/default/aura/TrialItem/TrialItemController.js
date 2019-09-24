@@ -5,12 +5,26 @@
     onClick: function (component, event, helper) {
         if (!component.get('v.isClicked')) {
             component.set('v.isClicked', !component.get('v.isClicked'));
+        } else {
+            component.set('v.isSecondClicked', true);
         }
         let trial = component.get('v.trialTDO');
         if (!trial.isEnrollingCTP) {
-            communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
+            communityService.executeAction(component, 'createTrialNotification', {
+                ctpId: trial.ctp.Id
+            }, function () {
+                let trialTDO = component.get('v.trialTDO');
+                trialTDO.relatedNotificationExists = true;
+                component.set('v.trialTDO', trialTDO);
+                communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
+            });
         } else {
             let form = component.find('contactModal');
+            form.set('v.closeCallback', $A.getCallback(function () {
+                if (!component.get('v.isSecondClicked')) {
+                    component.set('v.isClicked', false);
+                }
+            }));
             form.show();
         }
     },
@@ -39,6 +53,12 @@
                 }).catch(function (err) {
                 console.error(err);
             });
+        }
+    },
+
+    onClickCancel: function (component, event, helper) {
+        if (!component.get('v.isSecondClicked')) {
+            component.set('v.isClicked', false);
         }
     }
 });

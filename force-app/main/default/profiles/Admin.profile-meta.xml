@@ -159,6 +159,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CTPSendNotificationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CatalogParametersHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1111,10 +1115,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1423,6 +1423,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TrialSearchContainerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TrialSearchHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1528,6 +1536,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrialSearchHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialSearchWhereClauseFactory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1817,6 +1829,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Study_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Study__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4890,6 +4907,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Partner_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Prescreen__c</field>
         <readable>true</readable>
@@ -5297,6 +5319,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>TravelVendor__c.Disclosure__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5723,6 +5750,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>TravelVendor__c-TravelVendor Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Trial_Notification__c-Trial Notification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Trial_Survey__c-Trial Survey Layout</layout>
@@ -6232,6 +6262,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>TravelVendor__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Trial_Notification__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

@@ -3,41 +3,9 @@
  */
 public with sharing class TrialSearchHelper {
 
-    //ORS status
-    public static final String ACTIVELY_ENROLLING = 'Actively Enrolling';
-    public static final String ON_HOLD = 'On Hold';
-
-    //CTMS status
-    private static final String ENROLLING = 'Enrolling';
-    private static final String OPEN_TO_ENROLLMENT = 'Open to Enrollment';
-    private static final String PLANNING = 'Planning';
-    private static final String IN_DEVELOPMENT = 'In Development';
-
-    //AssignmentRule
+    //Queue
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
-
-    public static final List<String> ORS_STATUS_ENROLLING = new List<String>{
-            ACTIVELY_ENROLLING,
-            ON_HOLD
-    };
-
-    public static final List<String> CTMS_RECRUITMENT = new List<String>{
-            ENROLLING,
-            OPEN_TO_ENROLLMENT,
-            PLANNING,
-            IN_DEVELOPMENT
-    };
-
-    public static final List<String> CTMS_RECRUITMENT_ENROLLING = new List<String>{
-            ENROLLING,
-            OPEN_TO_ENROLLMENT
-    };
-
-    public static final List<String> CTMS_ON_HOLD = new List<String>{
-            PLANNING,
-            IN_DEVELOPMENT
-    };
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
@@ -130,32 +98,27 @@ public with sharing class TrialSearchHelper {
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
                 Phone__c = participant.Phone__c,
-                Study_Code__c = ctp.NCT_Number__c
+                Study_Code__c = ctp.NCT_Number__c,
+                Study__c = ctp.Id
         );
         insert caseContact;
     }
 
+    public void createTrialNotification(Id ctpId) {
+        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
+        Contact currentContact = CommunityService.getUserContact();
+        Trial_Notification__c notification = new Trial_Notification__c(
+                Contact__c = currentContact.Id
+                , Clinical_Trial_Profile__c = ctpId
+        );
+        proxy.upsertRecord(notification, true);
+    }
+
     private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
-        Contact Contact = CommunityService.getUserContact();
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
-            Set<String> languageCods = new Set<String>();
             if (!ctp.Study_Site_Profiles__r.isEmpty()) {
-                for (Study_Site__c studySite : ctp.Study_Site_Profiles__r) {
-                    if (String.isNotBlank(studySite.Approved_Lng__c)) {
-                        List<String> cods = studySite.Approved_Lng__c.split(';');
-                        languageCods.addAll(cods);
-                    }
-                }
-            }
-            if (!languageCods.isEmpty()) {
-                if (languageCods.contains(Contact.Language__c)) {
-                    ctpsLanguageApprove.add(ctp);
-                } else if (languageCods.contains(Contact.Second_Choice_Language__c)) {
-                    ctpsLanguageApprove.add(ctp);
-                } else if (languageCods.contains(Contact.Third_Choice_Language__c)) {
-                    ctpsLanguageApprove.add(ctp);
-                }
+                ctpsLanguageApprove.add(ctp);
             }
         }
         return ctpsLanguageApprove;
@@ -167,31 +130,33 @@ public with sharing class TrialSearchHelper {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
+            tdo.relatedNotificationExists = !ctp.Trial_Notifications__r.isEmpty();
             trialTDOS.add(tdo);
         }
         return trialTDOS;
     }
 
-    private Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
-        return ctp.Override_Recruitment_Status__c == ACTIVELY_ENROLLING ||
-                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
-                        (ctp.Recruitment_Status__c == ENROLLING ||
-                                ctp.Recruitment_Status__c == OPEN_TO_ENROLLMENT)
-                );
+    private Set<String> getContactLanguage(DatabaseProxy proxy) {
+        User user = this.getUser(proxy);
+        Set<String> contactLanguage = new Set<String>();
+        contactLanguage.add(UserInfo.getLanguage());
+        if (String.isNotBlank(user.Contact.Language__c)) {
+            contactLanguage.add(user.Contact.Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Second_Choice_Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Third_Choice_Language__c);
+        }
+        return contactLanguage;
     }
 
+    @TestVisible
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
-        String whereClause = 'WHERE Therapeutic_Area__c IN ' + '(\'' + String.join(new List<Id>(taId), '\',\'') + '\') ';
-        if (isEnrolling && isNotYetEnrolling) {
-            whereClause += ' AND (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
-                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT, '\',\'') + '\')) ';
-        } else if (isEnrolling) {
-            whereClause += ' AND (Override_Recruitment_Status__c = ' + '\'' + ACTIVELY_ENROLLING + '\' ' +
-                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT_ENROLLING, '\',\'') + '\')) ';
-        } else if (isNotYetEnrolling) {
-            whereClause += ' AND (Override_Recruitment_Status__c = ' + '\'' + ON_HOLD + '\' ' +
-                    'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_ON_HOLD, '\',\'') + '\')) ';
-        }
+        Set<String> contactLanguage = this.getContactLanguage(proxy);
+        Boolean isQCare = this.isQCare(proxy);
+        String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, isQCare).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
                 'Therapeutic_Area__c, ' +
@@ -202,16 +167,17 @@ public with sharing class TrialSearchHelper {
                 'Override_Recruitment_Status__c, ' +
                 'Recruitment_Status__c, ' +
                 'NCT_Number__c, ' +
-                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r) ' +
+                '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\'), ' +
+                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r WHERE Approved_Lng__c INCLUDES ' + '(\'' + String.join(new List<String>(contactLanguage), '\',\'') + '\')) ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
         queryCTP += orderBy;
-
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }
 
+    @TestVisible
     private List<Therapeutic_Area_Patient__c> getTherapeuticAreaPatients(DatabaseProxy proxy) {
         CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
         String participantId = cService.getParticipantId();
@@ -232,7 +198,7 @@ public with sharing class TrialSearchHelper {
 
     private Participant__c getParticipant() {
         DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        String query = 'SELECT ' +
+        String query = 'SELECT Id, ' +
                 'Gender__c, ' +
                 'Mailing_State_Code__c, ' +
                 'Phone_Type__c, ' +
@@ -244,8 +210,21 @@ public with sharing class TrialSearchHelper {
                 'Email__c, ' +
                 'Mailing_Zip_Postal_Code__c ' +
                 'FROM Participant__c ' +
-                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\')';
+                'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
+                'LIMIT 1';
         return (Participant__c) proxy.query(query)[0];
+    }
+
+    private User getUser(DatabaseProxy proxy) {
+        String queryUser = 'SELECT ' +
+                'ContactId, ' +
+                'Contact.Language__c, ' +
+                'Contact.Second_Choice_Language__c, ' +
+                'Contact.Third_Choice_Language__c ' +
+                'FROM User ' +
+                'WHERE Id = \'' + UserInfo.getUserId() + '\'';
+        User user = (User) proxy.query(queryUser)[0];
+        return user;
     }
 
     private Group getQueueGroup(DatabaseProxy proxy) {
@@ -259,4 +238,29 @@ public with sharing class TrialSearchHelper {
         Group queueGroup = (Group) proxy.query(query, true)[0];
         return queueGroup;
     }
+
+    @TestVisible
+    public Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
+        return ctp.Override_Recruitment_Status__c == TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING ||
+                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
+                        (ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.ENROLLING ||
+                                ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT)
+                );
+    }
+
+    @TestVisible
+    private Boolean isQCare(DatabaseProxy proxy) {
+        String query = 'SELECT Id, ' +
+                'Current_Participant_Enrollment__r.Study_Site__r.Partner_Type__c ' +
+                'FROM Contact ' +
+                'WHERE Id IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId()  + '\')' +
+                'AND Current_Participant_Enrollment__r.Study_Site__r.Site__c != NULL';
+        List<Contact> contacts = (List<Contact>) proxy.query(query, true);
+        if (contacts.isEmpty()) {
+            return false;
+        }
+        return contacts[0].Current_Participant_Enrollment__r.Study_Site__r.Partner_Type__c == TrialSearchWhereClauseFactory.QCARE_TYPE;
+
+    }
+
 }
