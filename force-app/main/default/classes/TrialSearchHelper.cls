@@ -13,7 +13,7 @@ public with sharing class TrialSearchHelper {
     private static final String PLANNING = 'Planning';
     private static final String IN_DEVELOPMENT = 'In Development';
 
-    //AssignmentRule
+    //Queue
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
@@ -130,32 +130,17 @@ public with sharing class TrialSearchHelper {
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
                 Phone__c = participant.Phone__c,
-                Study_Code__c = ctp.NCT_Number__c
+                Study_Code__c = ctp.NCT_Number__c,
+                Study__c = ctp.Id
         );
         insert caseContact;
     }
 
     private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
-        Contact Contact = CommunityService.getUserContact();
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c ctp : ctps) {
-            Set<String> languageCods = new Set<String>();
             if (!ctp.Study_Site_Profiles__r.isEmpty()) {
-                for (Study_Site__c studySite : ctp.Study_Site_Profiles__r) {
-                    if (String.isNotBlank(studySite.Approved_Lng__c)) {
-                        List<String> cods = studySite.Approved_Lng__c.split(';');
-                        languageCods.addAll(cods);
-                    }
-                }
-            }
-            if (!languageCods.isEmpty()) {
-                if (languageCods.contains(Contact.Language__c)) {
-                    ctpsLanguageApprove.add(ctp);
-                } else if (languageCods.contains(Contact.Second_Choice_Language__c)) {
-                    ctpsLanguageApprove.add(ctp);
-                } else if (languageCods.contains(Contact.Third_Choice_Language__c)) {
-                    ctpsLanguageApprove.add(ctp);
-                }
+                ctpsLanguageApprove.add(ctp);
             }
         }
         return ctpsLanguageApprove;
@@ -181,6 +166,24 @@ public with sharing class TrialSearchHelper {
     }
 
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+        User user = [
+                SELECT  ContactId,
+                        Contact.Language__c,
+                        Contact.Second_Choice_Language__c,
+                        Contact.Third_Choice_Language__c
+                FROM    User
+                WHERE   Id = :UserInfo.getUserId()];
+        Set<String> contactLanguage = new Set<String>();
+        contactLanguage.add(UserInfo.getLanguage());
+        if (String.isNotBlank(user.Contact.Language__c)) {
+            contactLanguage.add(user.Contact.Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Second_Choice_Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Third_Choice_Language__c);
+        }
         String whereClause = 'WHERE Therapeutic_Area__c IN ' + '(\'' + String.join(new List<Id>(taId), '\',\'') + '\') ';
         if (isEnrolling && isNotYetEnrolling) {
             whereClause += ' AND (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
@@ -202,7 +205,7 @@ public with sharing class TrialSearchHelper {
                 'Override_Recruitment_Status__c, ' +
                 'Recruitment_Status__c, ' +
                 'NCT_Number__c, ' +
-                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r) ' +
+                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r WHERE Approved_Lng__c INCLUDES ' + '(\'' + String.join(new List<String>(contactLanguage), '\',\'') + '\')) ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
