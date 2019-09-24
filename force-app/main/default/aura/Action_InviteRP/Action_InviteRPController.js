@@ -53,11 +53,13 @@
         var lastName = component.get('v.lastName');
         var clinicName = component.get('v.clinicName');
         var phone = component.get('v.phone');
+        var email = component.get('v.email');
         var inputPattern = new RegExp('[!+@#$%^&*(),.?":{}|<>]','g');
         var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
         var reqFieldsFilled = (inputPattern.test(firstName) || !firstName.trim()) ||
             (inputPattern.test(lastName) || !lastName.trim()) ||
-            (phonePattern.test(phone) || !phone.trim()) ||
+            ((phonePattern.test(phone) || !phone.trim()) &&
+            (inputPattern.test(email) || !email.trim())) ||
             (inputPattern.test(clinicName) || !clinicName.trim());
         component.set('v.reqFieldsFilled',reqFieldsFilled);
     },
