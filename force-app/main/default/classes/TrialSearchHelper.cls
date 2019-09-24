@@ -204,6 +204,7 @@ public with sharing class TrialSearchHelper {
                 'Phone_Type__c, ' +
                 'Mailing_Country_Code__c, ' +
                 'Last_Name__c, ' +
+                'First_Name__c, ' +
                 'Date_of_Birth__c, ' +
                 'Phone__c, ' +
                 'Email__c, ' +
