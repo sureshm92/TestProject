@@ -87,6 +87,8 @@ public abstract class StudyActions {
     public static final String ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = 'hcpOrientationAttendedAndActivate';
     public static final String ACT_HCP_DEACTIVATE = 'hcpDeactivate';
     public static final String ACT_HCP_LINK_STUDY_SITES = 'linkToStudySites';
+    public static final String ACT_SCREENER_RESPONSES = 'screenerResponses';
+    public static final String ACT_CONNECT_PROVIDER = 'connectProvider';
 
     //action labels:
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;

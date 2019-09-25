@@ -20,6 +20,7 @@
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
+            console.log('INIT DATA><><><><><>',initData);
             component.set('v.piBtnFilter', paramFilter);
             component.set('v.skipUpdate', true);
             component.set('v.pageList', initData.currentPageList);
@@ -38,9 +39,6 @@
     },
 
     doUpdateRecords: function (component, event) {
-        console.log('event>>>',event);
-        console.log('event>>>',event.getParam('index'));
-        console.log('event>>>',JSON.parse(JSON.stringify(event.getParams())));
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordsSpinner');
         spinner.show();

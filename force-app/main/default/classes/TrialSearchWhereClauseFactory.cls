@@ -4,9 +4,6 @@
 
 public with sharing class TrialSearchWhereClauseFactory {
 
-    //Site Type
-    public static final String QCARE_TYPE = '00';
-
     //ORS status
     public static final String ACTIVELY_ENROLLING = 'Actively Enrolling';
     public static final String ON_HOLD = 'On Hold';
@@ -40,11 +37,11 @@ public with sharing class TrialSearchWhereClauseFactory {
     };
 
 
-    public WhereClause getWhereClause(List<Id> taIds, Boolean isEnrolling, Boolean isNotYetEnrolling, Boolean isQCare) {
+    public WhereClause getInstance(List<Id> taIds, Boolean isEnrolling, Boolean isNotYetEnrolling, Set<Id> userQCareSSIds) {
         WhereClause idFilteredClause = new IdFilteredWhereClause(taIds);
         WhereClause enrolledIdFilteredClause = this.getEnrollingExtendedWhereClause(idFilteredClause, isEnrolling, isNotYetEnrolling);
-        if (isQCare) {
-            WhereClause qCareEnrolledidFilteredClause = new QCareWhereClauseDecorator(enrolledIdFilteredClause);
+        if (!userQCareSSIds.isEmpty()) {
+            WhereClause qCareEnrolledidFilteredClause = new QCareWhereClauseDecorator(enrolledIdFilteredClause, userQCareSSIds);
             return qCareEnrolledidFilteredClause;
         } else {
             return enrolledIdFilteredClause;
@@ -95,12 +92,15 @@ public with sharing class TrialSearchWhereClauseFactory {
 
     public class QCareWhereClauseDecorator extends WhereClauseDecorator {
 
-        public QCareWhereClauseDecorator(WhereClause clause) {
+        private List<Id> qCareSSIds;
+
+        public QCareWhereClauseDecorator(WhereClause clause, Set<Id> qCareSSIds) {
             super(clause);
+            this.qCareSSIds = new List<Id>(qCareSSIds);
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + 'AND Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Partner_Type__c = \''+ QCARE_TYPE +'\')';
+            return clause.getWhereClause() + 'AND Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id IN (\'' + String.join(qCareSSIds, '\',\'') + '\')) ';
         }
     }
 

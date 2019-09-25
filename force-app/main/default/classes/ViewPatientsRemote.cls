@@ -19,6 +19,8 @@ public without sharing class ViewPatientsRemote {
     public class PEWrapper{
         public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
+        public List<StudyActions.Action> participantCardActions;
+        public List<StudyActions.Action> healthcareProviderActions;
 
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions){
             this.pItem = new ParticipantItem(pe);
@@ -361,5 +363,24 @@ public without sharing class ViewPatientsRemote {
         return resultList;
     }
 
-
+    public static  Map<String,Map<String,String>> getFilterData(List<Participant_Enrollment__c> peList){
+        Map<String,Map<String,String>> filterData = new Map<String,Map<String,String>>{
+                'studies' => new Map<String,String>{null => Label.PG_MRRL_L_All_studies},
+                'studySites' => new Map<String,String>{null => Label.PG_Report_L_All_study_sites},
+                //'source' => new Map<String,String>{null => Label.PG_MRR_L_All_Sources},
+                'statuses' => new Map<String,String>{null => Label.PG_MRR_L_All_Statuses}
+        };
+        Map<String,Map<String,String>> fieldMap = new Map<String,Map<String,String>>{
+                'studies' => new Map<String,String>{'Study_Site__r.Clinical_Trial_Profile__c' => 'Study_Site__r.Clinical_Trial_Profile__c.Study_Code_Name__c'},
+                'studySites' => new Map<String,String>{'Study_Site__c' => 'Study_Site__r.Name'},
+                //'source' => new Map<String,String>{'Referral_Source_ID__c',
+                'statuses' => new Map<String,String>{'Participant_Status__c' => 'Participant_Status__c'}
+        };
+        for(Participant_Enrollment__c pe : peList){
+            for(String key : filterData.keySet()){
+                //filterData.get(key).put(pe[fieldMap.get(key).keySet()[0]],pe[fieldMap.get(key).values()[0]]);
+            }
+        }
+        return filterData;
+    }
 }
