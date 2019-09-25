@@ -9,15 +9,14 @@
     <aura:attribute name="headerText" type="String"/>
     <aura:attribute name="footer" type="Aura.Component[]"/>
     <aura:attribute name="size" type="String" default="medium"/>
-    <aura:attribute name="cssSize" type="String" access="private"/>
     <aura:attribute name="cancelCallback" type="Object"/>
-
 
     <!--methods: -->
     <aura:method name="show" action="{!c.doShow}"/>
     <aura:method name="hide" action="{!c.doHide}"/>
     <aura:method name="cancel" action="{!c.doCancel}"/>
 
+    <!-- component body: -->
     <section role="dialog" tabindex="-1" aria-modal="true" class="{!'slds-modal slds-modal_' + v.size + if(v.isShow, ' slds-fade-in-open ', '')}">
         <div class="slds-modal__container">
             <header class="slds-modal__header">
