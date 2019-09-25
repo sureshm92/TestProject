@@ -3,22 +3,24 @@
  */
 ({
     onClick: function (component, event, helper) {
-        if (!component.get('v.isClicked')) {
-            component.set('v.isClicked', !component.get('v.isClicked'));
-        } else {
-            component.set('v.isSecondClicked', true);
-        }
+        component.find('mainSpinner').show();
         let trial = component.get('v.trialTDO');
         if (!trial.isEnrollingCTP) {
             communityService.executeAction(component, 'createTrialNotification', {
                 ctpId: trial.ctp.Id
             }, function () {
+                component.find('mainSpinner').hide();
                 let trialTDO = component.get('v.trialTDO');
                 trialTDO.relatedNotificationExists = true;
                 component.set('v.trialTDO', trialTDO);
-                communityService.showToast('success', 'success', 'Thank you for your interest in ' + trial.ctp.Study_Code_Name__c + '. We will contact you when the clinical research study begins enrollment.')
+                helper.checkClick(component);
+                communityService.showToast('success',
+                    'success',
+                    String.format($A.get('$Label.c.TrialSearch_Toast_Alert_Me_When_Trial_Start'), trial.ctp.Study_Code_Name__c));
             });
-        } else {
+        } else if (!trial.ctp.Link_to_ePR_Campaign__c) {
+            component.find('mainSpinner').hide();
+            helper.checkClick(component);
             let form = component.find('contactModal');
             form.set('v.closeCallback', $A.getCallback(function () {
                 if (!component.get('v.isSecondClicked')) {
@@ -26,6 +28,9 @@
                 }
             }));
             form.show();
+        } else {
+            component.find('mainSpinner').hide();
+            window.open(trial.ctp.Link_to_ePR_Campaign__c);
         }
     },
 
@@ -35,30 +40,29 @@
         if (form.get('v.isValid')) {
             let participantInfo = component.get('v.participantInfo');
             let ctp = component.get('v.trialTDO').ctp;
+            component.find('mainSpinner').show();
+            component.find('contactModal').hide();
             helper.enqueue(component, 'c.createCaseToStudy', {
                 participant: participantInfo,
                 ctp: ctp,
-                isDelegate : communityService.isDelegate()
+                isDelegate: communityService.isDelegate()
             })
                 .then(function (data) {
                     if (participantInfo.Id) {
                         component.set('v.participant', participantInfo);
                     }
-                    console.log(JSON.stringify(component.get('v.participantInfo')));
-                    communityService.showToast('success', 'success', 'Thank you for your interest in ' + ctp.Study_Code_Name__c + '.  Someone from the study team will contact you shortly. ');
-                    component.find('contactModal').hide();
+                    communityService.showToast('success',
+                        'success',
+                        String.format($A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'), ctp.Study_Code_Name__c));
+                    component.find('mainSpinner').hide();
                 }, function (err) {
+                    component.find('mainSpinner').hide();
                     console.error(err);
-                    communityService.showToast('error', 'error', 'OPSsssss');
+                    communityService.showToast('error', 'error', err);
                 }).catch(function (err) {
+                component.find('mainSpinner').hide();
                 console.error(err);
             });
         }
     },
-
-    onClickCancel: function (component, event, helper) {
-        if (!component.get('v.isSecondClicked')) {
-            component.set('v.isClicked', false);
-        }
-    }
 });

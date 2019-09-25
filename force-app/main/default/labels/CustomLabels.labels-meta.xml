@@ -10377,6 +10377,20 @@ Please check your CAPS lock key.</value>
         <value>Search for anoter condition</value>
     </labels>
     <labels>
+        <fullName>TrialSearch_See_Qualify</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch See Qualify</shortDescription>
+        <value>See if I qualify</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Send_To_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Send To Study</shortDescription>
+        <value>Send to study</value>
+    </labels>
+    <labels>
         <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10396,6 +10410,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TrialSearch_Therapeutic area</shortDescription>
         <value>Therapeutic area</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Alert_Me_When_Trial_Start</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Contact The Study</shortDescription>
+        <value>Thank you for your interest in {0}.  Someone from the study team will contact you shortly.</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Update_Search_Results</fullName>
