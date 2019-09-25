@@ -185,7 +185,7 @@ public with sharing class TrialSearchHelper {
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         Set<String> contactLanguage = this.getContactLanguage(proxy);
         Set<Id> ssIds = getUsersQCareSiteIds(proxy);
-        String whereClause = new TrialSearchWhereClauseFactory().getWhereClause(new List<Id>(taId), isEnrolling, isNotYetEnrolling, ssIds).getWhereClause();
+        String whereClause = new TrialSearchWhereClauseFactory().getInstance(new List<Id>(taId), isEnrolling, isNotYetEnrolling, ssIds).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
                 'Therapeutic_Area__c, ' +
