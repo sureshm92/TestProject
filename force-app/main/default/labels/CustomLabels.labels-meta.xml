@@ -1648,7 +1648,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
 
             To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-            Your username is ##Username. Please click the Enroll Now button to create your password.
+            Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -7958,14 +7958,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB Button Review</shortDescription>
-        <value>Review my language options</value>
+        <value>click here.</value>
     </labels>
     <labels>
         <fullName>PP_IRB_LangList</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
-        <value>##StudyCodeName is only available in the following language(s): ##LangList.</value>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings, </value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_NotAva_Text</fullName>
