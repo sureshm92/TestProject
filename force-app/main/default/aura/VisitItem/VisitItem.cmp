@@ -3,9 +3,13 @@
  -->
 
 <aura:component description="VisitItem">
+
     <aura:attribute name="visit" type="Object"/>
-    <aura:registerEvent name="onEditRecord" type="c:sendRecord"/>
-    <aura:registerEvent name="onDeleteRecord" type="c:sendRecord"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <aura:registerEvent name="onEdit" type="c:uiEvent"/>
+    <aura:registerEvent name="onDelete" type="c:uiEvent"/>
+
     <tr class="slds-hint-parent">
         <td>
             <a href="javascript:void(0);" onclick="{!c.navToRecord}" class=" slds-text-link">{!v.visit.Name}</a>
@@ -20,7 +24,7 @@
             <div class="slds-text-title slds-text-color_default">{!v.visit.Visit_Schedule__c}</div>
         </td>
         <td>
-            <c:RRIconSplitter value="{!v.visit.Icons__c}" class="iconClass"/>
+            <c:RRIconSplitter value="{!v.visit.Icons__c}"/>
         </td>
         <td>
             <lightning:buttonIcon onclick="{!c.editMode}" iconName="utility:edit"/>

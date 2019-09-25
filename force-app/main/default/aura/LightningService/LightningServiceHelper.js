@@ -3,7 +3,6 @@
  */
 ({
     enqueue: function (component, actionName, actionParams) {
-        debugger;
         return new Promise($A.getCallback(function (resolve, reject) {
             let action = component.get(actionName);
             action.setParams(actionParams || {});
