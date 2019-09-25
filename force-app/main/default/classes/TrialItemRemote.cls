@@ -4,10 +4,10 @@
 public with sharing class TrialItemRemote {
 
     @AuraEnabled
-    public static void createCaseToStudy(Participant__c participant, Boolean isDelegate) {
+    public static void createCaseToStudy(Participant__c participant,Clinical_Trial_Profile__c ctp, Boolean isDelegate) {
         try {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            helper.createCaseAndSendNotification(participant);
+            helper.createCaseAndSendNotification(participant, ctp);
             if (participant.Id != null && !isDelegate) {
                 System.debug('For Me....');
                 update participant;
@@ -19,4 +19,15 @@ public with sharing class TrialItemRemote {
         }
 
     }
+
+    @AuraEnabled
+    public static void createTrialNotification(Id ctpId){
+        try {
+            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
+            helper.createTrialNotification(ctpId);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
 }

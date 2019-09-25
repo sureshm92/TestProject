@@ -254,7 +254,10 @@ public without sharing class CommunityService {
                         MailingCountry,
                         Account.BillingCountry,
                         Account.OwnerId,
-                        PI_My_Studies_Filters__c
+                        PI_My_Studies_Filters__c,
+                        Language__c,
+                        Second_Choice_Language__c,
+                        Third_Choice_Language__c
                 FROM Contact
                 WHERE Id = :contactId
         ];

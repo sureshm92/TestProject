@@ -27,10 +27,10 @@
     <!-- handlers: -->
     <!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
-<!--    <aura:handler name="change" value="{!v.participantInfo.Gender__c}" action="{!c.doCheckFields}"/>-->
-<!--    <aura:handler name="change" value="{!v.participantInfo.Mailing_State_Code__c}" action="{!c.doCheckFields}"/>-->
-<!--    <aura:handler name="change" value="{!v.participantInfo.Phone_Type__c}" action="{!c.doCheckFields}"/>-->
-<!--    <aura:handler name="change" value="{!v.participantInfo.Mailing_Country_Code__c}" action="{!c.doCountryCodeChanged}"/>-->
+    <aura:handler name="change" value="{!v.participantInfo.Gender__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.participantInfo.Mailing_State_Code__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.participantInfo.Phone_Type__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.participantInfo.Mailing_Country_Code__c}" action="{!c.doCountryCodeChanged}"/>
 
     <!-- methods: -->
     <aura:method name="doInit" action="{!c.doInit}" access="public"/>

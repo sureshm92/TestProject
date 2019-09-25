@@ -17,14 +17,12 @@
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
             var formComponent = component.find('editForm');
-            formComponent.set('v.handleChangesEnabled', false);
             component.set('v.pe', pe);
             component.set('v.participant', pe.Participant__r);
             component.set('v.callback', $A.getCallback(params.callback));
             component.set('v.isFinalUpdate', params.isFinalUpdate);
             if(params.cancelCallback) component.find('dialog').set('v.closeCallback', $A.getCallback(params.cancelCallback));
             formComponent.createDataStamp();
-            formComponent.set('v.handleChangesEnabled', true);
             formComponent.checkFields();
             if(params.isFinalUpdate && formComponent.get('v.isValid')){
                 params.callback(pe);

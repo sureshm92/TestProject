@@ -13,11 +13,10 @@ global without sharing class ReferHealthcareProviderRemote {
                                                                     Status__c,
                                                                     Participant_Enrollment__c
                                                             FROM Healthcare_Provider__c
-                                                            WHERE Participant_Enrollment__c = :peId AND
-                                                                  Status__c != :HP_S_NOSHARING];
+                                                            WHERE Participant_Enrollment__c = :peId
+                                                            AND Status__c != :HP_S_NOSHARING];
 
-        if (healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
-
+        if(healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
         return healthcareProviders;
     }
 
@@ -38,14 +37,17 @@ global without sharing class ReferHealthcareProviderRemote {
                 hp.firstName = contacts[0].FirstName;
                 hp.lastName = contacts[0].LastName;
 
-                Healthcare_Provider__c newHP = new Healthcare_Provider__c();
+                /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
                 newHP.Participant_Enrollment__c = peId;
                 newHP.Email__c = hp.email;
                 newHP.First_Name__c = hp.firstName;
                 newHP.Last_Name__c = hp.lastName;
                 newHP.Status__c = HP_S_DUPLICATE;
-                insert newHP;
+                insert newHP;*/
+
+                //return hp;
             }
+            //return hp;
         }
 
         return hp;
@@ -73,7 +75,6 @@ global without sharing class ReferHealthcareProviderRemote {
         Healthcare_Provider__c newHP = [SELECT Id, Status__c FROM Healthcare_Provider__c WHERE Id = :hpId];
         newHP.Status__c = HP_S_NOSHARING;
         update newHP;
-
         return newHP.Id;
     }
 

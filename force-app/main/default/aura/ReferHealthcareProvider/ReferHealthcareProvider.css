@@ -33,3 +33,12 @@
 .THIS .healthcare-form-container{
     margin-bottom: 1%;
 }
+
+.THIS .healthcare-input input{
+    height: 40px;
+}
+
+.THIS .provider-found-section{
+    font-size: 13px;
+    font-weight: 500;
+}

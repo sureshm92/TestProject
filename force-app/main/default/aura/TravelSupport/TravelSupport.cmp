@@ -14,6 +14,7 @@
     <aura:attribute name="vendors" type="Object[]"/>
     <aura:attribute name="selectedVendor" type="Object"/>
     <aura:attribute name="studySiteId" type="String"/>
+    <aura:attribute name="showPopup" type="Boolean" default="false"/>
 
 
     <aura:attribute name="htmlMessage" type="String"/>
@@ -28,24 +29,27 @@
     </aura:if>
 
 
-    <c:Popup aura:id="popup" title="{!$Label.c.Home_Page_StudyVisit_Btn}" size="small">
-        <aura:if isTrue="{!!v.isShowDisclaimer}">
-            <c:VendorsTable vendors="{!v.vendors}" selectedVendor="{!v.selectedVendor}"/>
-            <aura:set attribute="else">
-                <aura:unescapedHtml value="{!v.htmlMessage}"/>
-            </aura:set>
-        </aura:if>
-        <aura:set attribute="footerButtons">
-            <aura:if isTrue="{!v.isShowDisclaimer}">
-                <button class="apollo-btn primary" onclick="{!c.redirectToUrl}">{!$Label.c.BTN_Yes}</button>
-                <button class="apollo-btn tertiary" onclick="{!c.hide}">{!$Label.c.BTN_No}</button>
+    <aura:if isTrue="{!v.showPopup}">
+        <c:Popup aura:id="popup" title="{!$Label.c.Home_Page_StudyVisit_Btn}" size="small">
+            <aura:if isTrue="{!!v.isShowDisclaimer}">
+                <c:VendorsTable vendors="{!v.vendors}" selectedVendor="{!v.selectedVendor}"/>
                 <aura:set attribute="else">
-                    <aura:if isTrue="{!!empty(v.selectedVendor)}">
-                        <button class="apollo-btn primary" onclick="{!c.showDisclaimer }">{!$Label.c.BTN_Yes}</button>
-                    </aura:if>
-                    <button class="apollo-btn tertiary" onclick="{!c.hide}">{!$Label.c.BTN_Close}</button>
+                    <aura:unescapedHtml value="{!v.htmlMessage}"/>
                 </aura:set>
             </aura:if>
-        </aura:set>
-    </c:Popup>
+            <aura:set attribute="footerButtons">
+                <aura:if isTrue="{!v.isShowDisclaimer}">
+                    <button class="apollo-btn primary" onclick="{!c.redirectToUrl}">{!$Label.c.BTN_Yes}</button>
+                    <button class="apollo-btn tertiary" onclick="{!c.hide}">{!$Label.c.BTN_No}</button>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!!empty(v.selectedVendor)}">
+                            <button class="apollo-btn primary" onclick="{!c.showDisclaimer }">{!$Label.c.BTN_Yes}</button>
+                        </aura:if>
+                        <button class="apollo-btn tertiary" onclick="{!c.hide}">{!$Label.c.BTN_Close}</button>
+                    </aura:set>
+                </aura:if>
+            </aura:set>
+        </c:Popup>
+    </aura:if>
+
 </aura:component>
