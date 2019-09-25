@@ -8,7 +8,7 @@
     <aura:attribute name="lastName" type="String" default="" access="private"/>
     <aura:attribute name="clinicName" type="String" default="" access="private"/>
     <aura:attribute name="phone" type="String" default="" access="private"/>
-    <aura:attribute name="email" type="String" default="" access="private"/>
+    <aura:attribute name="emailS" type="String" default="" access="private"/>
     <aura:attribute name="studySiteId" type="String" default="" access="private"/>
     <aura:attribute name="reqFieldsFilled" type="Boolean" default="true" access="private"/>
     <aura:attribute name="studySitesForInvitation" type="List" access="private"/>
@@ -19,7 +19,7 @@
     <aura:handler name="change" value="{!v.lastName}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.clinicName}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.phone}" action="{!c.checkReqFields}"/>
-    <aura:handler name="change" value="{!v.email}" action="{!c.checkReqFields}"/>
+    <aura:handler name="change" value="{!v.emailS}" action="{!c.checkReqFields}"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -56,7 +56,7 @@
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                         <div class="rr-form-element">
                             <div class="label">{!$Label.c.PG_MRC_RF_Email}</div>
-                            <c:rrInput valueString="{!v.email}" type="email"/>
+                            <c:rrInput valueString="{!v.emailS}" type="email"/>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                 <button class="apollo-btn primary" onclick="{!c.doInviteRP}"
                         disabled="{!v.reqFieldsFilled}"
                         title="{!(empty(v.lastName)||empty(v.firstName)||
-                                empty(v.clinicName)||(empty(v.phone)&amp;&amp;empty(v.email)))?$Label.c.PG_MRC_RF_Not_all_Req_Fields:''}">
+                                empty(v.clinicName)) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ((empty(v.phone)&amp;&amp;empty(v.emailS)) ? $Label.c.PG_MRC_RF_Not_Email_or_Phone_Fields : '')}">
                     {!$Label.c.BTN_Invite}
                 </button>
             </aura:set>
