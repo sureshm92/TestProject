@@ -6344,14 +6344,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
-        <value>Not all required fields are entered</value>
+        <value>Email or Phone field should be entered</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_Not_all_Req_Fields</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
-        <value>Email or Phone field should be entered</value>
+        <value>Not all required fields are entered</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_Phone</fullName>
