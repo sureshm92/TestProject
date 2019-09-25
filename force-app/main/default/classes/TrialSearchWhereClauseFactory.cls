@@ -37,7 +37,7 @@ public with sharing class TrialSearchWhereClauseFactory {
     };
 
 
-    public WhereClause getWhereClause(List<Id> taIds, Boolean isEnrolling, Boolean isNotYetEnrolling, Set<Id> userQCareSSIds) {
+    public WhereClause getInstance(List<Id> taIds, Boolean isEnrolling, Boolean isNotYetEnrolling, Set<Id> userQCareSSIds) {
         WhereClause idFilteredClause = new IdFilteredWhereClause(taIds);
         WhereClause enrolledIdFilteredClause = this.getEnrollingExtendedWhereClause(idFilteredClause, isEnrolling, isNotYetEnrolling);
         if (!userQCareSSIds.isEmpty()) {
