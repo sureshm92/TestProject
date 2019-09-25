@@ -1988,6 +1988,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Link_to_ePR_Campaign__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.MDM_Cluster_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>

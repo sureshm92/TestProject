@@ -205,6 +205,7 @@ public with sharing class TrialSearchHelper {
                 'Override_Recruitment_Status__c, ' +
                 'Recruitment_Status__c, ' +
                 'NCT_Number__c, ' +
+                'Link_to_ePR_Campaign__c, ' +
                 '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\'), ' +
                 '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r WHERE Approved_Lng__c INCLUDES ' + '(\'' + String.join(new List<String>(contactLanguage), '\',\'') + '\')) ' +
                 'FROM Clinical_Trial_Profile__c ';
