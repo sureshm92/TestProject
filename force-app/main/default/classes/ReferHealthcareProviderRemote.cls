@@ -2,7 +2,7 @@
  * Created by Alexey Moseev on 2019-09-23.
  */
 
-global class ReferHealthcareProviderRemote {
+global without sharing class ReferHealthcareProviderRemote {
 
     @AuraEnabled
     public static List<Healthcare_Provider__c> getInitData(String peId) {
@@ -13,8 +13,10 @@ global class ReferHealthcareProviderRemote {
                                                                     Status__c,
                                                                     Participant_Enrollment__c
                                                             FROM Healthcare_Provider__c
-                                                            WHERE Participant_Enrollment__c = :peId];
+                                                            WHERE Participant_Enrollment__c = :peId
+                                                            AND Status__c != :HP_S_NOSHARING];
 
+        if(healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
         return healthcareProviders;
     }
 
@@ -35,31 +37,28 @@ global class ReferHealthcareProviderRemote {
                 hp.firstName = contacts[0].FirstName;
                 hp.lastName = contacts[0].LastName;
 
-                Healthcare_Provider__c newHP = new Healthcare_Provider__c();
+                /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
                 newHP.Participant_Enrollment__c = peId;
                 newHP.Email__c = hp.email;
                 newHP.First_Name__c = hp.firstName;
                 newHP.Last_Name__c = hp.lastName;
                 newHP.Status__c = HP_S_DUPLICATE;
-                insert newHP;
+                insert newHP;*/
 
-                return hp;
+                //return hp;
             }
+            //return hp;
         }
 
         return hp;
     }
 
     @AuraEnabled
-    public static List<Healthcare_Provider__c> inviteHP(String peId, HealthcareProvider hp) {
-        Healthcare_Provider__c newHP = new Healthcare_Provider__c();
+    public static List<Healthcare_Provider__c> inviteHP(String peId, String hp) {
+        Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp,Healthcare_Provider__c.class);
         newHP.Participant_Enrollment__c = peId;
-        newHP.Email__c = hp.email;
-        newHP.First_Name__c = hp.firstName;
-        newHP.Last_Name__c = hp.lastName;
         newHP.Status__c = HP_S_INVITED;
         insert newHP;
-
         return getInitData(peId);
     }
 
@@ -68,7 +67,6 @@ global class ReferHealthcareProviderRemote {
         Healthcare_Provider__c newHP = [SELECT Id, Status__c FROM Healthcare_Provider__c WHERE Id = :hpId];
         newHP.Status__c = HP_S_NOSHARING;
         update newHP;
-
         return newHP.Id;
     }
 
@@ -78,9 +76,9 @@ global class ReferHealthcareProviderRemote {
     public final static String HP_S_DUPLICATE = 'Duplicate';
 
     public class HealthcareProvider {
-        public String email { get; set; }
-        public String firstName { get; set; }
-        public String lastName { get; set; }
+        @AuraEnabled public String email { get; set; }
+        @AuraEnabled public String firstName { get; set; }
+        @AuraEnabled public String lastName { get; set; }
     }
 
 }

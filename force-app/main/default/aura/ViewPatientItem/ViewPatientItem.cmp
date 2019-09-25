@@ -36,7 +36,7 @@
             <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}"/>
             <aura:if isTrue="{!v.showPath}">
                 <div class="vpi-path-panel">
-                    <div class="path-section">
+                    <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
                         <div class="slds-grid vpi-path">
                             <aura:iteration items="{!v.pathItems}" var="pathItem">
                                 <div class="{!'slds-col width-basis vpi-state ' + pathItem.state + if(pathItem.isCurrent, ' current', '')}">
@@ -69,7 +69,7 @@
 
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
-                        <div class="{!v.pe.MRR_Survey_Results_URL__c ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}">
+                        <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_3-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
                             <button class="{!'apollo-btn tertiary'}"
                                     title="{!$Label.c.BTN_Participant_Information}"
                                     onclick="{!c.showEditParticipantInformation}"
@@ -77,7 +77,15 @@
                                 {!$Label.c.BTN_Participant_Information}
                             </button>
                         </div>
-                        <div class="{!v.pe.MRR_Survey_Results_URL__c ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}">
+                        <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_3-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
+                            <button class="{!'apollo-btn tertiary'}"
+                                    title="{!$Label.c.BTN_HealthCare_Providers}"
+                                    onclick="{!c.showEditParticipantInformation}"
+                                    value="healthCareProvider">
+                                {!$Label.c.BTN_HealthCare_Providers}
+                            </button>
+                        </div>
+                        <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_3-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
                             <button class="{!'apollo-btn tertiary'}"
                                     title="{!$Label.c.BTN_Status_Details}"
                                     onclick="{!c.showEditParticipantInformation}"
@@ -85,8 +93,8 @@
                                 {!$Label.c.BTN_Status_Details}
                             </button>
                         </div>
-                        <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c}">
-                            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
+                        <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                            <div class="slds-col slds-size_1-of-1 slds-small-size_3-of-12">
                                 <button class="{!'apollo-btn tertiary'}"
                                         title="{!$Label.c.BTN_Screener_Responses}"
                                         onclick="{!c.showEditParticipantInformation}"
