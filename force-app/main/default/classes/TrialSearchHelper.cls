@@ -62,7 +62,7 @@ public with sharing class TrialSearchHelper {
             trialSearchContainer.taps = new List<Therapeutic_Area_Patient__c>();
         }
 
-        if (taId.isEmpty() || (!isEnrolling && !isNotYetEnrolling)) {
+        if (!isEnrolling && !isNotYetEnrolling) {
             return trialSearchContainer;
         }
         List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy, isEnrolling, isNotYetEnrolling);
@@ -142,6 +142,15 @@ public with sharing class TrialSearchHelper {
         );
         proxy.upsertRecord(notification, true);
     }
+
+    public Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
+        return ctp.Override_Recruitment_Status__c == TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING ||
+                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
+                        (ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.ENROLLING ||
+                                ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT)
+                );
+    }
+
 
     private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
@@ -268,15 +277,6 @@ public with sharing class TrialSearchHelper {
                 'LIMIT 1';
         Group queueGroup = (Group) proxy.query(query, true)[0];
         return queueGroup;
-    }
-
-    @TestVisible
-    public Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {
-        return ctp.Override_Recruitment_Status__c == TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING ||
-                (String.isBlank(ctp.Override_Recruitment_Status__c) &&
-                        (ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.ENROLLING ||
-                                ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT)
-                );
     }
 
     @TestVisible
