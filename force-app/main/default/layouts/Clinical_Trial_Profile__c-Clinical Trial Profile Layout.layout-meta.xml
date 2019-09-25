@@ -216,6 +216,10 @@
                 <behavior>Edit</behavior>
                 <field>Visit_Plan__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Link_to_ePR_Campaign__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

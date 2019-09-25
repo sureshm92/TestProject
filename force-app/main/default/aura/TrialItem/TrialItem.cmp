@@ -45,7 +45,8 @@
         </div>
         <aura:if isTrue="{!!or(v.isClicked, v.trialTDO.relatedNotificationExists)}">
             <button class="apollo-btn primary button-ctp" onclick="{!c.onClick}">
-                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Contact_the_study : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
+                {!!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Alert_me_when_enrollment_starts :
+                v.trialTDO.ctp.Link_to_ePR_Campaign__c ? $Label.c.TrialSearch_See_Qualify : $Label.c.TrialSearch_Contact_the_study}
             </button>
             <aura:set attribute="else">
                 <button class="apollo-btn tertiary button-ctp"
@@ -67,11 +68,12 @@
                 />
                 <aura:set attribute="footerButtons">
                     <button class="apollo-btn primary btn-send" onclick="{!c.onClickSend}" disabled="{!!and(v.isDisclaimer, v.isValid)}">
-                        Send to study
+                        {!$Label.c.TrialSearch_Send_To_Study}
                     </button>
                 </aura:set>
             </c:Popup>
         </aura:if>
 
     </div>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium"/>
 </aura:component>
