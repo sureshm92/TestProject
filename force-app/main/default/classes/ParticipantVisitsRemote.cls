@@ -38,7 +38,7 @@ public with sharing class ParticipantVisitsRemote {
                         'WHERE Name IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(iconNames.split(';'))) + ') ' +
                             'AND Visit_Plan__c = \'' + state.ctp.Visit_Plan__c + '\'';
                 List<Icon_Details__c> iconsDetails = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
-                TranslateHelper.translate(iconsDetails);
+                TranslateHelper.translate(iconsDetails, IRBParticipantService.getIRBLanguageMode(state.pe.Id).languageToTranslate);
 
                 for (Icon_Details__c iconDetails : iconsDetails) {
                     Legend leg = new Legend();
