@@ -1,0 +1,13 @@
+<!--
+ - Created by Igor Malyuta on 19.09.2019.
+ -->
+
+<!-- Ui Checkbox -->
+<template>
+    <template if:true={fieldValue}>
+        <lightning-input date-aria-label="box" type="checkbox" label={fieldLabel} onchange={handleEvent} checked></lightning-input>
+    </template>
+    <template if:false={fieldValue}>
+        <lightning-input date-aria-label="box" type="checkbox" label={fieldLabel} onchange={handleEvent}></lightning-input>
+    </template>
+</template>
