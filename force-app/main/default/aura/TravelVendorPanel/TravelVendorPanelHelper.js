@@ -40,6 +40,7 @@
         component.find('spinner').show();
 
         this.unCheckAllVendorCheckBoxes(component);
+        let page = component.get('v.currentPage');
 
         let item =  component.get('v.vendorItems');
         let ssIds = [];
@@ -55,6 +56,8 @@
             'vendorIds': vendors !== null ? vendors : null
         }).then(function (data) {
             component.set('v.vendorItems', data);
+            component.set('v.currentPage', page);
+
             component.find('spinner').hide();
         }, function (err) {
             if (err && err[0].message) {
