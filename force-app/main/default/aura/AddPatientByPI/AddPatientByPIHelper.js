@@ -13,7 +13,6 @@
             sobjectType: 'Participant_Enrollment__c',
             Study_Site__c: ss.Id
         });
-        component.find('editForm').set('v.handleChangesEnabled', true);
     },
 
     createParticipant: function (component, callback) {

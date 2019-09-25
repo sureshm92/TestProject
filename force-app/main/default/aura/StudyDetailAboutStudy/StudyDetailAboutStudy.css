@@ -415,3 +415,11 @@
     right: 0;
     margin-bottom: 10px;
 }
+
+.THIS .docs-conteiner{
+    margin: 10px 0;
+}
+
+.THIS .doc-item{
+    padding: 2px;
+}

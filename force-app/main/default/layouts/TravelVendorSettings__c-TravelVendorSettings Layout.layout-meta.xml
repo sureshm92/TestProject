@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_Manual__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>By_Country__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

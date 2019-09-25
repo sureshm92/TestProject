@@ -21,21 +21,20 @@
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
             component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
-            component.set('v.peStatusesPathList', params.peStatusesPathList);
-            component.set('v.peStatusStateMap', params.peStatusStateMap);
             if (params.callback) component.set('v.callback', params.callback);
             communityService.executeAction(component, 'getSteps', {
                 peId: pe.Id,
                 userMode: communityService.getUserMode(),
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
+                var formComponent = component.find('editForm');
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.isFinalUpdate', false);
-                var formComponent = component.find('editForm');
-                formComponent.set('v.handleChangesEnabled', false);
+                console.log('returnValue.isEnreolled',returnValue.isEnrolled);
+                if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
-                formComponent.set('v.handleChangesEnabled', true);
+                formComponent.checkFields();
                 component.find('spinner').hide();
                 component.set('v.anchor', params.anchorScroll);
                 setTimeout($A.getCallback(function () {
@@ -46,13 +45,7 @@
                     });
                 }), 5);
             });
-            var dialog = component.find('dialog')
-            dialog.show();
-            dialog.set('v.closeCallback', $A.getCallback(function () {
-                var formComponent = component.find('editForm');
-                formComponent.set('v.handleChangesEnabled', false);
-                component.get('v.rootComponent').refresh();
-            }));
+            component.find('dialog').show();
         } catch (e) {
             console.error(e);
         }
@@ -93,13 +86,7 @@
         });
     },
 
-    doCancel: function (component, event, helper) {
-        component.find('dialog').cancel();
-    },
-
     doCallback: function (component, event, helper) {
-        var formComponent = component.find('editForm');
-        formComponent.set('v.handleChangesEnabled', false);
         var pe = component.get('v.pe');
         component.get('v.callback')(pe);
     },

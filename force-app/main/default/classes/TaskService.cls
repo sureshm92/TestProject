@@ -105,15 +105,15 @@ public without sharing class TaskService {
     }
 
     public List<Task> getCompletedTasks() {
-        return getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
+        return filterCurrentStudyTasks(getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC'));
     }
 
     public List<Task> getOpenTasks() {
-        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER);
+        return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER));
     }
 
     public List<Task> getPreviewTasks() {
-        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5');
+        return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5'));
     }
 
     public Task getTask(Id taskId) {
@@ -364,4 +364,18 @@ public without sharing class TaskService {
             this.visibility = visibility;
         }
     }
+    
+    public List<Task> filterCurrentStudyTasks(List<Task> tasks){
+        Participant_Enrollment__c curruntPE = ParticipantService.getInstance().getState().pe;
+        List<Task> filteredList = new List<Task>();
+        for(Task t : tasks){
+            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+                if(curruntPE != null && t.WhatId == curruntPE.Id) filteredList.add(t);
+            }else{
+                filteredList.add(t);
+            }
+        }
+        return filteredList;
+    }
+
 }

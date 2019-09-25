@@ -1,0 +1,22 @@
+<!--
+ - Created by Nikita Abrazhevitch on 19-Sep-19.
+ -->
+
+<aura:component description="ReferHealthcareProviderForm">
+    <aura:attribute name="healthCareProvider" type="Object"/>
+
+    <div class="slds-grid slds-wrap slds-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container">
+        <div class="slds-col slds-size--4-of-12">
+            <lightning:input class="healthcare-input" type="email" label="Provider's email address" value="{!v.healthCareProvider.Email}" onchange="{!c.checkFieldsds}"/>
+        </div>
+        <div class="slds-col slds-size--3-of-12">
+            <lightning:input class="healthcare-input" type="text" label="Provider's first name" value="{!v.healthCareProvider.First_Name}" onchange="{!c.checkFieldsds}"/>
+        </div>
+        <div class="slds-col slds-size--3-of-12">
+            <lightning:input class="healthcare-input" type="text" label="Provider's last name" value="{!v.healthCareProvider.LastName}" onchange="{!c.checkFieldsds}"/>
+        </div>
+        <div class="slds-col slds-size--2-of-12">
+            <button class="apollo-btn tertiary" style="padding:3% 10%;height:32px;"  onclick="{!c.doConnect}">Connect to patient</button>
+        </div>
+    </div>
+</aura:component>

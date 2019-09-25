@@ -53,9 +53,9 @@
     doAction: function (component, event) {
         var studyDetail = component.get('v.studyDetail');
         var trial = studyDetail.trial;
+        if(!trial) trial = {};
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
-
         let shareUrl = trial.Share_URL__c + 'none';
         let shareText = 'A clinical study of interest';
         switch (actionId){

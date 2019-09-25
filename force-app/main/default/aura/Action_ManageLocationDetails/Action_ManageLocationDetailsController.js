@@ -43,8 +43,15 @@
     editAccountAddress: function (component, event, helper) {
         var index = event.currentTarget.dataset.index;
         var accountsList = component.get('v.studySiteAccounts');
-        var account = accountsList[index];
         var studySite = component.get('v.studySite');
+        var account = accountsList[index];
+        if (!account) {
+            account = {
+                BillingCountryCode: studySite.Principal_Investigator__r.Account.BillingCountryCode,
+                BillingStateCode: studySite.Principal_Investigator__r.Account.BillingStateCode,
+                sobjectType: 'Account'
+            }
+        }
         component.find('editLocation').execute(account, studySite.Id, function (account) {
             if(index){
                 accountsList[index] = account;
