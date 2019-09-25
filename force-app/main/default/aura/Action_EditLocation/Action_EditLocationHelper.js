@@ -26,28 +26,26 @@
                         helper.waitAccountCheckResult(component, tmpAccountId, iteration + 1);
                     }), 500
                 );
-            } else {
+            }  else {
                 var acc = component.get('v.account');
                 var initAcc = component.get('v.accountInitial');
                 acc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                 acc.BillingLongitude = tmpAccount.BillingLongitude;
                 acc.BillingLatitude = tmpAccount.BillingLatitude;
+                acc.BillingState = tmpAccount.BillingState ? tmpAccount.BillingState : null;
+                acc.BillingStateCode = tmpAccount.BillingStateCode ? tmpAccount.BillingStateCode : null;
+                acc.BillingPostalCode = tmpAccount.BillingPostalCode ? tmpAccount.BillingPostalCode : null;
                 if(tmpAccount.BillingGeocodeAccuracy == 'Address' || tmpAccount.BillingGeocodeAccuracy == 'NearAddress' ||
                     tmpAccount.BillingGeocodeAccuracy == 'Block' || tmpAccount.BillingGeocodeAccuracy == 'Street' || tmpAccount.BillingGeocodeAccuracy == 'ExtendedZip'){
                     initAcc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                     initAcc.BillingLongitude = tmpAccount.BillingLongitude;
                     initAcc.BillingLatitude = tmpAccount.BillingLatitude;
-                    if(!initAcc.Id) {
-                        initAcc.BillingCity = tmpAccount.BillingCity;
-                        initAcc.BillingCountryCode = tmpAccount.BillingCountryCode;
-                        initAcc.BillingStateCode = tmpAccount.BillingStateCode;
-                        if(tmpAccount.BillingState) {
-                            initAcc.BillingState = tmpAccount.BillingState;
-                        } else{
-                            initAcc.BillingState = '';
-                        }
-                        initAcc.BillingStreet = tmpAccount.BillingStreet;
-                    }
+                    initAcc.BillingState = tmpAccount.BillingState ? tmpAccount.BillingState : null;
+                    initAcc.BillingStateCode = tmpAccount.BillingStateCode ? tmpAccount.BillingStateCode : null;
+                    initAcc.BillingPostalCode = tmpAccount.BillingPostalCode ? tmpAccount.BillingPostalCode : null;
+                    initAcc.BillingCity = tmpAccount.BillingCity;
+                    initAcc.BillingCountryCode = tmpAccount.BillingCountryCode;
+                    initAcc.BillingStreet = tmpAccount.BillingStreet;
                     component.set('v.accountInitial', initAcc);
                 }
                 component.set('v.account', acc);
