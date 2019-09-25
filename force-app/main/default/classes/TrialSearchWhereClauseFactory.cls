@@ -85,7 +85,8 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public String getWhereClause() {
-            return 'WHERE Therapeutic_Area__c IN ' + '(\'' + String.join(taIds, '\',\'') + '\') ';
+            Boolean emptyTaIds = taIds == null || taIds.isEmpty();
+            return emptyTaIds ? '' : 'WHERE Therapeutic_Area__c IN ' + '(\'' + String.join(taIds, '\',\'') + '\') ';
         }
 
     }
@@ -100,7 +101,8 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + 'AND Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id IN (\'' + String.join(qCareSSIds, '\',\'') + '\')) ';
+            return (String.isBlank(clause.getWhereClause()) ? 'WHERE' : clause.getWhereClause() + 'AND') +
+                    ' Id IN (SELECT Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id IN (\'' + String.join(qCareSSIds, '\',\'') + '\')) ';
         }
     }
 
@@ -111,7 +113,8 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + ' AND (Override_Recruitment_Status__c = ' + '\'' + ACTIVELY_ENROLLING + '\' ' +
+            return (String.isBlank(clause.getWhereClause()) ? 'WHERE' : clause.getWhereClause() + 'AND') +
+                    ' (Override_Recruitment_Status__c = ' + '\'' + ACTIVELY_ENROLLING + '\' ' +
                     'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT_ENROLLING, '\',\'') + '\')) ';
         }
     }
@@ -123,7 +126,8 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + ' AND (Override_Recruitment_Status__c = ' + '\'' + ON_HOLD + '\' ' +
+            return (String.isBlank(clause.getWhereClause()) ? 'WHERE' : clause.getWhereClause() + 'AND') +
+                    ' (Override_Recruitment_Status__c = ' + '\'' + ON_HOLD + '\' ' +
                     'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_ON_HOLD, '\',\'') + '\')) ';
         }
     }
@@ -135,7 +139,8 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public override String getWhereClause() {
-            return clause.getWhereClause() + ' AND (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
+            return (String.isBlank(clause.getWhereClause()) ? 'WHERE' : clause.getWhereClause() + 'AND') +
+                    ' (Override_Recruitment_Status__c IN ' + '(\'' + String.join(ORS_STATUS_ENROLLING, '\',\'') + '\') ' +
                     'OR Override_Recruitment_Status__c IN ' + '(\'' + String.join(CTMS_RECRUITMENT, '\',\'') + '\')) ';
         }
     }

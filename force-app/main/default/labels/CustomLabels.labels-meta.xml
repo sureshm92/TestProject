@@ -10367,14 +10367,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TrialSearch_Not Yet Enrolling</shortDescription>
-        <value>Not yet ynrolling</value>
+        <value>Not yet enrolling</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Search_for_another_condition</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TrialSearch_Search for another condition</shortDescription>
-        <value>Search for anoter condition</value>
+        <value>Search for another condition</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
