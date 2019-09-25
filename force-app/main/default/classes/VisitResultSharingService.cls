@@ -28,7 +28,7 @@ public without sharing class VisitResultSharingService {
 
     public static List<Visit_Result__c> processResults() {
         if (!onStudy) return new List<Visit_Result__c>();
-
+        Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
         List<Patient_Visit__c> patientVisits = [
                 SELECT
                         Id,
@@ -50,20 +50,33 @@ public without sharing class VisitResultSharingService {
                 ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
-        return getAvailableVisitResults(patientVisits);
+        return getAvailableVisitResults(patientVisits, false, mapOfCTPByShare);
     }
 
-    public static List<Visit_Result__c> getAvailableVisitResults(List<Patient_Visit__c> patientVisits) {
+    public static List<Visit_Result__c> getAvailableVisitResults(List<Patient_Visit__c> patientVisits, Boolean isBatch, Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
         try {
-            if (!isVisitResultAvailable() || !state.pe.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
+            String mailingCountryCode = '';
+            Integer timeSharing = 0;
+            if(!isBatch){
+                if (!isVisitResultAvailable() || !state.pe.Participant_Contact__r.Visit_Results_Opt_In__c) return filteredResults;
 
-            Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
-            visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
-            String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
-            Integer timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
+                Clinical_Trial_Profile__c ctp = getCTP(state.ctp.Id);
+                visitResultTypeSharingByType = getResultTypeSharingsByType(ctp.Visit_Result_Type_Sharings__r);
+                mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
+                timeSharing = patientVisits.size() - (ctp.Shareback_Availability_Timing__c.intValue());
+            }
+
 
             for(Integer i = patientVisits.size() - 1; i >= 0; i--) {
+                if(isBatch){
+                    timeSharing = patientVisits.size() - patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue();
+                    visitResultTypeSharingByType = getResultTypeSharingsByType(mapOfCTPByShare.get(patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__c));
+                    mailingCountryCode = patientVisits.get(i).Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c;
+                    System.debug('timeSharing '+ timeSharing);
+                    System.debug('visitResultTypeSharingByType '+ visitResultTypeSharingByType);
+                    System.debug('mailingCountryCode '+ mailingCountryCode);
+                }
                 if ((i + 1) <= timeSharing) {
                     Patient_Visit__c patientVisit = patientVisits.get(i);
                     if(patientVisit.Visit_Results__r != null && !patientVisit.Visit_Results__r.isEmpty()) {
