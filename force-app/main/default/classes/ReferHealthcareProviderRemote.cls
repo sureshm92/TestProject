@@ -33,9 +33,24 @@ global without sharing class ReferHealthcareProviderRemote {
             ];
 
             if (!contacts.isEmpty()) {
+                if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
+                    List<Participant__c> participants = [SELECT  Id,
+                                                                First_Name__c,
+                                                                Last_Name__c
+                                                        FROM Participant__c
+                                                        WHERE ContactId__c = :contacts[0].Id];
+                    if (!participants.isEmpty()) {
+                        hp.firstName = participants[0].First_Name__c;
+                        hp.lastName = participants[0].Last_Name__c;
+                        contacts[0].FirstName = participants[0].First_Name__c;
+                        contacts[0].LastName = participants[0].Last_Name__c;
+                        update contacts[0];
+                    }
+                } else {
+                    hp.firstName = contacts[0].FirstName;
+                    hp.lastName = contacts[0].LastName;
+                }
                 hp.email = contacts[0].Email;
-                hp.firstName = contacts[0].FirstName;
-                hp.lastName = contacts[0].LastName;
 
                 /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
                 newHP.Participant_Enrollment__c = peId;
