@@ -1,7 +1,6 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Your_request_for_additonal_information}"
                          recipientType="Contact"
-                         relatedToType="Case"
->
+                         relatedToType="Case">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
@@ -9,7 +8,7 @@
                          parametersProvider="Email_Template_Parameters_From_Case"
                          header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
                          title="{!$Label.Email_Title}"
-                         greeting="{!$Label.Email_User_Greeting_FirstName}"
+                         greeting="{!$Label.Email_Notification_Greeting}"
                          body="{!$Label.Email_Body_Participant_Answer}"
                          signature="{!$Label.Email_Signature}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
@@ -17,12 +16,12 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-        <c:EmailTemplateText recipientId="{!recipient.id}"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_Case"
                              header="{!$Label.Email_Header_Thank_you_for_submitting_a_request}"
                              title="{!$Label.Email_Title}"
-                             greeting="{!$Label.Email_User_Greeting_FirstName}"
+                             greeting="{!$Label.Email_Notification_Greeting}"
                              body="{!$Label.Email_Body_Participant_Answer}"
                              signature="{!$Label.Email_Signature}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>

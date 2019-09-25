@@ -18,12 +18,12 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
+                             parametersProvider="Email_Template_Parameters_From_Case"
                              header="{!$Label.Email_Header_Case}"
                              greeting=""
                              title="{!$Label.Email_Title}"
                              body="{!$Label.Email_Body_Case}"
-                             signature="">>
+                             signature="">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
