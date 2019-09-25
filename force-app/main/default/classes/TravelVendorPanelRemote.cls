@@ -65,12 +65,12 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static InitData getInitData(Id ctpId) {
+    public static InitData getInitData(Id ctpId, Boolean isFirstLoad) {
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
         InitData initData = new InitData();
         try {
             initData.countryCodes = '';
-            initData.vendorItems = supportHelper.getVendorItems(null, ctpId, null, null);
+            initData.vendorItems = supportHelper.getVendorItems(null, ctpId, null, null, isFirstLoad);
             if (initData.vendorItems.isEmpty()) {
                 return new InitData();
             }
@@ -119,15 +119,11 @@ public with sharing class TravelVendorPanelRemote {
     }
 
     @AuraEnabled
-    public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<Id> vendorIds) {
-        System.debug('vendorIds' + JSON.serializePretty(vendorIds));
+    public static List<VendorItem> getFilteredItems(Id ctpId, String ssIds, String countryCodes, List<Id> vendorIds, Boolean isFirstLoad) {
         List<VendorItem> result = new List<VendorItem>();
         TravelSupportHelper supportHelper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-        Boolean isCountryCodes = countryCodes != null && String.isNotBlank(countryCodes);
-        Boolean isStudySiteIds = ssIds != null && String.isNotBlank(ssIds);
-        if (!isCountryCodes && !isStudySiteIds) {
-            return result;
-        }
+        Boolean isCountryCodes = String.isNotBlank(countryCodes);
+        Boolean isStudySiteIds = String.isNotBlank(ssIds);
         try {
             List<String> countryCodeList;
             if (isCountryCodes) {
@@ -137,7 +133,7 @@ public with sharing class TravelVendorPanelRemote {
             if (isStudySiteIds) {
                 studyIds = ssIds.split(';');
             }
-            result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendorIds);
+            result = supportHelper.getVendorItems(countryCodeList, ctpId, studyIds, vendorIds, isFirstLoad);
             supportHelper.fillVendorSettingsWithStub(vendorIds, result);
         } catch (Exception e) {
             return (List<VendorItem>) AuraHelper.throwException(e);

@@ -224,6 +224,21 @@ public class StudyActionsPI extends StudyActions{
                 }
         ));
 
+        actions.put(ACT_SCREENER_RESPONSES, new Action(
+                ACT_SCREENER_RESPONSES,
+                null,
+                null, new List<DisableReason>{
+                        supportLevelReason
+                }
+        ));
+        actions.put(ACT_CONNECT_PROVIDER, new Action(
+                ACT_CONNECT_PROVIDER,
+                null,
+                null, new List<DisableReason>{
+                        level2AndLowReason
+                }
+        ));
+
 
         actions.put(ACT_MANAGE_REFERRALS_BY_SS, new Action(
                 ACT_MANAGE_REFERRALS_BY_SS,

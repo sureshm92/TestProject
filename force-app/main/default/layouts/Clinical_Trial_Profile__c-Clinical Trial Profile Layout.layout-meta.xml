@@ -27,6 +27,10 @@
                 <behavior>Edit</behavior>
                 <field>Shareback_Settings_on_StudySites__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Logged_Out_Days_Notification__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -211,6 +215,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Visit_Plan__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Link_to_ePR_Campaign__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
