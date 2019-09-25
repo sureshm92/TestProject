@@ -140,15 +140,7 @@
     },
 
     navToRecord: function (component, event, helper) {
-        let target = event.target;
-        let rowIndex = target.getAttribute("data-ssid");
-        let navEvt = $A.get("e.force:navigateToSObject");
-        navEvt.setParams({
-            "recordId": rowIndex,
-            "slideDevName": "Related",
-            "isredirect": 'true'
-        });
-        navEvt.fire();
+        window.open('/' + event.target.getAttribute("data-ssid"));
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
