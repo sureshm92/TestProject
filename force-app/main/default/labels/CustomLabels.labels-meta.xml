@@ -2574,6 +2574,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Your access level has been changed</value>
     </labels>
     <labels>
+        <fullName>Email_Notification_Greeting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Notification Greeting</shortDescription>
+        <value>Dear ##FirstName ,</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature</fullName>
         <language>en_US</language>
         <protected>false</protected>
