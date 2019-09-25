@@ -38,7 +38,7 @@ global without sharing class ReferHealthcareProviderRemote {
                                                                 First_Name__c,
                                                                 Last_Name__c
                                                         FROM Participant__c
-                                                        WHERE ContactId__c = :contacts[0].Id];
+                                                        WHERE Contact__c = :contacts[0].Id];
                     if (!participants.isEmpty()) {
                         hp.firstName = participants[0].First_Name__c;
                         hp.lastName = participants[0].Last_Name__c;
