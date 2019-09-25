@@ -6,10 +6,11 @@ public with sharing class ManualTaskRemote {
 
     public static Integer createTasks(Task newTask, ManualTaskFilter filter) {
         try {
+            Map<Id, Participant_Enrollment__c> contactsWithPE = filter.getContactsWithPE();
             List<User> users = [
                     SELECT Id, ContactId, Name
                     FROM User
-                    WHERE ContactId IN :filter.getContactsWithPE().keySet()
+                    WHERE ContactId IN :contactsWithPE.keySet()
                     AND IsActive = TRUE
                     AND Profile.Name =: CommunityService.COMMUNITY_USER_PROFILE_NAME
             ];
@@ -24,7 +25,7 @@ public with sharing class ManualTaskRemote {
                         ActivityDate = newTask.ActivityDate,
                         Reminder_Date__c = newTask.Reminder_Date__c,
                         Visible_For__c = newTask.Visible_For__c,
-                        WhatId = filter.getContactsWithPE().get(user.ContactId).Id
+                        WhatId = contactsWithPE.get(user.ContactId).Id
                 ));
             }
             insert tasks;
