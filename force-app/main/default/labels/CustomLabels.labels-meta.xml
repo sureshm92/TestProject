@@ -1718,7 +1718,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
 
             To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-            Your username is ##Username. Please click the Enroll Now button to create your password.
+            Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -3164,6 +3164,13 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit What Took Place</shortDescription>
         <value>What Took Place</value>
+    </labels>
+    <labels>
+        <fullName>IRB_Padding_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IRB Padding Info</shortDescription>
+        <value>Changes will be saved as you go to the next page!</value>
     </labels>
     <labels>
         <fullName>Icons_package_not_found</fullName>
@@ -8070,6 +8077,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP L Account Setting Preferred Lng</shortDescription>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>PP_VPC_SS_Empty_VP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP VPC SS Empty VP</shortDescription>
+        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
     </labels>
     <labels>
         <fullName>PS_Enrollment_Date</fullName>
