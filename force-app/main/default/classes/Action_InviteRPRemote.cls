@@ -57,57 +57,19 @@ public without sharing class Action_InviteRPRemote {
             l.Company = clinicName;
             l.Protocol_Number__c = protocolId;
             l.Language__c = UserInfo.getLanguage();
-            if(studySiteId!= null && studySiteId != '')
+            if (studySiteId!= null && studySiteId != '') {
                 l.Study_Site__c = studySiteId;
+            }
             l.Status = 'New';
             l.Invited_by_PI__c = CommunityService.getUserContact().Id;
-            if(invitationQueues.size() > 0){
+            if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
             if (!isConvertNeed || String.isBlank(studySiteId)) {
                 l.setOptions(dmlOpts);
                 insert l;
             } else if (!String.isBlank(studySiteId)) {
-                Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
-                List<Contact> cntList = [SELECT Id, userCommunityMode__c, userCommunytyType__c
-                                         FROM Contact
-                                         WHERE Email = :email OR
-                                               Email = :email.toLowerCase() OR
-                                               Phone = :phone LIMIT 1];
-                if (cntList.isEmpty()) {
-                    cntList.add(new Contact(FirstName = firstName,
-                            LastName = lastName,
-                            Phone = phone,
-                            Email = email,
-                            AccountId = studySite.Site__c,
-                            Language__c = UserInfo.getLanguage(),
-                            MailingCountry = studySite.Site__r.BillingCountry));
-                    insert cntList;
-                }
-
-                List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
-
-                if (usrs.isEmpty()) {
-                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
-                }
-                if (cntList[0].userCommunytyType__c == null) {
-                    cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
-                } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
-                    cntList[0].userCommunytyType__c = cntList[0].userCommunytyType__c + ';' + CommunityService.USER_MODE_HCP;
-                }
-                if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
-                    cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
-                }
-
-                HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
-                        HCP_Contact__c = cntList[0].Id,
-                        Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT,
-                        Study_Site__c = studySiteId
-                );
-                insert hcpe;
-
-                hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-                update hcpe;
+                ReferHealthcareProviderRemote.createHCPinPlatform(studySiteId, firstName, lastName, email, phone);
             }
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
