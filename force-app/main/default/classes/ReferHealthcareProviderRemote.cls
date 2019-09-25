@@ -44,10 +44,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 newHP.Last_Name__c = hp.lastName;
                 newHP.Status__c = HP_S_DUPLICATE;
                 insert newHP;*/
-
-                //return hp;
             }
-            //return hp;
         }
 
         return hp;
@@ -63,7 +60,7 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
 
-            newHP.HCP_Enrollment__c = createHCPinPlatform(pe.Study_Site__c, hp.firstName, hp.lastName, hp.email, null);
+            newHP.HCP_Enrollment__c = createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null);
             update newHP;
         }
 
@@ -75,6 +72,7 @@ global without sharing class ReferHealthcareProviderRemote {
         Healthcare_Provider__c newHP = [SELECT Id, Status__c FROM Healthcare_Provider__c WHERE Id = :hpId];
         newHP.Status__c = HP_S_NOSHARING;
         update newHP;
+
         return newHP.Id;
     }
 

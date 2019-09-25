@@ -57,11 +57,12 @@ public without sharing class Action_InviteRPRemote {
             l.Company = clinicName;
             l.Protocol_Number__c = protocolId;
             l.Language__c = UserInfo.getLanguage();
-            if(studySiteId!= null && studySiteId != '')
+            if (studySiteId!= null && studySiteId != '') {
                 l.Study_Site__c = studySiteId;
+            }
             l.Status = 'New';
             l.Invited_by_PI__c = CommunityService.getUserContact().Id;
-            if(invitationQueues.size() > 0){
+            if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
             if (!isConvertNeed || String.isBlank(studySiteId)) {
