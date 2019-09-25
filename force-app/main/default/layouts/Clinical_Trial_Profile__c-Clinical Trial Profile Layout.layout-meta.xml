@@ -575,7 +575,6 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Participant_Status__c</fields>
         <relatedList>Participant_Enrollment__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -603,7 +602,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1x000000L674</masterLabel>
+        <masterLabel>00h6E000000gRy0</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
