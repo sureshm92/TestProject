@@ -134,7 +134,7 @@ global without sharing class ReferHealthcareProviderRemote {
         HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
                 HCP_Contact__c = cntList[0].Id,
                 Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT,
-                Study_Site__c = studySiteId
+                Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
         );
         insert hcpe;
 

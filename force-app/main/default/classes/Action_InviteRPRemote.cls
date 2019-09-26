@@ -66,10 +66,10 @@ public without sharing class Action_InviteRPRemote {
             if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
-            if (!isConvertNeed || String.isBlank(studySiteId)) {
+            if (!isConvertNeed) {
                 l.setOptions(dmlOpts);
                 insert l;
-            } else if (!String.isBlank(studySiteId)) {
+            } else {
                 ReferHealthcareProviderRemote.createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact);
             }
         }catch(Exception e){
