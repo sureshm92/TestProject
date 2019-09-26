@@ -7,7 +7,7 @@
     <!-- attributes: -->
     <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
     <apex:attribute name="buttonURL" type="String" description="" access="global" assignTo="{!buttonURLString}"/>
-    <apex:attribute name="sObjectId" type="String" description="" access="global" assignTo="{!sObjectIdSting}"/>
+    <apex:attribute name="sObjId" type="String" description="" access="global" assignTo="{!sObjIdSting}"/>
 
     <!-- component body: -->
     <apex:outputLink value="{!resultURL}"
