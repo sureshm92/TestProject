@@ -18,6 +18,7 @@ public class AddPatientByPIRemote {
         @AuraEnabled public List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
         @AuraEnabled public List<LabelValueItem> referredByLVList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Referred_By__c);
         @AuraEnabled public List<LabelValueItem> peStatusLVList;
+        @AuraEnabled public List<LabelValueItem> visitPlansLVList;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Study_Site__c ss;
         
@@ -41,6 +42,7 @@ public class AddPatientByPIRemote {
             if(ssId != null) {
                 initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
                 initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
+                initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
             }
             return initData;
         } catch (Exception e) {

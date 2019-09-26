@@ -19,6 +19,7 @@
         let params = event.getParam('arguments');
         component.set('v.callback', params.callback);
         component.set('v.mode', params.mode);
+        component.set('v.visits', []);
 
         let vpId = params.vpId;
         if (vpId) {
@@ -67,7 +68,6 @@
                 updatedVisits.push(visit);
             }
         }
-        debugger;
         communityService.executeAction(component, 'upsertVisitPlan', {
             plan: JSON.stringify(component.get('v.plan')),
             visits: JSON.stringify(updatedVisits),
