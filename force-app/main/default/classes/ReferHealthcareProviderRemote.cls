@@ -65,6 +65,7 @@ global without sharing class ReferHealthcareProviderRemote {
         return hp;
     }
 
+    @AuraEnabled
     public static List<Healthcare_Provider__c> inviteHP(String peId, String hp) {
         Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp,Healthcare_Provider__c.class);
 
