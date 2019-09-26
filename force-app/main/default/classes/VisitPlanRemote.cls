@@ -42,7 +42,6 @@ public without sharing class VisitPlanRemote {
 
             if (!newVisits.isEmpty()) insert newVisits;
             if (!updatedVisits.isEmpty()) upsert updatedVisits;
-
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -56,54 +55,6 @@ public without sharing class VisitPlanRemote {
             wrapper.iconDetails = getIconDetails(wrapper.plan.Id);
             wrapper.visits = getVisits(wrapper.plan.Id);
 
-            return JSON.serialize(wrapper);
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static String cloneVisitPlan(String planId) {
-        try {
-            Visit_Plan__c plan = getVisitPlan(planId);
-            List<Visit__c> visits = getVisits(plan.Id);
-            List<Icon_Details__c> iconDetails = getIconDetails(plan.Id);
-
-            Visit_Plan__c clonePlan = plan.clone();
-            clonePlan.Name = clonePlan.Name + 'Clone';
-            insert clonePlan;
-
-            List<Visit__c> newVisits = new List<Visit__c>();
-            for (Visit__c visit : visits) {
-                newVisits.add(new Visit__c(
-                        Icons__c = visit.Icons__c,
-                        Name = visit.Name,
-                        Order__c = visit.Order__c,
-                        Patient_Portal_Name__c = visit.Patient_Portal_Name__c,
-                        Visit_Number__c = visit.Visit_Number__c,
-                        Visit_Plan__c = clonePlan.Id,
-                        Visit_Schedule__c = visit.Visit_Schedule__c
-                ));
-            }
-
-            List<Icon_Details__c> newIconDetails = new List<Icon_Details__c>();
-            for (Icon_Details__c iconD : iconDetails) {
-                newIconDetails.add(new Icon_Details__c(
-                        Custom_Icon__c = iconD.Custom_Icon__c,
-                        Description__c = iconD.Description__c,
-                        Icons_package__c = iconD.Icons_package__c,
-                        Name = iconD.Name,
-                        Label__c = iconD.Label__c,
-                        Visit_Plan__c = clonePlan.Id
-                ));
-            }
-
-            insert newVisits;
-            insert newIconDetails;
-
-            VisitPlanWrapper wrapper = new VisitPlanWrapper();
-            wrapper.plan = clonePlan;
-            wrapper.visits = newVisits;
             return JSON.serialize(wrapper);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);

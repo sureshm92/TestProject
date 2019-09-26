@@ -13,7 +13,7 @@
             }
         }
 
-        component.set('v.visit', JSON.parse(JSON.stringify(visit)));
+        component.set('v.visit', visit);
         component.set('v.callback', params.callback);
         component.set('v.cancelCallback', params.cancelCallback);
         component.set('v.isVisible', true);
@@ -24,9 +24,8 @@
     },
 
     saveVisit: function (component, event, helper) {
-        let visit = component.get('v.visit');
         let callback = component.get('v.callback');
-        if (callback) callback(visit);
+        if (callback) callback(component.get('v.visit'));
         component.find('modal').hide();
         component.set('v.isVisible', false);
     },

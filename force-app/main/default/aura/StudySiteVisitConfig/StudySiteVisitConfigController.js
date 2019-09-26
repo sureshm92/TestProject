@@ -139,6 +139,7 @@
         }
     },
 
+    //Visit Plan column actions: ---------------------------------------------------------------------------------------
     columnCheckboxStateChange: function (component, event, helper) {
         var lang = event.getParam('keyId');
         var state = event.getParam('value');
@@ -162,7 +163,9 @@
 
     doColumnVisitEdit: function (component, event, helper) {
         let menuCmp = event.getSource();
-        component.find('actionVP').execute(menuCmp.get('v.plan').value, null, 'edit');
+        component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
+            component.refresh();
+        }, 'edit');
     },
 
     doColumnVisitClone: function (component, event, helper) {

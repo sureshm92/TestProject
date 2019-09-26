@@ -34,7 +34,6 @@
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
                 component.set('v.pe', returnValue.enrollment);
                 component.set('v.isFinalUpdate', false);
-                console.log('returnValue.isEnreolled',returnValue.isEnrolled);
                 if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
                 formComponent.checkFields();

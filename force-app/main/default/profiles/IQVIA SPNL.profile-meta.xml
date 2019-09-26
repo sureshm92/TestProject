@@ -99,6 +99,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_DataBecomesAvailable</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -144,6 +148,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateScreeningIds</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UserCreatedDateNotification</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -775,6 +783,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ReferHealthcareProviderRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ReferralNetworkService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1108,6 +1120,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateParticipantNotification</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1993,6 +2009,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Logged_Out_Days_Notification__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.MDM_Cluster_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2445,6 +2466,11 @@
         <editable>false</editable>
         <field>Contact.Previous_Trial_Experience__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Profile_Update_Years_Notification__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4329,6 +4355,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Visit__c.Is_Adhoc__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Visit__c.Notified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
