@@ -28,7 +28,7 @@
             <c:RRSpinner aura:id="spinner"/>
             <div class="toolbar">
                 <lightning:input class="inline-input" type="text" label="Visit Plan Name" value="{!v.plan.Name}"/>
-                <div>
+                <div class="btns">
                     <lightning:button class="toolbar-btn" variant="neutral" type="button" label="{!$Label.c.Edit_Visit_Legend}"
                                       onclick="{!c.doEditLegend}"/>
                     <lightning:button class="toolbar-btn" variant="neutral" type="button" label="{!$Label.c.Visit_b_Add_Visit}"
