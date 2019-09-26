@@ -17,7 +17,6 @@
         var notes = params.notes;
         var callback = params.callback;
         var cancelCallback = params.cancelCallback;
-
         component.set('v.peId', pe.Id);
         component.set('v.status', status);
         component.set('v.reason', reason);

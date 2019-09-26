@@ -9,18 +9,18 @@
             <type>group</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Referral_Hub_Emails/New_interested</template>
+        <template>Referral_Hub_Emails/New_Case_created</template>
     </alerts>
     <alerts>
         <fullName>Sent_notification_to_Participant</fullName>
         <description>Sent notification to Participant</description>
         <protected>false</protected>
         <recipients>
-            <field>ContactId</field>
-            <type>contactLookup</type>
+            <field>Email_address__c</field>
+            <type>email</type>
         </recipients>
         <senderType>DefaultWorkflowUser</senderType>
-        <template>Referral_Hub_Emails/New_Case_created</template>
+        <template>Referral_Hub_Emails/Request_For_Information</template>
     </alerts>
     <rules>
         <fullName>New Case notification</fullName>
@@ -30,9 +30,8 @@
         </actions>
         <active>true</active>
         <criteriaItems>
-            <field>Case.OwnerId</field>
+            <field>Case.CreatedById</field>
             <operation>notEqual</operation>
-            <value>null</value>
         </criteriaItems>
         <triggerType>onCreateOnly</triggerType>
     </rules>
@@ -44,7 +43,7 @@
         </actions>
         <active>true</active>
         <criteriaItems>
-            <field>Contact.Email</field>
+            <field>Case.CreatedById</field>
             <operation>notEqual</operation>
         </criteriaItems>
         <triggerType>onCreateOnly</triggerType>

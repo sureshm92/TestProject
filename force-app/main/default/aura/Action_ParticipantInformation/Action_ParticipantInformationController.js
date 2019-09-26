@@ -17,6 +17,7 @@
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
             component.set('v.pe', pe);
+            component.set('v.actions',JSON.parse(JSON.stringify(params.actions)));
             component.set('v.participant', pe.Participant__r);
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
             component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
@@ -28,14 +29,12 @@
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
                 var formComponent = component.find('editForm');
-                formComponent.set('v.handleChangesEnabled', false);
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 console.log('returnValue.isEnreolled',returnValue.isEnrolled);
                 if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
-                formComponent.set('v.handleChangesEnabled', true);
                 formComponent.checkFields();
                 component.find('spinner').hide();
                 component.set('v.anchor', params.anchorScroll);
@@ -47,12 +46,7 @@
                     });
                 }), 5);
             });
-            var dialog = component.find('dialog')
-            dialog.show();
-            dialog.set('v.closeCallback', $A.getCallback(function () {
-                var formComponent = component.find('editForm');
-                formComponent.set('v.handleChangesEnabled', false);
-            }));
+            component.find('dialog').show();
         } catch (e) {
             console.error(e);
         }
@@ -94,8 +88,6 @@
     },
 
     doCallback: function (component, event, helper) {
-        var formComponent = component.find('editForm');
-        formComponent.set('v.handleChangesEnabled', false);
         var pe = component.get('v.pe');
         component.get('v.callback')(pe);
     },

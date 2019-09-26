@@ -5,6 +5,7 @@
 
     <aura:attribute name="trialTDO" type="Object"/>
     <aura:attribute name="isClicked" type="Boolean"/>
+    <aura:attribute name="isSecondClicked" type="Boolean"/>
     <aura:attribute name="isInit" type="Boolean"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
@@ -42,19 +43,20 @@
         <div class="cpt-official-title ctp-padding">
             {!v.trialTDO.ctp.Official_Title__c}
         </div>
-        <aura:if isTrue="{!!v.isClicked}">
+        <aura:if isTrue="{!!or(v.isClicked, v.trialTDO.relatedNotificationExists)}">
             <button class="apollo-btn primary button-ctp" onclick="{!c.onClick}">
-                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Contact_the_study : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
+                {!!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Alert_me_when_enrollment_starts :
+                v.trialTDO.ctp.Link_to_ePR_Campaign__c ? $Label.c.TrialSearch_See_Qualify : $Label.c.TrialSearch_Contact_the_study}
             </button>
-        </aura:if>
-        <aura:if isTrue="{!v.isClicked}">
-            <button class="apollo-btn tertiary button-ctp" onclick="{!c.onClick}" disabled="{!!v.trialTDO.isEnrollingCTP}">
-                <c:RRIcon iconName="icon-check"/>
-                {!v.trialTDO.isEnrollingCTP ? $Label.c.TrialSearch_Study_contacted : $Label.c.TrialSearch_Alert_me_when_enrollment_starts}
-            </button>
+            <aura:set attribute="else">
+                <button class="apollo-btn tertiary button-ctp"
+                        onclick="{!c.onClick}" disabled="{!v.trialTDO.relatedNotificationExists}">
+                    {!v.trialTDO.relatedNotificationExists ? $Label.c.TrialSearch_We_will_alert_you : $Label.c.TrialSearch_Study_contacted}
+                </button>
+            </aura:set>
         </aura:if>
 
-        <aura:if isTrue="{!and(v.isInit)}">
+        <aura:if isTrue="{!v.isInit}">
             <c:Popup aura:id="contactModal" title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" size="large">
                 <c:FormPatientInfoTrialSearch aura:id="contactForm"
                         participant="{!v.participant}"
@@ -66,11 +68,12 @@
                 />
                 <aura:set attribute="footerButtons">
                     <button class="apollo-btn primary btn-send" onclick="{!c.onClickSend}" disabled="{!!and(v.isDisclaimer, v.isValid)}">
-                        Send to study
+                        {!$Label.c.TrialSearch_Send_To_Study}
                     </button>
                 </aura:set>
             </c:Popup>
         </aura:if>
 
     </div>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium"/>
 </aura:component>

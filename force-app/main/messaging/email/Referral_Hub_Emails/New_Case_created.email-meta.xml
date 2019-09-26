@@ -3,7 +3,7 @@
     <apiVersion>42.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>A request for additional information has been submitted</name>
+    <name>Notification for IQVIA</name>
     <style>none</style>
     <subject>A request for additional information has been submitted</subject>
     <type>visualforce</type>
