@@ -13,10 +13,17 @@
     margin-bottom: 20px;
 }
 
+.THIS .toolbar .btns{
+    flex-shrink: 0;
+    margin-left: 30px;
+}
+
 .THIS .toolbar .toolbar-btn + .toolbar-btn{
     margin-left: 20px;
 }
 
 .THIS .inline-input{
     display: flex!important;
+    width:100%;
+    white-space: nowrap;
 }
