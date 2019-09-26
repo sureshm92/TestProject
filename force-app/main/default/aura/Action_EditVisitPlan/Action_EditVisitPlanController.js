@@ -30,12 +30,10 @@
         if (params.mode === 'create') {
             helper.createVPMode(component);
         } else if (vpId !== null) {
-            switch (params.mode) {
-                case 'edit':
-                    helper.callRemote(component, 'getVisitPlanWrapper', vpId);
-                    break;
-                case 'clone':
-                    helper.callRemote(component, 'cloneVisitPlan', vpId);
+            if(params.mode === 'edit') {
+                helper.callRemote(component, vpId);
+            } else if(params.mode === 'clone') {
+                helper.callRemote(component, vpId, true);
             }
         }
 
@@ -69,7 +67,7 @@
                 updatedVisits.push(visit);
             }
         }
-
+        debugger;
         communityService.executeAction(component, 'upsertVisitPlan', {
             plan: JSON.stringify(component.get('v.plan')),
             visits: JSON.stringify(updatedVisits),
@@ -91,8 +89,8 @@
     doVisitItemEdit: function (component, event, helper) {
         let visitItemCmp = event.getSource();
         let editedVisit = visitItemCmp.get('v.visit');
-        component.find('actionVisit').execute(editedVisit, function (visit) {
-            visitItemCmp.set('v.visit', visit);
+        component.find('actionVisit').execute(editedVisit, function () {
+            component.set('v.visits', component.get('v.visits'));
         });
     },
 

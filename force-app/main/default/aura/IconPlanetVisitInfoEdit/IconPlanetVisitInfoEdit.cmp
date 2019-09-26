@@ -6,6 +6,7 @@
                 controller="IconPlanetVisitInfoEditRemote">
 
     <!--ATTRIBUTES-->
+    <aura:attribute name="ctpId" type="String" description="Deprecated, for merge only"/>
     <aura:attribute name="planId" type="String"/>
     <aura:attribute name="iconDetails" type="Object[]"/>
     <aura:attribute name="IconsPackageName" default="Icons_legend" type="String"/>
