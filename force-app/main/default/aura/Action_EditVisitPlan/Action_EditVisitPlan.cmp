@@ -22,7 +22,7 @@
     </aura:method>
 
     <!--Create/Edit Visit Plan-->
-    <c:uiModal aura:id="createVisitPlan" size="medium" headerText="Add Visit Plan">
+    <c:uiModal aura:id="createVisitPlan" size="medium" headerText="{!if(v.mode == 'edit','Edit Visit Plan', if(v.mode == 'clone', 'Clone Visit Paln', 'Create Visit Plan'))}">
         <div class="edit-vp-container">
             <c:RRSpinner aura:id="spinner"/>
             <div class="toolbar">
@@ -55,6 +55,7 @@
                             <th scope="col">
                                 <div class="slds-truncate">{!$Label.c.Visit_Icons}</div>
                             </th>
+                            <th></th>
                             <th></th>
                         </tr>
                         </thead>
