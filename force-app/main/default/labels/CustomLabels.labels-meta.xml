@@ -1688,6 +1688,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Available</shortDescription>
+        <value>Please login and check Visits data become available.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2278,6 +2285,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>Email Guest User Name</shortDescription>
         <value>Guest</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Available</shortDescription>
+        <value>This is email to notify you about lab data or vitals become available</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -5033,11 +5047,25 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred timezone</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Suffix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Suffix</shortDescription>
+        <value>Suffix</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Username</shortDescription>
         <value>Username</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Title</shortDescription>
+        <value>Title</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Zip_Postal_Code</fullName>
@@ -5332,7 +5360,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals waiting to be contacted</shortDescription>
-        <value>Referrals Waiting to be Contacted</value>
+        <value>Participants Waiting to be Contacted</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referring_clinics</fullName>
@@ -5416,7 +5444,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L Track your referrals’ status</shortDescription>
-        <value>Track your referrals’ status</value>
+        <value>Track your participants’ status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_category</fullName>
@@ -5458,14 +5486,14 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L referrals approved</shortDescription>
-        <value>referrals approved</value>
+        <value>participants approved</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_referrals_received</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L referrals received</shortDescription>
-        <value>referrals received</value>
+        <value>participants received</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_site_requests</fullName>
@@ -6354,18 +6382,18 @@ Please check your CAPS lock key.</value>
         <value>Last Name</value>
     </labels>
     <labels>
-        <fullName>PG_MRC_RF_Not_all_Req_Fields</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
-        <value>Not all required fields are entered</value>
-    </labels>
-    <labels>
         <fullName>PG_MRC_RF_Not_Email_or_Phone_Fields</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
         <value>Email or Phone field should be entered</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Not_all_Req_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
+        <value>Not all required fields are entered</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_Phone</fullName>
@@ -8436,6 +8464,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Participant Not Logged In</shortDescription>
         <value>You not logged in to IQVIA for some time, we miss you</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Visits_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Visits Available</shortDescription>
+        <value>Your data become available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>

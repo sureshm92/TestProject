@@ -37,6 +37,18 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PE_REFERRAL_SOURCE_ACOE = 'ACOE';
     public static final String PE_REFERRAL_SOURCE_3RD_PARTY = '3rd_Party';
 
+    //Filter Data Wrapper Fields
+    public static final String STUDIES_FILTER_DATA_FIELD = 'studies';
+    public static final String STUDY_SITES_FILTER_DATA_FIELD = 'studySites';
+    public static final String STATUSES_FILTER_DATA_FIELD = 'statuses';
+
+    //Map <SObject value field; SObject label field> for interdependent filter data for every Filter Data Filter Map
+    public static final Map<String,Map<String,String>> FILTER_FIELD_MAP = new Map<String,Map<String,String>>{
+            STUDIES_FILTER_DATA_FIELD => new Map<String,String>{'Study_Site__r.Clinical_Trial_Profile__c' => 'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'},
+            STUDY_SITES_FILTER_DATA_FIELD => new Map<String,String>{'Study_Site__c' => 'Study_Site__r.Name'},
+            STATUSES_FILTER_DATA_FIELD => new Map<String,String>{'Participant_Status__c' => 'Participant_Status__c'}
+    };
+
     private static ParticipantEnrollmentService instance;
 
     public static ParticipantEnrollmentService getInstance(){
@@ -585,7 +597,6 @@ public without sharing class ParticipantEnrollmentService {
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId){
         //prepare filter string:
-        System.debug('filter>>>'+filter);
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if(!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         if(filter.searchText != null) filter.searchText = filter.searchText.trim();
