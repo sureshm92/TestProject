@@ -265,7 +265,7 @@ public without sharing class StudySiteVisitConfigRemote {
 
     private static List<ApprovedLangRemote.StudySiteItem> getStudySiteItems(List<Study_Site__c> studySites, List<String> selectedVPIds) {
         List<Id> ssIds = new List<Id>();
-        for(Study_Site__c ss : studySites) ssIds.add(ss.Id);
+        for (Study_Site__c ss : studySites) ssIds.add(ss.Id);
         Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlansBySSId = getStudySiteVisitPlansMap(ssIds);
 
         Map<Id, Visit_Plan__c> visitPlans = getVisitPlansMap();
@@ -281,7 +281,7 @@ public without sharing class StudySiteVisitConfigRemote {
             item.emptyAssignments = studySiteVisitPlans.isEmpty();
 
             for (Id vpId : visitPlans.keySet()) {
-                if ((selectedVPIds == null || selectedVPIds.isEmpty()) || (!selectedVPIds.isEmpty() && selectedVPIds.contains(vpId))) {
+                if (selectedVPIds.isEmpty() || (!selectedVPIds.isEmpty() && selectedVPIds.contains(String.valueOf(vpId)))) {
                     Boolean selected = false;
                     for (StudySiteVisitPlan__c ssVP : studySiteVisitPlans) {
                         if (ssVP.Visit_Plan__c == vpId) {

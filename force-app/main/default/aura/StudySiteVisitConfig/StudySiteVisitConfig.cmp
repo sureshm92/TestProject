@@ -115,20 +115,15 @@
                             <tr class="slds-line-height_reset">
                                 <th scope="col">
                                     <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
-                                        <div class="slds-truncate slds-text-align--center">
+                                        <div class="slds-truncate">
                                             Country
                                         </div>
                                         <div class="slds-m-left--x-small">
-                                            <aura:if isTrue="{!v.countrySortType}">
-                                                <lightning:icon iconName="utility:arrowdown" alternativeText=""
-                                                                variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
-                                                                size="xx-small"/>
-                                                <aura:set attribute="else">
-                                                    <lightning:icon iconName="utility:arrowup" alternativeText=""
-                                                                    variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
-                                                                    size="xx-small"/>
-                                                </aura:set>
-                                            </aura:if>
+                                            <lightning:icon
+                                                    iconName="{!'utility:' + if(v.countrySortType, 'arrowdown', 'arrowup')}"
+                                                    alternativeText=""
+                                                    variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
+                                                    size="xx-small"/>
                                         </div>
                                     </div>
                                 </th>
@@ -138,16 +133,11 @@
                                             Study Site
                                         </div>
                                         <div class="slds-m-left--x-small">
-                                            <aura:if isTrue="{!v.nameSortType}">
-                                                <lightning:icon iconName="utility:arrowdown" alternativeText=""
-                                                                variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
-                                                                size="xx-small"/>
-                                                <aura:set attribute="else">
-                                                    <lightning:icon iconName="utility:arrowup" alternativeText=""
-                                                                    variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
-                                                                    size="xx-small"/>
-                                                </aura:set>
-                                            </aura:if>
+                                            <lightning:icon
+                                                    iconName="{!'utility:' + if(v.nameSortType, 'arrowdown', 'arrowup')}"
+                                                    alternativeText=""
+                                                    variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
+                                                    size="xx-small"/>
                                         </div>
                                     </div>
                                 </th>
@@ -155,16 +145,11 @@
                                     <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
                                         <div>Study Site Number</div>
                                         <div class="slds-m-left--x-small">
-                                            <aura:if isTrue="{!v.numberSortType}">
-                                                <lightning:icon iconName="utility:arrowdown" alternativeText=""
-                                                                variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
-                                                                size="xx-small"/>
-                                                <aura:set attribute="else">
-                                                    <lightning:icon iconName="utility:arrowup" alternativeText=""
-                                                                    variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
-                                                                    size="xx-small"/>
-                                                </aura:set>
-                                            </aura:if>
+                                            <lightning:icon
+                                                    iconName="{!'utility:' + if(v.numberSortType,'arrowdown', 'arrowup')}"
+                                                    alternativeText=""
+                                                    variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
+                                                    size="xx-small"/>
                                         </div>
                                     </div>
                                 </th>
