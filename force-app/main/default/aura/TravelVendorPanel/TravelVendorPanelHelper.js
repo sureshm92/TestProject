@@ -5,27 +5,27 @@
 
         this.unCheckAllVendorCheckBoxes(component);
 
-            communityService.executeAction(component, 'getFilteredItems', {
-                'ctpId': component.get('v.recordId'),
-                'ssIds': component.get('v.selectedByStudySite'),
-                'countryCodes': component.get('v.selectedByCountry'),
-                'vendorIds': helper.getVendorIds(component.get('v.selectedVendors'))
-            }, function (data) {
-                if (data.length > 0) {
-                    component.set('v.vendorItems', data);
-                    component.find('spinner').hide();
-                } else {
-                    communityService.executeAction(component, 'getAllData', {
-                        'ctpId': component.get('v.recordId')
-                    }, function (data) {
-                        component.set('v.vendorItems', data.vendorItems);
-                        component.set('v.selectedVendors', data.vendors);
-                        component.set('v.initialized', true);
+        helper.enqueue(component, 'c.getFilteredItems', {
+            'ctpId': component.get('v.recordId'),
+            'ssIds': component.get('v.selectedByStudySite'),
+            'countryCodes': component.get('v.selectedByCountry'),
+            'vendorIds': helper.getVendorIds(component.get('v.selectedVendors')),
+            'isFirstLoad': false
+        }).then(function (data) {
+                component.set('v.vendorItems', data);
 
-                        component.find('spinner').hide();
-                    });
-                }
-            });
+                component.find('spinner').hide();
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+            component.find('spinner').hide();
+            console.log('error:', err[0].message);
+        });
     },
 
     getVendorIds : function (vendors) {
@@ -40,6 +40,7 @@
         component.find('spinner').show();
 
         this.unCheckAllVendorCheckBoxes(component);
+        let page = component.get('v.currentPage');
 
         let item =  component.get('v.vendorItems');
         let ssIds = [];
@@ -47,15 +48,28 @@
             ssIds.push(i.studySite.Id);
         });
         let vendors = helper.getVendorIds(component.get('v.selectedVendors'));
-            communityService.executeAction(component, 'getFilteredItems', {
-                'ctpId': component.get('v.recordId'),
-                'ssIds': ssIds.join(';'),
-                'countryCodes': component.get('v.selectedByCountry'),
-                'vendorIds': vendors !== null ? vendors : null
-            }, function (data) {
-                component.set('v.vendorItems', data);
-                component.find('spinner').hide();
-            })
+
+        helper.enqueue(component, 'c.getFilteredItems', {
+            'ctpId': component.get('v.recordId'),
+            'ssIds': ssIds.join(';'),
+            'countryCodes': component.get('v.selectedByCountry'),
+            'vendorIds': vendors !== null ? vendors : null
+        }).then(function (data) {
+            component.set('v.vendorItems', data);
+            component.set('v.currentPage', page);
+
+            component.find('spinner').hide();
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+            component.find('spinner').hide();
+            console.log('error:', err[0].message);
+        });
     },
 
     unCheckAllVendorCheckBoxes : function(component, event){
@@ -71,26 +85,14 @@
         }
     },
 
-    checkOnIsManualStudySites: function (studySites, vendorItem) {
-        if (studySites != null && studySites != undefined) {
-            let haveStudySiteId = studySites.includes(vendorItem.studySite.Id);
-            if (haveStudySiteId) {
+    checkOnIsManualStudySites: function (studySites, countries, vendorItem) {
+            let haveStudySiteId = !$A.util.isUndefinedOrNull(studySites) && studySites.includes(vendorItem.studySite.Id);
+            let haveBillingCountryCode = !$A.util.isUndefinedOrNull(countries) && countries.includes(vendorItem.studySite.Site__r.BillingCountryCode);
+            console.log('haveBillingCountryCode ' + haveBillingCountryCode);
                 vendorItem.vendorSettings.forEach(function (item) {
-                    item.Is_Manual__c = true
+                    item.Is_Manual__c = haveStudySiteId;
+                    item.By_Country__c = haveBillingCountryCode;
                 });
-            }
-        }
-    },
-
-    checkOnIsSelectedByCountry: function (countries, vendorItem) {
-        if (countries != null && countries !== undefined) {
-            let haveBillingCountryCode = countries.includes(vendorItem.studySite.Site__r.BillingCountryCode);
-            if (haveBillingCountryCode) {
-                vendorItem.vendorSettings.forEach(function (item) {
-                    item.By_Country__c = true;
-                });
-            }
-        }
     },
 
     uncheckAllCheckBoxForVendorSettings: function (vendorItems, allSettings) {
@@ -104,20 +106,11 @@
         return allSettings;
     },
 
-    showAlert: function (title, message, type) {
-        const toastEvent = $A.get("e.force:showToast");
-        toastEvent.setParams({
-            "title": title,
-            "message": message,
-            "type": type
-        });
-        toastEvent.fire();
-    },
-
     columnCheckboxStateChange: function (component, event) {
         let target = event.getSource().get('v.label');
         let checked = event.getSource().get('v.value');
         let items = component.get('v.vendorItems');
+        let page = component.get('v.currentPage');
         items.forEach(function (item) {
             let settings = item.vendorSettings;
             settings.forEach(function (setting) {
@@ -127,5 +120,6 @@
             });
         });
         component.set('v.vendorItems', items);
+        component.set('v.currentPage', page);
     }
 });

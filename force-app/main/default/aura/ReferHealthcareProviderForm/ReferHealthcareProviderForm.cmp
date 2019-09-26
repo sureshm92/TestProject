@@ -2,21 +2,57 @@
  - Created by Nikita Abrazhevitch on 19-Sep-19.
  -->
 
-<aura:component description="ReferHealthcareProviderForm">
+<aura:component description="ReferHealthcareProviderForm" controller="ReferHealthcareProviderRemote">
     <aura:attribute name="healthCareProvider" type="Object"/>
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="index" type="Integer"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="action" type="Object"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="providerFound" type="Boolean" default="false"/>
 
-    <div class="slds-grid slds-wrap slds-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container">
-        <div class="slds-col slds-size--4-of-12">
-            <lightning:input class="healthcare-input" type="email" label="Provider's email address" value="{!v.healthCareProvider.Email}" onchange="{!c.checkFieldsds}"/>
+
+    <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
+        <c:RRSpinner aura:id="spinner" size="medium"/>
+        <div class="slds-col slds-size--1-of-1 slds-large-size--4-of-12">
+            <lightning:input class="healthcare-input" type="text" required="true"
+                             label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.healthCareProvider.Email__c}"
+                             onblur="{!c.checkContact}" onchange="{!c.checkFields}"
+                             disabled="{!v.healthCareProvider.Id}" aura:id="hcpEmail"/>
         </div>
-        <div class="slds-col slds-size--3-of-12">
-            <lightning:input class="healthcare-input" type="text" label="Provider's first name" value="{!v.healthCareProvider.First_Name}" onchange="{!c.checkFieldsds}"/>
+        <div class="slds-col slds-size--1-of-1 slds-large-size--3-of-12">
+            <lightning:input class="healthcare-input" type="text" required="true"
+                             label="{!$Label.c.HealthCare_Providers_First_Name}"
+                             value="{!v.healthCareProvider.First_Name__c}"
+                             onchange="{!c.checkFields}"
+                             disabled="{!v.healthCareProvider.Id  || v.providerFound}" aura:id="hcpFirstName"/>
         </div>
-        <div class="slds-col slds-size--3-of-12">
-            <lightning:input class="healthcare-input" type="text" label="Provider's last name" value="{!v.healthCareProvider.LastName}" onchange="{!c.checkFieldsds}"/>
+        <div class="slds-col slds-size--1-of-1 slds-large-size--3-of-12">
+            <lightning:input class="healthcare-input" type="text" required="true"
+                             label="{!$Label.c.HealthCare_Providers_Last_Name}"
+                             value="{!v.healthCareProvider.Last_Name__c}"
+                             onchange="{!c.checkFields}"
+                             disabled="{!v.healthCareProvider.Id  || v.providerFound}" aura:id="hcpLastName"/>
         </div>
-        <div class="slds-col slds-size--2-of-12">
-            <button class="apollo-btn tertiary" style="padding:3% 10%;height:32px;"  onclick="{!c.doConnect}">Connect to patient</button>
+        <div class="slds-col slds-size--3-of-12 slds-large-size--2-of-12" style="margin-top:23px">
+            <aura:if isTrue="{!!v.healthCareProvider.Id &amp;&amp; !v.action.disabled}">
+                <button class="apollo-btn tertiary " style="padding:0;height:40px;min-width:160px"
+                        onclick="{!c.doConnect}" disabled="{!!v.isValid}">{!$Label.c.HealthCare_Provider_Connect}</button>
+            </aura:if>
+            <aura:if isTrue="{!v.healthCareProvider.Id}">
+                <button class="apollo-btn tertiary " style="padding:0;height:40px;min-width:160px"
+                        onclick="{!c.doDisconnect}">{!$Label.c.HealthCare_Provider_Stop_Sharing}</button>
+            </aura:if>
         </div>
+        <aura:if isTrue="{!v.providerFound}">
+            <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                <div class="slds-col slds-size--4-of-12 slds-large-size--4-of-12">
+                    {!$Label.c.HealthCare_Provider_Found}
+                </div>
+                <div class="slds-col slds-size--8-of-12 slds-large-size--4-of-12">
+                    <c:RRLink label="{!$Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
+                </div>
+            </div>
+        </aura:if>
     </div>
 </aura:component>

@@ -3,14 +3,15 @@
  -->
 
 <aura:component description="TravelVendorPanel" controller="TravelVendorPanelRemote"
-                implements="force:hasRecordId, flexipage:availableForAllPageTypes">
+                implements="force:hasRecordId, flexipage:availableForAllPageTypes" extends="c:LightningService">
 
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="vendorItems" type="Object[]"/>
     <aura:attribute name="currentVendorItems" type="Object[]"/>
     <aura:attribute name="selectedVendors" type="Object[]"/>
-    <aura:attribute name="selectedByCountry" type="String"/>
-    <aura:attribute name="selectedByStudySite" type="String"/>
+    <aura:attribute name="selectedByCountry" type="String" default=""/>
+    <aura:attribute name="selectedByStudySite" type="String" default=""/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
@@ -24,7 +25,7 @@
                 <div class="slds-grid slds-wrap">
                     <!--Country Filter-->
                     <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium ">
-                        <c:VisitResultSharingCountryLookup
+                        <c:CountryLookup
                                 aura:id="countryLookup"
                                 isMultiEntry="true"
                                 value="{!v.selectedByCountry}"
@@ -35,7 +36,7 @@
                                 isInclude="true"/>
                     </div>
                     <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
-                        <c:VisitResultSharingSSLookup
+                        <c:StudySiteLookup
                                 ctpId="{!v.recordId}"
                                 isMultiEntry="true"
                                 value="{!v.selectedByStudySite}"
@@ -50,6 +51,8 @@
                                 lookupName="TravelVendor__c"
                                 selectedRecords="{!v.selectedVendors}"
                                 onchange="{!c.addVendor}"
+                                recordError=" "
+                                recordLoadError=" "
                         />
                     </div>
                     <div class="slds-col slds-size--4-of-12 slds-var-m-top_x-small">
@@ -130,8 +133,8 @@
                     </tbody>
                 </table>
                 <div class="slds-align--absolute-center slds-m-around--medium">
-                    <c:rrPagination allObjects="{!v.vendorItems}" entriesOnPage="10"
-                                    currentObjects="{!v.currentVendorItems}"/>
+                    <c:rrPagination aura:id="pagination" allObjects="{!v.vendorItems}" entriesOnPage="10"
+                                    currentObjects="{!v.currentVendorItems}" currentPage="{!v.currentPage}"/>
                 </div>
             </div>
         </aura:if>

@@ -411,6 +411,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
     <labels>
+        <fullName>Add_Another_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Another Provider</shortDescription>
+        <value>Add Another Provider</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -613,6 +620,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN Find study sites</shortDescription>
         <value>Find study sites</value>
+    </labels>
+    <labels>
+        <fullName>BTN_HealthCare_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN HealthCare Providers</shortDescription>
+        <value>Healthcare Providers</value>
     </labels>
     <labels>
         <fullName>BTN_I_Accept</fullName>
@@ -1320,21 +1334,28 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Accept a patient</shortDescription>
-        <value>Accept a patient</value>
+        <value>Accept a participant</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Accept_a_referring_HCP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Accept a referring HCP</shortDescription>
-        <value>Accept a Referring Provider</value>
+        <value>Accept a referring provider</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Add_a_participants_provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DLIT L Add a participants provider</shortDescription>
+        <value>Add a participant&#39;s provider</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Decline_or_place_on_hold_a_referring_HCP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Decline or place on hold a referring HCP</shortDescription>
-        <value>Update Referring Provider status</value>
+        <value>Update referring provider status</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Manage_study_site_details</fullName>
@@ -1383,7 +1404,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Add a patient</value>
+        <value>Add a participant</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Remove_a_participants_provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DLIT L Remove a participants provider</shortDescription>
+        <value>Remove a participant&#39;s provider</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
@@ -1404,7 +1432,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DLIT L Update status of an accepted patient</shortDescription>
-        <value>Update patient status</value>
+        <value>Update participant status</value>
     </labels>
     <labels>
         <fullName>DLIT_L_View_Dashboard</fullName>
@@ -1419,6 +1447,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>DLIT L View / Export Reports</shortDescription>
         <value>View/export report</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_View_screener_responses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DLIT L View screener responses</shortDescription>
+        <value>View screener responses</value>
     </labels>
     <labels>
         <fullName>DRF_L_All_date_ranges</fullName>
@@ -1517,6 +1552,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Diastolic Blood Pr Description</shortDescription>
         <value>Diastolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when your heart is resting in between beats.</value>
+    </labels>
+    <labels>
+        <fullName>Different_HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Different HealthCare Provider</shortDescription>
+        <value>Did you expect a different provider? Let us know.</value>
     </labels>
     <labels>
         <fullName>Disabled</fullName>
@@ -1646,6 +1688,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Body Request notification</shortDescription>
+        <value>A Participant has submitted a request for additional information on ##StudyCode.
+
+            Please login to IQVIA Patient Portal for additional information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1729,7 +1780,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
 
             To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-            Your username is ##Username. Please click the Enroll Now button to create your password.
+            Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -1806,6 +1857,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             The provider cannot refer study participants to your site until you accept their request.
 
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Participant_Answer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Thanks for request</shortDescription>
+        <value>Thank you for submitting a request for additional information about ##StudyCode.  Someone from the study team will be in touch with you.
+
+            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient1</fullName>
@@ -1952,6 +2012,20 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_CreatedDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient CreatedDate</shortDescription>
+        <value>We miss you, please log in and check your profile!</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_Log_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Log In</shortDescription>
+        <value>We miss you!</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
@@ -2157,6 +2231,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Contact_Greeting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Contact Greeting</shortDescription>
+        <value>Dear ##Contact,</value>
+    </labels>
+    <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2199,11 +2280,25 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Guest</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>A request for additional information has been submitted</shortDescription>
+        <value>A request for additional information has been submitted</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Complete Baseline Survey</shortDescription>
         <value>Please provide feedback</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Created_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Created Date</shortDescription>
+        <value>We miss you!</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -2316,6 +2411,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>true</protected>
         <shortDescription>Email Header Patient Dropped Out</shortDescription>
         <value>You have left your clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Log_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Log In</shortDescription>
+        <value>You do not log in, please do this!</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -2444,6 +2546,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Thank you for your interest in using the</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Thank you for submitting a request</shortDescription>
+        <value>Thank you for submitting a request</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2463,6 +2572,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Been Changed</shortDescription>
         <value>Your access level has been changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Notification_Greeting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Notification Greeting</shortDescription>
+        <value>Dear ##FirstName ,</value>
     </labels>
     <labels>
         <fullName>Email_Signature</fullName>
@@ -2626,6 +2742,13 @@ Sincerely,
         <value>Best Regards,
 
             IQVIA Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Case</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>A request for additional information has been submitted</shortDescription>
+        <value>A request for additional information has been submitted</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Complete_Baseline_Survey</fullName>
@@ -2887,6 +3010,13 @@ Sincerely,
         <value>You have been enrolled to a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Your_request_for_additonal_information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Your request for additonal information</shortDescription>
+        <value>Your request for additonal information has been received</value>
+    </labels>
+    <labels>
         <fullName>Email_Text_View_Stub</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3101,6 +3231,69 @@ Sincerely,
         <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
     </labels>
     <labels>
+        <fullName>HealCare_Provider_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealCare Provider Message</shortDescription>
+        <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider</shortDescription>
+        <value>Healthcare Provider</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_Connect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider Connect</shortDescription>
+        <value>Connect to patient</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider Found</shortDescription>
+        <value>Provider Found!</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider RP</shortDescription>
+        <value>REFERRING PROVIDER</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Provider_Stop_Sharing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Provider Stop Sharing</shortDescription>
+        <value>Stop Sharing</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Providers_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Providers Email</shortDescription>
+        <value>Provider&#39;s email address</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Providers_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Providers First Name</shortDescription>
+        <value>Provider&#39;s first name</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Providers_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare Providers Last Name</shortDescription>
+        <value>Provider&#39;s last name</value>
+    </labels>
+    <labels>
         <fullName>Height</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3246,6 +3439,13 @@ Sincerely,
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit What Took Place</shortDescription>
         <value>What Took Place</value>
+    </labels>
+    <labels>
+        <fullName>IRB_Padding_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IRB Padding Info</shortDescription>
+        <value>Changes will be saved as you go to the next page!</value>
     </labels>
     <labels>
         <fullName>Icons_package_not_found</fullName>
@@ -6130,7 +6330,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRC RP Email</shortDescription>
-        <value>Email (optional)</value>
+        <value>Email</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_First_Name</fullName>
@@ -6159,6 +6359,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
         <value>Not all required fields are entered</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Not_Email_or_Phone_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
+        <value>Email or Phone field should be entered</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_Phone</fullName>
@@ -8196,6 +8403,13 @@ Please check your CAPS lock key.</value>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
+        <fullName>PP_VPC_SS_Empty_VP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP VPC SS Empty VP</shortDescription>
+        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+    </labels>
+    <labels>
         <fullName>PS_Enrollment_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8208,6 +8422,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>PS_Site_Location</shortDescription>
         <value>Site Location</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Created_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Created Date</shortDescription>
+        <value>We Miss you, please login and check profile</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Not_Logged_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Not Logged In</shortDescription>
+        <value>You not logged in to IQVIA for some time, we miss you</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
@@ -10153,14 +10381,28 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TrialSearch_Not Yet Enrolling</shortDescription>
-        <value>Not yet ynrolling</value>
+        <value>Not yet enrolling</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Search_for_another_condition</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TrialSearch_Search for another condition</shortDescription>
-        <value>Search for anoter condition</value>
+        <value>Search for another condition</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_See_Qualify</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch See Qualify</shortDescription>
+        <value>See if I qualify</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Send_To_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Send To Study</shortDescription>
+        <value>Send to study</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
@@ -10184,11 +10426,32 @@ Please check your CAPS lock key.</value>
         <value>Therapeutic area</value>
     </labels>
     <labels>
+        <fullName>TrialSearch_Toast_Alert_Me_When_Trial_Start</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Contact The Study</shortDescription>
+        <value>Thank you for your interest in {0}.  Someone from the study team will contact you shortly.</value>
+    </labels>
+    <labels>
         <fullName>TrialSearch_Update_Search_Results</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TrialSearch_Update Search Results</shortDescription>
         <value>Update Search Results</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_We_will_alert_you</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch We will alert you</shortDescription>
+        <value>We will alert you when enrollment starts</value>
     </labels>
     <labels>
         <fullName>Trial_Search_Header</fullName>

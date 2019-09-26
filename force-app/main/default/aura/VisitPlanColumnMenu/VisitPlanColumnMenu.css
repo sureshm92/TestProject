@@ -1,0 +1,17 @@
+/**
+ * Created by Igor Malyuta on 20.09.2019.
+ */
+
+.THIS .menu-popup{
+    left: 31px;
+    transform: none;
+}
+
+.THIS .menu-popup li{
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.THIS .menu-popup li:hover{
+    background-color: #f2f7ff;
+}

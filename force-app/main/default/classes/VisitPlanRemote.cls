@@ -12,18 +12,39 @@ public without sharing class VisitPlanRemote {
     }
 
     @AuraEnabled
-    public static String createVisitPlanWithVisits(String plan, String visits) {
+    public static void upsertVisitPlan(String plan, String visits, String deletedVisits) {
         try {
             Visit_Plan__c newPlan = (Visit_Plan__c) JSON.deserialize(plan, Visit_Plan__c.class);
             upsert newPlan;
 
-            List<Visit__c> newVisits = (List<Visit__c>) JSON.deserialize(visits, List<Visit__c>.class);
-            for(Visit__c v : newVisits) v.Visit_Plan__c = newPlan.Id;
-            upsert newVisits;
+            List<Visit__c> visitsToUpsert = (List<Visit__c>) JSON.deserialize(visits, List<Visit__c>.class);
+            List<Visit__c> visitsToDelete = (List<Visit__c>) JSON.deserialize(deletedVisits, List<Visit__c>.class);
 
-            return JSON.serialize(plan);
+            List<Visit__c> newVisits = new List<Visit__c>();
+            List<Visit__c> updatedVisits = new List<Visit__c>();
+            for (Visit__c v : visitsToUpsert) {
+                if (v.Id == null) {
+                    v.Visit_Plan__c = newPlan.Id;
+                    newVisits.add(v);
+                } else {
+                    updatedVisits.add(v);
+                }
+            }
+
+            if (!String.isEmpty(deletedVisits)) {
+                List<Visit__c> forDeleteVisits = new List<Visit__c>();
+                for (Visit__c v : visitsToDelete) {
+                    if (v.Id != null) forDeleteVisits.add(v);
+                }
+
+                delete forDeleteVisits;
+            }
+
+            if (!newVisits.isEmpty()) insert newVisits;
+            if (!updatedVisits.isEmpty()) upsert updatedVisits;
+
         } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            AuraHelper.throwException(e);
         }
     }
 
@@ -31,30 +52,9 @@ public without sharing class VisitPlanRemote {
     public static String getVisitPlanWrapper(String planId) {
         try {
             VisitPlanWrapper wrapper = new VisitPlanWrapper();
-            wrapper.plan = [SELECT Id, Name FROM Visit_Plan__c WHERE Id =: planId];
-
-            wrapper.iconDetails = [
-                    SELECT
-                            Custom_Icon__c,
-                            Description__c,
-                            Icons_package__c,
-                            Name,
-                            Label__c
-                    FROM Icon_Details__c
-                    WHERE Visit_Plan__c = :planId
-            ];
-
-            wrapper.visits = [
-                    SELECT
-                            Icons__c,
-                            Name,
-                            Order__c,
-                            Patient_Portal_Name__c,
-                            Visit_Number__c,
-                            Visit_Schedule__c
-                    FROM Visit__c
-                    WHERE Visit_Plan__c = :planId
-            ];
+            wrapper.plan = getVisitPlan(planId);
+            wrapper.iconDetails = getIconDetails(wrapper.plan.Id);
+            wrapper.visits = getVisits(wrapper.plan.Id);
 
             return JSON.serialize(wrapper);
         } catch (Exception e) {
@@ -63,34 +63,14 @@ public without sharing class VisitPlanRemote {
     }
 
     @AuraEnabled
-    public static void cloneVisitPlan(String planId) {
+    public static String cloneVisitPlan(String planId) {
         try {
-            Visit_Plan__c plan = [SELECT Id FROM Visit_Plan__c WHERE Id = :planId];
-
-            List<Visit__c> visits = [
-                    SELECT
-                            Icons__c,
-                            Name,
-                            Order__c,
-                            Patient_Portal_Name__c,
-                            Visit_Number__c,
-                            Visit_Schedule__c
-                    FROM Visit__c
-                    WHERE Visit_Plan__c = :plan.Id
-            ];
-
-            List<Icon_Details__c> iconDetails = [
-                    SELECT
-                            Custom_Icon__c,
-                            Description__c,
-                            Icons_package__c,
-                            Name,
-                            Label__c
-                    FROM Icon_Details__c
-                    WHERE Visit_Plan__c = :plan.Id
-            ];
+            Visit_Plan__c plan = getVisitPlan(planId);
+            List<Visit__c> visits = getVisits(plan.Id);
+            List<Icon_Details__c> iconDetails = getIconDetails(plan.Id);
 
             Visit_Plan__c clonePlan = plan.clone();
+            clonePlan.Name = clonePlan.Name + 'Clone';
             insert clonePlan;
 
             List<Visit__c> newVisits = new List<Visit__c>();
@@ -120,28 +100,44 @@ public without sharing class VisitPlanRemote {
 
             insert newVisits;
             insert newIconDetails;
-        } catch (Exception e) {
-            AuraHelper.throwException(e);
-        }
-    }
 
-    @AuraEnabled
-    public static String updateVisit(String planId, String visitRec, String mode) {
-        try {
-            Visit__c visit = (Visit__c) JSON.deserialize(visitRec, Visit__c.class);
-            if(visit.Id == null) {
-                insert visit;
-            } else {
-                if (mode.equals('edit')) {
-                    update visit;
-                } else if (mode.equals('delete')) {
-                    delete visit;
-                }
-            }
-
-            return getVisitPlanWrapper(planId);
+            VisitPlanWrapper wrapper = new VisitPlanWrapper();
+            wrapper.plan = clonePlan;
+            wrapper.visits = newVisits;
+            return JSON.serialize(wrapper);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
+    }
+
+    public static Visit_Plan__c getVisitPlan(String planId) {
+        return [SELECT Id, Name FROM Visit_Plan__c WHERE Id = :planId];
+    }
+
+    private static List<Visit__c> getVisits(String planId) {
+        return [
+                SELECT
+                        Icons__c,
+                        Name,
+                        Order__c,
+                        Patient_Portal_Name__c,
+                        Visit_Number__c,
+                        Visit_Schedule__c
+                FROM Visit__c
+                WHERE Visit_Plan__c = :planId
+        ];
+    }
+
+    private static List<Icon_Details__c> getIconDetails(String planId) {
+        return [
+                SELECT
+                        Custom_Icon__c,
+                        Description__c,
+                        Icons_package__c,
+                        Name,
+                        Label__c
+                FROM Icon_Details__c
+                WHERE Visit_Plan__c = :planId
+        ];
     }
 }

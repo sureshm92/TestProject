@@ -29,16 +29,7 @@ public without sharing class StudySiteVisitConfigRemote {
     @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         try {
-            InitData initData = new InitData();
-            initData.ctpId = ctpId;
-            ctpStudySites = ApprovedLangRemote.getStudySites(ApprovedLangRemote.QUERY_MAIN_FILTER.replace('ctpId', ctpId));
-            if(!ctpStudySites.isEmpty()) {
-                loadInitData(initData);
-                initPageItems(initData, initData.countryCodes, null, null);
-                initData.paginationData.reCalc();
-            }
-
-            return initData;
+            return init(ctpId);
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
@@ -159,6 +150,18 @@ public without sharing class StudySiteVisitConfigRemote {
         }
     }
 
+    @AuraEnabled
+    public static InitData deleteVisitPlan(String planId, String ctpId) {
+        try {
+            Visit_Plan__c plan = VisitPlanRemote.getVisitPlan(planId);
+            delete plan;
+
+            return init(ctpId);
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
+    }
+
     //Search lookup logic: ---------------------------------------------------------------------------------------------
     @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchVPByTerm(String searchTerm, String value) {
@@ -220,6 +223,19 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     //Inner logic: -----------------------------------------------------------------------------------------------------
+    private static InitData init(Id ctpId) {
+        InitData initData = new InitData();
+        initData.ctpId = ctpId;
+        ctpStudySites = ApprovedLangRemote.getStudySites(ApprovedLangRemote.QUERY_MAIN_FILTER.replace('ctpId', ctpId));
+        if (!ctpStudySites.isEmpty()) {
+            loadInitData(initData);
+            initPageItems(initData, initData.countryCodes, null, null);
+            initData.paginationData.reCalc();
+        }
+
+        return initData;
+    }
+
     private static void loadInitData(InitData initData) {
         List<Id> ssIds = new List<Id>();
         for (Study_Site__c ss : ctpStudySites) {

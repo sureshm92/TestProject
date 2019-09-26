@@ -43,6 +43,8 @@ public with sharing class TrialSearchContainerRemote {
         @AuraEnabled
         public Clinical_Trial_Profile__c ctp;
         @AuraEnabled
+        public Boolean relatedNotificationExists;
+        @AuraEnabled
         public Boolean isEnrollingCTP;
     }
 }

@@ -7,6 +7,7 @@
         component.set("v.lastName", '');
         component.set("v.clinicName", '');
         component.set("v.phone", '');
+        component.set("v.emailS", '');
         component.set("v.studySiteId", '');
         var studySitesForInvitation = component.get('v.studySitesForInvitation');
         for(var i = 0; i< studySitesForInvitation.length; i++){

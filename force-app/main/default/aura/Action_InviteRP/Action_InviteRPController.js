@@ -22,7 +22,7 @@
         var lastName = component.get('v.lastName');
         var clinicName = component.get('v.clinicName');
         var phone = component.get('v.phone');
-        var email = component.get('v.email');
+        var emailS = component.get('v.emailS');
         var studySiteId = component.get('v.studySiteId');
         var protocolId = component.get('v.protocolId');
         component.find('modalSpinner').show();
@@ -31,7 +31,7 @@
             lastName: lastName,
             clinicName: clinicName,
             phone: phone,
-            email: email,
+            email: emailS,
             studySiteId: studySiteId,
             protocolId: protocolId,
         }, function (returnValue) {
@@ -53,11 +53,13 @@
         var lastName = component.get('v.lastName');
         var clinicName = component.get('v.clinicName');
         var phone = component.get('v.phone');
+        var emailS = component.get('v.emailS');
         var inputPattern = new RegExp('[!+@#$%^&*(),.?":{}|<>]','g');
         var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
         var reqFieldsFilled = (inputPattern.test(firstName) || !firstName.trim()) ||
             (inputPattern.test(lastName) || !lastName.trim()) ||
-            (phonePattern.test(phone) || !phone.trim()) ||
+            ((phonePattern.test(phone) || !phone.trim()) &&
+                (emailS == undefined || emailS == '')) ||
             (inputPattern.test(clinicName) || !clinicName.trim());
         component.set('v.reqFieldsFilled',reqFieldsFilled);
     },
