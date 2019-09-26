@@ -65,7 +65,7 @@
                         <tbody>
                         <aura:iteration var="visit" items="{!v.visits}">
                             <aura:if isTrue="{!not(visit.deleted)}">
-                                <c:VisitItem visit="{!visit}" parent="{!this}"
+                                <c:VisitItem visit="{!visit}"
                                              selectedRowColor="rgb(243, 242, 242)"
                                              onEdit="{!c.doVisitItemEdit}"
                                              onDelete="{!c.doVisitItemDelete}"/>
