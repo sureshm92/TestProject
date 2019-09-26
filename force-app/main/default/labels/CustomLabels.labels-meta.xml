@@ -1746,6 +1746,28 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_PI_HCP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial PI HCP</shortDescription>
+        <value>You have been invited to join the IQVIA Referral Hub by ##PITitle ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
+
+            The first step is for you to enroll.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial PI PT HCP</shortDescription>
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PITitle ##PIName, at the patient's request. The first step is for you to enroll in the IQVIA Referral Hub.
+
+            Once enrolled, access "My Studies" to review your patient's study and access "My Patients" to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
+
+            If you believe you have received this invitation in error, please notify support@cp.clincialresearch.com.
+
+            The first step is for you to enroll.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
