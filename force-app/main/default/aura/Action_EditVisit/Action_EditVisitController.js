@@ -25,7 +25,6 @@
 
     saveVisit: function (component, event, helper) {
         let visit = component.get('v.visit');
-        debugger;
         let callback = component.get('v.callback');
         if (callback) callback(visit);
         component.find('modal').hide();

@@ -19,4 +19,12 @@
         });
         navEvt.fire();
     },
+
+    doMouseEnter: function (component, event, helper) {
+        component.set('v.currentRowColor', component.get('v.selectedRowColor'));
+    },
+
+    doMouseLeave: function (component, event, helper) {
+        component.set('v.currentRowColor', component.get('v.rowColor'));
+    }
 });

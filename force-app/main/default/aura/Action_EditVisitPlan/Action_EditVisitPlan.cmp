@@ -42,7 +42,7 @@
             <!--Visits table-->
             <aura:if isTrue="{!not(empty(v.visits))}">
                 <div class="slds-scrollable visits-table">
-                    <table class="slds-table slds-table_bordered slds-table_striped">
+                    <table class="slds-table slds-table_bordered">
                         <thead>
                         <tr class="slds-text-title_caps">
                             <th scope="col">
@@ -66,6 +66,7 @@
                         <aura:iteration var="visit" items="{!v.visits}">
                             <aura:if isTrue="{!not(visit.deleted)}">
                                 <c:VisitItem visit="{!visit}" parent="{!this}"
+                                             selectedRowColor="rgb(243, 242, 242)"
                                              onEdit="{!c.doVisitItemEdit}"
                                              onDelete="{!c.doVisitItemDelete}"/>
                             </aura:if>
