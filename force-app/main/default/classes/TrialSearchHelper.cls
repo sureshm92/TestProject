@@ -46,13 +46,11 @@ public with sharing class TrialSearchHelper {
     }
 
     public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
-        System.debug('taps ===> ' + taps);
         DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = new TrialSearchContainerRemote.TrialSearchContainer();
 
         List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = taps != null ? taps : this.getTherapeuticAreaPatients(proxy);
         Set<Id> taId = new Set<Id>();
-        System.debug(' ===> ' + (!therapeuticAreaPatients.isEmpty() && taId.isEmpty()));
         if (!therapeuticAreaPatients.isEmpty()) {
             for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
                 if (tap.Therapeutic_Area__r.Therapeutic_Area__c != null) {
