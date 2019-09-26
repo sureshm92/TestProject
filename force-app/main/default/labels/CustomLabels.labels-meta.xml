@@ -5019,11 +5019,25 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred timezone</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Suffix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Suffix</shortDescription>
+        <value>Suffix</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Username</shortDescription>
         <value>Username</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Title</shortDescription>
+        <value>Title</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Zip_Postal_Code</fullName>

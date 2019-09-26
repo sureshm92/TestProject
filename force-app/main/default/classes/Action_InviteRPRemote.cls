@@ -61,7 +61,8 @@ public without sharing class Action_InviteRPRemote {
                 l.Study_Site__c = studySiteId;
             }
             l.Status = 'New';
-            l.Invited_by_PI__c = CommunityService.getUserContact().Id;
+            Contact piContact = CommunityService.getUserContact();
+            l.Invited_by_PI__c = piContact.Id;
             if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
@@ -69,7 +70,7 @@ public without sharing class Action_InviteRPRemote {
                 l.setOptions(dmlOpts);
                 insert l;
             } else if (!String.isBlank(studySiteId)) {
-                ReferHealthcareProviderRemote.createHCPinPlatform(studySiteId, firstName, lastName, email, phone);
+                ReferHealthcareProviderRemote.createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact);
             }
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
