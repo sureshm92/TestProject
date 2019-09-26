@@ -5,7 +5,7 @@
 <apex:component id="EmailActionBtnText" access="global" controller="EmailActionBtnController">
     <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
     <apex:attribute name="buttonURL" type="String" description="" access="global" assignTo="{!buttonURLString}"/>
-    <apex:attribute name="sObjId" type="String" description="" access="global" assignTo="{!sObjString}"/>
+    <apex:attribute name="sObjId" type="String" description="" access="global" assignTo="{!sObjIdSting}"/>
 
     {!buttonLabel}: {!resultURL}
 </apex:component>
