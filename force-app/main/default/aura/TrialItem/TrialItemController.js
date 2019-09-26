@@ -14,9 +14,10 @@
                 trialTDO.relatedNotificationExists = true;
                 component.set('v.trialTDO', trialTDO);
                 helper.checkClick(component);
-                communityService.showToast('success',
+                communityService.showSuccessToast(
                     'success',
-                    String.format($A.get('$Label.c.TrialSearch_Toast_Alert_Me_When_Trial_Start'), trial.ctp.Study_Code_Name__c));
+                    String.format($A.get('$Label.c.TrialSearch_Toast_Alert_Me_When_Trial_Start'), trial.ctp.Study_Code_Name__c),
+                    500);
             });
         } else if (!trial.ctp.Link_to_ePR_Campaign__c) {
             component.find('mainSpinner').hide();
@@ -51,9 +52,10 @@
                     if (participantInfo.Id) {
                         component.set('v.participant', participantInfo);
                     }
-                    communityService.showToast('success',
+                    communityService.showSuccessToast(
                         'success',
-                        String.format($A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'), ctp.Study_Code_Name__c));
+                        String.format($A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'), ctp.Study_Code_Name__c),
+                        500);
                     component.find('mainSpinner').hide();
                 }, function (err) {
                     component.find('mainSpinner').hide();
