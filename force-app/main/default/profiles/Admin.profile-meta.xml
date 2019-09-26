@@ -63,6 +63,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovedLangRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -999,6 +1003,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteVisitConfigRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1584,6 +1592,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitIconsConfiguration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4808,6 +4820,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>StudySiteVisitPlan__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_ID__c.ID_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5312,7 +5329,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>TravelVendorSettings__c.By_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5719,6 +5736,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>StudySiteVisitPlan__c-StudySiteVisitPlan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_ID__c-Study ID Layout</layout>
@@ -6183,6 +6203,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Status_History__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>StudySiteVisitPlan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

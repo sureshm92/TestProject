@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 11.09.2019.
  */
 
-public without sharing class Batch_CreateSummaryNotifications extends Batch_ScheduledAbstract{
+public without sharing class Batch_CreateSummaryNotifications extends Batch_ScheduledAbstract {
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
@@ -29,8 +29,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
     public void execute(Database.BatchableContext param1, List<Res_study__c> resStudies) {
         Map<Id, List<Res_study__c>> resStudyByCtp = new Map<Id, List<Res_study__c>>();
         Set<String> resLangs = new Set<String>();
-        for(Res_study__c res : resStudies) {
-            if(!resStudyByCtp.containsKey(res.Clinical_Trial_Profile__c)) {
+        for (Res_study__c res : resStudies) {
+            if (!resStudyByCtp.containsKey(res.Clinical_Trial_Profile__c)) {
                 resStudyByCtp.put(res.Clinical_Trial_Profile__c, new List<Res_study__c>());
             }
             resStudyByCtp.get(res.Clinical_Trial_Profile__c).add(res);
@@ -48,29 +48,51 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Participant_Contact__r.Resource_Notifications__c,
                         Participant_Status__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__c IN: resStudyByCtp.keySet()
-                AND Study_Site__r.Approved_Lng__c IN: resLangs
+                WHERE Clinical_Trial_Profile__c IN:resStudyByCtp.keySet()
+                AND Study_Site__r.Approved_Lng__c IN:resLangs
+                AND Participant__c != NULL
+                AND Participant_Contact__c != NULL
         ];
 
+        Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
         List<Contact> contactToNotify = new List<Contact>();
-        for(Participant_Enrollment__c pe : enrollment) {
+        for (Participant_Enrollment__c pe : enrollment) {
             List<Contact> peContacts = new List<Contact>();
             peContacts.add(pe.Participant_Contact__r);
             peContacts.addAll(PatientDelegateService.getDelegateContacts(pe.Participant_Contact__c));
 
-            for(Res_study__c res : resStudyByCtp.get(pe.Clinical_Trial_Profile__c)) {
-                for(Contact contact : peContacts) {
+            for (Res_study__c res : resStudyByCtp.get(pe.Clinical_Trial_Profile__c)) {
+                for (Contact contact : peContacts) {
                     Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
-                    if(StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, isDelegate)) {
-                        if(needNotify(contact, res.Resource__c)) contactToNotify.add(contact);
+                    if (StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, isDelegate)) {
+                        if (needNotify(contact, res.Resource__c)) {
+                            contactToNotify.add(contact);
+
+                            if(!resIdsByContactId.containsKey(contact.Id)) {
+                                List<String> resIds = contact.Resource_Notifications__c != null ?
+                                        contact.Resource_Notifications__c.split(';') : new List<String>();
+                                resIdsByContactId.put(contact.Id, resIds);
+                            }
+                            resIdsByContactId.get(contact.Id).add(res.Resource__c);
+                        }
                     }
                 }
             }
         }
 
-        if(!contactToNotify.isEmpty()) {
+        if (!contactToNotify.isEmpty()) {
             SendEmailToParticipant.sendPlainSummaryNotifications(contactToNotify, SendEmailToParticipant.PATIENT_PLAIN_SUMMARY);
-            update contactToNotify;
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+            for(Contact con : contactToNotify) {
+                if(!resIdsByContactId.containsKey(con.Id)) continue;
+
+                con.Resource_Notifications__c = String.join(resIdsByContactId.get(con.Id), ';');
+                resIdsByContactId.remove(con.Id);
+                contactsToUpdate.add(con);
+            }
+
+            update contactsToUpdate;
         }
     }
 
@@ -80,15 +102,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
     private Boolean needNotify(Contact contact, Id resourceId) {
         Boolean notify = false;
-        if(contact.Resource_Notifications__c == null) {
-            contact.Resource_Notifications__c = resourceId;
+        if (contact.Resource_Notifications__c == null || !contact.Resource_Notifications__c.contains(resourceId)) {
             notify = true;
-        } else {
-            List<String> resourceIds = contact.Resource_Notifications__c.split(';');
-            if(!resourceIds.contains(resourceId)) {
-                contact.Resource_Notifications__c += ';' + resourceId;
-                notify = true;
-            }
         }
 
         return notify;
