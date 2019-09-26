@@ -20,6 +20,7 @@
         component.set('v.callback', params.callback);
         component.set('v.mode', params.mode);
         component.set('v.visits', []);
+        component.set('v.plan', {});
 
         let vpId = params.vpId;
         if (vpId) {
