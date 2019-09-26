@@ -2,11 +2,11 @@
  * Created by Leonid Bartenev
  */
 ({
-    doMenuExpand: function(component, event, hepler){
+    doMenuExpand: function(component, event, helper){
         component.set('v.isOpened', true);
     },
 
-    doMenuCollapse: function (component, event,halper) {
+    doMenuCollapse: function (component, event, helper) {
         component.set('v.isOpened', false);
     },
 
@@ -18,5 +18,4 @@
         component.set('v.isOpened', true);
     }
 
-
-})
+});
