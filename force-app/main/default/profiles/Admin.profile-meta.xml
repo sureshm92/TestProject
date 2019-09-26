@@ -6596,10 +6596,6 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Healthcare_Provider__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Integration_Patient_Referral__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
