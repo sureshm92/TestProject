@@ -32,7 +32,6 @@
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.isFinalUpdate', false);
-                console.log('returnValue.isEnreolled',returnValue.isEnrolled);
                 if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
                 formComponent.checkFields();
