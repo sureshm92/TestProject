@@ -30,7 +30,7 @@ public without sharing class IRBParticipantService {
                 new List<String>() : pe.get(0).Study_Site__r.Approved_Lng__c.split(';');
 
         IRBModeWrapper wrapper = new IRBModeWrapper();
-        wrapper.isNewSession = CommunityService.isNewSession();
+        //wrapper.isNewSession = CommunityService.isNewSession();
         wrapper.mode = 'no-approved';
 
         Contact userContact = CommunityService.getUserContact();
