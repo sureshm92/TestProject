@@ -8,6 +8,7 @@
     <aura:attribute name="plan" type="Object"/>
     <aura:attribute name="visits" type="List"/>
     <aura:attribute name="icons" type="List"/>
+    <aura:attribute name="iconDetails" type="List"/>
 
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="mode" type="String" access="private"/>

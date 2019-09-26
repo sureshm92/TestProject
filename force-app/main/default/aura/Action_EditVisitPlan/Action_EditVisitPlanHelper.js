@@ -24,6 +24,7 @@
             }
             component.set('v.plan', plan);
             component.set('v.visits', visits);
+            component.set('v.iconDetails', wrapper.iconDetails);
 
             component.find('spinner').hide();
         });

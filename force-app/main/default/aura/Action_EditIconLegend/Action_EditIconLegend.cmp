@@ -5,17 +5,39 @@
 <aura:component description="Action_EditIconLegend">
 
     <aura:attribute name="planId" type="String"/>
+    <aura:attribute name="iconDetails" type="List"/>
+    <aura:attribute name="callback" type="Object"/>
 
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="planId" type="String"/>
+        <aura:attribute name="icons" type="List"/>
+        <aura:attribute name="iconDetails" type="List"/>
         <aura:attribute name="callback" type="Function"/>
-        <aura:attribute name="cancelCallback" type="Function"/>
     </aura:method>
 
     <c:uiModal aura:id="modal" size="medium" headerText="{!$Label.c.Edit_Visit_Legend}">
-        <c:IconPlanetVisitInfoEdit aura:id="legend" planId="{!v.planId}"/>
+        <c:RRTable>
+            <tr>
+                <th class="slds-text-align--center">Icon</th>
+                <th class="priority slds-text-align--center">Icon Label</th>
+                <th class="completed-by slds-text-align--center">Description</th>
+            </tr>
+            <aura:iteration items="{!v.iconDetails}" var="icon">
+                <tr>
+                    <td class="icon-title slds-m-top--medium">
+                        <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.Name}"/>
+                    </td>
+                    <td style="width: 30%">
+                        <lightning:input label="" name="{!icon.label__c}" value="{!icon.Label__c}"/>
+                    </td>
+                    <td>
+                        <lightning:input label="" name="{!icon.description__c}" value="{!icon.Description__c}"/>
+                    </td>
+                </tr>
+            </aura:iteration>
+        </c:RRTable>
         <aura:set attribute="footer">
-            <lightning:button variant="neutral" type="button" name="editLegend" label="{!$Label.c.Visit_b_Close}"
+            <lightning:button variant="neutral" type="button" name="editLegend" label="{!$Label.c.BTN_Cancel}"
                               onclick="{!c.cancelClick}"/>
             <lightning:button variant="brand" type="button" name="save" label="{!$Label.c.Visit_b_Save}"
                               onclick="{!c.saveClick}"/>
