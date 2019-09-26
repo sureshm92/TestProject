@@ -46,4 +46,41 @@ public without sharing class Test_Batch_CreateParticipantNotification {
         Test.stopTest();
 
     }
+
+    @IsTest
+    static void testdataBecomesAvailiable() {
+        Test.startTest();
+        TestData.loadTestData();
+        TestData tstData = new TestData();
+
+        List<Patient_Visit__c> participants = [
+                SELECT  Id,
+                        Completed_Date__c,
+                        Participant_Enrollment__c,
+                        Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
+                        Participant_Enrollment__r.Participant_Contact__r.Visit_Results_Opt_In__c,
+                        Visit_Number__c, (
+                        SELECT
+                                Id,
+                                Actual_Value__c,
+                                Max_Value__c,
+                                Measurement__c,
+                                Min_Value__c,
+                                Patient_Visit__r.Completed_Date__c,
+                                Patient_Visit__r.Notified__c,
+                                Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
+                                Result_Type__c
+                        FROM Visit_Results__r
+                )
+                FROM Patient_Visit__c
+                WHERE Status__c = 'Completed'
+                AND Notified__c = false
+                ORDER BY Visit_Number__c, Completed_Date__c
+        ];
+        new Batch_DataBecomesAvailable().execute(null, participants);
+        Test.stopTest();
+
+    }
 }

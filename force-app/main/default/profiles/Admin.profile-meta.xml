@@ -63,6 +63,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovedLangRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1011,6 +1015,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteVisitConfigRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1603,6 +1611,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>VisitPlanRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>VisitReportContainerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2005,6 +2017,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Logged_Out_Days_Notification__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Link_to_ePR_Campaign__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4368,6 +4385,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Visit__c.Notified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Visit__c.Order__c</field>
         <readable>true</readable>
@@ -4820,6 +4842,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Status_History__c.StudySite__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>StudySiteVisitPlan__c.Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5328,7 +5355,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>TravelVendorSettings__c.By_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5735,6 +5762,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>StudySiteVisitPlan__c-StudySiteVisitPlan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_ID__c-Study ID Layout</layout>
@@ -6199,6 +6229,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Status_History__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>StudySiteVisitPlan__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

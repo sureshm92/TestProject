@@ -31,15 +31,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentInstanceProperties>
-                <name>IconsPackageFIlePath</name>
-                <value>/icons.svg</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>IconsPackageName</name>
-                <value>custom_Icons</value>
-            </componentInstanceProperties>
-            <componentName>VisitPlanConfiguration</componentName>
+            <componentName>StudySiteVisitConfig</componentName>
         </componentInstances>
         <name>Facet-e7b91726-63ab-4a68-b98f-a1f8810be2c5</name>
         <type>Facet</type>

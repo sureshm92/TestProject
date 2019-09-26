@@ -3,15 +3,15 @@
  */
 
 public without sharing class PaginationData {
-    public Integer allRecordsCount;
-    public Integer pagesCount;
-    public Integer pageRecordsCount;
-    public Integer currentPage;
-    public Integer offset;
-    public Integer endOffset;
-    public Integer currentPageCount;
-    public List<LabelValueItem> pages;
-    public List<LabelValueItem> recordCountVariants;
+    @AuraEnabled public Integer allRecordsCount;
+    @AuraEnabled public Integer pagesCount;
+    @AuraEnabled public Integer pageRecordsCount;
+    @AuraEnabled public Integer currentPage;
+    @AuraEnabled public Integer offset;
+    @AuraEnabled public Integer endOffset;
+    @AuraEnabled public Integer currentPageCount;
+    @AuraEnabled public List<LabelValueItem> pages;
+    @AuraEnabled public List<LabelValueItem> recordCountVariants;
 
     public PaginationData(){
         currentPage = 1;

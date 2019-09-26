@@ -103,6 +103,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_DataBecomesAvailable</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2001,6 +2005,11 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Link_to_Pre_screening__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Logged_Out_Days_Notification__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3978,11 +3987,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Referral_Source_ID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_Source__c</field>
         <readable>true</readable>
@@ -4365,6 +4369,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Visit__c.Is_Adhoc__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Visit__c.Notified__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4820,6 +4829,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Status_History__c.StudySite__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>StudySiteVisitPlan__c.Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5528,13 +5542,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Account-Account Layout</layout>
-        <recordType>Account.Business_Account</recordType>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5735,6 +5742,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>StudySiteVisitPlan__c-StudySiteVisitPlan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_ID__c-Study ID Layout</layout>

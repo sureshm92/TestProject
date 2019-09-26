@@ -4824,6 +4824,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>StudySiteVisitPlan__c.Study_Site__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_ID__c.ID_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5735,6 +5740,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>StudySiteVisitPlan__c-StudySiteVisitPlan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_ID__c-Study ID Layout</layout>
