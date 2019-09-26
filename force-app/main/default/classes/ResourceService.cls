@@ -45,9 +45,10 @@ public inherited sharing class ResourceService {
         return this.pState;
     }
 
-    public String getParticipantLanguage() {
-        String language = this.getParticipant().Contact__r.Language__c;
-        return (String.isBlank(language) ? ResourceService.DEFAULT_LANGUAGE : language);
+    public List<String> getParticipantLanguage() {
+        List<String> languages = IRBParticipantService.getIRBApprovedLanguages(pState.pe.Id,pState.value);
+        //String language = this.getParticipant().Contact__r.Language__c;
+        return (languages.isEmpty() ? new List<String>{ResourceService.DEFAULT_LANGUAGE} : languages);
     }
 
     public Participant__c getParticipant(String resourceType) {
@@ -117,8 +118,9 @@ public inherited sharing class ResourceService {
                         'Version_Date__c, ' +
                         '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participant.Id + '\') ' +
                         'FROM Resource__c ' +
-                        whereClause +
+                        whereClause + ' '+
                         (String.isBlank(orderByClause) ? '' : orderByClause + ' ');
+        System.debug('resourcesQuery>>'+resourcesQuery);
         return (List<Resource__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(resourcesQuery, true);
     }
 
