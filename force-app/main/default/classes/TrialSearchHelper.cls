@@ -62,7 +62,7 @@ public with sharing class TrialSearchHelper {
             trialSearchContainer.taps = new List<Therapeutic_Area_Patient__c>();
         }
 
-        if (!isEnrolling && !isNotYetEnrolling) {
+        if (!isEnrolling && !isNotYetEnrolling || (!therapeuticAreaPatients.isEmpty() && taId.isEmpty())) {
             return trialSearchContainer;
         }
         List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy, isEnrolling, isNotYetEnrolling);
@@ -193,7 +193,7 @@ public with sharing class TrialSearchHelper {
     @TestVisible
     private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
         Set<String> contactLanguage = this.getContactLanguage(proxy);
-        Set<Id> ssIds = getUsersQCareSiteIds(proxy);
+        Set<Id> ssIds = this.getUsersQCareSiteIds(proxy);
         String whereClause = new TrialSearchWhereClauseFactory().getInstance(new List<Id>(taId), isEnrolling, isNotYetEnrolling, ssIds).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
         String queryCTP = 'SELECT ' +
@@ -207,7 +207,7 @@ public with sharing class TrialSearchHelper {
                 'NCT_Number__c, ' +
                 'Link_to_ePR_Campaign__c, ' +
                 '(SELECT Id FROM Trial_Notifications__r WHERE Contact__c = \'' + CommunityService.getUserContact().Id + '\'), ' +
-                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r WHERE Approved_Lng__c INCLUDES ' + '(\'' + String.join(new List<String>(contactLanguage), '\',\'') + '\')) ' +
+                '(SELECT Approved_Lng__c FROM Study_Site_Profiles__r WHERE Approved_Lng__c INCLUDES (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(contactLanguage)) + ')) ' +
                 'FROM Clinical_Trial_Profile__c ';
 
         queryCTP += whereClause;
@@ -285,8 +285,8 @@ public with sharing class TrialSearchHelper {
                 'Study_Site__c ' +
                 'FROM Participant_Enrollment__c ' +
                 'WHERE Study_Site__r.Partner_Type__c = \'' + QCARE_TYPE + '\' ' +
-                'AND Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\'' +
-                'AND Participant_Status__c IN (\'' + String.join(PS_ES, '\',\'') + '\')';
+                'AND Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                'AND Participant_Status__c IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(PS_ES)) + ')';
         List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) proxy.query(query, true);
         Set<Id> ssIds = new Set<Id>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
