@@ -69,7 +69,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         }
 
         if(!contactToNotify.isEmpty()) {
-            SendEmailToParticipant.sendPlainSummaryNotifications(contactToNotify);
+            SendEmailToParticipant.sendPlainSummaryNotifications(contactToNotify, SendEmailToParticipant.PATIENT_PLAIN_SUMMARY);
             update contactToNotify;
         }
     }

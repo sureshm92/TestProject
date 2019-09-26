@@ -1688,6 +1688,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Available</shortDescription>
+        <value>Please login and check Visits data become available.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2278,6 +2285,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>Email Guest User Name</shortDescription>
         <value>Guest</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Available</shortDescription>
+        <value>This is email to notify you about lab data or vitals become available</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -8422,6 +8436,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Participant Not Logged In</shortDescription>
         <value>You not logged in to IQVIA for some time, we miss you</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Visits_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Visits Available</shortDescription>
+        <value>Your data become available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>

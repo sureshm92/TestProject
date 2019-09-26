@@ -30,6 +30,7 @@ public without sharing class SendEmailToParticipant {
     public static final String PATIENT_PLAIN_SUMMARY = 'Patient_Plain_Summary';
     public static final String PATIENT_LOGIN = 'Patient_Log_In_Template';
     public static final String PATIENT_CREATED_DATE = 'Patient_CreatedDate_Template';
+    public static final String PATIENT_VISITS_AVAILABLE = 'Patient_Visits_Become_Availiable';
 
     @InvocableMethod(Label='Send Email To Participant with Delegates')
     public static void sendEmailNotificationWithDelegates(List<Task> tasks) {
@@ -169,13 +170,13 @@ public without sharing class SendEmailToParticipant {
         SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
-    public static void sendPlainSummaryNotifications(List<Contact> contacts) {
+    public static void sendPlainSummaryNotifications(List<Contact> contacts, String nameOfEmailTemplate) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         for(Contact con : contacts) {
             addPatientToEmailListIfAvailable(
                     emailMessages,
                     con,
-                    PATIENT_PLAIN_SUMMARY,
+                    nameOfEmailTemplate,
                     null
             );
         }
