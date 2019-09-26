@@ -32,5 +32,6 @@
     saveClick: function (component, event, helper) {
         let callback = component.get('v.callback');
         if(callback) callback(component.get('v.iconDetails'));
+        component.find('modal').hide();
     }
 });
