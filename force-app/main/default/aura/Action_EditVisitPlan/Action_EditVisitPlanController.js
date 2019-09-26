@@ -43,7 +43,14 @@
     },
 
     doEditLegend: function (component, event, helper) {
-        component.find('actionLegend').execute(component.get('v.plan').Id);
+        component.find('actionLegend').execute(
+            component.get('v.plan').Id,
+            component.get('v.icons'),
+            component.get('v.iconDetails'),
+            function (iconDetails) {
+                component.set('v.iconDetails', iconDetails);
+            }
+        );
     },
 
     doAddVisit: function (component, event, helper) {
