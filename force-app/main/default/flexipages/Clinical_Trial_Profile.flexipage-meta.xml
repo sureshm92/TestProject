@@ -17,13 +17,6 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>ApproveLanguageIRB</componentName>
-        </componentInstances>
-        <name>Facet-bea3fd72-3e96-48e5-978f-d2da18ec4c56</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <componentInstances>
             <componentName>force:detailPanel</componentName>
         </componentInstances>
         <name>Facet-b52f5feb-2e46-448c-b7e8-eda3de42b92e</name>
@@ -80,16 +73,12 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentInstanceProperties>
-                <name>body</name>
-                <value>Facet-bea3fd72-3e96-48e5-978f-d2da18ec4c56</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>title</name>
-                <value>Approved Languages</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:tab</componentName>
+            <componentName>ApproveLanguageIRB</componentName>
         </componentInstances>
+        <name>Facet-bea3fd72-3e96-48e5-978f-d2da18ec4c56</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
@@ -131,6 +120,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Trial Survey</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-bea3fd72-3e96-48e5-978f-d2da18ec4c56</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Approved Languages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>
