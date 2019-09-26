@@ -25,7 +25,7 @@
                                       iconName="utility:close"
                                       variant="bare-inverse"
                                       onclick="{!c.doCancel}"/>
-                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.headerText}</h2>
+                <h2 class="slds-modal__title slds-text-heading_medium slds-hyphenate">{!v.headerText}</h2>
             </header>
             <div class="slds-modal__content slds-p-around_medium">
                 {!v.body}

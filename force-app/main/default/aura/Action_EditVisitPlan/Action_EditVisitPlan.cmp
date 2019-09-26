@@ -25,17 +25,12 @@
     <c:uiModal aura:id="createVisitPlan" size="medium" headerText="Add Visit Plan">
         <div style="position: relative">
             <c:RRSpinner aura:id="spinner"/>
-            <div class="slds-grid slds-gutters slds-grid_vertical-align-end slds-p-bottom--small">
-                <div class="slds-col slds-size--2-of-5">
-                    <lightning:input type="text" label="Visit Plan Name" value="{!v.plan.Name}"/>
-                </div>
-                <div class="slds-col slds-size--1-of-5"></div>
-                <div class="slds-col slds-size--1-of-5">
-                    <lightning:button variant="neutral" type="button" label="{!$Label.c.Edit_Visit_Legend}"
+            <div class="toolbar">
+                <lightning:input class="inline-input" type="text" label="Visit Plan Name" value="{!v.plan.Name}"/>
+                <div>
+                    <lightning:button class="toolbar-btn" variant="neutral" type="button" label="{!$Label.c.Edit_Visit_Legend}"
                                       onclick="{!c.doEditLegend}"/>
-                </div>
-                <div class="slds-col slds-size--1-of-5">
-                    <lightning:button variant="neutral" type="button" label="{!$Label.c.Visit_b_Add_Visit}"
+                    <lightning:button class="toolbar-btn" variant="neutral" type="button" label="{!$Label.c.Visit_b_Add_Visit}"
                                       onclick="{!c.doAddVisit}"/>
                 </div>
             </div>
@@ -78,7 +73,7 @@
         </div>
         <aura:set attribute="footer">
             <lightning:button variant="neutral" type="button" name="createVisitPlan"
-                              label="{!$Label.c.Visit_b_Close}"
+                              label="{!$Label.c.BTN_Cancel}"
                               onclick="{!c.cancelClick}"/>
             <lightning:button variant="brand" type="button" name="save" label="{!$Label.c.Visit_b_Save}"
                               disabled="{!empty(v.plan.Name)}" onclick="{!c.saveVP}"/>
