@@ -23,7 +23,7 @@
 
     <!--Create/Edit Visit Plan-->
     <c:uiModal aura:id="createVisitPlan" size="medium" headerText="Add Visit Plan">
-        <div style="position: relative">
+        <div class="edit-vp-container">
             <c:RRSpinner aura:id="spinner"/>
             <div class="toolbar">
                 <lightning:input class="inline-input" type="text" label="Visit Plan Name" value="{!v.plan.Name}"/>
@@ -55,6 +55,7 @@
                             <th scope="col">
                                 <div class="slds-truncate">{!$Label.c.Visit_Icons}</div>
                             </th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
