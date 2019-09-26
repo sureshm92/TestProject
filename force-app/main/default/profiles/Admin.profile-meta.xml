@@ -91,6 +91,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipants</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -144,6 +148,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateScreeningIds</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UserCreatedDateNotification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -775,6 +783,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ReferHealthcareProviderRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ReferralNetworkService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1108,6 +1120,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateParticipantNotification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1987,8 +2003,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Link_to_ePR_Campaign__c</field>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Logged_Out_Days_Notification__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2377,6 +2393,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Invited_By_PI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Is_First_Logon__c</field>
         <readable>true</readable>
@@ -2447,8 +2468,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Profile_Update_Years_Notification__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Provider_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.RP_Invited_By_PI__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6528,6 +6559,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Healthcare_Provider__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

@@ -91,6 +91,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     Email = email,
                     AccountId = studySite.Site__c,
                     Language__c = UserInfo.getLanguage(),
+                    RP_Invited_By_PI__c = true,
                     MailingCountry = studySite.Site__r.BillingCountry));
             insert cntList;
         }
