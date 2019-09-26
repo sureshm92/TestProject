@@ -5,11 +5,11 @@
 global without sharing class EmailActionBtnController {
     
     global String buttonURLString {get; set;}
-    global String caseIdString {get; set;}
+    global String sObjectIdSting {get; set;}
 
     public String getResultURL(){
         String result = buttonURLString;
-        if (String.isBlank(caseIdString)) {
+        if (String.isBlank(sObjectIdSting)) {
             if(result == null) result = '';
 
             if(!result.containsIgnoreCase('http')){
@@ -17,7 +17,7 @@ global without sharing class EmailActionBtnController {
                 result = getCurrentCommunityURL() + result;
             }
         } else {
-            result = Url.getOrgDomainUrl().toExternalForm() + '/' + caseIdString;
+            result = Url.getOrgDomainUrl().toExternalForm() + '/' + sObjectIdSting;
         }
 
         return result;
