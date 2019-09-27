@@ -87,11 +87,21 @@ public without sharing class HCPEnrollmentTriggerHandler {
         for(User user : CommunityService.getCommunityUsersByContactIds(hcpContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
         Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
+        Map<Id, Id> contactsForSendNotificationByPiMap = new Map<Id, Id>();
+        List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newList.keySet()];
+        Map<Id, Healthcare_Provider__c> hpsByHCPE = new Map<Id, Healthcare_Provider__c>();
+        for (Healthcare_Provider__c hp : hps) {
+            hpsByHCPE.put(hp.HCP_Contact__c, hp);
+        }
         for(HCP_Enrollment__c hcpe : newList){
             if(hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))){
                 if(contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)){
-                    contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                    if (hpsByHCPE.get(hcpe.Id) != null) {
+                        contactsForSendNotificationByPiMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                    } else {
+                        contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                    }
                 }else{
                     contactIdsForCreateUsers.add(hcpe.HCP_Contact__c);
                 }
@@ -99,6 +109,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
         if (contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
         if (contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP, contactsForSendNotificationMap);
+        if (contactsForSendNotificationByPiMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_BY_PI, contactsForSendNotificationByPiMap);
     }
     
     @TestVisible
