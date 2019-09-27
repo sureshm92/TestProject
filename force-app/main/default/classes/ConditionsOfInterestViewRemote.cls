@@ -14,14 +14,4 @@ public with sharing class ConditionsOfInterestViewRemote {
         }
     }
 
-    @AuraEnabled
-    public static void upsertTaps(List<Therapeutic_Area_Patient__c> taps) {
-        try {
-            TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            helper.upsertTaps(taps);
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-
 }
