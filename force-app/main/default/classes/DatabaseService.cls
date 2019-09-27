@@ -4,6 +4,8 @@
 
 public without sharing class DatabaseService {
 
+    public static final String SEPARATOR = '\',\'';
+
     private static DatabaseService instance;
 
     public static DatabaseService getInstance(){
@@ -109,10 +111,10 @@ public without sharing class DatabaseService {
         return ' ' + field + ' NOT IN ' + listToString(sObjects) + ' ' ;
     }
     public static String fieldInValues(String field, List<String> values){
-        return ' ' + field + ' IN (\'' + String.join(values, '\',\'') + '\') ' ;
+        return ' ' + field + ' IN (\'' + String.join(values, SEPARATOR) + '\') ' ;
     }
     public static String fieldNotInValues(String field, List<String> values){
-        return ' ' + field + ' NOT IN (\'' + String.join(values, '\',\'') + '\') ' ;
+        return ' ' + field + ' NOT IN (\'' + String.join(values, SEPARATOR) + '\') ' ;
     }
 
     public static String fieldLike(String field, String value){

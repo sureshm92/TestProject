@@ -38,7 +38,9 @@ public without sharing class MotivationalMessagesRemote {
             if(messageForShow != null && participantState.pe.Motivational_Message_Id__c != messageForShow.DeveloperName){
                 participantState.pe.Motivational_Message_Id__c = messageForShow.DeveloperName;
                 update participantState.pe;
-                return TranslateHelper.getLabelValue(messageForShow.Custom_Label_Name__c);
+                String resultMessage = TranslateHelper.getLabelValue(messageForShow.Custom_Label_Name__c);
+                resultMessage = CatalogParametersHelper.prepareMergeFields(resultMessage, participantState.ctp.Id, 'Email_Template_Parameters_From_CTP');
+                return resultMessage;
             }
         }catch (Exception e){
             AuraHelper.throwException(e);

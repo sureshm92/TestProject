@@ -4,16 +4,16 @@
 
 public without sharing class RRChangePasswordController {
     public String photolink{get;set;}
-    
+
     //The binary data of the image uploaded by the user
     public transient Blob blobValue {get; set;}
 
     //The content type, determined by Salesforce, of the image uploaded by the user
     public transient String contentType {get; set;}
-    
+
     // The name of the image file uploaded by the user
     public transient String filename {get; set;}
- 
+
     public String oldPassword {get; set;}
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
@@ -26,6 +26,7 @@ public without sharing class RRChangePasswordController {
     public String userLocale {get; set;}
     public transient String userLanguage {get; set;}
 
+    public Boolean notEnrollNow {get; set;}
     public Boolean isProfileView {get; set;}
     public String tcText {get; set;}
     public String tcId {get; set;}
@@ -34,7 +35,9 @@ public without sharing class RRChangePasswordController {
 
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
-    
+
+    private String oldAccountName;
+
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -48,26 +51,42 @@ public without sharing class RRChangePasswordController {
                         Contact.FirstName,
                         Contact.LastName,
                         Contact.MailingAddress,
+                        Contact.Salutation,
+                        Contact.MiddleName,
+                        Contact.Suffix,
+                        Contact.MailingCountry,
+                        Contact.MailingCity,
+                        Contact.MailingPostalCode,
+                        Contact.MailingState,
+                        Contact.MailingStreet,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
+                        Contact.userCommunytyType__c,
                         Contact.userCommunityMode__c,
                         Contact.UserCommunityIsDelegate__c,
+                        Contact.Phone,
+                        Contact.Fax,
+                        Contact.OwnerId,
                         LanguageLocaleKey,
                         LocaleSidKey
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
-        
+        notEnrollNow = !(contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
                         Account.BillingCity, Account.BillingState, Account.Fax,
                         Account.BillingCountry, Account.BillingPostalCode,
-                        Account.BillingCountryCode,
-                        Language__c
+                        Account.BillingCountryCode, Language__c, MailingAddress,
+                        Salutation, MiddleName, Suffix, MailingCountry, MailingCity,
+                        MailingPostalCode, MailingState, MailingStreet, OwnerId,
+                        userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
         account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
+        oldAccountName = account.Name;
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -78,7 +97,7 @@ public without sharing class RRChangePasswordController {
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;
         }
-        
+
         isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
         if(isParticipant) {
             participant = [
@@ -103,7 +122,7 @@ public without sharing class RRChangePasswordController {
                 update userVal;
             }
 
-            if (tcId!=null) {           
+            if (tcId!=null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
                 tca.Accepted_Date__c = Datetime.now();
                 tca.Terms_And_Conditions__c = tcId;
@@ -126,6 +145,24 @@ public without sharing class RRChangePasswordController {
     public void checkPasswords(){
         Site.validatePassword(userVal, newPassword, verifyNewPassword);
         if(ApexPages.getMessages().size() == 0) isProfileView = false;
+
+        if (!notEnrollNow) {
+            update contact;
+
+            if (account.Name != oldAccountName) {
+                insert new Account(
+                        Name = account.Name,
+                        BillingCountry = contact.MailingCountry,
+                        BillingCity = contact.MailingCity,
+                        BillingState = contact.MailingState,
+                        BillingStreet = contact.MailingStreet,
+                        BillingPostalCode = contact.MailingPostalCode,
+                        Phone = contact.Phone,
+                        Fax = contact.Fax,
+                        OwnerId = contact.OwnerId
+                );
+            }
+        }
     }
 
     public void upload() {
@@ -133,7 +170,7 @@ public without sharing class RRChangePasswordController {
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
     }
-    
+
     public void updatePhotoURL(){
     }
 
@@ -158,7 +195,7 @@ public without sharing class RRChangePasswordController {
         if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
         updateLanguageAction();
     }
-    
+
     public void updateLanguageAction(){
         update new User(
                 Id = userVal.Id,
@@ -166,7 +203,7 @@ public without sharing class RRChangePasswordController {
         );
         updateTranslations();
     }
-    
+
     public void translateFieldsAction(){
         updateTranslations();
     }

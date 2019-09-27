@@ -19,6 +19,7 @@
     <aura:attribute name="todayDate" type="Date" access="private"/>
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="dataStamp" type="String"/>
+    <aura:attribute name="visitPlanDisabled" type="Boolean"/>
 
 
     <!-- methods: -->
@@ -154,6 +155,17 @@
                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                     <lightning:input type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
                 </div>
+                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                    <div class="label">
+                        <aura:if isTrue="{!v.screeningRequired}">
+                            <abbr title="required" class="slds-required">*</abbr>
+                        </aura:if>Visit Plan TODO
+                    </div>
+                    <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled}"
+                                value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
+                                useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                </div>
+
             </div>
         </div>
     </div>

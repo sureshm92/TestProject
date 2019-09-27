@@ -52,15 +52,6 @@ public without sharing class ViewPatientsRemote {
                     'Participant__r.Last_Name__c',
                     'Screening_ID__c',
                     'Name'
-                    /*'Referral_ID__c',
-                    'Patient_ID__c',
-                    'Participant_Name__c',
-                    'Participant_Surname__c',
-                    'Medical_Record_Review_Status__c',
-                    'Participant_Status__c',
-                    'Pre_screening_Status__c',
-                    'Non_Referral_Reason__c',
-                    'CreatedDate'*/
             };
             //add additional filtration:
             List<String> excludedStatuses = new List<String>{
@@ -94,32 +85,24 @@ public without sharing class ViewPatientsRemote {
             List<LabelValueItem> trialFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRRL_L_All_studies, null)};
             List<LabelValueItem> ssFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_Report_L_All_study_sites, null)};
             List<LabelValueItem> statusFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRR_L_All_Statuses, null)};
-            Set<Id> trialIds = new Set<Id>();
-            Set<Id> ssIds = new Set<Id>();
-            Set<String> statuses = new Set<String>();
-            for (Integer i = 0, j=peList.size(); i < j; i++) {
-                if(!trialIds.contains(peList[i].Study_Site__r.Clinical_Trial_Profile__c)){
-                    trialFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id));
-                    trialIds.add(peList[i].Study_Site__r.Clinical_Trial_Profile__c);
+            Map<String,Map<String,String>> fieldMap = ParticipantEnrollmentService.FILTER_FIELD_MAP;
+            if(!peList.isEmpty()) {
+                Map<String, List<LabelValueItem>> filterData = getInterdependentFilterData(peList, fieldMap);
+                trialFilterData.addAll(filterData.get(ParticipantEnrollmentService.STUDIES_FILTER_DATA_FIELD));
+                ssFilterData.addAll(filterData.get(ParticipantEnrollmentService.STUDY_SITES_FILTER_DATA_FIELD));
+                statusFilterData.addAll(filterData.get(ParticipantEnrollmentService.STATUSES_FILTER_DATA_FIELD));
+                for (Integer i = 0, j = peList.size(); i < j; i++) {
+                    if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
+                        sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c, peList[i].HCP_Contact_HCPEnroll__r.Name);
+                    } else if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
+                        sourceMap.put(peList[i].PI_Contact__c, peList[i].PI_Contact__r.Name);
+                    } else {
+                        sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT, ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
+                    }
                 }
-                if(!ssIds.contains(peList[i].Study_Site__c)){
-                    ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
-                    ssIds.add(peList[i].Study_Site__c);
+                for (String key : sourceMap.keySet()) {
+                    peSource.add(new LabelValueItem(sourceMap.get(key), key));
                 }
-                if(!statuses.contains(peList[i].Participant_Status__c)){
-                    statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
-                    statuses.add(peList[i].Participant_Status__c);
-                }
-                if(peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP){
-                    sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c,peList[i].HCP_Contact_HCPEnroll__r.Name);
-                } else if(peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI){
-                    sourceMap.put(peList[i].PI_Contact__c,peList[i].PI_Contact__r.Name);
-                } else{
-                    sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT,ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
-                }
-            }
-            for(String key : sourceMap.keySet()){
-                peSource.add(new LabelValueItem(sourceMap.get(key), key));
             }
             initData.peFilterData.studies = trialFilterData;
             initData.peFilterData.studySites = ssFilterData;
@@ -152,8 +135,6 @@ public without sharing class ViewPatientsRemote {
                 new LabelValueItem(SortOrder.ORDER_A_Z, 'Alphabetical_ASC,Participant__r.First_Name__c,Participant__r.Last_Name__c'),
                 new LabelValueItem(SortOrder.ORDER_Z_A, 'Alphabetical_DESC,Participant__r.First_Name__c,Participant__r.Last_Name__c')
         });
-        ParticipantEnrollmentService.PEFilter activefilter = new ParticipantEnrollmentService.PEFilter(result.peFilterData);
-        activefilter.activePE = filter.activePE;
         /*if(!String.isEmpty(filter.searchText)){
             Map<String,Object> filterMap = (Map<String,Object>) JSON.deserializeUntyped(filterJSON);
             for(String key : filterMap.keySet()){
@@ -179,13 +160,13 @@ public without sharing class ViewPatientsRemote {
                 filter.referringClinic = null;*/
 
                 if(piBtnFilter.equalsIgnoreCase('Pending')){
-                    activefilter.additionalFilter += ' AND Participant_Status__c IN ' +
+                    filter.additionalFilter += ' AND Participant_Status__c IN ' +
                             '(\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[0].states.values(), '\',\'') + '\')'
                             + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
                             + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
                             + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
                 }else{
-                    activefilter.additionalFilter += ' AND Participant_Status__c IN ' +
+                    filter.additionalFilter += ' AND Participant_Status__c IN ' +
                             '(\'' + String.join(PEStatusState.STATUSES_IN_PROGRESS, '\',\'') + '\')'
                             + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
                             + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
@@ -193,68 +174,27 @@ public without sharing class ViewPatientsRemote {
                 }
             }
             else if(userMode == CommunityService.USER_MODE_HCP){
-                activefilter.additionalFilter += + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
+                filter.additionalFilter += + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
                         + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
                         + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
             }
-            System.debug('additionalFilter' + activefilter.additionalFilter);
-
-
+            System.debug('additionalFilter' + filter.additionalFilter);
             result.paginationData = pagination;
 
 
-            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(activefilter, pagination, delegateId);
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(filter, pagination, delegateId);
             List<LabelValueItem> peSource = new List<LabelValueItem>{new LabelValueItem(Label.PG_MRR_L_All_Sources, null)};
-            Map<String,String> sourceMap = new Map<String,String>();
             List<LabelValueItem> trialFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRRL_L_All_studies, null)};
             List<LabelValueItem> ssFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_Report_L_All_study_sites, null)};
             List<LabelValueItem> statusFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRR_L_All_Statuses, null)};
-            Set<Id> trialIds = new Set<Id>();
-            Set<Id> ssIds = new Set<Id>();
-            Set<String> statuses = new Set<String>();
-            for (Integer i = 0, j = peList.size(); i < j; i++) {
-                if(!trialIds.contains(peList[i].Study_Site__r.Clinical_Trial_Profile__c)){
-                    trialFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id));
-                    trialIds.add(peList[i].Study_Site__r.Clinical_Trial_Profile__c);
-                }
-
-                if (!String.isEmpty(filter.study)) {
-                    if (peList[i].Study_Site__r.Clinical_Trial_Profile__r.Id == filter.study) {
-                        if(!ssIds.contains(peList[i].Study_Site__c)){
-                            ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
-                            ssIds.add(peList[i].Study_Site__c);
-                        }
-                        if (!String.isEmpty(filter.studySite)) {
-                            if (peList[i].Study_Site__r.Id == filter.studySite) {
-                                if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
-                                    sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c, peList[i].HCP_Contact_HCPEnroll__r.Name);
-                                } else if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
-                                    sourceMap.put(peList[i].PI_Contact__c, peList[i].PI_Contact__r.Name);
-                                } else {
-                                    sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT, ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
-                                }
-                            }
-                        } else {
-                            if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
-                                sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c, peList[i].HCP_Contact_HCPEnroll__r.Name);
-                            } else if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
-                                sourceMap.put(peList[i].PI_Contact__c, peList[i].PI_Contact__r.Name);
-                            } else {
-                                sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT, ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
-                            }
-                        }
-                        if(!statuses.contains(peList[i].Participant_Status__c)){
-                            statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
-                            statuses.add(peList[i].Participant_Status__c);
-                        }
-
-                    }
-                } else {
-                    if(!ssIds.contains(peList[i].Study_Site__c)){
-                        ssFilterData.add(new LabelValueItem(peList[i].Study_Site__r.Name, peList[i].Study_Site__r.Id));
-                        ssIds.add(peList[i].Study_Site__c);
-                    }
-                    statusFilterData.add(new LabelValueItem(peList[i].Participant_Status__c, peList[i].Participant_Status__c));
+            if(!peList.isEmpty()) {
+                Map<String,Map<String,String>> fieldMap = ParticipantEnrollmentService.FILTER_FIELD_MAP;
+                Map<String, List<LabelValueItem>> filterData = getInterdependentFilterData(peList, fieldMap);
+                trialFilterData.addAll(filterData.get(ParticipantEnrollmentService.STUDIES_FILTER_DATA_FIELD));
+                ssFilterData.addAll(filterData.get(ParticipantEnrollmentService.STUDY_SITES_FILTER_DATA_FIELD));
+                statusFilterData.addAll(filterData.get(ParticipantEnrollmentService.STATUSES_FILTER_DATA_FIELD));
+                Map<String,String> sourceMap = new Map<String,String>();
+                for (Integer i = 0, j = peList.size(); i < j; i++) {
                     if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
                         sourceMap.put(peList[i].HCP_Contact_HCPEnroll__c, peList[i].HCP_Contact_HCPEnroll__r.Name);
                     } else if (peList[i].Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
@@ -263,9 +203,9 @@ public without sharing class ViewPatientsRemote {
                         sourceMap.put(ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT, ParticipantEnrollmentService.PE_REFERRAL_SOURCE_DIGITAL_RECRUITMENT);
                     }
                 }
-            }
-            for(String key : sourceMap.keySet()){
-                peSource.add(new LabelValueItem(sourceMap.get(key), key));
+                for (String key : sourceMap.keySet()) {
+                    peSource.add(new LabelValueItem(sourceMap.get(key), key));
+                }
             }
             result.peFilterData.studies = trialFilterData;
             result.peFilterData.studySites = ssFilterData;
@@ -363,24 +303,55 @@ public without sharing class ViewPatientsRemote {
         return resultList;
     }
 
-    public static  Map<String,Map<String,String>> getFilterData(List<Participant_Enrollment__c> peList){
-        Map<String,Map<String,String>> filterData = new Map<String,Map<String,String>>{
-                'studies' => new Map<String,String>{null => Label.PG_MRRL_L_All_studies},
-                'studySites' => new Map<String,String>{null => Label.PG_Report_L_All_study_sites},
-                //'source' => new Map<String,String>{null => Label.PG_MRR_L_All_Sources},
-                'statuses' => new Map<String,String>{null => Label.PG_MRR_L_All_Statuses}
-        };
-        Map<String,Map<String,String>> fieldMap = new Map<String,Map<String,String>>{
-                'studies' => new Map<String,String>{'Study_Site__r.Clinical_Trial_Profile__c' => 'Study_Site__r.Clinical_Trial_Profile__c.Study_Code_Name__c'},
-                'studySites' => new Map<String,String>{'Study_Site__c' => 'Study_Site__r.Name'},
-                //'source' => new Map<String,String>{'Referral_Source_ID__c',
-                'statuses' => new Map<String,String>{'Participant_Status__c' => 'Participant_Status__c'}
-        };
-        for(Participant_Enrollment__c pe : peList){
-            for(String key : filterData.keySet()){
-                //filterData.get(key).put(pe[fieldMap.get(key).keySet()[0]],pe[fieldMap.get(key).values()[0]]);
+    public static Map<String, List<LabelValueItem>> getInterdependentFilterData(List<SObject> recordsList, Map<String, Map<String, String>> fieldMapping) {
+        try {
+            Map<String, Map<String, String>> filterData = new Map<String, Map<String, String>>();
+            for (SObject obj : recordsList) {
+                for (String key : fieldMapping.keySet()) {
+                    String fieldLabelValue;
+                    String fieldValue;
+                    Map<String, String> fields = fieldMapping.get(key);
+                        String valueKey = new List<String>(fields.keySet()).get(0);
+                        String labelKey = fields.get(valueKey);
+                        List<String> fieldsForValues = valueKey.split('\\.');
+                        List<String> fieldsForLabels = labelKey.split('\\.');
+                        SObject valuesObject = obj;
+                        SObject labelObject = obj;
+                        for (Integer i = 0, j = fieldsForValues.size(); i < j; i++) {
+                            if (i + 1 != j) {
+                                valuesObject = valuesObject.getSObject(fieldsForValues[i]);
+                            } else {
+                                fieldValue = String.valueOf(valuesObject.get(fieldsForValues[i]));
+                            }
+                        }
+                        for (Integer x = 0, y = fieldsForLabels.size(); x < y; x++) {
+                            if (x + 1 != y) {
+                                labelObject = labelObject.getSObject(fieldsForLabels[x]);
+                            } else {
+                                fieldLabelValue = String.valueOf(labelObject.get(fieldsForLabels[x]));
+                            }
+                        }
+                    if (filterData.containsKey(key)) {
+                        filterData.get(key).put(fieldValue, fieldLabelValue);
+                    } else {
+                        filterData.put(key, new Map<String, String>{
+                                fieldValue => fieldLabelValue
+                        });
+                    }
+                }
             }
+            Map<String, List<LabelValueItem>> finalfilterData = new Map<String, List<LabelValueItem>>();
+            for (String key : filterData.keySet()) {
+                Map<String, String> data = filterData.get(key);
+                List<LabelValueItem> dataItems = new List<LabelValueItem>();
+                for (String dataKey : data.keySet()) {
+                    dataItems.add(new LabelValueItem(data.get(dataKey), dataKey));
+                }
+                finalfilterData.put(key, dataItems);
+            }
+            return finalfilterData;
+        } catch (Exception e) {
+            return (Map<String, List<LabelValueItem>>) AuraHelper.throwException(e);
         }
-        return filterData;
     }
 }
