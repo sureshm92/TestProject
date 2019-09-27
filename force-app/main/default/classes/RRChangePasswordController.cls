@@ -36,6 +36,8 @@ public without sharing class RRChangePasswordController {
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
 
+    private String oldAccountName;
+
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -62,6 +64,9 @@ public without sharing class RRChangePasswordController {
                         Contact.userCommunytyType__c,
                         Contact.userCommunityMode__c,
                         Contact.UserCommunityIsDelegate__c,
+                        Contact.Phone,
+                        Contact.Fax,
+                        Contact.OwnerId,
                         LanguageLocaleKey,
                         LocaleSidKey
                 FROM User WHERE Id =: userId
@@ -75,12 +80,13 @@ public without sharing class RRChangePasswordController {
                         Account.BillingCountry, Account.BillingPostalCode,
                         Account.BillingCountryCode, Language__c, MailingAddress,
                         Salutation, MiddleName, Suffix, MailingCountry, MailingCity,
-                        MailingPostalCode, MailingState, MailingStreet,
-                        userCommunytyType__c, userCommunityMode__c
+                        MailingPostalCode, MailingState, MailingStreet, OwnerId,
+                        userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
         account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
+        oldAccountName = account.Name;
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -142,6 +148,20 @@ public without sharing class RRChangePasswordController {
 
         if (!notEnrollNow) {
             update contact;
+
+            if (account.Name != oldAccountName) {
+                insert new Account(
+                        Name = account.Name,
+                        BillingCountry = contact.MailingCountry,
+                        BillingCity = contact.MailingCity,
+                        BillingState = contact.MailingState,
+                        BillingStreet = contact.MailingStreet,
+                        BillingPostalCode = contact.MailingPostalCode,
+                        Phone = contact.Phone,
+                        Fax = contact.Fax,
+                        OwnerId = contact.OwnerId
+                );
+            }
         }
     }
 
