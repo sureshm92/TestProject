@@ -7958,14 +7958,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB Button Review</shortDescription>
-        <value>click here.</value>
+        <value>language settings</value>
     </labels>
     <labels>
         <fullName>PP_IRB_LangList</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
-        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings, </value>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList. Change my </value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_NotAva_Text</fullName>
