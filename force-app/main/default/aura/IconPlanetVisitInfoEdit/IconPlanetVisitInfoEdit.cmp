@@ -8,7 +8,7 @@
     <!--ATTRIBUTES-->
     <aura:attribute name="ctpId" type="String" description="Deprecated, for merge only"/>
     <aura:attribute name="planId" type="String"/>
-    <aura:attribute name="iconDetails" type="Object[]"/>
+    <aura:attribute name="iconDetails" type="Object[]" default="[]"/>
     <aura:attribute name="IconsPackageName" default="Icons_legend" type="String"/>
     <aura:attribute name="IconsPackageFIlePath" default="/icons.svg" type="String"/>
     <aura:attribute name="iconsURL" type="String"/>
@@ -17,15 +17,14 @@
     <!--HANDLERS-->
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
-    <lightning:notificationsLibrary aura:id="notifLib"/>
-
-
     <aura:method name="save" action="{!c.saveIconsLegend}">
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 <!--    <aura:method name="close" action="{!c.closeLegend}"/>-->
+
+    <lightning:notificationsLibrary aura:id="notifLib"/>
     <!--SPINNER-->
-    <lightning:spinner class="slds-hide" aura:Id="spinner" size="medium"/>
+    <lightning:spinner class="slds-hide" aura:id="spinner" size="medium"/>
     <!--SPINNER-->
     <lightning:card>
         <!-- ICONS TABLE -->

@@ -599,4 +599,35 @@ public without sharing class StudySiteService {
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
     }
+    
+    public static Map<Id, List<StudySiteVisitPlan__c>> getStudySiteVisitPlansMap(List<Id> ssIds) {
+        List<StudySiteVisitPlan__c> studySiteVisitPlans = [
+                SELECT Id, Visit_Plan__r.Name, Study_Site__c
+                FROM StudySiteVisitPlan__c
+                WHERE Study_Site__c IN:ssIds
+        ];
+        
+        Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlansBySSId = new Map<Id, List<StudySiteVisitPlan__c>>();
+        for (StudySiteVisitPlan__c ssVP : studySiteVisitPlans) {
+            if (!ssVisitPlansBySSId.containsKey(ssVP.Study_Site__c)) {
+                ssVisitPlansBySSId.put(ssVP.Study_Site__c, new List<StudySiteVisitPlan__c>());
+            }
+            ssVisitPlansBySSId.get(ssVP.Study_Site__c).add(ssVP);
+        }
+        
+        return ssVisitPlansBySSId;
+    }
+    
+    public static List<LabelValueItem> getVisitPlansLVList(Id ssId){
+        Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlanMap = getStudySiteVisitPlansMap(new List<Id>{ssId});
+        List<StudySiteVisitPlan__c> ssVisitPlans = ssVisitPlanMap.get(ssId);
+        List<LabelValueItem> resList = new List<LabelValueItem>();
+        if(ssVisitPlans != null){
+            for(StudySiteVisitPlan__c ssVisitPlan : ssVisitPlans){
+                resList.add(new LabelValueItem(ssVisitPlan.Visit_Plan__r.Name, ssVisitPlan.Visit_Plan__c));
+            }
+        }
+        return resList;
+    }
+
 }

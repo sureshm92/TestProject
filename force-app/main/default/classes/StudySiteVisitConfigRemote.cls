@@ -123,15 +123,27 @@ public without sharing class StudySiteVisitConfigRemote {
 
             Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlansByIds = getStudySiteVisitPlansMap(ctpStudySiteIds);
             for (ApprovedLangRemote.StudySiteItem item : initData.studySiteItems) {
-                for (ApprovedLangRemote.ValueStateItem valueStateItem : item.assignments) {
-                    if (valueStateItem.state && !ssVisitPlansByIds.containsKey(item.ss.Id)) {
-                        newSSVPs.add(new StudySiteVisitPlan__c(
-                                Study_Site__c = item.ss.Id,
-                                Visit_Plan__c = valueStateItem.value
-                        ));
-                    } else if (!valueStateItem.state && ssVisitPlansByIds.containsKey(item.ss.Id)) {
+                List<StudySiteVisitPlan__c> siteVisitPlans = ssVisitPlansByIds.get(item.ss.Id);
+                for (ApprovedLangRemote.ValueStateItem assigment : item.assignments) {
+                    if (assigment.state) {
+                        Boolean needToAdd = true;
+                        if (siteVisitPlans != null && !siteVisitPlans.isEmpty()) {
+                            for (StudySiteVisitPlan__c ssVp : siteVisitPlans) {
+                                if (ssVp.Visit_Plan__c == assigment.value) {
+                                    needToAdd = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (needToAdd) {
+                            newSSVPs.add(new StudySiteVisitPlan__c(
+                                    Study_Site__c = item.ss.Id,
+                                    Visit_Plan__c = assigment.value
+                            ));
+                        }
+                    } else if(!assigment.state && ssVisitPlansByIds.containsKey(item.ss.Id)){
                         for (StudySiteVisitPlan__c ssVP : ssVisitPlansByIds.get(item.ss.Id)) {
-                            if (ssVP.Visit_Plan__c == valueStateItem.value) {
+                            if (ssVP.Visit_Plan__c == assigment.value) {
                                 deselectedSSVPs.add(ssVP);
                                 break;
                             }
@@ -316,6 +328,7 @@ public without sharing class StudySiteVisitConfigRemote {
 
         return ssVisitPlansBySSId;
     }
+
 
     public static List<LabelValueItem> getVisitPlansLV() {
         List<LabelValueItem> visitPlans = new List<LabelValueItem>();

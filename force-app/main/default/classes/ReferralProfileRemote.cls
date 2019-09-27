@@ -7,6 +7,7 @@ public without sharing class ReferralProfileRemote {
     class InitData{
         List<StatusStep> steps = new List<StatusStep>();
         Participant_Enrollment__c enrollment;
+        List<LabelValueItem> visitPlanLVList;
         Boolean isEnrolled;
     }
 
@@ -82,6 +83,7 @@ public without sharing class ReferralProfileRemote {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode,delegateId);
             if(pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
+            initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
             initData.steps = loadSteps(pe, userMode, delegateId);
             initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');
             return JSON.serialize(initData);

@@ -110,7 +110,7 @@
         let customIcons = component.get('v.iconDetails');
         for (let i = 0; i < customIcons.length; i++) {
             let index = dbResult.findIndex(function (item) {
-                return item.Name == customIcons[i].Name;
+                return item.Name === customIcons[i].Name;
             });
             if (index > -1) {
                 customIcons[i] = dbResult[index];

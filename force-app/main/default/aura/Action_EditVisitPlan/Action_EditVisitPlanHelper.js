@@ -20,10 +20,12 @@
             let visits = wrapper.visits;
             if(needClone) {
                 plan.Id = null;
+                plan.Name += ' Clone';
                 for(let i = 0; i < visits.length; i++) visits[i].Id = null;
             }
             component.set('v.plan', plan);
             component.set('v.visits', visits);
+            component.set('v.iconDetails', wrapper.iconDetails);
 
             component.find('spinner').hide();
         });

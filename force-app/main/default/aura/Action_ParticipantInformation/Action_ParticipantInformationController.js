@@ -31,6 +31,8 @@
                 var formComponent = component.find('editForm');
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
+                component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
+                component.set('v.pe', returnValue.enrollment);
                 component.set('v.isFinalUpdate', false);
                 if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
@@ -38,6 +40,7 @@
                 component.find('spinner').hide();
                 component.set('v.anchor', params.anchorScroll);
                 setTimeout($A.getCallback(function () {
+                    component.set('v.pe', returnValue.enrollment);
                     document.getElementById(params.anchorScroll).scrollIntoView({
                         behavior: "smooth",
                         block: "start",
