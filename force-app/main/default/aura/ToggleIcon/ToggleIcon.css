@@ -1,0 +1,39 @@
+/**
+ * Created by Igor Malyuta on 23.09.2019.
+ */
+.THIS {
+    line-height: 1.1;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    padding: 5px;
+}
+
+.THIS .icon-section {
+    margin-right: 5px;
+    min-height: 3rem;
+    min-width: 3rem;
+    max-width: 3rem;
+    border: 1px solid white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+
+.THIS .icon-section:hover{
+    background-color: #e9f3ff;
+}
+
+.THIS .icon-section.selected {
+    border: 1px solid rgb(21, 137, 238);
+}
+
+.THIS .icon-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}

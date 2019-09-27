@@ -174,6 +174,8 @@ public without sharing class TaskService {
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             Id partUserId = participantContactUser.get(partContactId);
+            if(partUserId == null) continue;
+
             userContact.put(partUserId, partContactId);
             List<Id> patientDelContactIds = PatientDelegateService.getDelegatedContactIds(partContactId);
 
@@ -185,6 +187,8 @@ public without sharing class TaskService {
                 }
                 when 'Each Delegate' {
                     for (Id pdId : patientDelContactIds) {
+                        if(delContactUser.get(pdId) == null) continue;
+
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
@@ -192,6 +196,8 @@ public without sharing class TaskService {
                 when 'Patient and each Delegate' {
                     tmpConfigs.add(new TaskConfig(partUserId));
                     for (Id pdId : patientDelContactIds) {
+                        if(delContactUser.get(pdId) == null) continue;
+
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
@@ -344,8 +350,8 @@ public without sharing class TaskService {
         public String subject;
         public String type;
         public String visibility;
-        public String whatId;
-        public String whoId;
+        public Id whatId;
+        public Id whoId;
 
         public TaskConfig(Id ownerId) {
             this.ownerId = ownerId;
@@ -365,12 +371,25 @@ public without sharing class TaskService {
     }
     
     public List<Task> filterCurrentStudyTasks(List<Task> tasks){
-        Participant_Enrollment__c curruntPE = ParticipantService.getInstance().getState().pe;
+        Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
         List<Task> filteredList = new List<Task>();
+System.debug('Task JSON: ' + JSON.serializePretty(tasks));
+        Set<Id> invIds = new Set<Id>();
+        for(Task t: tasks) {
+            if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) invIds.add(t.Description);
+        }
+        List<SurveyInvitation> invitations = [
+                SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id IN: invIds
+        ];
+        Set<Id> peIds = new Set<Id>();
+        for(SurveyInvitation inv : invitations) peIds.add(inv.Participant_Enrollment__c);
+
         for(Task t : tasks){
             if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
-                if(curruntPE != null && t.WhatId == curruntPE.Id) filteredList.add(t);
-            }else{
+                if(currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
+            } else if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
+                if(peIds.contains(currentPE.Id)) filteredList.add(t);
+            } else if(t.Task_Type__c != TASK_TYPE_SURVEY){
                 filteredList.add(t);
             }
         }

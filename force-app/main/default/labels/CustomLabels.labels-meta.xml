@@ -1688,6 +1688,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View Study Details</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Available</shortDescription>
+        <value>Please login and check Visits data become available.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1746,6 +1753,28 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_PI_HCP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial PI HCP</shortDescription>
+        <value>You have been invited to join the IQVIA Referral Hub by ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
+
+            The first step is for you to enroll.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial PI PT HCP</shortDescription>
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. The first step is for you to enroll in the IQVIA Referral Hub.
+
+            Once enrolled, access "My Studies" to review your patient's study and access "My Patients" to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
+
+            If you believe you have received this invitation in error, please notify support@cp.clincialresearch.com.
+
+            The first step is for you to enroll.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1780,7 +1809,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
 
             To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
-            Your username is ##Username. Please click the Enroll Now button to create your password.
+            Your username is ##UserName. Please click the Enroll Now button to create your password.
 
             Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -2046,6 +2075,15 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
             Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_By_PI_RP1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body By PI RP1</shortDescription>
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
+
+            Please take a moment to log in to the Referral Hub, access "My Studies," review your patient's study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_RP11</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2278,6 +2316,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>Email Guest User Name</shortDescription>
         <value>Guest</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Available</shortDescription>
+        <value>This is email to notify you about lab data or vitals become available</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -3441,6 +3486,13 @@ Sincerely,
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>IRB_Padding_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IRB Padding Info</shortDescription>
+        <value>Changes will be saved as you go to the next page!</value>
+    </labels>
+    <labels>
         <fullName>Icons_package_not_found</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3536,7 +3588,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 10</shortDescription>
-        <value>You are helping us gather important data about Rheumatoid Arthritis!</value>
+        <value>You are helping us gather important data about ##TherapeuticArea!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_2</fullName>
@@ -3564,7 +3616,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 5</shortDescription>
-        <value>Your contribution to learning more about Rheumatoid Arthritis is valuable!</value>
+        <value>Your contribution to learning more about ##TherapeuticArea is valuable!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_6</fullName>
@@ -3585,7 +3637,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 8</shortDescription>
-        <value>Your participation may help others with Rheumatoid Arthritis in the future!</value>
+        <value>Your participation may help others with ##TherapeuticArea in the future!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_9</fullName>
@@ -5026,11 +5078,25 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred timezone</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Suffix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Suffix</shortDescription>
+        <value>Suffix</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Username</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Username</shortDescription>
         <value>Username</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Title</shortDescription>
+        <value>Title</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Zip_Postal_Code</fullName>
@@ -5325,7 +5391,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals waiting to be contacted</shortDescription>
-        <value>Referrals Waiting to be Contacted</value>
+        <value>Participants Waiting to be Contacted</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referring_clinics</fullName>
@@ -5409,7 +5475,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L Track your referrals’ status</shortDescription>
-        <value>Track your referrals’ status</value>
+        <value>Track your participants’ status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_category</fullName>
@@ -5451,14 +5517,14 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L referrals approved</shortDescription>
-        <value>referrals approved</value>
+        <value>participants approved</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_referrals_received</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DB L referrals received</shortDescription>
-        <value>referrals received</value>
+        <value>participants received</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_site_requests</fullName>
@@ -6347,18 +6413,18 @@ Please check your CAPS lock key.</value>
         <value>Last Name</value>
     </labels>
     <labels>
-        <fullName>PG_MRC_RF_Not_all_Req_Fields</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
-        <value>Not all required fields are entered</value>
-    </labels>
-    <labels>
         <fullName>PG_MRC_RF_Not_Email_or_Phone_Fields</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
         <value>Email or Phone field should be entered</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRC_RF_Not_all_Req_Fields</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG MRC RP Not all Req Fields</shortDescription>
+        <value>Not all required fields are entered</value>
     </labels>
     <labels>
         <fullName>PG_MRC_RF_Phone</fullName>
@@ -8396,6 +8462,13 @@ Please check your CAPS lock key.</value>
         <value>Please select your preferred language for Patient Portal. English will be displayed if a translation is not available for your preferred language.</value>
     </labels>
     <labels>
+        <fullName>PP_VPC_SS_Empty_VP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP VPC SS Empty VP</shortDescription>
+        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+    </labels>
+    <labels>
         <fullName>PS_Enrollment_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8422,6 +8495,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Participant Not Logged In</shortDescription>
         <value>You not logged in to IQVIA for some time, we miss you</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Visits_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participant Visits Available</shortDescription>
+        <value>Your data become available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>

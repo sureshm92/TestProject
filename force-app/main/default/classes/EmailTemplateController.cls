@@ -16,7 +16,9 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_HEADER_INITIAL_DELEGATE= 'Email_Header_Initial_Delegate';
     public static final String LABEL_HEADER_INITIAL_PI = 'Email_Header_Initial_PI';
     public static final String LABEL_HEADER_INITIAL_HCP = 'Email_Header_Initial_HCP';
-    
+    public static final String LABEL_HEADER_INITIAL_PI_PT_HCP = 'Email_Header_Initial_HCP';
+    public static final String LABEL_HEADER_INITIAL_PI_HCP = 'Email_Header_Initial_HCP';
+
     public static final String LABEL_BODY_INITIAL_PARTICIPANT = 'Email_Body_Initial_Patient';
     public static final String LABEL_BODY_INITIAL_PARTICIPANT_BY_PI = 'Email_Body_Initial_Patient_Created_By_PI';
     public static final String LABEL_BODY_INITIAL_PARTICIPANT_EPR = 'Email_Body_Initial_Patient_Virtual';
@@ -24,6 +26,8 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_BODY_INITIAL_DELEGATE = 'Email_Body_Initial_Delegate';
     public static final String LABEL_BODY_INITIAL_PI = 'Email_Body_Initial_PI';
     public static final String LABEL_BODY_INITIAL_HCP = 'Email_Body_Initial_HCP';
+    public static final String LABEL_BODY_INITIAL_PI_PT_HCP = 'Email_Body_Initial_PI_PT_HCP';
+    public static final String LABEL_BODY_INITIAL_PI_HCP = 'Email_Body_Initial_PI_HCP';
 
     public static final String LABEL_SIGNATURE_PATIENT =  'Email_Signature_Patient';
     public static final String LABEL_SIGNATURE_PATIENT_DELEGATE =  'Email_Signature_New_Participant_Delegate';
@@ -209,11 +213,36 @@ global without sharing class EmailTemplateController {
                 signatureLabel = LABEL_SIGNATURE;
                 userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
             }else if(getDataProvider().userMode == CommunityService.USER_MODE_HCP){
-                bodyLabel = LABEL_BODY_INITIAL_HCP;
-                headerLabel = LABEL_HEADER_INITIAL_HCP;
-                titleLabel = LABEL_TITLE_ALL;
-                signatureLabel = LABEL_SIGNATURE;
-                userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                Contact hcpContact;
+                if (sourceRecordId.getSobjectType() == Contact.getSObjectType()) {
+                    hcpContact = [SELECT Id, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :sourceRecordId];
+                } else if (sourceRecordId.getSobjectType() == User.getSObjectType()) {
+                    User hcpUsr = [SELECT Id, ContactId FROM User WHERE Id = :sourceRecordId];
+                    hcpContact = [SELECT Id, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :hcpUsr.ContactId];
+                }
+                if (hcpContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP) && hcpContact.userCommunityMode__c == CommunityService.USER_MODE_HCP) {
+                    List<Healthcare_Provider__c> hcp = [SELECT Id FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN (SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c =:hcpContact.Id)];
+
+                    if (!hcp.isEmpty()) {
+                        bodyLabel = LABEL_BODY_INITIAL_PI_PT_HCP;
+                        headerLabel = LABEL_HEADER_INITIAL_PI_PT_HCP;
+                        titleLabel = LABEL_TITLE_ALL;
+                        signatureLabel = LABEL_SIGNATURE;
+                        userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                    } else {
+                        bodyLabel = LABEL_BODY_INITIAL_PI_HCP;
+                        headerLabel = LABEL_HEADER_INITIAL_PI_HCP;
+                        titleLabel = LABEL_TITLE_ALL;
+                        signatureLabel = LABEL_SIGNATURE;
+                        userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                    }
+                } else {
+                    bodyLabel = LABEL_BODY_INITIAL_HCP;
+                    headerLabel = LABEL_HEADER_INITIAL_HCP;
+                    titleLabel = LABEL_TITLE_ALL;
+                    signatureLabel = LABEL_SIGNATURE;
+                    userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                }
             }
             
             if(bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());

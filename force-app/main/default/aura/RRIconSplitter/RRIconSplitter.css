@@ -1,8 +1,25 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
-.THIS.icons{
-    display: inline-flex;
+.THIS.icons-container {
+    display: flex;
+    overflow: hidden;
+    height: 32px;
+    justify-content: space-between;
+}
+
+.THIS .icons-row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.THIS .icons-row .icon:last-child .dots {
+    display: none;
+}
+
+.THIS .icon {
+    position: relative;
+    display: flex;
 }
 
 .THIS .icon-item{
@@ -10,7 +27,14 @@
 }
 
 .THIS .dots{
-    padding-left: 10px;
+    padding-left: 2px;
     padding-top: 13px;
     font-weight: bold;
+    position: absolute;
+    left: 32px;
+}
+
+.THIS .free-space {
+    flex-shrink: 0;
+    width: 32px;
 }

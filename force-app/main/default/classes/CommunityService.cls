@@ -14,6 +14,7 @@ public without sharing class CommunityService {
 
     //community email process
     public static String COMMUNITY_ET_HCP = 'RP1_New_Study_Email'; //email template
+    public static String COMMUNITY_ET_HCP_BY_PI = 'RP1_New_Study_By_PI_Email'; //email template
     public static String COMMUNITY_ET_PI = 'PI1_New_Study_Email'; //email template
     public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
@@ -252,6 +253,10 @@ public without sharing class CommunityService {
                         MailingLatitude,
                         MailingLongitude,
                         MailingCountry,
+                        MailingCity,
+                        MailingPostalCode,
+                        MailingState,
+                        MailingStreet,
                         Account.BillingCountry,
                         Account.OwnerId,
                         PI_My_Studies_Filters__c,

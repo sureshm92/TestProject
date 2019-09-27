@@ -1,0 +1,15 @@
+/**
+ * Created by Igor Malyuta on 23.09.2019.
+ */
+
+.THIS.section {
+    margin-top: 15px;
+    border: 1px solid #e8e6e6;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.THIS .icons-container {
+    display: flex;
+    flex-wrap: wrap;
+}

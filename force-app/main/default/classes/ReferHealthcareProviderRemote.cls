@@ -65,6 +65,7 @@ global without sharing class ReferHealthcareProviderRemote {
         return hp;
     }
 
+    @AuraEnabled
     public static List<Healthcare_Provider__c> inviteHP(String peId, String hp) {
         Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp,Healthcare_Provider__c.class);
 
@@ -75,7 +76,7 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
 
-            newHP.HCP_Enrollment__c = createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null);
+            newHP.HCP_Enrollment__c = createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact());
             update newHP;
         }
 
@@ -91,13 +92,14 @@ global without sharing class ReferHealthcareProviderRemote {
         return newHP.Id;
     }
 
-    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone) {
+    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
         Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
         List<Contact> cntList =
-        [SELECT Id, userCommunityMode__c, userCommunytyType__c
-        FROM Contact
-        WHERE Email = :email OR
-        Email = :email.toLowerCase() LIMIT 1];
+            [SELECT Id, userCommunityMode__c, userCommunytyType__c, MailingCountry, MailingCity,
+                    MailingPostalCode, MailingState, MailingStreet
+             FROM Contact
+             WHERE Email = :email OR
+                   Email = :email.toLowerCase() LIMIT 1];
 
         if (cntList.isEmpty()) {
             cntList.add(new Contact(FirstName = firstName,
@@ -106,8 +108,14 @@ global without sharing class ReferHealthcareProviderRemote {
                     Email = email,
                     AccountId = studySite.Site__c,
                     Language__c = UserInfo.getLanguage(),
-                    MailingCountry = studySite.Site__r.BillingCountry));
+                    RP_Invited_By_PI__c = true,
+                    //MailingCountry = studySite.Site__r.BillingCountry));
+                    MailingCountry = piContact.MailingCountry,
+                    MailingState = piContact.MailingState));
             insert cntList;
+        } else {
+            cntList[0].RP_Invited_By_PI__c = true;
+            update cntList[0];
         }
 
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
@@ -127,12 +135,12 @@ global without sharing class ReferHealthcareProviderRemote {
         HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
                 HCP_Contact__c = cntList[0].Id,
                 Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT,
-                Study_Site__c = studySiteId
+                Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
         );
         insert hcpe;
 
         hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpe;
+        update hcpe; 
 
         return hcpe.Id;
     }
