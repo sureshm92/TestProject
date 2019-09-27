@@ -88,10 +88,11 @@ public without sharing class HCPEnrollmentTriggerHandler {
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
         Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
         Map<Id, Id> contactsForSendNotificationByPiMap = new Map<Id, Id>();
-        List<Healthcare_Provider__c> hps = oldMap == null ? new List<Healthcare_Provider__c>() : [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newList.keySet()];
+        Map<Id, HCP_Enrollment__c> newMap = new Map<Id, HCP_Enrollment__c>(newList);
+        List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newMap.keySet()];
         Map<Id, Healthcare_Provider__c> hpsByHCPE = new Map<Id, Healthcare_Provider__c>();
         for (Healthcare_Provider__c hp : hps) {
-            hpsByHCPE.put(hp.HCP_Contact__c, hp);
+            hpsByHCPE.put(hp.HCP_Enrollment__c, hp);
         }
         for(HCP_Enrollment__c hcpe : newList){
             if(hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
