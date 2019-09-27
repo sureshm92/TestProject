@@ -12,13 +12,14 @@ public without sharing class VisitPlanRemote {
     }
 
     @AuraEnabled
-    public static void upsertVisitPlan(String plan, String visits, String deletedVisits) {
+    public static void upsertVisitPlan(String plan, String visits, String deletedVisits, String details) {
         try {
             Visit_Plan__c newPlan = (Visit_Plan__c) JSON.deserialize(plan, Visit_Plan__c.class);
             upsert newPlan;
 
             List<Visit__c> visitsToUpsert = (List<Visit__c>) JSON.deserialize(visits, List<Visit__c>.class);
             List<Visit__c> visitsToDelete = (List<Visit__c>) JSON.deserialize(deletedVisits, List<Visit__c>.class);
+            List<Icon_Details__c> iconDetails = (List<Icon_Details__c>) JSON.deserialize(details, List<Icon_Details__c>.class);
 
             List<Visit__c> newVisits = new List<Visit__c>();
             List<Visit__c> updatedVisits = new List<Visit__c>();
@@ -39,6 +40,11 @@ public without sharing class VisitPlanRemote {
 
                 delete forDeleteVisits;
             }
+
+            for(Icon_Details__c detail : iconDetails) {
+                if(detail.Visit_Plan__c == null) detail.Visit_Plan__c = newPlan.Id;
+            }
+            if(!iconDetails.isEmpty()) upsert iconDetails;
 
             if (!newVisits.isEmpty()) insert newVisits;
             if (!updatedVisits.isEmpty()) upsert updatedVisits;
@@ -89,6 +95,7 @@ public without sharing class VisitPlanRemote {
                         Label__c
                 FROM Icon_Details__c
                 WHERE Visit_Plan__c = :planId
+                ORDER BY Name
         ];
     }
 }

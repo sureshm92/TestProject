@@ -7,7 +7,12 @@
         let service = component.find('iconsService');
         service.getIconsData(component, event, helper)
             .then(function (result) {
-                component.set('v.icons', result.iconNames);
+                let iconNames = result.iconNames.sort(function (a, b) {
+                    if (a.id < b.id) return -1;
+                    if (a.id > b.id) return 1;
+                    return 0;
+                });
+                component.set('v.icons', iconNames);
             });
 
         component.set('v.plan', {
@@ -79,7 +84,8 @@
         communityService.executeAction(component, 'upsertVisitPlan', {
             plan: JSON.stringify(component.get('v.plan')),
             visits: JSON.stringify(updatedVisits),
-            deletedVisits: JSON.stringify(deletedVisits)
+            deletedVisits: JSON.stringify(deletedVisits),
+            details: JSON.stringify(component.get('v.iconDetails'))
         }, function () {
             component.find('spinner').hide();
             component.find('createVisitPlan').hide();
