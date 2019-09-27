@@ -16,7 +16,7 @@
 
     <tr class="slds-hint-parent" onmouseover="{!c.doMouseEnter}" onmouseout="{!c.doMouseLeave}">
         <td>
-            <a href="javascript:void(0);" onclick="{!c.navToRecord}" class=" slds-text-link">{!v.visit.Name}</a>
+            <div class=" slds-text-title slds-text-color_default">{!v.visit.Name}</div>
         </td>
         <td>
             <div class=" slds-text-title slds-text-color_default">{!v.visit.Patient_Portal_Name__c}</div>

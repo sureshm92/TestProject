@@ -24,7 +24,7 @@
             </tr>
             <aura:iteration items="{!v.iconDetails}" var="icon">
                 <tr>
-                    <td class="icon-title slds-m-top--medium">
+                    <td class="icon-title slds-m-top--medium slds-text-align--center icon-col">
                         <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.Name}"/>
                     </td>
                     <td style="width: 30%">

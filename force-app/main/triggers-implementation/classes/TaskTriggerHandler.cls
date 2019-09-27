@@ -189,7 +189,10 @@ public without sharing class TaskTriggerHandler {
                 }
             }
             task.Subject = CatalogParametersHelper.prepareLabel(card.Subject_Label__c, cardParametersValueMap);
-            task.Description = CatalogParametersHelper.prepareLabel(card.Comments_Label__c, cardParametersValueMap);
+
+            String description = CatalogParametersHelper.prepareLabel(card.Comments_Label__c, cardParametersValueMap);
+            if(description != null) task.Description = description;
+
             task.Action_URL__c = CatalogParametersHelper.prepareMergeFields(card.Action_Link__c, cardParametersValueMap);
 
         }

@@ -162,7 +162,7 @@
                     <div class="label">
                         <aura:if isTrue="{!v.screeningRequired}">
                             <abbr title="required" class="slds-required">*</abbr>
-                        </aura:if>Visit Plan TODO
+                        </aura:if>Visit Plan
                     </div>
                     <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled}"
                                 value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"

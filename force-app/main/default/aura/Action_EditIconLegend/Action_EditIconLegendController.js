@@ -5,23 +5,8 @@
 ({
     doExecute: function (component, event, helper) {
         let params = event.getParam('arguments');
-        component.set('v.planId', params.planId);
-
-        if(!params.planId) {
-            let iconDetails = [];
-            for (let i = 0; i < params.icons.length; i++) {
-                iconDetails.push({
-                    sobjectType: 'Icon_Details__c',
-                    Name: params.icons[i].id
-                });
-            }
-
-            params.iconDetails = iconDetails;
-        }
         component.set('v.iconDetails', params.iconDetails);
-
         if(params.callback) component.set('v.callback', params.callback);
-
         component.find('modal').show();
     },
 

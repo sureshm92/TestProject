@@ -1757,7 +1757,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI HCP</shortDescription>
-        <value>You have been invited to join the IQVIA Referral Hub by ##PITitle ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
+        <value>You have been invited to join the IQVIA Referral Hub by ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
 
             The first step is for you to enroll.</value>
     </labels>
@@ -1766,7 +1766,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI PT HCP</shortDescription>
-        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PITitle ##PIName, at the patient's request. The first step is for you to enroll in the IQVIA Referral Hub.
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. The first step is for you to enroll in the IQVIA Referral Hub.
 
             Once enrolled, access "My Studies" to review your patient's study and access "My Patients" to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
 
@@ -3579,7 +3579,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 10</shortDescription>
-        <value>You are helping us gather important data about Rheumatoid Arthritis!</value>
+        <value>You are helping us gather important data about ##TherapeuticArea!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_2</fullName>
@@ -3607,7 +3607,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 5</shortDescription>
-        <value>Your contribution to learning more about Rheumatoid Arthritis is valuable!</value>
+        <value>Your contribution to learning more about ##TherapeuticArea is valuable!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_6</fullName>
@@ -3628,7 +3628,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 8</shortDescription>
-        <value>Your participation may help others with Rheumatoid Arthritis in the future!</value>
+        <value>Your participation may help others with ##TherapeuticArea in the future!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_9</fullName>

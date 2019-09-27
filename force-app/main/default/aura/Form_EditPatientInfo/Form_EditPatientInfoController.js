@@ -24,7 +24,7 @@
         if (pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
-            component.set('v.visitPlanDisabled', screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
+            component.set('v.visitPlanDisabled', pe.Id && screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
         }
         component.set('v.screeningRequired', screeningIdRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
