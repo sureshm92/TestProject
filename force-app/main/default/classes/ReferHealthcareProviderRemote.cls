@@ -116,6 +116,9 @@ global without sharing class ReferHealthcareProviderRemote {
                     MailingState = piContact.MailingState,
                     MailingStreet = piContact.MailingStreet));
             insert cntList;
+        } else {
+            cntList[0].RP_Invited_By_PI__c = true;
+            update cntList[0];
         }
 
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });

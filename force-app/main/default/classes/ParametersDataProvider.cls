@@ -252,9 +252,12 @@ public without sharing class ParametersDataProvider {
                         FirstName,
                         LastName,
                         Salutation,
+                        RP_Invited_By_PI__c,
                         Language__c,
                         userCommunityMode__c,
-                        UserCommunityIsDelegate__c
+                        UserCommunityIsDelegate__c,
+                        OwnerId,
+                        Owner.ContactId
                 FROM Contact
                 WHERE Id =: contactId
         ];
@@ -267,6 +270,10 @@ public without sharing class ParametersDataProvider {
             parameters.put('PIName', getFullContactName(cnt));
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
+            if (cnt.RP_Invited_By_PI__c && cnt.Owner.ContactId != null) {
+                Contact piContact = [SELECT Id, Salutation, Name, FirstName, LastName FROM Contact WHERE Id = :cnt.Owner.ContactId];
+                parameters.put('PIName', getFullContactName(piContact));
+            }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
