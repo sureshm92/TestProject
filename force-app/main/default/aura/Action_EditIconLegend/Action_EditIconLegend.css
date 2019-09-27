@@ -1,0 +1,14 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .slds-modal__content{
+    height: 100%!important;
+}
+
+.THIS .icon-col{
+    padding-top: 10px;
+}
+
+.THIS .slds-form-element label{
+    display: none;
+}

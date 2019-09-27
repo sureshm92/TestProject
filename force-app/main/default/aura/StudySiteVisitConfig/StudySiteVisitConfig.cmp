@@ -39,7 +39,6 @@
 
     <!-- component body: -->
     <div class="panel">
-        <c:Action_EditVisitPlan aura:id="actionVP"/>
         <c:RRSpinner aura:id="spinner"/>
         <lightning:navigation aura:id="navLink"/>
 
@@ -196,5 +195,6 @@
             </aura:if>
         </aura:if>
     </div>
+    <c:Action_EditVisitPlan aura:id="actionVP"/>
 
 </aura:component>

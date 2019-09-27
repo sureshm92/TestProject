@@ -549,7 +549,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         List<Participant_Enrollment__c> peWithParticipating = [
-                SELECT Id, Clinical_Trial_Profile__c
+                SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
                 FROM Participant_Enrollment__c
                 WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
                 AND Id IN:peEnrollSuccessIds
@@ -560,25 +560,26 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>([
                 SELECT Id, Visit_Plan__c
                 FROM Clinical_Trial_Profile__c
-                WHERE Id IN:ctpIds
+                WHERE Id IN :ctpIds
         ]);
 
         Set<Id> visitPlanIds = new Set<Id>();
         for (Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
+        for (Participant_Enrollment__c pe : enrollments) visitPlanIds.add(pe.Visit_Plan__c);
         Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id, Visit_Plan__c>([
                 SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c FROM Visits__r)
                 FROM Visit_Plan__c
-                WHERE Id IN:visitPlanIds
+                WHERE Id IN :visitPlanIds
         ]);
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         for (Participant_Enrollment__c pe : peWithParticipating) {
             Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
-            if (ctp == null) continue;
-
-            Visit_Plan__c vp = visitPlansMap.get(ctp.Visit_Plan__c);
+            Id vpId = pe.Visit_Plan__c;
+            if (vpId == null) vpId = ctp.Visit_Plan__c;
+            if (vpId == null) continue;
+            Visit_Plan__c vp = visitPlansMap.get(vpId);
             if (vp == null) continue;
-
             for (Visit__c visit : vp.Visits__r) {
                 patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
             }
