@@ -24,7 +24,7 @@
         if (pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
-            component.set('v.visitPlanDisabled', screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
+            component.set('v.visitPlanDisabled', pe.Id && screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
         }
         component.set('v.screeningRequired', screeningIdRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
@@ -96,7 +96,12 @@
     doCreateDataStamp: function (component, event, helper) {
         var pe = component.get('v.pe');
         component.set('v.dataStamp', JSON.stringify(pe));
-    }
+    },
+
+    doRefreshView: function(component, event, helper){
+    	component.set('v.isRefreshView', true);
+    	component.set('v.isRefreshView', false);
+    },
 
 
 })

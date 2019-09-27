@@ -24,28 +24,23 @@ public without sharing class VisitTriggerHandler {
             List<Visit__c> newVisits = (List<Visit__c>)newList;
             Set<Id> visitPlanIds = new Set<Id>();
             for(Visit__c visit : newVisits) visitPlanIds.add(visit.Visit_Plan__c);
-            List<Clinical_Trial_Profile__c> clinicalTrialProfiles = [
-                    SELECT Id
-                    FROM Clinical_Trial_Profile__c
-                    WHERE Visit_Plan__c IN: visitPlanIds
-            ];
             List<Participant_Enrollment__c> peList = [
-                    SELECT Id, Clinical_Trial_Profile__r.Visit_Plan__c
+                    SELECT Id, Visit_Plan__c
                     FROM Participant_Enrollment__c
-                    WHERE Clinical_Trial_Profile__c IN: clinicalTrialProfiles
+                    WHERE Visit_Plan__c IN: visitPlanIds
             ];
             Map<Id, List<Participant_Enrollment__c>> peListByVisitPlanIdMap = new Map<Id, List<Participant_Enrollment__c>>();
             for(Participant_Enrollment__c pe : peList){
-                List<Participant_Enrollment__c> vpPeList = peListByVisitPlanIdMap.get(pe.Clinical_Trial_Profile__r.Visit_Plan__c);
+                List<Participant_Enrollment__c> vpPeList = peListByVisitPlanIdMap.get(pe.Visit_Plan__c);
                 if(vpPeList == null) vpPeList = new List<Participant_Enrollment__c>();
                 vpPeList.add(pe);
-                peListByVisitPlanIdMap.put(pe.Clinical_Trial_Profile__r.Visit_Plan__c, vpPeList);
+                peListByVisitPlanIdMap.put(pe.Visit_Plan__c, vpPeList);
             }
             List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
             for(Visit__c visit : newVisits){
-                List<Participant_Enrollment__c> vpPseList = peListByVisitPlanIdMap.get(visit.Visit_Plan__c);
-                if(vpPseList == null) continue;
-                for(Participant_Enrollment__c pe : vpPseList){
+                List<Participant_Enrollment__c> vpPEList = peListByVisitPlanIdMap.get(visit.Visit_Plan__c);
+                if(vpPEList == null) continue;
+                for(Participant_Enrollment__c pe : vpPEList){
                     patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
                 }
             }

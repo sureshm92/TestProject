@@ -28,15 +28,16 @@
                 userMode: communityService.getUserMode(),
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
-                var formComponent = component.find('editForm');
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
                 component.set('v.pe', returnValue.enrollment);
                 component.set('v.isFinalUpdate', false);
+                var formComponent = component.find('editForm');
                 if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                 formComponent.createDataStamp();
                 formComponent.checkFields();
+                formComponent.refreshView();
                 component.find('spinner').hide();
                 component.set('v.anchor', params.anchorScroll);
                 setTimeout($A.getCallback(function () {

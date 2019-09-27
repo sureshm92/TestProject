@@ -17,7 +17,7 @@
     </aura:method>
 
     <c:uiModal aura:id="modal" size="medium" headerText="{!if(v.mode == 'new', 'Add Visit', 'Edit Visit')}">
-        <div>
+        <div class="form-container">
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size--1-of-2">
                     <lightning:input type="text" label="Visit Name" value="{!v.visit.Name}"/>
@@ -40,7 +40,7 @@
         <aura:set attribute="footer">
             <lightning:button variant="neutral" type="button" label="{!$Label.c.BTN_Cancel}"
                               onclick="{!c.cancelClick}"/>
-            <lightning:button variant="brand" type="button" label="Add Visit"
+            <lightning:button variant="brand" type="button" label="{!if(v.mode == 'new', 'Add Visit', 'Save Visit')}"
                               disabled="{!or(empty(v.visit.Name), empty(v.visit.Icons__c))}"
                               onclick="{!c.saveVisit}"/>
         </aura:set>
