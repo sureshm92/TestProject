@@ -143,7 +143,7 @@ global without sharing class ReferHealthcareProviderRemote {
         insert hcpe;
 
         hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpe;
+        update hcpe; 
 
         return hcpe.Id;
     }
