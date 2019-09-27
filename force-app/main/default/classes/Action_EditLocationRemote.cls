@@ -57,7 +57,8 @@ public without sharing class Action_EditLocationRemote {
                             BillingCountryCode,
                             BillingStateCode,
                             BillingState,
-                            BillingStreet
+                            BillingStreet,
+                            BillingPostalCode
                     FROM Account
                     WHERE Id = :tmpAccountId
             ];

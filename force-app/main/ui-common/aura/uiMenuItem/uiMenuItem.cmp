@@ -7,6 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="itemValue" type="Object" access="public"/>
     <aura:attribute name="isSelected" type="Boolean" access="public"/>
+    <aura:attribute name="class" type="String" access="public" default=""/>
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
@@ -16,6 +17,13 @@
     <aura:method name="setFocus" action="{!c.setFocus}"/>
 
     <!-- component body: -->
-    <li class="{!v.isSelected ? 'active' : ''}" onclick="{!c.doOnClick}" title="{!v.label}">{!v.label}</li>
+    <li class="{!v.isSelected ? 'active ' : ' ' + v.class}" onclick="{!c.doOnClick}" title="{!v.label}">
+        <aura:if isTrue="{!empty(v.body)}">
+            {!v.label}
+            <aura:set attribute="else">
+                {!v.body}
+            </aura:set>
+        </aura:if>
+    </li>
 
 </aura:component>

@@ -5,9 +5,6 @@ public without sharing class TravelSupportHelper {
 
     public List<TravelVendorPanelRemote.VendorItem> getVendorItems(List<String> countryCodes, Id ctpId,
             List<String> studySiteIds, List<Id> vendorIds, Boolean isFirstLoad) {
-        System.debug('countryCodes ' + countryCodes);
-        System.debug('studySiteIds ' + studySiteIds);
-        System.debug('vendorIds ' + vendorIds);
         Boolean hasAnyAttributes = this.hasAnyAttributes( countryCodes,  studySiteIds,  vendorIds, isFirstLoad);
         if (hasAnyAttributes) {
             return getAllStudySites(ctpId);
@@ -90,8 +87,6 @@ public without sharing class TravelSupportHelper {
                 if (travelVendorSettingsByVendorId.containsKey(vendorId)) {
                     vendorSettingsWithStub.add(travelVendorSettingsByVendorId.get(vendorId));
                 } else {
-                    System.debug('here!');
-                    System.debug(vendorId);
                     vendorSettingsWithStub.add(
                             new TravelVendorSettings__c (
                                     isEnable__c = false,
