@@ -8,6 +8,15 @@
             sobjectType: 'Visit_Plan__c'
         });
         component.set('v.visits', []);
+        let iconDetails = [];
+        let icons = component.get('v.icons');
+        for (let i = 0; i < icons.length; i++) {
+            iconDetails.push({
+                sobjectType: 'Icon_Details__c',
+                Name: icons[i].id
+            });
+        }
+        component.set('v.iconDetails', iconDetails);
     },
 
     callRemote: function (component, vpId, needClone) {
@@ -26,7 +35,6 @@
             component.set('v.plan', plan);
             component.set('v.visits', visits);
             component.set('v.iconDetails', wrapper.iconDetails);
-
             component.find('spinner').hide();
         });
     }
