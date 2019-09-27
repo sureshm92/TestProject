@@ -24,16 +24,6 @@ public with sharing class TrialSearchHelper {
     private static final String PS_PARTICIPATION_COMPLETE = 'Participation Complete';
     private static final String PS_TRIAL_COMPLETE = 'Trial Complete';
     private static final List<String> PS_ES = new List<String>{
-            PS_SENT_TO_PI,
-            PS_REFERRAL_ACCEPTED,
-            PS_ENROLLMENT_SUCCESS,
-            PS_ATTEMPT_IN_PROGRESS,
-            PS_CONTACT_SUCCESSFUL,
-            PS_ELIGIBILITY_PASSED,
-            PS_SCREENING_IN_COMPLETE,
-            PS_SCREENING_IN_PROGRESS,
-            PS_TREATMENT_PERIOD_STARTED,
-            PS_FOLLOW_UP_PEIOD_STARTED,
             PS_PARTICIPATION_COMPLETE,
             PS_TRIAL_COMPLETE
 
