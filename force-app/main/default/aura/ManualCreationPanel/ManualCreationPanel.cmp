@@ -32,10 +32,10 @@
         <aura:if isTrue="{!v.initialized}">
             <!-- Tabs -->
             <lightning:tabset selectedTabId="task">
-                <lightning:tab label="Task Creator" id="task" onactive="{!c.handleActiveTab}">
+                <lightning:tab label="Task" id="task" onactive="{!c.handleActiveTab}">
                     <c:ManualTask aura:id="manTask" parent="{!this}" wrapper="{!v.taskPanelWrapper}"/>
                 </lightning:tab>
-                <lightning:tab label="Ad hoc Survey" id="adHoc" onactive="{!c.handleActiveTab}">
+                <lightning:tab label="Survey" id="adHoc" onactive="{!c.handleActiveTab}">
                     <c:ManualAdHocSurvey aura:id="manAdhoc" parent="{!this}" wrapper="{!v.adHocWrapper}"/>
                 </lightning:tab>
             </lightning:tabset>
