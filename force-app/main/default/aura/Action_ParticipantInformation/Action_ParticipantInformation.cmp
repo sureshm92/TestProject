@@ -45,13 +45,13 @@
             <div class="form-content">
                 <!--Personal Information-->
                 <div class="personal-info-container" id="personalInfoAnchor">
-                    <aura:if isTrue="{!!v.refreshForm}">
+                    <!--<aura:if isTrue="{!!v.refreshForm}">-->
                         <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
                                                 formData="{!v.formData}"
                                                 updateMode="true"
                                                 isFinalUpdate="{!v.isFinalUpdate}"
                                                 isValid="{!v.isValid}"/>
-                    </aura:if>
+                   <!-- </aura:if>-->
                     <div class="slds-clearfix">
                         <div class="slds-float_right">
                             <button class="apollo-btn tertiary" disabled="{!!v.isValid}"

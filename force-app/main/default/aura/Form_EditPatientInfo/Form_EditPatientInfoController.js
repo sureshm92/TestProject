@@ -96,7 +96,12 @@
     doCreateDataStamp: function (component, event, helper) {
         var pe = component.get('v.pe');
         component.set('v.dataStamp', JSON.stringify(pe));
-    }
+    },
+
+    doRefreshView: function(component, event, helper){
+    	component.set('v.isRefreshView', true);
+    	component.set('v.isRefreshView', false);
+    },
 
 
 })
