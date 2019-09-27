@@ -367,21 +367,23 @@ public without sharing class TaskService {
     public List<Task> filterCurrentStudyTasks(List<Task> tasks){
         Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
         List<Task> filteredList = new List<Task>();
-
-        Set<Id> peIds = new Set<Id>();
+System.debug('Task JSON: ' + JSON.serializePretty(tasks));
+        Set<Id> invIds = new Set<Id>();
         for(Task t: tasks) {
-            if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) peIds.add(t.Description);
+            if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) invIds.add(t.Description);
         }
-        Map<Id, Participant_Enrollment__c> enrollments = new Map<Id, Participant_Enrollment__c>([
-                SELECT Id FROM Participant_Enrollment__c WHERE Id IN:peIds
-        ]);
+        List<SurveyInvitation> invitations = [
+                SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id IN: invIds
+        ];
+        Set<Id> peIds = new Set<Id>();
+        for(SurveyInvitation inv : invitations) peIds.add(inv.Participant_Enrollment__c);
 
         for(Task t : tasks){
             if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
                 if(currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
             } else if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
-                if(enrollments.containsKey(currentPE.Id)) filteredList.add(t);
-            } else{
+                if(peIds.contains(currentPE.Id)) filteredList.add(t);
+            } else if(t.Task_Type__c != TASK_TYPE_SURVEY){
                 filteredList.add(t);
             }
         }
