@@ -216,16 +216,14 @@ public class Test_ParticipantService {
 
     static Participant__c getParticipant() {
         Contact patientContact = new Contact(
-                FirstName = 'Richard',
-                LastName = 'Wilson',
-                Email = 'r.wilson@gmail.com',
+                FirstName = 'Ashly',
+                LastName = 'Doyle',
+                Email = 'a.doyle@gmail.com',
                 userCommunityMode__c = 'Participant'
         );
 
         return new Participant__c(
-                Id = TestDataFactory.getFakeId(Participant__c.getSObjectType()),
-                First_Name__c = patientContact.FirstName,
-                Contact__r = patientContact
+                First_Name__c = patientContact.FirstName
         );
     }
 }
