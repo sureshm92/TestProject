@@ -14,9 +14,9 @@
     doExecute: function (component, event, helper) {
         try {
             component.find('spinner').show();
+            component.set('v.initialized', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
-            component.set('v.pe', pe);
             component.set('v.actions',JSON.parse(JSON.stringify(params.actions)));
             component.set('v.participant', pe.Participant__r);
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
@@ -33,19 +33,19 @@
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
                 component.set('v.pe', returnValue.enrollment);
                 component.set('v.isFinalUpdate', false);
-                var formComponent = component.find('editForm');
-                if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
-                formComponent.createDataStamp();
-                formComponent.checkFields();
-                formComponent.refreshView();
-                component.find('spinner').hide();
-                component.set('v.anchor', params.anchorScroll);
+                component.set('v.initialized', true);
                 setTimeout($A.getCallback(function () {
+                    var formComponent = component.find('editForm');
+                    if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
+                    formComponent.createDataStamp();
+                    component.find('spinner').hide();
+                    component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
+                    formComponent.checkFields();
                     document.getElementById(params.anchorScroll).scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                        inline: "nearest"
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
                     });
                 }), 5);
             });
@@ -83,6 +83,7 @@
             if (component.get('v.saveAndChangeStep')) {
                 var steps = component.find('stepControls');
                 steps[steps.length - 1].statusSave();
+                component.set('v.saveAndChangeStep', false);
             }
             component.get('v.callback')(pe);
         }, null, function () {
