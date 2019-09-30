@@ -120,7 +120,7 @@ public with sharing class TrialSearchHelper {
                 Study_Code__c = ctp.NCT_Number__c,
                 Study__c = ctp.Id
         );
-        insert caseContact;
+        ((DatabaseProxy)(ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);
     }
 
     public void createTrialNotification(Id ctpId) {
@@ -242,7 +242,7 @@ public with sharing class TrialSearchHelper {
                 'FROM Participant__c ' +
                 'WHERE Contact__c IN (SELECT ContactId FROM User WHERE Id = \'' + UserInfo.getUserId() + '\') ' +
                 'LIMIT 1';
-        return (Participant__c) proxy.query(query)[0];
+        return (Participant__c) proxy.query(query, true)[0];
     }
 
     private User getUser(DatabaseProxy proxy) {
