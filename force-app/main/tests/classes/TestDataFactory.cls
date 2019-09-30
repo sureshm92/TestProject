@@ -106,6 +106,28 @@ public class TestDataFactory {
     }
 
     public static void createDataForTravelSupportTesting() {
+
+        createInitData();
+
+        Study_Site__c studySite = [SELECT Id FROM Study_Site__c LIMIT 1];
+        List<TravelVendor__c> travelVendors = new List<TravelVendor__c>{
+                new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'link 1'),
+                new TravelVendor__c(Name = 'Uklon', Link_Vendor__c = 'link 2'),
+                new TravelVendor__c(Name = 'Kiev Taxi', Link_Vendor__c = 'link 3'),
+                new TravelVendor__c(Name = 'Uzbek', Link_Vendor__c = 'link 4')
+        };
+        insert travelVendors;
+
+        List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>{
+                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[0].Id, isEnable__c = true, Is_Manual__c = true),
+                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[1].Id, isEnable__c = true, By_Country__c = true),
+                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[2].Id, isEnable__c = false, Is_Manual__c = true, By_Country__c = true),
+                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[3].Id, isEnable__c = false)
+        };
+        insert travelVendorSettings;
+    }
+
+    public static void createInitData() {
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
 
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
@@ -197,6 +219,7 @@ public class TestDataFactory {
         Study_Site__c studySite = new Study_Site__c(
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
+                Approved_Lng__c = 'en_US',
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = studySiteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
@@ -256,29 +279,5 @@ public class TestDataFactory {
                 TherapeuticAreaId__c = area.Id
         );
         insert contactTherapeuticArea;
-
-        User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
-
-        Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
-                User__c = hcpUser.Id,
-                Terms_And_Conditions__c = portalTC.Id
-        );
-        insert tc_acceptance;
-
-        List<TravelVendor__c> travelVendors = new List<TravelVendor__c>{
-                new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'link 1'),
-                new TravelVendor__c(Name = 'Uklon', Link_Vendor__c = 'link 2'),
-                new TravelVendor__c(Name = 'Kiev Taxi', Link_Vendor__c = 'link 3'),
-                new TravelVendor__c(Name = 'Uzbek', Link_Vendor__c = 'link 4')
-        };
-        insert travelVendors;
-
-        List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>{
-                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[0].Id, isEnable__c = true, Is_Manual__c = true),
-                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[1].Id, isEnable__c = true, By_Country__c = true),
-                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[2].Id, isEnable__c = false, Is_Manual__c = true, By_Country__c = true),
-                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[3].Id, isEnable__c = false)
-        };
-        insert travelVendorSettings;
     }
 }
