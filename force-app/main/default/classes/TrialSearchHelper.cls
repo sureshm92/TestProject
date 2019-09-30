@@ -14,18 +14,9 @@ public with sharing class TrialSearchHelper {
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
     //Participant Enrollment
-    private static final String PS_SENT_TO_PI = 'Referral sent to PI';
-    private static final String PS_REFERRAL_ACCEPTED = 'Referral accepted';
-    private static final String PS_ATTEMPT_IN_PROGRESS = 'Contact Attempt in Progress';
-    private static final String PS_CONTACT_SUCCESSFUL = 'Contact Successful';
-    private static final String PS_ELIGIBILITY_PASSED = 'Eligibility Passed';
-    private static final String PS_SCREENING_IN_PROGRESS = 'Screening in Progress';
-    private static final String PS_SCREENING_IN_COMPLETE = 'Screening Complete';
-    private static final String PS_ENROLLMENT_SUCCESS = 'Enrollment success';
-    private static final String PS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
-    private static final String PS_FOLLOW_UP_PEIOD_STARTED = 'Follow-Up Period Started';
     private static final String PS_PARTICIPATION_COMPLETE = 'Participation Complete';
     private static final String PS_TRIAL_COMPLETE = 'Trial Complete';
+
     private static final List<String> PS_ES = new List<String>{
             PS_PARTICIPATION_COMPLETE,
             PS_TRIAL_COMPLETE
