@@ -93,6 +93,8 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
+        Boolean isNewUser = false;
+
         Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
         List<Contact> cntList =
             [SELECT Id, userCommunityMode__c, userCommunytyType__c, MailingCountry, MailingCity,
@@ -111,10 +113,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
-                    MailingCity = piContact.MailingCity,
-                    MailingPostalCode = piContact.MailingPostalCode,
-                    MailingState = piContact.MailingState,
-                    MailingStreet = piContact.MailingStreet));
+                    MailingState = piContact.MailingState));
             insert cntList;
         } else {
             cntList[0].RP_Invited_By_PI__c = true;
@@ -124,6 +123,7 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
 
         if (usrs.isEmpty()) {
+            isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
         }
         if (cntList[0].userCommunytyType__c == null) {
@@ -137,13 +137,19 @@ global without sharing class ReferHealthcareProviderRemote {
 
         HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
                 HCP_Contact__c = cntList[0].Id,
-                Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT,
+                HCP_Account__c = cntList[0].AccountId,
+                Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
                 Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
         );
+        if (!isNewUser) {
+            hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+        }
         insert hcpe;
 
-        hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpe;
+        if (!isNewUser) {
+            hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+            update hcpe;
+        }
 
         return hcpe.Id;
     }
