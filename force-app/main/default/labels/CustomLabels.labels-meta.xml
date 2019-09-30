@@ -10436,6 +10436,13 @@ Please check your CAPS lock key.</value>
         <value>Enrollment Status</value>
     </labels>
     <labels>
+        <fullName>TrialSearch_Find_Another_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Find Another Study</shortDescription>
+        <value>Find another study</value>
+    </labels>
+    <labels>
         <fullName>TrialSearch_No_trial_matches_available</fullName>
         <language>en_US</language>
         <protected>true</protected>
