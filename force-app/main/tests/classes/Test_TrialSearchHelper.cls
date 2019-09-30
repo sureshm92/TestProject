@@ -2,16 +2,14 @@
  * Created by Vitalii Aheienko on 9/20/2019.
  */
 
-@IsTest(IsParallel=true)
+@IsTest
 private class Test_TrialSearchHelper {
 
     @IsTest
     static void getInitTrialSearchContainer_Test() {
         User usr = makePortalUser();
-        System.runAs(usr){
-               Participant__c participant = new Participant__c(
-
-               );
+        System.runAs(usr) {
+            Participant__c participant = new Participant__c();
         }
     }
 
@@ -29,7 +27,7 @@ private class Test_TrialSearchHelper {
         );
         insert cont;
 
-        Profile profile = [SELECT Id FROM Profile WHERE Name =: CommunityService.COMMUNITY_USER_PROFILE_NAME];
+        Profile profile = [SELECT Id FROM Profile WHERE Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME];
         return new User(
                 ProfileId = profile.Id,
                 Username = 'asdfghjkl@test.unittest',
@@ -38,8 +36,8 @@ private class Test_TrialSearchHelper {
                 LocaleSidKey = 'en_US',
                 LanguageLocaleKey = 'en_US',
                 TimeZoneSidKey = 'America/Los_Angeles',
-                Alias='nuser',
-                LastName='lastname',
+                Alias = 'nuser',
+                LastName = 'lastname',
                 ContactId = cont.Id
         );
     }
