@@ -732,6 +732,7 @@ public without sharing class ParticipantEnrollmentService {
                         Participant_Enrollment__c
                 FROM Healthcare_Provider__c
                 WHERE HCP_Enrollment__r.HCP_Contact__c = :contactId
+                AND Status__c != :ReferHealthcareProviderRemote.HP_S_NOSHARING
         ];
         if(!hpList.isEmpty()) {
             for (Integer i = 0; i < hpList.size(); i++) {
