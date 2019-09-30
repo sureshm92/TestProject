@@ -5,7 +5,8 @@
 ({
     doExecute: function (component, event, helper) {
         let params = event.getParam('arguments');
-        component.set('v.planId', params.planId);
+        component.set('v.iconDetails', params.iconDetails);
+        if(params.callback) component.set('v.callback', params.callback);
         component.find('modal').show();
     },
 
@@ -14,8 +15,8 @@
     },
 
     saveClick: function (component, event, helper) {
-        component.find('legend').save(function () {
-            component.find('modal').hide();
-        });
+        let callback = component.get('v.callback');
+        if(callback) callback(component.get('v.iconDetails'));
+        component.find('modal').hide();
     }
 });

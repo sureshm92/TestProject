@@ -24,6 +24,7 @@
         if (pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
+            component.set('v.visitPlanDisabled', pe.Id && screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
         }
         component.set('v.screeningRequired', screeningIdRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
@@ -56,6 +57,7 @@
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
                 pe.Participant_Status__c &&
+                pe.Visit_Plan__c &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
                 (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
@@ -94,7 +96,12 @@
     doCreateDataStamp: function (component, event, helper) {
         var pe = component.get('v.pe');
         component.set('v.dataStamp', JSON.stringify(pe));
-    }
+    },
+
+    doRefreshView: function(component, event, helper){
+    	component.set('v.isRefreshView', true);
+    	component.set('v.isRefreshView', false);
+    },
 
 
 })

@@ -108,13 +108,14 @@ global without sharing class ReferHealthcareProviderRemote {
                     Email = email,
                     AccountId = studySite.Site__c,
                     Language__c = UserInfo.getLanguage(),
+                    RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
-                    MailingCity = piContact.MailingCity,
-                    MailingPostalCode = piContact.MailingPostalCode,
-                    MailingState = piContact.MailingState,
-                    MailingStreet = piContact.MailingStreet));
+                    MailingState = piContact.MailingState));
             insert cntList;
+        } else {
+            cntList[0].RP_Invited_By_PI__c = true;
+            update cntList[0];
         }
 
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
@@ -139,7 +140,7 @@ global without sharing class ReferHealthcareProviderRemote {
         insert hcpe;
 
         hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpe;
+        update hcpe; 
 
         return hcpe.Id;
     }

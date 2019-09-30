@@ -1753,6 +1753,28 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Initial_PI_HCP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial PI HCP</shortDescription>
+        <value>You have been invited to join the IQVIA Referral Hub by ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
+
+            The first step is for you to enroll.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial PI PT HCP</shortDescription>
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. The first step is for you to enroll in the IQVIA Referral Hub.
+
+            Once enrolled, access "My Studies" to review your patient's study and access "My Patients" to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
+
+            If you believe you have received this invitation in error, please notify support@cp.clincialresearch.com.
+
+            The first step is for you to enroll.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Initial_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2051,6 +2073,15 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>A new clinical research study has been added to your account on the IQVIA Referral Hub: ##StudyTitle
 
             Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_By_PI_RP1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body By PI RP1</shortDescription>
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
+
+            Please take a moment to log in to the Referral Hub, access "My Studies," review your patient's study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP11</fullName>
@@ -3557,7 +3588,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 10</shortDescription>
-        <value>You are helping us gather important data about Rheumatoid Arthritis!</value>
+        <value>You are helping us gather important data about ##TherapeuticArea!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_2</fullName>
@@ -3585,7 +3616,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 5</shortDescription>
-        <value>Your contribution to learning more about Rheumatoid Arthritis is valuable!</value>
+        <value>Your contribution to learning more about ##TherapeuticArea is valuable!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_6</fullName>
@@ -3606,7 +3637,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>MP Motivation Message 8</shortDescription>
-        <value>Your participation may help others with Rheumatoid Arthritis in the future!</value>
+        <value>Your participation may help others with ##TherapeuticArea in the future!</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_9</fullName>
