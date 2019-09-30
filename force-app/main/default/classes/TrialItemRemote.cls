@@ -9,8 +9,7 @@ public with sharing class TrialItemRemote {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
             helper.createCaseAndSendNotification(participant, ctp);
             if (participant.Id != null && !isDelegate) {
-                DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-                proxy.updateRecord(participant, true);
+                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).updateRecord(participant, true);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
