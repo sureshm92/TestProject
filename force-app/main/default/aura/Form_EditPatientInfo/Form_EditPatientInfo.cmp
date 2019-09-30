@@ -13,6 +13,7 @@
     <aura:attribute name="updateMode" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
+    <aura:attribute name="isRefreshView" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -25,8 +26,10 @@
     <!-- methods: -->
     <aura:method name="checkFields" action="{!c.doCheckFields}" access="public"/>
     <aura:method name="createDataStamp" action="{!c.doCreateDataStamp}" access="public"/>
+    <aura:method name="refreshView" action="{!c.doRefreshView}" access="public"/>
 
     <!-- component body: -->
+    <aura:if isTrue="{!!v.isRefreshView}">
     <div>
         <!-- patient details: -->
         <div class="ap-section">
@@ -169,5 +172,6 @@
             </div>
         </div>
     </div>
+    </aura:if>
 
 </aura:component>
