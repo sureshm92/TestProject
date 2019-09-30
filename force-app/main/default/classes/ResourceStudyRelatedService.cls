@@ -41,7 +41,11 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         List<Id> resourcesIds = new List<Id>();
         List<Res_study__c> resStudies = (List<Res_study__c>) DatabaseService.query(RES_STUDY_FIELDS, Res_study__c.getSObjectType(), filter);
         for (Res_study__c resStudy : resStudies) {
-            if(resourceId != null || StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pState.pe, pState.isDelegate)) resourcesIds.add(resStudy.Resource__c);
+            if(resourceId != null || StudyResourceVisibilityService.isResourceVisibleForPE(
+                    resStudy, pState.pe, CommunityService.USER_MODE_PARTICIPANT, pState.isDelegate))
+            {
+                resourcesIds.add(resStudy.Resource__c);
+            }
         }
         return resourcesIds;
     }
