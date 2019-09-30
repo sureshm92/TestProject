@@ -24,20 +24,6 @@ private class Test_TrialSearchHelper {
     }
 
     @IsTest
-    static void createTrialNotification_test() {
-        User usr = [SELECT Id FROM User WHERE Contact.LastName = 'HCP'];
-        Clinical_Trial_Profile__c ctp = [SELECT Id FROM Clinical_Trial_Profile__c LIMIT 1];
-        System.runAs(usr) {
-            new TrialSearchHelper().createTrialNotification(ctp.Id);
-        }
-
-        List<Trial_Notification__c> notifications = selectTrialNotifications();
-
-        System.assertEquals(1, notifications.size());
-        System.assertEquals(ctp.Id, notifications[0].Clinical_Trial_Profile__c);
-    }
-
-    @IsTest
     static void getFilteredTherapeuticAreas_test() {
 
         Id coiRecTypeId = Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName().get('Condition_of_Interests').getRecordTypeId();
@@ -56,20 +42,6 @@ private class Test_TrialSearchHelper {
         List<Therapeutic_Area__c> filteredCois = new TrialSearchHelper().getFilteredTherapeuticAreas('coi', new List<Id>{cois[0].Id});
         System.assertEquals(1, filteredCois.size());
         System.assertEquals(cois[1].Id, filteredCois[0].Id);
-    }
-
-    @IsTest
-    static void createCaseAndSendNotification_test() {
-
-        Participant__c participant = [SELECT Id, First_Name__c, Last_Name__c, Phone_Type__c, Gender__c, Phone__c, Email__c, Mailing_Country_Code__c, Mailing_Zip_Postal_Code__c, Mailing_State_Code__c, Date_of_Birth__c FROM Participant__c];
-
-        Clinical_Trial_Profile__c ctp = [SELECT Id, NCT_Number__c FROM Clinical_Trial_Profile__c];
-
-        new TrialSearchHelper().createCaseAndSendNotification(participant, ctp);
-
-        System.assertEquals(1, [SELECT Id FROM Case].size()
-        );
-
     }
 
     @IsTest

@@ -13,15 +13,6 @@ public with sharing class TrialSearchHelper {
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
-    //Participant Enrollment
-    private static final String PS_PARTICIPATION_COMPLETE = 'Participation Complete';
-    private static final String PS_TRIAL_COMPLETE = 'Trial Complete';
-
-    private static final List<String> PS_ES = new List<String>{
-            PS_PARTICIPATION_COMPLETE,
-            PS_TRIAL_COMPLETE
-
-    };
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
@@ -262,8 +253,7 @@ public with sharing class TrialSearchHelper {
                 'Study_Site__c ' +
                 'FROM Participant_Enrollment__c ' +
                 'WHERE Study_Site__r.Partner_Type__c = \'' + QCARE_TYPE + '\' ' +
-                'AND Participant__r.Contact__c = \'' + contactId + '\' ' +
-                'AND Participant_Status__c IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(PS_ES)) + ')';
+                'AND Participant__r.Contact__c = \'' + contactId + '\' ';
         List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) proxy.query(query, true);
         Set<Id> ssIds = new Set<Id>();
         for (Participant_Enrollment__c pe : participantEnrollments) {

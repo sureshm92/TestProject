@@ -9,7 +9,8 @@ public with sharing class TrialItemRemote {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
             helper.createCaseAndSendNotification(participant, ctp);
             if (participant.Id != null && !isDelegate) {
-                update participant;
+                DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+                proxy.updateRecord(participant, true);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -23,7 +24,7 @@ public with sharing class TrialItemRemote {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
             helper.createTrialNotification(ctpId);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
     }
 
