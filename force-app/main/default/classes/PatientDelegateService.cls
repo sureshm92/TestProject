@@ -113,7 +113,8 @@ public without sharing class PatientDelegateService {
                         'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
-                        'Contact__r.Resource_Notifications__c'
+                        'Contact__r.Resource_Notifications__c',
+                        'Contact__r.userCommunityMode__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
