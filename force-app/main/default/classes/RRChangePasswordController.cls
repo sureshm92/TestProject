@@ -162,6 +162,25 @@ public without sharing class RRChangePasswordController {
                         OwnerId = contact.OwnerId
                 );
             }
+
+            List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
+                                                             HCP_Contact__c,
+                                                             Status__c
+                                                      FROM HCP_Enrollment__c
+                                                      WHERE HCP_Contact__c = :contact.Id AND
+                                                            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+            for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            }
+            if (!hcpEnrollments.isEmpty()) {
+                update hcpEnrollments;
+            }
+            for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+            }
+            if (!hcpEnrollments.isEmpty()) {
+                update hcpEnrollments;
+            }
         }
     }
 

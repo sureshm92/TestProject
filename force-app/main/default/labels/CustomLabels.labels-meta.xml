@@ -2075,6 +2075,15 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
             Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_By_PI_RP1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body By PI RP1</shortDescription>
+        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
+
+            Please take a moment to log in to the Referral Hub, access "My Studies," review your patient's study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_RP11</fullName>
         <language>en_US</language>
         <protected>false</protected>
