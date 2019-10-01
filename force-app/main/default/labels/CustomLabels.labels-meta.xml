@@ -3157,6 +3157,13 @@ Sincerely,
         <value>This patient has already been referred to this study.</value>
     </labels>
     <labels>
+        <fullName>FD_PE_Field_Arm_Cohort</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Arm Cohort</shortDescription>
+        <value>Arm/Cohort</value>
+    </labels>
+    <labels>
         <fullName>FU_Add_File</fullName>
         <language>en_US</language>
         <protected>true</protected>
